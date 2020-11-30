@@ -1,45 +1,91 @@
-This project was bootstrapped with [DHIS2 Application Platform](https://github.com/dhis2/app-platform).
+# The DHIS2 CLI installation guide for Linux operating systems.
 
-## Available Scripts
+## 1. Yarn installation:
+```bash
+$ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+$ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
-In the project directory, you can run:
+$ sudo apt update && sudo apt install yarn
 
-### `yarn start`
+# If you are using nvm you can avoid the node installation by running
+$ sudo apt update && sudo apt install --no-install-recommends yarn
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# To verify yarn installation, run
+$ yarn --version
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## 2. d2-cli installation:
+```bash
+$ yarn global add @dhis2/cli
 
-### `yarn test`
+# To verify d2 is installed
+$ d2 --help
+```
+## NOTE: If the &nbsp;<strong>"d2: command not found"</strong>&nbsp; then run the below commands:
+```bash
+# Check path to yarn packages
+$ yarn global bin
 
-Launches the test runner and runs all available tests found in `/src`.<br />
+# Add yarn installed packages to path
+# Example: export PATH=$PATH:/home/dhis/.yarn/bin 
+$ export PATH=$PATH:<path_to_yarn_packages>
 
-See the section about [running tests](https://platform.dhis2.nu/#/scripts/test) for more information.
+# Check if yarn is installed
+ $ d2 --help
+```
 
-### `yarn build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# The DHIS2 CLI installation guide for MacOS.
 
-The build is minified and the filenames include the hashes.<br />
-A deployable `.zip` file can be found in `build/bundle`!
+## 1. Installing d2-app-scripts
+```bash
+$ yarn global add @dhis2/cli-app-scripts
 
-See the section about [building](https://platform.dhis2.nu/#/scripts/build) for more information.
+# To verify d2-app-scripts is installed
+$ d2 --help
 
-### `yarn deploy`
+# Add yarn installed packages to path
+$ export PATH=$PATH:<path_to_yarn_packages>
 
-Deploys the built app in the `build` folder to a running DHIS2 instance.<br />
-This command will prompt you to enter a server URL as well as the username and password of a DHIS2 user with the App Management authority.<br/>
-You must run `yarn build` before running `yarn deploy`.<br />
+```
 
-See the section about [deploying](https://platform.dhis2.nu/#/scripts/deploy) for more information.
+## 2. Bootstrapping
+To create a new template application (or upgrade and existing React app), use the d2-app-scripts init command. 
 
-## Learn More
+```bash
+$ d2-app-scripts init app-name
+$ cd app-name
 
-You can learn more about the platform in the [DHIS2 Application Platform Documentation](https://platform.dhis2.nu/).
+#To start app
+$ yarn start
+```
+## 3. Proxying to remote server
+Local server should whitelist 
+localhost:3000 in system settings
+<br>
+<br>
+Chrome
+```bash
+As of mid-July 2020, the Chrome (and Chromium) stable release channel has started to disable cross-site cookies by default. Mozilla Firefox has pushed this change to their beta channel and will likely release it to the stable channel soon.
 
-You can learn more about the runtime in the [DHIS2 Application Runtime Documentation](https://runtime.dhis2.nu/).
+# To enable proxying to remote server developer needs to edit SameSite Cookie Attribute when debugging app or developing app
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Open chrome browser
+2. Paste chrome://flags/#same-site-by-default-cookies in address bar
+3. Set SameSite Flag to disabled
+```
+
+Mozilla
+<br>
+```bash
+Firefox stable channel does not yet enforce this cookie policy, so for the moment everything should continue to work. Currently there doesn’t appear to be an easy way to disable the policy in Firefox Beta.
+```
+
+Safari
+```bash
+To disable SameSite Cookie in Safari:
+1. Open Safari 
+2. Go to Preferences
+3. Navigate to privacy
+4. Uncheck “Prevent cross-site tracking” option
+```
