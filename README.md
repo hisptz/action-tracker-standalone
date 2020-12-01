@@ -3,7 +3,7 @@
 ## 1. Yarn installation:
 ```bash
 $ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-$ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+$ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sourcechh::s.list.d/yarn.list
 
 $ sudo apt update && sudo apt install yarn
 
@@ -61,7 +61,7 @@ $ yarn start
 ```
 ## 3. Proxying to remote server
 Local server should whitelist 
-localhost:3000 in system settings
+localhost:4200 in system settings
 <br>
 <br>
 Chrome
