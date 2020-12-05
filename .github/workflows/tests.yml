@@ -7,30 +7,25 @@ on:
     branches: [develop]
 
 jobs:
-  cypress:
+  dhis2-app:
     runs-on: ubuntu-latest
-    container: cypress/browsers:node14.7.0-chrome84
+    # container: cypress/browsers:node14.7.0-chrome84
     strategy:
       matrix:
         node-version: [10.x, 12.x, 14.x]
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Install dependencies
         run: yarn install
+      
+      - name: Run the tests
+        run: yarn test
 
-      - name: Run tests
-        uses: cypress-io/github-action@v2
-        with:
-          record: true
-          parallel: true
-          group: e2e-chrome-parallel
-          browser: chrome
-          start: 'yarn test'
-          wait-on: 'http://localhost:3000'
-          # wait for 200 secs for the server to respond
-          wait-on-timeout: 200
+      - name: Build
+        run: yarn build
 
     env:
       CI: true
