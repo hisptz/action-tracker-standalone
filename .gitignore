@@ -1,5 +1,41 @@
+# dependencies
+/node_modules
+
+# testing
+/coverage
+cypress.env.json
+/cypress/screenshots
+/cypress/videos
+
+# build folders
+/build
+/buildzip
+
+# docs
+/docs
+
+# misc
+.DS_Store
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test.local
+.env.production.local
+.env.cypress.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vscode/
+.DS_Store
+npm-debug.log
+/public/manifest.webapp
+.idea
+public/manifest.webapp
+
+# generated localization files
+src/locales/
+
 # DHIS2 Platform
-node_modules
 .d2
-src/locales
-build
+
