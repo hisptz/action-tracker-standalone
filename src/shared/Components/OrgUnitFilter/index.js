@@ -27,7 +27,13 @@ export default function OrganisationUnitFilter({onClose, onUpdate}) {
                     <Button secondary onClick={onClose}>
                         Hide
                     </Button>
-                    <Button primary onClick={onUpdate || onClose}>
+                    <Button primary onClick={()=>{
+                        if(onUpdate){
+                            onUpdate(selectedOrgUnits);
+                        } else{
+                            onClose()
+                        }
+                    }}>
                         Update
                     </Button>
                 </ButtonStrip>

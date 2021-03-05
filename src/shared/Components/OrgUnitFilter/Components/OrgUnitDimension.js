@@ -25,7 +25,6 @@ export default function OrgUnitDimension({onSelect, selectedOrgUnits = [], onDes
                         roots={roots?.map(({id}) => id)}
                         onChange={(orgUnit) => {
                             if (isSelected(orgUnit.path)) {
-                                console.log('selected')
                                 onDeselect(orgUnit)
                             } else {
                                 onSelect(orgUnit)
