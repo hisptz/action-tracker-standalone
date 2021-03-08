@@ -9,7 +9,6 @@ export default function OrganisationUnitFilter({onClose, onUpdate}) {
     const onSelect = ({path}) => setSelectedOrgUnits([...selectedOrgUnits, path]);
     const onDeselect = ({path}) => setSelectedOrgUnits(_.difference(selectedOrgUnits, [path]))
 
-
     return (
         <Modal onClose={onClose}>
             <ModalTitle>

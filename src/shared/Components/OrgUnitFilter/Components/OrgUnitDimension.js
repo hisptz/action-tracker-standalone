@@ -1,7 +1,6 @@
 import useOrgUnitsRoot from "../hooks/useOrgUnitsRoot";
 import React from 'react';
-import {OrganisationUnitTree, Box} from '@dhis2/ui';
-import {CircularLoader, CenteredContent} from '@dhis2/ui';
+import {OrganisationUnitTree, Box, CircularLoader, CenteredContent} from '@dhis2/ui';
 import PropTypes from 'prop-types';
 import '../styles/styles.css'
 
