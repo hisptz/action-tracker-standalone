@@ -4,12 +4,8 @@ import {Button} from '@dhis2/ui'
 import {Container, Grid} from "@material-ui/core";
 import FilterComponents from './core/components/FilterComponents';
 import './App.css'
+import OrganisationUnitFilter from "./shared/Components/OrgUnitFilter";
 
-const query = {
-    me: {
-        resource: 'me',
-    },
-}
 
 const MyApp = () => {
     // const [openPeriodFilter, setOpenPeriodFilter] = useState(false);
