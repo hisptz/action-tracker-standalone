@@ -1,0 +1,8 @@
+.components-container {
+    width: 100vw; 
+    height: 150px; 
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1em;  
+    gap: 2em;
+};

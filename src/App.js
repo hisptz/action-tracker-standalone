@@ -1,31 +1,32 @@
-import React from 'react'
-import { DataQuery } from '@dhis2/app-runtime'
-import i18n from '@dhis2/d2-i18n'
-import classes from './App.module.css'
+import React, {useState} from 'react'
+import PeriodFilter from "./shared/Components/PeriodFilter";
+import {Button} from '@dhis2/ui'
+import {Container, Grid} from "@material-ui/core";
+import FilterComponents from './core/components/FilterComponents';
+import './App.css'
+import OrganisationUnitFilter from "./shared/Components/OrgUnitFilter";
 
-const query = {
-    me: {
-        resource: 'me',
-    },
+
+const MyApp = () => {
+    // const [openPeriodFilter, setOpenPeriodFilter] = useState(false);
+    // const [openOrgUnitFilter, setOrgUnitFilter] = useState(false);
+
+    // const onUpdate = (data) => console.log(data)
+
+    return (
+        <Container className="app-container">
+            <FilterComponents />
+            {/* <Grid container spacing={4} style={{height: '100%'}} justify='center'>
+                <Grid item sm style={{margin: 'auto'}}>
+                    <Button onClick={_ => setOpenPeriodFilter(true)} primary>Open Period Filter</Button>
+                </Grid>
+                <Grid item sm style={{margin: 'auto'}}>
+                    <Button onClick={_ => setOrgUnitFilter(true)} primary>Open Organisation Unit Filter</Button>
+                </Grid>
+            </Grid>
+            {openPeriodFilter && <PeriodFilter onClose={_ => setOpenPeriodFilter(false)} onUpdate={onUpdate}/>}
+            {openOrgUnitFilter && <OrganisationUnitFilter onClose={_ => setOrgUnitFilter(false)} onUpdate={onUpdate}/>} */}
+        </Container>
+    )
 }
-
-const MyApp = () => (
-    <div className={classes.container}>
-        <DataQuery query={query}>
-            {({ error, loading, data }) => {
-                if (error) return <span>ERROR</span>
-                if (loading) return <span>...</span>
-                return (
-                    <>
-                        <h1>
-                            {i18n.t('Hello {{name}}', { name: data.me.name })}
-                        </h1>
-                        <h3>{i18n.t('Welcome to DHIS2!')}</h3>
-                    </>
-                )
-            }}
-        </DataQuery>
-    </div>
-)
-
 export default MyApp
