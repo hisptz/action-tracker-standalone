@@ -1,0 +1,7 @@
+.indicator-table-cell {
+    width: 100px !important;
+}
+table{
+    table-layout: fixed;
+}
+
