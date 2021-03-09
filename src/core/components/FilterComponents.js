@@ -11,27 +11,40 @@ export function FilterComponents() {
   const [openPeriodFilter, setOpenPeriodFilter] = useState(false);
   const [openOrgUnitFilter, setOrgUnitFilter] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  const onUpdate = (data) => {
+  const [selectedPeriodItems, setSelectedPeriodItems] = useState([]);
+  const onUpdateOrgUnitFilter = (data) => {
+    //  console.log({data})
     if (data) {
       setSelectedData(data);
     }
     setOrgUnitFilter(false);
   };
 
+  const onUpdatePeriodFilter = (data) => {
+    console.log({ data });
+    if (data && data.length) {
+      const items = data[0] && data[0].items ? data[0].items : [];
+      console.log({items})
+      setSelectedPeriodItems(items);
+    }
+    setOpenPeriodFilter(false);
+  };
+
   return (
     <Paper className="components-container" elevation={2}>
-      <Grid container  spacing={5}>
-        <Grid item >
+      <Grid container spacing={5}>
+        <Grid item>
           <SelectionWrapper
             onClick={(_) => setOrgUnitFilter(true)}
             dataObj={selectedData}
             type={FilterComponentTypes.ORG_UNIT}
           />
         </Grid>
-        <Grid item >
+        <Grid item>
           <SelectionWrapper
             onClick={(_) => setOpenPeriodFilter(true)}
             type={FilterComponentTypes.PERIOD}
+            periodItems={selectedPeriodItems}
           />
         </Grid>
       </Grid>
@@ -39,13 +52,13 @@ export function FilterComponents() {
       {openPeriodFilter && (
         <PeriodFilter
           onClose={(_) => setOpenPeriodFilter(false)}
-          onUpdate={onUpdate}
+          onUpdate={onUpdatePeriodFilter}
         />
       )}
       {openOrgUnitFilter && (
         <OrganisationUnitFilter
           onClose={(_) => setOrgUnitFilter(false)}
-          onUpdate={onUpdate}
+          onUpdate={onUpdateOrgUnitFilter}
         />
       )}
     </Paper>
