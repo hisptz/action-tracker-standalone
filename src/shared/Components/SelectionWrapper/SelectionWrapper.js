@@ -2,7 +2,13 @@ import Box from '@material-ui/core/Box';
 import { FilterComponentTypes } from '../../../core/constants/Constants';
 import PropTypes from 'prop-types';
 
-export function SelectionWrapper({ type, name, onClick, dataObj }) {
+export function SelectionWrapper({
+  type,
+  name,
+  onClick,
+  dataObj,
+  periodItems
+}) {
   const componentTypes = {
     [FilterComponentTypes.ORG_UNIT]: {
       text: 'Selected organisation unit',
@@ -13,10 +19,11 @@ export function SelectionWrapper({ type, name, onClick, dataObj }) {
       data: dataObj ? dataObj : null,
     },
   };
-  const selectTextObj = componentTypes[type] || null;
+  const selectDataObj = componentTypes[type] || null;
   const selectText =
-    selectTextObj && selectTextObj.text ? selectTextObj.text : '';
-    console.log({dataObj});
+    selectDataObj && selectDataObj.text ? selectDataObj.text : '';
+  console.log({periodItems});
+ 
 
   return (
     <Box
@@ -25,7 +32,7 @@ export function SelectionWrapper({ type, name, onClick, dataObj }) {
         cursor: 'pointer',
       }}
       borderRadius="8px"
-      height="7rem"
+      height="6em"
       width="25rem"
       bgcolor="#EEEEEE"
       padding="1em"
@@ -49,7 +56,10 @@ export function SelectionWrapper({ type, name, onClick, dataObj }) {
         textAlign="center"
       >
         <p style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-          {selectTextObj?.data?.displayName}
+          { type === FilterComponentTypes.ORG_UNIT &&
+            selectDataObj?.data?.displayName}
+          {type === FilterComponentTypes.PERIOD &&
+             periodItems[0]?.name}
         </p>
       </Box>
     </Box>
