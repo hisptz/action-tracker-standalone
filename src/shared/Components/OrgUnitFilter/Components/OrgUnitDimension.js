@@ -4,11 +4,11 @@ import {OrganisationUnitTree, Box, CircularLoader, CenteredContent} from '@dhis2
 import PropTypes from 'prop-types';
 import '../styles/styles.css'
 
-export default function OrgUnitDimension({onSelect, selectedOrgUnits = [], onDeselect}) {
+export default function OrgUnitDimension({onSelect, selectedOrgUnitPaths = [],   onDeselect, onUpdate}) {
     const {roots, error, loading} = useOrgUnitsRoot();
 
-    function isSelected(orgUnit) {
-        return selectedOrgUnits.includes(orgUnit);
+    function isOrgUnitSelected(orgUnit) {
+        return selectedOrgUnitPaths.includes(orgUnit);
     }
 
     return (
@@ -20,16 +20,18 @@ export default function OrgUnitDimension({onSelect, selectedOrgUnits = [], onDes
                 {
                     roots &&
                     <OrganisationUnitTree
-                        selected={selectedOrgUnits}
+                        selected={selectedOrgUnitPaths}
                         roots={roots?.map(({id}) => id)}
                         onChange={(orgUnit) => {
-                            if (isSelected(orgUnit.path)) {
+                            onUpdate(orgUnit);
+                            if (isOrgUnitSelected(orgUnit.path)) {
                                 onDeselect(orgUnit)
                             } else {
                                 onSelect(orgUnit)
                             }
                         }
                         }
+                        
                         singleSelection
                     />
                 }{
@@ -44,5 +46,6 @@ export default function OrgUnitDimension({onSelect, selectedOrgUnits = [], onDes
 OrgUnitDimension.propTypes = {
     onSelect: PropTypes.func.isRequired,
     onDeselect: PropTypes.func.isRequired,
-    selectedOrgUnits: PropTypes.arrayOf(PropTypes.string)
+    selectedOrgUnits: PropTypes.arrayOf(PropTypes.string),
+    onUpdate: PropTypes.func
 }
