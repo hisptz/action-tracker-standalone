@@ -5,6 +5,7 @@ import './styles/FilterComponents.css';
 import { FilterComponentTypes } from '../constants/Constants';
 import PeriodFilter from '../../shared/Components/PeriodFilter';
 import OrganisationUnitFilter from '../../shared/Components/OrgUnitFilter';
+import Grid from '@material-ui/core/Grid';
 
 export function FilterComponents() {
   const [openPeriodFilter, setOpenPeriodFilter] = useState(false);
@@ -19,15 +20,22 @@ export function FilterComponents() {
 
   return (
     <Paper className="components-container" elevation={2}>
-      <SelectionWrapper
-        onClick={(_) => setOrgUnitFilter(true)}
-        dataObj={selectedData}
-        type={FilterComponentTypes.ORG_UNIT}
-      />
-      <SelectionWrapper
-        onClick={(_) => setOpenPeriodFilter(true)}
-        type={FilterComponentTypes.PERIOD}
-      />
+      <Grid container  spacing={5}>
+        <Grid item >
+          <SelectionWrapper
+            onClick={(_) => setOrgUnitFilter(true)}
+            dataObj={selectedData}
+            type={FilterComponentTypes.ORG_UNIT}
+          />
+        </Grid>
+        <Grid item >
+          <SelectionWrapper
+            onClick={(_) => setOpenPeriodFilter(true)}
+            type={FilterComponentTypes.PERIOD}
+          />
+        </Grid>
+      </Grid>
+
       {openPeriodFilter && (
         <PeriodFilter
           onClose={(_) => setOpenPeriodFilter(false)}
