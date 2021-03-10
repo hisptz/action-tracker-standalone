@@ -9,6 +9,7 @@
     "start": "d2-app-scripts start",
     "test": "d2-app-scripts test",
     "e2e": "cypress run",
+    "e2e:interactive": "cypress open",
     "deploy": "d2-app-scripts deploy"
   },
   "devDependencies": {
