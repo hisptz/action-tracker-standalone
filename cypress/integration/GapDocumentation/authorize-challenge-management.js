@@ -17,4 +17,5 @@ Then(
 Given("an authorized District Planning officer", () => {});
 And("I am allowed to access challenges managment form", () => {});
 When("opening the form to record challenges", () => {});
+
 Then("form with all needed fields should be displayed", () => {});
