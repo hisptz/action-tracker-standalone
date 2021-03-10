@@ -5,6 +5,7 @@ import './styles/FilterComponents.css';
 import { FilterComponentTypes } from '../constants/Constants';
 import PeriodFilter from '../../shared/Components/PeriodFilter';
 import OrganisationUnitFilter from '../../shared/Components/OrgUnitFilter';
+import ActionItemDialog from '../../shared/Components/ActionItemDialog';
 import Grid from '@material-ui/core/Grid';
 
 export function FilterComponents() {
@@ -19,6 +20,8 @@ export function FilterComponents() {
     }
     setOrgUnitFilter(false);
   };
+
+  const onClose = () => console.log("Submitted");
 
   const onUpdatePeriodFilter = (data) => {
     console.log({ data });
@@ -55,10 +58,16 @@ export function FilterComponents() {
           onUpdate={onUpdatePeriodFilter}
         />
       )}
-      {openOrgUnitFilter && (
+      {/* {openOrgUnitFilter && (
         <OrganisationUnitFilter
           onClose={(_) => setOrgUnitFilter(false)}
           onUpdate={onUpdateOrgUnitFilter}
+        />
+      )} */}
+      {openOrgUnitFilter && (
+        <ActionItemDialog
+        onClose={onClose}
+        onUpdate={onClose}
         />
       )}
     </Paper>
