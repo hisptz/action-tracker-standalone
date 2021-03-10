@@ -1,5 +1,5 @@
 import {CustomNestedTable, CustomTableCell, DueDateTableCell, StatusTableCell} from "./CustomTable";
-import {TableBody, TableRow} from "@material-ui/core";
+import {duration, TableBody, TableRow} from "@material-ui/core";
 import _ from "lodash";
 import React from "react";
 
@@ -37,12 +37,8 @@ export default function ActionTable({actions}){
                                 <CustomTableCell>
                                     {startDate}
                                 </CustomTableCell>
-                                <DueDateTableCell>
-                                    {endDate}
-                                </DueDateTableCell>
-                                <StatusTableCell>
-                                    {status}
-                                </StatusTableCell>
+                                <DueDateTableCell dueDate={endDate} />
+                                <StatusTableCell status={status} />
                             </TableRow>)
                     }
                 </TableBody>

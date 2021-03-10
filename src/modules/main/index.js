@@ -8,7 +8,6 @@ import MainPageHeader from "./Components/MainPageHeader";
 export default function MainPage() {
 
     return (
-        <Container maxWidth='xl' >
             <Grid container spacing={5}>
                 <Grid item sm={12}>
                     <FilterComponents/>
@@ -20,6 +19,5 @@ export default function MainPage() {
                     <IndicatorList/>
                 </Grid>
             </Grid>
-        </Container>
     )
 }

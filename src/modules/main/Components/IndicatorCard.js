@@ -30,7 +30,7 @@ export default function IndicatorCard({indicator = new Indicator()}) {
                                 designation: 'Officer',
                                 startDate: " 09/03/2010",
                                 endDate: '04/07/2021',
-                                status: 'In Progress'
+                                status: 'Open'
                             },
                         ]
                     },
