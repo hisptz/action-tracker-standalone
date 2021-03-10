@@ -8,10 +8,13 @@
     "build": "d2-app-scripts build",
     "start": "d2-app-scripts start",
     "test": "d2-app-scripts test",
+    "e2e": "cypress run",
     "deploy": "d2-app-scripts deploy"
   },
   "devDependencies": {
-    "@dhis2/cli-app-scripts": "^5.5.0"
+    "@dhis2/cli-app-scripts": "^5.5.0",
+    "cypress": "^6.6.0",
+    "cypress-cucumber-preprocessor": "^4.0.1"
   },
   "dependencies": {
     "@dhis2/analytics": "^16.0.2",
@@ -20,5 +23,8 @@
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "lodash": "^4.17.21"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
   }
 }
