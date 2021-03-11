@@ -1,6 +1,6 @@
 import { useDataQuery } from '@dhis2/app-runtime';
 import { getDataPaginationFilters } from '../helpers/HttpHelper';
-import { requestResources } from '../constants/Constants';
+import { requestResources } from '../constants/constants';
 import { map, flattenDeep, find, keyBy } from 'lodash';
 import { useEffect, useState } from 'react';
 const orgUnitPaginationQuery = getOrganisationUnitQuery({
@@ -66,7 +66,7 @@ export function useAllOrganisationUnits() {
            if(!loadingStatus && !requestError) {
             setData(formatPaginatedRequestData(orgUnitsData));
            }
-          
+
         } else {
           setData([]);
         }
@@ -138,7 +138,7 @@ export function getOrgUnitLevel(expandData){
 //   const [data, setData] = useState(null);
 //   const [error, setError] = useState(null);
 //   const [loading, setLoading] = useState(false);
-  
+
 //   const {
 //     error: requestError,
 //     loading: requestLoading,

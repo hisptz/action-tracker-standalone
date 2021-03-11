@@ -1,7 +1,7 @@
 import './styles/OrgUnitFilter.css';
 import { CustomDataProvider, useDataQuery } from '@dhis2/app-runtime';
 import { OrganisationUnitTree } from '@dhis2/ui';
-import { requestResources } from '../constants/Constants';
+import { requestResources } from '../constants/constants';
 import {
   getOrganisationUnitTreeData,
   getOrgUnitId,

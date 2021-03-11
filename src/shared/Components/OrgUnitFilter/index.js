@@ -4,10 +4,12 @@ import OrgUnitDimension from "./Components/OrgUnitDimension";
 import _ from 'lodash';
 
 export default function OrganisationUnitFilter({onClose, onUpdate}) {
-    const [selectedOrgUnits, setSelectedOrgUnits] = useState([]);
+    const [selectedOrgUnitPaths, setSelectedOrgUnitPaths] = useState([]);
+    const [selectedOrgUnit, setSelectedOrgUnit] = useState([]);
 
-    const onSelect = ({path}) => setSelectedOrgUnits([...selectedOrgUnits, path]);
-    const onDeselect = ({path}) => setSelectedOrgUnits(_.difference(selectedOrgUnits, [path]))
+    const onSelect = ({path}) => setSelectedOrgUnitPaths([path]);
+    const onDeselect = ({path}) => setSelectedOrgUnitPaths(_.difference(selectedOrgUnitPaths, [path]))
+    const onUpdateOrgUnit = (orgUnit) => setSelectedOrgUnit(orgUnit);
 
     return (
         <Modal onClose={onClose}>
@@ -16,9 +18,10 @@ export default function OrganisationUnitFilter({onClose, onUpdate}) {
             </ModalTitle>
             <ModalContent>
                 <OrgUnitDimension
-                    selectedOrgUnits={selectedOrgUnits}
+                    selectedOrgUnitPaths={selectedOrgUnitPaths}
                     onSelect={onSelect}
                     onDeselect={onDeselect}
+                    onUpdate={onUpdateOrgUnit}
                 />
             </ModalContent>
             <ModalActions>
@@ -28,7 +31,7 @@ export default function OrganisationUnitFilter({onClose, onUpdate}) {
                     </Button>
                     <Button primary onClick={()=>{
                         if(onUpdate){
-                            onUpdate(selectedOrgUnits);
+                          onUpdate(selectedOrgUnit);
                         } else{
                             onClose()
                         }

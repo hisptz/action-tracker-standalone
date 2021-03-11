@@ -1,33 +1,45 @@
 import Box from '@material-ui/core/Box';
-import { FilterComponentTypes } from '../../../core/constants/Constants';
+import { FilterComponentTypes } from '../../../core/constants/constants';
+import PropTypes from 'prop-types';
 
-export function SelectionWrapper({ type, name }) {
+export function SelectionWrapper({
+  type,
+  name,
+  onClick,
+  dataObj,
+  periodItems
+}) {
   const componentTypes = {
     [FilterComponentTypes.ORG_UNIT]: {
       text: 'Selected organisation unit',
+      data: dataObj ? dataObj : null,
     },
     [FilterComponentTypes.PERIOD]: {
       text: 'Selected period',
+      data: dataObj ? dataObj : null,
     },
   };
-  const selectTextObj = componentTypes[type] || null;
+  const selectDataObj = componentTypes[type] || null;
   const selectText =
-    selectTextObj && selectTextObj.text ? selectTextObj.text : '';
+    selectDataObj && selectDataObj.text ? selectDataObj.text : '';
+  console.log({periodItems});
+
 
   return (
     <Box
       component="div"
       style={{
-          cursor: 'pointer'
+        cursor: 'pointer',
       }}
       borderRadius="8px"
-      height="7rem"
+      height="6em"
       width="25rem"
       bgcolor="#EEEEEE"
       padding="1em"
       display="flex"
       flexDirection="column"
       justifyContent="center"
+      onClick={onClick}
     >
       <strong>{selectText}</strong>
       <Box
@@ -43,7 +55,12 @@ export function SelectionWrapper({ type, name }) {
         paddingLeft="0.5em"
         textAlign="center"
       >
-        <p style={{ marginTop: 'auto', marginBottom: 'auto' }}>MOH Tanzania</p>
+        <p style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+          { type === FilterComponentTypes.ORG_UNIT &&
+            selectDataObj?.data?.displayName}
+          {type === FilterComponentTypes.PERIOD &&
+             periodItems[0]?.name}
+        </p>
       </Box>
     </Box>
   );
@@ -51,6 +68,12 @@ export function SelectionWrapper({ type, name }) {
 SelectionWrapper.defaultProps = {
   type: '',
   name: '',
+};
+
+SelectionWrapper.poprTypes = {
+  type: PropTypes.string,
+  name: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 export default SelectionWrapper;
