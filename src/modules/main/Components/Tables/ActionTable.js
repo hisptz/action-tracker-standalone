@@ -15,7 +15,7 @@ export default function ActionTable({actions}){
                     <col width='15%'/>
                     <col width='12%'/>
                     <col width='12%'/>
-                    <col width='14%'/>
+                    <col width='15%'/>
                 </colgroup>
                 <TableBody>
                     {

@@ -34,10 +34,23 @@ const CustomNestingTableCell = withStyles((theme) => ({
 }))(TableCell)
 
 const CustomTable = withStyles((theme) => ({
+    '@global': {
+        '*::-webkit-scrollbar': {
+            width: '0.3em'
+        },
+        '*::-webkit-scrollbar-track': {
+            '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+        },
+        '*::-webkit-scrollbar-thumb': {
+            backgroundColor: '#D5DDE5',
+            outline: '0.5px solid #E8EDF2'
+        }
+    },
     root: {
-        overflowY: 'scroll',
+        overflowY: 'auto',
         height: 500,
         maxHeight: 200,
+
     }
 }))(Table)
 
