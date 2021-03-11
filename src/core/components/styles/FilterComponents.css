@@ -1,11 +1,9 @@
 .components-container {
-    width: 100vw;
-    height: 150px;
-    display: flex;
+    width: 100vw; 
+    min-height: 8.75; 
+    padding: 1em; 
+    /* display: flex;
     flex-wrap: wrap;
-    padding: 1em;
-    margin-left: 0;
-    margin-right: 0;
-    box-sizing: border-box;
-    gap: 2em;
-}
+    padding: 1em;  
+    gap: 2em; */
+};

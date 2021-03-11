@@ -1,0 +1,51 @@
+{
+    "actionItemForm": {
+        "fields": [
+            {
+                "id": "1",
+                "name": "Action Description",
+                "valueType": "TEXT",
+                "validations": [
+                    "required"
+                ]
+
+            },
+            {
+                "id": "2",
+                "name": "Start date",
+                "valueType": "DATE",
+                "validations": [
+                    "required"
+                ]
+
+            },
+            {
+                "id": "3",
+                "name": "End date",
+                "valueType": "DATE",
+                "validations": [
+                    "required"
+                ]
+
+            },
+            {
+                "id": "4",
+                "name": "Designation title",
+                "valueType": "TEXT",
+                "validations": [
+                    "required"
+                ]
+
+            },
+            {
+                "id": "5",
+                "name": "Need to secure funds",
+                "valueType": "TRUE_ONLY",
+                "validations": [
+                    "required"
+                ]
+
+            }
+        ]
+    }
+}
