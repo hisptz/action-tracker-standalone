@@ -12,7 +12,14 @@ const configQuery = {
     },
     bottleneckProgramMetadata: {
         id: BOTTLENECK_PROGRAM_ID,
-        resource: 'programs'
+        resource: 'programs',
+        params: {
+            fields:[
+                'id',
+                'trackedEntityAttribute[id, name,formName]',
+                'programStages[programStageDataElements[compulsory,displayInReports,dataElement[name,id]]]'
+            ]
+        }
     },
     actionProgramMetadata: {
         resource: 'programs',

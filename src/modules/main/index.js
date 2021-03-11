@@ -8,7 +8,7 @@ import FullPageLoader from "../../shared/Components/FullPageLoader";
 
 
 const styles = {
-    container: {padding: 20, margin: 0, minHeight: '100%', minWidth: '100vw'},
+    container: {padding: 20, margin: 0, minHeight: '100%', minWidth: 'calc(100vw - 4px)'},
     gridContainer: {height: 'calc(100vh - 260px)'},
 
 }

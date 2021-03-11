@@ -6,26 +6,22 @@ import {useRecoilValue} from "recoil";
 import {DimensionsState} from "../../../core/states";
 import NoDimensionsSelectedView from "./NoDimensionsSelectedView";
 import MainPageHeader from "./MainPageHeader";
+import EmptyIndicatorList from "./EmptyIndicatorList";
 
 export default function IndicatorList() {
     const {orgUnit, period} = useRecoilValue(DimensionsState);
 
-    const indicatorList = [
-        'Indicator 1',
-        'Indicator 2'
-    ];
+    const indicatorList = ['Indicator 1'];
 
-    return (orgUnit && period ?
+    return (orgUnit && period ? indicatorList.length > 0 ?
             <Grid container spacing={3} direction='column'>
-                <Grid item xs={12} style={{maxHeight: 76}} justify='center'>
+                <Grid item xs={12} style={{maxHeight: 120}} justify='center'>
                     <MainPageHeader/>
                 </Grid>
                 {
                     _.map(indicatorList, (indicator) => <IndicatorCard indicator={indicator}/>)
 
                 }
-            </Grid> : <NoDimensionsSelectedView/>
+            </Grid> : <EmptyIndicatorList/> : <NoDimensionsSelectedView/>
     )
-
-
 }

@@ -1,9 +1,9 @@
 import Indicator from "../../../core/models/indicator";
 import React, {useEffect} from 'react';
-import {Box} from '@dhis2/ui';
+import {Box, Button} from '@dhis2/ui';
 import {Card, CardContent, Grid, Typography} from "@material-ui/core";
 import IndicatorTable from "./Tables/IndicatorTable";
-
+import ProgressIcon from '@material-ui/icons/BarChart';
 export default function IndicatorCard({indicator = new Indicator()}) {
 
     const indicatorObject = {
@@ -171,8 +171,9 @@ export default function IndicatorCard({indicator = new Indicator()}) {
                 <Card variant='outlined'>
                     <CardContent>
                         <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <Typography variant='h6'>Indicator Name</Typography>
+                            <Grid container spacing={4} direction='row'  item xs={12}>
+                                <Grid item><Typography variant='h6'>Indicator Name</Typography></Grid>
+                                <Grid item> <Button icon={<ProgressIcon/>} >View Progress</Button></Grid>
                             </Grid>
                             <Grid item xs={12}>
                                 <Box height='500px' className='overflow'>

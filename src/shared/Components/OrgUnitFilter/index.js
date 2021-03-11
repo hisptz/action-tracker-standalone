@@ -1,11 +1,11 @@
-import {Modal, ModalTitle, ModalContent, ModalActions, Button, ButtonStrip, Box} from '@dhis2/ui';
+import {Modal, ModalTitle, ModalContent, ModalActions, Button, ButtonStrip} from '@dhis2/ui';
 import React, {useState} from 'react';
 import OrgUnitDimension from "./Components/OrgUnitDimension";
 import _ from 'lodash';
 
-export default function OrganisationUnitFilter({onClose, onUpdate}) {
-    const [selectedOrgUnitPaths, setSelectedOrgUnitPaths] = useState([]);
-    const [selectedOrgUnit, setSelectedOrgUnit] = useState([]);
+export default function OrganisationUnitFilter({onClose, onUpdate, initialOrgUnit}) {
+    const [selectedOrgUnitPaths, setSelectedOrgUnitPaths] = useState(initialOrgUnit && [initialOrgUnit?.path]);
+    const [selectedOrgUnit, setSelectedOrgUnit] = useState([initialOrgUnit]);
 
     const onSelect = ({path}) => setSelectedOrgUnitPaths([path]);
     const onDeselect = ({path}) => setSelectedOrgUnitPaths(_.difference(selectedOrgUnitPaths, [path]))

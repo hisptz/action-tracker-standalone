@@ -1,5 +1,7 @@
-import {Card, Grid, Paper, Table, TableCell, TableFooter, TableRow, withStyles} from "@material-ui/core";
+import {Card, Grid, IconButton, Paper, Table, TableCell, TableFooter, TableRow, withStyles} from "@material-ui/core";
 import DueDateWarningIcon from '@material-ui/icons/ReportProblemOutlined';
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import React from "react";
 
 const CustomTableRowHead = withStyles((theme) => ({
     root: {
@@ -109,7 +111,16 @@ const StatusContainer = ({status}) => {
 const StatusTableCell = ({status}) => {
     return (
         <StyledStatusTableCell>
-            <StatusContainer status={status}/>
+            <Grid item container direction='row' justify='space-between' spacing={2}>
+                <Grid item xs={9} >
+                    <StatusContainer status={status}/>
+                </Grid>
+                <Grid container justify='center' item xs={3}>
+                    <IconButton >
+                        <MoreHorizIcon/>
+                    </IconButton>
+                </Grid>
+            </Grid>
         </StyledStatusTableCell>
     )
 }
