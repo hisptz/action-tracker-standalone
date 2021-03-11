@@ -5,45 +5,35 @@
                 "id": "1",
                 "name": "Action Description",
                 "valueType": "TEXT",
-                "validations": [
-                    "required"
-                ]
+                "mandatory": true
 
             },
             {
                 "id": "2",
                 "name": "Start date",
                 "valueType": "DATE",
-                "validations": [
-                    "required"
-                ]
+                "mandatory": true
 
             },
             {
                 "id": "3",
                 "name": "End date",
                 "valueType": "DATE",
-                "validations": [
-                    "required"
-                ]
+                "mandatory": true
 
             },
             {
                 "id": "4",
                 "name": "Designation title",
                 "valueType": "TEXT",
-                "validations": [
-                    "required"
-                ]
+                "mandatory": true
 
             },
             {
                 "id": "5",
                 "name": "Need to secure funds",
                 "valueType": "TRUE_ONLY",
-                "validations": [
-                    "required"
-                ]
+                "mandatory": false
 
             }
         ]
