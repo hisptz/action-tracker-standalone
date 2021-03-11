@@ -6,15 +6,15 @@ import { Field, Form } from 'react-final-form';
 import { Controller } from 'react-hook-form';
 import '../styles/FormField.css';
 import { InputField, Checkbox } from '@dhis2/ui';
-import { Dhis2ValueTypes } from '../../../../core/constants/Constants';
+import { Dhis2ValueTypes } from '../../../../core/constants/constants';
 function FormField({ field, control, errors }) {
- 
+
   return (
     <>
       {field.id && field.name && (
         <div  className="input-field">
           <Controller
-           
+
             name={field?.id}
             rules={{ required: `${field?.label} is required` }}
             control={control}
@@ -39,7 +39,7 @@ function FormField({ field, control, errors }) {
                   return (
                     <Checkbox
                       name={field?.id}
-                      onChange={e =>{ 
+                      onChange={e =>{
                         console.log({e, value});
                       return onChange(e)}}
                       checked={value?.value}
