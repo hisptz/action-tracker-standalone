@@ -1,5 +1,5 @@
 import Box from '@material-ui/core/Box';
-import { FilterComponentTypes } from '../../../core/constants/Constants';
+import { FilterComponentTypes } from '../../../core/constants/constants';
 import PropTypes from 'prop-types';
 
 export function SelectionWrapper({

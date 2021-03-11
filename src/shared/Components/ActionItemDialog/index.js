@@ -13,21 +13,28 @@ import CustomForm from '../CustomForm';
 import { CustomFormField } from '../../../core/models/customFormField';
 import Metadata from '../../../resources/Json/FormsMetadata.json';
 import { map, flattenDeep } from 'lodash';
+import './styles/ActionItemFormDialog.css'
 export function ActionItemDialog({ onClose, onUpdate }) {
   const metadataFields = Metadata.actionItemForm.fields;
   const formFields = flattenDeep(
     map(metadataFields || [], (field) => {
-      return field ? new CustomFormField(field) : [];
+      let validations = {};
+      if ((field && field.name && field.mandatory) || field.compulsory) {
+        validations = { ...validations, required: `${field.name} is required` };
+      }
+      return field && field.id
+        ? new CustomFormField({ ...field, validations })
+        : [];
     })
   );
   return (
-    <Modal onClose={onClose}>
+    <Modal className="dialog-container" onClose={onClose} >
       <ModalTitle>Add Action Item</ModalTitle>
       <ModalContent>
         <CustomForm formFields={formFields} />
       </ModalContent>
       <ModalActions>
-        <ButtonStrip>
+        {/* <ButtonStrip>
           <Button secondary onClick={onClose}>
             Hide
           </Button>
@@ -44,7 +51,7 @@ export function ActionItemDialog({ onClose, onUpdate }) {
           >
             Update
           </Button>
-        </ButtonStrip>
+        </ButtonStrip> */}
       </ModalActions>
     </Modal>
   );

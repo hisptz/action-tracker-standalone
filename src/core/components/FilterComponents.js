@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import SelectionWrapper from '../../shared/Components/SelectionWrapper/SelectionWrapper';
 import './styles/FilterComponents.css';
-import { FilterComponentTypes } from '../constants/Constants';
+import { FilterComponentTypes } from '../constants/constants';
 import PeriodFilter from '../../shared/Components/PeriodFilter';
 import OrganisationUnitFilter from '../../shared/Components/OrgUnitFilter';
 import ActionItemDialog from '../../shared/Components/ActionItemDialog';
