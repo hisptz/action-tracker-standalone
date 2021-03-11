@@ -3,9 +3,8 @@ import Paper from '@material-ui/core/Paper';
 import SelectionWrapper from '../../shared/Components/SelectionWrapper/SelectionWrapper';
 import './styles/FilterComponents.css';
 import { FilterComponentTypes } from '../constants/constants';
-import PeriodFilter from '../../shared/Components/PeriodFilter';
-import OrganisationUnitFilter from '../../shared/Components/OrgUnitFilter';
-import ActionItemDialog from '../../shared/Components/ActionItemDialog';
+import PeriodFilter from '../../shared/Dialogs/PeriodFilter';
+import OrganisationUnitFilter from '../../shared/Dialogs/OrgUnitFilter';
 import Grid from '@material-ui/core/Grid';
 
 export function FilterComponents() {
@@ -14,20 +13,19 @@ export function FilterComponents() {
   const [selectedData, setSelectedData] = useState(null);
   const [selectedPeriodItems, setSelectedPeriodItems] = useState([]);
   const onUpdateOrgUnitFilter = (data) => {
-    //  console.log({data})
     if (data) {
       setSelectedData(data);
     }
     setOrgUnitFilter(false);
   };
 
-  const onClose = () => console.log("Submitted");
+  const onClose = () => {
+    setOrgUnitFilter(false);
+  };
 
   const onUpdatePeriodFilter = (data) => {
-    console.log({ data });
     if (data && data.length) {
       const items = data[0] && data[0].items ? data[0].items : [];
-      console.log({items})
       setSelectedPeriodItems(items);
     }
     setOpenPeriodFilter(false);
@@ -35,7 +33,7 @@ export function FilterComponents() {
 
   return (
     <Paper className="components-container" elevation={2}>
-      <Grid container spacing={5}>
+      <Grid className="filters-grid" container spacing={5}>
         <Grid item>
           <SelectionWrapper
             onClick={(_) => setOrgUnitFilter(true)}
@@ -58,18 +56,13 @@ export function FilterComponents() {
           onUpdate={onUpdatePeriodFilter}
         />
       )}
-      {/* {openOrgUnitFilter && (
+      {openOrgUnitFilter && (
         <OrganisationUnitFilter
           onClose={(_) => setOrgUnitFilter(false)}
           onUpdate={onUpdateOrgUnitFilter}
         />
-      )} */}
-      {openOrgUnitFilter && (
-        <ActionItemDialog
-        onClose={onClose}
-        onUpdate={onClose}
-        />
       )}
+     
     </Paper>
   );
 }

@@ -22,7 +22,7 @@ export function SelectionWrapper({
   const selectDataObj = componentTypes[type] || null;
   const selectText =
     selectDataObj && selectDataObj.text ? selectDataObj.text : '';
-  console.log({periodItems});
+
  
 
   return (
