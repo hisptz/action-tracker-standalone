@@ -1,15 +1,17 @@
 import _ from "lodash";
 
-const SOLUTION_DATA_ELEMENT = '';
-const SOLUTION_GAP_LINKAGE_DATA_ELEMENT = '';
+const SOLUTION_DATA_ELEMENT = 'upT2cOT6UfJ';
+const GAP_TO_SOLUTION_LINKAGE_DATA_ELEMENT = 'kBkyDytdOmC';
+const SOLUTION_TO_ACTION_LINKAGE_DATA_ELEMENT = 'Y4CIGFwWYJD';
 
 export default class PossibleSolution {
 
-    constructor(event = {event: '', dataElements: []}) {
-        const {event: eventId, dataElements} = event;
+    constructor(event = {event: '', dataValues: []}) {
+        const {event: eventId, dataValues} = event;
         this.id = eventId;
-        this.solution = _.find(dataElements, ['dataElement', SOLUTION_DATA_ELEMENT])?.value;
-        this.gapLinkage = _.find(dataElements, ['dataElement', SOLUTION_GAP_LINKAGE_DATA_ELEMENT])?.value;
+        this.solution = _.find(dataValues, ['dataElement', SOLUTION_DATA_ELEMENT])?.value;
+        this.gapLinkage = _.find(dataValues, ['dataElement', GAP_TO_SOLUTION_LINKAGE_DATA_ELEMENT])?.value;
+        this.actionLinkage = _.find(dataValues, ['dataElement', SOLUTION_TO_ACTION_LINKAGE_DATA_ELEMENT])?.value;
 
         this.toString = this.toString.bind(this);
         this.toJson = this.toJson.bind(this);
@@ -19,7 +21,8 @@ export default class PossibleSolution {
         return {
             id: this.id,
             solution: this.solution,
-            gapLinkage: this.gapLinkage
+            gapLinkage: this.gapLinkage,
+            actionLinkage: this.actionLinkage
         }
     }
 

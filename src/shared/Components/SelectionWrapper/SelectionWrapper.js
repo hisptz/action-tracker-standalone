@@ -1,10 +1,9 @@
 import Box from '@material-ui/core/Box';
-import { FilterComponentTypes } from '../../../core/constants/constants';
+import { FilterComponentTypes } from '../../../core/constants';
 import PropTypes from 'prop-types';
 
 export function SelectionWrapper({
   type,
-  name,
   onClick,
   dataObj,
   periodItems
@@ -22,7 +21,6 @@ export function SelectionWrapper({
   const selectDataObj = componentTypes[type] || null;
   const selectText =
     selectDataObj && selectDataObj.text ? selectDataObj.text : '';
-  console.log({periodItems});
 
 
   return (

@@ -1,9 +1,10 @@
-import {Card, Grid, IconButton, Paper, Table, TableCell, TableFooter, TableRow, withStyles} from "@material-ui/core";
+import {Card, Grid, Table, TableCell, TableFooter, TableRow, withStyles} from "@material-ui/core";
+import {Button} from '@dhis2/ui'
 import DueDateWarningIcon from '@material-ui/icons/ReportProblemOutlined';
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React from "react";
 
-const CustomTableRowHead = withStyles((theme) => ({
+const CustomTableRowHead = withStyles((_) => ({
     root: {
         padding: 4,
         backgroundColor: '#F8F9FA',
@@ -11,7 +12,7 @@ const CustomTableRowHead = withStyles((theme) => ({
     }
 }))(TableRow)
 
-const CustomTableCellHead = withStyles((theme) => ({
+const CustomTableCellHead = withStyles((_) => ({
     root: {
         paddingTop: 5,
         paddingBottom: 5,
@@ -20,14 +21,14 @@ const CustomTableCellHead = withStyles((theme) => ({
     }
 }))(TableCell)
 
-const CustomTableCell = withStyles((theme) => ({
+const CustomTableCell = withStyles((_) => ({
     root: {
         verticalAlign: 'top',
         paddingBottom: 5,
         fontSize: 14
     }
 }))(TableCell)
-const CustomNestingTableCell = withStyles((theme) => ({
+const CustomNestingTableCell = withStyles((_) => ({
     root: {
         verticalAlign: 'top',
         padding: 0,
@@ -35,7 +36,7 @@ const CustomNestingTableCell = withStyles((theme) => ({
     }
 }))(TableCell)
 
-const CustomTable = withStyles((theme) => ({
+const CustomTable = withStyles((_) => ({
     '@global': {
         '*::-webkit-scrollbar': {
             width: '0.3em'
@@ -56,7 +57,7 @@ const CustomTable = withStyles((theme) => ({
     }
 }))(Table)
 
-const CustomNestedTable = withStyles((theme) => ({
+const CustomNestedTable = withStyles((_) => ({
     root: {
         padding: 0,
         margin: 0,
@@ -64,7 +65,7 @@ const CustomNestedTable = withStyles((theme) => ({
     }
 }))(Table)
 
-const CustomTableFooter = withStyles((theme) => ({
+const CustomTableFooter = withStyles((_) => ({
     root: {
         left: 0,
         bottom: 0,
@@ -72,7 +73,7 @@ const CustomTableFooter = withStyles((theme) => ({
     }
 }))(TableFooter)
 
-const StyledStatusTableCell = withStyles((theme) => ({
+const StyledStatusTableCell = withStyles((_) => ({
     root: {
         verticalAlign: 'top',
         paddingBottom: 5,
@@ -84,7 +85,7 @@ const StatusContainer = ({status}) => {
     //TODO:Call the legend configs
     const legend = [
         {
-            status: 'In Progress',
+            status: 'In progress',
             color: '#c8e6c9',
             textColor: '#103713',
             icon: ''
@@ -115,10 +116,8 @@ const StatusTableCell = ({status}) => {
                 <Grid item xs={9} >
                     <StatusContainer status={status}/>
                 </Grid>
-                <Grid container justify='center' item xs={3}>
-                    <IconButton >
-                        <MoreHorizIcon/>
-                    </IconButton>
+                <Grid container justify='center' alignItems='center' item xs={3}>
+                    <Button icon={<MoreHorizIcon/>} />
                 </Grid>
             </Grid>
         </StyledStatusTableCell>

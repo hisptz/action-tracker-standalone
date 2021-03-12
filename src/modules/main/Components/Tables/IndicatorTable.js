@@ -9,10 +9,14 @@ import {
     CustomTableRowHead
 } from "./CustomTable";
 import GapTable from "./GapTable";
+import Indicator from "../../../../core/models/indicator";
 
 
-export default function IndicatorTable({indicator}) {
-    const {gaps} = indicator;
+export default function IndicatorTable({indicator= new Indicator()}) {
+    const {gaps} = indicator
+
+    console.log(indicator);
+
     const columns = [
         'Gap',
         'Possible Solutions',
@@ -21,8 +25,7 @@ export default function IndicatorTable({indicator}) {
         'StartDate',
         'Due Date',
         'Status'
-    ]
-
+    ];
     return (
         <Card variant='outlined'>
             <CustomTable cellSpacing={0}>

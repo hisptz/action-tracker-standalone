@@ -4,10 +4,10 @@ import _ from "lodash";
 import React from "react";
 import SolutionsTable from "./SolutionsTable";
 import {Button} from "@dhis2/ui";
+import Gap from "../../../../core/models/gap";
 
 
-export default function GapTable({gaps}) {
-
+export default function GapTable({gaps=[new Gap()]}) {
     return (
         <div style={{height: 420, overflow: 'auto'}}>
             <CustomNestedTable>
@@ -16,12 +16,14 @@ export default function GapTable({gaps}) {
                 </colgroup>
                 <TableBody>
                     {
-                        _.map(gaps, ({description, solutions}) => <TableRow>
+                        _.map(gaps, (gap) => <TableRow>
                             <CustomTableCell>
-                                {description}
+                                {gap.description}
                             </CustomTableCell>
                             <CustomNestingTableCell colSpan={6} style={{padding: 0}}>
-                                <SolutionsTable solutions={solutions}/>
+                                {
+                                    !_.isEmpty(gap.possibleSolutions) &&  <SolutionsTable solutions={gap.possibleSolutions}/>
+                                }
                                 <CustomTableFooter >
                                     <div style={{padding: 5}}>
                                         <Button>Add Solution</Button>

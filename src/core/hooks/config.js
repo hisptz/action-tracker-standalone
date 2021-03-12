@@ -5,25 +5,29 @@ import {useEffect} from "react";
 import {ACTION_PROGRAM_ID, BOTTLENECK_PROGRAM_ID, PROGRAMS} from "../constants";
 
 
+const programFields = [
+    'id',
+    'programTrackedEntityAttributes[displayInList,mandatory,searchable, trackedEntityAttribute[id,name,formName,valueType]]',
+    'programStages[id, programStageDataElements[compulsory,displayInReports,dataElement[name,id,formName,valueType]]]'
+];
+
 const configQuery = {
     dataStore: {
         resource: 'dataStore',
-
     },
     bottleneckProgramMetadata: {
         id: BOTTLENECK_PROGRAM_ID,
         resource: 'programs',
         params: {
-            fields:[
-                'id',
-                'trackedEntityAttribute[id, name,formName]',
-                'programStages[programStageDataElements[compulsory,displayInReports,dataElement[name,id]]]'
-            ]
+            fields: programFields
         }
     },
     actionProgramMetadata: {
         resource: 'programs',
-        id: ACTION_PROGRAM_ID
+        id: ACTION_PROGRAM_ID,
+        params: {
+            fields: programFields
+        }
     }
 }
 

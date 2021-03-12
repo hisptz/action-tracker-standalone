@@ -1,25 +1,25 @@
 import _ from 'lodash';
 
-const STATUS_DATA_ELEMENT = '';
-const REVIEW_DATE_DATA_ELEMENT = '';
-const REMARKS_DATA_ELEMENT = '';
+const STATUS_DATA_ELEMENT = 'f8JYVWLC7rE';
+const REVIEW_DATE_DATA_ELEMENT = 'nodiP54ocf5';
+const REMARKS_DATA_ELEMENT = 'FnengvwgsQv';
 
 export default class ActionStatus {
 
-    constructor(event = {event: '', dataElements: []}) {
-        const {event:eventId, dataElements} = event;
+    constructor(event = {event: '', dataValues: []}) {
+        const {event: eventId, dataValues} = event;
         this.id = eventId;
-        this.status = _.find(dataElements, ['dataElement', STATUS_DATA_ELEMENT])?.value;
-        this.remarks = _.find(dataElements, ['dataElement', REMARKS_DATA_ELEMENT])?.value;
-        this.reviewDate = _.find(dataElements, ['dataElement', REVIEW_DATE_DATA_ELEMENT])?.value;
+        this.status = _.find(dataValues, ['dataElement', STATUS_DATA_ELEMENT])?.value;
+        this.remarks = _.find(dataValues, ['dataElement', REMARKS_DATA_ELEMENT])?.value;
+        this.reviewDate = _.find(dataValues, ['dataElement', REVIEW_DATE_DATA_ELEMENT])?.value;
 
         //Bind all methods
         this.toJson = this.toJson.bind(this);
         this.toString = this.toString.bind(this);
     }
 
-    toJson(){
-        return{
+    toJson() {
+        return {
             id: this.id,
             status: this.status,
             remarks: this.remarks,
@@ -27,7 +27,7 @@ export default class ActionStatus {
         }
     }
 
-    toString(){
+    toString() {
         return JSON.stringify(this.toJson());
     }
 
