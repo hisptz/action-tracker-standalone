@@ -1608,13 +1608,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@iapps/function-analytics@^1.0.0-beta.21":
-  version "1.0.0-beta.21"
-  resolved "https://registry.yarnpkg.com/@iapps/function-analytics/-/function-analytics-1.0.0-beta.21.tgz#986e6c8a87b7df8b34fee3a38cc16dd42295098c"
-  integrity sha512-wkwiLFOzGlpHyCYeHWsowrQy3ds97Pft0RjGyssD9UuiaY6wapueT8k19//bvndEIRbJKmb8wxDWZgf92ONkLA==
-  dependencies:
-    axios "^0.19.0"
-    progress-promise "0.0.6"
+"@iapps/period-utilities@^1.0.0-beta.3":
+  version "1.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/@iapps/period-utilities/-/period-utilities-1.0.0-beta.3.tgz#487c53d55f81df91faa968b15d781bdec1fb8742"
+  integrity sha512-RhXv4IQ5tlCMnmx3pshRSTM2fgNSS5q8FgcUomGBobkDv8rqWM+QUTuVjeovKGPQ12vQN17onAj1v0arnkTAOw==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
@@ -3348,13 +3345,6 @@ axe-core@^4.0.2:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.1.1.tgz#70a7855888e287f7add66002211a423937063eaf"
   integrity sha512-5Kgy8Cz6LPC9DJcNb3yjAXTu3XihQgEdnIg50c//zOC/MyLP0Clg+Y8Sh9ZjjnvBrDZU4DgXS9C3T9r4/scGZQ==
-
-axios@^0.19.0:
-  version "0.19.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
-  integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
-  dependencies:
-    follow-redirects "1.5.10"
 
 axios@^0.20.0:
   version "0.20.0"
@@ -5159,13 +5149,6 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@=3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
-  integrity sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g==
-  dependencies:
-    ms "2.0.0"
-
 debug@^3.1.1, debug@^3.2.5:
   version "3.2.7"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.7.tgz#72580b7e9145fb39b6676f9c5e5fb100b934179a"
@@ -6527,13 +6510,6 @@ flush-write-stream@^1.0.0, flush-write-stream@^1.0.2:
   dependencies:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
-
-follow-redirects@1.5.10:
-  version "1.5.10"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.10.tgz#7b7a9f9aea2fdff36786a94ff643ed07f4ff5e2a"
-  integrity sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==
-  dependencies:
-    debug "=3.1.0"
 
 follow-redirects@^1.0.0, follow-redirects@^1.10.0:
   version "1.13.0"
@@ -11640,11 +11616,6 @@ process@^0.11.10:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
   integrity sha1-czIwDoQBYb2j5podHZGn1LwW8YI=
-
-progress-promise@0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/progress-promise/-/progress-promise-0.0.6.tgz#dfd47723d3bee311e3263dc27c7a5f7812eb387d"
-  integrity sha1-39R3I9O+4xHjJj3CfHpfeBLrOH0=
 
 progress@^2.0.0:
   version "2.0.3"

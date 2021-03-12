@@ -6,7 +6,6 @@ const ConfigState = atom({
     default:{}
 })
 
-
 export {
     ConfigState
 }

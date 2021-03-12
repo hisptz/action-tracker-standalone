@@ -2,20 +2,20 @@ import _ from "lodash";
 import PossibleSolution from "./possibleSolution";
 
 
-const TITLE_DATA_ELEMENT = '';
-const DESCRIPTION_DATA_ELEMENT = '';
-const METHOD_DATA_ELEMENT = '';
-const SOLUTION_LINK_DATA_ELEMENT = '';
+const TITLE_DATA_ELEMENT = 'JbMaVyglSit';
+const DESCRIPTION_DATA_ELEMENT = 'GsbZkewUna5';
+const METHOD_DATA_ELEMENT = 'W50aguV39tU';
+const SOLUTION_LINK_DATA_ELEMENT = 'kBkyDytdOmC';
 
 export default class Gap {
 
-    constructor(event = {event: '', dataElements: []}, possibleSolutionEvents = []) {
-        const {event: eventId, dataElements} = event;
+    constructor(event = {event: '', dataValues: []}, possibleSolutionEvents = []) {
+        const {event: eventId,dataValues} = event;
         this.id = eventId;
-        this.title = _.find(dataElements, ['dataElement', TITLE_DATA_ELEMENT])?.value;
-        this.description = _.find(dataElements, ['dataElement', DESCRIPTION_DATA_ELEMENT])?.value;
-        this.method = _.find(dataElements, ['dataElement', METHOD_DATA_ELEMENT])?.value;
-        this.solutionLinkage = _.find(dataElements, ['dataElement', SOLUTION_LINK_DATA_ELEMENT])?.value;
+        this.title = _.find(dataValues, ['dataElement', TITLE_DATA_ELEMENT])?.value;
+        this.description = _.find(dataValues, ['dataElement', DESCRIPTION_DATA_ELEMENT])?.value;
+        this.method = _.find(dataValues, ['dataElement', METHOD_DATA_ELEMENT])?.value;
+        this.solutionLinkage = _.find(dataValues, ['dataElement', SOLUTION_LINK_DATA_ELEMENT])?.value;
         this.possibleSolutions = _.map(possibleSolutionEvents, (solution) => new PossibleSolution(solution));
 
         this.toString = this.toString.bind(this);

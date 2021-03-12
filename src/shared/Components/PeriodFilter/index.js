@@ -7,12 +7,12 @@ import {
     ModalTitle,
 } from '@dhis2/ui';
 import React, {useState} from 'react';
-import {PeriodDimension, DIMENSION_ID_PERIOD} from '@dhis2/analytics';
-// import {Fn} from '@iapps/function-analytics';
+import {PeriodDimension} from '@dhis2/analytics';
+import {Period} from "@iapps/period-utilities";
 
-export default function PeriodFilter({onClose, onUpdate}) {
-    // const periodInstance = new Fn.Period();
-    const [selectedPeriods, setSelectedPeriods] = useState([]);
+export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
+    const [selectedPeriods, setSelectedPeriods] = useState(initialPeriods);
+    const periodInstance = new Period();
 
     return (
         <Modal open={open} onClose={onClose}>
