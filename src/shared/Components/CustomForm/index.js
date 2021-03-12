@@ -5,7 +5,7 @@ import { map } from 'lodash';
 import FormField from './Components/FormField';
 import { Button, ButtonStrip } from '@dhis2/ui';
 
-function CustomForm({ formFields, isModalForm, onCloseModal }) {
+function CustomForm({ formFields, isModalForm, onCloseModal, onUpdate }) {
   const { control, errors, handleSubmit } = useForm({
     mode: 'onBlur',
     reValidateMode: 'onBlur',

@@ -27,6 +27,7 @@ function FormField({ field, control, errors }) {
                       name={field?.id}
                       onChange={onChange}
                       value={value?.value}
+                      required={field?.validations && field.validations.required ? true : false}
                       type={Dhis2ValueTypes[field?.valueType]?.formName}
                       label={field?.formName}
                       error={Boolean(errors && errors[field?.id])}
@@ -39,6 +40,7 @@ function FormField({ field, control, errors }) {
                       name={field?.id}
                       onChange={(e) => onChange({ ...value, value: e.checked })}
                       checked={value?.value}
+                      required={field?.validations && field.validations.required ? true : false}
                       label={field?.formName}
                       error={Boolean(errors && errors[field?.id])}
                       validationText={errors && errors[field?.id]?.message}
@@ -51,6 +53,7 @@ function FormField({ field, control, errors }) {
                       onChange={onChange}
                       value={value?.value}
                       type={Dhis2ValueTypes[field?.valueType]?.formName}
+                      required={field?.validations && field.validations.required ? true : false}
                       label={field?.formName}
                       error={Boolean(errors && errors[field?.id])}
                       validationText={errors && errors[field?.id]?.message}

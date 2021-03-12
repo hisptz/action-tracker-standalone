@@ -23,7 +23,6 @@ export function ActionItemDialog({ onClose, onUpdate }) {
       <ModalContent>
         <CustomForm formFields={formFields} onCloseModal={onClose} />
       </ModalContent>
-      
     </Modal>
   );
 }

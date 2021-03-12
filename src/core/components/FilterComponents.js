@@ -6,6 +6,8 @@ import { FilterComponentTypes } from '../constants/constants';
 import PeriodFilter from '../../shared/Dialogs/PeriodFilter';
 import OrganisationUnitFilter from '../../shared/Dialogs/OrgUnitFilter';
 import Grid from '@material-ui/core/Grid';
+import ChallengeDialog from '../../shared/Dialogs/ChallengeDialog';
+import ActionItemDialog from '../../shared/Dialogs/ActionItemDialog'
 
 export function FilterComponents() {
   const [openPeriodFilter, setOpenPeriodFilter] = useState(false);
@@ -56,10 +58,15 @@ export function FilterComponents() {
           onUpdate={onUpdatePeriodFilter}
         />
       )}
-      {openOrgUnitFilter && (
+      {/* {openOrgUnitFilter && (
         <OrganisationUnitFilter
           onClose={(_) => setOrgUnitFilter(false)}
           onUpdate={onUpdateOrgUnitFilter}
+        />
+      )} */}
+      {openOrgUnitFilter && (
+        <ChallengeDialog
+         
         />
       )}
      

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Modal,
   ModalTitle,
@@ -15,96 +16,102 @@ import { makeStyles } from '@material-ui/core/styles';
 import Metadata from '../../../resources/Json/FormsMetadata.json';
 import { getFormattedFormMetadata } from '../../../core/helpers/formsUtilsHelper';
 import CustomForm from '../../Components/CustomForm';
+import DataFilter from '../../Components/DataFilter';
+import DataFilterData from '../../../resources/Json/DataFilterData.json';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      width: '100%',
-    },
-    button: {
-      marginRight: theme.spacing(1),
-    },
-    instructions: {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-    },
-  }));
-  
-  function getSteps() {
-    return ['Indicator Details', 'Gap Details'];
-  }
+  root: {
+    width: '100%',
+    overflow: 'hidden'
+  },
+  button: {
+    marginRight: theme.spacing(1),
+  },
 
-  function getFormattedMetadataFields() {
-      const metadataFields = Metadata.gapDetailsForm.fields;
-      return getFormattedFormMetadata(metadataFields);
-  }
-  
+  instructions: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+}));
+
+function getSteps() {
+  return ['Indicator Details', 'Gap Details'];
+}
+
+function getFormattedMetadataFields() {
+  const metadataFields = Metadata.gapDetailsForm.fields;
+  return getFormattedFormMetadata(metadataFields);
+}
+
+function ChallengeDialog({ onClose, onUpdate }) {
+  const classes = useStyles();
+  const [activeStep, setActiveStep] = useState(0);
+  const [indicatorSelected, setIndicatorSelected] = useState([]);
+  const [skipped, setSkipped] = useState(new Set());
+  const steps = getSteps();
+
+  const getSelectedIndicator = (indicator) => {
+    setIndicatorSelected(indicator);
+  };
+
   function getStepContent(step) {
-
     switch (step) {
       case 0:
-        return 'Indicator Details';
+        return (
+          <DataFilter
+            options={DataFilterData}
+            initiallySelected={indicatorSelected}
+            getSelected={getSelectedIndicator}
+          />
+        );
       case 1:
-         const formFields = getFormattedMetadataFields();
+        const formFields = getFormattedMetadataFields();
 
-        return (<CustomForm formFields={formFields} />);
+        return <CustomForm formFields={formFields} />;
       default:
         return 'Unknown step';
     }
   }
-  
-function ChallengeDialog({ onClose, onUpdate }) {
 
+  // const isStepOptional = (step) => {
+  //   return step === 1;
+  // };
 
-    const classes = useStyles();
-    const [activeStep, setActiveStep] = React.useState(0);
-    const [skipped, setSkipped] = React.useState(new Set());
-    const steps = getSteps();
-  
-    // const isStepOptional = (step) => {
-    //   return step === 1;
-    // };
-  
-    const isStepSkipped = (step) => {
-      return skipped.has(step);
-    };
-  
-    const handleNext = () => {
-      let newSkipped = skipped;
-      if (isStepSkipped(activeStep)) {
-        newSkipped = new Set(newSkipped.values());
-        newSkipped.delete(activeStep);
-      }
-  
+  const canStepGoNext =
+    activeStep === 0 && indicatorSelected && indicatorSelected.length
+      ? false
+      : true;
+
+  const isStepSkipped = (step) => {
+    return skipped.has(step);
+  };
+
+  const handleNext = () => {
+    let newSkipped = skipped;
+    if (isStepSkipped(activeStep)) {
+      newSkipped = new Set(newSkipped.values());
+      newSkipped.delete(activeStep);
+    }
+
+    if (indicatorSelected && indicatorSelected.length) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       setSkipped(newSkipped);
-    };
-  
-    const handleBack = () => {
-      setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-  
-    const handleSkip = () => {
-    //   if (!isStepOptional(activeStep)) {
-    //     // You probably want to guard against something like this,
-    //     // it should never occur unless someone's actively trying to break something.
-    //     throw new Error("You can't skip a step that isn't optional.");
-    //   }
-  
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      setSkipped((prevSkipped) => {
-        const newSkipped = new Set(prevSkipped.values());
-        newSkipped.add(activeStep);
-        return newSkipped;
-      });
-    };
-  
-    const handleReset = () => {
-      setActiveStep(0);
-    };
-  
+    }
+
+    // setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    // setSkipped(newSkipped);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
 
   return (
-    <Modal className="dialog-container" onClose={onClose} large>
+    <Modal className="dialog-container"  onClose={onClose} large>
       <ModalTitle>Gap Form</ModalTitle>
       <ModalContent>
         <div className={classes.root}>
@@ -112,11 +119,7 @@ function ChallengeDialog({ onClose, onUpdate }) {
             {steps.map((label, index) => {
               const stepProps = {};
               const labelProps = {};
-              {/* if (isStepOptional(index)) {
-                labelProps.optional = (
-                  <Typography variant="caption">Optional</Typography>
-                );
-              } */}
+
               if (isStepSkipped(index)) {
                 stepProps.completed = false;
               }
@@ -139,10 +142,9 @@ function ChallengeDialog({ onClose, onUpdate }) {
               </div>
             ) : (
               <div>
-               
-                  {getStepContent(activeStep)}
-            
-                <div>
+                {getStepContent(activeStep)}
+
+                <div style={{ marginTop: '1em' }}>
                   <Button
                     disabled={activeStep === 0}
                     onClick={handleBack}
@@ -150,22 +152,13 @@ function ChallengeDialog({ onClose, onUpdate }) {
                   >
                     Back
                   </Button>
-                  {/* {isStepOptional(activeStep) && (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleSkip}
-                      className={classes.button}
-                    >
-                      Skip
-                    </Button>
-                  )} */}
 
                   <Button
                     variant="contained"
                     color="primary"
                     onClick={handleNext}
                     className={classes.button}
+                    disabled={canStepGoNext}
                   >
                     {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                   </Button>
