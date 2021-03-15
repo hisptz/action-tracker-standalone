@@ -14,7 +14,7 @@ import Metadata from '../../../resources/Json/FormsMetadata.json';
 import { map, flattenDeep } from 'lodash';
 import './styles/ActionItemFormDialog.css'
 import { getFormattedFormMetadata } from '../../../core/helpers/formsUtilsHelper';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm} from 'react-hook-form';
 export function ActionItemDialog({ onClose }) {
   const metadataFields = Metadata.actionItemForm.fields;
   const { control, errors, handleSubmit } = useForm({
