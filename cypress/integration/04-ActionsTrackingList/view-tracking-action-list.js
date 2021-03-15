@@ -2,7 +2,10 @@
  *  Scenario: View Tracked Action List
  */
 
-Given("an authorized CHMT member", () => {});
+Given("an authorized CHMT member", () => {
+  cy.visit("/");
+  cy.login('admin', 'district')
+});
 When("selecting assigned district", () => {});
 And("selecting period of planned actions", () => {});
 And("select to track actions", () => {});

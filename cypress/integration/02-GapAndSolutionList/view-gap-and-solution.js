@@ -2,7 +2,10 @@
  *     Scenario: View Gap and Solution List
  */
 
-Given("an authorized CHMT member", () => {});
+Given("an authorized CHMT member", () => {
+  cy.visit("/");
+  cy.login('admin', 'district')
+});
 When("selecting assigned district", () => {});
 And("selecting period for planning", () => {});
 Then(

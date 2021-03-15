@@ -1,3 +1,6 @@
 {
-    "testFiles": "**/*.feature"
+    "baseUrl": "http://localhost:3000",
+    "testFiles": "**/*.feature",
+    "chromeWebSecurity": false,
+    "reporter": "cypress-multi-reporters"
 }

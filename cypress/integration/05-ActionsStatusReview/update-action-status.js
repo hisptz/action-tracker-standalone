@@ -2,7 +2,10 @@
  * Scenario: Update Action Status
  */
 
-Given('an authorized CHMT member', () => {}) 
+Given('an authorized CHMT member', () => {
+    cy.visit("/");
+    cy.login('admin', 'district')
+}) 
 And('with tracked list of gaps and solutions', () => {}) 
 When('updating status or timeline for the action items', () => {}) 
 And('and save updates', () => {}) 
