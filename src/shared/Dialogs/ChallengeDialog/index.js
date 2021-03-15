@@ -18,11 +18,12 @@ import { getFormattedFormMetadata } from '../../../core/helpers/formsUtilsHelper
 import CustomForm from '../../Components/CustomForm';
 import DataFilter from '../../Components/DataFilter';
 import DataFilterData from '../../../resources/Json/DataFilterData.json';
+import { useForm } from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   button: {
     marginRight: theme.spacing(1),
@@ -49,6 +50,17 @@ function ChallengeDialog({ onClose, onUpdate }) {
   const [indicatorSelected, setIndicatorSelected] = useState([]);
   const [skipped, setSkipped] = useState(new Set());
   const steps = getSteps();
+  const stepsLength = steps.length;
+  const { control, errors, handleSubmit } = useForm({
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
+  });
+
+  const onSubmit = (payload) => {
+    console.log({ payload });
+    onClose();
+  };
+ 
 
   const getSelectedIndicator = (indicator) => {
     setIndicatorSelected(indicator);
@@ -67,7 +79,13 @@ function ChallengeDialog({ onClose, onUpdate }) {
       case 1:
         const formFields = getFormattedMetadataFields();
 
-        return <CustomForm formFields={formFields} />;
+        return (
+          <CustomForm
+            formFields={formFields}
+            control={control}
+            errors={errors}
+          />
+        );
       default:
         return 'Unknown step';
     }
@@ -77,8 +95,9 @@ function ChallengeDialog({ onClose, onUpdate }) {
   //   return step === 1;
   // };
 
-  const canStepGoNext =
-    activeStep === 0 && indicatorSelected && indicatorSelected.length
+  const isNextButtonDisabled =
+    (activeStep === 0 && indicatorSelected && indicatorSelected.length) ||
+    activeStep == 1
       ? false
       : true;
 
@@ -97,9 +116,6 @@ function ChallengeDialog({ onClose, onUpdate }) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       setSkipped(newSkipped);
     }
-
-    // setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    // setSkipped(newSkipped);
   };
 
   const handleBack = () => {
@@ -111,7 +127,7 @@ function ChallengeDialog({ onClose, onUpdate }) {
   };
 
   return (
-    <Modal className="dialog-container"  onClose={onClose} large>
+    <Modal className="dialog-container" onClose={onClose} large>
       <ModalTitle>Gap Form</ModalTitle>
       <ModalContent>
         <div className={classes.root}>
@@ -156,9 +172,11 @@ function ChallengeDialog({ onClose, onUpdate }) {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={handleNext}
+                    onClick={
+                      activeStep === stepsLength - 1 ? handleSubmit(onSubmit) : handleNext
+                    }
                     className={classes.button}
-                    disabled={canStepGoNext}
+                    disabled={isNextButtonDisabled}
                   >
                     {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                   </Button>

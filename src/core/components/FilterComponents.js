@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import {useRecoilState} from "recoil";
 import {DimensionsState} from "../states";
 import {Container} from "@material-ui/core";
-import SolutionsDialog from '../../shared/Dialogs/SolutionsDialog';
+import ChallengeDialog from '../../shared/Dialogs/ChallengeDialog';
 
 export function FilterComponents() {
   const [openPeriodFilter, setOpenPeriodFilter] = useState(false);
@@ -64,7 +64,7 @@ export function FilterComponents() {
               />
           )} */}
           {openOrgUnitFilter && (
-              <SolutionsDialog
+              <ChallengeDialog
                   onClose={(_) => setOpenOrgUnitFilter(false)}
               />
           )}
