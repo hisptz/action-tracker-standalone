@@ -1,4 +1,4 @@
-import Indicator from "../../../core/models/indicator";
+import Bottleneck from "../../../core/models/bottleneck";
 import React from 'react';
 import {Box, Button} from '@dhis2/ui';
 import {Card, CardContent, Grid, Typography} from "@material-ui/core";
@@ -7,7 +7,7 @@ import ProgressIcon from '@material-ui/icons/BarChart';
 
 
 
-export default function IndicatorCard({indicator = new Indicator()}) {
+export default function IndicatorCard({indicator = new Bottleneck()}) {
     const indicatorObject = indicator.toJson()
     return (
         <Grid item sm={12}>

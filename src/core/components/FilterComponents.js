@@ -56,18 +56,18 @@ export function FilterComponents() {
                   initialPeriods={selectedDimensions.period}
               />
           )}
-          {/* {openOrgUnitFilter && (
+           {openOrgUnitFilter && (
               <OrganisationUnitFilter
                   onClose={(_) => setOpenOrgUnitFilter(false)}
                   onUpdate={onUpdateOrgUnitFilter}
                   initialOrgUnit={selectedDimensions.orgUnit}
               />
-          )} */}
-          {openOrgUnitFilter && (
-              <ChallengeDialog
-                  onClose={(_) => setOpenOrgUnitFilter(false)}
-              />
           )}
+          {/*{openOrgUnitFilter && (*/}
+          {/*    <ChallengeDialog*/}
+          {/*        onClose={(_) => setOpenOrgUnitFilter(false)}*/}
+          {/*    />*/}
+          {/*)}*/}
         </Container>
     </Paper>
   );

@@ -8,7 +8,7 @@ import {ACTION_PROGRAM_ID, BOTTLENECK_PROGRAM_ID, PROGRAMS} from "../constants";
 const programFields = [
     'id',
     'programTrackedEntityAttributes[displayInList,mandatory,searchable, trackedEntityAttribute[id,name,formName,valueType]]',
-    'programStages[id, programStageDataElements[compulsory,displayInReports,dataElement[name,id,formName,valueType]]]'
+    'programStages[id, programStageDataElements[compulsory,displayInReports,dataElement[name,id,formName,valueType,optionSet[options[code, name]]]'
 ];
 
 const configQuery = {

@@ -9,21 +9,22 @@ import {
   Box,
 } from '@dhis2/ui';
 import CustomForm from '../../Components/CustomForm';
-import { CustomFormField } from '../../../core/models/customFormField';
-import Metadata from '../../../resources/Json/FormsMetadata.json';
-import { map, flattenDeep } from 'lodash';
 import './styles/ActionItemFormDialog.css'
 import { getFormattedFormMetadata } from '../../../core/helpers/formsUtilsHelper';
 import { useForm} from 'react-hook-form';
+import {useRecoilValue} from "recoil";
+import {ConfigState} from "../../../core/states";
+import Action from "../../../core/models/action";
+
 export function ActionItemDialog({ onClose }) {
-  const metadataFields = Metadata.actionItemForm.fields;
+  const {actionProgramMetadata} = useRecoilValue(ConfigState);
+  const metadataFields = Action.getFormFields(actionProgramMetadata);
   const { control, errors, handleSubmit } = useForm({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
   });
   const formFields = getFormattedFormMetadata(metadataFields);
    const onSubmit = (payload) => {
-      console.log({payload});
       onClose();
    }
   return (

@@ -9,10 +9,10 @@ import {
     CustomTableRowHead
 } from "./CustomTable";
 import GapTable from "./GapTable";
-import Indicator from "../../../../core/models/indicator";
+import Bottleneck from "../../../../core/models/bottleneck";
 
 
-export default function IndicatorTable({indicator= new Indicator()}) {
+export default function IndicatorTable({indicator= new Bottleneck()}) {
     const {gaps} = indicator
 
     console.log(indicator);
