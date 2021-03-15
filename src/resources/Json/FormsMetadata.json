@@ -4,13 +4,15 @@
             {
                 "id": "1",
                 "name": "Action Description",
-                "valueType": "TEXT",
+                "formName": "Action Description",
+                "valueType": "LONG_TEXT",
                 "mandatory": true
 
             },
             {
                 "id": "2",
                 "name": "Start date",
+                "formName": "Start date",
                 "valueType": "DATE",
                 "mandatory": true
 
@@ -18,6 +20,7 @@
             {
                 "id": "3",
                 "name": "End date",
+                "formName": "End date",
                 "valueType": "DATE",
                 "mandatory": true
 
@@ -25,6 +28,7 @@
             {
                 "id": "4",
                 "name": "Designation title",
+                "formName": "Designation title",
                 "valueType": "TEXT",
                 "mandatory": true
 
@@ -32,8 +36,65 @@
             {
                 "id": "5",
                 "name": "Need to secure funds",
+                "formName": "Need to secure funds",
                 "valueType": "TRUE_ONLY",
                 "mandatory": false
+
+            }
+        ]
+    },
+    "solutionsForm": {
+        "fields": [
+            {
+                "id": "1",
+                "name": "Title",
+                "formName": "Title",
+                "valueType": "TEXT",
+                "mandatory": true
+
+            },
+            {
+                "id": "2",
+                "name": "Description",
+                "formName": "Description",
+                "valueType": "LONG_TEXT",
+                "mandatory": true
+
+            },
+            {
+                "id": "3",
+                "name": "Method",
+                "formName": "Method",
+                "valueType": "TEXT",
+                "mandatory": true
+
+            }
+        ]
+    },
+    "gapDetailsForm": {
+        "fields": [
+            {
+                "id": "1",
+                "name": "Challenge Description",
+                "formName": "Challenge Description",
+                "valueType": "LONG_TEXT",
+                "mandatory": true
+
+            },
+            {
+                "id": "2",
+                "name": "Challenge Method Identification",
+                "formName": "Challenge Method Identification",
+                "valueType": "LONG_TEXT",
+                "mandatory": true
+
+            },
+            {
+                "id": "3",
+                "name": "Method",
+                "formName": "Method",
+                "valueType": "TEXT",
+                "mandatory": true
 
             }
         ]

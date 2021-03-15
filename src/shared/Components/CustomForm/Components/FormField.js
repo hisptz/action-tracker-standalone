@@ -1,16 +1,13 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { CustomFormField } from '../../../../core/models/customFormField';
-import TextField from '@material-ui/core/TextField';
-import { Field, Form } from 'react-final-form';
 import { Controller } from 'react-hook-form';
 import '../styles/FormField.css';
-import { InputField, Checkbox, TextArea } from '@dhis2/ui';
+import { InputField, Checkbox, TextAreaField } from '@dhis2/ui';
 import { Dhis2ValueTypes } from '../../../../core/constants/constants';
 function FormField({ field, control, errors }) {
   return (
     <>
-      {field.id && field.name && (
+      {field.id && field.formName && (
         <div className="input-field">
           <Controller
             name={field?.id}
@@ -30,8 +27,9 @@ function FormField({ field, control, errors }) {
                       name={field?.id}
                       onChange={onChange}
                       value={value?.value}
+                      required={field?.validations && field.validations.required ? true : false}
                       type={Dhis2ValueTypes[field?.valueType]?.formName}
-                      label={field?.name}
+                      label={field?.formName}
                       error={Boolean(errors && errors[field?.id])}
                       validationText={errors && errors[field?.id]?.message}
                     />
@@ -42,19 +40,21 @@ function FormField({ field, control, errors }) {
                       name={field?.id}
                       onChange={(e) => onChange({ ...value, value: e.checked })}
                       checked={value?.value}
-                      label={field?.name}
+                      required={field?.validations && field.validations.required ? true : false}
+                      label={field?.formName}
                       error={Boolean(errors && errors[field?.id])}
                       validationText={errors && errors[field?.id]?.message}
                     />
                   );
                 case Dhis2ValueTypes.LONG_TEXT.name:
                   return (
-                    <TextArea
+                    <TextAreaField
                       name={field?.id}
                       onChange={onChange}
                       value={value?.value}
                       type={Dhis2ValueTypes[field?.valueType]?.formName}
-                      label={field?.name}
+                      required={field?.validations && field.validations.required ? true : false}
+                      label={field?.formName}
                       error={Boolean(errors && errors[field?.id])}
                       validationText={errors && errors[field?.id]?.message}
                     />

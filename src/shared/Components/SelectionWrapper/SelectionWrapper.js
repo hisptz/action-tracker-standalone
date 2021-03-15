@@ -22,7 +22,7 @@ export function SelectionWrapper({
   const selectText =
     selectDataObj && selectDataObj.text ? selectDataObj.text : '';
 
-
+ 
   return (
     <Box
       component="div"
