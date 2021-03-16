@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import { CustomFormField } from '../../../../core/models/customFormField';
 import { Controller } from 'react-hook-form';
 import '../styles/FormField.css';
-import { InputField, Checkbox, TextAreaField } from '@dhis2/ui';
+import { InputField, Checkbox, TextAreaField, SingleSelect } from '@dhis2/ui';
 import { Dhis2ValueTypes } from '../../../../core/constants/constants';
+import { map } from 'lodash';
 function FormField({ field, control, errors }) {
   return (
     <>
@@ -17,6 +18,25 @@ function FormField({ field, control, errors }) {
             defaultValue=""
             control={control}
             render={({ onChange, value }) => {
+              if (field && field.optionSet) {
+                return (
+                  <SingleSelect
+                    className="select"
+                    onChange={}
+                    validationText={errors && errors[field?.id]?.message}
+                    error={Boolean(errors && errors[field?.id])}
+                  >
+                    {map(field.optionSet.options || [], (option) => {
+                      return (
+                        <SingleSelectOption
+                          label={option?.name}
+                          value={option?.code}
+                        />
+                      );
+                    })}
+                  </SingleSelect>
+                );
+              }
               switch (field?.valueType) {
                 case Dhis2ValueTypes.NUMBER.name:
                 case Dhis2ValueTypes.INTEGER.name:
@@ -27,7 +47,11 @@ function FormField({ field, control, errors }) {
                       name={field?.id}
                       onChange={onChange}
                       value={value?.value}
-                      required={field?.validations && field.validations.required ? true : false}
+                      required={
+                        field?.validations && field.validations.required
+                          ? true
+                          : false
+                      }
                       type={Dhis2ValueTypes[field?.valueType]?.formName}
                       label={field?.formName}
                       error={Boolean(errors && errors[field?.id])}
@@ -40,7 +64,11 @@ function FormField({ field, control, errors }) {
                       name={field?.id}
                       onChange={(e) => onChange({ ...value, value: e.checked })}
                       checked={value?.value}
-                      required={field?.validations && field.validations.required ? true : false}
+                      required={
+                        field?.validations && field.validations.required
+                          ? true
+                          : false
+                      }
                       label={field?.formName}
                       error={Boolean(errors && errors[field?.id])}
                       validationText={errors && errors[field?.id]?.message}
@@ -53,7 +81,11 @@ function FormField({ field, control, errors }) {
                       onChange={onChange}
                       value={value?.value}
                       type={Dhis2ValueTypes[field?.valueType]?.formName}
-                      required={field?.validations && field.validations.required ? true : false}
+                      required={
+                        field?.validations && field.validations.required
+                          ? true
+                          : false
+                      }
                       label={field?.formName}
                       error={Boolean(errors && errors[field?.id])}
                       validationText={errors && errors[field?.id]?.message}
