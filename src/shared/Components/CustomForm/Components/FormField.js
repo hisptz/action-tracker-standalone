@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { CustomFormField } from '../../../../core/models/customFormField';
 import { Controller } from 'react-hook-form';
 import '../styles/FormField.css';
-import { InputField, Checkbox, TextAreaField, SingleSelect } from '@dhis2/ui';
+import { InputField, Checkbox, TextAreaField, SingleSelectField, SingleSelectOption } from '@dhis2/ui';
 import { Dhis2ValueTypes } from '../../../../core/constants/constants';
 import { map } from 'lodash';
 function FormField({ field, control, errors }) {
@@ -18,24 +18,37 @@ function FormField({ field, control, errors }) {
             defaultValue=""
             control={control}
             render={({ onChange, value }) => {
-              if (field && field.optionSet) {
+              if (field && field.optionSet) { 
+                if (field && field.optionSet) {
                 return (
-                  <SingleSelect
+                  <SingleSelectField
                     className="select"
-                    onChange={}
+                    filterable
+                    clearable
+                    required={
+                        field?.validations && field.validations.required
+                          ? true
+                          : false
+                      }
+                    label={field?.formName}
+                    noMatchText="No option available"
                     validationText={errors && errors[field?.id]?.message}
                     error={Boolean(errors && errors[field?.id])}
+                    onChange={(e) => {onChange({ ...value, value: e.selected, name: field?.id })}}
+                      selected={value?.value}
                   >
                     {map(field.optionSet.options || [], (option) => {
                       return (
                         <SingleSelectOption
                           label={option?.name}
                           value={option?.code}
+                          key={option?.code}
                         />
                       );
                     })}
-                  </SingleSelect>
+                  </SingleSelectField>
                 );
+              }
               }
               switch (field?.valueType) {
                 case Dhis2ValueTypes.NUMBER.name:

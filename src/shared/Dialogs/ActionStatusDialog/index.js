@@ -9,7 +9,6 @@ import {
 } from '@dhis2/ui';
 import CustomForm from '../../Components/CustomForm';
 import Metadata from '../../../resources/Json/FormsMetadata.json';
-import './styles/ActionItemFormDialog.css'
 import { getFormattedFormMetadata } from '../../../core/helpers/formsUtilsHelper';
 import { useForm} from 'react-hook-form';
 export function ActionStatusDialog({ onClose }) {
