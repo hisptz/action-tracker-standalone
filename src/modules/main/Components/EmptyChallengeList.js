@@ -13,15 +13,15 @@ const styles = {
     }
 }
 
-export default function EmptyIndicatorList() {
+export default function EmptyChallengeList() {
 
     return (
 
         <CenteredContent>
             <div style={styles.container}>
-                <h2 style={styles.text}>There are no indicators configured for selected organisation unit and
+                <h2 style={styles.text}>There are no challenges for selected organisation unit and
                     period. </h2>
-                <Button icon={<AddIcon/>} primary>Add Indicator</Button>
+                <Button icon={<AddIcon/>} primary>Add Challenge</Button>
             </div>
         </CenteredContent>
 

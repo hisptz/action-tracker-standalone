@@ -2,6 +2,7 @@ import _ from "lodash";
 import PossibleSolution from "./possibleSolution";
 import {CustomFormField} from "./customFormField";
 import {BOTTLENECK_PROGRAM_ID} from "../constants";
+import {uid} from "../helpers/utils";
 
 
 const TITLE_DATA_ELEMENT = 'JbMaVyglSit';
@@ -13,8 +14,9 @@ const GAP_PROGRAM_STAGE_ID = 'zXB8tWKuwcl';
 export default class Gap {
 
     constructor(event = {event: '', dataValues: []}, possibleSolutionEvents = []) {
-        const {event: eventId, dataValues, trackedEntityInstance} = event;
+        const {event: eventId, dataValues, trackedEntityInstance, eventDate} = event;
         this.id = eventId;
+        this.eventDate = eventDate;
         this.title = _.find(dataValues, ['dataElement', TITLE_DATA_ELEMENT])?.value;
         this.description = _.find(dataValues, ['dataElement', DESCRIPTION_DATA_ELEMENT])?.value;
         this.method = _.find(dataValues, ['dataElement', METHOD_DATA_ELEMENT])?.value;
@@ -43,9 +45,12 @@ export default class Gap {
     }
 
     setValuesFromForm(data) {
-        this.title = data[TITLE_DATA_ELEMENT];
-        this.description = data[DESCRIPTION_DATA_ELEMENT];
-        this.method = data[METHOD_DATA_ELEMENT];
+        this.title = data[TITLE_DATA_ELEMENT]?.value;
+        this.description = data[DESCRIPTION_DATA_ELEMENT]?.value;
+        this.method = data[METHOD_DATA_ELEMENT]?.value;
+        this.solutionLinkage = this.solutionLinkage || uid();
+        this.id = this.id || uid();
+        this.eventDate = this.eventDate || new Date()
     }
 
     getFormValues() {
@@ -56,8 +61,8 @@ export default class Gap {
         return formData
     }
 
-    getPayload() {
-        function getDataValues({title, description, method, solutionLinkage }) {
+    getPayload(orgUnit='') {
+        function getDataValues({title, description, method, solutionLinkage}) {
             const dataValues = [];
             dataValues.push({'dataElement': TITLE_DATA_ELEMENT, value: title})
             dataValues.push({'dataElement': DESCRIPTION_DATA_ELEMENT, value: description})
@@ -65,12 +70,15 @@ export default class Gap {
             dataValues.push({'dataElement': SOLUTION_LINK_DATA_ELEMENT, value: solutionLinkage})
             return dataValues;
         }
+
         return {
             event: this.id,
+            orgUnit,
             trackedEntityInstance: this.indicatorId,
             program: BOTTLENECK_PROGRAM_ID,
             programStage: GAP_PROGRAM_STAGE_ID,
-            dataValues: getDataValues(this.toJson())
+            dataValues: getDataValues(this.toJson()),
+            eventDate: this.eventDate
         }
     }
 

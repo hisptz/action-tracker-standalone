@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import _ from 'lodash';
-import {Card, TableBody, TableFooter, TableHead, TableRow} from '@material-ui/core'
+import {Card, CardContent, TableBody, TableFooter, TableHead, TableRow} from '@material-ui/core'
 import {Button} from '@dhis2/ui'
 import {
     CustomNestingTableCell,
@@ -10,12 +10,12 @@ import {
 } from "./CustomTable";
 import GapTable from "./GapTable";
 import Bottleneck from "../../../../core/models/bottleneck";
+import ChallengeDialog from "../../../../shared/Dialogs/ChallengeDialog";
 
 
-export default function IndicatorTable({indicator= new Bottleneck()}) {
+export default function ChallengeTable({indicator = new Bottleneck()}) {
     const {gaps} = indicator
-
-    console.log(indicator);
+    const [addGapOpen, setAddGapOpen] = useState(false)
 
     const columns = [
         'Gap',
@@ -41,22 +41,27 @@ export default function IndicatorTable({indicator= new Bottleneck()}) {
                 <TableHead>
                     <CustomTableRowHead>
                         {
-                            _.map(columns, (column)=> <CustomTableCellHead>{column}</CustomTableCellHead>)
+                            _.map(columns, (column) => <CustomTableCellHead>{column}</CustomTableCellHead>)
                         }
                     </CustomTableRowHead>
                 </TableHead>
                 <TableBody>
                     <TableRow>
                         <CustomNestingTableCell colSpan={7}>
-                           <GapTable gaps={gaps} />
+                            <GapTable gaps={gaps}/>
                         </CustomNestingTableCell>
                     </TableRow>
                 </TableBody>
                 <TableFooter>
                     <div style={{padding: 5}}>
-                        <Button>Add Gap</Button>
+                        <Button onClick={_ => setAddGapOpen(true)}>Add Gap</Button>
                     </div>
                 </TableFooter>
+                {
+                    addGapOpen && <ChallengeDialog challenge={indicator} onClose={_ => setAddGapOpen(false)}
+                                                   onUpdate={_ => console.log('done')}/>
+
+                }
             </CustomTable>
         </Card>
     )

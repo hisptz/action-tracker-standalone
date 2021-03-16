@@ -1,22 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import _ from 'lodash';
 import {Grid} from "@material-ui/core";
-import IndicatorCard from "./IndicatorCard";
+import ChallengeCard from "./ChallengeCard";
 import {useRecoilValue} from "recoil";
 import {DimensionsState} from "../../../core/states";
 import NoDimensionsSelectedView from "./NoDimensionsSelectedView";
 import MainPageHeader from "./MainPageHeader";
-import EmptyIndicatorList from "./EmptyIndicatorList";
+import EmptyChallengeList from "./EmptyChallengeList";
 import FullPageLoader from "../../../shared/Components/FullPageLoader";
-import {useDataQuery} from "@dhis2/app-runtime";
+import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import Bottleneck from "../../../core/models/bottleneck";
 import ChallengeDialog from "../../../shared/Dialogs/ChallengeDialog";
+import generateErrorAlert from "../../../core/services/generateErrorAlert";
+import Paginator from "../../../shared/Components/Paginator";
+import {CenteredContent} from '@dhis2/ui'
 
 const indicatorQuery = {
     indicators: {
         resource: 'trackedEntityInstances',
-        params: ({ou}) => ({
+        params: ({ou, page, pageSize}) => ({
             program: 'Uvz0nfKVMQJ',
+            page,
+            pageSize,
+            totalPages: true,
             ou,
             fields: [
                 'trackedEntityInstance',
@@ -27,22 +33,32 @@ const indicatorQuery = {
     }
 }
 
-
-export default function IndicatorList() {
+export default function ChallengeList() {
     const {orgUnit, period} = useRecoilValue(DimensionsState);
-
-    const {loading, data, error, refetch} = useDataQuery(indicatorQuery, {variables: {ou: orgUnit?.id}});
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(5);
+    const {loading, data, error, refetch} = useDataQuery(indicatorQuery, {
+        variables: {ou: orgUnit?.id, page, pageSize},
+        lazy: true
+    });
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
+    const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
+    useEffect(() => generateErrorAlert(show, error), [error])
 
     useEffect(() => {
         function refresh() {
-            if (orgUnit && period) refetch({ou: orgUnit?.id})
+            if (orgUnit && period) refetch({ou: orgUnit?.id, page, pageSize})
         }
 
         refresh();
-    }, [orgUnit, period]);
+    }, [orgUnit, period, page, pageSize]);
 
-    const onAddIndicator = () =>{refetch()}
+    const onAddIndicator = () => {
+        refetch()
+    }
+
+    const onPageChange = (newPage) => setPage(newPage);
+    const onPageSizeChange = (newPageSize) => setPageSize(newPageSize)
 
     return (orgUnit && period ?
             <>
@@ -50,7 +66,7 @@ export default function IndicatorList() {
                 {(!loading && error) && <p>{error?.message || error.toString()}</p>}
                 {(!loading && !error && data) && <>
                     {
-                        _.isEmpty(data.indicators?.trackedEntityInstances) ? <EmptyIndicatorList/> :
+                        _.isEmpty(data.indicators?.trackedEntityInstances) ? <EmptyChallengeList/> :
                             <Grid container spacing={3}>
                                 <Grid item xs={12} style={{maxHeight: 120}} container justify='center'>
                                     <MainPageHeader onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/>
@@ -60,13 +76,20 @@ export default function IndicatorList() {
                                         _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
                                             const indicator = new Bottleneck(trackedEntityInstance);
                                             return (
-                                                <IndicatorCard indicator={indicator}/>
+                                                <ChallengeCard indicator={indicator}/>
                                             )
                                         })
                                     }
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <CenteredContent>
+                                        <Paginator pager={data.indicators.pager} onPageChange={onPageChange}
+                                                   onPageSizeChange={onPageSizeChange}/>
+                                    </CenteredContent>
+                                </Grid>
                                 {
-                                    addIndicatorOpen && <ChallengeDialog onClose={_ => setAddIndicatorOpen(false)} onUpdate={onAddIndicator}/>
+                                    addIndicatorOpen && <ChallengeDialog onClose={_ => setAddIndicatorOpen(false)}
+                                                                         onUpdate={onAddIndicator}/>
 
                                 }
                             </Grid>
