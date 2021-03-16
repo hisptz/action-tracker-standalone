@@ -98,5 +98,49 @@
 
             }
         ]
+    },
+    "actionStatusForm": {
+        "fields": [
+            {
+                "id": "1",
+                "name": "Action Status",
+                "formName": "Action Status",
+                "valueType": "TEXT",
+                "mandatory": true,
+                "optionSet": {
+                    "options": [
+                        {
+                            "code": "Started",
+                            "name": "Started"
+                        },
+                        {
+                            "code": "NotStarted",
+                            "name": "Not Started"
+                        },
+                        {
+                            "code": "InProgress",
+                            "name": "In progress"
+                        }
+                    ]
+                }
+
+            },
+            {
+                "id": "2",
+                "name": "Review Date",
+                "formName": "Review Date",
+                "valueType": "DATE",
+                "mandatory": true
+
+            },
+            {
+                "id": "3",
+                "name": "Comments/Remarks",
+                "formName": "Comments/Remarks",
+                "valueType": "LONG_TEXT",
+                "mandatory": true
+
+            }
+        ]
     }
 }
