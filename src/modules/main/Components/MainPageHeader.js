@@ -6,6 +6,7 @@ import {Button, ButtonStrip} from '@dhis2/ui';
 import AddIcon from '@material-ui/icons/Add';
 import DownloadIcon from '@material-ui/icons/GetApp';
 import ColumnIcon from '@material-ui/icons/ViewColumn';
+
 const PageSelector = () => {
     const [activePage, setDimensions] = useRecoilState(PageState);
 
@@ -19,8 +20,6 @@ const PageSelector = () => {
             textTransform: 'none'
         }
     }
-    console.log(activePage);
-
     const onClick = (page) => setDimensions(page)
 
     return (
@@ -33,19 +32,18 @@ const PageSelector = () => {
     )
 }
 
-export default function MainPageHeader() {
+export default function MainPageHeader({onAddIndicatorClick}) {
     const activePage = useRecoilValue(PageState)
     return (
         <Container maxWidth={false} style={{paddingLeft: 0, paddingRight: 0}}>
             <Grid container spacing={4}>
                 <Grid item container xs={6} lg={4} spacing={3}>
-                    <Grid item><Typography variant='h5'
-                                           style={{color: '#6E7A8A'}}><b>Action {activePage}</b></Typography></Grid>
+                    <Grid item><Typography variant='h5' style={{color: '#6E7A8A'}}><b>Action {activePage}</b></Typography></Grid>
                     <Grid item> <PageSelector/></Grid>
                 </Grid>
                 <Grid container direction='row' justify='space-between' item xs={12}>
                    <Grid item>
-                       <Button icon={<AddIcon/>} >Add Indicator</Button>
+                       <Button onClick={onAddIndicatorClick} icon={<AddIcon/>} >Add Indicator</Button>
                    </Grid>
                     <Grid item>
                         <ButtonStrip>

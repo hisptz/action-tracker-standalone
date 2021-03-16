@@ -9,5 +9,6 @@ export class CustomFormField {
     this.compulsory = compulsory;
     this.optionSet = optionSet;
   }
+
 }
 

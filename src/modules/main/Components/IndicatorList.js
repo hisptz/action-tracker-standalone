@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import _ from 'lodash';
 import {Grid} from "@material-ui/core";
 import IndicatorCard from "./IndicatorCard";
@@ -9,7 +9,8 @@ import MainPageHeader from "./MainPageHeader";
 import EmptyIndicatorList from "./EmptyIndicatorList";
 import FullPageLoader from "../../../shared/Components/FullPageLoader";
 import {useDataQuery} from "@dhis2/app-runtime";
-import Indicator from "../../../core/models/indicator";
+import Bottleneck from "../../../core/models/bottleneck";
+import ChallengeDialog from "../../../shared/Dialogs/ChallengeDialog";
 
 const indicatorQuery = {
     indicators: {
@@ -29,14 +30,20 @@ const indicatorQuery = {
 
 export default function IndicatorList() {
     const {orgUnit, period} = useRecoilValue(DimensionsState);
+
     const {loading, data, error, refetch} = useDataQuery(indicatorQuery, {variables: {ou: orgUnit?.id}});
+    const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
 
     useEffect(() => {
         function refresh() {
             if (orgUnit && period) refetch({ou: orgUnit?.id})
         }
+
         refresh();
-    }, [orgUnit, period])
+    }, [orgUnit, period]);
+
+    const onAddIndicator = () =>{refetch()}
+
     return (orgUnit && period ?
             <>
                 {loading && <FullPageLoader/>}
@@ -46,18 +53,22 @@ export default function IndicatorList() {
                         _.isEmpty(data.indicators?.trackedEntityInstances) ? <EmptyIndicatorList/> :
                             <Grid container spacing={3}>
                                 <Grid item xs={12} style={{maxHeight: 120}} container justify='center'>
-                                    <MainPageHeader/>
+                                    <MainPageHeader onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/>
                                 </Grid>
                                 <Grid item xs={12}>
                                     {
-                                        _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) =>{
-                                            const indicator = new Indicator(trackedEntityInstance);
-                                            return(
+                                        _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
+                                            const indicator = new Bottleneck(trackedEntityInstance);
+                                            return (
                                                 <IndicatorCard indicator={indicator}/>
                                             )
                                         })
                                     }
                                 </Grid>
+                                {
+                                    addIndicatorOpen && <ChallengeDialog onClose={_ => setAddIndicatorOpen(false)} onUpdate={onAddIndicator}/>
+
+                                }
                             </Grid>
                     }
                 </>
