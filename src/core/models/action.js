@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import ActionStatus from "./actionStatus";
 import {CustomFormField} from "./customFormField";
-import {ACTION_PROGRAM_ID} from "../constants";
+import {ACTION_PROGRAM_ID, ACTION_TRACKED_ENTITY_TYPE} from "../constants";
+import {uid} from "../helpers/utils";
 
 const TITLE_ATTRIBUTE = 'HQxzVwKedKu'
 const DESCRIPTION_ATTRIBUTE = 'GlvCtGIytIz'
@@ -31,6 +32,10 @@ export default class Action {
         this.actionToSolutionLinkage = _.find(attributes, ['attribute', ACTION_TO_SOLUTION_LINKAGE])?.value;
         this.actionStatusList = _.map(enrollments[0].events, (event) => new ActionStatus(event));
         this.latestStatus = this.getLatestStatus(enrollments[0].events);
+        this.enrollmentId = enrollments ? enrollments[0].id : uid();
+        this.enrollmentDate = enrollments ? enrollments[0]?.enrollmentDate : new Date();
+        this.incidentDate = enrollments ? enrollments[0]?.incidentDate : new Date();
+        this.status = enrollments ? enrollments[0]?.status : 'ACTIVE';
 
         //Bind all methods
         this.toString = this.toString.bind(this);
@@ -54,17 +59,27 @@ export default class Action {
             endDate: this.endDate,
             responsiblePerson: this.responsiblePerson,
             designation: this.designation,
-            actionToStatusLinkage: this.actionToSolutionLinkage
+            actionToSolutionLinkage: this.actionToSolutionLinkage,
+            enrollmentDate: this.enrollmentDate,
+            incidentDate: this.incidentDate,
+            status: this.status,
+            enrollmentId: this.enrollmentId
         }
     }
 
     setValuesFromForm(data) {
-        this.title = data[TITLE_ATTRIBUTE];
-        this.description = data[DESCRIPTION_ATTRIBUTE];
-        this.startDate = data[START_DATE_ATTRIBUTE];
-        this.endDate = data[END_DATE_ATTRIBUTE];
-        this.designation = data[DESIGNATION_ATTRIBUTE];
-        this.responsiblePerson = data[RESPONSIBLE_PERSON_ATTRIBUTE];
+        this.title = data[TITLE_ATTRIBUTE]?.value;
+        this.description = data[DESCRIPTION_ATTRIBUTE]?.value;
+        this.startDate = data[START_DATE_ATTRIBUTE]?.value;
+        this.endDate = data[END_DATE_ATTRIBUTE]?.value;
+        this.designation = data[DESIGNATION_ATTRIBUTE]?.value;
+        this.responsiblePerson = data[RESPONSIBLE_PERSON_ATTRIBUTE]?.value;
+        this.actionToSolutionLinkage = data['solutionLinkage'];
+        this.id = this.id || uid();
+        this.incidentDate = this.incidentDate || new Date();
+        this.enrollmentDate = this.enrollmentDate || new Date();
+        this.status = this.status || 'ACTIVE';
+        this.enrollmentId = this.enrollmentId || uid()
     }
 
     getFormValues() {
@@ -78,8 +93,8 @@ export default class Action {
         return formData
     }
 
-    getPayload() {
-        function getAttributes({title, description, startDate, endDate, responsiblePerson, designation}) {
+    getPayload(orgUnit='') {
+        function getAttributes({title, description, startDate, endDate, responsiblePerson, designation, actionToSolutionLinkage}) {
             const attributes = [];
             attributes.push({attribute: TITLE_ATTRIBUTE, value: title});
             attributes.push({attribute: DESCRIPTION_ATTRIBUTE, value: description});
@@ -87,19 +102,28 @@ export default class Action {
             attributes.push({attribute: END_DATE_ATTRIBUTE, value: endDate});
             attributes.push({attribute: RESPONSIBLE_PERSON_ATTRIBUTE, value: responsiblePerson});
             attributes.push({attribute: DESIGNATION_ATTRIBUTE, value: designation});
+            attributes.push({attribute: ACTION_TO_SOLUTION_LINKAGE, value: actionToSolutionLinkage});
             return attributes;
         }
-        function getEnrollments() {
+        function getEnrollments({id, enrollmentDate, incidentDate, status, enrollmentId}) {
             return [
                 {
                     program: ACTION_PROGRAM_ID,
+                    trackedEntityInstance: id,
+                    enrollmentDate,
+                    incidentDate,
+                    status,
+                    orgUnit,
+                    enrollment: enrollmentId
                 }
             ]
         }
         return {
             trackedEntityInstance: this.id,
+            trackedEntityType: ACTION_TRACKED_ENTITY_TYPE,
+            orgUnit,
             attributes: getAttributes(this.toJson()),
-            enrollments: getEnrollments()
+            enrollments: getEnrollments(this.toJson())
         }
     }
 
@@ -116,8 +140,6 @@ export default class Action {
                 }
             }
         }
-        console.log(formFields);
-
         return formFields;
 
     }

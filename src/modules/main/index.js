@@ -1,6 +1,6 @@
 import React from 'react';
 import {Container, Grid} from "@material-ui/core";
-import IndicatorList from "./Components/IndicatorList";
+import ChallengeList from "./Components/ChallengeList";
 import FilterComponents from "../../core/components/FilterComponents";
 import {useAppConfig} from "../../core/hooks";
 import FullPageLoader from "../../shared/Components/FullPageLoader";
@@ -26,7 +26,7 @@ export default function MainPage() {
                         <FilterComponents/>
                     </Grid>
                     <Grid container item xs={12} style={styles.fullHeight}>
-                        <IndicatorList/>
+                        <ChallengeList/>
                     </Grid>
                 </Grid>
             </Container>

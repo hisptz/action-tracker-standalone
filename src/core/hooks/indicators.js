@@ -15,3 +15,17 @@ export default function useIndicators(page = 0) {
     const {totalPages, total, pageSize, indicators} = data?.data || {};
     return {loading, error, total, totalPages, pageSize, indicators}
 }
+
+
+const indicatorNameQuery = {
+    data: {
+        resource: 'indicators',
+        id: ({id}) => id,
+    }
+}
+
+export function useIndicatorsName(indicatorId = '') {
+    const {loading, data, error} = useDataQuery(indicatorNameQuery, {variables: {id: indicatorId}});
+
+    return {loading, error, name: data?.data.displayName}
+}

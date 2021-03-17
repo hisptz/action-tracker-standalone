@@ -3,7 +3,10 @@ import {atom} from "recoil";
 
 const ConfigState = atom({
     key: 'config',
-    default:{}
+    default:{
+        bottleneckProgramMetadata: {},
+        actionProgramMetadata: {},
+    }
 })
 
 export {
