@@ -63,8 +63,8 @@ export default function SolutionsTable({gap = new Gap()}) {
                         <CircularLoader small />
                     </CenteredContent>:
                         <CustomNestedTable>
-                            <colgroup>
-                                <col width='18%'/>
+                            <colgroup span={6}>
+                                <col width={`${100/7}%`} />
                             </colgroup>
                             <TableBody>
                                 {

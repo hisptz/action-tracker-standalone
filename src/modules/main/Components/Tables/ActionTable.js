@@ -51,19 +51,17 @@ export default function ActionTable({solution = new PossibleSolution()}) {
         <div>
             <div style={styles.container}>
                 <CustomNestedTable>
-                    <colgroup>
-                        <col width='15%'/>
-                        <col width='15%'/>
-                        <col width='12%'/>
-                        <col width='12%'/>
-                        <col width='15%'/>
+                    <colgroup >
+                        {
+                            [1,2,3,4,5].map(_=><col width={`${100/7}%`} />)
+                        }
                     </colgroup>
                     <TableBody>
                         {
                             loading && <CenteredContent><CircularLoader small/></CenteredContent>
                         }
                         {
-                            error && <CenteredContent>{error.message || error.toString()}</CenteredContent>
+                            error && <CenteredContent>{error?.message || error.toString()}</CenteredContent>
                         }
                         {
                             data && <>
@@ -83,7 +81,8 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                                 </CustomTableCell>
                                                 <DueDateTableCell dueDate={action?.endDate}/>
                                                 <StatusTableCell status={action?.latestStatus}/>
-                                            </TableRow>)
+                                            </TableRow>
+                                        )
                                 }
                             </>
                         }

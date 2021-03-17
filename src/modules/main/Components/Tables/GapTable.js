@@ -60,8 +60,9 @@ export default function GapTable({challenge = new Bottleneck()}) {
                             <CircularLoader small/>
                         </CenteredContent> :
                         <CustomNestedTable>
-                            <colgroup>
-                                <col width='15%'/>
+                            <colgroup span={7}>
+                                <col width={`${100/7}%`}/>
+                                <col span={6} width={`${100 - (100/7)}%`}/>
                             </colgroup>
                             <TableBody>
                                 {

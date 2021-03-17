@@ -14,6 +14,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     const [selectedPeriods, setSelectedPeriods] = useState(initialPeriods);
     const periodInstance = new Period();
 
+
     return (
         <Modal open={open} onClose={onClose}>
             <ModalTitle>Period</ModalTitle>
@@ -24,6 +25,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
                         if (items && items.length && items.length > 1) {
                             items.shift();
                         }
+                       console.log( periodInstance.getById(items.shift()?.id))
                         setSelectedPeriods([{...period, items}]);
                     }}
                     selectedPeriods={selectedPeriods}

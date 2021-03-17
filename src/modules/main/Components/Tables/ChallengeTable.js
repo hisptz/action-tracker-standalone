@@ -5,8 +5,11 @@ import {CustomNestingTableCell, CustomTable, CustomTableCellHead, CustomTableRow
 import GapTable from "./GapTable";
 import Bottleneck from "../../../../core/models/bottleneck";
 import Gap from "../../../../core/models/gap";
+import {useRecoilValue} from "recoil";
+import {PageState} from "../../../../core/states";
 
 export default function ChallengeTable({indicator = new Bottleneck()}) {
+    const activePage = useRecoilValue(PageState);
     const columns = [
         'Gap',
         'Possible Solutions',
@@ -20,15 +23,13 @@ export default function ChallengeTable({indicator = new Bottleneck()}) {
     return (
         <Card variant='outlined'>
             <CustomTable cellSpacing={0}>
-                <colgroup>
-                    <col width='15%'/>
-                    <col width='15%'/>
-                    <col width='15%'/>
-                    <col width='15%'/>
-                    <col width='12%'/>
-                    <col width='12%'/>
-                    <col width='16%'/>
-                </colgroup>
+                {
+                    <colgroup>
+                        {
+                            [1,2,3,4,5,6,7].map(_ => <col width={`${100 / 7}%`}/>)
+                        }
+                    </colgroup>
+                }
                 <TableHead>
                     <CustomTableRowHead>
                         {
