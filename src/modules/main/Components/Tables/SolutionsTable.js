@@ -57,7 +57,7 @@ export default function SolutionsTable({gap = new Gap()}) {
 
     return (
         <div>
-            <div style={{height: 360, overflow: 'auto'}}>
+            <div style={{height: '100%', overflow: 'auto'}}>
                 {
                     loading ?  <CenteredContent>
                         <CircularLoader small />
@@ -69,11 +69,11 @@ export default function SolutionsTable({gap = new Gap()}) {
                             <TableBody>
                                 {
                                     _.map(_.map(data?.data?.events, (event) => new PossibleSolution(event)), (solution) =>
-                                        <TableRow>
-                                            <CustomTableCell>
+                                        <TableRow key={`${solution.id}-row`}>
+                                            <CustomTableCell key={`${solution.id}-solution`}>
                                                 {solution.solution}
                                             </CustomTableCell>
-                                            <CustomNestingTableCell colSpan={5} style={{padding: 0}}>
+                                            <CustomNestingTableCell key={`${solution.id}-actions`} colSpan={5} style={{padding: 0}}>
                                                 <ActionTable solution={solution}/>
                                             </CustomNestingTableCell>
                                         </TableRow>)
@@ -82,11 +82,9 @@ export default function SolutionsTable({gap = new Gap()}) {
                         </CustomNestedTable>
                 }
             </div>
-            <CustomTableFooter>
                 <div style={{padding: 5}}>
                     <Button onClick={_=>setAddSolutionOpen(true)}>Add Solution</Button>
                 </div>
-            </CustomTableFooter>
             {
                 addSolutionOpen && <SolutionsDialog onUpdate={refetch} gap={gap}  onClose={_=>setAddSolutionOpen(false)} />
             }

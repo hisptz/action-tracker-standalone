@@ -1,5 +1,5 @@
 import {Button as MaterialButton, ButtonGroup, Card, Container, Grid, Typography} from "@material-ui/core";
-import React from "react";
+import React, {useState} from "react";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {PageState} from "../../../core/states";
 import {Button, ButtonStrip} from '@dhis2/ui';
@@ -33,7 +33,9 @@ const PageSelector = () => {
 }
 
 export default function MainPageHeader({onAddIndicatorClick}) {
-    const activePage = useRecoilValue(PageState)
+    const activePage = useRecoilValue(PageState);
+    const [anchorEl, setAnchorEl] = useState(null);
+
     return (
         <Container maxWidth={false} style={{paddingLeft: 0, paddingRight: 0}}>
             <Grid container spacing={4}>

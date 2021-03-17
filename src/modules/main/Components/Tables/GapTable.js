@@ -66,11 +66,11 @@ export default function GapTable({challenge = new Bottleneck()}) {
                             </colgroup>
                             <TableBody>
                                 {
-                                    _.map(_.map(data?.data?.events, (event) => new Gap(event)), (gap) => <TableRow>
-                                        <CustomTableCell>
+                                    _.map(_.map(data?.data?.events, (event) => new Gap(event)), (gap) => <TableRow key={`${gap.id}-row`}>
+                                        <CustomTableCell key={`${gap.id}-description`}>
                                             {gap.description}
                                         </CustomTableCell>
-                                        <CustomNestingTableCell colSpan={6} style={{padding: 0}}>
+                                        <CustomNestingTableCell key={`${gap.id}-solutions`} colSpan={6} style={{padding: 0}}>
                                             {
                                                 <SolutionsTable gap={gap}/>
                                             }
@@ -87,11 +87,10 @@ export default function GapTable({challenge = new Bottleneck()}) {
                         </CustomNestedTable>
                 }
             </div>
-            <CustomTableFooter>
+
                 <div style={{padding: 5}}>
                     <Button onClick={_ => setAddGapOpen(true)}>Add Gap</Button>
                 </div>
-            </CustomTableFooter>
         </div>
     )
 }

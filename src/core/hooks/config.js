@@ -12,9 +12,6 @@ const programFields = [
 ];
 
 const configQuery = {
-    dataStore: {
-        resource: 'dataStore',
-    },
     bottleneckProgramMetadata: {
         id: BOTTLENECK_PROGRAM_ID,
         resource: 'programs',

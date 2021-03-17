@@ -45,42 +45,48 @@ export default function ActionTable({solution = new PossibleSolution()}) {
         }
     });
     const styles = {
-        container: {height: 200, overflow: 'auto'}
+        container: {height: '100%', overflow: 'auto'}
     }
     return (
         <div>
             <div style={styles.container}>
                 <CustomNestedTable>
-                    <colgroup >
+                    <colgroup>
                         {
-                            [1,2,3,4,5].map(_=><col width={`${100/7}%`} />)
+                            [1, 2, 3, 4, 5].map(_ => <col key={`col-${_}`} width={`${100 / 7}%`}/>)
                         }
                     </colgroup>
                     <TableBody>
                         {
-                            loading && <CenteredContent><CircularLoader small/></CenteredContent>
+                            loading && <TableRow><CustomTableCell><CenteredContent><CircularLoader
+                                small/></CenteredContent></CustomTableCell></TableRow>
                         }
                         {
-                            error && <CenteredContent>{error?.message || error.toString()}</CenteredContent>
+                            error &&
+                            <TableRow><CustomTableCell><CenteredContent>{error?.message || error.toString()}</CenteredContent></CustomTableCell></TableRow>
                         }
                         {
                             data && <>
                                 {
                                     _.isEmpty(data.actions.trackedEntityInstances) ?
-                                        <p> Empty</p> :
+                                        <TableRow><CustomTableCell><CenteredContent><p
+                                            key={`${solution.id}-empty-actions`}> There are no actions for this solution</p>
+                                        </CenteredContent></CustomTableCell></TableRow> :
                                         _.map(_.map(data.actions.trackedEntityInstances, (trackedEntityInstance) => new Action(trackedEntityInstance)), (action) =>
-                                            <TableRow>
-                                                <CustomTableCell>
+                                            <TableRow key={`${action.id}-row`}>
+                                                <CustomTableCell key={`${action.id}-description`}>
                                                     {action?.description}
                                                 </CustomTableCell>
-                                                <CustomTableCell>
+                                                <CustomTableCell key={`${action.id}-responsible-designation`}>
                                                     {action?.responsiblePerson}, {action?.designation}
                                                 </CustomTableCell>
-                                                <CustomTableCell>
+                                                <CustomTableCell key={`${action.id}-startDate`}>
                                                     {action?.startDate}
                                                 </CustomTableCell>
-                                                <DueDateTableCell dueDate={action?.endDate}/>
-                                                <StatusTableCell status={action?.latestStatus}/>
+                                                <DueDateTableCell dueDate={action?.endDate}
+                                                                  key={`${action.id}-endDate`}/>
+                                                <StatusTableCell status={action?.latestStatus}
+                                                                 key={`${action.id}-latestStatus`}/>
                                             </TableRow>
                                         )
                                 }
@@ -89,13 +95,12 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                     </TableBody>
                 </CustomNestedTable>
             </div>
-            <CustomTableFooter>
-                <div style={{padding: 5}}>
-                    <Button onClick={_ => setAddActionOpen(true)}>Add Action Item</Button>
-                </div>
-            </CustomTableFooter>
+            <div style={{padding: 5}}>
+                <Button onClick={_ => setAddActionOpen(true)}>Add Action Item</Button>
+            </div>
             {
-                addActionOpen && <ActionItemDialog solution={solution} onUpdate={refetch} onClose={_ => setAddActionOpen(false)}/>
+                addActionOpen &&
+                <ActionItemDialog solution={solution} onUpdate={refetch} onClose={_ => setAddActionOpen(false)}/>
             }
         </div>
     )

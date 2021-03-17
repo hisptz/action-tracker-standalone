@@ -76,7 +76,7 @@ export default function ChallengeList() {
                                         _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
                                             const indicator = new Bottleneck(trackedEntityInstance);
                                             return (
-                                                <ChallengeCard indicator={indicator}/>
+                                                <ChallengeCard key={`${indicator.id}-card`} indicator={indicator}/>
                                             )
                                         })
                                     }

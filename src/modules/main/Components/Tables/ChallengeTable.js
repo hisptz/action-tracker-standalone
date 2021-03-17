@@ -26,20 +26,20 @@ export default function ChallengeTable({indicator = new Bottleneck()}) {
                 {
                     <colgroup>
                         {
-                            [1,2,3,4,5,6,7].map(_ => <col width={`${100 / 7}%`}/>)
+                            [1,2,3,4,5,6,7].map(_ => <col key={`col${_}`} width={`${100 / 7}%`}/>)
                         }
                     </colgroup>
                 }
                 <TableHead>
-                    <CustomTableRowHead>
+                    <CustomTableRowHead >
                         {
-                            _.map(columns, (column) => <CustomTableCellHead>{column}</CustomTableCellHead>)
+                            _.map(columns, (column) => <CustomTableCellHead key={`${column}-${indicator.id}`}>{column}</CustomTableCellHead>)
                         }
                     </CustomTableRowHead>
                 </TableHead>
                 <TableBody>
-                    <TableRow>
-                        <CustomNestingTableCell colSpan={7}>
+                    <TableRow key={`${indicator.id}-row`}>
+                        <CustomNestingTableCell key={`${indicator.id}-cell`} colSpan={7}>
                             <GapTable challenge={indicator}/>
                         </CustomNestingTableCell>
                     </TableRow>
