@@ -1,0 +1,1 @@
+export const POSSIBLE_SOLUTION_PROGRAM_STAGE_ID = 'JJaKjcOBapi';

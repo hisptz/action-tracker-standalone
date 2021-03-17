@@ -10,3 +10,10 @@ export function uid() {
     }
     return uid;
 }
+
+export const confirmModalClose = (onClose) => {
+    const confirmation = window.confirm('Are you sure you want to quit? All changes will be lost.');
+    if (confirmation) {
+        onClose();
+    }
+}

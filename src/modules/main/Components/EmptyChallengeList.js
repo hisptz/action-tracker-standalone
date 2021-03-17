@@ -4,11 +4,11 @@ import AddIcon from "@material-ui/icons/Add";
 
 
 const styles = {
-    container:{
+    container: {
         textAlign: 'center',
         height: '100%'
     },
-    text:{
+    text: {
         color: '#6E7A8A'
     }
 }
@@ -16,7 +16,6 @@ const styles = {
 export default function EmptyChallengeList() {
 
     return (
-
         <CenteredContent>
             <div style={styles.container}>
                 <h2 style={styles.text}>There are no challenges for selected organisation unit and
@@ -24,6 +23,5 @@ export default function EmptyChallengeList() {
                 <Button icon={<AddIcon/>} primary>Add Challenge</Button>
             </div>
         </CenteredContent>
-
     )
 }

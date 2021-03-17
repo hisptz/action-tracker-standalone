@@ -15,7 +15,6 @@ export default function ChallengeCard({indicator = new Bottleneck()}) {
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     useEffect(() => generateErrorAlert(show, error), [error]);
 
-
     return (
         <Grid item sm={12}>
             <Box height="600px">

@@ -1,39 +1,95 @@
 import {CustomNestedTable, CustomNestingTableCell, CustomTableCell, CustomTableFooter} from "./CustomTable";
 import {TableBody, TableRow} from "@material-ui/core";
 import _ from "lodash";
-import React from "react";
-import {Button} from "@dhis2/ui";
+import React, {useEffect, useState} from "react";
+import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
 import ActionTable from "./ActionTable";
 import PossibleSolution from "../../../../core/models/possibleSolution";
+import {
+    BOTTLENECK_PROGRAM_ID,
+    GAP_SOLUTION_LINKAGE,
+    POSSIBLE_SOLUTION_PROGRAM_STAGE_ID
+} from "../../../../core/constants";
+import {useAlert, useDataQuery} from "@dhis2/app-runtime";
+import generateErrorAlert from "../../../../core/services/generateErrorAlert";
+import Gap from "../../../../core/models/gap";
+import SolutionsDialog from "../../../../shared/Dialogs/SolutionsDialog";
+
+const possibleSolutionQuery = {
+    data: {
+        resource: 'events',
+        params: ({trackedEntityInstance, page, pageSize, linkage}) => ({
+            page,
+            pageSize,
+            trackedEntityInstance,
+            program: BOTTLENECK_PROGRAM_ID,
+            programStage: POSSIBLE_SOLUTION_PROGRAM_STAGE_ID,
+            totalPages: true,
+            filter: [
+                `${GAP_SOLUTION_LINKAGE}:eq:${linkage}`
+            ],
+            fields: [
+                'programStage',
+                'event',
+                'dataValues[dataElement, value]',
+                'eventDate',
+                'orgUnit'
+            ]
+        })
+    }
+}
 
 
+export default function SolutionsTable({gap = new Gap()}) {
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(5);
+    const {loading, error, data, refetch} = useDataQuery(possibleSolutionQuery, {
+        variables: {
+            trackedEntityInstance: gap.indicatorId,
+            page,
+            pageSize,
+            linkage: gap.solutionLinkage
+        }
+    })
+    const [addSolutionOpen, setAddSolutionOpen] = useState(false)
+    const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
+    useEffect(() => generateErrorAlert(show, error), [error])
 
-export default function SolutionsTable({solutions=[new PossibleSolution()]}){
-
-    return(
-        <div style={{height: 350, overflow: 'auto'}}>
-            <CustomNestedTable>
-                <colgroup>
-                    <col width='18%'/>
-                </colgroup>
-                <TableBody>
-                    {
-                        _.map(solutions, (solution) => <TableRow>
-                            <CustomTableCell>
-                                {solution.solution}
-                            </CustomTableCell>
-                            <CustomNestingTableCell colSpan={5} style={{padding: 0}}>
-                                <ActionTable solutionLinkage={solution.actionLinkage} />
-                                <CustomTableFooter >
-                                    <div style={{padding: 5}}>
-                                        <Button>Add Action Item</Button>
-                                    </div>
-                                </CustomTableFooter>
-                            </CustomNestingTableCell>
-                        </TableRow>)
-                    }
-                </TableBody>
-            </CustomNestedTable>
+    return (
+        <div>
+            <div style={{height: 360, overflow: 'auto'}}>
+                {
+                    loading ?  <CenteredContent>
+                        <CircularLoader small />
+                    </CenteredContent>:
+                        <CustomNestedTable>
+                            <colgroup>
+                                <col width='18%'/>
+                            </colgroup>
+                            <TableBody>
+                                {
+                                    _.map(_.map(data?.data?.events, (event) => new PossibleSolution(event)), (solution) =>
+                                        <TableRow>
+                                            <CustomTableCell>
+                                                {solution.solution}
+                                            </CustomTableCell>
+                                            <CustomNestingTableCell colSpan={5} style={{padding: 0}}>
+                                                <ActionTable solution={solution}/>
+                                            </CustomNestingTableCell>
+                                        </TableRow>)
+                                }
+                            </TableBody>
+                        </CustomNestedTable>
+                }
+            </div>
+            <CustomTableFooter>
+                <div style={{padding: 5}}>
+                    <Button onClick={_=>setAddSolutionOpen(true)}>Add Solution</Button>
+                </div>
+            </CustomTableFooter>
+            {
+                addSolutionOpen && <SolutionsDialog onUpdate={refetch} gap={gap}  onClose={_=>setAddSolutionOpen(false)} />
+            }
         </div>
     )
 }

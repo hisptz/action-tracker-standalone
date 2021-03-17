@@ -1,22 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import _ from 'lodash';
-import {Card, CardContent, TableBody, TableFooter, TableHead, TableRow} from '@material-ui/core'
-import {Button} from '@dhis2/ui'
-import {
-    CustomNestingTableCell,
-    CustomTable,
-    CustomTableCellHead,
-    CustomTableRowHead
-} from "./CustomTable";
+import {Card, TableBody, TableHead, TableRow} from '@material-ui/core'
+import {CustomNestingTableCell, CustomTable, CustomTableCellHead, CustomTableRowHead} from "./CustomTable";
 import GapTable from "./GapTable";
 import Bottleneck from "../../../../core/models/bottleneck";
-import ChallengeDialog from "../../../../shared/Dialogs/ChallengeDialog";
-
+import Gap from "../../../../core/models/gap";
 
 export default function ChallengeTable({indicator = new Bottleneck()}) {
-    const {gaps} = indicator
-    const [addGapOpen, setAddGapOpen] = useState(false)
-
     const columns = [
         'Gap',
         'Possible Solutions',
@@ -26,6 +16,7 @@ export default function ChallengeTable({indicator = new Bottleneck()}) {
         'Due Date',
         'Status'
     ];
+
     return (
         <Card variant='outlined'>
             <CustomTable cellSpacing={0}>
@@ -48,20 +39,10 @@ export default function ChallengeTable({indicator = new Bottleneck()}) {
                 <TableBody>
                     <TableRow>
                         <CustomNestingTableCell colSpan={7}>
-                            <GapTable gaps={gaps}/>
+                            <GapTable challenge={indicator}/>
                         </CustomNestingTableCell>
                     </TableRow>
                 </TableBody>
-                <TableFooter>
-                    <div style={{padding: 5}}>
-                        <Button onClick={_ => setAddGapOpen(true)}>Add Gap</Button>
-                    </div>
-                </TableFooter>
-                {
-                    addGapOpen && <ChallengeDialog challenge={indicator} onClose={_ => setAddGapOpen(false)}
-                                                   onUpdate={_ => console.log('done')}/>
-
-                }
             </CustomTable>
         </Card>
     )

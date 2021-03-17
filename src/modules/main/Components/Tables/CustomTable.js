@@ -59,6 +59,7 @@ const CustomTable = withStyles((_) => ({
 
 const CustomNestedTable = withStyles((_) => ({
     root: {
+        height: '100%',
         padding: 0,
         margin: 0,
         scrollMargin: '1rem'

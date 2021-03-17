@@ -1,5 +1,3 @@
-
-
 const BOTTLENECK_PROGRAM_ID = 'Uvz0nfKVMQJ';
 const ACTION_PROGRAM_ID = 'unD7wro3qPm';
 

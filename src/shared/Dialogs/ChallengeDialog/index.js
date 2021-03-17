@@ -21,7 +21,8 @@ import {useRecoilValue} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import Gap from "../../../core/models/gap";
 import Bottleneck from "../../../core/models/bottleneck";
-import {useAlert, useAlerts, useDataMutation} from "@dhis2/app-runtime";
+import {useAlert, useDataMutation} from "@dhis2/app-runtime";
+import {confirmModalClose} from "../../../core/helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,13 +39,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const challengeQuery = {
+const challengeMutation = {
     type: 'create',
     resource: 'trackedEntityInstances',
     data: ({data}) => data
 }
 
-const gapQuery = {
+const gapMutation = {
     type: 'create',
     resource: 'events',
     data: ({data}) => data
@@ -58,7 +59,7 @@ function getFormattedMetadataFields(metadataFields) {
     return getFormattedFormMetadata(metadataFields);
 }
 
-function ChallengeDialog({onClose, onUpdate, challenge = new Bottleneck()}) {
+function ChallengeDialog({onClose, onUpdate, challenge}) {
     const {orgUnit} = useRecoilValue(DimensionsState);
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(challenge ? 1 : 0);
@@ -67,7 +68,7 @@ function ChallengeDialog({onClose, onUpdate, challenge = new Bottleneck()}) {
     const stepsLength = steps.length;
     const {indicators, loading: indicatorsLoading, error: indicatorsError} = useIndicators(0);
     const {bottleneckProgramMetadata} = useRecoilValue(ConfigState);
-    const [mutate, {loading: saving}] = useDataMutation(challenge ? gapQuery : challengeQuery, {
+    const [mutate, {loading: saving}] = useDataMutation(challenge ? gapMutation : challengeMutation, {
         variables: {data: {}},
         onComplete: () => {
             show({message: 'Challenge saved successfully', type: {success: true}})
@@ -134,8 +135,6 @@ function ChallengeDialog({onClose, onUpdate, challenge = new Bottleneck()}) {
                     />
                 );
             case 1:
-
-
                 return (
                     <CustomForm
                         formFields={formFields}
@@ -177,15 +176,8 @@ function ChallengeDialog({onClose, onUpdate, challenge = new Bottleneck()}) {
         setActiveStep(0);
     };
 
-    const confirmModalClose = () => {
-        const confirmation = window.confirm('Are you sure you want to quit? All changes will be lost.');
-        if (confirmation) {
-            onClose();
-        }
-    }
-
     return (
-        <Modal className="dialog-container" onClose={confirmModalClose} large>
+        <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)} large>
             <ModalTitle>Gap Form</ModalTitle>
             <ModalContent>
                 {
