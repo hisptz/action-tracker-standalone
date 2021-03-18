@@ -28,7 +28,7 @@
     "lodash": "^4.17.21"
   },
   "cypress-cucumber-preprocessor": {
-    "nonGlobalStepDefinitions": true
+    "nonGlobalStepDefinitions": true,
     "lodash": "^4.17.21",
     "react-final-form": "^6.5.2",
     "react-hook-form": "^6.15.4",
