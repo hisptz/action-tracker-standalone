@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {CustomFormField} from "./customFormField";
 import {ACTION_PROGRAM_ID} from "../constants";
+import {getFormattedDate, uid} from "../helpers/utils";
 
 const STATUS_DATA_ELEMENT = 'f8JYVWLC7rE';
 const REVIEW_DATE_DATA_ELEMENT = 'nodiP54ocf5';
@@ -9,12 +10,13 @@ const ACTION_STATUS_PROGRAM_STAGE_ID = 'cBiAEANcXAj';
 export default class ActionStatus {
 
     constructor(event = {event: '', dataValues: []}) {
-        const {event: eventId, dataValues, trackedEntityInstance} = event;
+        const {event: eventId, dataValues, trackedEntityInstance, eventDate} = event;
         this.id = eventId;
         this.status = _.find(dataValues, ['dataElement', STATUS_DATA_ELEMENT])?.value;
         this.remarks = _.find(dataValues, ['dataElement', REMARKS_DATA_ELEMENT])?.value;
         this.reviewDate = _.find(dataValues, ['dataElement', REVIEW_DATE_DATA_ELEMENT])?.value;
         this.actionId = trackedEntityInstance
+        this.eventDate = eventDate;
 
         //Bind all methods
         this.toJson = this.toJson.bind(this);
@@ -29,15 +31,19 @@ export default class ActionStatus {
             id: this.id,
             status: this.status,
             remarks: this.remarks,
-            reviewDate: this.reviewDate
+            reviewDate: this.reviewDate,
+            actionId: this.actionId,
+            eventDate: this.eventDate
         }
     }
 
     setValuesFromForm(data) {
-        this.status = data[STATUS_DATA_ELEMENT];
-        this.remarks = data[REMARKS_DATA_ELEMENT];
-        this.reviewDate = data[REVIEW_DATE_DATA_ELEMENT];
+        this.status = data[STATUS_DATA_ELEMENT]?.value;
+        this.remarks = data[REMARKS_DATA_ELEMENT]?.value;
+        this.reviewDate = data[REVIEW_DATE_DATA_ELEMENT]?.value;
         this.actionId = data['actionId'];
+        this.id = this.id || uid();
+        this.eventDate = this.eventDate || data[REVIEW_DATE_DATA_ELEMENT]?.value
     }
 
     getFormValues() {
@@ -49,7 +55,7 @@ export default class ActionStatus {
         return formData
     }
 
-    getPayload() {
+    getPayload(orgUnit='') {
 
         function getDataValues({status, remarks, reviewDate}) {
             const dataValues = [];
@@ -61,8 +67,10 @@ export default class ActionStatus {
 
         return {
             event: this.id,
+            eventDate: this.eventDate,
             trackedEntityInstance: this.actionId,
             program: ACTION_PROGRAM_ID,
+            orgUnit,
             programStage: ACTION_STATUS_PROGRAM_STAGE_ID,
             dataValues: getDataValues(this.toJson())
         }

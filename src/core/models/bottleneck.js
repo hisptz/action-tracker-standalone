@@ -98,7 +98,7 @@ export default class Bottleneck {
             return _.filter(attributes, 'value');
         }
 
-        const programEvents = events.map(event => ({trackedEntityInstance: this.id, ...event}))
+        const programEvents = events.map(event => ({...event, trackedEntityInstance: this.id, }))
 
         function getEnrollments({id, status, enrollmentDate, incidentDate, enrollmentId}) {
             return [

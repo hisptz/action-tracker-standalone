@@ -7,39 +7,31 @@ import Bottleneck from "../../../../core/models/bottleneck";
 import Gap from "../../../../core/models/gap";
 import {useRecoilValue} from "recoil";
 import {PageState} from "../../../../core/states";
+import {LiveColumnState} from "../../../../core/states/column";
 
 export default function ChallengeTable({indicator = new Bottleneck()}) {
-    const activePage = useRecoilValue(PageState);
-    const columns = [
-        'Gap',
-        'Possible Solutions',
-        'Action Items',
-        'Responsible Person & Designation',
-        'StartDate',
-        'Due Date',
-        'Status'
-    ];
-
+    const {columns, visibleColumnsCount} = useRecoilValue(LiveColumnState) || {};
     return (
         <Card variant='outlined'>
             <CustomTable cellSpacing={0}>
                 {
                     <colgroup>
                         {
-                            [1,2,3,4,5,6,7].map(_ => <col key={`col${_}`} width={`${100 / 7}%`}/>)
+                            columns.map(col => <col key={`col${col.name}`} width={`${100 /visibleColumnsCount }%`}/>)
                         }
                     </colgroup>
                 }
                 <TableHead>
-                    <CustomTableRowHead >
+                    <CustomTableRowHead>
                         {
-                            _.map(columns, (column) => <CustomTableCellHead key={`${column}-${indicator.id}`}>{column}</CustomTableCellHead>)
+                            _.map(columns, (column) => column.visible && <CustomTableCellHead
+                                key={`${column?.name}-${indicator.id}-header`}>{column?.displayName}</CustomTableCellHead>)
                         }
                     </CustomTableRowHead>
                 </TableHead>
                 <TableBody>
                     <TableRow key={`${indicator.id}-row`}>
-                        <CustomNestingTableCell key={`${indicator.id}-cell`} colSpan={7}>
+                        <CustomNestingTableCell key={`${indicator.id}-cell`} colSpan={visibleColumnsCount}>
                             <GapTable challenge={indicator}/>
                         </CustomNestingTableCell>
                     </TableRow>
