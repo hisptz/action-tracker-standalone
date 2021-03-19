@@ -27,7 +27,6 @@ export const OrgunitFilter = () => {
     data.organisationUnits &&
     data.organisationUnits.organisationUnits
   ) {
-    console.log(data.organisationUnits);
     const organisationUnits = data.organisationUnits.organisationUnits;
     orgUnitsTreeDataObj = getOrganisationUnitTreeData(organisationUnits)
       ? {
