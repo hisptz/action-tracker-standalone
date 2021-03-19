@@ -5,6 +5,7 @@ import {GAP_PROGRAM_STAGE_ID}  from './gap'
 import {POSSIBLE_SOLUTION_PROGRAM_STAGE_ID}  from './possibleSolution'
 import {GAP_SOLUTION_LINKAGE, SOLUTION_ACTION_LINKAGE} from './linkages'
 import {ACTION_TRACKED_ENTITY_TYPE} from "./action";
+import {INDICATOR_ATTRIBUTE} from './bottleneck';
 
 export {
     ACTION_PROGRAM_ID,
@@ -16,5 +17,6 @@ export {
     GAP_PROGRAM_STAGE_ID,
     GAP_SOLUTION_LINKAGE,
     SOLUTION_ACTION_LINKAGE,
-    ACTION_TRACKED_ENTITY_TYPE
+    ACTION_TRACKED_ENTITY_TYPE,
+    INDICATOR_ATTRIBUTE
 }
