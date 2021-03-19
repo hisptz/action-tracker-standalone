@@ -2,7 +2,7 @@ import {useSetRecoilState} from "recoil";
 import {ConfigState} from "../states";
 import {useDataMutation, useDataQuery} from "@dhis2/app-runtime";
 import {useEffect} from "react";
-import {ACTION_PROGRAM_ID, BOTTLENECK_PROGRAM_ID, PROGRAMS} from "../constants";
+import {ActionConstants, BottleneckConstants, PROGRAMS} from "../constants";
 
 
 const programFields = [
@@ -13,7 +13,7 @@ const programFields = [
 
 const configQuery = {
     bottleneckProgramMetadata: {
-        id: BOTTLENECK_PROGRAM_ID,
+        id: BottleneckConstants.PROGRAM_ID,
         resource: 'programs',
         params: {
             fields: programFields
@@ -21,7 +21,7 @@ const configQuery = {
     },
     actionProgramMetadata: {
         resource: 'programs',
-        id: ACTION_PROGRAM_ID,
+        id: ActionConstants.PROGRAM_ID,
         params: {
             fields: programFields
         }

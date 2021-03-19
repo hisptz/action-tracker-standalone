@@ -1,8 +1,6 @@
 import {
     CustomNestedTable,
     CustomNestingTableCell,
-    CustomTableCell,
-    CustomTableFooter
 } from "./CustomTable";
 import {TableBody, TableRow} from "@material-ui/core";
 import _ from "lodash";
@@ -12,11 +10,11 @@ import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
 import Gap from "../../../../core/models/gap";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import generateErrorAlert from "../../../../core/services/generateErrorAlert";
-import {GAP_PROGRAM_STAGE_ID} from "../../../../core/constants";
 import ChallengeDialog from "../../../../shared/Dialogs/ChallengeDialog";
 import Bottleneck from "../../../../core/models/bottleneck";
 import {useRecoilValue} from "recoil";
 import {LiveColumnState} from "../../../../core/states/column";
+import {GapConstants} from "../../../../core/constants";
 
 const gapQuery = {
     data: {
@@ -25,7 +23,7 @@ const gapQuery = {
             page,
             pageSize,
             trackedEntityInstance,
-            programStage: GAP_PROGRAM_STAGE_ID,
+            programStage: GapConstants.PROGRAM_STAGE_ID,
             totalPages: true,
             fields: [
                 'programStage',

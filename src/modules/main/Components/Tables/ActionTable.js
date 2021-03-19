@@ -12,7 +12,7 @@ import {useDataQuery} from "@dhis2/app-runtime";
 import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
 import ActionItemDialog from "../../../../shared/Dialogs/ActionItemDialog";
 import PossibleSolution from "../../../../core/models/possibleSolution";
-import {SOLUTION_ACTION_LINKAGE} from "../../../../core/constants";
+import {ActionConstants} from "../../../../core/constants";
 import {LiveColumnState} from "../../../../core/states/column";
 
 
@@ -28,7 +28,7 @@ const actionsQuery = {
                 'enrollments[events[trackedEntityInstance,eventDate,programStage,event,dataValues[dataElement,value]]]'
             ],
             filter: [
-                `${SOLUTION_ACTION_LINKAGE}:eq:${solutionToActionLinkage}`
+                `${ActionConstants.ACTION_TO_SOLUTION_LINKAGE}:eq:${solutionToActionLinkage}`
             ]
         })
     }

@@ -8,16 +8,16 @@ import { formatDataFilterOptions} from '../../../core/helpers/dataManipulationHe
 function DataFilter({options, initiallySelected, getSelected, loading, error}) {
     const indicatorSelectedStatus = useIndicatorsSelected();
     const indicatorsSelected = useRecoilValue(IndicatorsSelectedState);
-  
+
     const [selected, setSelected] = useState(initiallySelected)
-    const formattedOptionsList = formatDataFilterOptions(options,indicatorsSelected );
+    const formattedOptionsList = formatDataFilterOptions(options,indicatorsSelected);
     const onChange = payload => {
         if (payload && payload.selected) {
             setSelected(payload.selected)
             getSelected(payload.selected);
         }
     }
-    
+
 
     return (
         <CenteredContent>

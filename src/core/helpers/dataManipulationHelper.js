@@ -1,10 +1,10 @@
-import { INDICATOR_ATTRIBUTE } from '../constants';
+import {BottleneckConstants } from '../constants';
 import { findIndex, map, flattenDeep, uniq } from 'lodash';
 export const listOfSelectedIndicatorsFromResponse = (response) => {
   const { headers, metaData, rows } = response || {};
   const indictorIndex = findIndex(
     headers || [],
-    (header) => header && header.name && header.name === INDICATOR_ATTRIBUTE
+    (header) => header && header.name && header.name === BottleneckConstants.INDICATOR_ATTRIBUTE
   );
 
   return uniq(

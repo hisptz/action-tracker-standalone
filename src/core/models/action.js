@@ -1,17 +1,10 @@
 import _ from 'lodash';
 import ActionStatus from "./actionStatus";
 import {CustomFormField} from "./customFormField";
-import {ACTION_PROGRAM_ID, ACTION_TRACKED_ENTITY_TYPE} from "../constants";
+import {ActionConstants} from "../constants";
 import {uid} from "../helpers/utils";
 
-const TITLE_ATTRIBUTE = 'HQxzVwKedKu'
-const DESCRIPTION_ATTRIBUTE = 'GlvCtGIytIz'
-const START_DATE_ATTRIBUTE = 'jFjnkx49Lg3';
-const END_DATE_ATTRIBUTE = 'BYCbHJ46BOr';
-const RESPONSIBLE_PERSON_ATTRIBUTE = 'G3aWsZW2MpV';
-const DESIGNATION_ATTRIBUTE = 'Ax6bWbKn46e';
-const ACTION_TO_SOLUTION_LINKAGE = 'Hi3IjyMXzeW';
-const STATUS_ATTRIBUTE = 'f8JYVWLC7rE';
+
 
 
 export default class Action {
@@ -23,13 +16,13 @@ export default class Action {
     }) {
         const {trackedEntityInstance: teiId, attributes, enrollments} = trackedEntityInstance;
         this.id = teiId;
-        this.title = _.find(attributes, ['attribute', TITLE_ATTRIBUTE])?.value;
-        this.description = _.find(attributes, ['attribute', DESCRIPTION_ATTRIBUTE])?.value;
-        this.startDate = _.find(attributes, ['attribute', START_DATE_ATTRIBUTE])?.value;
-        this.endDate = _.find(attributes, ['attribute', END_DATE_ATTRIBUTE])?.value;
-        this.responsiblePerson = _.find(attributes, ['attribute', RESPONSIBLE_PERSON_ATTRIBUTE])?.value;
-        this.designation = _.find(attributes, ['attribute', DESIGNATION_ATTRIBUTE])?.value;
-        this.actionToSolutionLinkage = _.find(attributes, ['attribute', ACTION_TO_SOLUTION_LINKAGE])?.value;
+        this.title = _.find(attributes, ['attribute', ActionConstants.TITLE_ATTRIBUTE])?.value;
+        this.description = _.find(attributes, ['attribute', ActionConstants.DESCRIPTION_ATTRIBUTE])?.value;
+        this.startDate = _.find(attributes, ['attribute', ActionConstants.START_DATE_ATTRIBUTE])?.value;
+        this.endDate = _.find(attributes, ['attribute', ActionConstants.END_DATE_ATTRIBUTE])?.value;
+        this.responsiblePerson = _.find(attributes, ['attribute', ActionConstants.RESPONSIBLE_PERSON_ATTRIBUTE])?.value;
+        this.designation = _.find(attributes, ['attribute', ActionConstants.DESIGNATION_ATTRIBUTE])?.value;
+        this.actionToSolutionLinkage = _.find(attributes, ['attribute', ActionConstants.ACTION_TO_SOLUTION_LINKAGE])?.value;
         this.actionStatusList = _.map(enrollments[0].events, (event) => new ActionStatus(event));
         this.latestStatus = this.getLatestStatus(enrollments[0].events);
         this.enrollmentId = enrollments ? enrollments[0].id : uid();
@@ -47,7 +40,7 @@ export default class Action {
     }
 
     getLatestStatus(events) {
-        return _.find(_.reverse(_.sortBy(events, (event)=>new Date(event?.eventDate)))[0]?.dataValues, ['dataElement', STATUS_ATTRIBUTE])?.value
+        return _.find(_.reverse(_.sortBy(events, (event)=>new Date(event?.eventDate)))[0]?.dataValues, ['dataElement', ActionConstants.STATUS_ATTRIBUTE])?.value
     }
 
     toJson() {
@@ -68,12 +61,12 @@ export default class Action {
     }
 
     setValuesFromForm(data) {
-        this.title = data[TITLE_ATTRIBUTE]?.value;
-        this.description = data[DESCRIPTION_ATTRIBUTE]?.value;
-        this.startDate = data[START_DATE_ATTRIBUTE]?.value;
-        this.endDate = data[END_DATE_ATTRIBUTE]?.value;
-        this.designation = data[DESIGNATION_ATTRIBUTE]?.value;
-        this.responsiblePerson = data[RESPONSIBLE_PERSON_ATTRIBUTE]?.value;
+        this.title = data[ActionConstants.TITLE_ATTRIBUTE]?.value;
+        this.description = data[ActionConstants.DESCRIPTION_ATTRIBUTE]?.value;
+        this.startDate = data[ActionConstants.START_DATE_ATTRIBUTE]?.value;
+        this.endDate = data[ActionConstants.END_DATE_ATTRIBUTE]?.value;
+        this.designation = data[ActionConstants.DESIGNATION_ATTRIBUTE]?.value;
+        this.responsiblePerson = data[ActionConstants.RESPONSIBLE_PERSON_ATTRIBUTE]?.value;
         this.actionToSolutionLinkage = data['solutionLinkage'];
         this.id = this.id || uid();
         this.incidentDate = this.incidentDate || new Date();
@@ -84,12 +77,12 @@ export default class Action {
 
     getFormValues() {
         let formData = {}
-        formData[TITLE_ATTRIBUTE] = this.title;
-        formData[DESCRIPTION_ATTRIBUTE] = this.description;
-        formData[DESIGNATION_ATTRIBUTE] = this.designation;
-        formData[START_DATE_ATTRIBUTE] = this.startDate;
-        formData[END_DATE_ATTRIBUTE] = this.endDate;
-        formData[RESPONSIBLE_PERSON_ATTRIBUTE] = this.responsiblePerson;
+        formData[ActionConstants.TITLE_ATTRIBUTE] = this.title;
+        formData[ActionConstants.DESCRIPTION_ATTRIBUTE] = this.description;
+        formData[ActionConstants.DESIGNATION_ATTRIBUTE] = this.designation;
+        formData[ActionConstants.START_DATE_ATTRIBUTE] = this.startDate;
+        formData[ActionConstants.END_DATE_ATTRIBUTE] = this.endDate;
+        formData[ActionConstants.RESPONSIBLE_PERSON_ATTRIBUTE] = this.responsiblePerson;
         return formData
     }
 
@@ -104,13 +97,13 @@ export default class Action {
                                    actionToSolutionLinkage
                                }) {
             const attributes = [];
-            attributes.push({attribute: TITLE_ATTRIBUTE, value: title});
-            attributes.push({attribute: DESCRIPTION_ATTRIBUTE, value: description});
-            attributes.push({attribute: START_DATE_ATTRIBUTE, value: startDate});
-            attributes.push({attribute: END_DATE_ATTRIBUTE, value: endDate});
-            attributes.push({attribute: RESPONSIBLE_PERSON_ATTRIBUTE, value: responsiblePerson});
-            attributes.push({attribute: DESIGNATION_ATTRIBUTE, value: designation});
-            attributes.push({attribute: ACTION_TO_SOLUTION_LINKAGE, value: actionToSolutionLinkage});
+            attributes.push({attribute: ActionConstants.TITLE_ATTRIBUTE, value: title});
+            attributes.push({attribute: ActionConstants.DESCRIPTION_ATTRIBUTE, value: description});
+            attributes.push({attribute: ActionConstants.START_DATE_ATTRIBUTE, value: startDate});
+            attributes.push({attribute: ActionConstants.END_DATE_ATTRIBUTE, value: endDate});
+            attributes.push({attribute: ActionConstants.RESPONSIBLE_PERSON_ATTRIBUTE, value: responsiblePerson});
+            attributes.push({attribute: ActionConstants.DESIGNATION_ATTRIBUTE, value: designation});
+            attributes.push({attribute: ActionConstants.ACTION_TO_SOLUTION_LINKAGE, value: actionToSolutionLinkage});
             return attributes;
         }
 
@@ -119,7 +112,7 @@ export default class Action {
         function getEnrollments({id, enrollmentDate, incidentDate, status, enrollmentId}) {
             return [
                 {
-                    program: ACTION_PROGRAM_ID,
+                    program: ActionConstants.PROGRAM_ID,
                     trackedEntityInstance: id,
                     enrollmentDate,
                     incidentDate,
@@ -133,7 +126,7 @@ export default class Action {
 
         return {
             trackedEntityInstance: this.id,
-            trackedEntityType: ACTION_TRACKED_ENTITY_TYPE,
+            trackedEntityType: ActionConstants.ACTION_TRACKED_ENTITY_TYPE,
             orgUnit,
             attributes: getAttributes(this.toJson()),
             enrollments: getEnrollments(this.toJson())
@@ -147,7 +140,7 @@ export default class Action {
             for (const trackedEntityAttribute of programTrackedEntityAttributes) {
                 const {mandatory, trackedEntityAttribute: attribute} = trackedEntityAttribute || {};
                 const {name, id, formName, valueType} = attribute || {};
-                if (id !== ACTION_TO_SOLUTION_LINKAGE) {
+                if (id !== ActionConstants.ACTION_TO_SOLUTION_LINKAGE) {
                     const formField = new CustomFormField({id, name, valueType, formName, mandatory});
                     formFields.push(formField);
                 }

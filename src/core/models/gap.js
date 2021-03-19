@@ -1,15 +1,9 @@
 import _ from "lodash";
 import PossibleSolution from "./possibleSolution";
 import {CustomFormField} from "./customFormField";
-import {BOTTLENECK_PROGRAM_ID} from "../constants";
+import {BottleneckConstants, GapConstants} from "../constants";
 import {uid} from "../helpers/utils";
 
-
-const TITLE_DATA_ELEMENT = 'JbMaVyglSit';
-const DESCRIPTION_DATA_ELEMENT = 'GsbZkewUna5';
-const METHOD_DATA_ELEMENT = 'W50aguV39tU';
-const SOLUTION_LINK_DATA_ELEMENT = 'kBkyDytdOmC';
-const GAP_PROGRAM_STAGE_ID = 'zXB8tWKuwcl';
 
 export default class Gap {
 
@@ -17,10 +11,10 @@ export default class Gap {
         const {event: eventId, dataValues, trackedEntityInstance, eventDate} = event;
         this.id = eventId;
         this.eventDate = eventDate;
-        this.title = _.find(dataValues, ['dataElement', TITLE_DATA_ELEMENT])?.value;
-        this.description = _.find(dataValues, ['dataElement', DESCRIPTION_DATA_ELEMENT])?.value;
-        this.method = _.find(dataValues, ['dataElement', METHOD_DATA_ELEMENT])?.value;
-        this.solutionLinkage = _.find(dataValues, ['dataElement', SOLUTION_LINK_DATA_ELEMENT])?.value;
+        this.title = _.find(dataValues, ['dataElement', GapConstants.TITLE_DATA_ELEMENT])?.value;
+        this.description = _.find(dataValues, ['dataElement', GapConstants.DESCRIPTION_DATA_ELEMENT])?.value;
+        this.method = _.find(dataValues, ['dataElement', GapConstants.METHOD_DATA_ELEMENT])?.value;
+        this.solutionLinkage = _.find(dataValues, ['dataElement', GapConstants.SOLUTION_LINK_DATA_ELEMENT])?.value;
         this.possibleSolutions = _.map(possibleSolutionEvents, (solution) => new PossibleSolution(solution));
         this.indicatorId = trackedEntityInstance;
 
@@ -45,9 +39,9 @@ export default class Gap {
     }
 
     setValuesFromForm(data) {
-        this.title = data[TITLE_DATA_ELEMENT]?.value;
-        this.description = data[DESCRIPTION_DATA_ELEMENT]?.value;
-        this.method = data[METHOD_DATA_ELEMENT]?.value;
+        this.title = data[GapConstants.TITLE_DATA_ELEMENT]?.value;
+        this.description = data[GapConstants.DESCRIPTION_DATA_ELEMENT]?.value;
+        this.method = data[GapConstants.METHOD_DATA_ELEMENT]?.value;
         this.solutionLinkage = this.solutionLinkage || uid();
         this.id = this.id || uid();
         this.eventDate = this.eventDate || new Date()
@@ -55,19 +49,19 @@ export default class Gap {
 
     getFormValues() {
         let formData = {}
-        formData[TITLE_DATA_ELEMENT] = this.status;
-        formData[DESCRIPTION_DATA_ELEMENT] = this.description;
-        formData[METHOD_DATA_ELEMENT] = this.method;
+        formData[GapConstants.TITLE_DATA_ELEMENT] = this.title;
+        formData[GapConstants.DESCRIPTION_DATA_ELEMENT] = this.description;
+        formData[GapConstants.METHOD_DATA_ELEMENT] = this.method;
         return formData
     }
 
-    getPayload(orgUnit='') {
+    getPayload(orgUnit = '') {
         function getDataValues({title, description, method, solutionLinkage}) {
             const dataValues = [];
-            dataValues.push({'dataElement': TITLE_DATA_ELEMENT, value: title})
-            dataValues.push({'dataElement': DESCRIPTION_DATA_ELEMENT, value: description})
-            dataValues.push({'dataElement': METHOD_DATA_ELEMENT, value: method})
-            dataValues.push({'dataElement': SOLUTION_LINK_DATA_ELEMENT, value: solutionLinkage})
+            dataValues.push({'dataElement': GapConstants.TITLE_DATA_ELEMENT, value: title})
+            dataValues.push({'dataElement': GapConstants.DESCRIPTION_DATA_ELEMENT, value: description})
+            dataValues.push({'dataElement': GapConstants.METHOD_DATA_ELEMENT, value: method})
+            dataValues.push({'dataElement': GapConstants.SOLUTION_LINK_DATA_ELEMENT, value: solutionLinkage})
             return dataValues;
         }
 
@@ -75,8 +69,8 @@ export default class Gap {
             event: this.id,
             orgUnit,
             trackedEntityInstance: this.indicatorId,
-            program: BOTTLENECK_PROGRAM_ID,
-            programStage: GAP_PROGRAM_STAGE_ID,
+            program: BottleneckConstants.PROGRAM_ID,
+            programStage: GapConstants.GAP_PROGRAM_STAGE_ID,
             dataValues: getDataValues(this.toJson()),
             eventDate: this.eventDate
         }
@@ -84,7 +78,7 @@ export default class Gap {
 
     static getFormFields(programConfig) {
         const {programStages} = programConfig;
-        const gapProgramStage = _.find(programStages, ['id', GAP_PROGRAM_STAGE_ID]);
+        const gapProgramStage = _.find(programStages, ['id', GapConstants.PROGRAM_STAGE_ID]);
         const {programStageDataElements} = gapProgramStage;
         const formFields = [];
 
@@ -92,7 +86,7 @@ export default class Gap {
             for (const dataElement of programStageDataElements) {
                 const {compulsory, dataElement: element} = dataElement;
                 const {name, id, formName, valueType} = element;
-                if (id !== SOLUTION_LINK_DATA_ELEMENT) {
+                if (id !== GapConstants.SOLUTION_LINK_DATA_ELEMENT) {
                     const formField = new CustomFormField({id, name, valueType, formName, compulsory});
                     formFields.push(formField);
                 }
@@ -100,7 +94,6 @@ export default class Gap {
         }
 
         return formFields;
-
     }
 
     toString() {

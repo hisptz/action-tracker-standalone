@@ -1,20 +1,17 @@
 import _ from 'lodash';
 import {CustomFormField} from "./customFormField";
-import {ACTION_PROGRAM_ID} from "../constants";
-import {getFormattedDate, uid} from "../helpers/utils";
+import {ActionConstants, ActionStatusConstants} from "../constants";
+import {uid} from "../helpers/utils";
 
-const STATUS_DATA_ELEMENT = 'f8JYVWLC7rE';
-const REVIEW_DATE_DATA_ELEMENT = 'nodiP54ocf5';
-const REMARKS_DATA_ELEMENT = 'FnengvwgsQv';
-const ACTION_STATUS_PROGRAM_STAGE_ID = 'cBiAEANcXAj';
+
 export default class ActionStatus {
 
     constructor(event = {event: '', dataValues: []}) {
         const {event: eventId, dataValues, trackedEntityInstance, eventDate} = event;
         this.id = eventId;
-        this.status = _.find(dataValues, ['dataElement', STATUS_DATA_ELEMENT])?.value;
-        this.remarks = _.find(dataValues, ['dataElement', REMARKS_DATA_ELEMENT])?.value;
-        this.reviewDate = _.find(dataValues, ['dataElement', REVIEW_DATE_DATA_ELEMENT])?.value;
+        this.status = _.find(dataValues, ['dataElement', ActionStatusConstants.STATUS_DATA_ELEMENT])?.value;
+        this.remarks = _.find(dataValues, ['dataElement', ActionStatusConstants.REMARKS_DATA_ELEMENT])?.value;
+        this.reviewDate = _.find(dataValues, ['dataElement', ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT])?.value;
         this.actionId = trackedEntityInstance
         this.eventDate = eventDate;
 
@@ -38,19 +35,19 @@ export default class ActionStatus {
     }
 
     setValuesFromForm(data) {
-        this.status = data[STATUS_DATA_ELEMENT]?.value;
-        this.remarks = data[REMARKS_DATA_ELEMENT]?.value;
-        this.reviewDate = data[REVIEW_DATE_DATA_ELEMENT]?.value;
+        this.status = data[ActionStatusConstants.STATUS_DATA_ELEMENT]?.value;
+        this.remarks = data[ActionStatusConstants.REMARKS_DATA_ELEMENT]?.value;
+        this.reviewDate = data[ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT]?.value;
         this.actionId = data['actionId'];
         this.id = this.id || uid();
-        this.eventDate = this.eventDate || data[REVIEW_DATE_DATA_ELEMENT]?.value
+        this.eventDate = this.eventDate || data[ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT]?.value
     }
 
     getFormValues() {
         let formData = {}
-        formData[STATUS_DATA_ELEMENT] = this.status;
-        formData[REVIEW_DATE_DATA_ELEMENT] = this.reviewDate;
-        formData[REMARKS_DATA_ELEMENT] = this.remarks;
+        formData[ActionStatusConstants.STATUS_DATA_ELEMENT] = this.status;
+        formData[ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT] = this.reviewDate;
+        formData[ActionStatusConstants.REMARKS_DATA_ELEMENT] = this.remarks;
         formData['actionId'] = this.actionId;
         return formData
     }
@@ -59,9 +56,9 @@ export default class ActionStatus {
 
         function getDataValues({status, remarks, reviewDate}) {
             const dataValues = [];
-            dataValues.push({'dataElement': STATUS_DATA_ELEMENT, value: status})
-            dataValues.push({'dataElement': REMARKS_DATA_ELEMENT, value: remarks})
-            dataValues.push({'dataElement': REVIEW_DATE_DATA_ELEMENT, value: reviewDate})
+            dataValues.push({'dataElement': ActionStatusConstants.STATUS_DATA_ELEMENT, value: status})
+            dataValues.push({'dataElement': ActionStatusConstants.REMARKS_DATA_ELEMENT, value: remarks})
+            dataValues.push({'dataElement': ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT, value: reviewDate})
             return dataValues;
         }
 
@@ -69,16 +66,16 @@ export default class ActionStatus {
             event: this.id,
             eventDate: this.eventDate,
             trackedEntityInstance: this.actionId,
-            program: ACTION_PROGRAM_ID,
+            program: ActionConstants.PROGRAM_ID,
             orgUnit,
-            programStage: ACTION_STATUS_PROGRAM_STAGE_ID,
+            programStage: ActionStatusConstants.ACTION_STATUS_PROGRAM_STAGE_ID,
             dataValues: getDataValues(this.toJson())
         }
     }
 
     static getFormFields(programConfig) {
         const {programStages} = programConfig;
-        const gapProgramStage = _.find(programStages, ['id', ACTION_STATUS_PROGRAM_STAGE_ID]);
+        const gapProgramStage = _.find(programStages, ['id', ActionStatusConstants.ACTION_STATUS_PROGRAM_STAGE_ID]);
         const {programStageDataElements} = gapProgramStage;
         const formFields = [];
 

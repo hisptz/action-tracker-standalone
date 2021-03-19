@@ -6,9 +6,7 @@ import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
 import ActionTable from "./ActionTable";
 import PossibleSolution from "../../../../core/models/possibleSolution";
 import {
-    BOTTLENECK_PROGRAM_ID,
-    GAP_SOLUTION_LINKAGE,
-    POSSIBLE_SOLUTION_PROGRAM_STAGE_ID
+    BottleneckConstants, PossibleSolutionConstants,
 } from "../../../../core/constants";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import generateErrorAlert from "../../../../core/services/generateErrorAlert";
@@ -24,11 +22,11 @@ const possibleSolutionQuery = {
             page,
             pageSize,
             trackedEntityInstance,
-            program: BOTTLENECK_PROGRAM_ID,
-            programStage: POSSIBLE_SOLUTION_PROGRAM_STAGE_ID,
+            program: BottleneckConstants.PROGRAM_ID,
+            programStage: PossibleSolutionConstants.PROGRAM_STAGE_ID,
             totalPages: true,
             filter: [
-                `${GAP_SOLUTION_LINKAGE}:eq:${linkage}`
+                `${PossibleSolutionConstants.GAP_TO_SOLUTION_LINKAGE_DATA_ELEMENT}:eq:${linkage}`
             ],
             fields: [
                 'programStage',
@@ -62,12 +60,12 @@ export default function SolutionsTable({gap = new Gap()}) {
         <div>
             <div style={{height: '100%', overflow: 'auto'}}>
                 {
-                    loading ?  <CenteredContent>
-                        <CircularLoader small />
-                    </CenteredContent>:
+                    loading ? <CenteredContent>
+                            <CircularLoader small/>
+                        </CenteredContent> :
                         <CustomNestedTable>
                             <colgroup span={6}>
-                                <col width={`${100/columns.length}%`} />
+                                <col width={`${100 / columns.length}%`}/>
                             </colgroup>
                             <TableBody>
                                 {
@@ -75,11 +73,16 @@ export default function SolutionsTable({gap = new Gap()}) {
                                         <TableRow key={`${solution.id}-row`}>
                                             {
                                                 _.map(solutionsTable, (columnName) => {
-                                                    const {render, visible} = _.find(columns, ['name', columnName]) || {};
-                                                    if(render && visible) return render(solution);
+                                                    const {
+                                                        render,
+                                                        visible
+                                                    } = _.find(columns, ['name', columnName]) || {};
+                                                    if (render && visible) return render(solution);
                                                 })
                                             }
-                                            <CustomNestingTableCell key={`${solution.id}-actions`} colSpan={visibleColumnsCount - solutionsTable.length} style={{padding: 0}}>
+                                            <CustomNestingTableCell key={`${solution.id}-actions`}
+                                                                    colSpan={visibleColumnsCount - solutionsTable.length}
+                                                                    style={{padding: 0}}>
                                                 <ActionTable solution={solution}/>
                                             </CustomNestingTableCell>
                                         </TableRow>)
@@ -88,11 +91,12 @@ export default function SolutionsTable({gap = new Gap()}) {
                         </CustomNestedTable>
                 }
             </div>
-                <div style={{padding: 5}}>
-                    <Button onClick={_=>setAddSolutionOpen(true)}>Add Solution</Button>
-                </div>
+            <div style={{padding: 5}}>
+                <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
+            </div>
             {
-                addSolutionOpen && <SolutionsDialog onUpdate={refetch} gap={gap}  onClose={_=>setAddSolutionOpen(false)} />
+                addSolutionOpen &&
+                <SolutionsDialog onUpdate={refetch} gap={gap} onClose={_ => setAddSolutionOpen(false)}/>
             }
         </div>
     )
