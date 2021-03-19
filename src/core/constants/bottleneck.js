@@ -1,0 +1,1 @@
+export const INDICATOR_ATTRIBUTE = 'tVlKbtVfNjc';
