@@ -25,6 +25,7 @@ function FormField({ field, control, errors }) {
                     className="select"
                     filterable
                     clearable
+                    dataTest="dhis2-uiwidgets-singleselectfield"
                     required={
                         field?.validations && field.validations.required
                           ? true
@@ -58,6 +59,7 @@ function FormField({ field, control, errors }) {
                   return (
                     <InputField
                       name={field?.id}
+                      dataTest="dhis2-uiwidgets-inputfield"
                       onChange={onChange}
                       value={value?.value}
                       required={
@@ -76,6 +78,7 @@ function FormField({ field, control, errors }) {
                     <Checkbox
                       name={field?.id}
                       onChange={(e) => onChange({ ...value, value: e.checked })}
+                      dataTest="dhis2-uiwidgets-checkboxfield"
                       checked={value?.value}
                       required={
                         field?.validations && field.validations.required
@@ -92,6 +95,7 @@ function FormField({ field, control, errors }) {
                     <TextAreaField
                       name={field?.id}
                       onChange={onChange}
+                      dataTest="dhis2-uiwidgets-textareafield"
                       value={value?.value}
                       type={Dhis2ValueTypes[field?.valueType]?.formName}
                       required={
