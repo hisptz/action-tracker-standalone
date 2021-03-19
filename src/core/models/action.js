@@ -46,8 +46,8 @@ export default class Action {
         this.getFormValues = this.getFormValues.bind(this);
     }
 
-    getLatestStatus(events){
-        return _.find(_.reverse(_.sortBy(events, ['eventDate']))[0]?.dataValues, ['dataElement', STATUS_ATTRIBUTE])?.value
+    getLatestStatus(events) {
+        return _.find(_.reverse(_.sortBy(events, (event)=>new Date(event?.eventDate)))[0]?.dataValues, ['dataElement', STATUS_ATTRIBUTE])?.value
     }
 
     toJson() {
@@ -93,8 +93,16 @@ export default class Action {
         return formData
     }
 
-    getPayload(orgUnit='') {
-        function getAttributes({title, description, startDate, endDate, responsiblePerson, designation, actionToSolutionLinkage}) {
+    getPayload(events = [], orgUnit = '') {
+        function getAttributes({
+                                   title,
+                                   description,
+                                   startDate,
+                                   endDate,
+                                   responsiblePerson,
+                                   designation,
+                                   actionToSolutionLinkage
+                               }) {
             const attributes = [];
             attributes.push({attribute: TITLE_ATTRIBUTE, value: title});
             attributes.push({attribute: DESCRIPTION_ATTRIBUTE, value: description});
@@ -105,6 +113,9 @@ export default class Action {
             attributes.push({attribute: ACTION_TO_SOLUTION_LINKAGE, value: actionToSolutionLinkage});
             return attributes;
         }
+
+        const programEvents = events.map(event => ({...event, trackedEntityInstance: this.id, orgUnit}))
+
         function getEnrollments({id, enrollmentDate, incidentDate, status, enrollmentId}) {
             return [
                 {
@@ -114,10 +125,12 @@ export default class Action {
                     incidentDate,
                     status,
                     orgUnit,
+                    events: programEvents,
                     enrollment: enrollmentId
                 }
             ]
         }
+
         return {
             trackedEntityInstance: this.id,
             trackedEntityType: ACTION_TRACKED_ENTITY_TYPE,
@@ -134,7 +147,7 @@ export default class Action {
             for (const trackedEntityAttribute of programTrackedEntityAttributes) {
                 const {mandatory, trackedEntityAttribute: attribute} = trackedEntityAttribute || {};
                 const {name, id, formName, valueType} = attribute || {};
-                if(id !== ACTION_TO_SOLUTION_LINKAGE){
+                if (id !== ACTION_TO_SOLUTION_LINKAGE) {
                     const formField = new CustomFormField({id, name, valueType, formName, mandatory});
                     formFields.push(formField);
                 }

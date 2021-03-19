@@ -15,6 +15,7 @@ import {useRecoilValue} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import Action from "../../../core/models/action";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
+import ActionStatus from "../../../core/models/actionStatus";
 
 const actionMutation = {
     type: 'create',
@@ -52,7 +53,10 @@ export function ActionItemDialog({onClose, onUpdate, solution}) {
     const generatePayload = (data) => {
         const action = new Action();
         action.setValuesFromForm({...data, solutionLinkage: solution?.actionLinkage});
-        return action.getPayload(orgUnit?.id);
+
+        const actionStatus = new ActionStatus();
+        actionStatus.setValuesFromForm({'f8JYVWLC7rE': 'Not started'}) //TODO: Link this to the option sets
+        return action.getPayload([actionStatus.getPayload()], orgUnit?.id);
     }
 
 

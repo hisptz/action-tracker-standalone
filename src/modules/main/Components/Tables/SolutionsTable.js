@@ -14,6 +14,8 @@ import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import generateErrorAlert from "../../../../core/services/generateErrorAlert";
 import Gap from "../../../../core/models/gap";
 import SolutionsDialog from "../../../../shared/Dialogs/SolutionsDialog";
+import {useRecoilValue} from "recoil";
+import {LiveColumnState} from "../../../../core/states/column";
 
 const possibleSolutionQuery = {
     data: {
@@ -42,6 +44,7 @@ const possibleSolutionQuery = {
 
 export default function SolutionsTable({gap = new Gap()}) {
     const [page, setPage] = useState(1);
+    const {columns, solutionsTable, visibleColumnsCount} = useRecoilValue(LiveColumnState);
     const [pageSize, setPageSize] = useState(5);
     const {loading, error, data, refetch} = useDataQuery(possibleSolutionQuery, {
         variables: {
@@ -64,16 +67,19 @@ export default function SolutionsTable({gap = new Gap()}) {
                     </CenteredContent>:
                         <CustomNestedTable>
                             <colgroup span={6}>
-                                <col width={`${100/7}%`} />
+                                <col width={`${100/columns.length}%`} />
                             </colgroup>
                             <TableBody>
                                 {
                                     _.map(_.map(data?.data?.events, (event) => new PossibleSolution(event)), (solution) =>
                                         <TableRow key={`${solution.id}-row`}>
-                                            <CustomTableCell key={`${solution.id}-solution`}>
-                                                {solution.solution}
-                                            </CustomTableCell>
-                                            <CustomNestingTableCell key={`${solution.id}-actions`} colSpan={5} style={{padding: 0}}>
+                                            {
+                                                _.map(solutionsTable, (columnName) => {
+                                                    const {render, visible} = _.find(columns, ['name', columnName]) || {};
+                                                    if(render && visible) return render(solution);
+                                                })
+                                            }
+                                            <CustomNestingTableCell key={`${solution.id}-actions`} colSpan={visibleColumnsCount - solutionsTable.length} style={{padding: 0}}>
                                                 <ActionTable solution={solution}/>
                                             </CustomNestingTableCell>
                                         </TableRow>)

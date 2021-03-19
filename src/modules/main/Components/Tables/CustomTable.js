@@ -1,8 +1,12 @@
-import {Card, Grid, Table, TableCell, TableFooter, TableRow, withStyles} from "@material-ui/core";
-import {Button} from '@dhis2/ui'
+import {Card, Grid, IconButton, Table, TableCell, TableFooter, TableRow, withStyles} from "@material-ui/core";
+import {Button, CenteredContent, CircularLoader} from '@dhis2/ui'
 import DueDateWarningIcon from '@material-ui/icons/ReportProblemOutlined';
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import React from "react";
+import React, {useState} from "react";
+import ActionStatusConstants from "../../../../core/constants/actionStatus";
+import {ActionConstants} from "../../../../core/constants/action";
+import AddIcon from '@material-ui/icons/Add';
+import ActionStatusDialog from "../../../../shared/Dialogs/ActionStatusDialog";
 
 const CustomTableRowHead = withStyles((_) => ({
     root: {
@@ -114,17 +118,16 @@ const StatusTableCell = ({status}) => {
     return (
         <StyledStatusTableCell>
             <Grid item container direction='row' justify='space-between' spacing={2}>
-                <Grid item xs={9} >
+                <Grid item xs={9}>
                     <StatusContainer status={status}/>
                 </Grid>
                 <Grid container justify='center' alignItems='center' item xs={3}>
-                    <Button icon={<MoreHorizIcon/>} />
+                    <Button icon={<MoreHorizIcon/>}/>
                 </Grid>
             </Grid>
         </StyledStatusTableCell>
     )
 }
-
 
 const DueDateTableCell = ({dueDate}) => {
     const warning = false;
@@ -147,6 +150,75 @@ const DueDateTableCell = ({dueDate}) => {
     )
 }
 
+
+const NoActionStatus = ({onAddClick}) => {
+
+    return (
+        <div>
+            <IconButton onClick={onAddClick}>
+                <AddIcon/>
+            </IconButton>
+        </div>
+    )
+}
+
+const ActionStatusDetails = ({actionStatus}) => {
+
+    return (
+        <div>
+            <Grid container>
+                <Grid item xs={12}>
+                    <b> Status</b>
+                </Grid>
+                <Grid item xs={12}>
+                    <StatusContainer status={actionStatus?.status}/>
+                </Grid>
+                <Grid item xs={12}>
+                    <b> Remarks</b>
+                </Grid>
+                <Grid item xs={12}>
+                    {actionStatus?.remarks}
+                </Grid>
+                <Grid item xs={12}>
+                    <b>Review Date</b>
+                </Grid>
+                <Grid item xs={12}>
+                    {actionStatus?.reviewDate}
+                </Grid>
+            </Grid>
+        </div>
+    )
+}
+
+const ActionStatusTableCell = ({actionStatus, action, refetch}) => {
+    const [addActionStatusOpen, setAddActionStatusOpen] = useState(false);
+    const styles = {
+        margin: 'auto',
+        verticalAlign: 'center'
+    };
+
+    const onAddClick = () => {
+        setAddActionStatusOpen(true);
+    }
+
+    return (
+        <CustomTableCell style={styles}>
+            <CenteredContent>
+                {
+                    actionStatus ?
+                        <ActionStatusDetails actionStatus={actionStatus}/> :
+                        <NoActionStatus onAddClick={onAddClick}/>
+                }
+            </CenteredContent>
+            {
+                addActionStatusOpen && <ActionStatusDialog onClose={_ => setAddActionStatusOpen(false)} action={action}
+                                                           onUpdate={refetch}/>
+            }
+        </CustomTableCell>
+    )
+}
+
+
 export
 {
     CustomNestedTable,
@@ -157,5 +229,6 @@ export
     CustomNestingTableCell,
     CustomTableFooter,
     StatusTableCell,
-    DueDateTableCell
+    DueDateTableCell,
+    ActionStatusTableCell
 }

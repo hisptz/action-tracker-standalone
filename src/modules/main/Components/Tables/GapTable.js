@@ -15,6 +15,8 @@ import generateErrorAlert from "../../../../core/services/generateErrorAlert";
 import {GAP_PROGRAM_STAGE_ID} from "../../../../core/constants";
 import ChallengeDialog from "../../../../shared/Dialogs/ChallengeDialog";
 import Bottleneck from "../../../../core/models/bottleneck";
+import {useRecoilValue} from "recoil";
+import {LiveColumnState} from "../../../../core/states/column";
 
 const gapQuery = {
     data: {
@@ -40,6 +42,7 @@ const gapQuery = {
 
 export default function GapTable({challenge = new Bottleneck()}) {
     const [page, setPage] = useState(1);
+    const {columns, gapsTable, visibleColumnsCount} = useRecoilValue(LiveColumnState);
     const [pageSize, setPageSize] = useState(5);
     const {loading, error, data, refetch} = useDataQuery(gapQuery, {
         variables: {
@@ -61,16 +64,21 @@ export default function GapTable({challenge = new Bottleneck()}) {
                         </CenteredContent> :
                         <CustomNestedTable>
                             <colgroup span={7}>
-                                <col width={`${100/7}%`}/>
-                                <col span={6} width={`${100 - (100/7)}%`}/>
+                                <col width={`${100 / columns.length}%`}/>
                             </colgroup>
                             <TableBody>
                                 {
-                                    _.map(_.map(data?.data?.events, (event) => new Gap(event)), (gap) => <TableRow key={`${gap.id}-row`}>
-                                        <CustomTableCell key={`${gap.id}-description`}>
-                                            {gap.description}
-                                        </CustomTableCell>
-                                        <CustomNestingTableCell key={`${gap.id}-solutions`} colSpan={6} style={{padding: 0}}>
+                                    _.map(_.map(data?.data?.events, (event) => new Gap(event)), (gap) => <TableRow
+                                        key={`${gap.id}-row`}>
+                                        {
+                                            _.map(gapsTable, (columnName) => {
+                                                const {render, visible} = _.find(columns, ['name', columnName]) || {};
+                                                if(render && visible) return render(gap);
+                                            })
+                                        }
+                                        <CustomNestingTableCell key={`${gap.id}-solutions`}
+                                                                colSpan={(visibleColumnsCount - gapsTable.length)}
+                                                                style={{padding: 0}}>
                                             {
                                                 <SolutionsTable gap={gap}/>
                                             }
@@ -88,9 +96,9 @@ export default function GapTable({challenge = new Bottleneck()}) {
                 }
             </div>
 
-                <div style={{padding: 5}}>
-                    <Button onClick={_ => setAddGapOpen(true)}>Add Gap</Button>
-                </div>
+            <div style={{padding: 5}}>
+                <Button onClick={_ => setAddGapOpen(true)}>Add Gap</Button>
+            </div>
         </div>
     )
 }

@@ -1,8 +1,6 @@
 import {
     CustomNestedTable,
-    CustomTableCell, CustomTableFooter,
-    DueDateTableCell,
-    StatusTableCell
+    CustomTableCell,
 } from "./CustomTable";
 import {TableBody, TableRow} from "@material-ui/core";
 import _ from "lodash";
@@ -15,6 +13,7 @@ import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
 import ActionItemDialog from "../../../../shared/Dialogs/ActionItemDialog";
 import PossibleSolution from "../../../../core/models/possibleSolution";
 import {SOLUTION_ACTION_LINKAGE} from "../../../../core/constants";
+import {LiveColumnState} from "../../../../core/states/column";
 
 
 const actionsQuery = {
@@ -26,7 +25,7 @@ const actionsQuery = {
             fields: [
                 'trackedEntityInstance',
                 'attributes[attribute,value]',
-                'enrollments[events[eventDate,programStage,event,dataValues[dataElement,value]]]'
+                'enrollments[events[trackedEntityInstance,eventDate,programStage,event,dataValues[dataElement,value]]]'
             ],
             filter: [
                 `${SOLUTION_ACTION_LINKAGE}:eq:${solutionToActionLinkage}`
@@ -37,6 +36,7 @@ const actionsQuery = {
 
 export default function ActionTable({solution = new PossibleSolution()}) {
     const {orgUnit} = useRecoilValue(DimensionsState);
+    const {columns, actionsTable, visibleColumnsCount} = useRecoilValue(LiveColumnState);
     const [addActionOpen, setAddActionOpen] = useState(false)
     const {loading, data, error, refetch} = useDataQuery(actionsQuery, {
         variables: {
@@ -44,16 +44,18 @@ export default function ActionTable({solution = new PossibleSolution()}) {
             solutionToActionLinkage: solution.actionLinkage
         }
     });
+
     const styles = {
         container: {height: '100%', overflow: 'auto'}
     }
+
     return (
         <div>
             <div style={styles.container}>
                 <CustomNestedTable>
                     <colgroup>
                         {
-                            [1, 2, 3, 4, 5].map(_ => <col key={`col-${_}`} width={`${100 / 7}%`}/>)
+                            actionsTable.map(_ => <col key={`col-${_}`} width={`${100 / visibleColumnsCount}%`}/>)
                         }
                     </colgroup>
                     <TableBody>
@@ -70,23 +72,17 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                 {
                                     _.isEmpty(data.actions.trackedEntityInstances) ?
                                         <TableRow><CustomTableCell><CenteredContent><p
-                                            key={`${solution.id}-empty-actions`}> There are no actions for this solution</p>
+                                            key={`${solution.id}-empty-actions`}> There are no actions for this
+                                            solution</p>
                                         </CenteredContent></CustomTableCell></TableRow> :
                                         _.map(_.map(data.actions.trackedEntityInstances, (trackedEntityInstance) => new Action(trackedEntityInstance)), (action) =>
                                             <TableRow key={`${action.id}-row`}>
-                                                <CustomTableCell key={`${action.id}-description`}>
-                                                    {action?.description}
-                                                </CustomTableCell>
-                                                <CustomTableCell key={`${action.id}-responsible-designation`}>
-                                                    {action?.responsiblePerson}, {action?.designation}
-                                                </CustomTableCell>
-                                                <CustomTableCell key={`${action.id}-startDate`}>
-                                                    {action?.startDate}
-                                                </CustomTableCell>
-                                                <DueDateTableCell dueDate={action?.endDate}
-                                                                  key={`${action.id}-endDate`}/>
-                                                <StatusTableCell status={action?.latestStatus}
-                                                                 key={`${action.id}-latestStatus`}/>
+                                                {
+                                                    _.map(actionsTable, (columnName) => {
+                                                        const {render, visible} = _.find(columns, ['name', columnName]) || {};
+                                                        if(render && visible) return render(action, refetch);
+                                                    })
+                                                }
                                             </TableRow>
                                         )
                                 }
