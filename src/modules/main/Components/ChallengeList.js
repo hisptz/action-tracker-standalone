@@ -66,7 +66,7 @@ export default function ChallengeList() {
                 {(!loading && error) && <p>{error?.message || error.toString()}</p>}
                 {(!loading && !error && data) && <>
                     {
-                        _.isEmpty(data.indicators?.trackedEntityInstances) ? <EmptyChallengeList/> :
+                        _.isEmpty(data.indicators?.trackedEntityInstances) ? <EmptyChallengeList onAddIndicatorClick={_ => setAddIndicatorOpen(true)} /> :
                             <Grid container spacing={3}>
                                 <Grid item xs={12} style={{maxHeight: 120}} container justify='center'>
                                     <MainPageHeader onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/>
@@ -87,12 +87,13 @@ export default function ChallengeList() {
                                                    onPageSizeChange={onPageSizeChange}/>
                                     </CenteredContent>
                                 </Grid>
-                                {
-                                    addIndicatorOpen && <ChallengeDialog onClose={_ => setAddIndicatorOpen(false)}
-                                                                         onUpdate={onAddIndicator}/>
 
-                                }
                             </Grid>
+                    }
+                    {
+                        addIndicatorOpen && <ChallengeDialog onClose={_ => setAddIndicatorOpen(false)}
+                                                             onUpdate={onAddIndicator}/>
+
                     }
                 </>
                 }

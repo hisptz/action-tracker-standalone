@@ -34,7 +34,7 @@ const PageSelector = () => {
 
 export default function MainPageHeader({onAddIndicatorClick}) {
     const activePage = useRecoilValue(PageState);
-    const [anchorEl, setAnchorEl] = useState(null);
+    // const [anchorEl, setAnchorEl] = useState(null);
 
     return (
         <Container maxWidth={false} style={{paddingLeft: 0, paddingRight: 0}}>
@@ -48,10 +48,10 @@ export default function MainPageHeader({onAddIndicatorClick}) {
                        <Button onClick={onAddIndicatorClick} icon={<AddIcon/>} >Add Indicator</Button>
                    </Grid>
                     <Grid item>
-                        <ButtonStrip>
-                            <Button icon={<ColumnIcon/>} >Manage Columns</Button>
-                            <Button icon={<DownloadIcon/>} >Download</Button>
-                        </ButtonStrip>
+                        {/*<ButtonStrip>*/}
+                        {/*    <Button icon={<ColumnIcon/>} >Manage Columns</Button>*/}
+                        {/*    <Button icon={<DownloadIcon/>} >Download</Button>*/}
+                        {/*</ButtonStrip>*/}
                     </Grid>
 
                 </Grid>
