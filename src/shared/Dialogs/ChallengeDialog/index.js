@@ -225,6 +225,12 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
             </ModalContent>
             <ModalActions>
                 <ButtonStrip>
+                <Button
+                        onClick={onClose}
+                        className={classes.button}
+                    >
+                        Cancel
+                    </Button>
                     <Button
                         disabled={activeStep === 0}
                         onClick={handleBack}
