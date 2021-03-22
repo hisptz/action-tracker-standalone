@@ -39,7 +39,7 @@ export function SelectionWrapper({
       justifyContent="center"
       onClick={onClick}
     >
-      <strong>{selectText}</strong>
+      <p style={{margin: 0, padding: 0}}>{selectText}</p>
       <Box
         component="div"
         marginTop="auto"
