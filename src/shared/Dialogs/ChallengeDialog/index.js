@@ -229,7 +229,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
                         onClick={onClose}
                         className={classes.button}
                     >
-                        Cancel
+                        Hide
                     </Button>
                     <Button
                         disabled={activeStep === 0}
