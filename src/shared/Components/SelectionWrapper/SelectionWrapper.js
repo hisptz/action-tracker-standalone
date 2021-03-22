@@ -39,7 +39,7 @@ export function SelectionWrapper({
       justifyContent="center"
       onClick={onClick}
     >
-      <p style={{margin: 0, padding: 0}}>{selectText}</p>
+      <p style={{margin: 0, padding: 0, fontSize: '1.05em'}}>{selectText}</p>
       <Box
         component="div"
         marginTop="auto"
@@ -53,7 +53,7 @@ export function SelectionWrapper({
         paddingLeft="0.5em"
         textAlign="center"
       >
-        <p style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+        <p style={{ marginTop: 'auto', marginBottom: 'auto', fontSize:'0.9em' }}>
           { type === FilterComponentTypes.ORG_UNIT &&
             selectDataObj?.data?.displayName}
           {type === FilterComponentTypes.PERIOD &&
@@ -69,9 +69,9 @@ SelectionWrapper.defaultProps = {
 };
 
 SelectionWrapper.poprTypes = {
-  type: PropTypes.string,
-  name: PropTypes.string,
-  onClick: PropTypes.func,
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default SelectionWrapper;
