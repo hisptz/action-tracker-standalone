@@ -178,7 +178,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)} large>
-            <ModalTitle>Gap Form</ModalTitle>
+            <ModalTitle>Gap</ModalTitle>
             <ModalContent>
                 {
                     challenge ? <div>

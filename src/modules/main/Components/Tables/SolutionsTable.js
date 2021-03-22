@@ -1,5 +1,5 @@
 import {CustomNestedTable, CustomNestingTableCell, CustomTableCell, CustomTableFooter} from "./CustomTable";
-import {TableBody, TableRow} from "@material-ui/core";
+import {TableBody, TableCell, TableRow} from "@material-ui/core";
 import _ from "lodash";
 import React, {useEffect, useState} from "react";
 import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
@@ -14,6 +14,8 @@ import Gap from "../../../../core/models/gap";
 import SolutionsDialog from "../../../../shared/Dialogs/SolutionsDialog";
 import {useRecoilValue} from "recoil";
 import {LiveColumnState} from "../../../../core/states/column";
+import Grid from "@material-ui/core/Grid";
+import Paginator from "../../../../shared/Components/Paginator";
 
 const possibleSolutionQuery = {
     data: {
@@ -52,9 +54,23 @@ export default function SolutionsTable({gap = new Gap()}) {
             linkage: gap.solutionLinkage
         }
     })
+
+    useEffect(() => {
+        function refresh() {
+            refetch({page, pageSize})
+        }
+
+        refresh();
+    }, [page, pageSize]);
+
+    const onPageChange = (newPage) => setPage(newPage);
+    const onPageSizeChange = (newPageSize) => setPageSize(newPageSize);
+
     const [addSolutionOpen, setAddSolutionOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     useEffect(() => generateErrorAlert(show, error), [error])
+
+    const [ref, setRef] = useState(undefined);
 
     return (
         <div>
@@ -73,11 +89,12 @@ export default function SolutionsTable({gap = new Gap()}) {
                                         <TableRow key={`${solution.id}-row`}>
                                             {
                                                 _.map(solutionsTable, (columnName) => {
-                                                    const {
-                                                        render,
-                                                        visible
-                                                    } = _.find(columns, ['name', columnName]) || {};
-                                                    if (render && visible) return render(solution);
+                                                    const {render, visible} = _.find(columns, ['name', columnName]) || {};
+                                                    if (render && visible) return render(gap, {
+                                                        ref, setRef, onEdit: () => {
+                                                        }, onDelete: () => {
+                                                        }
+                                                    });
                                                 })
                                             }
                                             <CustomNestingTableCell key={`${solution.id}-actions`}
@@ -91,9 +108,21 @@ export default function SolutionsTable({gap = new Gap()}) {
                         </CustomNestedTable>
                 }
             </div>
-            <div style={{padding: 5}}>
-                <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
-            </div>
+            {
+                <Grid container direction='row' justify='space-between' style={{padding: 5}}>
+                    <Grid item>
+                        <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
+                    </Grid>
+                    <Grid item>
+                        {
+                            (data && data?.data?.pager.total > 5) && <Paginator pager={data?.data?.pager} onPageSizeChange={onPageSizeChange}
+                                               onPageChange={onPageChange}/>
+
+                        }
+                    </Grid>
+
+                </Grid>
+            }
             {
                 addSolutionOpen &&
                 <SolutionsDialog onUpdate={refetch} gap={gap} onClose={_ => setAddSolutionOpen(false)}/>

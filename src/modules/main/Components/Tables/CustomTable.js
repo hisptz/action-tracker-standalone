@@ -1,12 +1,12 @@
 import {Card, Grid, IconButton, Table, TableCell, TableFooter, TableRow, withStyles} from "@material-ui/core";
-import {Button, CenteredContent, CircularLoader} from '@dhis2/ui'
+import {Button, CenteredContent} from '@dhis2/ui'
 import DueDateWarningIcon from '@material-ui/icons/ReportProblemOutlined';
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React, {useState} from "react";
-import ActionStatusConstants from "../../../../core/constants/actionStatus";
 import {ActionConstants} from "../../../../core/constants/action";
 import AddIcon from '@material-ui/icons/Add';
 import ActionStatusDialog from "../../../../shared/Dialogs/ActionStatusDialog";
+import TableActionsMenu from "../TableActionsMenu";
 
 const CustomTableRowHead = withStyles((_) => ({
     root: {
@@ -115,6 +115,8 @@ const StatusContainer = ({status}) => {
 }
 
 const StatusTableCell = ({status}) => {
+    const [ref, setRef] = useState(false);
+
     return (
         <StyledStatusTableCell>
             <Grid item container direction='row' justify='space-between' spacing={2}>
@@ -122,9 +124,12 @@ const StatusTableCell = ({status}) => {
                     <StatusContainer status={status}/>
                 </Grid>
                 <Grid container justify='center' alignItems='center' item xs={3}>
-                    <Button icon={<MoreHorizIcon/>}/>
+                    <Button onClick={(d, e) => setRef(e.currentTarget)} icon={<MoreHorizIcon/>}/>
                 </Grid>
             </Grid>
+            {
+                ref && <TableActionsMenu ref={ref} onClose={_ => setRef(undefined)}/>
+            }
         </StyledStatusTableCell>
     )
 }
@@ -149,7 +154,6 @@ const DueDateTableCell = ({dueDate}) => {
         </CustomTableCell>
     )
 }
-
 
 const NoActionStatus = ({onAddClick}) => {
 
@@ -218,6 +222,25 @@ const ActionStatusTableCell = ({actionStatus, action, refetch}) => {
     )
 }
 
+const CustomTableCellWithActions = ({object, setRef, reference, onDelete, onEdit}) =>{
+
+    return(
+        <CustomTableCell key={`${object.id}-description`}>
+            <Grid container spacing={1}>
+                <Grid item xs={10}>
+                    {object.description}
+                </Grid>
+                <Grid item xs={2}>
+                    <Button key={`${object.id}-action-menu-button`} onClick={(d, e) => setRef(e.currentTarget)} icon={<MoreHorizIcon/>}/>
+                </Grid>
+            </Grid>
+            {
+                reference && <TableActionsMenu key={`${object.id}-action-menu`} onDelete={onDelete} onEdit={onEdit} reference={reference}
+                                         onClose={_ => setRef(undefined)}/>
+            }
+        </CustomTableCell>
+    )
+}
 
 export
 {
@@ -230,5 +253,6 @@ export
     CustomTableFooter,
     StatusTableCell,
     DueDateTableCell,
-    ActionStatusTableCell
+    ActionStatusTableCell,
+    CustomTableCellWithActions
 }

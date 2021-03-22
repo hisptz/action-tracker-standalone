@@ -68,15 +68,15 @@ export default function ChallengeList() {
                     {
                         _.isEmpty(data.indicators?.trackedEntityInstances) ? <EmptyChallengeList onAddIndicatorClick={_ => setAddIndicatorOpen(true)} /> :
                             <Grid container spacing={3}>
-                                <Grid item xs={12} style={{maxHeight: 120}} container justify='center'>
+                                <Grid item xs={12} style={{maxHeight: 120, margin: 0}} container justify='center'>
                                     <MainPageHeader onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/>
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid item xs={12} container spacing={3} style={{margin: 0}} >
                                     {
                                         _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
                                             const indicator = new Bottleneck(trackedEntityInstance);
                                             return (
-                                                <ChallengeCard key={`${indicator.id}-card`} indicator={indicator}/>
+                                                <ChallengeCard refresh={refetch} key={`${indicator.id}-card`} indicator={indicator}/>
                                             )
                                         })
                                     }

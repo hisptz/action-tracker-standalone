@@ -37,7 +37,7 @@ export default function MainPageHeader({onAddIndicatorClick}) {
     // const [anchorEl, setAnchorEl] = useState(null);
 
     return (
-        <Container maxWidth={false} style={{paddingLeft: 0, paddingRight: 0}}>
+        <Container maxWidth={false} >
             <Grid container spacing={4}>
                 <Grid item container xs={6} lg={4} spacing={3}>
                     <Grid item><Typography variant='h5' style={{color: '#6E7A8A'}}><b>Action {activePage}</b></Typography></Grid>

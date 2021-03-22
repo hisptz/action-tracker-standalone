@@ -2,7 +2,12 @@ import {atom, selector} from "recoil";
 import {PageState} from "./page";
 import {DimensionsState} from "./dimensions";
 import getTableQuartersColumn, {setVisibility} from "../services/tableUtils";
-import {CustomTableCell, DueDateTableCell, StatusTableCell} from "../../modules/main/Components/Tables/CustomTable";
+import {
+    CustomTableCell,
+    CustomTableCellWithActions,
+    DueDateTableCell,
+    StatusTableCell
+} from "../../modules/main/Components/Tables/CustomTable";
 import React from "react";
 
 export const ColumnState = atom({
@@ -14,11 +19,18 @@ export const ColumnState = atom({
                 displayName: 'Gap',
                 mandatory: true,
                 visible: true,
-                render: (object) => {
+                render: (object, actions = {
+                    onEdit: () => {
+                    },
+                    onDelete: () => {
+                    },
+                    ref: undefined,
+                    setRef: () => {
+                    }
+                }) => {
+                    const {ref} = actions || {};
                     return (
-                        <CustomTableCell key={`${object.id}-description`}>
-                            {object.description}
-                        </CustomTableCell>
+                        <CustomTableCellWithActions object={object} {...actions} reference={ref}/>
                     )
                 }
             },
@@ -27,11 +39,18 @@ export const ColumnState = atom({
                 displayName: 'Possible Solutions',
                 mandatory: true,
                 visible: true,
-                render: object => {
+                render: (object, actions = {
+                    onEdit: () => {
+                    },
+                    onDelete: () => {
+                    },
+                    ref: undefined,
+                    setRef: () => {
+                    }
+                }) => {
+                    const {ref} = actions || {};
                     return (
-                        <CustomTableCell key={`${object.id}-solution`}>
-                            {object.solution}
-                        </CustomTableCell>
+                        <CustomTableCellWithActions object={object} {...actions} reference={ref}/>
                     )
                 }
             },

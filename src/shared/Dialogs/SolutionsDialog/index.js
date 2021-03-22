@@ -58,7 +58,7 @@ function SolutionsDialog({onClose, gap, onUpdate}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
-            <ModalTitle>Possible Solution Form</ModalTitle>
+            <ModalTitle>Possible Solution </ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control} errors={errors}/>
             </ModalContent>

@@ -11,8 +11,18 @@ import {LiveColumnState} from "../../../../core/states/column";
 
 export default function ChallengeTable({indicator = new Bottleneck()}) {
     const {columns, visibleColumnsCount} = useRecoilValue(LiveColumnState) || {};
+
+    const styles = {
+        container:{
+            height:'100%',
+            overflow: 'auto',
+            borderRadius: 0
+
+        }
+    }
+
     return (
-        <Card variant='outlined'>
+        <Card variant='outlined' style={styles.container}>
             <CustomTable cellSpacing={0}>
                 {
                     <colgroup>
