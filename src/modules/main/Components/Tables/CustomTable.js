@@ -21,7 +21,8 @@ const CustomTableCellHead = withStyles((_) => ({
         paddingTop: 5,
         paddingBottom: 5,
         fontSize: 14,
-        color: '#212934'
+        color: '#212934',
+        fontWeight: 'normal'
     }
 }))(TableCell)
 
@@ -114,9 +115,8 @@ const StatusContainer = ({status}) => {
     }}>{selectedStatus}</Card>
 }
 
-const StatusTableCell = ({status}) => {
-    const [ref, setRef] = useState(false);
-
+const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object}) => {
+    const [currentTarget, setCurrentTarget] = useState(false);
     return (
         <StyledStatusTableCell>
             <Grid item container direction='row' justify='space-between' spacing={2}>
@@ -124,11 +124,15 @@ const StatusTableCell = ({status}) => {
                     <StatusContainer status={status}/>
                 </Grid>
                 <Grid container justify='center' alignItems='center' item xs={3}>
-                    <Button onClick={(d, e) => setRef(e.currentTarget)} icon={<MoreHorizIcon/>}/>
+                    <Button onClick={(d, e) => {
+                        setCurrentTarget(e.currentTarget);
+                        setRef(e.currentTarget)
+                    }} icon={<MoreHorizIcon/>}/>
                 </Grid>
             </Grid>
             {
-                ref && <TableActionsMenu ref={ref} onClose={_ => setRef(undefined)}/>
+                (reference && reference === currentTarget) &&
+                <TableActionsMenu object={object} onEdit={onEdit} onDelete={onDelete} reference={reference} onClose={_ => setRef(undefined)}/>
             }
         </StyledStatusTableCell>
     )
@@ -222,21 +226,33 @@ const ActionStatusTableCell = ({actionStatus, action, refetch}) => {
     )
 }
 
-const CustomTableCellWithActions = ({object, setRef, reference, onDelete, onEdit}) =>{
+const CustomTableCellWithActions = ({displayNameString, object, setRef, reference, onDelete, onEdit}) => {
+    const [currentTarget, setCurrentTarget] = useState(undefined);
 
-    return(
+    return (
         <CustomTableCell key={`${object.id}-description`}>
             <Grid container spacing={1}>
                 <Grid item xs={10}>
-                    {object.description}
+                    {object[displayNameString || 'description']}
                 </Grid>
                 <Grid item xs={2}>
-                    <Button key={`${object.id}-action-menu-button`} onClick={(d, e) => setRef(e.currentTarget)} icon={<MoreHorizIcon/>}/>
+                    <Button key={`${object.id}-action-menu-button`} onClick={(d, e) => {
+                        setRef(e.currentTarget);
+                        setCurrentTarget(e.currentTarget);
+                    }}
+                            icon={<MoreHorizIcon/>}/>
                 </Grid>
             </Grid>
             {
-                reference && <TableActionsMenu key={`${object.id}-action-menu`} onDelete={onDelete} onEdit={onEdit} reference={reference}
-                                         onClose={_ => setRef(undefined)}/>
+                (reference && reference === currentTarget) &&
+                <TableActionsMenu
+                    object={object}
+                    key={`${object.id}-action-menu`}
+                    onDelete={onDelete}
+                    onEdit={onEdit}
+                    reference={reference}
+                    onClose={_ => setRef(undefined)}
+                />
             }
         </CustomTableCell>
     )

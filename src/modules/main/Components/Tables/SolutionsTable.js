@@ -16,6 +16,7 @@ import {useRecoilValue} from "recoil";
 import {LiveColumnState} from "../../../../core/states/column";
 import Grid from "@material-ui/core/Grid";
 import Paginator from "../../../../shared/Components/Paginator";
+import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
 
 const possibleSolutionQuery = {
     data: {
@@ -71,6 +72,12 @@ export default function SolutionsTable({gap = new Gap()}) {
     useEffect(() => generateErrorAlert(show, error), [error])
 
     const [ref, setRef] = useState(undefined);
+    const [selectedSolution, setSelectedSolution] = useState(undefined);
+    const [openDelete, setOpenDelete] = useState(false);
+
+    const onDelete = () => {
+        setOpenDelete(true);
+    }
 
     return (
         <div>
@@ -89,10 +96,18 @@ export default function SolutionsTable({gap = new Gap()}) {
                                         <TableRow key={`${solution.id}-row`}>
                                             {
                                                 _.map(solutionsTable, (columnName) => {
-                                                    const {render, visible} = _.find(columns, ['name', columnName]) || {};
-                                                    if (render && visible) return render(gap, {
-                                                        ref, setRef, onEdit: () => {
-                                                        }, onDelete: () => {
+                                                    const {
+                                                        render,
+                                                        visible
+                                                    } = _.find(columns, ['name', columnName]) || {};
+                                                    if (render && visible) return render(solution, {
+                                                        ref, setRef,
+                                                        onEdit: () => {
+
+                                                        },
+                                                        onDelete: () => {
+                                                            setSelectedSolution(solution);
+                                                            onDelete();
                                                         }
                                                     });
                                                 })
@@ -115,8 +130,9 @@ export default function SolutionsTable({gap = new Gap()}) {
                     </Grid>
                     <Grid item>
                         {
-                            (data && data?.data?.pager.total > 5) && <Paginator pager={data?.data?.pager} onPageSizeChange={onPageSizeChange}
-                                               onPageChange={onPageChange}/>
+                            (data && data?.data?.pager.total > 5) &&
+                            <Paginator pager={data?.data?.pager} onPageSizeChange={onPageSizeChange}
+                                       onPageChange={onPageChange}/>
 
                         }
                     </Grid>
@@ -126,6 +142,17 @@ export default function SolutionsTable({gap = new Gap()}) {
             {
                 addSolutionOpen &&
                 <SolutionsDialog onUpdate={refetch} gap={gap} onClose={_ => setAddSolutionOpen(false)}/>
+            }
+            {
+                openDelete &&
+                <DeleteConfirmation
+                    type='event'
+                    message='Are you sure you want to delete this solution and all related actions?'
+                    onClose={_ => setOpenDelete(false)}
+                    id={selectedSolution?.id}
+                    deletionSuccessMessage='Solution Deleted Successfully'
+                    onUpdate={refetch}
+                />
             }
         </div>
     )

@@ -2505,9 +2505,9 @@
     "@hapi/hoek" "^8.3.0"
 
 "@iapps/period-utilities@^1.0.0-beta.3":
-  version "1.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@iapps/period-utilities/-/period-utilities-1.0.0-beta.3.tgz#487c53d55f81df91faa968b15d781bdec1fb8742"
-  integrity sha512-RhXv4IQ5tlCMnmx3pshRSTM2fgNSS5q8FgcUomGBobkDv8rqWM+QUTuVjeovKGPQ12vQN17onAj1v0arnkTAOw==
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@iapps/period-utilities/-/period-utilities-1.0.0-beta.4.tgz#4af12e734996f569173aa2fe6ea09171e92db049"
+  integrity sha512-FZgsL87wB4HHxv8aZ9DX2+EyQd8O9B3vzaRODJah/upEwmsSyeErU6/6zE+gD4tMSIpVurV2QYZDleceQ9VD/Q==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"

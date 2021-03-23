@@ -16,6 +16,7 @@ import {ActionConstants} from "../../../../core/constants";
 import {LiveColumnState} from "../../../../core/states/column";
 import Grid from "@material-ui/core/Grid";
 import Paginator from "../../../../shared/Components/Paginator";
+import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
 
 
 const actionsQuery = {
@@ -59,13 +60,20 @@ export default function ActionTable({solution = new PossibleSolution()}) {
         function refresh() {
             refetch({page, pageSize})
         }
+
         refresh();
     }, [page, pageSize]);
 
     const onPageChange = (newPage) => setPage(newPage);
     const onPageSizeChange = (newPageSize) => setPageSize(newPageSize);
 
+    const [ref, setRef] = useState(undefined);
+    const [selectedAction, setSelectedAction] = useState(undefined);
+    const [openDelete, setOpenDelete] = useState(false);
 
+    const onDelete = () => {
+        setOpenDelete(true);
+    }
 
     const styles = {
         container: {height: '100%', overflow: 'auto'}
@@ -101,7 +109,15 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                                         render,
                                                         visible
                                                     } = _.find(columns, ['name', columnName]) || {};
-                                                    if (render && visible) return render(action, refetch);
+                                                    if (render && visible) return render(action, refetch, {
+                                                        onDelete: () => {
+                                                            setSelectedAction(action);
+                                                            onDelete();
+                                                        },
+                                                        onEdit: () => {
+                                                        },
+                                                        ref, setRef
+                                                    });
                                                 })
                                             }
                                         </TableRow>
@@ -118,13 +134,26 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                 </Grid>
                 <Grid item>
                     {
-                        (data && data?.actions?.pager.total > 5) && <Paginator  pager={data?.actions?.pager} onPageSizeChange={onPageSizeChange} onPageChange={onPageChange}/>
+                        (data && data?.actions?.pager.total > 5) &&
+                        <Paginator pager={data?.actions?.pager} onPageSizeChange={onPageSizeChange}
+                                   onPageChange={onPageChange}/>
                     }
                 </Grid>
             </Grid>
             {
                 addActionOpen &&
                 <ActionItemDialog solution={solution} onUpdate={refetch} onClose={_ => setAddActionOpen(false)}/>
+            }
+            {
+                openDelete &&
+                <DeleteConfirmation
+                    type='trackedEntityInstance'
+                    message='Are you sure you want to delete this actions and all related actions status?'
+                    onClose={_ => setOpenDelete(false)}
+                    id={selectedAction?.id}
+                    deletionSuccessMessage='Action Deleted Successfully'
+                    onUpdate={refetch}
+                />
             }
         </div>
     )

@@ -55,7 +55,6 @@ export default function GapTable({challenge = new Bottleneck()}) {
     const [addGapOpen, setAddGapOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     useEffect(() => generateErrorAlert(show, error), [error]);
-    const [ref, setRef] = useState(undefined);
 
     const styles = {
         container: {
@@ -73,6 +72,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
     const onPageChange = (newPage) => setPage(newPage);
     const onPageSizeChange = (newPageSize) => setPageSize(newPageSize)
 
+    const [ref, setRef] = useState(undefined);
     const [openDelete, setOpenDelete] = useState(false);
     const [selectedGap, setSelectedGap] = useState(undefined);
 

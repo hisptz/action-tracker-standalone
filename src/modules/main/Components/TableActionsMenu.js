@@ -4,7 +4,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import React from "react";
 
 
-export default function TableActionsMenu({reference, onDelete, onEdit, onClose}) {
+export default function TableActionsMenu({object, reference, onDelete, onEdit, onClose}) {
+
+    console.log(`ROW OBJECT: ${object}`)
 
     return (
         (
@@ -12,12 +14,12 @@ export default function TableActionsMenu({reference, onDelete, onEdit, onClose})
                 <Popper reference={reference} placement='bottom-start'>
                     <FlyoutMenu>
                         <MenuItem onClick={_ => {
-                            onEdit();
+                            onEdit(object);
                             onClose();
                         }} icon={<EditIcon/>} label='Edit'/>
                         <MenuDivider/>
                         <MenuItem onClick={_ => {
-                            onDelete();
+                            onDelete(object);
                             onClose();
                         }} icon={<DeleteIcon/>} destructive label='Delete'/>
                     </FlyoutMenu>
