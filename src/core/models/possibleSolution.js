@@ -34,10 +34,9 @@ export default class PossibleSolution {
     }
 
     setValuesFromForm(data) {
-        console.log(data);
         this.solution = data[PossibleSolutionConstants.SOLUTION_DATA_ELEMENT]?.value;
-        this.gapLinkage = data['gapLinkage'];
-        this.indicatorId = data['indicatorId'];
+        this.gapLinkage =this.gapLinkage || data['gapLinkage'];
+        this.indicatorId = this.indicatorId || data['indicatorId'];
         this.actionLinkage = this.actionLinkage || uid();
         this.id = this.id || uid();
         this.eventDate = this.eventDate || new Date()
@@ -45,7 +44,10 @@ export default class PossibleSolution {
 
     getFormValues() {
         let formData = {}
-        formData[PossibleSolutionConstants.SOLUTION_DATA_ELEMENT] = this.solution;
+        formData[PossibleSolutionConstants.SOLUTION_DATA_ELEMENT] = {
+            name: PossibleSolutionConstants.SOLUTION_DATA_ELEMENT,
+            value: this.solution
+        };
         return formData
     }
 

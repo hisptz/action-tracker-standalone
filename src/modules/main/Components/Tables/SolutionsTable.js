@@ -64,6 +64,11 @@ export default function SolutionsTable({gap = new Gap()}) {
         refresh();
     }, [page, pageSize]);
 
+    const onModalClose = (onClose) =>{
+        setSelectedSolution(undefined);
+        onClose()
+    }
+
     const onPageChange = (newPage) => setPage(newPage);
     const onPageSizeChange = (newPageSize) => setPageSize(newPageSize);
 
@@ -103,7 +108,8 @@ export default function SolutionsTable({gap = new Gap()}) {
                                                     if (render && visible) return render(solution, {
                                                         ref, setRef,
                                                         onEdit: () => {
-
+                                                            setSelectedSolution(solution);
+                                                            setAddSolutionOpen(true);
                                                         },
                                                         onDelete: () => {
                                                             setSelectedSolution(solution);
@@ -141,14 +147,14 @@ export default function SolutionsTable({gap = new Gap()}) {
             }
             {
                 addSolutionOpen &&
-                <SolutionsDialog onUpdate={refetch} gap={gap} onClose={_ => setAddSolutionOpen(false)}/>
+                <SolutionsDialog solution={selectedSolution} onUpdate={refetch} gap={gap} onClose={_=>onModalClose(_ => setAddSolutionOpen(false))}/>
             }
             {
                 openDelete &&
                 <DeleteConfirmation
                     type='event'
                     message='Are you sure you want to delete this solution and all related actions?'
-                    onClose={_ => setOpenDelete(false)}
+                    onClose={_=>onModalClose(_ => setOpenDelete(false))}
                     id={selectedSolution?.id}
                     deletionSuccessMessage='Solution Deleted Successfully'
                     onUpdate={refetch}
