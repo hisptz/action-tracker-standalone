@@ -12,7 +12,7 @@ import TableActionsMenu from "./TableActionsMenu";
 import DeleteConfirmation from "../../../shared/Components/DeleteConfirmation";
 
 
-export default function ChallengeCard({indicator = new Bottleneck(), refresh}) {
+export default function ChallengeCard({indicator = new Bottleneck(), refresh, onEdit}) {
     const indicatorObject = indicator.toJson();
     const {loading, error, name} = useIndicatorsName(indicatorObject.indicator);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
@@ -26,9 +26,6 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh}) {
         setOpenDelete(true);
     }
 
-    const onEdit = () => {
-
-    }
 
     return (
         <Grid item sm={12}>
@@ -73,7 +70,7 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh}) {
                                 </Grid>
                         }
                         {
-                            ref && <TableActionsMenu onDelete={onDelete} onEdit={onEdit} reference={ref}
+                            ref && <TableActionsMenu object={indicator} onDelete={onDelete} onEdit={onEdit} reference={ref}
                                                      onClose={_ => setRef(undefined)}/>
                         }
                         {

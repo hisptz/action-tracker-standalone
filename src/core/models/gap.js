@@ -49,9 +49,12 @@ export default class Gap {
 
     getFormValues() {
         let formData = {}
-        formData[GapConstants.TITLE_DATA_ELEMENT] = this.title;
-        formData[GapConstants.DESCRIPTION_DATA_ELEMENT] = this.description;
-        formData[GapConstants.METHOD_DATA_ELEMENT] = this.method;
+        formData[GapConstants.TITLE_DATA_ELEMENT] = {name: GapConstants.TITLE_DATA_ELEMENT, value: this.title};
+        formData[GapConstants.DESCRIPTION_DATA_ELEMENT] = {
+            name: GapConstants.DESCRIPTION_DATA_ELEMENT,
+            value: this.description
+        };
+        formData[GapConstants.METHOD_DATA_ELEMENT] = {name: GapConstants.METHOD_DATA_ELEMENT, value: this.method};
         return formData
     }
 

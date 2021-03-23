@@ -10,7 +10,6 @@ import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
 import Gap from "../../../../core/models/gap";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import generateErrorAlert from "../../../../core/services/generateErrorAlert";
-import ChallengeDialog from "../../../../shared/Dialogs/ChallengeDialog";
 import Bottleneck from "../../../../core/models/bottleneck";
 import {useRecoilValue} from "recoil";
 import {LiveColumnState} from "../../../../core/states/column";
@@ -18,6 +17,7 @@ import {GapConstants} from "../../../../core/constants";
 import Grid from "@material-ui/core/Grid";
 import Paginator from "../../../../shared/Components/Paginator";
 import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
+import GapDialog from "../../../../shared/Dialogs/GapDialog";
 
 const gapQuery = {
     data: {
@@ -80,6 +80,16 @@ export default function GapTable({challenge = new Bottleneck()}) {
         setOpenDelete(true);
     }
 
+    const onAdd = () => {
+        setSelectedGap(undefined);
+        setAddGapOpen(true);
+    }
+
+    const onModalClose = (onClose) =>{
+        setSelectedGap(undefined);
+        onClose();
+    }
+
     return (
         <div>
             <div style={styles.container}>
@@ -100,6 +110,8 @@ export default function GapTable({challenge = new Bottleneck()}) {
                                                 const {render, visible} = _.find(columns, ['name', columnName]) || {};
                                                 if (render && visible) return render(gap, {
                                                     ref, setRef, onEdit: () => {
+                                                        setSelectedGap(gap);
+                                                        setAddGapOpen(true);
                                                     }, onDelete: () => {
                                                         setSelectedGap(gap);
                                                         onDelete();
@@ -118,8 +130,9 @@ export default function GapTable({challenge = new Bottleneck()}) {
                                 }
                                 {
                                     addGapOpen &&
-                                    <ChallengeDialog challenge={challenge} onClose={_ => setAddGapOpen(false)}
-                                                     onUpdate={_ => refetch()}/>
+                                    <GapDialog gap={selectedGap} challenge={challenge}
+                                               onClose={_=> onModalClose(_ => setAddGapOpen(false))}
+                                               onUpdate={_ => refetch()}/>
 
                                 }
                             </TableBody>
@@ -129,7 +142,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
 
             <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                 <Grid item>
-                    <Button onClick={_ => setAddGapOpen(true)}>Add Gap</Button>
+                    <Button onClick={onAdd}>Add Gap</Button>
                 </Grid>
                 <Grid item>
                     {
@@ -141,7 +154,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
                         openDelete && <DeleteConfirmation
                             type='event'
                             message='Are you sure you want to delete this gap and all related solutions and actions?'
-                            onClose={_ => setOpenDelete(false)}
+                            onClose={_=> onModalClose(_ => setOpenDelete(false))}
                             id={selectedGap?.id}
                             deletionSuccessMessage='Gap Deleted Successfully'
                             onUpdate={refetch}

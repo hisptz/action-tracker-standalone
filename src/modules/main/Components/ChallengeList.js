@@ -58,7 +58,20 @@ export default function ChallengeList() {
     }
 
     const onPageChange = (newPage) => setPage(newPage);
-    const onPageSizeChange = (newPageSize) => setPageSize(newPageSize)
+    const onPageSizeChange = (newPageSize) => setPageSize(newPageSize);
+
+    const [selectedChallenge, setSelectedChallenge] = useState(undefined);
+
+
+    const onModalClose = (onClose) => {
+        setSelectedChallenge(undefined);
+        onClose();
+    }
+
+    const onEdit = (object) => {
+        setSelectedChallenge(object);
+        setAddIndicatorOpen(true);
+    }
 
     return (orgUnit && period ?
             <>
@@ -66,17 +79,19 @@ export default function ChallengeList() {
                 {(!loading && error) && <p>{error?.message || error.toString()}</p>}
                 {(!loading && !error && data) && <>
                     {
-                        _.isEmpty(data.indicators?.trackedEntityInstances) ? <EmptyChallengeList onAddIndicatorClick={_ => setAddIndicatorOpen(true)} /> :
+                        _.isEmpty(data.indicators?.trackedEntityInstances) ?
+                            <EmptyChallengeList onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/> :
                             <Grid container spacing={3}>
                                 <Grid item xs={12} style={{maxHeight: 120, margin: 0}} container justify='center'>
-                                    <MainPageHeader onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/>
+                                    <MainPageHeader onAddIndicatorClick={_=>onModalClose(_ => setAddIndicatorOpen(true))}/>
                                 </Grid>
-                                <Grid item xs={12} container spacing={3} style={{margin: 0}} >
+                                <Grid item xs={12} container spacing={3} style={{margin: 0}}>
                                     {
                                         _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
                                             const indicator = new Bottleneck(trackedEntityInstance);
                                             return (
-                                                <ChallengeCard refresh={refetch} key={`${indicator.id}-card`} indicator={indicator}/>
+                                                <ChallengeCard onEdit={onEdit} refresh={refetch}
+                                                               key={`${indicator.id}-card`} indicator={indicator}/>
                                             )
                                         })
                                     }
@@ -91,8 +106,9 @@ export default function ChallengeList() {
                             </Grid>
                     }
                     {
-                        addIndicatorOpen && <ChallengeDialog onClose={_ => setAddIndicatorOpen(false)}
-                                                             onUpdate={onAddIndicator}/>
+                        addIndicatorOpen &&
+                        <ChallengeDialog challenge={selectedChallenge} onClose={_=>onModalClose(_ => setAddIndicatorOpen(false))}
+                                         onUpdate={onAddIndicator}/>
 
                     }
                 </>
