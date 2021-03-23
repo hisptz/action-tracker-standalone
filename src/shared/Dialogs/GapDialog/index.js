@@ -29,7 +29,7 @@ const gapEditMutation = {
 export default function GapDialog({onClose, gap, onUpdate, challenge}) {
     const {bottleneckProgramMetadata} = useRecoilValue(ConfigState);
     const {orgUnit} = useRecoilValue(DimensionsState);
-    const {control, errors, handleSubmit, watch} = useForm({
+    const {control, errors, handleSubmit} = useForm({
             defaultValues: gap?.getFormValues() || {}
         }
     );
@@ -72,7 +72,7 @@ export default function GapDialog({onClose, gap, onUpdate, challenge}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)} large>
-            <ModalTitle>Gap</ModalTitle>
+            <ModalTitle>{gap ? 'Edit' : 'Add'} Gap</ModalTitle>
             <ModalContent>
                 {
                     <CustomForm

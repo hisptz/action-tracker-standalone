@@ -16,25 +16,34 @@ import {ConfigState, DimensionsState} from "../../../core/states";
 import Action from "../../../core/models/action";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import ActionStatus from "../../../core/models/actionStatus";
+import {confirmModalClose, getFormattedDate} from "../../../core/helpers/utils";
+import {ActionStatusConstants} from "../../../core/constants";
 
-const actionMutation = {
+const actionEditMutation = {
+    type: 'update',
+    resource: 'trackedEntityInstances',
+    id: ({id}) => id,
+    data: ({data}) => data
+}
+const actionCreateMutation = {
     type: 'create',
     resource: 'trackedEntityInstances',
-    data: ({data})=>data
+    data: ({data}) => data
 }
 
-export function ActionItemDialog({onClose, onUpdate, solution}) {
+export function ActionItemDialog({onClose, onUpdate, solution, action}) {
     const {orgUnit} = useRecoilValue(DimensionsState);
     const {actionProgramMetadata} = useRecoilValue(ConfigState);
     const metadataFields = Action.getFormFields(actionProgramMetadata);
     const {control, errors, handleSubmit} = useForm({
         mode: 'onBlur',
         reValidateMode: 'onBlur',
+        defaultValues: action?.getFormValues()
     });
     const formFields = getFormattedFormMetadata(metadataFields);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
-    const [mutate, {loading: saving}] = useDataMutation(actionMutation, {
-        variables: {data: {}}, onComplete: () => {
+    const [mutate, {loading: saving}] = useDataMutation(action ? actionEditMutation : actionCreateMutation, {
+        variables: {data: {}, id: action?.id}, onComplete: () => {
             show({message: 'Action saved successfully', type: {success: true}})
             onUpdate();
             onClose();
@@ -51,18 +60,32 @@ export function ActionItemDialog({onClose, onUpdate, solution}) {
     };
 
     const generatePayload = (data) => {
-        const action = new Action();
-        action.setValuesFromForm({...data, solutionLinkage: solution?.actionLinkage});
+        if (action) {
+            action.setValuesFromForm(data);
+            return action.getPayload([], orgUnit?.id)
+        } else {
+            const action = new Action();
+            action.setValuesFromForm({...data, solutionLinkage: solution?.actionLinkage});
 
-        const actionStatus = new ActionStatus();
-        actionStatus.setValuesFromForm({'f8JYVWLC7rE': 'Not started'}) //TODO: Link this to the option sets
-        return action.getPayload([actionStatus.getPayload()], orgUnit?.id);
+            const actionStatus = new ActionStatus();
+            const defaultActionStatus = {};
+            defaultActionStatus[`${ActionStatusConstants.STATUS_DATA_ELEMENT}`] = {
+                name: `${ActionStatusConstants.STATUS_DATA_ELEMENT}`,
+                value: 'Not started'
+            };
+            defaultActionStatus[`${ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT}`] = {
+                name: `${ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT}`,
+                value: getFormattedDate(new Date())
+            }
+            actionStatus.setValuesFromForm(defaultActionStatus) //TODO: Link this to the option sets
+            return action.getPayload([actionStatus.getPayload()], orgUnit?.id);
+        }
     }
 
 
     return (
-        <Modal className="dialog-container" onClose={onClose}>
-            <ModalTitle>Add Action Item</ModalTitle>
+        <Modal className="dialog-container" onClose={_=>confirmModalClose(onClose)}>
+            <ModalTitle>{action ? 'Edit' : 'Add'} Action Item</ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control} errors={errors}/>
             </ModalContent>

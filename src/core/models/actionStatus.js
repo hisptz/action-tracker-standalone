@@ -38,21 +38,30 @@ export default class ActionStatus {
         this.status = data[ActionStatusConstants.STATUS_DATA_ELEMENT]?.value;
         this.remarks = data[ActionStatusConstants.REMARKS_DATA_ELEMENT]?.value;
         this.reviewDate = data[ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT]?.value;
-        this.actionId = data['actionId'];
+        this.actionId = this.actionId || data['actionId'];
         this.id = this.id || uid();
         this.eventDate = this.eventDate || data[ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT]?.value
     }
 
     getFormValues() {
         let formData = {}
-        formData[ActionStatusConstants.STATUS_DATA_ELEMENT] = this.status;
-        formData[ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT] = this.reviewDate;
-        formData[ActionStatusConstants.REMARKS_DATA_ELEMENT] = this.remarks;
+        formData[ActionStatusConstants.STATUS_DATA_ELEMENT] = {
+            name: ActionStatusConstants.STATUS_DATA_ELEMENT,
+            value: this.status
+        };
+        formData[ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT] = {
+            name: ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT,
+            value: this.reviewDate
+        };
+        formData[ActionStatusConstants.REMARKS_DATA_ELEMENT] = {
+            name: ActionStatusConstants.REMARKS_DATA_ELEMENT,
+            value: this.remarks
+        };
         formData['actionId'] = this.actionId;
         return formData
     }
 
-    getPayload(orgUnit='') {
+    getPayload(orgUnit = '') {
 
         function getDataValues({status, remarks, reviewDate}) {
             const dataValues = [];

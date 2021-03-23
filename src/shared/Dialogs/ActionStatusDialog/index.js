@@ -16,13 +16,19 @@ import {useRecoilValue} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 
-const actionStatusMutation = {
+const actionStatusEditMutation = {
+    type: 'update',
+    resource: 'events',
+    id: ({id})=>id,
+    data: ({data}) => data
+}
+const actionStatusCreateMutation = {
     type: 'create',
     resource: 'events',
     data: ({data}) => data
 }
 
-export function ActionStatusDialog({onClose, action, onUpdate}) {
+export function ActionStatusDialog({onClose, action, onUpdate, actionStatus}) {
     const {orgUnit} = useRecoilValue(DimensionsState);
     const {actionProgramMetadata} = useRecoilValue(ConfigState);
     const metadataFields = ActionStatus.getFormFields(actionProgramMetadata);
@@ -35,10 +41,11 @@ export function ActionStatusDialog({onClose, action, onUpdate}) {
     const {control, errors, handleSubmit} = useForm({
         mode: 'onBlur',
         reValidateMode: 'onBlur',
+        defaultValues: actionStatus?.getFormValues()
     });
     const formFields = getFormattedFormMetadata(metadataFields);
-    const [mutate, {loading: saving}] = useDataMutation(actionStatusMutation, {
-        variables: {data: {}}, onComplete: () => {
+    const [mutate, {loading: saving}] = useDataMutation(actionStatus ? actionStatusEditMutation: actionStatusCreateMutation, {
+        variables: {data: {}, id: actionStatus?.id}, onComplete: () => {
             show({message: 'Action status saved successfully', type: {success: true}})
             onUpdate();
             onClose();
@@ -49,10 +56,16 @@ export function ActionStatusDialog({onClose, action, onUpdate}) {
     })
 
     const generatePayload = (data) => {
-        console.log(action);
-        const actionStatus = new ActionStatus();
-        actionStatus.setValuesFromForm({...data, actionId: action?.id});
-        return actionStatus.getPayload(orgUnit?.id)
+        if(actionStatus){
+            actionStatus.setValuesFromForm(data);
+            return actionStatus.getPayload(orgUnit?.id)
+        }
+        else{
+            const actionStatus = new ActionStatus();
+            actionStatus.setValuesFromForm({...data, actionId: action?.id});
+            return actionStatus.getPayload(orgUnit?.id)
+        }
+
     }
     return (
         <Modal className="dialog-container" onClose={onClose}>

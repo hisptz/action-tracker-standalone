@@ -31,7 +31,9 @@ export const ColumnState = atom({
                     const {ref} = actions || {};
                     return (
                         <CustomTableCellWithActions key={`${object.id}-custom-table-cell-action`}
-                                                    object={object} {...actions} reference={ref}/>
+                                                    object={object} {...actions} reference={ref}>
+                            {object.description}
+                        </CustomTableCellWithActions>
                     )
                 }
             },
@@ -52,8 +54,10 @@ export const ColumnState = atom({
                     const {ref} = actions || {};
                     return (
                         <CustomTableCellWithActions key={`${object.id}-custom-table-cell-action`}
-                                                    displayNameString='solution' object={object} {...actions}
-                                                    reference={ref}/>
+                                                    object={object} {...actions}
+                                                    reference={ref}>
+                            {object?.solution}
+                        </CustomTableCellWithActions>
                     )
                 }
             },
@@ -113,7 +117,7 @@ export const ColumnState = atom({
                 displayName: 'Status',
                 mandatory: true,
                 visible: true,
-                render: (object,refetch,actions) => {
+                render: (object, refetch, actions) => {
                     const {ref} = actions || {};
                     return (
                         <StatusTableCell

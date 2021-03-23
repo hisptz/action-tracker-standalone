@@ -1,6 +1,6 @@
 import {Period} from "@iapps/period-utilities";
 import _ from 'lodash'
-import {ActionStatusTableCell} from "../../modules/main/Components/Tables/CustomTable";
+import {ActionStatusTableCell, CustomTableCellWithActions} from "../../modules/main/Components/Tables/CustomTable";
 import React from "react";
 
 export default function getTableQuartersColumn(period) {
@@ -15,7 +15,8 @@ export default function getTableQuartersColumn(period) {
                     visible: true,
                     mandatory: true,
                     id: quarter.id,
-                    render: (object, refetch) => {
+                    render: (object, refetch, actions) => {
+                        const {ref} = actions;
                         const {startDate, endDate} = getPeriodDates(quarter);
                         const actionStatusList = object.actionStatusList || [];
                         const actionStatus = _.filter(actionStatusList, (as => {
@@ -23,8 +24,19 @@ export default function getTableQuartersColumn(period) {
                             return startDate <= eventDate && endDate >= eventDate;
                         }))[0]
                         return (
-                            <ActionStatusTableCell refetch={refetch} action={object} key={`${object.id}-${quarter.id}`}
-                                                   actionStatus={actionStatus}/>
+                            actionStatus ?
+                                <CustomTableCellWithActions object={actionStatus} reference={ref} {...actions} >
+                                    <ActionStatusTableCell
+                                        refetch={refetch} action={object}
+                                        key={`${object.id}-${quarter.id}`}
+                                        actionStatus={actionStatus}
+                                    />
+                                </CustomTableCellWithActions>:
+                                <ActionStatusTableCell
+                                    refetch={refetch} action={object}
+                                    key={`${object.id}-${quarter.id}`}
+                                    actionStatus={actionStatus}
+                                />
                         )
                     }
                 }

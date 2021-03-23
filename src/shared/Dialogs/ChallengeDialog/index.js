@@ -11,7 +11,7 @@ import DataFilter from '../../Components/DataFilter';
 import {useForm, Controller} from 'react-hook-form';
 import useIndicators from "../../../core/hooks/indicators";
 import {useRecoilValue} from "recoil";
-import {ConfigState, DimensionsState} from "../../../core/states";
+import {DimensionsState} from "../../../core/states";
 import Bottleneck from "../../../core/models/bottleneck";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {confirmModalClose} from "../../../core/helpers/utils";
@@ -45,7 +45,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
     })
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
 
-    const {handleSubmit, control, errors, watch} = useForm({
+    const {handleSubmit, control, errors} = useForm({
         mode: 'onBlur',
         reValidateMode: 'onBlur',
         defaultValues: challenge && {
@@ -73,7 +73,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)} large>
-            <ModalTitle>Select Indicator</ModalTitle>
+            <ModalTitle>{challenge ? 'Change': 'Select'} Indicator</ModalTitle>
             <ModalContent>
                 <Controller
                     control={control}

@@ -5,8 +5,6 @@ import {ActionConstants} from "../constants";
 import {uid} from "../helpers/utils";
 
 
-
-
 export default class Action {
 
     constructor(trackedEntityInstance = {
@@ -40,7 +38,7 @@ export default class Action {
     }
 
     getLatestStatus(events) {
-        return _.find(_.reverse(_.sortBy(events, (event)=>new Date(event?.eventDate)))[0]?.dataValues, ['dataElement', ActionConstants.STATUS_ATTRIBUTE])?.value
+        return _.find(_.reverse(_.sortBy(events, (event) => new Date(event?.eventDate)))[0]?.dataValues, ['dataElement', ActionConstants.STATUS_ATTRIBUTE])?.value
     }
 
     toJson() {
@@ -67,7 +65,7 @@ export default class Action {
         this.endDate = data[ActionConstants.END_DATE_ATTRIBUTE]?.value;
         this.designation = data[ActionConstants.DESIGNATION_ATTRIBUTE]?.value;
         this.responsiblePerson = data[ActionConstants.RESPONSIBLE_PERSON_ATTRIBUTE]?.value;
-        this.actionToSolutionLinkage = data['solutionLinkage'];
+        this.actionToSolutionLinkage = this.actionToSolutionLinkage || data['solutionLinkage'];
         this.id = this.id || uid();
         this.incidentDate = this.incidentDate || new Date();
         this.enrollmentDate = this.enrollmentDate || new Date();
@@ -77,12 +75,24 @@ export default class Action {
 
     getFormValues() {
         let formData = {}
-        formData[ActionConstants.TITLE_ATTRIBUTE] = this.title;
-        formData[ActionConstants.DESCRIPTION_ATTRIBUTE] = this.description;
-        formData[ActionConstants.DESIGNATION_ATTRIBUTE] = this.designation;
-        formData[ActionConstants.START_DATE_ATTRIBUTE] = this.startDate;
-        formData[ActionConstants.END_DATE_ATTRIBUTE] = this.endDate;
-        formData[ActionConstants.RESPONSIBLE_PERSON_ATTRIBUTE] = this.responsiblePerson;
+        formData[ActionConstants.TITLE_ATTRIBUTE] = {name: ActionConstants.TITLE_ATTRIBUTE, value: this.title};
+        formData[ActionConstants.DESCRIPTION_ATTRIBUTE] = {
+            name: ActionConstants.DESCRIPTION_ATTRIBUTE,
+            value: this.description
+        };
+        formData[ActionConstants.DESIGNATION_ATTRIBUTE] = {
+            name: ActionConstants.DESIGNATION_ATTRIBUTE,
+            value: this.designation
+        };
+        formData[ActionConstants.START_DATE_ATTRIBUTE] = {
+            name: ActionConstants.START_DATE_ATTRIBUTE,
+            value: this.startDate
+        };
+        formData[ActionConstants.END_DATE_ATTRIBUTE] = {name: ActionConstants.END_DATE_ATTRIBUTE, value: this.endDate};
+        formData[ActionConstants.RESPONSIBLE_PERSON_ATTRIBUTE] = {
+            name: ActionConstants.RESPONSIBLE_PERSON_ATTRIBUTE,
+            value: this.responsiblePerson
+        };
         return formData
     }
 

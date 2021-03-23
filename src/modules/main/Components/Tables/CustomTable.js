@@ -132,7 +132,8 @@ const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object}) 
             </Grid>
             {
                 (reference && reference === currentTarget) &&
-                <TableActionsMenu object={object} onEdit={onEdit} onDelete={onDelete} reference={reference} onClose={_ => setRef(undefined)}/>
+                <TableActionsMenu object={object} onEdit={onEdit} onDelete={onDelete} reference={reference}
+                                  onClose={_ => setRef(undefined)}/>
             }
         </StyledStatusTableCell>
     )
@@ -226,17 +227,17 @@ const ActionStatusTableCell = ({actionStatus, action, refetch}) => {
     )
 }
 
-const CustomTableCellWithActions = ({displayNameString, object, setRef, reference, onDelete, onEdit}) => {
+const CustomTableCellWithActions = ({object, setRef, reference, onDelete, onEdit, children}) => {
     const [currentTarget, setCurrentTarget] = useState(undefined);
 
     return (
-        <CustomTableCell key={`${object.id}-description`}>
+        <CustomTableCell key={`${object?.id}-description`}>
             <Grid container spacing={1}>
-                <Grid item xs={10}>
-                    {object[displayNameString || 'description']}
+                <Grid item xs={11}>
+                    {children}
                 </Grid>
-                <Grid item xs={2}>
-                    <Button key={`${object.id}-action-menu-button`} onClick={(d, e) => {
+                <Grid item xs={1}>
+                    <Button key={`${object?.id}-action-menu-button`} onClick={(d, e) => {
                         setRef(e.currentTarget);
                         setCurrentTarget(e.currentTarget);
                     }}

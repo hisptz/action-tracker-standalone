@@ -17,6 +17,8 @@ import {LiveColumnState} from "../../../../core/states/column";
 import Grid from "@material-ui/core/Grid";
 import Paginator from "../../../../shared/Components/Paginator";
 import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
+import ActionStatus from "../../../../core/models/actionStatus";
+import ActionStatusDialog from "../../../../shared/Dialogs/ActionStatusDialog";
 
 
 const actionsQuery = {
@@ -69,10 +71,22 @@ export default function ActionTable({solution = new PossibleSolution()}) {
 
     const [ref, setRef] = useState(undefined);
     const [selectedAction, setSelectedAction] = useState(undefined);
+    const [selectedActionStatus, setSelectedActionStatus] = useState(undefined);
+    const [openAddActionStatus, setOpenAddActionStatus] = useState(false)
     const [openDelete, setOpenDelete] = useState(false);
 
     const onDelete = () => {
         setOpenDelete(true);
+    }
+
+    const onActionStatusModalClose = (onClose) => {
+        setSelectedActionStatus(false);
+        onClose();
+    }
+
+    const onActionModalClose = (onClose) => {
+        setSelectedAction(undefined);
+        onClose()
     }
 
     const styles = {
@@ -110,11 +124,29 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                                         visible
                                                     } = _.find(columns, ['name', columnName]) || {};
                                                     if (render && visible) return render(action, refetch, {
-                                                        onDelete: () => {
-                                                            setSelectedAction(action);
-                                                            onDelete();
+                                                        onDelete: (object) => {
+                                                            if (object instanceof Action) {
+                                                                setSelectedActionStatus(undefined)
+                                                                setSelectedAction(action);
+                                                                onDelete();
+                                                            }
+                                                            if (object instanceof ActionStatus) {
+                                                                setSelectedAction(undefined)
+                                                                setSelectedActionStatus(object);
+                                                                onDelete();
+                                                            }
                                                         },
-                                                        onEdit: () => {
+                                                        onEdit: (object) => {
+                                                            if (object instanceof Action) {
+                                                                setSelectedActionStatus(undefined)
+                                                                setSelectedAction(object);
+                                                                setAddActionOpen(true);
+                                                            }
+                                                            if (object instanceof ActionStatus) {
+                                                                setSelectedAction(undefined)
+                                                                setSelectedActionStatus(object);
+                                                                setOpenAddActionStatus(true);
+                                                            }
                                                         },
                                                         ref, setRef
                                                     });
@@ -142,15 +174,21 @@ export default function ActionTable({solution = new PossibleSolution()}) {
             </Grid>
             {
                 addActionOpen &&
-                <ActionItemDialog solution={solution} onUpdate={refetch} onClose={_ => setAddActionOpen(false)}/>
+                <ActionItemDialog action={selectedAction} solution={solution} onUpdate={refetch}
+                                  onClose={_ => onActionModalClose(_ => setAddActionOpen(false))}/>
+            }
+            {
+                openAddActionStatus &&
+                <ActionStatusDialog actionStatus={selectedActionStatus} solution={solution} onUpdate={refetch}
+                                    onClose={_ => onActionStatusModalClose(_ => setAddActionOpen(false))}/>
             }
             {
                 openDelete &&
                 <DeleteConfirmation
                     type='trackedEntityInstance'
                     message='Are you sure you want to delete this actions and all related actions status?'
-                    onClose={_ => setOpenDelete(false)}
-                    id={selectedAction?.id}
+                    onClose={_ => onActionModalClose(_ => setOpenDelete(false))}
+                    id={selectedAction?.id || selectedActionStatus?.id}
                     deletionSuccessMessage='Action Deleted Successfully'
                     onUpdate={refetch}
                 />
