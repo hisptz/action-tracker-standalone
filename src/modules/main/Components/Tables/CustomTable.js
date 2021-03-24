@@ -2,7 +2,7 @@ import {
     Card,
     Container,
     Grid, Icon,
-    IconButton,
+    IconButton, SvgIcon,
     Table,
     TableCell,
     TableFooter,
@@ -21,6 +21,8 @@ import {ActionStatusState} from "../../../../core/states";
 import {useRecoilValue} from "recoil";
 import _ from 'lodash';
 import {generateTextColor} from "../../../../core/helpers/utils";
+import {FontIcon} from "material-ui";
+import {useConfig} from '@dhis2/app-runtime'
 
 const CustomTableRowHead = withStyles((_) => ({
     root: {
@@ -103,21 +105,32 @@ const StyledStatusTableCell = withStyles((_) => ({
 const StatusContainer = ({status}) => {
     //TODO:Call the legend configs
     const statusLegend = useRecoilValue(ActionStatusState);
-
-
+    const {baseUrl} = useConfig();
     const {code: selectedStatus, style} = _.find(statusLegend, ['code', status]) || {
         code: status,
         style: {color: '#d8d8d8'}
     };
     return <>
 
-        <Card variant='outlined' component='p' style={{
+        <Card variant='outlined' component={'p'} maxWidth={false} style={{
             background: style.color,
             textAlign: 'center',
-            padding: 3,
-            marginRight: '30%',
+            verticalAlign: 'center',
+            paddingTop: 2,
+            paddingBottom: 2,
+            margin: 2,
             color: generateTextColor(style.color)
-        }}>{selectedStatus}</Card>
+        }}>
+                <Grid container spacing={1} justify='center' >
+                    <Grid item>
+                        <img alt='icon' style={{width: 20}}
+                             src={`${baseUrl}/api/icons/${style.icon}/icon.svg`}/>
+                    </Grid>
+                    <Grid item>
+                        {selectedStatus}
+                    </Grid>
+                </Grid>
+        </Card>
     </>
 }
 
