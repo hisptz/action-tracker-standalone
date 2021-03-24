@@ -1,8 +1,9 @@
-import React, {useState} from 'react'
+import React from 'react'
 import './App.css'
 import MainPage from "./modules/main";
 import {RecoilRoot} from "recoil";
 import { CssReset } from '@dhis2/ui'
+// import '@dhis2/d2-icons'
 
 const styles = {margin: 0, padding: 0, height:'calc(100vh - 48px)'};
 

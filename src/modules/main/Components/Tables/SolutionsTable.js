@@ -33,6 +33,7 @@ const possibleSolutionQuery = {
             ],
             fields: [
                 'programStage',
+                'trackedEntityInstance',
                 'event',
                 'dataValues[dataElement, value]',
                 'eventDate',
@@ -64,7 +65,7 @@ export default function SolutionsTable({gap = new Gap()}) {
         refresh();
     }, [page, pageSize]);
 
-    const onModalClose = (onClose) =>{
+    const onModalClose = (onClose) => {
         setSelectedSolution(undefined);
         onClose()
     }
@@ -130,7 +131,7 @@ export default function SolutionsTable({gap = new Gap()}) {
                 }
             </div>
             {
-                <Container maxWidth={false} padding={{padding: 10}} >
+                <Container maxWidth={false} padding={{padding: 10}}>
                     <Grid container direction='row' justify='space-between' style={{padding: 10}}>
                         <Grid item>
                             <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
@@ -149,14 +150,15 @@ export default function SolutionsTable({gap = new Gap()}) {
             }
             {
                 addSolutionOpen &&
-                <SolutionsDialog solution={selectedSolution} onUpdate={refetch} gap={gap} onClose={_=>onModalClose(_ => setAddSolutionOpen(false))}/>
+                <SolutionsDialog solution={selectedSolution} onUpdate={refetch} gap={gap}
+                                 onClose={_ => onModalClose(_ => setAddSolutionOpen(false))}/>
             }
             {
                 openDelete &&
                 <DeleteConfirmation
                     type='event'
                     message='Are you sure you want to delete this solution and all related actions?'
-                    onClose={_=>onModalClose(_ => setOpenDelete(false))}
+                    onClose={_ => onModalClose(_ => setOpenDelete(false))}
                     id={selectedSolution?.id}
                     deletionSuccessMessage='Solution Deleted Successfully'
                     onUpdate={refetch}

@@ -17,7 +17,7 @@ import Action from "../../../core/models/action";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import ActionStatus from "../../../core/models/actionStatus";
 import {confirmModalClose, getFormattedDate} from "../../../core/helpers/utils";
-import {ActionStatusConstants} from "../../../core/constants";
+import {ActionConstants, ActionStatusConstants} from "../../../core/constants";
 
 const actionEditMutation = {
     type: 'update',
@@ -65,8 +65,7 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
             return action.getPayload([], orgUnit?.id)
         } else {
             const action = new Action();
-            action.setValuesFromForm({...data, solutionLinkage: solution?.actionLinkage});
-
+            action.setValuesFromForm({...data, solution});
             const actionStatus = new ActionStatus();
             const defaultActionStatus = {};
             defaultActionStatus[`${ActionStatusConstants.STATUS_DATA_ELEMENT}`] = {
@@ -75,7 +74,7 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
             };
             defaultActionStatus[`${ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT}`] = {
                 name: `${ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT}`,
-                value: getFormattedDate(new Date())
+                value: data[ActionConstants.START_DATE_ATTRIBUTE]?.value
             }
             actionStatus.setValuesFromForm(defaultActionStatus) //TODO: Link this to the option sets
             return action.getPayload([actionStatus.getPayload()], orgUnit?.id);
@@ -84,7 +83,7 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
 
 
     return (
-        <Modal className="dialog-container" onClose={_=>confirmModalClose(onClose)}>
+        <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
             <ModalTitle>{action ? 'Edit' : 'Add'} Action Item</ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control} errors={errors}/>

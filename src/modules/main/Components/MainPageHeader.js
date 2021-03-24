@@ -1,7 +1,7 @@
 import {Button as MaterialButton, ButtonGroup, Card, Container, Grid, Typography} from "@material-ui/core";
 import React, {useState} from "react";
 import {useRecoilState, useRecoilValue} from "recoil";
-import {PageState} from "../../../core/states";
+import {ActionStatusState, PageState} from "../../../core/states";
 import {Button, ButtonStrip} from '@dhis2/ui';
 import AddIcon from '@material-ui/icons/Add';
 import DownloadIcon from '@material-ui/icons/GetApp';
@@ -34,7 +34,9 @@ const PageSelector = () => {
 
 export default function MainPageHeader({onAddIndicatorClick}) {
     const activePage = useRecoilValue(PageState);
-    // const [anchorEl, setAnchorEl] = useState(null);
+    const actionStatus = useRecoilValue(ActionStatusState);
+
+    console.log(actionStatus);
 
     return (
         <Container maxWidth={false} >

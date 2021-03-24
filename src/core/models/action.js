@@ -10,9 +10,10 @@ export default class Action {
     constructor(trackedEntityInstance = {
         trackedEntityInstance: '',
         attributes: [],
-        enrollments: [{events: []}]
+        enrollments: [{events: []}],
+        relationships: []
     }) {
-        const {trackedEntityInstance: teiId, attributes, enrollments} = trackedEntityInstance;
+        const {trackedEntityInstance: teiId, attributes, enrollments, relationships} = trackedEntityInstance;
         this.id = teiId;
         this.title = _.find(attributes, ['attribute', ActionConstants.TITLE_ATTRIBUTE])?.value;
         this.description = _.find(attributes, ['attribute', ActionConstants.DESCRIPTION_ATTRIBUTE])?.value;
@@ -22,6 +23,7 @@ export default class Action {
         this.designation = _.find(attributes, ['attribute', ActionConstants.DESIGNATION_ATTRIBUTE])?.value;
         this.actionToSolutionLinkage = _.find(attributes, ['attribute', ActionConstants.ACTION_TO_SOLUTION_LINKAGE])?.value;
         this.actionStatusList = _.map(enrollments[0].events, (event) => new ActionStatus(event));
+        this.relationshipId = relationships && relationships[0]?.relationship
         this.latestStatus = this.getLatestStatus(enrollments[0].events);
         this.enrollmentId = enrollments ? enrollments[0].id : uid();
         this.enrollmentDate = enrollments ? enrollments[0]?.enrollmentDate : new Date();
@@ -54,7 +56,9 @@ export default class Action {
             enrollmentDate: this.enrollmentDate,
             incidentDate: this.incidentDate,
             status: this.status,
-            enrollmentId: this.enrollmentId
+            enrollmentId: this.enrollmentId,
+            challengeId: this.challengeId,
+            relationshipId: this.relationshipId
         }
     }
 
@@ -65,7 +69,8 @@ export default class Action {
         this.endDate = data[ActionConstants.END_DATE_ATTRIBUTE]?.value;
         this.designation = data[ActionConstants.DESIGNATION_ATTRIBUTE]?.value;
         this.responsiblePerson = data[ActionConstants.RESPONSIBLE_PERSON_ATTRIBUTE]?.value;
-        this.actionToSolutionLinkage = this.actionToSolutionLinkage || data['solutionLinkage'];
+        this.actionToSolutionLinkage = this.actionToSolutionLinkage || data['solution']?.actionLinkage;
+        this.challengeId = this.challengeId || data['solution']?.indicatorId
         this.id = this.id || uid();
         this.incidentDate = this.incidentDate || new Date();
         this.enrollmentDate = this.enrollmentDate || new Date();
@@ -117,7 +122,27 @@ export default class Action {
             return attributes;
         }
 
-        const programEvents = events.map(event => ({...event, trackedEntityInstance: this.id, orgUnit}))
+        const programEvents = events.map(event => ({...event, trackedEntityInstance: this.id, orgUnit}));
+
+        function getRelationships({challengeId, relationshipId, id}){
+            return [
+                {
+                    relationshipType: ActionConstants.BOTTLENECK_ACTION_RELATIONSHIP_TYPE,
+                    relationship: relationshipId || uid(),
+                    from: {
+                        trackedEntityInstance:{
+                            trackedEntityInstance: challengeId
+                        }
+                    },
+                    to: {
+                        trackedEntityInstance: {
+                            trackedEntityInstance: id
+                        }
+                    }
+
+                }
+            ]
+        }
 
         function getEnrollments({id, enrollmentDate, incidentDate, status, enrollmentId}) {
             return [
@@ -139,7 +164,8 @@ export default class Action {
             trackedEntityType: ActionConstants.ACTION_TRACKED_ENTITY_TYPE,
             orgUnit,
             attributes: getAttributes(this.toJson()),
-            enrollments: getEnrollments(this.toJson())
+            enrollments: getEnrollments(this.toJson()),
+            relationships: getRelationships(this.toJson())
         }
     }
 

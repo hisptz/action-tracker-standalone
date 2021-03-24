@@ -1,8 +1,6 @@
-
-
-export default class ActionConstants{
-    static PROGRAM_ID='unD7wro3qPm';
-    static ACTION_TRACKED_ENTITY_TYPE ='TFYpX5EXmYp'
+export default class ActionConstants {
+    static PROGRAM_ID = 'unD7wro3qPm';
+    static ACTION_TRACKED_ENTITY_TYPE = 'TFYpX5EXmYp'
     static TITLE_ATTRIBUTE = 'HQxzVwKedKu'
     static DESCRIPTION_ATTRIBUTE = 'GlvCtGIytIz'
     static START_DATE_ATTRIBUTE = 'jFjnkx49Lg3';
@@ -11,4 +9,5 @@ export default class ActionConstants{
     static DESIGNATION_ATTRIBUTE = 'Ax6bWbKn46e';
     static ACTION_TO_SOLUTION_LINKAGE = 'Hi3IjyMXzeW';
     static STATUS_ATTRIBUTE = 'f8JYVWLC7rE';
+    static BOTTLENECK_ACTION_RELATIONSHIP_TYPE = 'XTJrr4c45G7';
 }

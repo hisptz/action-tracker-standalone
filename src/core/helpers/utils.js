@@ -32,3 +32,33 @@ export function getFormattedDate(date) {
         (day > 9 ? `-${day}` : `-0${day}`)
     );
 }
+
+
+export function generateTextColor(backgroundColor) {
+    function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+    }
+
+    // function rgbToHex(r, g, b) {
+    //     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    // }
+    const {r, g, b} = hexToRgb(backgroundColor);
+
+
+    function colorIsLight(r, g, b){
+        var a = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return (a < 0.5);
+    }
+    return colorIsLight(r,g,b) ? '#000': '#fff'
+}
+

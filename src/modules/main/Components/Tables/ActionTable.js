@@ -33,7 +33,8 @@ const actionsQuery = {
             fields: [
                 'trackedEntityInstance',
                 'attributes[attribute,value]',
-                'enrollments[events[trackedEntityInstance,eventDate,programStage,event,dataValues[dataElement,value]]]'
+                'enrollments[events[trackedEntityInstance,eventDate,programStage,event,dataValues[dataElement,value]]]',
+                'relationships[relationship,from[trackedEntityInstance[trackedEntityInstance]]]'
             ],
             filter: [
                 `${ActionConstants.ACTION_TO_SOLUTION_LINKAGE}:eq:${solutionToActionLinkage}`

@@ -1,7 +1,7 @@
 import {
     Card,
     Container,
-    Grid,
+    Grid, Icon,
     IconButton,
     Table,
     TableCell,
@@ -17,6 +17,10 @@ import {ActionConstants} from "../../../../core/constants/action";
 import AddIcon from '@material-ui/icons/Add';
 import ActionStatusDialog from "../../../../shared/Dialogs/ActionStatusDialog";
 import TableActionsMenu from "../TableActionsMenu";
+import {ActionStatusState} from "../../../../core/states";
+import {useRecoilValue} from "recoil";
+import _ from 'lodash';
+import {generateTextColor} from "../../../../core/helpers/utils";
 
 const CustomTableRowHead = withStyles((_) => ({
     root: {
@@ -98,30 +102,23 @@ const StyledStatusTableCell = withStyles((_) => ({
 
 const StatusContainer = ({status}) => {
     //TODO:Call the legend configs
-    const legend = [
-        {
-            status: 'In progress',
-            color: '#c8e6c9',
-            textColor: '#103713',
-            icon: ''
-        },
-        {
-            status: 'Open',
-            color: '#c5e3fc',
-            textColor: '#093371',
-            icon: ''
-        },
+    const statusLegend = useRecoilValue(ActionStatusState);
 
-    ];
 
-    const {status: selectedStatus, color, textColor} = _.find(legend, ['status', status]) || {status, color: '#d8d8d8'};
-    return <Card variant='outlined' component='p' style={{
-        background: color,
-        textAlign: 'center',
-        padding: 3,
-        marginRight: '30%',
-        color: textColor
-    }}>{selectedStatus}</Card>
+    const {code: selectedStatus, style} = _.find(statusLegend, ['code', status]) || {
+        code: status,
+        style: {color: '#d8d8d8'}
+    };
+    return <>
+
+        <Card variant='outlined' component='p' style={{
+            background: style.color,
+            textAlign: 'center',
+            padding: 3,
+            marginRight: '30%',
+            color: generateTextColor(style.color)
+        }}>{selectedStatus}</Card>
+    </>
 }
 
 const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object, ...props}) => {
