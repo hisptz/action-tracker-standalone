@@ -121,8 +121,7 @@ export default class Bottleneck {
         if (programTrackedEntityAttributes) {
             for (const trackedEntityAttribute of programTrackedEntityAttributes) {
                 const {mandatory, trackedEntityAttribute: attribute} = trackedEntityAttribute || {};
-                const {name, id, formName, valueType} = attribute || {};
-                const formField = new CustomFormField({id, name, valueType, formName, mandatory});
+                const formField = new CustomFormField({...attribute, mandatory});
                 formFields.push(formField);
             }
         }

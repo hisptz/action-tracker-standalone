@@ -85,9 +85,9 @@ export default class PossibleSolution {
 
         for (const dataElement of programStageDataElements) {
             const {compulsory, dataElement: element} = dataElement;
-            const {name, id, formName, valueType} = element;
+            const {id} = element;
             if (id !== PossibleSolutionConstants.SOLUTION_TO_ACTION_LINKAGE_DATA_ELEMENT && id !== PossibleSolutionConstants.GAP_TO_SOLUTION_LINKAGE_DATA_ELEMENT) {
-                const formField = new CustomFormField({id, name, valueType, formName, compulsory});
+                const formField = new CustomFormField({...element, compulsory});
                 formFields.push(formField);
             }
         }

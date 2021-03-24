@@ -66,9 +66,9 @@ export const ColumnState = atom({
                 displayName: 'Action Items',
                 mandatory: true,
                 visible: true,
-                render: object => {
+                render: (object, _,__, width) => {
                     return (
-                        <CustomTableCell key={`${object.id}-description`}>
+                        <CustomTableCell style={{maxWidth: width}} key={`${object.id}-description`}>
                             {object?.description}
                         </CustomTableCell>
                     )
@@ -79,9 +79,9 @@ export const ColumnState = atom({
                 displayName: 'Responsible Person',
                 mandatory: true,
                 visible: true,
-                render: object => {
+                render: (object, _,__, width)=> {
                     return (
-                        <CustomTableCell key={`${object.id}-responsible-designation`}>
+                        <CustomTableCell style={{maxWidth: width}}  key={`${object.id}-responsible-designation`}>
                             {object?.responsiblePerson}, {object?.designation}
                         </CustomTableCell>
                     )
@@ -92,9 +92,9 @@ export const ColumnState = atom({
                 displayName: 'Start Date',
                 mandatory: true,
                 visible: true,
-                render: object => {
+                render: (object, _,__, width) => {
                     return (
-                        <CustomTableCell key={`${object.id}-startDate`}>
+                        <CustomTableCell style={{maxWidth: width}} key={`${object.id}-startDate`}>
                             {object?.startDate}
                         </CustomTableCell>
                     )
@@ -105,9 +105,9 @@ export const ColumnState = atom({
                 displayName: 'End Date',
                 mandatory: true,
                 visible: true,
-                render: object => {
+                render: (object, _,__, width) => {
                     return (
-                        <DueDateTableCell dueDate={object?.endDate}
+                        <DueDateTableCell style={{maxWidth: width}} dueDate={object?.endDate}
                                           key={`${object.id}-endDate`}/>
                     )
                 }
@@ -117,10 +117,11 @@ export const ColumnState = atom({
                 displayName: 'Status',
                 mandatory: true,
                 visible: true,
-                render: (object, refetch, actions) => {
+                render: (object, refetch, actions, width) => {
                     const {ref} = actions || {};
                     return (
                         <StatusTableCell
+                            style={{maxWidth: width}}
                             object={object}
                             reference={ref}
                             {...actions}
@@ -169,6 +170,7 @@ export const LiveColumnState = selector(({
                 return get(ColumnState);
             }
         } else {
+            return get(ColumnState);
             return get(ColumnState);
         }
     }

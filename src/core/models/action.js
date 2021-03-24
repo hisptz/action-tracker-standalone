@@ -149,9 +149,9 @@ export default class Action {
         if (programTrackedEntityAttributes) {
             for (const trackedEntityAttribute of programTrackedEntityAttributes) {
                 const {mandatory, trackedEntityAttribute: attribute} = trackedEntityAttribute || {};
-                const {name, id, formName, valueType} = attribute || {};
+                const {id} = attribute || {};
                 if (id !== ActionConstants.ACTION_TO_SOLUTION_LINKAGE) {
-                    const formField = new CustomFormField({id, name, valueType, formName, mandatory});
+                    const formField = new CustomFormField({...attribute, mandatory});
                     formFields.push(formField);
                 }
             }

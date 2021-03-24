@@ -91,8 +91,7 @@ export default class ActionStatus {
         if (programStageDataElements) {
             for (const dataElement of programStageDataElements) {
                 const {compulsory, dataElement: element} = dataElement;
-                const {name, id, formName, valueType, optionSet} = element;
-                const formField = new CustomFormField({id, name, valueType, formName, compulsory, optionSet});
+                const formField = new CustomFormField({...element, compulsory});
                 formFields.push(formField);
             }
         }

@@ -2,7 +2,7 @@ import {
     CustomNestedTable,
     CustomTableCell,
 } from "./CustomTable";
-import {TableBody, TableRow} from "@material-ui/core";
+import {Container, TableBody, TableRow} from "@material-ui/core";
 import _ from "lodash";
 import React, {useEffect, useState} from "react";
 import Action from "../../../../core/models/action";
@@ -80,7 +80,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
     }
 
     const onActionStatusModalClose = (onClose) => {
-        setSelectedActionStatus(false);
+        setSelectedActionStatus(undefined);
         onClose();
     }
 
@@ -133,6 +133,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                                             if (object instanceof ActionStatus) {
                                                                 setSelectedAction(undefined)
                                                                 setSelectedActionStatus(object);
+                                                                console.log(object)
                                                                 onDelete();
                                                             }
                                                         },
@@ -149,7 +150,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                                             }
                                                         },
                                                         ref, setRef
-                                                    });
+                                                    }, 100 / visibleColumnsCount);
                                                 })
                                             }
                                         </TableRow>
@@ -160,18 +161,20 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                     </TableBody>
                 </CustomNestedTable>
             </div>
-            <Grid container direction='row' justify='space-between' style={{padding: 5}}>
-                <Grid item>
-                    <Button onClick={_ => setAddActionOpen(true)}>Add Action Item</Button>
+            <Container maxWidth={false}>
+                <Grid container direction='row' justify='space-between' style={{padding: 5}}>
+                    <Grid item>
+                        <Button onClick={_ => setAddActionOpen(true)}>Add Action Item</Button>
+                    </Grid>
+                    <Grid item>
+                        {
+                            (data && data?.actions?.pager.total > 5) &&
+                            <Paginator pager={data?.actions?.pager} onPageSizeChange={onPageSizeChange}
+                                       onPageChange={onPageChange}/>
+                        }
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    {
-                        (data && data?.actions?.pager.total > 5) &&
-                        <Paginator pager={data?.actions?.pager} onPageSizeChange={onPageSizeChange}
-                                   onPageChange={onPageChange}/>
-                    }
-                </Grid>
-            </Grid>
+            </Container>
             {
                 addActionOpen &&
                 <ActionItemDialog action={selectedAction} solution={solution} onUpdate={refetch}
@@ -180,14 +183,18 @@ export default function ActionTable({solution = new PossibleSolution()}) {
             {
                 openAddActionStatus &&
                 <ActionStatusDialog actionStatus={selectedActionStatus} solution={solution} onUpdate={refetch}
-                                    onClose={_ => onActionStatusModalClose(_ => setAddActionOpen(false))}/>
+                                    onClose={_ => onActionStatusModalClose(_ => setOpenAddActionStatus(false))}/>
             }
             {
                 openDelete &&
                 <DeleteConfirmation
-                    type='trackedEntityInstance'
-                    message='Are you sure you want to delete this actions and all related actions status?'
-                    onClose={_ => onActionModalClose(_ => setOpenDelete(false))}
+                    type={selectedAction ? 'trackedEntityInstance' : 'event'}
+                    message={selectedAction ? 'Are you sure you want to delete this actions and all related actions status?' : 'Are you sure you want to delete this action status?'}
+                    onClose={_ => {
+                        if (selectedAction) onActionModalClose(_ => setOpenDelete(false));
+                        else onActionStatusModalClose(_ => setOpenDelete(false))
+                    }
+                    }
                     id={selectedAction?.id || selectedActionStatus?.id}
                     deletionSuccessMessage='Action Deleted Successfully'
                     onUpdate={refetch}

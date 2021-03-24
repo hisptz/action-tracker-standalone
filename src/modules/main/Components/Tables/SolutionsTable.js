@@ -1,5 +1,5 @@
 import {CustomNestedTable, CustomNestingTableCell, CustomTableCell, CustomTableFooter} from "./CustomTable";
-import {TableBody, TableCell, TableRow} from "@material-ui/core";
+import {Container, TableBody, TableCell, TableRow} from "@material-ui/core";
 import _ from "lodash";
 import React, {useEffect, useState} from "react";
 import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
@@ -130,20 +130,22 @@ export default function SolutionsTable({gap = new Gap()}) {
                 }
             </div>
             {
-                <Grid container direction='row' justify='space-between' style={{padding: 5}}>
-                    <Grid item>
-                        <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
-                    </Grid>
-                    <Grid item>
-                        {
-                            (data && data?.data?.pager.total > 5) &&
-                            <Paginator pager={data?.data?.pager} onPageSizeChange={onPageSizeChange}
-                                       onPageChange={onPageChange}/>
+                <Container maxWidth={false} padding={{padding: 10}} >
+                    <Grid container direction='row' justify='space-between' style={{padding: 10}}>
+                        <Grid item>
+                            <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
+                        </Grid>
+                        <Grid item>
+                            {
+                                (data && data?.data?.pager.total > 5) &&
+                                <Paginator pager={data?.data?.pager} onPageSizeChange={onPageSizeChange}
+                                           onPageChange={onPageChange}/>
 
-                        }
-                    </Grid>
+                            }
+                        </Grid>
 
-                </Grid>
+                    </Grid>
+                </Container>
             }
             {
                 addSolutionOpen &&
