@@ -1,5 +1,5 @@
 import {CustomNestedTable, CustomNestingTableCell, CustomTableCell, CustomTableFooter} from "./CustomTable";
-import {TableBody, TableRow} from "@material-ui/core";
+import {Container, TableBody, TableCell, TableRow} from "@material-ui/core";
 import _ from "lodash";
 import React, {useEffect, useState} from "react";
 import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
@@ -14,6 +14,9 @@ import Gap from "../../../../core/models/gap";
 import SolutionsDialog from "../../../../shared/Dialogs/SolutionsDialog";
 import {useRecoilValue} from "recoil";
 import {LiveColumnState} from "../../../../core/states/column";
+import Grid from "@material-ui/core/Grid";
+import Paginator from "../../../../shared/Components/Paginator";
+import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
 
 const possibleSolutionQuery = {
     data: {
@@ -52,9 +55,34 @@ export default function SolutionsTable({gap = new Gap()}) {
             linkage: gap.solutionLinkage
         }
     })
+
+    useEffect(() => {
+        function refresh() {
+            refetch({page, pageSize})
+        }
+
+        refresh();
+    }, [page, pageSize]);
+
+    const onModalClose = (onClose) =>{
+        setSelectedSolution(undefined);
+        onClose()
+    }
+
+    const onPageChange = (newPage) => setPage(newPage);
+    const onPageSizeChange = (newPageSize) => setPageSize(newPageSize);
+
     const [addSolutionOpen, setAddSolutionOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     useEffect(() => generateErrorAlert(show, error), [error])
+
+    const [ref, setRef] = useState(undefined);
+    const [selectedSolution, setSelectedSolution] = useState(undefined);
+    const [openDelete, setOpenDelete] = useState(false);
+
+    const onDelete = () => {
+        setOpenDelete(true);
+    }
 
     return (
         <div>
@@ -77,7 +105,17 @@ export default function SolutionsTable({gap = new Gap()}) {
                                                         render,
                                                         visible
                                                     } = _.find(columns, ['name', columnName]) || {};
-                                                    if (render && visible) return render(solution);
+                                                    if (render && visible) return render(solution, {
+                                                        ref, setRef,
+                                                        onEdit: () => {
+                                                            setSelectedSolution(solution);
+                                                            setAddSolutionOpen(true);
+                                                        },
+                                                        onDelete: () => {
+                                                            setSelectedSolution(solution);
+                                                            onDelete();
+                                                        }
+                                                    });
                                                 })
                                             }
                                             <CustomNestingTableCell key={`${solution.id}-actions`}
@@ -91,12 +129,38 @@ export default function SolutionsTable({gap = new Gap()}) {
                         </CustomNestedTable>
                 }
             </div>
-            <div style={{padding: 5}}>
-                <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
-            </div>
+            {
+                <Container maxWidth={false} padding={{padding: 10}} >
+                    <Grid container direction='row' justify='space-between' style={{padding: 10}}>
+                        <Grid item>
+                            <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
+                        </Grid>
+                        <Grid item>
+                            {
+                                (data && data?.data?.pager.total > 5) &&
+                                <Paginator pager={data?.data?.pager} onPageSizeChange={onPageSizeChange}
+                                           onPageChange={onPageChange}/>
+
+                            }
+                        </Grid>
+
+                    </Grid>
+                </Container>
+            }
             {
                 addSolutionOpen &&
-                <SolutionsDialog onUpdate={refetch} gap={gap} onClose={_ => setAddSolutionOpen(false)}/>
+                <SolutionsDialog solution={selectedSolution} onUpdate={refetch} gap={gap} onClose={_=>onModalClose(_ => setAddSolutionOpen(false))}/>
+            }
+            {
+                openDelete &&
+                <DeleteConfirmation
+                    type='event'
+                    message='Are you sure you want to delete this solution and all related actions?'
+                    onClose={_=>onModalClose(_ => setOpenDelete(false))}
+                    id={selectedSolution?.id}
+                    deletionSuccessMessage='Solution Deleted Successfully'
+                    onUpdate={refetch}
+                />
             }
         </div>
     )

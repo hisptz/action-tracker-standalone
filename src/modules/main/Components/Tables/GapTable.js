@@ -2,7 +2,7 @@ import {
     CustomNestedTable,
     CustomNestingTableCell,
 } from "./CustomTable";
-import {TableBody, TableRow} from "@material-ui/core";
+import {CardContent, TableBody, TableRow} from "@material-ui/core";
 import _ from "lodash";
 import React, {useEffect, useState} from "react";
 import SolutionsTable from "./SolutionsTable";
@@ -10,11 +10,14 @@ import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
 import Gap from "../../../../core/models/gap";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import generateErrorAlert from "../../../../core/services/generateErrorAlert";
-import ChallengeDialog from "../../../../shared/Dialogs/ChallengeDialog";
 import Bottleneck from "../../../../core/models/bottleneck";
 import {useRecoilValue} from "recoil";
 import {LiveColumnState} from "../../../../core/states/column";
 import {GapConstants} from "../../../../core/constants";
+import Grid from "@material-ui/core/Grid";
+import Paginator from "../../../../shared/Components/Paginator";
+import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
+import GapDialog from "../../../../shared/Dialogs/GapDialog";
 
 const gapQuery = {
     data: {
@@ -40,8 +43,8 @@ const gapQuery = {
 
 export default function GapTable({challenge = new Bottleneck()}) {
     const [page, setPage] = useState(1);
-    const {columns, gapsTable, visibleColumnsCount} = useRecoilValue(LiveColumnState);
     const [pageSize, setPageSize] = useState(5);
+    const {columns, gapsTable, visibleColumnsCount} = useRecoilValue(LiveColumnState);
     const {loading, error, data, refetch} = useDataQuery(gapQuery, {
         variables: {
             trackedEntityInstance: challenge.id,
@@ -51,11 +54,45 @@ export default function GapTable({challenge = new Bottleneck()}) {
     })
     const [addGapOpen, setAddGapOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
-    useEffect(() => generateErrorAlert(show, error), [error])
+    useEffect(() => generateErrorAlert(show, error), [error]);
+
+    const styles = {
+        container: {
+            maxHeight: 420,
+            overflow: 'auto'
+        }
+    }
+    useEffect(() => {
+        function refresh() {
+            refetch({page, pageSize})
+        }
+
+        refresh();
+    }, [page, pageSize]);
+    const onPageChange = (newPage) => setPage(newPage);
+    const onPageSizeChange = (newPageSize) => setPageSize(newPageSize)
+
+    const [ref, setRef] = useState(undefined);
+    const [openDelete, setOpenDelete] = useState(false);
+    const [selectedGap, setSelectedGap] = useState(undefined);
+
+    const onDelete = () => {
+        setOpenDelete(true);
+    }
+
+    const onAdd = () => {
+        setSelectedGap(undefined);
+        setAddGapOpen(true);
+    }
+
+    const onModalClose = (onClose) =>{
+        setSelectedGap(undefined);
+        onClose();
+    }
 
     return (
         <div>
-            <div style={{height: 400, overflow: 'auto'}}>
+            <div style={styles.container}>
                 {
                     loading ? <CenteredContent>
                             <CircularLoader small/>
@@ -71,7 +108,15 @@ export default function GapTable({challenge = new Bottleneck()}) {
                                         {
                                             _.map(gapsTable, (columnName) => {
                                                 const {render, visible} = _.find(columns, ['name', columnName]) || {};
-                                                if(render && visible) return render(gap);
+                                                if (render && visible) return render(gap, {
+                                                    ref, setRef, onEdit: () => {
+                                                        setSelectedGap(gap);
+                                                        setAddGapOpen(true);
+                                                    }, onDelete: () => {
+                                                        setSelectedGap(gap);
+                                                        onDelete();
+                                                    }
+                                                });
                                             })
                                         }
                                         <CustomNestingTableCell key={`${gap.id}-solutions`}
@@ -85,8 +130,9 @@ export default function GapTable({challenge = new Bottleneck()}) {
                                 }
                                 {
                                     addGapOpen &&
-                                    <ChallengeDialog challenge={challenge} onClose={_ => setAddGapOpen(false)}
-                                                     onUpdate={_ => refetch()}/>
+                                    <GapDialog gap={selectedGap} challenge={challenge}
+                                               onClose={_=> onModalClose(_ => setAddGapOpen(false))}
+                                               onUpdate={_ => refetch()}/>
 
                                 }
                             </TableBody>
@@ -94,9 +140,27 @@ export default function GapTable({challenge = new Bottleneck()}) {
                 }
             </div>
 
-            <div style={{padding: 5}}>
-                <Button onClick={_ => setAddGapOpen(true)}>Add Gap</Button>
-            </div>
+            <Grid container direction='row' justify='space-between' style={{padding: 5}}>
+                <Grid item>
+                    <Button onClick={onAdd}>Add Gap</Button>
+                </Grid>
+                <Grid item>
+                    {
+                        (data && data?.data?.pager.total > 5) &&
+                        <Paginator pager={data?.data?.pager} onPageSizeChange={onPageSizeChange}
+                                   onPageChange={onPageChange}/>
+                    }
+                    {
+                        openDelete && <DeleteConfirmation
+                            type='event'
+                            message='Are you sure you want to delete this gap and all related solutions and actions?'
+                            onClose={_=> onModalClose(_ => setOpenDelete(false))}
+                            id={selectedGap?.id}
+                            deletionSuccessMessage='Gap Deleted Successfully'
+                            onUpdate={refetch}
+                        />
+                    }</Grid>
+            </Grid>
         </div>
     )
 }

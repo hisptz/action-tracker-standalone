@@ -15,13 +15,19 @@ import PossibleSolution from "../../../core/models/possibleSolution";
 import {getFormattedFormMetadata} from "../../../core/helpers/formsUtilsHelper";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 
-const solutionMutation = {
+const solutionEditMutation = {
+    type: 'update',
+    resource: 'events',
+    id: ({id}) => id,
+    data: ({data}) => data
+}
+const solutionCreateMutation = {
     type: 'create',
     resource: 'events',
     data: ({data}) => data
 }
 
-function SolutionsDialog({onClose, gap, onUpdate}) {
+function SolutionsDialog({onClose, gap, onUpdate, solution}) {
     const {orgUnit} = useRecoilValue(DimensionsState);
     const {bottleneckProgramMetadata} = useRecoilValue(ConfigState);
     const formFields = getFormattedFormMetadata(PossibleSolution.getFormFields(bottleneckProgramMetadata));
@@ -34,9 +40,10 @@ function SolutionsDialog({onClose, gap, onUpdate}) {
     const {control, errors, handleSubmit} = useForm({
         mode: 'onBlur',
         reValidateMode: 'onBlur',
+        defaultValues: solution?.getFormValues()
     });
-    const [mutate, {loading: saving}] = useDataMutation(solutionMutation, {
-        variables: {data: {}}, onComplete: () => {
+    const [mutate, {loading: saving}] = useDataMutation(solution ? solutionEditMutation : solutionCreateMutation, {
+        variables: {data: {}, id: solution?.id}, onComplete: () => {
             show({message: 'Solution saved successfully', type: {success: true}})
             onUpdate();
             onClose();
@@ -47,18 +54,23 @@ function SolutionsDialog({onClose, gap, onUpdate}) {
     })
 
     const generatePayload = (payload) => {
-        const possibleSolution = new PossibleSolution();
-        possibleSolution.setValuesFromForm({
-            ...payload,
-            gapLinkage: gap?.solutionLinkage,
-            indicatorId: gap?.indicatorId
-        })
-        return possibleSolution.getPayload(orgUnit?.id)
+        if (solution) {
+            solution.setValuesFromForm(payload);
+            return solution.getPayload(orgUnit?.id);
+        } else {
+            const possibleSolution = new PossibleSolution();
+            possibleSolution.setValuesFromForm({
+                ...payload,
+                gapLinkage: gap?.solutionLinkage,
+                indicatorId: gap?.indicatorId
+            })
+            return possibleSolution.getPayload(orgUnit?.id)
+        }
     }
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
-            <ModalTitle>Possible Solution Form</ModalTitle>
+            <ModalTitle> {solution ? 'Edit': 'Add'} Possible Solution </ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control} errors={errors}/>
             </ModalContent>
