@@ -6,8 +6,6 @@ import React from "react";
 
 export default function TableActionsMenu({object, reference, onDelete, onEdit, onClose}) {
 
-    console.log(`ROW OBJECT: ${object}`)
-
     return (
         (
             <Layer onClick={onClose}>

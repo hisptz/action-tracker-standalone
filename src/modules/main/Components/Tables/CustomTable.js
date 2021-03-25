@@ -121,15 +121,17 @@ const StatusContainer = ({status}) => {
             margin: 2,
             color: generateTextColor(style.color)
         }}>
-                <Grid container spacing={1} justify='center' >
-                    <Grid item>
+            <Grid container spacing={1} justify='center'>
+                {
+                    style.icon && <Grid item>
                         <img alt='icon' style={{width: 20}}
                              src={`${baseUrl}/api/icons/${style.icon}/icon.svg`}/>
                     </Grid>
-                    <Grid item>
-                        {selectedStatus}
-                    </Grid>
+                }
+                <Grid item>
+                    {selectedStatus}
                 </Grid>
+            </Grid>
         </Card>
     </>
 }

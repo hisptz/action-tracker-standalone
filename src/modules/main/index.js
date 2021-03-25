@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Container, Grid} from "@material-ui/core";
 import ChallengeList from "./Components/ChallengeList";
 import FilterComponents from "../../core/components/FilterComponents";
 import {useAppConfig} from "../../core/hooks";
 import FullPageLoader from "../../shared/Components/FullPageLoader";
+import {useSetRecoilState} from "recoil";
+import {DataEngineState} from "../../core/states";
+import {useDataEngine} from "@dhis2/app-runtime";
 
 
 const styles = {
@@ -17,6 +20,11 @@ const styles = {
 
 export default function MainPage() {
     const {loading, firstTimeUseLoading} = useAppConfig();
+    const engine = useDataEngine();
+    const setDataEngine = useSetRecoilState(DataEngineState);
+
+    useEffect(()=>{setDataEngine(engine)}, []);
+
     return (
         loading || firstTimeUseLoading ?
             <FullPageLoader text={firstTimeUseLoading && 'Configuring for first time use. Please wait...'} /> :

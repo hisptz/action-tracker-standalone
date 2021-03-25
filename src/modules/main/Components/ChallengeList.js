@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {Grid} from "@material-ui/core";
 import ChallengeCard from "./ChallengeCard";
 import {useRecoilValue} from "recoil";
-import {DimensionsState} from "../../../core/states";
+import {DimensionsState, StatusFilterState} from "../../../core/states";
 import NoDimensionsSelectedView from "./NoDimensionsSelectedView";
 import MainPageHeader from "./MainPageHeader";
 import EmptyChallengeList from "./EmptyChallengeList";
@@ -14,11 +14,12 @@ import ChallengeDialog from "../../../shared/Dialogs/ChallengeDialog";
 import generateErrorAlert from "../../../core/services/generateErrorAlert";
 import Paginator from "../../../shared/Components/Paginator";
 import {CenteredContent} from '@dhis2/ui'
+import useGetFilteredTeis from "../hooks/useGetFilteredTeis";
 
 const indicatorQuery = {
     indicators: {
         resource: 'trackedEntityInstances',
-        params: ({ou, page, pageSize}) => ({
+        params: ({ou, page, pageSize, trackedEntityInstance}) => ({
             program: 'Uvz0nfKVMQJ',
             page,
             pageSize,
@@ -28,17 +29,20 @@ const indicatorQuery = {
                 'trackedEntityInstance',
                 'attributes[attribute,value]',
                 'enrollments[events[programStage,event,dataValues[dataElement,value]]]'
-            ]
+            ],
+            trackedEntityInstance
         })
     }
 }
 
 export default function ChallengeList() {
     const {orgUnit, period} = useRecoilValue(DimensionsState);
+    const {selected: selectedStatus} = useRecoilValue(StatusFilterState);
+    const {filteredTeis, loading: filteredTeisLoading} = useGetFilteredTeis(selectedStatus, orgUnit);
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
     const {loading, data, error, refetch} = useDataQuery(indicatorQuery, {
-        variables: {ou: orgUnit?.id, page, pageSize},
+        variables: {ou: orgUnit?.id, page, pageSize, trackedEntityInstance: []},
         lazy: true
     });
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
@@ -47,11 +51,17 @@ export default function ChallengeList() {
 
     useEffect(() => {
         function refresh() {
-            if (orgUnit && period) refetch({ou: orgUnit?.id, page, pageSize})
+            if (orgUnit && !_.isEmpty(period)) {
+                if (!selectedStatus) {
+                    refetch({ou: orgUnit?.id, page, pageSize, trackedEntityInstance: []})
+                } else {
+                    refetch({ou: orgUnit?.id, page, pageSize, trackedEntityInstance: filteredTeis.join(';')})
+                }
+            }
         }
 
         refresh();
-    }, [orgUnit, period, page, pageSize]);
+    }, [orgUnit, period, page, pageSize, selectedStatus, filteredTeisLoading, filteredTeis]);
 
     const onAddIndicator = () => {
         refetch()
@@ -75,15 +85,16 @@ export default function ChallengeList() {
 
     return (orgUnit && period ?
             <>
-                {loading && <FullPageLoader/>}
-                {(!loading && error) && <p>{error?.message || error.toString()}</p>}
-                {(!loading && !error && data) && <>
+                {(loading || filteredTeisLoading) && <FullPageLoader/>}
+                {((!loading || !filteredTeisLoading) && error) && <p>{error?.message || error.toString()}</p>}
+                {((!loading || !filteredTeisLoading) && !error && data) && <>
                     {
                         _.isEmpty(data.indicators?.trackedEntityInstances) ?
                             <EmptyChallengeList onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/> :
                             <Grid container spacing={3}>
                                 <Grid item xs={12} style={{maxHeight: 120, margin: 0}} container justify='center'>
-                                    <MainPageHeader onAddIndicatorClick={_=>onModalClose(_ => setAddIndicatorOpen(true))}/>
+                                    <MainPageHeader
+                                        onAddIndicatorClick={_ => onModalClose(_ => setAddIndicatorOpen(true))}/>
                                 </Grid>
                                 <Grid item xs={12} container spacing={3} style={{margin: 0}}>
                                     {
@@ -107,7 +118,8 @@ export default function ChallengeList() {
                     }
                     {
                         addIndicatorOpen &&
-                        <ChallengeDialog challenge={selectedChallenge} onClose={_=>onModalClose(_ => setAddIndicatorOpen(false))}
+                        <ChallengeDialog challenge={selectedChallenge}
+                                         onClose={_ => onModalClose(_ => setAddIndicatorOpen(false))}
                                          onUpdate={onAddIndicator}/>
 
                     }

@@ -77,14 +77,14 @@ export default class ActionStatus {
             trackedEntityInstance: this.actionId,
             program: ActionConstants.PROGRAM_ID,
             orgUnit,
-            programStage: ActionStatusConstants.ACTION_STATUS_PROGRAM_STAGE_ID,
+            programStage: ActionStatusConstants.PROGRAM_STAGE_ID,
             dataValues: getDataValues(this.toJson())
         }
     }
 
     static getFormFields(programConfig) {
         const {programStages} = programConfig;
-        const gapProgramStage = _.find(programStages, ['id', ActionStatusConstants.ACTION_STATUS_PROGRAM_STAGE_ID]);
+        const gapProgramStage = _.find(programStages, ['id', ActionStatusConstants.PROGRAM_STAGE_ID]);
         const {programStageDataElements} = gapProgramStage;
         const formFields = [];
 

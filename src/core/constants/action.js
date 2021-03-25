@@ -10,4 +10,10 @@ export default class ActionConstants {
     static ACTION_TO_SOLUTION_LINKAGE = 'Hi3IjyMXzeW';
     static STATUS_ATTRIBUTE = 'f8JYVWLC7rE';
     static BOTTLENECK_ACTION_RELATIONSHIP_TYPE = 'XTJrr4c45G7';
+    static ACTION_QUERY_FIELDS = [
+        'trackedEntityInstance',
+        'attributes[attribute,value]',
+        'enrollments[events[trackedEntityInstance,eventDate,programStage,event,dataValues[dataElement,value]]]',
+        'relationships[relationship,from[trackedEntityInstance[trackedEntityInstance]]]'
+    ];
 }

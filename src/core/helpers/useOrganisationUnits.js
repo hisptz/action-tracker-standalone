@@ -23,9 +23,5 @@ export default function useOrganisationUnits(initLevel, initId=''){
     useEffect(() => {
        refetch({variables: {id, level}})
     }, [id])
-
-    console.log('rerender')
-
-
     return {loading, error, data, setId, setLevel}
 }

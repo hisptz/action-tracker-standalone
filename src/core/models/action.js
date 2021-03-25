@@ -22,9 +22,10 @@ export default class Action {
         this.responsiblePerson = _.find(attributes, ['attribute', ActionConstants.RESPONSIBLE_PERSON_ATTRIBUTE])?.value;
         this.designation = _.find(attributes, ['attribute', ActionConstants.DESIGNATION_ATTRIBUTE])?.value;
         this.actionToSolutionLinkage = _.find(attributes, ['attribute', ActionConstants.ACTION_TO_SOLUTION_LINKAGE])?.value;
-        this.actionStatusList = _.map(enrollments[0].events, (event) => new ActionStatus(event));
+        this.actionStatusList = enrollments && _.map(enrollments[0].events, (event) => new ActionStatus(event));
         this.relationshipId = relationships && relationships[0]?.relationship
-        this.latestStatus = this.getLatestStatus(enrollments[0].events);
+        this.challengeId = relationships && relationships[0]?.from?.trackedEntityInstance?.trackedEntityInstance
+        this.latestStatus = this.getLatestStatus(enrollments && enrollments[0].events);
         this.enrollmentId = enrollments ? enrollments[0].id : uid();
         this.enrollmentDate = enrollments ? enrollments[0]?.enrollmentDate : new Date();
         this.incidentDate = enrollments ? enrollments[0]?.incidentDate : new Date();

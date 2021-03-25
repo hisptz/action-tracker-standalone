@@ -18,9 +18,16 @@ const ActionStatusState = selector({
 
         return dataElement?.optionSet?.options || []
     }
-})
+});
+
+const DataEngineState = atom({
+    key: 'dataEngineState',
+    default: undefined
+});
+
 
 export {
     ConfigState,
-    ActionStatusState
+    ActionStatusState,
+    DataEngineState
 }

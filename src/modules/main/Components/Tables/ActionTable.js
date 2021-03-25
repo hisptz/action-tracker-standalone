@@ -7,7 +7,7 @@ import _ from "lodash";
 import React, {useEffect, useState} from "react";
 import Action from "../../../../core/models/action";
 import {useRecoilValue} from "recoil";
-import {DimensionsState} from "../../../../core/states";
+import {DimensionsState, StatusFilterState} from "../../../../core/states";
 import {useDataQuery} from "@dhis2/app-runtime";
 import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
 import ActionItemDialog from "../../../../shared/Dialogs/ActionItemDialog";
@@ -30,14 +30,9 @@ const actionsQuery = {
             page,
             pageSize,
             totalPages: true,
-            fields: [
-                'trackedEntityInstance',
-                'attributes[attribute,value]',
-                'enrollments[events[trackedEntityInstance,eventDate,programStage,event,dataValues[dataElement,value]]]',
-                'relationships[relationship,from[trackedEntityInstance[trackedEntityInstance]]]'
-            ],
+            fields: ActionConstants.ACTION_QUERY_FIELDS,
             filter: [
-                `${ActionConstants.ACTION_TO_SOLUTION_LINKAGE}:eq:${solutionToActionLinkage}`
+                `${ActionConstants.ACTION_TO_SOLUTION_LINKAGE}:eq:${solutionToActionLinkage}`,
             ]
         })
     }
@@ -45,6 +40,7 @@ const actionsQuery = {
 
 export default function ActionTable({solution = new PossibleSolution()}) {
     const [page, setPage] = useState(1);
+    const {selected: selectedStatus} = useRecoilValue(StatusFilterState);
     const [pageSize, setPageSize] = useState(5);
     const {orgUnit} = useRecoilValue(DimensionsState);
     const {columns, actionsTable, visibleColumnsCount} = useRecoilValue(LiveColumnState);
@@ -54,7 +50,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
             ou: orgUnit?.id,
             solutionToActionLinkage: solution.actionLinkage,
             page,
-            pageSize
+            pageSize,
         },
         lazy: true
     });
@@ -91,8 +87,11 @@ export default function ActionTable({solution = new PossibleSolution()}) {
     }
 
     const styles = {
-        container: {height: '100%', overflow: 'auto'}
-    }
+        container: {
+            height: '100%',
+            overflow: 'auto'
+        }
+    };
 
     return (
         <div>
@@ -115,47 +114,84 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                         {
                             data && <>
                                 {
-
-                                    _.map(_.map(data.actions.trackedEntityInstances, (trackedEntityInstance) => new Action(trackedEntityInstance)), (action) =>
-                                        <TableRow key={`${action.id}-row`}>
-                                            {
-                                                _.map(actionsTable, (columnName) => {
-                                                    const {
-                                                        render,
-                                                        visible
-                                                    } = _.find(columns, ['name', columnName]) || {};
-                                                    if (render && visible) return render(action, refetch, {
-                                                        onDelete: (object) => {
-                                                            if (object instanceof Action) {
-                                                                setSelectedActionStatus(undefined)
-                                                                setSelectedAction(action);
-                                                                onDelete();
-                                                            }
-                                                            if (object instanceof ActionStatus) {
-                                                                setSelectedAction(undefined)
-                                                                setSelectedActionStatus(object);
-                                                                console.log(object)
-                                                                onDelete();
-                                                            }
-                                                        },
-                                                        onEdit: (object) => {
-                                                            if (object instanceof Action) {
-                                                                setSelectedActionStatus(undefined)
-                                                                setSelectedAction(object);
-                                                                setAddActionOpen(true);
-                                                            }
-                                                            if (object instanceof ActionStatus) {
-                                                                setSelectedAction(undefined)
-                                                                setSelectedActionStatus(object);
-                                                                setOpenAddActionStatus(true);
-                                                            }
-                                                        },
-                                                        ref, setRef
-                                                    }, 100 / visibleColumnsCount);
-                                                })
-                                            }
-                                        </TableRow>
-                                    )
+                                    selectedStatus ? _.map(_.filter(_.map(data?.actions?.trackedEntityInstances, (trackedEntityInstance) => new Action(trackedEntityInstance)), (action) => action?.latestStatus === selectedStatus), (action) =>
+                                            <TableRow key={`${action?.id}-row`}>
+                                                {
+                                                    _.map(actionsTable, (columnName) => {
+                                                        const {
+                                                            render,
+                                                            visible
+                                                        } = _.find(columns, ['name', columnName]) || {};
+                                                        if (render && visible) return render(action, refetch, {
+                                                            onDelete: (object) => {
+                                                                if (object instanceof Action) {
+                                                                    setSelectedActionStatus(undefined)
+                                                                    setSelectedAction(action);
+                                                                    onDelete();
+                                                                }
+                                                                if (object instanceof ActionStatus) {
+                                                                    setSelectedAction(undefined)
+                                                                    setSelectedActionStatus(object);
+                                                                    onDelete();
+                                                                }
+                                                            },
+                                                            onEdit: (object) => {
+                                                                if (object instanceof Action) {
+                                                                    setSelectedActionStatus(undefined)
+                                                                    setSelectedAction(object);
+                                                                    setAddActionOpen(true);
+                                                                }
+                                                                if (object instanceof ActionStatus) {
+                                                                    setSelectedAction(undefined)
+                                                                    setSelectedActionStatus(object);
+                                                                    setOpenAddActionStatus(true);
+                                                                }
+                                                            },
+                                                            ref, setRef
+                                                        }, 100 / visibleColumnsCount);
+                                                    })
+                                                }
+                                            </TableRow>
+                                        ) :
+                                        _.map(_.map(data?.actions?.trackedEntityInstances, (trackedEntityInstance) => new Action(trackedEntityInstance)), (action) =>
+                                            <TableRow key={`${action?.id}-row`}>
+                                                {
+                                                    _.map(actionsTable, (columnName) => {
+                                                        const {
+                                                            render,
+                                                            visible
+                                                        } = _.find(columns, ['name', columnName]) || {};
+                                                        if (render && visible) return render(action, refetch, {
+                                                            onDelete: (object) => {
+                                                                if (object instanceof Action) {
+                                                                    setSelectedActionStatus(undefined)
+                                                                    setSelectedAction(action);
+                                                                    onDelete();
+                                                                }
+                                                                if (object instanceof ActionStatus) {
+                                                                    setSelectedAction(undefined)
+                                                                    setSelectedActionStatus(object);
+                                                                    onDelete();
+                                                                }
+                                                            },
+                                                            onEdit: (object) => {
+                                                                if (object instanceof Action) {
+                                                                    setSelectedActionStatus(undefined)
+                                                                    setSelectedAction(object);
+                                                                    setAddActionOpen(true);
+                                                                }
+                                                                if (object instanceof ActionStatus) {
+                                                                    setSelectedAction(undefined)
+                                                                    setSelectedActionStatus(object);
+                                                                    setOpenAddActionStatus(true);
+                                                                }
+                                                            },
+                                                            ref, setRef
+                                                        }, 100 / visibleColumnsCount);
+                                                    })
+                                                }
+                                            </TableRow>
+                                        )
                                 }
                             </>
                         }
