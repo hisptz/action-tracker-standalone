@@ -3,6 +3,7 @@ import {ConfigState, ActionStatusState, DataEngineState} from "./config";
 import {PageState} from "./page";
 import { IndicatorsSelectedState } from './indicatorsSelected';
 import {StatusFilterState} from "./statusFilter";
+import { IndicatorProgressState } from './indicatorProgress'
 
 export {
     DimensionsState,
@@ -11,5 +12,6 @@ export {
     IndicatorsSelectedState,
     ActionStatusState,
     DataEngineState,
-    StatusFilterState
+    StatusFilterState,
+    IndicatorProgressState
 }
