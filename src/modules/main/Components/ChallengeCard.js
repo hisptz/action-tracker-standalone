@@ -10,9 +10,12 @@ import {useAlert} from "@dhis2/app-runtime";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import TableActionsMenu from "./TableActionsMenu";
 import DeleteConfirmation from "../../../shared/Components/DeleteConfirmation";
+import ProgressDialog from '../../../shared/Dialogs/ProgressDialog'
 
 
-export default function ChallengeCard({indicator = new Bottleneck(), refresh, onEdit}) {
+export default function ChallengeCard({indicator = new Bottleneck()}) {
+    const [openProgressDialog, setOpenProgressDialog] = useState(false);
+    // const closeProgressDialog = () => setOpenProgressDialog(false) 
     const indicatorObject = indicator.toJson();
     const {loading, error, name} = useIndicatorsName(indicatorObject.indicator);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
@@ -54,7 +57,7 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
                                                 </Typography>
                                             </Grid>
                                             <Grid item>
-                                                <Button icon={<ProgressIcon/>}>View Progress</Button>
+                                                <Button onClick={() => setOpenProgressDialog(true)} icon={<ProgressIcon/>}>View Progress</Button>
                                             </Grid>
                                         </Grid>
                                         <Grid item container justify='flex-end' xs={1}>
@@ -62,6 +65,9 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
                                                     icon={<MoreHorizIcon/>}/>
                                         </Grid>
                                     </Grid>
+                                    {
+                                        openProgressDialog && <ProgressDialog indicatorId={indicator?.indicator} onClose={() => setOpenProgressDialog(false)}/>
+                                    }
                                     <Grid item xs={12}>
                                         <Box maxHeight='500px' className='overflow'>
                                             <ChallengeTable indicator={indicatorObject}/>
