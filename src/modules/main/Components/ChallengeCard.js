@@ -13,9 +13,9 @@ import DeleteConfirmation from "../../../shared/Components/DeleteConfirmation";
 import ProgressDialog from '../../../shared/Dialogs/ProgressDialog'
 
 
-export default function ChallengeCard({indicator = new Bottleneck()}) {
+export default function ChallengeCard({indicator = new Bottleneck(), refresh, onEdit}) {
     const [openProgressDialog, setOpenProgressDialog] = useState(false);
-    // const closeProgressDialog = () => setOpenProgressDialog(false) 
+    // const closeProgressDialog = () => setOpenProgressDialog(false)
     const indicatorObject = indicator.toJson();
     const {loading, error, name} = useIndicatorsName(indicatorObject.indicator);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
