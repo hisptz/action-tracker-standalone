@@ -15,7 +15,7 @@ import { useRecoilValue } from 'recoil';
 import { IndicatorProgressState, DimensionsState } from '../../../core/states';
 import { map, flattenDeep, find } from 'lodash';
 import { Period } from '@iapps/period-utilities';
-import './style/ProgressDialog.css';
+import './style/progressDialog.css';
 
 function getQuarteryPeriods(period) {
   let quarterlyPeriods = [];
@@ -59,7 +59,7 @@ function ProgressDialog({ onClose, indicatorId }) {
     return quarteryPeriod && quarteryPeriod.name ? quarteryPeriod.name : '';
   });
   return (
-    <Modal className="dialog-container" onClose={onClose} large>
+    <Modal className="progress-dialog-container" onClose={onClose} large>
       <ModalContent>
         {!indicatorProgressStatus?.loading &&
           !indicatorProgressStatus?.error &&
