@@ -50,7 +50,7 @@ export default function MainPageHeader({onAddIndicatorClick}) {
                 <Grid container direction='row' justify='space-between' alignItems='center' item xs={12}>
                     <Grid item container spacing={2} xs={6}>
                         <Grid item>
-                            <Button onClick={onAddIndicatorClick} icon={<AddIcon/>}>Add Indicator</Button>
+                            <Button onClick={onAddIndicatorClick} icon={<AddIcon/>}>Add Challenge</Button>
                         </Grid>
                         <Grid item xs={6}>
                             <SingleSelect clearText='Clear' clearable selected={statusFilter?.selected} placeholder='Filter by status' onChange={setStatusFilter}>

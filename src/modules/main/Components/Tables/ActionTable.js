@@ -89,6 +89,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
     const styles = {
         container: {
             height: '100%',
+            width: '100%',
             overflow: 'auto'
         }
     };

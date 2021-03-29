@@ -85,7 +85,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
         setAddGapOpen(true);
     }
 
-    const onModalClose = (onClose) =>{
+    const onModalClose = (onClose) => {
         setSelectedGap(undefined);
         onClose();
     }
@@ -98,8 +98,8 @@ export default function GapTable({challenge = new Bottleneck()}) {
                             <CircularLoader small/>
                         </CenteredContent> :
                         <CustomNestedTable>
-                            <colgroup span={7}>
-                                <col width={`${100 / columns.length}%`}/>
+                            <colgroup span={visibleColumnsCount}>
+                                <col width={`${100 / visibleColumnsCount}%`}/>
                             </colgroup>
                             <TableBody>
                                 {
@@ -131,7 +131,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
                                 {
                                     addGapOpen &&
                                     <GapDialog gap={selectedGap} challenge={challenge}
-                                               onClose={_=> onModalClose(_ => setAddGapOpen(false))}
+                                               onClose={_ => onModalClose(_ => setAddGapOpen(false))}
                                                onUpdate={_ => refetch()}/>
 
                                 }
@@ -139,7 +139,6 @@ export default function GapTable({challenge = new Bottleneck()}) {
                         </CustomNestedTable>
                 }
             </div>
-
             <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                 <Grid item>
                     <Button onClick={onAdd}>Add Gap</Button>
@@ -154,7 +153,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
                         openDelete && <DeleteConfirmation
                             type='event'
                             message='Are you sure you want to delete this gap and all related solutions and actions?'
-                            onClose={_=> onModalClose(_ => setOpenDelete(false))}
+                            onClose={_ => onModalClose(_ => setOpenDelete(false))}
                             id={selectedGap?.id}
                             deletionSuccessMessage='Gap Deleted Successfully'
                             onUpdate={refetch}

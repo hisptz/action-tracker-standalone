@@ -85,16 +85,24 @@ export default function SolutionsTable({gap = new Gap()}) {
         setOpenDelete(true);
     }
 
+    const styles = {
+        container: {
+            height: '100%',
+            overflow: 'auto',
+            width: '100%'
+        }
+    }
+
     return (
         <div>
-            <div style={{height: '100%', overflow: 'auto'}}>
+            <div style={styles.container}>
                 {
                     loading ? <CenteredContent>
                             <CircularLoader small/>
                         </CenteredContent> :
                         <CustomNestedTable>
                             <colgroup span={6}>
-                                <col width={`${100 / columns.length}%`}/>
+                                <col width={`${100 / (visibleColumnsCount - 1)}%`}/>
                             </colgroup>
                             <TableBody>
                                 {
@@ -131,8 +139,8 @@ export default function SolutionsTable({gap = new Gap()}) {
                 }
             </div>
             {
-                <Container maxWidth={false} padding={{padding: 10}}>
-                    <Grid container direction='row' justify='space-between' style={{padding: 10}}>
+                <Container maxWidth={false} padding={{padding: 5}}>
+                    <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                         <Grid item>
                             <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
                         </Grid>

@@ -1,8 +1,7 @@
 import {
     Card,
-    Container,
-    Grid, Icon,
-    IconButton, SvgIcon,
+    Grid,
+    IconButton,
     Table,
     TableCell,
     TableFooter,
@@ -12,7 +11,7 @@ import {
 import {Button, CenteredContent} from '@dhis2/ui'
 import DueDateWarningIcon from '@material-ui/icons/ReportProblemOutlined';
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import React, {useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {ActionConstants} from "../../../../core/constants/action";
 import AddIcon from '@material-ui/icons/Add';
 import ActionStatusDialog from "../../../../shared/Dialogs/ActionStatusDialog";
@@ -21,8 +20,7 @@ import {ActionStatusState} from "../../../../core/states";
 import {useRecoilValue} from "recoil";
 import _ from 'lodash';
 import {generateTextColor} from "../../../../core/helpers/utils";
-import {FontIcon} from "material-ui";
-import {useConfig} from '@dhis2/app-runtime'
+import {formatSvg} from "../../../../core/services/utils";
 
 const CustomTableRowHead = withStyles((_) => ({
     root: {
@@ -46,8 +44,8 @@ const CustomTableCell = withStyles((_) => ({
     root: {
         verticalAlign: 'top',
         paddingBottom: 5,
+        paddingTop: 10,
         fontSize: 14,
-        margin: 10
     }
 }))(TableCell)
 const CustomNestingTableCell = withStyles((_) => ({
@@ -103,33 +101,39 @@ const StyledStatusTableCell = withStyles((_) => ({
 }))(TableCell)
 
 const StatusContainer = ({status}) => {
-    //TODO:Call the legend configs
     const statusLegend = useRecoilValue(ActionStatusState);
-    const {baseUrl} = useConfig();
     const {code: selectedStatus, style} = _.find(statusLegend, ['code', status]) || {
         code: status,
         style: {color: '#d8d8d8'}
     };
+    const icon = style?.icon;
+    const iconRef = useRef()
+
+    useEffect(()=>{
+        iconRef.current.innerHTML = formatSvg(icon, {size: 20, color: generateTextColor(style.color)});
+    })
+
     return <>
 
-        <Card variant='outlined' component={'p'} maxWidth={false} style={{
+        <Card variant='outlined' component={'div'} maxWidth={false} style={{
             background: style.color,
             textAlign: 'center',
             verticalAlign: 'center',
-            paddingTop: 2,
-            paddingBottom: 2,
-            margin: 2,
-            color: generateTextColor(style.color)
+            color: generateTextColor(style.color),
         }}>
-            <Grid container spacing={1} justify='center'>
+            <Grid container justify='center' style={{padding: 5}}>
                 {
-                    style.icon && <Grid item>
-                        <img alt='icon' style={{width: 20}}
-                             src={`${baseUrl}/api/icons/${style.icon}/icon.svg`}/>
+                    style.icon &&
+                    <Grid item xs={2}>
+                        <CenteredContent>
+                                <div style={{paddingTop: 5}} ref={iconRef} />
+                        </CenteredContent>
                     </Grid>
                 }
-                <Grid item>
-                    {selectedStatus}
+                <Grid item xs={10}>
+                    <CenteredContent>
+                        {selectedStatus}
+                    </CenteredContent>
                 </Grid>
             </Grid>
         </Card>
@@ -140,7 +144,7 @@ const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object, .
     const [currentTarget, setCurrentTarget] = useState(false);
     return (
         <StyledStatusTableCell {...props}>
-            <Grid item container direction='row' justify='space-between' spacing={2}>
+            <Grid item container direction='row' justify='space-between' spacing={1}>
                 <Grid item xs={9}>
                     <StatusContainer status={status}/>
                 </Grid>
@@ -251,35 +255,31 @@ const ActionStatusTableCell = ({actionStatus, action, refetch}) => {
 
 const CustomTableCellWithActions = ({object, setRef, reference, onDelete, onEdit, children}) => {
     const [currentTarget, setCurrentTarget] = useState(undefined);
-
-
     return (
         <CustomTableCell key={`${object?.id}-description`}>
-            <Container maxWidth={false} style={{padding: 10}}>
-                <Grid container spacing={1}>
-                    <Grid item xs={11}>
-                        {children}
-                    </Grid>
-                    <Grid item xs={1}>
-                        <Button key={`${object?.id}-action-menu-button`} onClick={(d, e) => {
-                            setRef(e.currentTarget);
-                            setCurrentTarget(e.currentTarget);
-                        }}
-                                icon={<MoreHorizIcon/>}/>
-                    </Grid>
+            <Grid container spacing={1}>
+                <Grid item xs={9}>
+                    {children}
                 </Grid>
-                {
-                    (reference && reference === currentTarget) &&
-                    <TableActionsMenu
-                        object={object}
-                        key={`${object.id}-action-menu`}
-                        onDelete={onDelete}
-                        onEdit={onEdit}
-                        reference={reference}
-                        onClose={_ => setRef(undefined)}
-                    />
-                }
-            </Container>
+                <Grid item xs={3}>
+                    <Button key={`${object?.id}-action-menu-button`} onClick={(d, e) => {
+                        setRef(e.currentTarget);
+                        setCurrentTarget(e.currentTarget);
+                    }}
+                            icon={<MoreHorizIcon/>}/>
+                </Grid>
+            </Grid>
+            {
+                (reference && reference === currentTarget) &&
+                <TableActionsMenu
+                    object={object}
+                    key={`${object.id}-action-menu`}
+                    onDelete={onDelete}
+                    onEdit={onEdit}
+                    reference={reference}
+                    onClose={_ => setRef(undefined)}
+                />
+            }
         </CustomTableCell>
     )
 }
