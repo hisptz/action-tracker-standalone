@@ -15,6 +15,7 @@ import {DimensionsState} from "../../../core/states";
 import Bottleneck from "../../../core/models/bottleneck";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {confirmModalClose} from "../../../core/helpers/utils";
+import {generateImportSummaryErrors} from "../../../core/services/errorHandling";
 
 const challengeEditMutation = {
     type: 'update',
@@ -32,14 +33,24 @@ const challengeCreateMutation = {
 function ChallengeDialog({onClose, onUpdate, challenge}) {
     const {orgUnit} = useRecoilValue(DimensionsState);
     const {indicators, loading: indicatorsLoading, error: indicatorsError} = useIndicators(0);
-    const [mutate, {loading: saving}] = useDataMutation(challenge ? challengeEditMutation : challengeCreateMutation, {
+    const [mutate, {loading: saving, data}] = useDataMutation(challenge ? challengeEditMutation : challengeCreateMutation, {
         variables: {data: {}, id: challenge?.id},
-        onComplete: () => {
-            show({message: 'Challenge saved successfully', type: {success: true}})
-            onUpdate();
-            onClose();
+        onComplete: (response) => {
+            console.log(response);
+            const errors = generateImportSummaryErrors(response);
+            if (_.isEmpty(errors)) {
+                show({message: 'Challenge saved successfully', type: {success: true}})
+                onUpdate();
+                onClose();
+            } else {
+                errors.forEach(error => show({message: error, type: {error: true}}))
+            }
         },
         onError: error => {
+            const errors = generateImportSummaryErrors(data);
+            if(!_.isEmpty(errors)){
+                errors.forEach(error => show({message: error, type: {error: true}}))
+            }
             show({message: error?.message || error.toString()})
         }
     })
@@ -49,7 +60,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
         mode: 'onBlur',
         reValidateMode: 'onBlur',
         defaultValues: challenge && {
-            indicator: [Object.values(challenge?.getFormValues())[0] ]
+            indicator: [Object.values(challenge?.getFormValues())[0]]
         }
     });
 
@@ -73,7 +84,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)} large>
-            <ModalTitle>{challenge ? 'Change': 'Select'} Indicator</ModalTitle>
+            <ModalTitle>{challenge ? 'Change' : 'Select'} Indicator</ModalTitle>
             <ModalContent>
                 <Controller
                     control={control}
@@ -85,13 +96,21 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
                             initiallySelected={value}
                             getSelected={onChange}
                             loading={indicatorsLoading}
-                            error={errors?.indicator}
+                            error={errors?.indicator || indicatorsError}
                         />
                     )}
                 />
                 {
                     errors?.indicator &&
                     <CenteredContent><p style={{fontSize: 12, color: 'red'}}>{errors?.indicator?.message}</p>
+                    </CenteredContent>
+                }
+                {
+                    indicatorsError &&
+                    <CenteredContent><p style={{
+                        fontSize: 12,
+                        color: 'red'
+                    }}>{indicatorsError?.message || indicatorsError.toString()}</p>
                     </CenteredContent>
                 }
             </ModalContent>

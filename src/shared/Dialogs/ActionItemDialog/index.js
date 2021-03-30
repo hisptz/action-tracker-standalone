@@ -18,6 +18,7 @@ import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import ActionStatus from "../../../core/models/actionStatus";
 import {confirmModalClose, getFormattedDate} from "../../../core/helpers/utils";
 import {ActionConstants, ActionStatusConstants} from "../../../core/constants";
+import {generateImportSummaryErrors} from "../../../core/services/errorHandling";
 
 const actionEditMutation = {
     type: 'update',
@@ -43,10 +44,16 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
     const formFields = getFormattedFormMetadata(metadataFields);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     const [mutate, {loading: saving}] = useDataMutation(action ? actionEditMutation : actionCreateMutation, {
-        variables: {data: {}, id: action?.id}, onComplete: () => {
-            show({message: 'Action saved successfully', type: {success: true}})
-            onUpdate();
-            onClose();
+        variables: {data: {}, id: action?.id},
+        onComplete: (importSummary) => {
+            const errors = generateImportSummaryErrors(importSummary);
+            if (_.isEmpty(errors)) {
+                show({message: 'Action saved successfully', type: {success: true}})
+                onUpdate();
+                onClose();
+            } else {
+                errors.forEach(error => show({message: error, type: {error: true}}))
+            }
         },
         onError: error => {
             show({message: error?.message || error.toString()})
