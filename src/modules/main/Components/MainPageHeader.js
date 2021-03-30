@@ -1,16 +1,18 @@
 import {Button as MaterialButton, ButtonGroup, Card, Container, Grid, Typography} from "@material-ui/core";
 import React from "react";
 import {useRecoilState, useRecoilValue} from "recoil";
-import {ActionStatusState, PageState, StatusFilterState} from "../../../core/states";
+import {ActionStatusState, DimensionsState, PageState, StatusFilterState} from "../../../core/states";
 import {Button, ButtonStrip, SingleSelect, SingleSelectOption} from '@dhis2/ui';
 import AddIcon from '@material-ui/icons/Add';
 import DownloadIcon from '@material-ui/icons/GetApp';
 import ColumnIcon from '@material-ui/icons/ViewColumn';
+import {useAlert} from "@dhis2/app-runtime";
+import {Period} from "@iapps/period-utilities";
 
 const PageSelector = () => {
-    const [activePage, setDimensions] = useRecoilState(PageState);
-
-
+    const [activePage, setActivePage] = useRecoilState(PageState);
+    const {period} = useRecoilValue(DimensionsState);
+    const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     const styles = {
         active: {
             background: '#2B6A5D',
@@ -21,7 +23,18 @@ const PageSelector = () => {
             textTransform: 'none'
         }
     }
-    const onClick = (page) => setDimensions(page)
+    const onClick = (page) => {
+        const periodInstance  = new Period().getById(_.head(period)?.id);
+       if(page === 'Tracking'){
+           if(_.has(periodInstance, 'quarterly')){
+               setActivePage(page)
+           }else{
+               show({message: 'The selected period has no quarters'})
+           }
+       }else{
+           setActivePage(page)
+       }
+    }
 
     return (
         <ButtonGroup>

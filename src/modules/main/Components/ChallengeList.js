@@ -15,6 +15,7 @@ import generateErrorAlert from "../../../core/services/generateErrorAlert";
 import Paginator from "../../../shared/Components/Paginator";
 import {CenteredContent} from '@dhis2/ui'
 import useGetFilteredTeis from "../hooks/useGetFilteredTeis";
+import FullPageError from "../../../shared/Components/FullPageError";
 
 const indicatorQuery = {
     indicators: {
@@ -72,7 +73,6 @@ export default function ChallengeList() {
 
     const [selectedChallenge, setSelectedChallenge] = useState(undefined);
 
-
     const onModalClose = (onClose) => {
         setSelectedChallenge(undefined);
         onClose();
@@ -86,7 +86,7 @@ export default function ChallengeList() {
     return (orgUnit && period ?
             <>
                 {(loading || filteredTeisLoading) && <FullPageLoader/>}
-                {((!loading || !filteredTeisLoading) && error) && <p>{error?.message || error.toString()}</p>}
+                {((!loading || !filteredTeisLoading) && error) && <FullPageError error={error?.message || error?.toString()} />}
                 {((!loading || !filteredTeisLoading) && !error && data) && <>
                     {
                         _.isEmpty(data.indicators?.trackedEntityInstances) ?
