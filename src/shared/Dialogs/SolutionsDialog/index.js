@@ -14,7 +14,7 @@ import {confirmModalClose} from "../../../core/helpers/utils";
 import PossibleSolution from "../../../core/models/possibleSolution";
 import {getFormattedFormMetadata} from "../../../core/helpers/formsUtilsHelper";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {generateImportSummaryErrors} from "../../../core/services/errorHandling";
+import {generateImportSummaryErrors, onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
 
 const solutionEditMutation = {
     type: 'update',
@@ -46,17 +46,10 @@ function SolutionsDialog({onClose, gap, onUpdate, solution}) {
     const [mutate, {loading: saving}] = useDataMutation(solution ? solutionEditMutation : solutionCreateMutation, {
         variables: {data: {}, id: solution?.id},
         onComplete: (importSummary) => {
-            const errors = generateImportSummaryErrors(importSummary);
-            if(_.isEmpty(errors)){
-                show({message: 'Solution saved successfully', type: {success: true}})
-                onUpdate();
-                onClose();
-            }else{
-                errors.forEach(error => show({message: error, type: {error: true}}))
-            }
+            onCompleteHandler(importSummary, show, {message: 'Solution saved successfully', onClose, onUpdate})
         },
         onError: error => {
-            show({message: error?.message || error.toString()})
+            onErrorHandler(error, show);
         }
     })
 

@@ -8,7 +8,7 @@ import Gap from "../../../core/models/gap";
 import {getFormattedFormMetadata} from "../../../core/helpers/formsUtilsHelper";
 import {useForm} from "react-hook-form";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {generateImportSummaryErrors} from "../../../core/services/errorHandling";
+import {generateImportSummaryErrors, onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
 
 function getFormattedMetadataFields(metadataFields) {
     return getFormattedFormMetadata(metadataFields);
@@ -39,17 +39,10 @@ export default function GapDialog({onClose, gap, onUpdate, challenge}) {
     const [mutate, {loading: saving}] = useDataMutation(gap ? gapEditMutation : gapCreateMutation, {
         variables: {data: {}, id: gap?.id},
         onComplete: (importSummary) => {
-            const errors = generateImportSummaryErrors(importSummary);
-            if (_.isEmpty(errors)) {
-                show({message: 'Gap saved successfully', type: {success: true}})
-                onUpdate();
-                onClose();
-            } else {
-                errors.forEach(error => show({message: error, type: {error: true}}))
-            }
+            onCompleteHandler(importSummary, show, {message: 'Gap saved successfully', onClose, onUpdate})
         },
         onError: (error) => {
-            show({message: error?.message || error.toString(), type: {error: true}})
+            onErrorHandler(error, show);
         }
     })
 

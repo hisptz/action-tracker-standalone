@@ -15,7 +15,7 @@ import ActionStatus from "../../../core/models/actionStatus";
 import {useRecoilValue} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {generateImportSummaryErrors} from "../../../core/services/errorHandling";
+import {generateImportSummaryErrors, onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
 
 const actionStatusEditMutation = {
     type: 'update',
@@ -48,17 +48,10 @@ export function ActionStatusDialog({onClose, action, onUpdate, actionStatus}) {
     const [mutate, {loading: saving}] = useDataMutation(actionStatus ? actionStatusEditMutation: actionStatusCreateMutation, {
         variables: {data: {}, id: actionStatus?.id},
         onComplete: (importSummary) => {
-            const errors = generateImportSummaryErrors(importSummary);
-            if(_.isEmpty(errors)){
-                show({message: 'Action status saved successfully', type: {success: true}})
-                onUpdate();
-                onClose();
-            }else{
-                errors.forEach(error => show({message: error, type: {error: true}}))
-            }
+            onCompleteHandler(importSummary, show, {message: 'Action status saved successfully', onClose, onUpdate})
         },
         onError: error => {
-            show({message: error?.message || error.toString(), type: {error: true}})
+            onErrorHandler(error, show);
         }
     })
 

@@ -15,7 +15,7 @@ import {DimensionsState} from "../../../core/states";
 import Bottleneck from "../../../core/models/bottleneck";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {confirmModalClose} from "../../../core/helpers/utils";
-import {generateImportSummaryErrors} from "../../../core/services/errorHandling";
+import {generateImportSummaryErrors, onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
 
 const challengeEditMutation = {
     type: 'update',
@@ -35,23 +35,11 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
     const {indicators, loading: indicatorsLoading, error: indicatorsError} = useIndicators(0);
     const [mutate, {loading: saving, data}] = useDataMutation(challenge ? challengeEditMutation : challengeCreateMutation, {
         variables: {data: {}, id: challenge?.id},
-        onComplete: (response) => {
-            console.log(response);
-            const errors = generateImportSummaryErrors(response);
-            if (_.isEmpty(errors)) {
-                show({message: 'Challenge saved successfully', type: {success: true}})
-                onUpdate();
-                onClose();
-            } else {
-                errors.forEach(error => show({message: error, type: {error: true}}))
-            }
+        onComplete: (importSummary) => {
+            onCompleteHandler(importSummary, show, {message: 'Challenge saved successfully', onClose, onUpdate})
         },
         onError: error => {
-            const errors = generateImportSummaryErrors(data);
-            if(!_.isEmpty(errors)){
-                errors.forEach(error => show({message: error, type: {error: true}}))
-            }
-            show({message: error?.message || error.toString()})
+            onErrorHandler(error, show);
         }
     })
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
