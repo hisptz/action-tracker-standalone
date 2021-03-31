@@ -46,12 +46,11 @@ export default function getTableQuartersColumn(period) {
     return []
 }
 
-export function setVisibility(visible = false, columns = [], name = '') {
-    const targetColumn = _.find(columns, ['name', name]);
-    const editedColumn = {...targetColumn, visible};
-    const cols = [...columns];
-    cols.splice(_.findIndex(columns, ['name', name]), 1, editedColumn);
-    return cols;
+export function setVisibility(visible = false, table={}, names = ['']) {
+    names.forEach(name=>{
+        let columnIndex  = _.findIndex(table.columns, (col)=>col.name === name);
+        _.set(table, `columns.${columnIndex}.visible`, visible)
+    })
 }
 
 export function getPeriodDates(quarter) {

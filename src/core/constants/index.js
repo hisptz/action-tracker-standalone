@@ -1,5 +1,6 @@
 import {FilterComponentTypes, Dhis2ValueTypes} from "./constants";
 import PROGRAMS from './metadata.json';
+import USER_ROLES from './userRoles.json';
 import ActionConstants from "./action";
 import ActionStatusConstants from "./actionStatus";
 import BottleneckConstants from './bottleneck';
@@ -14,5 +15,6 @@ export {
     ActionStatusConstants,
     BottleneckConstants,
     GapConstants,
-    PossibleSolutionConstants
+    PossibleSolutionConstants,
+    USER_ROLES
 }

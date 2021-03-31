@@ -8,161 +8,170 @@ import {
     DueDateTableCell,
     StatusTableCell
 } from "../../modules/main/Components/Tables/CustomTable";
+import _ from 'lodash';
 import React from "react";
-import useOrganisationUnit from "../hooks/organisationUnit";
-import {CircularLoader}  from '@dhis2/ui';
 
-export const ColumnState = atom({
-    key: 'columns',
+export const TablesState = atom({
+    key: 'tables',
     default: {
-        columns: [
-            {
-                name: 'gap',
-                displayName: 'Gap',
-                mandatory: true,
-                visible: true,
-                render: (object, actions = {
-                    onEdit: () => {
-                    },
-                    onDelete: () => {
-                    },
-                    ref: undefined,
-                    setRef: () => {
-                    }
-                }) => {
-                    const {ref} = actions || {};
-                    return (
-                        <CustomTableCellWithActions key={`${object.id}-custom-table-cell-action`}
-                                                    object={object} {...actions} reference={ref}>
-                            {object.description}
-                        </CustomTableCellWithActions>
-                    )
-                }
-            },
-            {
-                name: 'orgUnit',
-                displayName: 'Org Unit',
-                mandatory: false,
-                visible: false,
-                render: (object) => {
-                    console.log(object.orgUnit);
-                    return (
-                        <CustomTableCell key={`${object.id}-custom-table-cell-orgunit`}>
-                            {object?.orgUnitName}
-                        </CustomTableCell>
-                    )
-                }
-            },
-            {
-                name: 'possibleSolution',
-                displayName: 'Possible Solutions',
-                mandatory: true,
-                visible: true,
-                render: (object, actions = {
-                    onEdit: () => {
-                    },
-                    onDelete: () => {
-                    },
-                    ref: undefined,
-                    setRef: () => {
-                    }
-                }) => {
-                    const {ref} = actions || {};
-                    return (
-                        <CustomTableCellWithActions key={`${object.id}-custom-table-cell-action`}
-                                                    object={object} {...actions}
-                                                    reference={ref}>
-                            {object?.solution}
-                        </CustomTableCellWithActions>
-                    )
-                }
-            },
-            {
-                name: 'action',
-                displayName: 'Action Items',
-                mandatory: true,
-                visible: true,
-                render: (object, _,__, width) => {
-                    return (
-                        <CustomTableCell style={{maxWidth: width}} key={`${object.id}-description`}>
-                            {object?.description}
-                        </CustomTableCell>
-                    )
-                }
-            },
-            {
-                name: 'responsiblePerson',
-                displayName: 'Responsible Person',
-                mandatory: true,
-                visible: true,
-                render: (object, _,__, width)=> {
-                    return (
-                        <CustomTableCell style={{maxWidth: width}}  key={`${object.id}-responsible-designation`}>
-                            {object?.responsiblePerson}, {object?.designation}
-                        </CustomTableCell>
-                    )
-                }
-            },
-            {
-                name: 'startDate',
-                displayName: 'Start Date',
-                mandatory: true,
-                visible: true,
-                render: (object, _,__, width) => {
-                    return (
-                        <CustomTableCell style={{maxWidth: width}} key={`${object.id}-startDate`}>
-                            {object?.startDate}
-                        </CustomTableCell>
-                    )
-                }
-            },
-            {
-                name: 'endDate',
-                displayName: 'End Date',
-                mandatory: true,
-                visible: true,
-                render: (object, _,__, width) => {
-                    return (
-                        <DueDateTableCell style={{maxWidth: width}} dueDate={object?.endDate}
-                                          key={`${object.id}-endDate`}/>
-                    )
-                }
-            },
-            {
-                name: 'status',
-                displayName: 'Status',
-                mandatory: true,
-                visible: true,
-                render: (object, refetch, actions, width) => {
-                    const {ref} = actions || {};
-                    return (
-                        <StatusTableCell
-                            style={{maxWidth: width}}
-                            object={object}
-                            reference={ref}
-                            {...actions}
-                            status={object?.latestStatus}
-                            key={`${object.id}-latestStatus`}
-                        />
-                    )
-                }
-            },
-        ],
         visibleColumnsCount: 8,
-        gapsTable: [
-            'gap',
-            // 'orgUnit'
-        ],
-        solutionsTable: [
-            'possibleSolution'
-        ],
-        actionsTable: [
-            'action',
-            'responsiblePerson',
-            'startDate',
-            'endDate',
-            'status'
-        ]
+        visibleColumnsNames: [],
+        gapsTable: {
+            columns: [
+                {
+                    name: 'gap',
+                    displayName: 'Gap',
+                    mandatory: true,
+                    visible: true,
+                    render: (object, actions = {
+                        onEdit: () => {
+                        },
+                        onDelete: () => {
+                        },
+                        ref: undefined,
+                        setRef: () => {
+                        }
+                    }) => {
+                        const {ref} = actions || {};
+                        return (
+                            <CustomTableCellWithActions key={`${object.id}-custom-table-cell-action`}
+                                                        object={object} {...actions} reference={ref}>
+                                {object.description}
+                            </CustomTableCellWithActions>
+                        )
+                    }
+                },
+                {
+                    name: 'orgUnit',
+                    displayName: 'Org Unit',
+                    mandatory: true,
+                    visible: true,
+                    render: (object) => {
+                        console.log(object.orgUnit);
+                        return (
+                            <CustomTableCell key={`${object.id}-custom-table-cell-orgunit`}>
+                                {object?.orgUnitName}
+                            </CustomTableCell>
+                        )
+                    }
+                },
+            ],
+            visibleColumnsCount: 2,
+            visible: true
+        },
+        solutionsTable: {
+            columns: [
+                [
+                    {
+                        name: 'possibleSolution',
+                        displayName: 'Possible Solutions',
+                        mandatory: true,
+                        visible: true,
+                        render: (object, actions = {
+                            onEdit: () => {
+                            },
+                            onDelete: () => {
+                            },
+                            ref: undefined,
+                            setRef: () => {
+                            }
+                        }) => {
+                            const {ref} = actions || {};
+                            return (
+                                <CustomTableCellWithActions key={`${object.id}-custom-table-cell-action`}
+                                                            object={object} {...actions}
+                                                            reference={ref}>
+                                    {object?.solution}
+                                </CustomTableCellWithActions>
+                            )
+                        }
+                    },
+                ]
+            ],
+            visibleColumnsCount: 1,
+            visible: true
+        },
+        actionsTable: {
+            columns: [
+                {
+                    name: 'action',
+                    displayName: 'Action Items',
+                    mandatory: true,
+                    visible: true,
+                    render: (object, _, __, width) => {
+                        return (
+                            <CustomTableCell style={{maxWidth: width}} key={`${object.id}-description`}>
+                                {object?.description}
+                            </CustomTableCell>
+                        )
+                    }
+                },
+                {
+                    name: 'responsiblePerson',
+                    displayName: 'Responsible Person',
+                    mandatory: true,
+                    visible: true,
+                    render: (object, _, __, width) => {
+                        return (
+                            <CustomTableCell style={{maxWidth: width}} key={`${object.id}-responsible-designation`}>
+                                {object?.responsiblePerson}, {object?.designation}
+                            </CustomTableCell>
+                        )
+                    }
+                },
+                {
+                    name: 'startDate',
+                    displayName: 'Start Date',
+                    mandatory: true,
+                    visible: true,
+                    render: (object, _, __, width) => {
+                        return (
+                            <CustomTableCell style={{maxWidth: width}} key={`${object.id}-startDate`}>
+                                {object?.startDate}
+                            </CustomTableCell>
+                        )
+                    }
+                },
+                {
+                    name: 'endDate',
+                    displayName: 'End Date',
+                    mandatory: true,
+                    visible: true,
+                    render: (object, _, __, width) => {
+                        return (
+                            <DueDateTableCell style={{maxWidth: width}} dueDate={object?.endDate}
+                                              key={`${object.id}-endDate`}/>
+                        )
+                    }
+                },
+                {
+                    name: 'status',
+                    displayName: 'Status',
+                    mandatory: true,
+                    visible: true,
+                    render: (object, refetch, actions, width) => {
+                        const {ref} = actions || {};
+                        return (
+                            <StatusTableCell
+                                style={{maxWidth: width}}
+                                object={object}
+                                reference={ref}
+                                {...actions}
+                                status={object?.latestStatus}
+                                key={`${object.id}-latestStatus`}
+                            />
+                        )
+                    }
+                },
+            ],
+            visibleColumnsCount: 5,
+            visible: true
+        },
+        actionStatusTable: {
+            visible: false,
+            visibleColumnsCount: 4,
+            columns: []
+        }
     }
 });
 
@@ -171,31 +180,59 @@ export const LiveColumnState = selector(({
     get: ({get}) => {
         const activePage = get(PageState);
         const {period} = get(DimensionsState);
-        if (activePage === 'Tracking') {
-            let columnsConfig = get(ColumnState);
-            const quarterColumns = getTableQuartersColumn(period[0]);
-            if (quarterColumns && quarterColumns.length > 0) {
-                const cols = setVisibility(false, columnsConfig.columns, 'status');
-                const columnsToDisplay = [...cols, ...quarterColumns];
-                return {
-                    ...columnsConfig,
-                    visibleColumnsCount: _.filter(columnsToDisplay, ['visible', true]).length,
-                    columns: columnsToDisplay,
-                    actionsTable: [...columnsConfig.actionsTable, ...quarterColumns.map(col => col.name)]
-                };
-            } else {
-                const columnConfig =  get(ColumnState);
-                return{
-                    ...columnConfig,
-                    visibleColumnsCount: _.filter(columnConfig.columns, ['visible', true]).length,
+        let tables = {...get(TablesState)};
+
+        function updateVisibleColumnsCount() {
+            let count = 0;
+            Object.values(tables).forEach(table => {
+                if (table.visibleColumnsCount) {
+                    count += table.visibleColumnsCount;
                 }
+            })
+            tables = {...tables, visibleColumnsCount: count}
+        }
+
+        function updateVisibleColumnsNames() {
+            let names = [];
+            Object.values(tables).forEach(table => {
+                table?.columns?.forEach(column => {
+                    if (column.visible) {
+                        names.push(column.displayName)
+                    }
+                })
+            })
+            tables = {...tables, visibleColumnsNames: names}
+        }
+
+        function updateVisibleColumns() {
+            updateVisibleColumnsCount();
+            updateVisibleColumnsNames();
+        }
+
+        function resetColumnConfig() {
+            tables = get(TablesState);
+            updateVisibleColumns();
+        }
+
+        function setQuartersColumns() {
+            const quarterColumns = getTableQuartersColumn(period[0]);
+            if (quarterColumns && !_.isEmpty(quarterColumns)) {
+                _.set(tables, 'actionStatusTable.columns', quarterColumns)
+                _.set(tables, '.actionStatusTable.visibleColumnsCount', 4)
+                _.set(tables, '.actionStatusTable.visible', true);
+                setVisibility(false, tables.actionsTable, ['status']);
             }
+            updateVisibleColumns();
+        }
+
+        updateVisibleColumns();
+
+        if (activePage === 'Tracking') {
+            setQuartersColumns();
+            return tables;
         } else {
-            const columnConfig =  get(ColumnState);
-            return{
-                ...columnConfig,
-                visibleColumnsCount: _.filter(columnConfig.columns, ['visible', true]).length,
-            }
+            resetColumnConfig();
+            return tables;
         }
     }
 }))

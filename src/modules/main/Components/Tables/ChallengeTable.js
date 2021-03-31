@@ -10,11 +10,11 @@ import {PageState} from "../../../../core/states";
 import {LiveColumnState} from "../../../../core/states/column";
 
 export default function ChallengeTable({indicator = new Bottleneck()}) {
-    const {columns, visibleColumnsCount} = useRecoilValue(LiveColumnState) || {};
+    const {visibleColumnsNames, visibleColumnsCount} = useRecoilValue(LiveColumnState) || {};
 
     const styles = {
-        container:{
-            height:'100%',
+        container: {
+            height: '100%',
             overflow: 'auto',
             borderRadius: 0
 
@@ -27,15 +27,16 @@ export default function ChallengeTable({indicator = new Bottleneck()}) {
                 {
                     <colgroup>
                         {
-                            columns.map(col => <col key={`col${col.name}`} width={`${100 /visibleColumnsCount }%`}/>)
+                            visibleColumnsNames.map(col => <col key={`col${col}`}
+                                                                width={`${100 / 8}%`}/>)
                         }
                     </colgroup>
                 }
                 <TableHead>
                     <CustomTableRowHead>
                         {
-                            _.map(columns, (column) => column.visible && <CustomTableCellHead
-                                key={`${column?.name}-${indicator.id}-header`}>{column?.displayName}</CustomTableCellHead>)
+                            _.map(visibleColumnsNames, (column) => column && <CustomTableCellHead
+                                key={`${column}-${indicator.id}-header`}>{column}</CustomTableCellHead>)
                         }
                     </CustomTableRowHead>
                 </TableHead>

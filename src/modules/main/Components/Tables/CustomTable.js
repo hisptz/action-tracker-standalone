@@ -55,29 +55,15 @@ const CustomNestingTableCell = withStyles((_) => ({
 }))(TableCell)
 
 const CustomTable = withStyles((_) => ({
-    '@global': {
-        '*::-webkit-scrollbar': {
-            width: '0.3em'
-        },
-        '*::-webkit-scrollbar-track': {
-            '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
-        },
-        '*::-webkit-scrollbar-thumb': {
-            backgroundColor: '#D5DDE5',
-            outline: '0.5px solid #E8EDF2'
-        }
-    },
     root: {
         overflowY: 'auto',
-        height: 500,
-        maxHeight: 200,
-
+        maxHeight: 500,
     }
 }))(Table)
 
 const CustomNestedTable = withStyles((_) => ({
     root: {
-        height: '100%',
+        maxHeight: '100%',
         padding: 0,
         margin: 0,
         scrollMargin: '1rem'
@@ -115,7 +101,7 @@ const StatusContainer = ({status}) => {
 
     return <>
 
-        <Card variant='outlined' component={'div'} maxWidth={false} style={{
+        <Card variant='outlined' component={'div'} style={{
             background: style.color,
             textAlign: 'center',
             verticalAlign: 'center',

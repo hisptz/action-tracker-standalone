@@ -46,7 +46,7 @@ const possibleSolutionQuery = {
 
 export default function SolutionsTable({gap = new Gap()}) {
     const [page, setPage] = useState(1);
-    const {columns, solutionsTable, visibleColumnsCount, gapsTable} = useRecoilValue(LiveColumnState);
+    const {solutionsTable, visibleColumnsCount, gapsTable} = useRecoilValue(LiveColumnState);
     const [pageSize, setPageSize] = useState(5);
     const {loading, error, data, refetch} = useDataQuery(possibleSolutionQuery, {
         variables: {
@@ -101,19 +101,17 @@ export default function SolutionsTable({gap = new Gap()}) {
                             <CircularLoader small/>
                         </CenteredContent> :
                         <CustomNestedTable>
-                            <colgroup span={6}>
-                                <col width={`${100 / (visibleColumnsCount - gapsTable.length)}%`}/>
+                            <colgroup span={solutionsTable.visibleColumnsCount}>
+                                {
+                                    solutionsTable.columns.map(_ => <col key={`col-${_}`} width={`${100 /visibleColumnsCount}%`}/>)
+                                }
                             </colgroup>
                             <TableBody>
                                 {
                                     _.map(_.map(data?.data?.events, (event) => new PossibleSolution(event)), (solution) =>
                                         <TableRow key={`${solution.id}-row`}>
                                             {
-                                                _.map(solutionsTable, (columnName) => {
-                                                    const {
-                                                        render,
-                                                        visible
-                                                    } = _.find(columns, ['name', columnName]) || {};
+                                                _.map(solutionsTable.columns, ({render, visible}) => {
                                                     if (render && visible) return render(solution, {
                                                         ref, setRef,
                                                         onEdit: () => {
@@ -128,7 +126,7 @@ export default function SolutionsTable({gap = new Gap()}) {
                                                 })
                                             }
                                             <CustomNestingTableCell key={`${solution.id}-actions`}
-                                                                    colSpan={visibleColumnsCount - solutionsTable.length}
+                                                                    colSpan={visibleColumnsCount - solutionsTable.visibleColumnsCount}
                                                                     style={{padding: 0}}>
                                                 <ActionTable solution={solution}/>
                                             </CustomNestingTableCell>

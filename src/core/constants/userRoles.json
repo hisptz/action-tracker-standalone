@@ -1,0 +1,50 @@
+[
+  {
+    "id": "yrB6vc5Ip3r",
+    "roles": [
+      {
+        "bottleneck": {
+          "view": true,
+          "edit": true,
+          "create": true,
+          "delete": true
+        },
+        "gap": {
+          "view": true,
+          "edit": true,
+          "create": true,
+          "delete": true
+        },
+        "possibleSolution": {
+          "view": true,
+          "edit": true,
+          "create": true,
+          "delete": true
+        },
+        "action": {
+          "view": true,
+          "edit": true,
+          "create": true,
+          "delete": true
+        },
+        "actionStatus": {
+          "view": true,
+          "edit": true,
+          "create": true,
+          "delete": true
+        }
+      }
+    ],
+    "columns": [
+      "gap",
+      "orgUnit",
+      "possibleSolution",
+      "action",
+      "responsiblePerson",
+      "startDate",
+      "endDate",
+      "actionStatus"
+    ],
+    "ouMode": "DESCENDANTS"
+  }
+]

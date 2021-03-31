@@ -16,16 +16,18 @@ import Paginator from "../../../shared/Components/Paginator";
 import {CenteredContent} from '@dhis2/ui'
 import useGetFilteredTeis from "../hooks/useGetFilteredTeis";
 import FullPageError from "../../../shared/Components/FullPageError";
+import {UserRolesState} from "../../../core/states/user";
 
 const indicatorQuery = {
     indicators: {
         resource: 'trackedEntityInstances',
-        params: ({ou, page, pageSize, trackedEntityInstance}) => ({
+        params: ({ou, page, pageSize, trackedEntityInstance, ouMode}) => ({
             program: 'Uvz0nfKVMQJ',
             page,
             pageSize,
             totalPages: true,
             ou,
+            ouMode,
             fields: [
                 'trackedEntityInstance',
                 'attributes[attribute,value]',
@@ -37,13 +39,14 @@ const indicatorQuery = {
 }
 
 export default function ChallengeList() {
-    const {orgUnit, period} = useRecoilValue(DimensionsState);
-    const {selected: selectedStatus} = useRecoilValue(StatusFilterState);
+    const {orgUnit, period} = useRecoilValue(DimensionsState) || {};
+    const {selected: selectedStatus} = useRecoilValue(StatusFilterState) || {};
+    const {ouMode} = useRecoilValue(UserRolesState) || {};
     const {filteredTeis, loading: filteredTeisLoading} = useGetFilteredTeis(selectedStatus, orgUnit);
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
     const {loading, data, error, refetch} = useDataQuery(indicatorQuery, {
-        variables: {ou: orgUnit?.id, page, pageSize, trackedEntityInstance: []},
+        variables: {ou: orgUnit?.id, page, pageSize, trackedEntityInstance: [], ouMode},
         lazy: true
     });
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)

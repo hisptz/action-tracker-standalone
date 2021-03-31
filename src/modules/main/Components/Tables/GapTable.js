@@ -32,9 +32,10 @@ const gapQuery = {
                 'programStage',
                 'trackedEntityInstance',
                 'event',
-                'dataValues[dataElement, value]',
+                'dataValues[dataElement,value]',
                 'eventDate',
-                'orgUnit'
+                'orgUnit',
+                'orgUnitName'
             ]
         })
     }
@@ -44,7 +45,7 @@ const gapQuery = {
 export default function GapTable({challenge = new Bottleneck()}) {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
-    const {columns, gapsTable, visibleColumnsCount} = useRecoilValue(LiveColumnState);
+    const {gapsTable, visibleColumnsCount} = useRecoilValue(LiveColumnState);
     const {loading, error, data, refetch} = useDataQuery(gapQuery, {
         variables: {
             trackedEntityInstance: challenge.id,
@@ -99,34 +100,36 @@ export default function GapTable({challenge = new Bottleneck()}) {
                         </CenteredContent> :
                         <CustomNestedTable>
                             <colgroup span={visibleColumnsCount}>
-                                <col width={`${100 / visibleColumnsCount}%`}/>
+                                {
+                                    gapsTable.columns.map(_ => <col key={`col-${_.name}`} width={`${100 / visibleColumnsCount}%`}/>)
+                                }
                             </colgroup>
                             <TableBody>
                                 {
-                                    _.map(_.map(data?.data?.events, (event) => new Gap(event)), (gap) => <TableRow
-                                        key={`${gap.id}-row`}>
-                                        {
-                                            _.map(gapsTable, (columnName) => {
-                                                const {render, visible} = _.find(columns, ['name', columnName]) || {};
-                                                if (render && visible) return render(gap, {
-                                                    ref, setRef, onEdit: () => {
-                                                        setSelectedGap(gap);
-                                                        setAddGapOpen(true);
-                                                    }, onDelete: () => {
-                                                        setSelectedGap(gap);
-                                                        onDelete();
-                                                    }
-                                                });
-                                            })
-                                        }
-                                        <CustomNestingTableCell key={`${gap.id}-solutions`}
-                                                                colSpan={(visibleColumnsCount - gapsTable.length)}
-                                                                style={{padding: 0}}>
+                                    _.map(_.map(data?.data?.events, (event) => new Gap(event)), (gap) =>
+                                        <TableRow
+                                            key={`${gap.id}-row`}>
                                             {
-                                                <SolutionsTable gap={gap}/>
+                                                _.map(gapsTable.columns, ({render, visible}) => {
+                                                    if (render && visible) return render(gap, {
+                                                        ref, setRef, onEdit: () => {
+                                                            setSelectedGap(gap);
+                                                            setAddGapOpen(true);
+                                                        }, onDelete: () => {
+                                                            setSelectedGap(gap);
+                                                            onDelete();
+                                                        }
+                                                    });
+                                                })
                                             }
-                                        </CustomNestingTableCell>
-                                    </TableRow>)
+                                            <CustomNestingTableCell key={`${gap.id}-solutions`}
+                                                                    colSpan={(visibleColumnsCount - gapsTable.visibleColumnsCount)}
+                                                                    style={{padding: 0}}>
+                                                {
+                                                    <SolutionsTable gap={gap}/>
+                                                }
+                                            </CustomNestingTableCell>
+                                        </TableRow>)
                                 }
                                 {
                                     addGapOpen &&
