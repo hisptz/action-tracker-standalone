@@ -13,7 +13,7 @@ export const getFormattedFormMetadata = (dhisMetadataFields) => {
 };
 
 const getIsRequiredValidationFromField = (field) => {
-  return field && field.name && (field.mandatory || field.compulsory)
-    ? { required: `${field.name} is required` }
+  return field && field.formName && (field.mandatory || field.compulsory)
+    ? { required: `${field.formName} is required` }
     : {};
 };
