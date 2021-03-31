@@ -46,7 +46,7 @@ const possibleSolutionQuery = {
 
 export default function SolutionsTable({gap = new Gap()}) {
     const [page, setPage] = useState(1);
-    const {columns, solutionsTable, visibleColumnsCount} = useRecoilValue(LiveColumnState);
+    const {columns, solutionsTable, visibleColumnsCount, gapsTable} = useRecoilValue(LiveColumnState);
     const [pageSize, setPageSize] = useState(5);
     const {loading, error, data, refetch} = useDataQuery(possibleSolutionQuery, {
         variables: {
@@ -102,7 +102,7 @@ export default function SolutionsTable({gap = new Gap()}) {
                         </CenteredContent> :
                         <CustomNestedTable>
                             <colgroup span={6}>
-                                <col width={`${100 / (visibleColumnsCount - 1)}%`}/>
+                                <col width={`${100 / (visibleColumnsCount - gapsTable.length)}%`}/>
                             </colgroup>
                             <TableBody>
                                 {

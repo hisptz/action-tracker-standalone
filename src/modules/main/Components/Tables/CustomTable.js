@@ -124,13 +124,13 @@ const StatusContainer = ({status}) => {
             <Grid container justify='center' style={{padding: 5}}>
                 {
                     style.icon &&
-                    <Grid item xs={2}>
+                    <Grid item >
                         <CenteredContent>
                                 <div style={{paddingTop: 5}} ref={iconRef} />
                         </CenteredContent>
                     </Grid>
                 }
-                <Grid item xs={10}>
+                <Grid item>
                     <CenteredContent>
                         {selectedStatus}
                     </CenteredContent>

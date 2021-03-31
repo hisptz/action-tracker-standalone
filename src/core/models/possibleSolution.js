@@ -7,13 +7,14 @@ import {uid} from "../helpers/utils";
 export default class PossibleSolution {
 
     constructor(event = {event: '', dataValues: []}) {
-        const {event: eventId, dataValues, trackedEntityInstance, eventDate} = event || {};
+        const {event: eventId, dataValues, trackedEntityInstance, eventDate, orgUnit} = event || {};
         this.id = eventId;
         this.eventDate = eventDate;
         this.solution = _.find(dataValues, ['dataElement', PossibleSolutionConstants.SOLUTION_DATA_ELEMENT])?.value;
         this.gapLinkage = _.find(dataValues, ['dataElement', PossibleSolutionConstants.GAP_TO_SOLUTION_LINKAGE_DATA_ELEMENT])?.value;
         this.actionLinkage = _.find(dataValues, ['dataElement', PossibleSolutionConstants.SOLUTION_TO_ACTION_LINKAGE_DATA_ELEMENT])?.value;
-        this.indicatorId = trackedEntityInstance
+        this.indicatorId = trackedEntityInstance;
+        this.orgUnit = orgUnit;
 
         this.toString = this.toString.bind(this);
         this.toJson = this.toJson.bind(this);
@@ -35,7 +36,7 @@ export default class PossibleSolution {
 
     setValuesFromForm(data) {
         this.solution = data[PossibleSolutionConstants.SOLUTION_DATA_ELEMENT]?.value;
-        this.gapLinkage =this.gapLinkage || data['gapLinkage'];
+        this.gapLinkage = this.gapLinkage || data['gapLinkage'];
         this.indicatorId = this.indicatorId || data['indicatorId'];
         this.actionLinkage = this.actionLinkage || uid();
         this.id = this.id || uid();

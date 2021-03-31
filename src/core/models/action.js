@@ -13,7 +13,7 @@ export default class Action {
         enrollments: [{events: []}],
         relationships: []
     }) {
-        const {trackedEntityInstance: teiId, attributes, enrollments, relationships} = trackedEntityInstance;
+        const {trackedEntityInstance: teiId, attributes, enrollments, relationships, orgUnit} = trackedEntityInstance || {};
         this.id = teiId;
         this.title = _.find(attributes, ['attribute', ActionConstants.TITLE_ATTRIBUTE])?.value;
         this.description = _.find(attributes, ['attribute', ActionConstants.DESCRIPTION_ATTRIBUTE])?.value;
@@ -30,6 +30,7 @@ export default class Action {
         this.enrollmentDate = enrollments ? enrollments[0]?.enrollmentDate : new Date();
         this.incidentDate = enrollments ? enrollments[0]?.incidentDate : new Date();
         this.status = enrollments ? enrollments[0]?.status : 'ACTIVE';
+        this.orgUnit = orgUnit;
 
         //Bind all methods
         this.toString = this.toString.bind(this);

@@ -7,13 +7,14 @@ import {uid} from "../helpers/utils";
 export default class ActionStatus {
 
     constructor(event = {event: '', dataValues: []}) {
-        const {event: eventId, dataValues, trackedEntityInstance, eventDate} = event;
+        const {event: eventId, dataValues, trackedEntityInstance, eventDate, orgUnit} = event || {};
         this.id = eventId;
         this.status = _.find(dataValues, ['dataElement', ActionStatusConstants.STATUS_DATA_ELEMENT])?.value;
         this.remarks = _.find(dataValues, ['dataElement', ActionStatusConstants.REMARKS_DATA_ELEMENT])?.value;
         this.reviewDate = _.find(dataValues, ['dataElement', ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT])?.value;
         this.actionId = trackedEntityInstance
         this.eventDate = eventDate;
+        this.orgUnit = orgUnit;
 
         //Bind all methods
         this.toJson = this.toJson.bind(this);

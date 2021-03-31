@@ -9,6 +9,8 @@ import {
     StatusTableCell
 } from "../../modules/main/Components/Tables/CustomTable";
 import React from "react";
+import useOrganisationUnit from "../hooks/organisationUnit";
+import {CircularLoader}  from '@dhis2/ui';
 
 export const ColumnState = atom({
     key: 'columns',
@@ -34,6 +36,20 @@ export const ColumnState = atom({
                                                     object={object} {...actions} reference={ref}>
                             {object.description}
                         </CustomTableCellWithActions>
+                    )
+                }
+            },
+            {
+                name: 'orgUnit',
+                displayName: 'Org Unit',
+                mandatory: false,
+                visible: false,
+                render: (object) => {
+                    console.log(object.orgUnit);
+                    return (
+                        <CustomTableCell key={`${object.id}-custom-table-cell-orgunit`}>
+                            {object?.orgUnitName}
+                        </CustomTableCell>
                     )
                 }
             },
@@ -132,9 +148,10 @@ export const ColumnState = atom({
                 }
             },
         ],
-        visibleColumnsCount: 7,
+        visibleColumnsCount: 8,
         gapsTable: [
-            'gap'
+            'gap',
+            // 'orgUnit'
         ],
         solutionsTable: [
             'possibleSolution'
@@ -167,11 +184,18 @@ export const LiveColumnState = selector(({
                     actionsTable: [...columnsConfig.actionsTable, ...quarterColumns.map(col => col.name)]
                 };
             } else {
-                return get(ColumnState);
+                const columnConfig =  get(ColumnState);
+                return{
+                    ...columnConfig,
+                    visibleColumnsCount: _.filter(columnConfig.columns, ['visible', true]).length,
+                }
             }
         } else {
-            return get(ColumnState);
-            return get(ColumnState);
+            const columnConfig =  get(ColumnState);
+            return{
+                ...columnConfig,
+                visibleColumnsCount: _.filter(columnConfig.columns, ['visible', true]).length,
+            }
         }
     }
 }))
