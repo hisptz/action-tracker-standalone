@@ -76,7 +76,7 @@ function SolutionsDialog({onClose, gap, onUpdate, solution}) {
             </ModalContent>
             <ModalActions>
                 <ButtonStrip end>
-                    <Button secondary onClick={onClose}>
+                    <Button secondary onClick={_ => confirmModalClose(onClose)}>
                         Hide
                     </Button>
                     <Button type="submit" onClick={handleSubmit(onSubmit)} primary>

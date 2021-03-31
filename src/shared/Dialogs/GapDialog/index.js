@@ -84,7 +84,7 @@ export default function GapDialog({onClose, gap, onUpdate, challenge}) {
             <ModalActions>
                 <ButtonStrip>
                     <Button
-                        onClick={onClose}
+                        onClick={_ => confirmModalClose(onClose)}
                     >
                         Hide
                     </Button>
