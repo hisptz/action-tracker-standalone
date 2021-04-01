@@ -13,7 +13,7 @@ import generateErrorAlert from "../../../../core/services/generateErrorAlert";
 import Gap from "../../../../core/models/gap";
 import SolutionsDialog from "../../../../shared/Dialogs/SolutionsDialog";
 import {useRecoilValue} from "recoil";
-import {LiveColumnState} from "../../../../core/states/column";
+import {ColumnState} from "../../../../core/states/column";
 import Grid from "@material-ui/core/Grid";
 import Paginator from "../../../../shared/Components/Paginator";
 import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
@@ -46,7 +46,7 @@ const possibleSolutionQuery = {
 
 export default function SolutionsTable({gap = new Gap()}) {
     const [page, setPage] = useState(1);
-    const {solutionsTable, visibleColumnsCount, gapsTable} = useRecoilValue(LiveColumnState);
+    const {solutionsTable, visibleColumnsCount, gapsTable} = useRecoilValue(ColumnState);
     const [pageSize, setPageSize] = useState(5);
     const {loading, error, data, refetch} = useDataQuery(possibleSolutionQuery, {
         variables: {
@@ -101,9 +101,10 @@ export default function SolutionsTable({gap = new Gap()}) {
                             <CircularLoader small/>
                         </CenteredContent> :
                         <CustomNestedTable>
-                            <colgroup span={solutionsTable.visibleColumnsCount}>
+                            <colgroup >
                                 {
-                                    solutionsTable.columns.map(_ => <col key={`col-${_}`} width={`${100 /visibleColumnsCount}%`}/>)
+                                    solutionsTable.columns.map(_ => <col key={`col-${_}`}
+                                                                         width={`${100 /( visibleColumnsCount - gapsTable.visibleColumnsCount)}%`}/>)
                                 }
                             </colgroup>
                             <TableBody>
@@ -126,7 +127,7 @@ export default function SolutionsTable({gap = new Gap()}) {
                                                 })
                                             }
                                             <CustomNestingTableCell key={`${solution.id}-actions`}
-                                                                    colSpan={visibleColumnsCount - solutionsTable.visibleColumnsCount}
+                                                                    colSpan={(visibleColumnsCount - (solutionsTable.visibleColumnsCount + gapsTable.visibleColumnsCount))}
                                                                     style={{padding: 0}}>
                                                 <ActionTable solution={solution}/>
                                             </CustomNestingTableCell>

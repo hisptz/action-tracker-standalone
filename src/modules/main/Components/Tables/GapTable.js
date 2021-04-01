@@ -12,7 +12,7 @@ import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import generateErrorAlert from "../../../../core/services/generateErrorAlert";
 import Bottleneck from "../../../../core/models/bottleneck";
 import {useRecoilValue} from "recoil";
-import {LiveColumnState} from "../../../../core/states/column";
+import {ColumnState} from "../../../../core/states/column";
 import {GapConstants} from "../../../../core/constants";
 import Grid from "@material-ui/core/Grid";
 import Paginator from "../../../../shared/Components/Paginator";
@@ -45,7 +45,7 @@ const gapQuery = {
 export default function GapTable({challenge = new Bottleneck()}) {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
-    const {gapsTable, visibleColumnsCount} = useRecoilValue(LiveColumnState);
+    const {gapsTable, visibleColumnsCount} = useRecoilValue(ColumnState);
     const {loading, error, data, refetch} = useDataQuery(gapQuery, {
         variables: {
             trackedEntityInstance: challenge.id,
@@ -99,10 +99,11 @@ export default function GapTable({challenge = new Bottleneck()}) {
                             <CircularLoader small/>
                         </CenteredContent> :
                         <CustomNestedTable>
-                            <colgroup span={visibleColumnsCount}>
+                            <colgroup>
                                 {
                                     gapsTable.columns.map(_ => <col key={`col-${_.name}`} width={`${100 / visibleColumnsCount}%`}/>)
                                 }
+                                <col key={'col-solutions-table'} width={`${100 - gapsTable.width}%`}  />
                             </colgroup>
                             <TableBody>
                                 {

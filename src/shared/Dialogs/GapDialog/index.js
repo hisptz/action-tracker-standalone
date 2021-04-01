@@ -53,7 +53,7 @@ export default function GapDialog({onClose, gap, onUpdate, challenge}) {
             {
                 data: generatePayload(payload)
             }
-        ).then(res => console.log(res))
+        )
     };
 
     const generatePayload = (payload) => {

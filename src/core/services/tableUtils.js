@@ -25,13 +25,14 @@ export default function getTableQuartersColumn(period) {
                         }))[0]
                         return (
                             actionStatus ?
-                                <CustomTableCellWithActions object={actionStatus} reference={ref} {...actions} >
+                                <CustomTableCellWithActions key={`${actionStatus.id}-action-status-cell`}
+                                                            object={actionStatus} reference={ref} {...actions} >
                                     <ActionStatusTableCell
                                         refetch={refetch} action={object}
                                         key={`${object.id}-${quarter.id}`}
                                         actionStatus={actionStatus}
                                     />
-                                </CustomTableCellWithActions>:
+                                </CustomTableCellWithActions> :
                                 <ActionStatusTableCell
                                     refetch={refetch} action={object}
                                     key={`${object.id}-${quarter.id}`}
@@ -46,11 +47,19 @@ export default function getTableQuartersColumn(period) {
     return []
 }
 
-export function setVisibility(visible = false, table={}, names = ['']) {
-    names.forEach(name=>{
-        let columnIndex  = _.findIndex(table.columns, (col)=>col.name === name);
-        _.set(table, `columns.${columnIndex}.visible`, visible)
-    })
+export function setVisibility(visible = true, table = {}, names = ['']) {
+    let modifiedTable = {...table};
+    names.forEach(name => {
+        let columnIndex = _.findIndex(modifiedTable.columns, (col) => col.name === name);
+        const modifiedColumn = {...modifiedTable.columns[columnIndex], visible}
+        let columns = _.filter(modifiedTable.columns, (col)=>col.name !== name);
+        columns.push(modifiedColumn);
+        modifiedTable = {
+            ...modifiedTable,
+            columns
+        }
+    });
+    return modifiedTable;
 }
 
 export function getPeriodDates(quarter) {
