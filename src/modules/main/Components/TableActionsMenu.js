@@ -17,7 +17,9 @@ export default function TableActionsMenu({object, reference, onDelete, onEdit, o
                                 onClose();
                             }} icon={<EditIcon/>} label='Edit'/>
                         }
-                        <MenuDivider/>
+                        {
+                            (updateRole && deleteRole) &&  <MenuDivider/>
+                        }
                         {
                             deleteRole && <MenuItem onClick={_ => {
                                 onDelete(object);

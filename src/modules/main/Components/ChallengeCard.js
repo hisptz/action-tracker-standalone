@@ -45,7 +45,7 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
                                 <CenteredContent>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
-                                            <Box height='500px' width={'100%'} className='overflow'>
+                                            <Box height='600px' width={'100%'} className='overflow'>
                                                 <CenteredContent>
                                                     <CircularLoader small/>
                                                 </CenteredContent>
@@ -76,7 +76,7 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
                                         openProgressDialog && <ProgressDialog indicatorId={indicator?.indicator} onClose={() => setOpenProgressDialog(false)}/>
                                     }
                                     <Grid item xs={12}>
-                                        <Box maxHeight='500px' className='overflow'>
+                                        <Box maxHeight='600px' className='overflow'>
                                             <ChallengeTable indicator={indicatorObject}/>
                                         </Box>
                                     </Grid>

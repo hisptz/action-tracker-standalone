@@ -16,7 +16,7 @@ export default function getTableQuartersColumn(period) {
                     mandatory: true,
                     id: quarter.id,
                     render: (object, refetch, actions) => {
-                        const {ref} = actions;
+                        const {ref, roles} = actions;
                         const {startDate, endDate} = getPeriodDates(quarter);
                         const actionStatusList = object.actionStatusList || [];
                         const actionStatus = _.filter(actionStatusList, (as => {
@@ -28,12 +28,14 @@ export default function getTableQuartersColumn(period) {
                                 <CustomTableCellWithActions key={`${actionStatus.id}-action-status-cell`}
                                                             object={actionStatus} reference={ref} {...actions} >
                                     <ActionStatusTableCell
+                                        roles={roles}
                                         refetch={refetch} action={object}
                                         key={`${object.id}-${quarter.id}`}
                                         actionStatus={actionStatus}
                                     />
                                 </CustomTableCellWithActions> :
                                 <ActionStatusTableCell
+                                    roles={roles}
                                     refetch={refetch} action={object}
                                     key={`${object.id}-${quarter.id}`}
                                     actionStatus={actionStatus}

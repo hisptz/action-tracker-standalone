@@ -19,6 +19,8 @@ import Paginator from "../../../../shared/Components/Paginator";
 import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
 import ActionStatus from "../../../../core/models/actionStatus";
 import ActionStatusDialog from "../../../../shared/Dialogs/ActionStatusDialog";
+import {UserRolesState} from "../../../../core/states/user";
+import Visibility from "../../../../shared/Components/Visibility";
 
 
 const actionsQuery = {
@@ -44,6 +46,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
     const [pageSize, setPageSize] = useState(5);
     const {orgUnit} = useRecoilValue(DimensionsState);
     const {actionsTable, actionStatusTable, visibleColumnsCount} = useRecoilValue(ColumnState);
+    const {action: actionRoles, actionStatus: actionStatusRoles} = useRecoilValue(UserRolesState);
     const [addActionOpen, setAddActionOpen] = useState(false)
     const {loading, data, error, refetch} = useDataQuery(actionsQuery, {
         variables: {
@@ -88,7 +91,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
 
     const styles = {
         container: {
-            height: '100%',
+            maxHeight: 200,
             width: '100%',
             overflow: 'auto'
         }
@@ -123,6 +126,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                                 {
                                                     _.map(actionsTable.columns, ({render, visible}) => {
                                                         if (render && visible) return render(action, refetch, {
+                                                            roles: actionRoles,
                                                             onDelete: (object) => {
                                                                 if (object instanceof Action) {
                                                                     setSelectedActionStatus(undefined)
@@ -154,6 +158,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                                 actionStatusTable.visible &&
                                                 _.map(actionStatusTable.columns, ({ render, visible}) => {
                                                     if (render && visible) return render(action, refetch, {
+                                                        roles: actionStatusRoles,
                                                         onDelete: (object) => {
                                                             if (object instanceof Action) {
                                                                 setSelectedActionStatus(undefined)
@@ -192,6 +197,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                                                              visible
                                                                          }) => {
                                                         if (render && visible) return render(action, refetch, {
+                                                            roles: actionRoles,
                                                             onDelete: (object) => {
                                                                 if (object instanceof Action) {
                                                                     setSelectedActionStatus(undefined)
@@ -227,6 +233,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                                                                   visible
                                                                               }) => {
                                                         if (render && visible) return render(action, refetch, {
+                                                            roles: actionStatusRoles,
                                                             onDelete: (object) => {
                                                                 if (object instanceof Action) {
                                                                     setSelectedActionStatus(undefined)
@@ -266,7 +273,10 @@ export default function ActionTable({solution = new PossibleSolution()}) {
             <Container maxWidth={false}>
                 <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                     <Grid item>
-                        <Button onClick={_ => setAddActionOpen(true)}>Add Action Item</Button>
+                      <Visibility visible={actionRoles?.create}>
+                          <Button onClick={_ => setAddActionOpen(true)}>Add Action Item</Button>
+                      </Visibility>
+
                     </Grid>
                     <Grid item>
                         {

@@ -30,7 +30,8 @@ const defaultTables = {
                     },
                     ref: undefined,
                     setRef: () => {
-                    }
+                    },
+                    roles: {}
                 }) => {
                     const {ref} = actions || {};
                     return (

@@ -17,6 +17,8 @@ import {ColumnState} from "../../../../core/states/column";
 import Grid from "@material-ui/core/Grid";
 import Paginator from "../../../../shared/Components/Paginator";
 import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
+import {UserRolesState} from "../../../../core/states/user";
+import Visibility from "../../../../shared/Components/Visibility";
 
 const possibleSolutionQuery = {
     data: {
@@ -47,6 +49,7 @@ const possibleSolutionQuery = {
 export default function SolutionsTable({gap = new Gap()}) {
     const [page, setPage] = useState(1);
     const {solutionsTable, visibleColumnsCount, gapsTable} = useRecoilValue(ColumnState);
+    const {possibleSolution: solutionRoles} = useRecoilValue(UserRolesState);
     const [pageSize, setPageSize] = useState(5);
     const {loading, error, data, refetch} = useDataQuery(possibleSolutionQuery, {
         variables: {
@@ -87,15 +90,19 @@ export default function SolutionsTable({gap = new Gap()}) {
 
     const styles = {
         container: {
+            maxHeight: 300,
+        },
+        tableContainer:{
             height: '100%',
             overflow: 'auto',
-            width: '100%'
+            width: '100%',
+            maxHeight: 300,
         }
     }
 
     return (
-        <div>
-            <div style={styles.container}>
+        <div style={styles.container}>
+            <div style={styles.tableContainer}>
                 {
                     loading ? <CenteredContent>
                             <CircularLoader small/>
@@ -114,6 +121,7 @@ export default function SolutionsTable({gap = new Gap()}) {
                                             {
                                                 _.map(solutionsTable.columns, ({render, visible}) => {
                                                     if (render && visible) return render(solution, {
+                                                        roles: solutionRoles,
                                                         ref, setRef,
                                                         onEdit: () => {
                                                             setSelectedSolution(solution);
@@ -141,7 +149,9 @@ export default function SolutionsTable({gap = new Gap()}) {
                 <Container maxWidth={false} padding={{padding: 5}}>
                     <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                         <Grid item>
-                            <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
+                          <Visibility visible={solutionRoles?.create}>
+                              <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
+                          </Visibility>
                         </Grid>
                         <Grid item>
                             {

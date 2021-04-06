@@ -19,6 +19,7 @@ import Paginator from "../../../../shared/Components/Paginator";
 import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
 import GapDialog from "../../../../shared/Dialogs/GapDialog";
 import {UserRolesState} from "../../../../core/states/user";
+import Visibility from "../../../../shared/Components/Visibility";
 
 const gapQuery = {
     data: {
@@ -60,8 +61,12 @@ export default function GapTable({challenge = new Bottleneck()}) {
     useEffect(() => generateErrorAlert(show, error), [error]);
 
     const styles = {
-        container: {
-            maxHeight: 420,
+        container:{
+            maxHeight: 550,
+        },
+        tableContainer: {
+            height: '100%',
+            maxHeight: 450,
             overflow: 'auto'
         }
     }
@@ -94,8 +99,8 @@ export default function GapTable({challenge = new Bottleneck()}) {
     }
 
     return (
-        <div>
-            <div style={styles.container}>
+        <div style={styles.container}>
+            <div style={styles.tableContainer}>
                 {
                     loading ? <CenteredContent>
                             <CircularLoader small/>
@@ -152,7 +157,9 @@ export default function GapTable({challenge = new Bottleneck()}) {
             </div>
             <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                 <Grid item>
-                    <Button onClick={onAdd}>Add Gap</Button>
+                    <Visibility visible={gapRoles?.create}>
+                        <Button onClick={onAdd}>Add Gap</Button>
+                    </Visibility>
                 </Grid>
                 <Grid item>
                     {
