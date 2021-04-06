@@ -11,7 +11,8 @@ const userQuery = {
                 'id',
                 'name',
                 'displayName',
-                'userCredentials[userRoles[id,name]]'
+                'userCredentials[userRoles[id,name]]',
+                'authorities'
             ]
         }
     }
