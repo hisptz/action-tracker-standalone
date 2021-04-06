@@ -8,7 +8,7 @@ import Gap from "../../../core/models/gap";
 import {getFormattedFormMetadata} from "../../../core/helpers/formsUtilsHelper";
 import {useForm} from "react-hook-form";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {generateImportSummaryErrors, onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
+import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
 
 function getFormattedMetadataFields(metadataFields) {
     return getFormattedFormMetadata(metadataFields);

@@ -11,6 +11,15 @@ export const UserRolesState = selector({
     key: 'userRoles',
     get: ({get}) => {
         const {userCredentials} = get(UserState) || {};
-        return _.find(USER_ROLES, ['id', _.head(userCredentials?.userRoles)?.id ])
+        return _.find(USER_ROLES, ['id', _.head(userCredentials?.userRoles)?.id ])?.roles;
+    }
+});
+
+export const UserConfigState = selector({
+    key: 'userConfig',
+    get: ({get})=>{
+        const {userCredentials} = get(UserState) || {};
+        const ouMode = _.find(USER_ROLES, ['id', _.head(userCredentials?.userRoles)?.id ])?.ouMode;
+        return {ouMode}
     }
 })

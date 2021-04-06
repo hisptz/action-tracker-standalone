@@ -18,6 +18,7 @@ import Grid from "@material-ui/core/Grid";
 import Paginator from "../../../../shared/Components/Paginator";
 import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
 import GapDialog from "../../../../shared/Dialogs/GapDialog";
+import {UserRolesState} from "../../../../core/states/user";
 
 const gapQuery = {
     data: {
@@ -46,6 +47,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
     const {gapsTable, visibleColumnsCount} = useRecoilValue(ColumnState);
+    const {gap: gapRoles} = useRecoilValue(UserRolesState);
     const {loading, error, data, refetch} = useDataQuery(gapQuery, {
         variables: {
             trackedEntityInstance: challenge.id,
@@ -101,9 +103,10 @@ export default function GapTable({challenge = new Bottleneck()}) {
                         <CustomNestedTable>
                             <colgroup>
                                 {
-                                    gapsTable.columns.map(_ => <col key={`col-${_.name}`} width={`${100 / visibleColumnsCount}%`}/>)
+                                    gapsTable.columns.map(_ => <col key={`col-${_.name}`}
+                                                                    width={`${100 / visibleColumnsCount}%`}/>)
                                 }
-                                <col key={'col-solutions-table'} width={`${100 - gapsTable.width}%`}  />
+                                <col key={'col-solutions-table'} width={`${100 - gapsTable.width}%`}/>
                             </colgroup>
                             <TableBody>
                                 {
@@ -113,10 +116,14 @@ export default function GapTable({challenge = new Bottleneck()}) {
                                             {
                                                 _.map(gapsTable.columns, ({render, visible}) => {
                                                     if (render && visible) return render(gap, {
-                                                        ref, setRef, onEdit: () => {
+                                                        roles: gapRoles,
+                                                        ref,
+                                                        setRef,
+                                                        onEdit: () => {
                                                             setSelectedGap(gap);
                                                             setAddGapOpen(true);
-                                                        }, onDelete: () => {
+                                                        },
+                                                        onDelete: () => {
                                                             setSelectedGap(gap);
                                                             onDelete();
                                                         }

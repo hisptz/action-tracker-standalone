@@ -16,7 +16,7 @@ import Paginator from "../../../shared/Components/Paginator";
 import {CenteredContent} from '@dhis2/ui'
 import useGetFilteredTeis from "../hooks/useGetFilteredTeis";
 import FullPageError from "../../../shared/Components/FullPageError";
-import {UserRolesState} from "../../../core/states/user";
+import {UserConfigState, UserRolesState} from "../../../core/states/user";
 
 const indicatorQuery = {
     indicators: {
@@ -41,7 +41,7 @@ const indicatorQuery = {
 export default function ChallengeList() {
     const {orgUnit, period} = useRecoilValue(DimensionsState) || {};
     const {selected: selectedStatus} = useRecoilValue(StatusFilterState) || {};
-    const {ouMode} = useRecoilValue(UserRolesState) || {};
+    const {ouMode} = useRecoilValue(UserConfigState) || {};
     const {filteredTeis, loading: filteredTeisLoading} = useGetFilteredTeis(selectedStatus, orgUnit);
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
@@ -51,7 +51,8 @@ export default function ChallengeList() {
     });
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
-    useEffect(() => generateErrorAlert(show, error), [error])
+    useEffect(() => generateErrorAlert(show, error), [error]);
+
 
     useEffect(() => {
         function refresh() {

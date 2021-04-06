@@ -1,40 +1,38 @@
 [
   {
     "id": "yrB6vc5Ip3r",
-    "roles": [
-      {
+    "roles": {
         "bottleneck": {
           "view": true,
-          "edit": true,
+          "update": true,
           "create": true,
           "delete": true
         },
         "gap": {
           "view": true,
-          "edit": true,
+          "update": true,
           "create": true,
           "delete": true
         },
         "possibleSolution": {
           "view": true,
-          "edit": true,
+          "update": true,
           "create": true,
           "delete": true
         },
         "action": {
           "view": true,
-          "edit": true,
+          "update": true,
           "create": true,
           "delete": true
         },
         "actionStatus": {
           "view": true,
-          "edit": true,
+          "update": true,
           "create": true,
           "delete": true
         }
-      }
-    ],
+      },
     "columns": [
       "gap",
       "orgUnit",
