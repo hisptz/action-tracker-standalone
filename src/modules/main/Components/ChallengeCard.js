@@ -11,6 +11,9 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import TableActionsMenu from "./TableActionsMenu";
 import DeleteConfirmation from "../../../shared/Components/DeleteConfirmation";
 import ProgressDialog from '../../../shared/Dialogs/ProgressDialog'
+import {useRecoilValue} from "recoil";
+import {UserRolesState} from "../../../core/states/user";
+import Visibility from "../../../shared/Components/Visibility";
 
 
 export default function ChallengeCard({indicator = new Bottleneck(), refresh, onEdit}) {
@@ -20,6 +23,8 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
     const {loading, error, name} = useIndicatorsName(indicatorObject.indicator);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     useEffect(() => generateErrorAlert(show, error), [error]);
+    const {bottleneck: bottleneckRoles} = useRecoilValue(UserRolesState) || {};
+
 
     const [ref, setRef] = useState(undefined);
     const [openDelete, setOpenDelete] = useState(false);
@@ -40,7 +45,7 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
                                 <CenteredContent>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
-                                            <Box height='500px' width={'100%'} className='overflow'>
+                                            <Box height='600px' width={'100%'} className='overflow'>
                                                 <CenteredContent>
                                                     <CircularLoader small/>
                                                 </CenteredContent>
@@ -61,22 +66,24 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
                                             </Grid>
                                         </Grid>
                                         <Grid item container justify='flex-end' xs={1}>
-                                            <Button onClick={(d, e) => setRef(e.currentTarget)}
-                                                    icon={<MoreHorizIcon/>}/>
+                                            <Visibility visible={bottleneckRoles.update || bottleneckRoles.delete}>
+                                                <Button onClick={(d, e) => setRef(e.currentTarget)}
+                                                        icon={<MoreHorizIcon/>}/>
+                                            </Visibility>
                                         </Grid>
                                     </Grid>
                                     {
                                         openProgressDialog && <ProgressDialog indicatorId={indicator?.indicator} onClose={() => setOpenProgressDialog(false)}/>
                                     }
                                     <Grid item xs={12}>
-                                        <Box maxHeight='500px' className='overflow'>
+                                        <Box maxHeight='600px' className='overflow'>
                                             <ChallengeTable indicator={indicatorObject}/>
                                         </Box>
                                     </Grid>
                                 </Grid>
                         }
                         {
-                            ref && <TableActionsMenu object={indicator} onDelete={onDelete} onEdit={onEdit} reference={ref}
+                            ref && <TableActionsMenu roles={bottleneckRoles} object={indicator} onDelete={onDelete} onEdit={onEdit} reference={ref}
                                                      onClose={_ => setRef(undefined)}/>
                         }
                         {

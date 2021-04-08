@@ -1,0 +1,27 @@
+{
+  "bottleneck": {
+    "create": "SAT_CREATE_BOTTLENECKS",
+    "update": "SAT_EDIT_BOTTLENECKS",
+    "delete": "SAT_DELETE_BOTTLENECKS"
+  },
+  "gap": {
+    "create": "SAT_CREATE_GAPS",
+    "update": "SAT_EDIT_GAPS",
+    "delete": "SAT_DELETE_GAPS"
+  },
+  "possibleSolution": {
+    "create": "SAT_CREATE_POSSIBLE_SOLUTIONS",
+    "update": "SAT_EDIT_POSSIBLE_SOLUTIONS",
+    "delete": "SAT_DELETE_POSSIBLE_SOLUTIONS"
+  },
+  "action": {
+    "create": "SAT_CREATE_ACTIONS",
+    "update": "SAT_EDIT_ACTIONS",
+    "delete": "SAT_DELETE_ACTIONS"
+  },
+  "actionStatus": {
+    "create": "SAT_CREATE_ACTION_STATUS",
+    "update": "SAT_EDIT_ACTION_STATUS",
+    "delete": "SAT_DELETE_ACTION_STATUS"
+  }
+}

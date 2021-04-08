@@ -12,12 +12,14 @@ import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import generateErrorAlert from "../../../../core/services/generateErrorAlert";
 import Bottleneck from "../../../../core/models/bottleneck";
 import {useRecoilValue} from "recoil";
-import {LiveColumnState} from "../../../../core/states/column";
+import {ColumnState} from "../../../../core/states/column";
 import {GapConstants} from "../../../../core/constants";
 import Grid from "@material-ui/core/Grid";
 import Paginator from "../../../../shared/Components/Paginator";
 import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
 import GapDialog from "../../../../shared/Dialogs/GapDialog";
+import {UserRolesState} from "../../../../core/states/user";
+import Visibility from "../../../../shared/Components/Visibility";
 
 const gapQuery = {
     data: {
@@ -32,9 +34,10 @@ const gapQuery = {
                 'programStage',
                 'trackedEntityInstance',
                 'event',
-                'dataValues[dataElement, value]',
+                'dataValues[dataElement,value]',
                 'eventDate',
-                'orgUnit'
+                'orgUnit',
+                'orgUnitName'
             ]
         })
     }
@@ -44,7 +47,8 @@ const gapQuery = {
 export default function GapTable({challenge = new Bottleneck()}) {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
-    const {columns, gapsTable, visibleColumnsCount} = useRecoilValue(LiveColumnState);
+    const {gapsTable, visibleColumnsCount} = useRecoilValue(ColumnState);
+    const {gap: gapRoles} = useRecoilValue(UserRolesState);
     const {loading, error, data, refetch} = useDataQuery(gapQuery, {
         variables: {
             trackedEntityInstance: challenge.id,
@@ -57,8 +61,12 @@ export default function GapTable({challenge = new Bottleneck()}) {
     useEffect(() => generateErrorAlert(show, error), [error]);
 
     const styles = {
-        container: {
-            maxHeight: 420,
+        container:{
+            maxHeight: 550,
+        },
+        tableContainer: {
+            height: '100%',
+            maxHeight: 450,
             overflow: 'auto'
         }
     }
@@ -91,42 +99,50 @@ export default function GapTable({challenge = new Bottleneck()}) {
     }
 
     return (
-        <div>
-            <div style={styles.container}>
+        <div style={styles.container}>
+            <div style={styles.tableContainer}>
                 {
                     loading ? <CenteredContent>
                             <CircularLoader small/>
                         </CenteredContent> :
                         <CustomNestedTable>
-                            <colgroup span={visibleColumnsCount}>
-                                <col width={`${100 / visibleColumnsCount}%`}/>
+                            <colgroup>
+                                {
+                                    gapsTable.columns.map(_ => <col key={`col-${_.name}`}
+                                                                    width={`${100 / visibleColumnsCount}%`}/>)
+                                }
+                                <col key={'col-solutions-table'} width={`${100 - gapsTable.width}%`}/>
                             </colgroup>
                             <TableBody>
                                 {
-                                    _.map(_.map(data?.data?.events, (event) => new Gap(event)), (gap) => <TableRow
-                                        key={`${gap.id}-row`}>
-                                        {
-                                            _.map(gapsTable, (columnName) => {
-                                                const {render, visible} = _.find(columns, ['name', columnName]) || {};
-                                                if (render && visible) return render(gap, {
-                                                    ref, setRef, onEdit: () => {
-                                                        setSelectedGap(gap);
-                                                        setAddGapOpen(true);
-                                                    }, onDelete: () => {
-                                                        setSelectedGap(gap);
-                                                        onDelete();
-                                                    }
-                                                });
-                                            })
-                                        }
-                                        <CustomNestingTableCell key={`${gap.id}-solutions`}
-                                                                colSpan={(visibleColumnsCount - gapsTable.length)}
-                                                                style={{padding: 0}}>
+                                    _.map(_.map(data?.data?.events, (event) => new Gap(event)), (gap) =>
+                                        <TableRow
+                                            key={`${gap.id}-row`}>
                                             {
-                                                <SolutionsTable gap={gap}/>
+                                                _.map(gapsTable.columns, ({render, visible}) => {
+                                                    if (render && visible) return render(gap, {
+                                                        roles: gapRoles,
+                                                        ref,
+                                                        setRef,
+                                                        onEdit: () => {
+                                                            setSelectedGap(gap);
+                                                            setAddGapOpen(true);
+                                                        },
+                                                        onDelete: () => {
+                                                            setSelectedGap(gap);
+                                                            onDelete();
+                                                        }
+                                                    });
+                                                })
                                             }
-                                        </CustomNestingTableCell>
-                                    </TableRow>)
+                                            <CustomNestingTableCell key={`${gap.id}-solutions`}
+                                                                    colSpan={(visibleColumnsCount - gapsTable.visibleColumnsCount)}
+                                                                    style={{padding: 0}}>
+                                                {
+                                                    <SolutionsTable gap={gap}/>
+                                                }
+                                            </CustomNestingTableCell>
+                                        </TableRow>)
                                 }
                                 {
                                     addGapOpen &&
@@ -141,7 +157,9 @@ export default function GapTable({challenge = new Bottleneck()}) {
             </div>
             <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                 <Grid item>
-                    <Button onClick={onAdd}>Add Gap</Button>
+                    <Visibility visible={gapRoles?.create}>
+                        <Button onClick={onAdd}>Add Gap</Button>
+                    </Visibility>
                 </Grid>
                 <Grid item>
                     {

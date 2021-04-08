@@ -16,6 +16,7 @@ import {useRecoilValue} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {generateImportSummaryErrors, onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
+import {confirmModalClose} from "../../../core/helpers/utils";
 
 const actionStatusEditMutation = {
     type: 'update',
@@ -68,14 +69,14 @@ export function ActionStatusDialog({onClose, action, onUpdate, actionStatus}) {
 
     }
     return (
-        <Modal className="dialog-container" onClose={onClose}>
+        <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
             <ModalTitle>Add Action Status</ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control} errors={errors}/>
             </ModalContent>
             <ModalActions>
                 <ButtonStrip end>
-                    <Button secondary onClick={onClose}>Hide</Button>
+                    <Button secondary onClick={_ => confirmModalClose(onClose)}>Hide</Button>
                     <Button type="submit" onClick={handleSubmit(onSubmit)} primary>
                         {
                             saving ? 'Saving...': 'Save Action Status'

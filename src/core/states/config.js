@@ -31,7 +31,8 @@ const ActionStatusState = selector({
             if (iconName) {
                 try {
                     const {icon} = await engine.query(iconQuery, {variables: {id: `${iconName}/icon.svg`}});
-                    const newOption = {...option, style: {...style, icon}}
+                    const iconToRender = icon instanceof Blob ? await icon.text(): icon;
+                    const newOption = {...option, style: {...style, icon: iconToRender}}
                     optionsWithSvgIcons.push(newOption);
                 } catch (e) {
                     console.log(e);
@@ -46,7 +47,6 @@ const DataEngineState = atom({
     key: 'dataEngineState',
     default: undefined
 });
-
 
 export {
     ConfigState,

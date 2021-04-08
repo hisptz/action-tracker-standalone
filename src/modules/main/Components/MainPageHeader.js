@@ -8,6 +8,8 @@ import DownloadIcon from '@material-ui/icons/GetApp';
 import ColumnIcon from '@material-ui/icons/ViewColumn';
 import {useAlert} from "@dhis2/app-runtime";
 import {Period} from "@iapps/period-utilities";
+import {UserRolesState} from "../../../core/states/user";
+import Visibility from "../../../shared/Components/Visibility";
 
 const PageSelector = () => {
     const [activePage, setActivePage] = useRecoilState(PageState);
@@ -42,7 +44,9 @@ const PageSelector = () => {
                             style={activePage === 'Planning' ? styles.active : styles.inactive}>Planning</MaterialButton>
             <MaterialButton style={activePage === 'Tracking' ? styles.active : styles.inactive}
                             onClick={_ => onClick('Tracking')}
-            >Tracking</MaterialButton>
+            >
+                Tracking
+            </MaterialButton>
         </ButtonGroup>
     )
 }
@@ -51,6 +55,7 @@ export default function MainPageHeader({onAddIndicatorClick}) {
     const activePage = useRecoilValue(PageState);
     const actionStatus = useRecoilValue(ActionStatusState);
     const [statusFilter, setStatusFilter] = useRecoilState(StatusFilterState);
+    const {bottleneck} = useRecoilValue(UserRolesState);
 
     return (
         <Container maxWidth={false}>
@@ -63,7 +68,9 @@ export default function MainPageHeader({onAddIndicatorClick}) {
                 <Grid container direction='row' justify='space-between' alignItems='center' item xs={12}>
                     <Grid item container spacing={2} xs={6}>
                         <Grid item>
-                            <Button onClick={onAddIndicatorClick} icon={<AddIcon/>}>Add Challenge</Button>
+                            <Visibility visible={bottleneck?.create}>
+                                <Button onClick={onAddIndicatorClick} icon={<AddIcon/>}>Add Challenge</Button>
+                            </Visibility>
                         </Grid>
                         <Grid item xs={6}>
                             <SingleSelect clearText='Clear' clearable selected={statusFilter?.selected} placeholder='Filter by status' onChange={setStatusFilter}>

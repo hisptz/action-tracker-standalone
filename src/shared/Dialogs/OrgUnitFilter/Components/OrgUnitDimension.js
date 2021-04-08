@@ -31,11 +31,11 @@ export default function OrgUnitDimension({onSelect, selectedOrgUnitPaths = [],  
                             }
                         }
                         }
-                        
+
                         singleSelection
                     />
                 }{
-                loading && <CenteredContent><CircularLoader small/></CenteredContent>
+                (loading && !error) &&  (<CenteredContent><CircularLoader small/></CenteredContent>)
             }
             </div>
         </Box>

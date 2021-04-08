@@ -6,7 +6,9 @@ import {useAppConfig} from "../../core/hooks";
 import FullPageLoader from "../../shared/Components/FullPageLoader";
 import {useSetRecoilState} from "recoil";
 import {DataEngineState} from "../../core/states";
-import {useDataEngine} from "@dhis2/app-runtime";
+import {useAlert, useDataEngine} from "@dhis2/app-runtime";
+import useUser from "../../core/hooks/user";
+import generateErrorAlert from "../../core/services/generateErrorAlert";
 
 
 const styles = {
@@ -20,13 +22,16 @@ const styles = {
 
 export default function MainPage() {
     const {loading, firstTimeUseLoading} = useAppConfig();
+    const {loading: userLoading, error} = useUser();
     const engine = useDataEngine();
     const setDataEngine = useSetRecoilState(DataEngineState);
+    const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
 
     useEffect(()=>{setDataEngine(engine)}, []);
+    useEffect(() => generateErrorAlert(show, error), [error])
 
     return (
-        loading || firstTimeUseLoading ?
+        loading || firstTimeUseLoading || userLoading ?
             <FullPageLoader text={firstTimeUseLoading && 'Configuring for first time use. Please wait...'} /> :
             <Container style={styles.container}>
                 <Grid container spacing={5} style={styles.gridContainer}>

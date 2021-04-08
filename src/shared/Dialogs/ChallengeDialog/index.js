@@ -104,7 +104,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
             </ModalContent>
             <ModalActions>
                 <ButtonStrip>
-                    <Button onClick={onClose}>Hide</Button>
+                    <Button onClick={_ => confirmModalClose(onClose)}>Hide</Button>
                     <Button primary onClick={handleSubmit(onSubmit)}>{saving ? 'Saving...' : 'Save Indicator'}</Button>
                 </ButtonStrip>
             </ModalActions>

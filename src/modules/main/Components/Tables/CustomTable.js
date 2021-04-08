@@ -55,29 +55,15 @@ const CustomNestingTableCell = withStyles((_) => ({
 }))(TableCell)
 
 const CustomTable = withStyles((_) => ({
-    '@global': {
-        '*::-webkit-scrollbar': {
-            width: '0.3em'
-        },
-        '*::-webkit-scrollbar-track': {
-            '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
-        },
-        '*::-webkit-scrollbar-thumb': {
-            backgroundColor: '#D5DDE5',
-            outline: '0.5px solid #E8EDF2'
-        }
-    },
     root: {
         overflowY: 'auto',
-        height: 500,
-        maxHeight: 200,
-
+        maxHeight: 500,
     }
 }))(Table)
 
 const CustomNestedTable = withStyles((_) => ({
     root: {
-        height: '100%',
+        maxHeight: '100%',
         padding: 0,
         margin: 0,
         scrollMargin: '1rem'
@@ -109,13 +95,13 @@ const StatusContainer = ({status}) => {
     const icon = style?.icon;
     const iconRef = useRef()
 
-    useEffect(()=>{
+    useEffect(() => {
         iconRef.current.innerHTML = formatSvg(icon, {size: 20, color: generateTextColor(style.color)});
     })
 
     return <>
 
-        <Card variant='outlined' component={'div'} maxWidth={false} style={{
+        <Card variant='outlined' component={'div'} style={{
             background: style.color,
             textAlign: 'center',
             verticalAlign: 'center',
@@ -124,13 +110,13 @@ const StatusContainer = ({status}) => {
             <Grid container justify='center' style={{padding: 5}}>
                 {
                     style.icon &&
-                    <Grid item xs={2}>
+                    <Grid item>
                         <CenteredContent>
-                                <div style={{paddingTop: 5}} ref={iconRef} />
+                            <div style={{paddingTop: 5}} ref={iconRef}/>
                         </CenteredContent>
                     </Grid>
                 }
-                <Grid item xs={10}>
+                <Grid item>
                     <CenteredContent>
                         {selectedStatus}
                     </CenteredContent>
@@ -140,24 +126,28 @@ const StatusContainer = ({status}) => {
     </>
 }
 
-const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object, ...props}) => {
+const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object,roles, ...props}) => {
     const [currentTarget, setCurrentTarget] = useState(false);
+    const {update: canUpdate, delete: canDelete} = roles || {canUpdate: false, canDelete: false};
     return (
         <StyledStatusTableCell {...props}>
             <Grid item container direction='row' justify='space-between' spacing={1}>
-                <Grid item xs={9}>
+                <Grid item xs={(canDelete || canUpdate) ? 9:12}>
                     <StatusContainer status={status}/>
                 </Grid>
-                <Grid container justify='center' alignItems='center' item xs={3}>
-                    <Button onClick={(d, e) => {
-                        setCurrentTarget(e.currentTarget);
-                        setRef(e.currentTarget)
-                    }} icon={<MoreHorizIcon/>}/>
+                <Grid container justify='center' alignItems='center' item xs={(canDelete || canUpdate) ? 3:12}>
+                    {
+                        (canDelete || canUpdate) &&
+                        <Button onClick={(d, e) => {
+                            setCurrentTarget(e.currentTarget);
+                            setRef(e.currentTarget)
+                        }} icon={<MoreHorizIcon/>}/>
+                    }
                 </Grid>
             </Grid>
             {
                 (reference && reference === currentTarget) &&
-                <TableActionsMenu object={object} onEdit={onEdit} onDelete={onDelete} reference={reference}
+                <TableActionsMenu roles={roles} object={object} onEdit={onEdit} onDelete={onDelete} reference={reference}
                                   onClose={_ => setRef(undefined)}/>
             }
         </StyledStatusTableCell>
@@ -225,7 +215,7 @@ const ActionStatusDetails = ({actionStatus}) => {
     )
 }
 
-const ActionStatusTableCell = ({actionStatus, action, refetch}) => {
+const ActionStatusTableCell = ({actionStatus, action, refetch, roles}) => {
     const [addActionStatusOpen, setAddActionStatusOpen] = useState(false);
     const styles = {
         margin: 'auto',
@@ -242,7 +232,7 @@ const ActionStatusTableCell = ({actionStatus, action, refetch}) => {
                 {
                     actionStatus ?
                         <ActionStatusDetails actionStatus={actionStatus}/> :
-                        <NoActionStatus onAddClick={onAddClick}/>
+                       roles?.create ? <NoActionStatus onAddClick={onAddClick}/>: <></>
                 }
             </CenteredContent>
             {
@@ -253,25 +243,30 @@ const ActionStatusTableCell = ({actionStatus, action, refetch}) => {
     )
 }
 
-const CustomTableCellWithActions = ({object, setRef, reference, onDelete, onEdit, children}) => {
+const CustomTableCellWithActions = ({object, setRef, reference, onDelete, onEdit, children, roles}) => {
     const [currentTarget, setCurrentTarget] = useState(undefined);
+    const {update: canUpdate, delete: canDelete} = roles || {canUpdate: false, canDelete: false};
     return (
         <CustomTableCell key={`${object?.id}-description`}>
             <Grid container spacing={1}>
-                <Grid item xs={9}>
+                <Grid item xs={(canDelete || canUpdate) ? 9 : 12}>
                     {children}
                 </Grid>
-                <Grid item xs={3}>
-                    <Button key={`${object?.id}-action-menu-button`} onClick={(d, e) => {
-                        setRef(e.currentTarget);
-                        setCurrentTarget(e.currentTarget);
-                    }}
-                            icon={<MoreHorizIcon/>}/>
+                <Grid item xs={(canDelete || canUpdate) ? 3 : 0}>
+                    {
+                        (canDelete || canUpdate) &&
+                        <Button key={`${object?.id}-action-menu-button`} onClick={(d, e) => {
+                            setRef(e.currentTarget);
+                            setCurrentTarget(e.currentTarget);
+                        }}
+                                icon={<MoreHorizIcon/>}/>
+                    }
                 </Grid>
             </Grid>
             {
                 (reference && reference === currentTarget) &&
                 <TableActionsMenu
+                    roles={roles}
                     object={object}
                     key={`${object.id}-action-menu`}
                     onDelete={onDelete}

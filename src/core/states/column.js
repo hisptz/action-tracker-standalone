@@ -1,4 +1,4 @@
-import {atom, selector} from "recoil";
+import {selector, atom} from "recoil";
 import {PageState} from "./page";
 import {DimensionsState} from "./dimensions";
 import getTableQuartersColumn, {setVisibility} from "../services/tableUtils";
@@ -8,17 +8,21 @@ import {
     DueDateTableCell,
     StatusTableCell
 } from "../../modules/main/Components/Tables/CustomTable";
+import _ from 'lodash';
 import React from "react";
 
-export const ColumnState = atom({
-    key: 'columns',
-    default: {
+const defaultTables = {
+    visibleColumnsCount: 0,
+    visibleColumnsNames: [],
+    gapsTable: {
+        width: 0,
         columns: [
             {
                 name: 'gap',
                 displayName: 'Gap',
                 mandatory: true,
                 visible: true,
+                width: 0,
                 render: (object, actions = {
                     onEdit: () => {
                     },
@@ -26,7 +30,8 @@ export const ColumnState = atom({
                     },
                     ref: undefined,
                     setRef: () => {
-                    }
+                    },
+                    roles: {}
                 }) => {
                     const {ref} = actions || {};
                     return (
@@ -38,10 +43,32 @@ export const ColumnState = atom({
                 }
             },
             {
+                name: 'orgUnit',
+                displayName: 'Org Unit',
+                mandatory: true,
+                visible: true,
+                width: 0,
+                render: (object) => {
+                    return (
+                        <CustomTableCell key={`${object.id}-custom-table-cell-orgunit`}>
+                            {object?.orgUnitName}
+                        </CustomTableCell>
+                    )
+                }
+            },
+        ],
+        visibleColumnsCount: 2,
+        visible: true
+    },
+    solutionsTable: {
+        width: 0,
+        columns: [
+            {
                 name: 'possibleSolution',
                 displayName: 'Possible Solutions',
                 mandatory: true,
                 visible: true,
+                width: 0,
                 render: (object, actions = {
                     onEdit: () => {
                     },
@@ -61,12 +88,20 @@ export const ColumnState = atom({
                     )
                 }
             },
+        ],
+        visibleColumnsCount: 1,
+        visible: true
+    },
+    actionsTable: {
+        width: 0,
+        columns: [
             {
                 name: 'action',
                 displayName: 'Action Items',
                 mandatory: true,
                 visible: true,
-                render: (object, _,__, width) => {
+                width: 0,
+                render: (object, _, __, width) => {
                     return (
                         <CustomTableCell style={{maxWidth: width}} key={`${object.id}-description`}>
                             {object?.description}
@@ -79,9 +114,10 @@ export const ColumnState = atom({
                 displayName: 'Responsible Person',
                 mandatory: true,
                 visible: true,
-                render: (object, _,__, width)=> {
+                width: 0,
+                render: (object, _, __, width) => {
                     return (
-                        <CustomTableCell style={{maxWidth: width}}  key={`${object.id}-responsible-designation`}>
+                        <CustomTableCell style={{maxWidth: width}} key={`${object.id}-responsible-designation`}>
                             {object?.responsiblePerson}, {object?.designation}
                         </CustomTableCell>
                     )
@@ -92,7 +128,8 @@ export const ColumnState = atom({
                 displayName: 'Start Date',
                 mandatory: true,
                 visible: true,
-                render: (object, _,__, width) => {
+                width: 0,
+                render: (object, _, __, width) => {
                     return (
                         <CustomTableCell style={{maxWidth: width}} key={`${object.id}-startDate`}>
                             {object?.startDate}
@@ -105,7 +142,8 @@ export const ColumnState = atom({
                 displayName: 'End Date',
                 mandatory: true,
                 visible: true,
-                render: (object, _,__, width) => {
+                width: 0,
+                render: (object, _, __, width) => {
                     return (
                         <DueDateTableCell style={{maxWidth: width}} dueDate={object?.endDate}
                                           key={`${object.id}-endDate`}/>
@@ -117,6 +155,7 @@ export const ColumnState = atom({
                 displayName: 'Status',
                 mandatory: true,
                 visible: true,
+                width: 0,
                 render: (object, refetch, actions, width) => {
                     const {ref} = actions || {};
                     return (
@@ -132,46 +171,99 @@ export const ColumnState = atom({
                 }
             },
         ],
-        visibleColumnsCount: 7,
-        gapsTable: [
-            'gap'
-        ],
-        solutionsTable: [
-            'possibleSolution'
-        ],
-        actionsTable: [
-            'action',
-            'responsiblePerson',
-            'startDate',
-            'endDate',
-            'status'
-        ]
+        visibleColumnsCount: 5,
+        visible: true
+    },
+    actionStatusTable: {
+        width: 0,
+        visible: false,
+        visibleColumnsCount: 4,
+        columns: []
     }
-});
+}
 
-export const LiveColumnState = selector(({
+export const TableState = atom({
+    key: 'tables',
+    default: {}
+})
+
+export const ColumnState = selector(({
     key: 'liveColumn',
     get: ({get}) => {
         const activePage = get(PageState);
         const {period} = get(DimensionsState);
+
+        function updateTablesVisibleColumnsCount(tables) {
+            _.set(tables, 'gapsTable.visibleColumnsCount', _.filter(tables.gapsTable.columns, 'visible').length)
+            _.set(tables, 'solutionsTable.visibleColumnsCount', _.filter(tables.solutionsTable.columns, 'visible').length)
+            _.set(tables, 'actionsTable.visibleColumnsCount', _.filter(tables.actionsTable.columns, 'visible').length)
+            _.set(tables, 'actionStatusTable.visibleColumnsCount', _.filter(tables.actionStatusTable.columns, 'visible').length)
+        }
+
+        function updateVisibleColumnsCount(tables) {
+            let count = 0;
+            Object.values(tables).forEach(table => {
+                if (table.visibleColumnsCount) {
+                    count += table.visibleColumnsCount;
+                }
+            })
+            _.set(tables, 'visibleColumnsCount', count);
+        }
+
+        function updateVisibleColumnsNames(tables) {
+            let names = [];
+            Object.values(tables).forEach(table => {
+                table?.columns?.forEach(column => {
+                    if (column.visible) {
+                        names.push(column.displayName)
+                    }
+                })
+            })
+            _.set(tables, 'visibleColumnsNames', names)
+        }
+
+        function setTablesWidth(tables) {
+            _.set(tables, 'gapsTable.width', ((100 / tables.visibleColumnsCount) * tables.gapsTable.visibleColumnsCount));
+            _.set(tables, 'solutionsTable.width', ((100 / tables.visibleColumnsCount) * tables.solutionsTable.visibleColumnsCount));
+            _.set(tables, 'actionsTable.width', ((100 / tables.visibleColumnsCount) * tables.actionsTable.visibleColumnsCount));
+            _.set(tables, 'actionStatusTable.width', ((100 / tables.visibleColumnsCount) * tables.actionStatusTable.visibleColumnsCount));
+        }
+
+        function updateVisibleColumns(tables) {
+            updateTablesVisibleColumnsCount(tables);
+            updateVisibleColumnsCount(tables);
+            updateVisibleColumnsNames(tables);
+            setTablesWidth(tables);
+        }
+
+        function resetColumnConfig() {
+            const tables = defaultTables;
+            updateVisibleColumns(tables);
+            return {...tables};
+        }
+
         if (activePage === 'Tracking') {
-            let columnsConfig = get(ColumnState);
+            let tables = defaultTables;
             const quarterColumns = getTableQuartersColumn(period[0]);
-            if (quarterColumns && quarterColumns.length > 0) {
-                const cols = setVisibility(false, columnsConfig.columns, 'status');
-                const columnsToDisplay = [...cols, ...quarterColumns];
-                return {
-                    ...columnsConfig,
-                    visibleColumnsCount: _.filter(columnsToDisplay, ['visible', true]).length,
-                    columns: columnsToDisplay,
-                    actionsTable: [...columnsConfig.actionsTable, ...quarterColumns.map(col => col.name)]
+            if (quarterColumns && !_.isEmpty(quarterColumns)) {
+                const actionsTable = setVisibility(false, tables.actionsTable, ['status']);
+                tables = {
+                    ...tables,
+                    actionStatusTable: {
+                        ...tables.actionStatusTable,
+                        columns: quarterColumns,
+                        visible: true,
+                        visibleColumnsCount: quarterColumns.length
+                    },
+                    actionsTable
                 };
+                updateVisibleColumns(tables);
+                return tables;
             } else {
-                return get(ColumnState);
+                return resetColumnConfig();
             }
         } else {
-            return get(ColumnState);
-            return get(ColumnState);
+            return resetColumnConfig();
         }
-    }
+    },
 }))

@@ -16,7 +16,7 @@ export default function getTableQuartersColumn(period) {
                     mandatory: true,
                     id: quarter.id,
                     render: (object, refetch, actions) => {
-                        const {ref} = actions;
+                        const {ref, roles} = actions;
                         const {startDate, endDate} = getPeriodDates(quarter);
                         const actionStatusList = object.actionStatusList || [];
                         const actionStatus = _.filter(actionStatusList, (as => {
@@ -25,14 +25,17 @@ export default function getTableQuartersColumn(period) {
                         }))[0]
                         return (
                             actionStatus ?
-                                <CustomTableCellWithActions object={actionStatus} reference={ref} {...actions} >
+                                <CustomTableCellWithActions key={`${actionStatus.id}-action-status-cell`}
+                                                            object={actionStatus} reference={ref} {...actions} >
                                     <ActionStatusTableCell
+                                        roles={roles}
                                         refetch={refetch} action={object}
                                         key={`${object.id}-${quarter.id}`}
                                         actionStatus={actionStatus}
                                     />
-                                </CustomTableCellWithActions>:
+                                </CustomTableCellWithActions> :
                                 <ActionStatusTableCell
+                                    roles={roles}
                                     refetch={refetch} action={object}
                                     key={`${object.id}-${quarter.id}`}
                                     actionStatus={actionStatus}
@@ -46,12 +49,19 @@ export default function getTableQuartersColumn(period) {
     return []
 }
 
-export function setVisibility(visible = false, columns = [], name = '') {
-    const targetColumn = _.find(columns, ['name', name]);
-    const editedColumn = {...targetColumn, visible};
-    const cols = [...columns];
-    cols.splice(_.findIndex(columns, ['name', name]), 1, editedColumn);
-    return cols;
+export function setVisibility(visible = true, table = {}, names = ['']) {
+    let modifiedTable = {...table};
+    names.forEach(name => {
+        let columnIndex = _.findIndex(modifiedTable.columns, (col) => col.name === name);
+        const modifiedColumn = {...modifiedTable.columns[columnIndex], visible}
+        let columns = _.filter(modifiedTable.columns, (col)=>col.name !== name);
+        columns.push(modifiedColumn);
+        modifiedTable = {
+            ...modifiedTable,
+            columns
+        }
+    });
+    return modifiedTable;
 }
 
 export function getPeriodDates(quarter) {

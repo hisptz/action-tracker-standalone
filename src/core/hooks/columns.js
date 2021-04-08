@@ -1,9 +1,9 @@
 import {useSetRecoilState} from "recoil";
-import {ColumnState} from "../states/column";
+import {TablesState} from "../states/column";
 
 
 export default function useColumns(){
-    const setColumnState = useSetRecoilState(ColumnState);
+    const setColumnState = useSetRecoilState(TablesState);
 
 
 }

@@ -8,7 +8,7 @@ import {uid} from "../helpers/utils";
 export default class Gap {
 
     constructor(event = {event: '', dataValues: []}, possibleSolutionEvents = []) {
-        const {event: eventId, dataValues, trackedEntityInstance, eventDate} = event;
+        const {event: eventId, dataValues, trackedEntityInstance, eventDate, orgUnit, orgUnitName} = event || {};
         this.id = eventId;
         this.eventDate = eventDate;
         this.title = _.find(dataValues, ['dataElement', GapConstants.TITLE_DATA_ELEMENT])?.value;
@@ -17,6 +17,8 @@ export default class Gap {
         this.solutionLinkage = _.find(dataValues, ['dataElement', GapConstants.SOLUTION_LINK_DATA_ELEMENT])?.value;
         this.possibleSolutions = _.map(possibleSolutionEvents, (solution) => new PossibleSolution(solution));
         this.indicatorId = trackedEntityInstance;
+        this.orgUnit = orgUnit;
+        this.orgUnitName = orgUnitName;
 
         this.toString = this.toString.bind(this);
         this.toJson = this.toJson.bind(this);

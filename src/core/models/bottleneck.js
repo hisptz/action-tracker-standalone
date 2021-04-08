@@ -8,7 +8,7 @@ import {uid} from "../helpers/utils";
 export default class Bottleneck {
 
     constructor(trackedEntityInstance) {
-        const {trackedEntityInstance: teiId, attributes, enrollments} = trackedEntityInstance || {};
+        const {trackedEntityInstance: teiId, attributes, enrollments, orgUnit} = trackedEntityInstance || {};
         this.id = teiId;
         this.indicator = _.find(attributes, ['attribute', BottleneckConstants.INDICATOR_ATTRIBUTE])?.value;
         this.bottleneck = _.find(attributes, ['attribute', BottleneckConstants.BOTTLENECK_ATTRIBUTE])?.value;
@@ -19,6 +19,7 @@ export default class Bottleneck {
         this.enrollmentDate = enrollments ? enrollments[0]?.enrollmentDate : new Date();
         this.incidentDate = enrollments ? enrollments[0]?.incidentDate : new Date();
         this.status = enrollments ? enrollments[0]?.status : 'ACTIVE';
+        this.orgUnit = orgUnit;
         //Bind all methods
         this.getGaps = this.getGaps.bind(this);
         this.toString = this.toString.bind(this);
