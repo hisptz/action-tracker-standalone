@@ -1,0 +1,29 @@
+@media print {
+    header, .filter-components-grid, .status-icon-grid {
+        display: none !important;
+    }
+    td, tr {
+        border-bottom: none;
+    }
+    .status-card {
+        background-color: #FFFFFF !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+    }
+    .status-cell-grid {
+        padding: 0 !important;
+        margin: 0 !important;
+        color: #000000 !important;
+        border: none !important;
+    }
+    .status-cell-grid .status-cell-grid-item {
+        width: 100% !important;
+        text-align: start !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    Button {
+        display: none !important;
+    }
+}
