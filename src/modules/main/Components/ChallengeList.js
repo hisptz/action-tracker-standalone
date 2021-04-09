@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {Grid} from "@material-ui/core";
 import ChallengeCard from "./ChallengeCard";
 import {useRecoilValue} from "recoil";
-import {DimensionsState, StatusFilterState} from "../../../core/states";
+import {DataEngineState, DimensionsState, StatusFilterState} from "../../../core/states";
 import NoDimensionsSelectedView from "./NoDimensionsSelectedView";
 import MainPageHeader from "./MainPageHeader";
 import EmptyChallengeList from "./EmptyChallengeList";
@@ -16,6 +16,7 @@ import Paginator from "../../../shared/Components/Paginator";
 import {CenteredContent} from '@dhis2/ui'
 import useGetFilteredTeis from "../hooks/useGetFilteredTeis";
 import FullPageError from "../../../shared/Components/FullPageError";
+import { downloadPDF, downloadExcel } from '../../../core/services/downloadFilesService'
 
 const indicatorQuery = {
     indicators: {
@@ -46,6 +47,7 @@ export default function ChallengeList() {
         variables: {ou: orgUnit?.id, page, pageSize, trackedEntityInstance: []},
         lazy: true
     });
+    const engine = useRecoilValue(DataEngineState);
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     useEffect(() => generateErrorAlert(show, error), [error])
@@ -77,6 +79,12 @@ export default function ChallengeList() {
         setSelectedChallenge(undefined);
         onClose();
     }
+    function onDownloadExcel() {
+        downloadExcel({engine, indicatorQuery, orgUnit })
+    }
+    async function onDownloadPDF() {
+       downloadPDF({engine, indicatorQuery, orgUnit })
+    }
 
     const onEdit = (object) => {
         setSelectedChallenge(object);
@@ -93,7 +101,7 @@ export default function ChallengeList() {
                             <EmptyChallengeList onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/> :
                             <Grid container spacing={3}>
                                 <Grid item xs={12} style={{maxHeight: 120, margin: 0}} container justify='center'>
-                                    <MainPageHeader
+                                    <MainPageHeader onDownloadExcel={onDownloadExcel} onDownloadPDF={onDownloadPDF}
                                         onAddIndicatorClick={_ => onModalClose(_ => setAddIndicatorOpen(true))}/>
                                 </Grid>
                                 <Grid item xs={12} container spacing={3} style={{margin: 0}}>

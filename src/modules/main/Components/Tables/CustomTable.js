@@ -115,22 +115,22 @@ const StatusContainer = ({status}) => {
 
     return <>
 
-        <Card variant='outlined' component={'div'} maxWidth={false} style={{
+        <Card variant='outlined' component={'div'} className="status-card" maxWidth={false} style={{
             background: style.color,
             textAlign: 'center',
             verticalAlign: 'center',
             color: generateTextColor(style.color),
         }}>
-            <Grid container justify='center' style={{padding: 5}}>
+            <Grid container justify='center' style={{padding: 5}} className="status-cell-grid">
                 {
                     style.icon &&
-                    <Grid item xs={2}>
+                    <Grid item xs={2} className="status-icon-grid">
                         <CenteredContent>
                                 <div style={{paddingTop: 5}} ref={iconRef} />
                         </CenteredContent>
                     </Grid>
                 }
-                <Grid item xs={10}>
+                <Grid item xs={10} className="status-cell-grid-item">
                     <CenteredContent>
                         {selectedStatus}
                     </CenteredContent>

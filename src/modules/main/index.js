@@ -7,7 +7,7 @@ import FullPageLoader from "../../shared/Components/FullPageLoader";
 import {useSetRecoilState} from "recoil";
 import {DataEngineState} from "../../core/states";
 import {useDataEngine} from "@dhis2/app-runtime";
-
+import './styles/main.css';
 
 const styles = {
     container: {padding: 20, margin: 0, minHeight: '100%', minWidth: 'calc(100vw - 4px)'},
@@ -15,7 +15,7 @@ const styles = {
     fullHeight:{
         height: '100%'
     }
-
+    
 }
 
 export default function MainPage() {
@@ -28,9 +28,9 @@ export default function MainPage() {
     return (
         loading || firstTimeUseLoading ?
             <FullPageLoader text={firstTimeUseLoading && 'Configuring for first time use. Please wait...'} /> :
-            <Container style={styles.container}>
+            <Container style={styles.container} id="mainPage">
                 <Grid container spacing={5} style={styles.gridContainer}>
-                    <Grid item xs={12} style={{padding: 0}}>
+                    <Grid item xs={12} style={{padding: 0}} className="filter-components-grid">
                         <FilterComponents/>
                     </Grid>
                     <Grid container item xs={12} style={styles.fullHeight}>

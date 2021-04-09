@@ -31,3 +31,9 @@ body::-webkit-scrollbar-thumb {
 div.jsx-1730587817 {
     z-index: 3000;
 }
+
+@media print {
+    .main-page-header {
+        display: none !important;
+    }
+}
