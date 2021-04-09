@@ -17,8 +17,8 @@ function FormField({ field, control, errors }) {
             }}
             defaultValue=""
             control={control}
-            render={({ onChange, value }) => {
-              if (field && field.optionSet) { 
+            render={({field: {onChange, value}}) => {
+              if (field && field.optionSet) {
                 if (field && field.optionSet) {
                 return (
                   <SingleSelectField
@@ -27,9 +27,7 @@ function FormField({ field, control, errors }) {
                     clearable
                     dataTest="dhis2-uiwidgets-singleselectfield"
                     required={
-                        field?.validations && field.validations.required
-                          ? true
-                          : false
+                        (field?.validations && field.validations.required)
                       }
                     label={field?.formName}
                     noMatchText="No option available"
@@ -60,12 +58,14 @@ function FormField({ field, control, errors }) {
                     <InputField
                       name={field?.id}
                       dataTest="dhis2-uiwidgets-inputfield"
-                      onChange={onChange}
+                      onChange={e=>{
+                        console.log(e);
+                        console.log(value);
+                        onChange(e);
+                      }}
                       value={value?.value}
                       required={
-                        field?.validations && field.validations.required
-                          ? true
-                          : false
+                        (field?.validations && field.validations.required)
                       }
                       type={Dhis2ValueTypes[field?.valueType]?.formName}
                       label={field?.formName}
@@ -81,9 +81,7 @@ function FormField({ field, control, errors }) {
                       dataTest="dhis2-uiwidgets-checkboxfield"
                       checked={value?.value}
                       required={
-                        field?.validations && field.validations.required
-                          ? true
-                          : false
+                        (field?.validations && field.validations.required)
                       }
                       label={field?.formName}
                       error={Boolean(errors && errors[field?.id])}
@@ -99,9 +97,7 @@ function FormField({ field, control, errors }) {
                       value={value?.value}
                       type={Dhis2ValueTypes[field?.valueType]?.formName}
                       required={
-                        field?.validations && field.validations.required
-                          ? true
-                          : false
+                        (field?.validations && field.validations.required)
                       }
                       label={field?.formName}
                       error={Boolean(errors && errors[field?.id])}
@@ -109,7 +105,7 @@ function FormField({ field, control, errors }) {
                     />
                   );
                 default:
-                  return <p></p>;
+                  return <p/>;
               }
             }}
           />
