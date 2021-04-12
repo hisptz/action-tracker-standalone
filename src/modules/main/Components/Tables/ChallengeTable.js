@@ -4,13 +4,11 @@ import {Card, TableBody, TableHead, TableRow} from '@material-ui/core'
 import {CustomNestingTableCell, CustomTable, CustomTableCellHead, CustomTableRowHead} from "./CustomTable";
 import GapTable from "./GapTable";
 import Bottleneck from "../../../../core/models/bottleneck";
-import Gap from "../../../../core/models/gap";
 import {useRecoilValue} from "recoil";
-import {PageState} from "../../../../core/states";
-import {ColumnState, TableState} from "../../../../core/states/column";
+import {TableStateSelector} from "../../../../core/states/column";
 
 export default function ChallengeTable({indicator = new Bottleneck()}) {
-    const {visibleColumnsNames, visibleColumnsCount} = useRecoilValue(ColumnState) || {};
+    const {visibleColumnsNames, visibleColumnsCount} = useRecoilValue(TableStateSelector) || {};
     const styles = {
         container: {
             maxHeight: 550,
@@ -24,8 +22,8 @@ export default function ChallengeTable({indicator = new Bottleneck()}) {
                 {
                     <colgroup>
                         {
-                            visibleColumnsNames.map(col => <col key={`col${col}`}
-                                                                width={`${100 / visibleColumnsCount}%`}/>)
+                            _.map(visibleColumnsNames, col => <col key={`col${col}`}
+                                                                   width={`${100 / visibleColumnsCount}%`}/>)
                         }
                     </colgroup>
                 }

@@ -26,6 +26,5 @@ const indicatorNameQuery = {
 
 export function useIndicatorsName(indicatorId = '') {
     const {loading, data, error} = useDataQuery(indicatorNameQuery, {variables: {id: indicatorId}});
-
     return {loading, error, name: data?.data.displayName}
 }

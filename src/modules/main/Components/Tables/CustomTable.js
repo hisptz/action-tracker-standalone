@@ -107,7 +107,7 @@ const StatusContainer = ({status}) => {
             verticalAlign: 'center',
             color: generateTextColor(style.color),
         }}>
-            <Grid container justify='center' style={{padding: 5}}>
+            <Grid container justify='center' >
                 {
                     style.icon &&
                     <Grid item>

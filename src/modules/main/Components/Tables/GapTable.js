@@ -2,7 +2,7 @@ import {
     CustomNestedTable,
     CustomNestingTableCell,
 } from "./CustomTable";
-import {CardContent, TableBody, TableRow} from "@material-ui/core";
+import {TableBody, TableRow} from "@material-ui/core";
 import _ from "lodash";
 import React, {useEffect, useState} from "react";
 import SolutionsTable from "./SolutionsTable";
@@ -12,7 +12,7 @@ import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import generateErrorAlert from "../../../../core/services/generateErrorAlert";
 import Bottleneck from "../../../../core/models/bottleneck";
 import {useRecoilValue} from "recoil";
-import {ColumnState} from "../../../../core/states/column";
+import {TableStateSelector} from "../../../../core/states/column";
 import {GapConstants} from "../../../../core/constants";
 import Grid from "@material-ui/core/Grid";
 import Paginator from "../../../../shared/Components/Paginator";
@@ -47,7 +47,7 @@ const gapQuery = {
 export default function GapTable({challenge = new Bottleneck()}) {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
-    const {gapsTable, visibleColumnsCount} = useRecoilValue(ColumnState);
+    const {gapsTable, visibleColumnsCount} = useRecoilValue(TableStateSelector);
     const {gap: gapRoles} = useRecoilValue(UserRolesState);
     const {loading, error, data, refetch} = useDataQuery(gapQuery, {
         variables: {
@@ -108,10 +108,9 @@ export default function GapTable({challenge = new Bottleneck()}) {
                         <CustomNestedTable>
                             <colgroup>
                                 {
-                                    gapsTable.columns.map(_ => <col key={`col-${_.name}`}
+                                    gapsTable.columns.map(_ => _.visible && <col key={`col-${_.name}`}
                                                                     width={`${100 / visibleColumnsCount}%`}/>)
                                 }
-                                <col key={'col-solutions-table'} width={`${100 - gapsTable.width}%`}/>
                             </colgroup>
                             <TableBody>
                                 {

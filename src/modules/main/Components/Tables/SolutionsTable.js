@@ -1,5 +1,5 @@
 import {CustomNestedTable, CustomNestingTableCell, CustomTableCell, CustomTableFooter} from "./CustomTable";
-import {Container, TableBody, TableCell, TableRow} from "@material-ui/core";
+import {Container, TableBody, TableRow} from "@material-ui/core";
 import _ from "lodash";
 import React, {useEffect, useState} from "react";
 import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
@@ -13,7 +13,7 @@ import generateErrorAlert from "../../../../core/services/generateErrorAlert";
 import Gap from "../../../../core/models/gap";
 import SolutionsDialog from "../../../../shared/Dialogs/SolutionsDialog";
 import {useRecoilValue} from "recoil";
-import {ColumnState} from "../../../../core/states/column";
+import {TableStateSelector} from "../../../../core/states/column";
 import Grid from "@material-ui/core/Grid";
 import Paginator from "../../../../shared/Components/Paginator";
 import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
@@ -48,7 +48,7 @@ const possibleSolutionQuery = {
 
 export default function SolutionsTable({gap = new Gap()}) {
     const [page, setPage] = useState(1);
-    const {solutionsTable, visibleColumnsCount, gapsTable} = useRecoilValue(ColumnState);
+    const {solutionsTable, visibleColumnsCount, gapsTable} = useRecoilValue(TableStateSelector);
     const {possibleSolution: solutionRoles} = useRecoilValue(UserRolesState);
     const [pageSize, setPageSize] = useState(5);
     const {loading, error, data, refetch} = useDataQuery(possibleSolutionQuery, {
@@ -92,7 +92,7 @@ export default function SolutionsTable({gap = new Gap()}) {
         container: {
             maxHeight: 300,
         },
-        tableContainer:{
+        tableContainer: {
             height: '100%',
             overflow: 'auto',
             width: '100%',
@@ -108,10 +108,10 @@ export default function SolutionsTable({gap = new Gap()}) {
                             <CircularLoader small/>
                         </CenteredContent> :
                         <CustomNestedTable>
-                            <colgroup >
+                            <colgroup>
                                 {
-                                    solutionsTable.columns.map(_ => <col key={`col-${_}`}
-                                                                         width={`${100 /( visibleColumnsCount - gapsTable.visibleColumnsCount)}%`}/>)
+                                    solutionsTable.columns.map(_ => _.visible && <col key={`col-${_}`}
+                                                                                      width={`${100 / (visibleColumnsCount - gapsTable.visibleColumnsCount)}%`}/>)
                                 }
                             </colgroup>
                             <TableBody>
@@ -149,9 +149,9 @@ export default function SolutionsTable({gap = new Gap()}) {
                 <Container maxWidth={false} padding={{padding: 5}}>
                     <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                         <Grid item>
-                          <Visibility visible={solutionRoles?.create}>
-                              <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
-                          </Visibility>
+                            <Visibility visible={solutionRoles?.create}>
+                                <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
+                            </Visibility>
                         </Grid>
                         <Grid item>
                             {

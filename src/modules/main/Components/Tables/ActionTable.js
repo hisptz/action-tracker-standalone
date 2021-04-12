@@ -13,7 +13,7 @@ import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
 import ActionItemDialog from "../../../../shared/Dialogs/ActionItemDialog";
 import PossibleSolution from "../../../../core/models/possibleSolution";
 import {ActionConstants} from "../../../../core/constants";
-import {ColumnState} from "../../../../core/states/column";
+import {TableStateSelector} from "../../../../core/states/column";
 import Grid from "@material-ui/core/Grid";
 import Paginator from "../../../../shared/Components/Paginator";
 import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
@@ -45,7 +45,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
     const {selected: selectedStatus} = useRecoilValue(StatusFilterState);
     const [pageSize, setPageSize] = useState(5);
     const {orgUnit} = useRecoilValue(DimensionsState);
-    const {actionsTable, actionStatusTable, visibleColumnsCount} = useRecoilValue(ColumnState);
+    const {actionsTable, actionStatusTable, visibleColumnsCount} = useRecoilValue(TableStateSelector);
     const {action: actionRoles, actionStatus: actionStatusRoles} = useRecoilValue(UserRolesState);
     const [addActionOpen, setAddActionOpen] = useState(false)
     const {loading, data, error, refetch} = useDataQuery(actionsQuery, {
@@ -103,7 +103,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                 <CustomNestedTable>
                     <colgroup>
                         {
-                            actionsTable.columns.map(_ => <col key={`col-${_.name}`} width={`${100 / visibleColumnsCount}%`}/>)
+                            actionsTable.columns.map(_ => _.visible && <col key={`col-${_.name}`} width={`${100 / visibleColumnsCount}%`}/>)
                         }
                         {
                             actionStatusTable.visible && actionStatusTable.columns.map(_ => <col key={`col-${_.name}`} width={`${100 / visibleColumnsCount}%`}/>)
