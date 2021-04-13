@@ -36,7 +36,7 @@ const defaultTables = {
                     return (
                         <CustomTableCellWithActions key={`${object.id}-custom-table-cell-action`}
                                                     object={object} {...actions} reference={ref}>
-                            {object.description}
+                            {object.title}
                         </CustomTableCellWithActions>
                     )
                 }
@@ -103,7 +103,7 @@ const defaultTables = {
                 render: (object, _, __, width) => {
                     return (
                         <CustomTableCell style={{maxWidth: width}} key={`${object.id}-description`}>
-                            {object?.description}
+                            {object?.title}
                         </CustomTableCell>
                     )
                 }
