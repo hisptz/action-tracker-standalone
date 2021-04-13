@@ -16,9 +16,10 @@ import {ConfigState, DimensionsState} from "../../../core/states";
 import Action from "../../../core/models/action";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import ActionStatus from "../../../core/models/actionStatus";
-import {confirmModalClose, getFormattedDate} from "../../../core/helpers/utils";
+import {confirmModalClose} from "../../../core/helpers/utils";
 import {ActionConstants, ActionStatusConstants} from "../../../core/constants";
-import {generateImportSummaryErrors, onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
+import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
+import {getJSDate} from "../../../core/services/dateUtils";
 
 const actionEditMutation = {
     type: 'update',
@@ -32,16 +33,35 @@ const actionCreateMutation = {
     data: ({data}) => data
 }
 
+
+function getValidatedFormFields(metadataFields = []) {
+    const formFields = getFormattedFormMetadata(metadataFields) || [];
+    const endDateFieldIndex = _.findIndex(formFields, ['id', ActionConstants.END_DATE_ATTRIBUTE]);
+    if (endDateFieldIndex >= 0) {
+        _.set(formFields, [endDateFieldIndex, 'dependants'], [...endDateFieldIndex.dependants || [], ActionConstants.START_DATE_ATTRIBUTE]);
+        _.set(formFields, [endDateFieldIndex, 'validations'], {
+            ...formFields[endDateFieldIndex].validations,
+            customValidate: (value, dependants) => {
+                const startDate = getJSDate(_.find(dependants, ['name', ActionConstants.START_DATE_ATTRIBUTE])?.value);
+                const endDate = getJSDate(value?.value);
+                return (endDate > startDate) || 'The end date should be after start date'
+            }
+        })
+
+    }
+    return formFields;
+}
+
 export function ActionItemDialog({onClose, onUpdate, solution, action}) {
     const {orgUnit} = useRecoilValue(DimensionsState);
     const {actionProgramMetadata} = useRecoilValue(ConfigState);
     const metadataFields = Action.getFormFields(actionProgramMetadata);
-    const {control, errors, handleSubmit} = useForm({
+    const {control, handleSubmit} = useForm({
         mode: 'onBlur',
         reValidateMode: 'onBlur',
         defaultValues: action?.getFormValues()
     });
-    const formFields = getFormattedFormMetadata(metadataFields);
+    const formFields = getValidatedFormFields(metadataFields);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     const [mutate, {loading: saving}] = useDataMutation(action ? actionEditMutation : actionCreateMutation, {
         variables: {data: {}, id: action?.id},
@@ -81,12 +101,11 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
         }
     }
 
-
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
             <ModalTitle>{action ? 'Edit' : 'Add'} Action Item</ModalTitle>
             <ModalContent>
-                <CustomForm formFields={formFields} control={control} errors={errors}/>
+                <CustomForm formFields={formFields} control={control}/>
             </ModalContent>
             <ModalActions>
                 <ButtonStrip end>

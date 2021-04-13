@@ -39,6 +39,16 @@ export function setTablesWidth(tables) {
     _.set(tables, 'actionStatusTable.width', ((100 / tables.visibleColumnsCount) * tables.actionStatusTable.visibleColumnsCount) || 0);
 }
 
+export function getPeriodDates(quarter) {
+    const {startDate: startDateString, endDate: endDateString} = quarter;
+    const [start, startMonth, startYear] = startDateString.split('-');
+    const [end, endMonth, endYear] = endDateString.split('-');
+    const startDate = new Date(startYear, startMonth - 1, start);
+    const endDate = new Date(endYear, endMonth - 1, end);
+    console.log(startDate,endDate);
+    return {startDate, endDate}
+}
+
 export function getTableQuartersColumn(period) {
     if (period) {
         const periodInstance = new Period();
@@ -71,6 +81,8 @@ export function getTableQuartersColumn(period) {
                                     />
                                 </CustomTableCellWithActions> :
                                 <ActionStatusTableCell
+                                    startDate={startDate}
+                                    endDate={endDate}
                                     roles={roles}
                                     refetch={refetch} action={object}
                                     key={`${object.id}-${quarter.id}`}
@@ -100,18 +112,6 @@ export function setVisibility(visible = true, table = {}, names = ['']) {
     return modifiedTable;
 }
 
-export function getPeriodDates(quarter) {
-    const {monthly} = quarter || {};
-    const firstMonthId = _.last(monthly)?.id;
-    const lastMonthId = _.head(monthly)?.id;
-    if (firstMonthId && lastMonthId) {
-        const startDate = new Date();
-        startDate.setFullYear(firstMonthId.substring(0, 4), firstMonthId.substring(4) - 1, 1).toString();
-        const endDate = new Date();
-        endDate.setFullYear(lastMonthId.substring(0, 4), lastMonthId.substring(4) - 1, 1).toString();
-        return {startDate, endDate}
-    }
-}
 
 export function updateVisibleColumns(tables) {
     updateTablesVisibleColumnsCount(tables);

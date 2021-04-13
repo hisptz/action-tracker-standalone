@@ -1,5 +1,4 @@
-import React, {useEffect} from 'react';
-import {Container, Grid} from "@material-ui/core";
+import React, {useEffect, Suspense} from 'react';
 import ChallengeList from "./Components/ChallengeList";
 import FilterComponents from "../../core/components/FilterComponents";
 import {useAppConfig} from "../../core/hooks";
@@ -9,13 +8,17 @@ import {DataEngineState} from "../../core/states";
 import {useAlert, useDataEngine} from "@dhis2/app-runtime";
 import useUser from "../../core/hooks/user";
 import generateErrorAlert from "../../core/services/generateErrorAlert";
+import Grid from "@material-ui/core/Grid";
 
 
 const styles = {
-    container: {padding: 20, margin: 0, minHeight: '100%', minWidth: 'calc(100vw - 4px)'},
-    gridContainer: {height: 'calc(100vh - 260px)'},
-    fullHeight:{
-        height: '100%'
+    container: {flexGrow: 1, height: 'calc(100vh - 48px)'},
+    filterContainer: {
+        width: '100%',
+        maxHeight: 130
+    },
+    dataContainer: {
+        flexGrow: 1,
     }
 
 }
@@ -27,21 +30,24 @@ export default function MainPage() {
     const setDataEngine = useSetRecoilState(DataEngineState);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
 
-    useEffect(()=>{setDataEngine(engine)}, []);
+    useEffect(() => {
+        setDataEngine(engine)
+    }, []);
     useEffect(() => generateErrorAlert(show, error), [error])
 
     return (
         loading || firstTimeUseLoading || userLoading ?
-            <FullPageLoader text={firstTimeUseLoading && 'Configuring for first time use. Please wait...'} /> :
-            <Container style={styles.container}>
-                <Grid container spacing={5} style={styles.gridContainer}>
-                    <Grid item xs={12} style={{padding: 0}}>
-                        <FilterComponents/>
-                    </Grid>
-                    <Grid container item xs={12} style={styles.fullHeight}>
-                        <ChallengeList/>
-                    </Grid>
+            <div style={styles.container}><FullPageLoader
+                text={firstTimeUseLoading && 'Configuring for first time use. Please wait...'}/></div> :
+            <Grid container style={styles.container} spacing={0} direction='column'>
+                <Grid item>
+                    <FilterComponents/>
                 </Grid>
-            </Container>
+                <Grid item style={styles.dataContainer}>
+                    <Suspense fallback={<FullPageLoader/>}>
+                        <ChallengeList/>
+                    </Suspense>
+                </Grid>
+            </Grid>
     )
 }

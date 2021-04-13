@@ -215,7 +215,7 @@ const ActionStatusDetails = ({actionStatus}) => {
     )
 }
 
-const ActionStatusTableCell = ({actionStatus, action, refetch, roles}) => {
+const ActionStatusTableCell = ({actionStatus, action, refetch, roles, startDate, endDate}) => {
     const [addActionStatusOpen, setAddActionStatusOpen] = useState(false);
     const styles = {
         margin: 'auto',
@@ -236,7 +236,7 @@ const ActionStatusTableCell = ({actionStatus, action, refetch, roles}) => {
                 }
             </CenteredContent>
             {
-                addActionStatusOpen && <ActionStatusDialog onClose={_ => setAddActionStatusOpen(false)} action={action}
+                addActionStatusOpen && <ActionStatusDialog startDate={startDate} endDate={endDate}  onClose={_ => setAddActionStatusOpen(false)} action={action}
                                                            onUpdate={refetch}/>
             }
         </CustomTableCell>

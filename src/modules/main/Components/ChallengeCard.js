@@ -36,7 +36,6 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
 
 
     return (
-        <Grid item sm={12}>
             <Box maxHeight="600px">
                 <Card variant='outlined'>
                     <CardContent>
@@ -99,6 +98,5 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
                     </CardContent>
                 </Card>
             </Box>
-        </Grid>
     )
 }

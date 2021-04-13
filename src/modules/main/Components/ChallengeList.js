@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import _ from 'lodash';
-import {Grid} from "@material-ui/core";
+import {Container, Grid} from "@material-ui/core";
 import ChallengeCard from "./ChallengeCard";
 import {useRecoilValue} from "recoil";
 import {DimensionsState, StatusFilterState} from "../../../core/states";
@@ -87,48 +87,78 @@ export default function ChallengeList() {
         setAddIndicatorOpen(true);
     }
 
+    const styles = {
+        container: {
+            paddingTop: 30,
+            height: 'calc(100vh - 188px)',
+        },
+        challengesContainer: {
+            flexGrow: 1,
+            minHeight: '100%'
+        },
+        mainHeaderContainer: {
+            maxHeight: 120,
+            padding: '10px 0'
+        },
+        card:{
+            padding: '30px 0'
+        },
+        fullPage:{
+            margin: 'auto',
+            height: 'calc(100vh - 320px)'
+        }
+    }
+
+
     return (orgUnit && period ?
-            <>
-                {(loading || filteredTeisLoading) && <FullPageLoader/>}
-                {((!loading || !filteredTeisLoading) && error) && <FullPageError error={error?.message || error?.toString()} />}
-                {((!loading || !filteredTeisLoading) && !error && data) && <>
-                    {
-                        _.isEmpty(data.indicators?.trackedEntityInstances) ?
-                            <EmptyChallengeList onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/> :
-                            <Grid container spacing={3}>
-                                <Grid item xs={12} style={{maxHeight: 120, margin: 0}} container justify='center'>
-                                    <MainPageHeader
-                                        onAddIndicatorClick={_ => onModalClose(_ => setAddIndicatorOpen(true))}/>
-                                </Grid>
-                                <Grid item xs={12} container spacing={3} style={{margin: 0}}>
+            <Container style={styles.container} fixed maxWidth={false}>
+                <Grid container alignItems='stretch' justify='space-between' spacing={5} direction='column'>
+                    <Grid item style={styles.mainHeaderContainer}>
+                        <MainPageHeader
+                            onAddIndicatorClick={_ => onModalClose(_ => setAddIndicatorOpen(true))}/>
+                    </Grid>
+                    {(loading || filteredTeisLoading) &&
+                    <Grid item style={styles.fullPage}><FullPageLoader/></Grid>}
+                    {((!loading || !filteredTeisLoading) && error) &&
+                    <FullPageError error={error?.message || error?.toString()}/>}
+                    {((!loading || !filteredTeisLoading) && !error && data) && <>
+                        {
+                            _.isEmpty(data.indicators?.trackedEntityInstances) ?
+                                <Grid item style={styles.fullPage}> <EmptyChallengeList
+                                    onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/></Grid> :
+                                <Grid item container spacing={0} direction='column'>
                                     {
                                         _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
                                             const indicator = new Bottleneck(trackedEntityInstance);
                                             return (
-                                                <ChallengeCard onEdit={onEdit} refresh={refetch}
-                                                               key={`${indicator.id}-card`} indicator={indicator}/>
+                                                <Grid item style={styles.card}>
+                                                    <ChallengeCard onEdit={onEdit} refresh={refetch}
+                                                                   key={`${indicator.id}-card`} indicator={indicator}/>
+                                                </Grid>
                                             )
                                         })
                                     }
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <CenteredContent>
-                                        <Paginator pager={data.indicators.pager} onPageChange={onPageChange}
-                                                   onPageSizeChange={onPageSizeChange}/>
-                                    </CenteredContent>
-                                </Grid>
-
+                        }
+                        {
+                            data?.indicators?.pager.pageCount > 1 &&
+                            <Grid item>
+                                <CenteredContent>
+                                    <Paginator pager={data.indicators.pager} onPageChange={onPageChange}
+                                               onPageSizeChange={onPageSizeChange}/>
+                                </CenteredContent>
                             </Grid>
-                    }
-                    {
-                        addIndicatorOpen &&
-                        <ChallengeDialog challenge={selectedChallenge}
-                                         onClose={_ => onModalClose(_ => setAddIndicatorOpen(false))}
-                                         onUpdate={onAddIndicator}/>
+                        }
+                        {
+                            addIndicatorOpen &&
+                            <ChallengeDialog challenge={selectedChallenge}
+                                             onClose={_ => onModalClose(_ => setAddIndicatorOpen(false))}
+                                             onUpdate={onAddIndicator}/>
 
+                        }
+                    </>
                     }
-                </>
-                }
-            </> : <NoDimensionsSelectedView/>
+                </Grid>
+            </Container> : <NoDimensionsSelectedView/>
     )
 }
