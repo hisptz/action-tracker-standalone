@@ -4,7 +4,7 @@ import { map } from 'lodash';
 import FormField from './Components/FormField';
 
 
-function CustomForm({ formFields, control, errors}) {
+function CustomForm({ formFields, control}) {
 
 
   return (
@@ -12,7 +12,6 @@ function CustomForm({ formFields, control, errors}) {
       {map(formFields || [], (field) => (
         <FormField
           field={field}
-          errors={errors}
           key={field.id}
           control={control}
         />

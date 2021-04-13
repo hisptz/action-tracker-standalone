@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types';
 import {CustomFormField} from '../../../../core/models/customFormField';
-import {Controller} from 'react-hook-form';
+import {Controller, useFormState, useWatch} from 'react-hook-form';
 import '../styles/FormField.css';
 import {InputField, Checkbox, TextAreaField, SingleSelectField, SingleSelectOption} from '@dhis2/ui';
 import {Dhis2ValueTypes} from '../../../../core/constants/constants';
 import {map} from 'lodash';
+import {ActionConstants} from "../../../../core/constants";
 
-function FormField({field, control, errors}) {
-    console.log(field.min)
-    console.log(field.max)
+function FormField({field, control}) {
+    const dependants = useWatch({control, name: field.dependants}) //watchFields is an array of fieldIds that are used to validate other fields in the form
+    const {errors} = useFormState({control});
     return (
         <>
             {field.id && field.formName && (
@@ -17,8 +18,16 @@ function FormField({field, control, errors}) {
                         name={field?.id}
                         rules={{
                             ...field?.validations,
+                            validate: (value) => {
+                                if (_.has(field?.validations, 'customValidate')) {
+                                    return field?.validations?.customValidate(value, dependants)
+                                } else if (_.has(field?.validations, 'validate')) {
+                                    return field?.validations?.validate(value);
+                                } else {
+                                    return true;
+                                }
+                            }
                         }}
-                        defaultValue=""
                         control={control}
                         render={({field: {onChange, value}}) => {
                             if (field && field.optionSet) {
@@ -66,14 +75,14 @@ function FormField({field, control, errors}) {
                                             name={field?.id}
                                             dataTest="dhis2-uiwidgets-inputfield"
                                             onChange={onChange}
-                                            onFocus={(value, event)=>{
+                                            onFocus={(value, event) => {
                                                 // event.currentTarget.click();// Only works for firefox
                                                 //TODO: get solutions for Chrome and edge
                                                 event.currentTarget.dispatchEvent(new Event('click'))
                                             }}
                                             value={value?.value}
                                             required={
-                                                (field?.validations && field.validations.required)
+                                                ((field?.validations && Boolean(field.validations.required)))
                                             }
                                             type={Dhis2ValueTypes[field?.valueType]?.formName}
                                             label={field?.formName}
@@ -89,7 +98,7 @@ function FormField({field, control, errors}) {
                                             dataTest="dhis2-uiwidgets-checkboxfield"
                                             checked={value?.value}
                                             required={
-                                                (field?.validations && field.validations.required)
+                                                (field?.validations && Boolean(field.validations.required))
                                             }
                                             label={field?.formName}
                                             error={Boolean(errors && errors[field?.id])}
@@ -125,6 +134,7 @@ function FormField({field, control, errors}) {
 
 FormField.propTypes = {
     field: PropTypes.instanceOf(CustomFormField).isRequired,
+    control: PropTypes.any.isRequired,
 };
 
 export default FormField;
