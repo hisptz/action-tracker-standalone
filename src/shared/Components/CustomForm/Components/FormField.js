@@ -3,9 +3,8 @@ import {CustomFormField} from '../../../../core/models/customFormField';
 import {Controller, useFormState, useWatch} from 'react-hook-form';
 import '../styles/FormField.css';
 import {InputField, Checkbox, TextAreaField, SingleSelectField, SingleSelectOption} from '@dhis2/ui';
-import {Dhis2ValueTypes} from '../../../../core/constants/constants';
+import {Dhis2ValueTypes} from '../../../../core/constants';
 import {map} from 'lodash';
-import {ActionConstants} from "../../../../core/constants";
 
 function FormField({field, control}) {
     const dependants = useWatch({control, name: field.dependants}) //watchFields is an array of fieldIds that are used to validate other fields in the form
@@ -19,12 +18,13 @@ function FormField({field, control}) {
                         rules={{
                             ...field?.validations,
                             validate: (value) => {
+                                if (!/[\S]/.test(value.value)) {
+                                    return field.validations.required;
+                                }
                                 if (_.has(field?.validations, 'customValidate')) {
                                     return field?.validations?.customValidate(value, dependants)
                                 } else if (_.has(field?.validations, 'validate')) {
                                     return field?.validations?.validate(value);
-                                } else {
-                                    return true;
                                 }
                             }
                         }}
