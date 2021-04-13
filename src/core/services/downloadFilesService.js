@@ -1,11 +1,12 @@
 import Bottleneck from '../models/bottleneck';
-import { map, flattenDeep, zipObject, pluck } from 'lodash';
+import { map, flattenDeep, groupBy, mapValues } from 'lodash';
 import Gap from '../models/gap';
 // import {GapConstants} from "../../../../core/constants";
 import { GapConstants, ActionConstants } from '../constants';
 import Action from '../models/action';
 import ActionStatus from '../models/actionStatus';
 import { exportAsExcelFile } from '../helpers/excelHelper';
+import { v4 as uuidv4 } from 'uuid';
 
 /* Queries variables */
 const indicatorQuery = {
@@ -56,8 +57,7 @@ const indicatorNameQuery = {
     id: ({ id }) => id,
   },
 };
-
-export async function downloadPDF({
+export async function getPDFDownloadData({
   engine,
   orgUnit,
   page = 1,
@@ -67,8 +67,16 @@ export async function downloadPDF({
     variables: { ou: orgUnit?.id, page, pageSize, trackedEntityInstance: [] },
     lazy: true,
   });
-  console.log({ indicators });
+
+ return await getDownloadData({
+    indicators,
+    orgUnit,
+    pageSize,
+    engine,
+  });
+  // return await formatDataForDownload(downloadData, engine, 'pdf');
 }
+
 export async function downloadExcel({
   engine,
   orgUnit,
@@ -112,8 +120,53 @@ export async function downloadExcel({
 
   const formattedTeis = await getFormattedTeis(teis, engine, orgUnit);
   const downloadData = await formatDataForDownload(formattedTeis, engine);
-  console.log({ downloadData });
   await exportAsExcelFile(downloadData, 'testing-file');
+}
+
+async function getDownloadData({ indicators, engine, orgUnit, pageSize = 50 }) {
+  const pager = indicators && indicators.pager ? indicators.pager : {};
+  const { pageCount } = pager;
+  let teis = [];
+
+  if (pageCount >= 1) {
+    for (let pageIndex = 1; pageIndex <= pageCount; pageIndex++) {
+      const response = await engine.query(indicatorQuery, {
+        variables: {
+          ou: orgUnit?.id,
+          page: pageIndex,
+          pageSize,
+          trackedEntityInstance: [],
+        },
+        lazy: true,
+      });
+      teis =
+        response &&
+        response.indicators &&
+        response.indicators.trackedEntityInstances
+          ? [...teis, ...response.indicators.trackedEntityInstances]
+          : [...teis];
+    }
+  }
+
+  const formattedData = await getFormattedTeis(teis, engine, orgUnit);
+   const downloadFormattedData = await formatDataForDownload(formattedData,engine, 'pdf')
+  const groupedFormattedDataObj = mapValues(
+    groupBy(downloadFormattedData || [], 'id'),
+    (formattedDataItemsList) =>
+      formattedDataItemsList.map((formattedDataItem) => formattedDataItem
+      )
+  );
+  return map(
+    Object.keys(groupedFormattedDataObj) || [],
+    (formattedDataGroupKey) => {
+      return groupedFormattedDataObj &&
+        groupedFormattedDataObj[formattedDataGroupKey]
+        ? {id: formattedDataGroupKey, items: groupedFormattedDataObj[formattedDataGroupKey] }
+        : [];
+    }
+  );
+
+  //return await formatDataForDownload(formattedTeis, engine);
 }
 async function getIndicatorName(indicatorId, engine) {
   const { data } = await engine.query(indicatorNameQuery, {
@@ -128,8 +181,15 @@ async function getFormattedTeis(teis, engine, orgUnit) {
     for (const tei of teis) {
       let bottleneck = new Bottleneck(tei).toJson();
       // const gaps = await getGaps(bottleneck.id, engine)
+      const indicatorName = await getIndicatorName(
+        bottleneck?.indicator,
+        engine
+      );
       const gaps = await getFormattedGaps(bottleneck.gaps, engine, orgUnit);
-      formattedTeis = [...formattedTeis, { ...bottleneck, gaps }];
+      formattedTeis = [
+        ...formattedTeis,
+        { ...bottleneck, gaps, indicatorName },
+      ];
     }
   }
   return formattedTeis;
@@ -248,12 +308,15 @@ function getFormattedActionStatusEvents(actionStatusEvents) {
   return formattedEvents;
 }
 
-async function formatDataForDownload(formattedTeis, engine) {
+async function formatDataForDownload(
+  formattedTeis,
+  engine,
+  downloadType = 'excel'
+) {
   let formatted = [];
   if (formattedTeis && formattedTeis.length) {
     let formattedTeisIndex = 0;
     for (const tei of formattedTeis) {
-      console.log({ tei });
       const indicatorName = await getIndicatorName(tei?.indicator, engine);
 
       if (tei && tei.gaps && tei.gaps.length) {
@@ -262,27 +325,51 @@ async function formatDataForDownload(formattedTeis, engine) {
             for (const possibleSolution of gap.possibleSolutions) {
               if (possibleSolution && possibleSolution.actions) {
                 for (const action of possibleSolution.actions) {
-                 let actionStatusesObj = {};
-             flattenDeep( map(action.actionStatus || [], (statusItem) => {
-                   if(statusItem &&
-                    statusItem.reviewDate) {
-                      actionStatusesObj = {...actionStatusesObj, [statusItem.reviewDate]: statusItem?.status || ''}
-                      return { [statusItem.reviewDate]: statusItem?.status || '' }
-                    }
-                    return [];
-                  }));
-                 
+                  let actionStatusesObj = {};
+                  flattenDeep(
+                    map(action.actionStatus || [], (statusItem) => {
+                      if (statusItem && statusItem.reviewDate) {
+                        actionStatusesObj = {
+                          ...actionStatusesObj,
+                          [statusItem.reviewDate]: statusItem?.status || '',
+                        };
+                        return {
+                          [statusItem.reviewDate]: statusItem?.status || '',
+                        };
+                      }
+                      return [];
+                    })
+                  );
 
-                  const formattedObj = {
-                    Indicator: indicatorName,
-                    Gap: gap?.description || '',
-                    'Possible Solutions': possibleSolution?.solution || '',
-                    'Action Items': action?.description || '',
-                    'Responsible Person': action?.responsiblePerson || '',
-                    'Start Date': action?.startDate || '',
-                    'End Date': action?.endDate || '',
-                    ...actionStatusesObj
-                  };
+                  let formattedObj = {};
+                  if (downloadType === 'excel') {
+                    formattedObj = {
+                      ...formattedObj,
+                      Indicator: indicatorName,
+                      Gap: gap?.description || '',
+                      'Possible Solutions': possibleSolution?.solution || '',
+                      'Action Items': action?.description || '',
+                      'Responsible Person': action?.responsiblePerson || '',
+                      'Start Date': action?.startDate || '',
+                      'End Date': action?.endDate || '',
+                      ...actionStatusesObj,
+                    };
+                  } else {
+                    formattedObj = {
+                      ...formattedObj,
+                      id: tei?.id || '',
+                      indicator: indicatorName,
+                      gapId: gap?.id || '',
+                      gap: gap?.description || '',
+                      possibleSolution: possibleSolution?.solution || '',
+                      actionItem: action?.description || '',
+                      responsiblePerson: action?.responsiblePerson || '',
+                      startDate: action?.startDate || '',
+                      endDate: action?.endDate || '',
+                      rowId: uuidv4()
+                    };
+                  }
+
                   formatted = [...formatted, formattedObj];
                 }
               }

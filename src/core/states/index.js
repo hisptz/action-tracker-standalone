@@ -4,6 +4,7 @@ import {PageState} from "./page";
 import { IndicatorsSelectedState } from './indicatorsSelected';
 import {StatusFilterState} from "./statusFilter";
 import { IndicatorProgressState } from './indicatorProgress'
+import { DownloadPdfState} from './downloadPdf';
 
 export {
     DimensionsState,
@@ -13,5 +14,6 @@ export {
     ActionStatusState,
     DataEngineState,
     StatusFilterState,
-    IndicatorProgressState
+    IndicatorProgressState,
+    DownloadPdfState
 }

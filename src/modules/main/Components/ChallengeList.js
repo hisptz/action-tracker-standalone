@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react';
 import _ from 'lodash';
 import {Grid} from "@material-ui/core";
 import ChallengeCard from "./ChallengeCard";
-import {useRecoilValue} from "recoil";
-import {DataEngineState, DimensionsState, StatusFilterState} from "../../../core/states";
+import {useRecoilValue, useSetRecoilState} from "recoil";
+import {DataEngineState, DimensionsState, DownloadPdfState, StatusFilterState} from "../../../core/states";
 import NoDimensionsSelectedView from "./NoDimensionsSelectedView";
 import MainPageHeader from "./MainPageHeader";
 import EmptyChallengeList from "./EmptyChallengeList";
 import FullPageLoader from "../../../shared/Components/FullPageLoader";
-import {useAlert, useDataQuery} from "@dhis2/app-runtime";
+import {useAlert, useDataQuery, useConfig} from "@dhis2/app-runtime";
 import Bottleneck from "../../../core/models/bottleneck";
 import ChallengeDialog from "../../../shared/Dialogs/ChallengeDialog";
 import generateErrorAlert from "../../../core/services/generateErrorAlert";
@@ -16,7 +16,7 @@ import Paginator from "../../../shared/Components/Paginator";
 import {CenteredContent} from '@dhis2/ui'
 import useGetFilteredTeis from "../hooks/useGetFilteredTeis";
 import FullPageError from "../../../shared/Components/FullPageError";
-import { downloadPDF, downloadExcel } from '../../../core/services/downloadFilesService'
+import { downloadExcel } from '../../../core/services/downloadFilesService'
 
 const indicatorQuery = {
     indicators: {
@@ -39,6 +39,7 @@ const indicatorQuery = {
 
 export default function ChallengeList() {
     const {orgUnit, period} = useRecoilValue(DimensionsState);
+    const { baseUrl, apiVersion } = useConfig()
     const {selected: selectedStatus} = useRecoilValue(StatusFilterState);
     const {filteredTeis, loading: filteredTeisLoading} = useGetFilteredTeis(selectedStatus, orgUnit);
     const [page, setPage] = useState(1);
@@ -51,6 +52,7 @@ export default function ChallengeList() {
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     useEffect(() => generateErrorAlert(show, error), [error])
+    
 
     useEffect(() => {
         function refresh() {
@@ -74,6 +76,7 @@ export default function ChallengeList() {
     const onPageSizeChange = (newPageSize) => setPageSize(newPageSize);
 
     const [selectedChallenge, setSelectedChallenge] = useState(undefined);
+    const  setIsDownloadingPdf = useSetRecoilState(DownloadPdfState);
 
     const onModalClose = (onClose) => {
         setSelectedChallenge(undefined);
@@ -82,8 +85,9 @@ export default function ChallengeList() {
     function onDownloadExcel() {
         downloadExcel({engine, indicatorQuery, orgUnit })
     }
-    async function onDownloadPDF() {
-       downloadPDF({engine, indicatorQuery, orgUnit })
+    function onDownloadPDF() {
+       setIsDownloadingPdf({isDownloadingPdf: true})      
+       window.print();
     }
 
     const onEdit = (object) => {

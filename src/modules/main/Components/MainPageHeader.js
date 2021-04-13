@@ -28,12 +28,6 @@ import ColumnIcon from '@material-ui/icons/ViewColumn';
 import { useAlert } from '@dhis2/app-runtime';
 import { Period } from '@iapps/period-utilities';
 import DownloadOptionsMenu from "./DownloadOptionsMenu";
-import html2canvas from 'html2canvas';
-import * as jsPDF from 'jspdf';
-import { saveAs } from 'file-saver';
-function getPagePDF() {
-  window.print();
-}
 const PageSelector = () => {
   const [activePage, setActivePage] = useRecoilState(PageState);
   const { period } = useRecoilValue(DimensionsState);
@@ -82,7 +76,7 @@ const PageSelector = () => {
   );
 };
 
-export default function MainPageHeader({ onAddIndicatorClick, onDownloadPDF, onDownloadExcel }) {
+export default function MainPageHeader({ onAddIndicatorClick, onDownloadPDF, onDownloadExcel, pdfDownloadData }) {
   const activePage = useRecoilValue(PageState);
   const actionStatus = useRecoilValue(ActionStatusState);
   const [statusFilter, setStatusFilter] = useRecoilState(StatusFilterState);
@@ -154,7 +148,7 @@ export default function MainPageHeader({ onAddIndicatorClick, onDownloadPDF, onD
             
           </Grid>
         </Grid>
-      </Grid>
+      </Grid> 
     </Container>
   );
 }
