@@ -1,8 +1,11 @@
+#pdfTable {
+   display: none;
+}
 @media print {
     header, .filter-components-grid, .status-icon-grid {
         display: none !important;
     }
-    td, tr {
+    /* td, tr {
         border-bottom: none;
     }
     .status-card {
@@ -25,5 +28,11 @@
     }
     Button {
         display: none !important;
+    } */
+    #mainGrid {
+       display: none !important;
+    }
+    #pdfTable {
+        display: block;
     }
 }
