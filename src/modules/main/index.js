@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, Suspense} from 'react';
 import ChallengeList from "./Components/ChallengeList";
 import FilterComponents from "../../core/components/FilterComponents";
 import {useAppConfig} from "../../core/hooks";
@@ -8,7 +8,6 @@ import {DataEngineState} from "../../core/states";
 import {useAlert, useDataEngine} from "@dhis2/app-runtime";
 import useUser from "../../core/hooks/user";
 import generateErrorAlert from "../../core/services/generateErrorAlert";
-import {Container} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 
 
@@ -45,7 +44,9 @@ export default function MainPage() {
                     <FilterComponents/>
                 </Grid>
                 <Grid item style={styles.dataContainer}>
-                    <ChallengeList/>
+                    <Suspense fallback={<FullPageLoader/>}>
+                        <ChallengeList/>
+                    </Suspense>
                 </Grid>
             </Grid>
     )
