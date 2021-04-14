@@ -30,6 +30,7 @@
     "highcharts-react-official": "^3.0.0",
     "lodash": "^4.17.21",
     "react-hook-form": "^7.0.4",
+    "react-router-dom": "^5.2.0",
     "react-to-print": "^2.12.4",
     "recoil": "^0.2.0",
     "uuid": "^8.3.2",

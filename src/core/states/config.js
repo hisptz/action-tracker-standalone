@@ -27,21 +27,20 @@ const ActionStatusState = selector({
         const optionsWithSvgIcons = [];
         for (const option of options) {
             const {style} = option;
-            if(style){
+            if (style) {
                 const iconName = style?.icon
                 if (iconName) {
                     try {
                         const {icon} = await engine.query(iconQuery, {variables: {id: `${iconName}/icon.svg`}});
-                        const iconToRender = icon instanceof Blob ? await icon.text(): icon;
+                        const iconToRender = icon instanceof Blob ? await icon.text() : icon;
                         const newOption = {...option, style: {...style, icon: iconToRender}}
                         optionsWithSvgIcons.push(newOption);
-                        console.log(iconToRender);
                     } catch (e) {
                         console.log(e);
                     }
                 }
             }else{
-                optionsWithSvgIcons.push(...options)
+                optionsWithSvgIcons.push(option);
             }
         }
         return optionsWithSvgIcons;
