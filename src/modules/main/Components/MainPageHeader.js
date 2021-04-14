@@ -90,7 +90,7 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
     return (
         <Container maxWidth={false} className="main-page-header">
             <Grid container spacing={4}>
-                <Grid item container xs={6} lg={4} spacing={3}>
+                <Grid item container xs={6} lg={6} spacing={3}>
                     <Grid item><Typography variant='h5'
                                            style={{color: '#6E7A8A'}}><b>Action {activePage}</b></Typography></Grid>
                     <Grid item> <PageSelector/></Grid>

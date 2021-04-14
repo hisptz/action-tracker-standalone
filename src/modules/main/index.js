@@ -12,10 +12,12 @@ import Grid from "@material-ui/core/Grid";
 import './styles/main.css';
 import PDFTable from '../../shared/Components/Download/PDFTable';
 import {getPDFDownloadData} from '../../core/services/downloadFilesService';
+import {Container} from "@material-ui/core";
 
 
 const styles = {
-    container: {flexGrow: 1, height: 'calc(100vh - 48px)'},
+    container: {padding: 0, flexGrow: 1, height: 'calc(100vh - 48px)'},
+    gridContainer: {flexGrow: 1, height: 'calc(100vh - 48px)'},
     filterContainer: {
         width: '100%',
         maxHeight: 130
@@ -60,16 +62,18 @@ export default function MainPage() {
         loading || firstTimeUseLoading || userLoading ?
             <div style={styles.container} id="mainPage"><FullPageLoader
                 text={firstTimeUseLoading && 'Configuring for first time use. Please wait...'}/></div> :
-            <Grid id="mainGrid" container style={styles.container} spacing={0} direction='column'>
-                <Grid item className="filter-components-grid">
-                    <FilterComponents/>
-                </Grid>
-                <Grid item style={styles.dataContainer}>
-                    <Suspense fallback={<FullPageLoader/>}>
-                        <ChallengeList/>
-                    </Suspense>
+            <Container maxWidth={false} id="mainPage" style={styles.container}>
+                <Grid id="mainGrid" container style={styles.container} spacing={0} direction='column'>
+                    <Grid item className="filter-components-grid">
+                        <FilterComponents/>
+                    </Grid>
+                    <Grid item style={styles.dataContainer}>
+                        <Suspense fallback={<FullPageLoader/>}>
+                            <ChallengeList/>
+                        </Suspense>
+                    </Grid>
                 </Grid>
                 <PDFTable teiItems={tablePDFDownloadData}/>
-            </Grid>
+            </Container>
     )
 }

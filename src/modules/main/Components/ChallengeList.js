@@ -103,6 +103,8 @@ export default function ChallengeList() {
         container: {
             paddingTop: 30,
             height: 'calc(100vh - 188px)',
+            paddingLeft: 0,
+            paddingRight: 0
         },
         challengesContainer: {
             flexGrow: 1,
@@ -124,7 +126,7 @@ export default function ChallengeList() {
 
     return (orgUnit && period ?
             <Container style={styles.container} fixed maxWidth={false}>
-                <Grid container alignItems='stretch' justify='space-between' spacing={5} direction='column'>
+                <Grid container spacing={5} direction='column'>
                     <Grid item style={styles.mainHeaderContainer}>
                         <MainPageHeader onDownloadExcel={onDownloadExcel} onDownloadPDF={onDownloadPDF}
                                         onAddIndicatorClick={_ => onModalClose(_ => setAddIndicatorOpen(true))}/>
