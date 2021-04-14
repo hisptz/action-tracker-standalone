@@ -1,1 +1,1893 @@
-{"programs":[{"lastUpdated":"2021-03-25T09:21:36.121","id":"unD7wro3qPm","created":"2021-03-11T08:11:09.685","name":"Action","shortName":"Action","ignoreOverdueEvents":false,"skipOffline":false,"onlyEnrollOnce":false,"version":16,"maxTeiCountToReturn":0,"selectIncidentDatesInFuture":false,"selectEnrollmentDatesInFuture":false,"useFirstStageDuringRegistration":false,"completeEventsExpiryDays":0,"minAttributesRequiredToSearch":1,"displayFrontPageList":true,"programType":"WITH_REGISTRATION","featureType":"NONE","accessLevel":"OPEN","displayIncidentDate":true,"expiryDays":0,"categoryCombo":{"id":"bjDvmb4bfuf"},"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"trackedEntityType":{"id":"TFYpX5EXmYp"},"translations":[],"attributeValues":[],"programTrackedEntityAttributes":[{"lastUpdated":"2021-03-25T09:21:36.122","id":"urdrpu6iNb3","created":"2021-03-11T08:11:09.606","name":"Action Actiontracker_Title","displayName":"Action Actiontracker_Title","mandatory":false,"displayShortName":"Action Actiontracker_Title","externalAccess":false,"renderOptionsAsRadio":false,"valueType":"TEXT","searchable":true,"displayInList":true,"sortOrder":1,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"program":{"id":"unD7wro3qPm"},"trackedEntityAttribute":{"id":"HQxzVwKedKu"},"favorites":[],"programTrackedEntityAttributeGroups":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T09:21:36.126","id":"vtttkk1JVw2","created":"2021-03-11T08:11:09.606","name":"Action Actiontracker_Description","displayName":"Action Actiontracker_Description","mandatory":true,"displayShortName":"Action Actiontracker_Description","externalAccess":false,"renderOptionsAsRadio":false,"valueType":"LONG_TEXT","searchable":true,"displayInList":true,"sortOrder":2,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"program":{"id":"unD7wro3qPm"},"trackedEntityAttribute":{"id":"GlvCtGIytIz"},"favorites":[],"programTrackedEntityAttributeGroups":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T09:21:36.126","id":"JWo3ofhvPsA","created":"2021-03-11T08:11:09.606","name":"Action Actiontracker_Start Date","displayName":"Action Actiontracker_Start Date","mandatory":true,"displayShortName":"Action Actiontracker_Start Date","externalAccess":false,"renderOptionsAsRadio":false,"valueType":"DATE","searchable":true,"displayInList":true,"sortOrder":3,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"program":{"id":"unD7wro3qPm"},"trackedEntityAttribute":{"id":"jFjnkx49Lg3"},"favorites":[],"programTrackedEntityAttributeGroups":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"allowFutureDate":true},{"lastUpdated":"2021-03-25T09:21:36.126","id":"WRS7ca4ygWa","created":"2021-03-11T08:11:09.606","name":"Action Actiontracker_End Date","displayName":"Action Actiontracker_End Date","mandatory":true,"displayShortName":"Action Actiontracker_End Date","externalAccess":false,"renderOptionsAsRadio":false,"valueType":"DATE","searchable":true,"displayInList":true,"sortOrder":4,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"program":{"id":"unD7wro3qPm"},"trackedEntityAttribute":{"id":"BYCbHJ46BOr"},"favorites":[],"programTrackedEntityAttributeGroups":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"allowFutureDate":true},{"lastUpdated":"2021-03-25T09:21:36.127","id":"UcdVcucQtri","created":"2021-03-11T08:11:09.606","name":"Action Actiontracker_Responsible Person","displayName":"Action Actiontracker_Responsible Person","mandatory":false,"displayShortName":"Action Actiontracker_Responsible Person","externalAccess":false,"renderOptionsAsRadio":false,"valueType":"TEXT","searchable":true,"displayInList":true,"sortOrder":5,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"program":{"id":"unD7wro3qPm"},"trackedEntityAttribute":{"id":"G3aWsZW2MpV"},"favorites":[],"programTrackedEntityAttributeGroups":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T09:21:36.127","id":"Tj92f4zDeLk","created":"2021-03-11T08:11:09.606","name":"Action Actiontracker_Designation","displayName":"Action Actiontracker_Designation","mandatory":false,"displayShortName":"Action Actiontracker_Designation","externalAccess":false,"renderOptionsAsRadio":false,"valueType":"TEXT","searchable":false,"displayInList":true,"sortOrder":6,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"program":{"id":"unD7wro3qPm"},"trackedEntityAttribute":{"id":"Ax6bWbKn46e"},"favorites":[],"programTrackedEntityAttributeGroups":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T09:21:36.127","id":"prX0q7amAni","created":"2021-03-11T08:34:44.731","name":"Action Actiontracker_Action To Solution Linkage","displayName":"Action Actiontracker_Action To Solution Linkage","mandatory":false,"displayShortName":"Action Actiontracker_Action To Solution Linkage","externalAccess":false,"renderOptionsAsRadio":false,"valueType":"TEXT","searchable":false,"displayInList":false,"sortOrder":7,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"program":{"id":"unD7wro3qPm"},"trackedEntityAttribute":{"id":"Hi3IjyMXzeW"},"favorites":[],"programTrackedEntityAttributeGroups":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]}],"notificationTemplates":[],"organisationUnits":[],"programSections":[],"programStages":[{"id":"cBiAEANcXAj"}],"publicAccess":"rwrw----","user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T09:21:18.086","id":"Uvz0nfKVMQJ","created":"2021-03-11T07:33:07.448","name":"Bottleneck","shortName":"Bottleneck","publicAccess":"rwrw----","completeEventsExpiryDays":0,"ignoreOverdueEvents":false,"skipOffline":false,"featureType":"NONE","minAttributesRequiredToSearch":1,"displayFrontPageList":true,"onlyEnrollOnce":false,"programType":"WITH_REGISTRATION","accessLevel":"OPEN","version":11,"maxTeiCountToReturn":0,"selectIncidentDatesInFuture":false,"displayIncidentDate":true,"selectEnrollmentDatesInFuture":false,"expiryDays":0,"useFirstStageDuringRegistration":false,"categoryCombo":{"id":"bjDvmb4bfuf"},"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"trackedEntityType":{"id":"jLaBp1GaZQ9"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"programTrackedEntityAttributes":[{"lastUpdated":"2021-03-25T09:21:18.088","id":"Cx4ba7NQIGv","created":"2021-03-11T07:33:07.257","name":"Bottleneck Actiontracker_Intervention","displayName":"Bottleneck Actiontracker_Intervention","mandatory":false,"displayShortName":"Bottleneck Actiontracker_Intervention","externalAccess":false,"renderOptionsAsRadio":false,"valueType":"TEXT","searchable":true,"displayInList":true,"sortOrder":1,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"program":{"id":"Uvz0nfKVMQJ"},"trackedEntityAttribute":{"id":"jZ6WL4NQtp5"},"favorites":[],"programTrackedEntityAttributeGroups":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T09:21:18.088","id":"hIZebzS6URQ","created":"2021-03-11T08:06:54.815","name":"Bottleneck Actiontracker_Bottleneck","displayName":"Bottleneck Actiontracker_Bottleneck","mandatory":false,"displayShortName":"Bottleneck Actiontracker_Bottleneck","externalAccess":false,"renderOptionsAsRadio":false,"valueType":"TEXT","searchable":true,"displayInList":true,"sortOrder":2,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"program":{"id":"Uvz0nfKVMQJ"},"trackedEntityAttribute":{"id":"WLFrBgfl7lU"},"favorites":[],"programTrackedEntityAttributeGroups":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T09:21:18.089","id":"o6TonGBLJkO","created":"2021-03-11T08:06:54.815","name":"Bottleneck Actiontracker_Coverage Indicator","displayName":"Bottleneck Actiontracker_Coverage Indicator","mandatory":false,"displayShortName":"Bottleneck Actiontracker_Coverage Indicator","externalAccess":false,"renderOptionsAsRadio":false,"valueType":"TEXT","searchable":true,"displayInList":true,"sortOrder":3,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"program":{"id":"Uvz0nfKVMQJ"},"trackedEntityAttribute":{"id":"imiLbaQKYnA"},"favorites":[],"programTrackedEntityAttributeGroups":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T09:21:18.089","id":"jLKwH4g2RKY","created":"2021-03-11T08:06:54.815","name":"Bottleneck Actiontracker_Indicator","displayName":"Bottleneck Actiontracker_Indicator","mandatory":false,"displayShortName":"Bottleneck Actiontracker_Indicator","externalAccess":false,"renderOptionsAsRadio":false,"valueType":"TEXT","searchable":true,"displayInList":true,"sortOrder":4,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"program":{"id":"Uvz0nfKVMQJ"},"trackedEntityAttribute":{"id":"tVlKbtVfNjc"},"favorites":[],"programTrackedEntityAttributeGroups":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]}],"notificationTemplates":[],"translations":[],"organisationUnits":[],"userGroupAccesses":[],"programSections":[],"attributeValues":[],"programStages":[{"id":"zXB8tWKuwcl"},{"id":"JJaKjcOBapi"}],"userAccesses":[]}],"trackedEntityTypes":[{"lastUpdated":"2021-03-25T08:07:44.759","id":"TFYpX5EXmYp","created":"2021-03-11T08:03:38.194","name":"action","allowAuditLog":false,"minAttributesRequiredToSearch":1,"maxTeiCountToReturn":0,"trackedEntityTypeAttributes":[],"translations":[],"attributeValues":[],"publicAccess":"rw------","featureType":"NONE","lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"userAccesses":[]},{"created":"2021-03-11T07:31:01.886","lastUpdated":"2021-03-25T08:07:44.759","name":"bottleneck","id":"jLaBp1GaZQ9","publicAccess":"rw------","maxTeiCountToReturn":0,"allowAuditLog":false,"featureType":"NONE","minAttributesRequiredToSearch":1,"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"attributeValues":[],"trackedEntityTypeAttributes":[],"translations":[],"userAccesses":[]}],"dataElements":[{"lastUpdated":"2021-03-25T08:07:43.235","id":"f8JYVWLC7rE","created":"2021-03-11T08:00:57.880","name":"Actiontracker_Action status","shortName":"Actiontracker_Action status","aggregationType":"NONE","domainType":"TRACKER","description":"To collect the status of the action time at review date. The filed will have Action status options with color selection that can be configured.","valueType":"TEXT","formName":"Action status","zeroIsSignificant":false,"categoryCombo":{"id":"bjDvmb4bfuf"},"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"translations":[],"attributeValues":[],"legendSets":[],"aggregationLevels":[],"publicAccess":"rw------","optionSet":{"id":"Y3FLpktyYMC"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:43.235","id":"GsbZkewUna5","created":"2021-03-11T07:57:58.131","name":"Actiontracker_Description","shortName":"Actiontracker_Description","aggregationType":"NONE","domainType":"TRACKER","description":"Description of the Gap","valueType":"LONG_TEXT","formName":"Description","zeroIsSignificant":false,"categoryCombo":{"id":"bjDvmb4bfuf"},"translations":[],"attributeValues":[],"legendSets":[],"aggregationLevels":[],"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"publicAccess":"rw------","user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:43.235","id":"W50aguV39tU","created":"2021-03-11T07:58:13.336","name":"Actiontracker_Method","shortName":"Actiontracker_Method","aggregationType":"NONE","domainType":"TRACKER","valueType":"TEXT","formName":"Method","zeroIsSignificant":false,"categoryCombo":{"id":"bjDvmb4bfuf"},"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"translations":[],"attributeValues":[],"legendSets":[],"aggregationLevels":[],"description":"To capture the method or procedure used in identifying the gap.","publicAccess":"rw------","optionSet":{"id":"tsShlbiHhxN"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:43.235","id":"FnengvwgsQv","created":"2021-03-11T08:02:11.845","name":"Actiontracker_Remarks / comments","shortName":"Actiontracker_Remarks / comments","aggregationType":"NONE","domainType":"TRACKER","description":"Remarks or comments on the action as per the review period.","valueType":"LONG_TEXT","formName":"Remarks / comment","zeroIsSignificant":false,"categoryCombo":{"id":"bjDvmb4bfuf"},"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"translations":[],"attributeValues":[],"legendSets":[],"aggregationLevels":[],"publicAccess":"rw------","user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:43.235","id":"nodiP54ocf5","created":"2021-03-11T08:01:38.206","name":"Actiontracker_Review Date","shortName":"Actiontracker_Review Date","aggregationType":"NONE","domainType":"TRACKER","description":"To capture the review date of the action execution.","valueType":"DATE","formName":"Review Date","zeroIsSignificant":false,"categoryCombo":{"id":"bjDvmb4bfuf"},"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"translations":[],"attributeValues":[],"legendSets":[],"aggregationLevels":[],"publicAccess":"rw------","user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:43.236","id":"upT2cOT6UfJ","created":"2021-03-11T07:59:59.155","name":"Actiontracker_Solution ","shortName":"Actiontracker_Solution ","aggregationType":"NONE","domainType":"TRACKER","publicAccess":"rw------","valueType":"LONG_TEXT","formName":"Solution","zeroIsSignificant":false,"categoryCombo":{"id":"bjDvmb4bfuf"},"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"legendSets":[],"aggregationLevels":[]},{"lastUpdated":"2021-03-25T08:07:43.236","id":"Y4CIGFwWYJD","created":"2021-03-11T08:35:28.975","name":"Actiontracker_Solution To Action Linkage","shortName":"Actiontracker_Solution To Action Linkage","aggregationType":"NONE","domainType":"TRACKER","publicAccess":"rw------","description":"To link gaps to solutions (Not visible to the user).","valueType":"TEXT","formName":"Solution To Action Linkage","zeroIsSignificant":false,"categoryCombo":{"id":"bjDvmb4bfuf"},"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"legendSets":[],"aggregationLevels":[]},{"lastUpdated":"2021-03-25T08:07:43.236","id":"kBkyDytdOmC","created":"2021-03-11T07:59:37.230","name":"Actiontracker_Solution To Gap Linkage","shortName":"Actiontracker_Solution To Gap Linkage","aggregationType":"NONE","domainType":"TRACKER","publicAccess":"rw------","description":"To link gaps to solutions (Not visible to the user).","valueType":"TEXT","formName":"Solution To Gap Linkage","zeroIsSignificant":false,"categoryCombo":{"id":"bjDvmb4bfuf"},"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"legendSets":[],"aggregationLevels":[]},{"lastUpdated":"2021-03-25T08:07:43.236","id":"JbMaVyglSit","created":"2021-03-11T07:30:11.327","name":"Actiontracker_Title","shortName":"Actiontracker_Title","aggregationType":"NONE","domainType":"TRACKER","publicAccess":"rw------","description":"Titlte of the identified Gap","valueType":"TEXT","formName":"Title","zeroIsSignificant":false,"categoryCombo":{"id":"bjDvmb4bfuf"},"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"legendSets":[],"aggregationLevels":[]}],"categoryOptions":[{"created":"2021-03-16T08:32:03.766","lastUpdated":"2021-03-16T08:32:03.779","name":"default","id":"xYerKDKCefk","attributeValues":[],"translations":[],"organisationUnits":[],"code":"default","publicAccess":"rwrw----","userGroupAccesses":[],"userAccesses":[]}],"categoryCombos":[{"created":"2021-03-16T08:32:03.771","lastUpdated":"2021-03-16T08:32:03.779","name":"default","id":"bjDvmb4bfuf","dataDimensionType":"DISAGGREGATION","skipTotal":false,"translations":[],"categories":[{"id":"GLevLNI9wkl"}],"code":"default","publicAccess":"rw------","userGroupAccesses":[],"userAccesses":[]}],"categories":[{"created":"2021-03-16T08:32:03.768","lastUpdated":"2021-03-19T18:19:07.034","name":"default","id":"GLevLNI9wkl","dataDimensionType":"DISAGGREGATION","dataDimension":false,"attributeValues":[],"translations":[],"categoryOptions":[{"id":"xYerKDKCefk"}],"code":"default","publicAccess":"rw------","userGroupAccesses":[],"userAccesses":[]}],"trackedEntityAttributes":[{"lastUpdated":"2021-03-25T08:07:44.497","id":"Hi3IjyMXzeW","created":"2021-03-11T08:32:45.540","name":"Actiontracker_Action To Solution Linkage","shortName":"Actiontracker_Action To Solution Linkage","aggregationType":"NONE","displayInListNoProgram":false,"pattern":"","skipSynchronization":false,"generated":false,"displayOnVisitSchedule":false,"valueType":"TEXT","orgunitScope":false,"confidential":false,"unique":false,"inherit":false,"translations":[],"attributeValues":[],"legendSets":[],"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"publicAccess":"rw------","description":"Link to the Possible Solution","formName":"Action To Solution Linkage","user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:44.498","id":"WLFrBgfl7lU","created":"2021-03-11T07:47:36.883","name":"Actiontracker_Bottleneck","shortName":"Actiontracker_Bottleneck","aggregationType":"NONE","displayInListNoProgram":false,"pattern":"","skipSynchronization":false,"generated":false,"displayOnVisitSchedule":false,"valueType":"TEXT","orgunitScope":false,"confidential":false,"unique":false,"inherit":false,"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"translations":[],"attributeValues":[],"legendSets":[],"publicAccess":"rw------","formName":"Bottleneck","user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:44.498","id":"imiLbaQKYnA","created":"2021-03-11T07:48:07.018","name":"Actiontracker_Coverage Indicator","shortName":"Actiontracker_Coverage Indicator","aggregationType":"NONE","displayInListNoProgram":false,"pattern":"","skipSynchronization":false,"generated":false,"displayOnVisitSchedule":false,"valueType":"TEXT","orgunitScope":false,"confidential":false,"unique":false,"inherit":false,"translations":[],"attributeValues":[],"legendSets":[],"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"publicAccess":"rw------","formName":"Coverage Indicator","user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:44.498","id":"GlvCtGIytIz","created":"2021-03-11T07:49:31.357","name":"Actiontracker_Description","shortName":"Actiontracker_Description","aggregationType":"NONE","displayInListNoProgram":false,"pattern":"","skipSynchronization":false,"generated":false,"displayOnVisitSchedule":false,"valueType":"LONG_TEXT","orgunitScope":false,"confidential":false,"unique":false,"inherit":false,"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"translations":[],"attributeValues":[],"legendSets":[],"publicAccess":"rw------","description":"A description for the action item","formName":"Description","user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:44.498","id":"Ax6bWbKn46e","created":"2021-03-11T07:52:36.013","name":"Actiontracker_Designation","shortName":"Actiontracker_Designation","aggregationType":"NONE","displayInListNoProgram":false,"publicAccess":"rw------","pattern":"","description":"Designation title of the responsible person to execute the action","skipSynchronization":false,"generated":false,"displayOnVisitSchedule":false,"valueType":"TEXT","formName":"Designation","confidential":false,"orgunitScope":false,"unique":false,"inherit":false,"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"legendSets":[]},{"lastUpdated":"2021-03-25T08:07:44.498","id":"BYCbHJ46BOr","created":"2021-03-11T07:50:36.798","name":"Actiontracker_End Date","shortName":"Actiontracker_End Date","aggregationType":"NONE","displayInListNoProgram":false,"publicAccess":"rw------","pattern":"","description":"End date for the action","skipSynchronization":false,"generated":false,"displayOnVisitSchedule":false,"valueType":"DATE","formName":"End Date","confidential":false,"orgunitScope":false,"unique":false,"inherit":false,"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"legendSets":[]},{"lastUpdated":"2021-03-25T08:07:44.498","id":"tVlKbtVfNjc","created":"2021-03-11T07:48:29.634","name":"Actiontracker_Indicator","shortName":"Actiontracker_Indicator","aggregationType":"NONE","displayInListNoProgram":false,"publicAccess":"rw------","pattern":"","skipSynchronization":false,"generated":false,"displayOnVisitSchedule":false,"valueType":"TEXT","formName":"Indicator","confidential":false,"orgunitScope":false,"unique":false,"inherit":false,"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"legendSets":[]},{"lastUpdated":"2021-03-25T08:07:44.498","id":"jZ6WL4NQtp5","created":"2021-03-11T07:29:34.946","name":"Actiontracker_Intervention","shortName":"Actiontracker_Intervention","aggregationType":"NONE","displayInListNoProgram":false,"publicAccess":"rw------","pattern":"","skipSynchronization":false,"generated":false,"displayOnVisitSchedule":false,"valueType":"TEXT","formName":"Intervention","confidential":false,"orgunitScope":false,"unique":false,"inherit":false,"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"legendSets":[]},{"lastUpdated":"2021-03-25T08:07:44.498","id":"G3aWsZW2MpV","created":"2021-03-11T07:52:14.282","name":"Actiontracker_Responsible Person","shortName":"Actiontracker_Responsible Person","aggregationType":"NONE","displayInListNoProgram":false,"publicAccess":"rw------","pattern":"","description":"To capture the name of the responsible person to execute the action","skipSynchronization":false,"generated":false,"displayOnVisitSchedule":false,"valueType":"TEXT","formName":"Responsible Person","confidential":false,"orgunitScope":false,"unique":false,"inherit":false,"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"legendSets":[]},{"lastUpdated":"2021-03-25T08:07:44.498","id":"jFjnkx49Lg3","created":"2021-03-11T07:50:03.513","name":"Actiontracker_Start Date","shortName":"Actiontracker_Start Date","aggregationType":"NONE","displayInListNoProgram":false,"publicAccess":"rw------","pattern":"","description":"Start date for the action","skipSynchronization":false,"generated":false,"displayOnVisitSchedule":false,"valueType":"DATE","formName":"Start Date","confidential":false,"orgunitScope":false,"unique":false,"inherit":false,"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"legendSets":[]},{"lastUpdated":"2021-03-25T08:07:44.498","id":"HQxzVwKedKu","created":"2021-03-11T07:49:00.386","name":"Actiontracker_Title","shortName":"Actiontracker_Title","aggregationType":"NONE","displayInListNoProgram":false,"publicAccess":"rw------","pattern":"","description":"Title of the action","skipSynchronization":false,"generated":false,"displayOnVisitSchedule":false,"valueType":"TEXT","formName":"Title","confidential":false,"orgunitScope":false,"unique":false,"inherit":false,"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"legendSets":[]}],"programStages":[{"lastUpdated":"2021-03-25T09:20:50.750","id":"cBiAEANcXAj","created":"2021-03-11T08:11:09.659","name":"Action status","allowGenerateNextVisit":false,"preGenerateUID":false,"openAfterEnrollment":false,"repeatable":true,"remindCompleted":false,"displayGenerateEventBox":true,"generatedByEnrollmentDate":false,"autoGenerateEvent":true,"sortOrder":1,"hideDueDate":false,"blockEntryForm":false,"minDaysFromStart":0,"program":{"id":"unD7wro3qPm"},"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"notificationTemplates":[],"programStageDataElements":[{"lastUpdated":"2021-03-25T09:20:50.777","id":"TitEqIE0jCf","created":"2021-03-11T08:11:09.660","displayInReports":true,"skipSynchronization":false,"externalAccess":false,"renderOptionsAsRadio":false,"allowFutureDate":false,"compulsory":true,"allowProvidedElsewhere":false,"sortOrder":1,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"programStage":{"id":"cBiAEANcXAj"},"dataElement":{"id":"f8JYVWLC7rE"},"favorites":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T09:20:50.779","id":"O4DKXYMDpvD","created":"2021-03-11T08:11:09.660","displayInReports":true,"skipSynchronization":false,"externalAccess":false,"renderOptionsAsRadio":false,"allowFutureDate":true,"compulsory":true,"allowProvidedElsewhere":false,"sortOrder":2,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"programStage":{"id":"cBiAEANcXAj"},"dataElement":{"id":"nodiP54ocf5"},"favorites":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T09:20:50.775","id":"QKPC4ftcfNQ","created":"2021-03-11T08:11:09.659","displayInReports":true,"skipSynchronization":false,"externalAccess":false,"renderOptionsAsRadio":false,"allowFutureDate":false,"compulsory":false,"allowProvidedElsewhere":false,"sortOrder":3,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"programStage":{"id":"cBiAEANcXAj"},"dataElement":{"id":"FnengvwgsQv"},"favorites":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]}],"translations":[],"attributeValues":[],"programStageSections":[{"id":"Glo7x5VVsbF"}],"publicAccess":"rwrw----","description":"Action status","validationStrategy":"ON_COMPLETE","enableUserAssignment":false,"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:46.555","id":"zXB8tWKuwcl","created":"2021-03-11T07:33:07.378","name":"Gap","allowGenerateNextVisit":false,"preGenerateUID":false,"openAfterEnrollment":false,"repeatable":true,"remindCompleted":false,"displayGenerateEventBox":true,"generatedByEnrollmentDate":false,"autoGenerateEvent":true,"sortOrder":1,"hideDueDate":false,"blockEntryForm":false,"minDaysFromStart":0,"program":{"id":"Uvz0nfKVMQJ"},"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"notificationTemplates":[],"programStageDataElements":[{"lastUpdated":"2021-03-25T08:07:45.014","id":"KkFk22FtGHL","created":"2021-03-11T07:33:07.379","displayInReports":true,"skipSynchronization":false,"externalAccess":false,"renderOptionsAsRadio":false,"allowFutureDate":false,"compulsory":false,"allowProvidedElsewhere":false,"sortOrder":1,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"programStage":{"id":"zXB8tWKuwcl"},"dataElement":{"id":"JbMaVyglSit"},"favorites":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:45.014","id":"NufCEDgwXRT","created":"2021-03-11T08:06:55.029","displayInReports":true,"skipSynchronization":false,"externalAccess":false,"renderOptionsAsRadio":false,"allowFutureDate":false,"compulsory":true,"allowProvidedElsewhere":false,"sortOrder":2,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"programStage":{"id":"zXB8tWKuwcl"},"dataElement":{"id":"GsbZkewUna5"},"favorites":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:45.013","id":"ZgrWLgx1hCm","created":"2021-03-11T08:06:55.028","displayInReports":true,"skipSynchronization":false,"externalAccess":false,"renderOptionsAsRadio":false,"allowFutureDate":false,"compulsory":false,"allowProvidedElsewhere":false,"sortOrder":3,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"programStage":{"id":"zXB8tWKuwcl"},"dataElement":{"id":"W50aguV39tU"},"favorites":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:45.014","id":"ksiDaorDatg","created":"2021-03-11T08:06:55.029","displayInReports":true,"skipSynchronization":false,"externalAccess":false,"renderOptionsAsRadio":false,"allowFutureDate":false,"compulsory":false,"allowProvidedElsewhere":false,"sortOrder":4,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"programStage":{"id":"zXB8tWKuwcl"},"dataElement":{"id":"kBkyDytdOmC"},"favorites":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]}],"translations":[],"attributeValues":[],"programStageSections":[{"id":"MCRHv0EnBdB"}],"publicAccess":"rw------","validationStrategy":"ON_COMPLETE","enableUserAssignment":false,"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:46.524","id":"JJaKjcOBapi","created":"2021-03-11T08:08:28.220","name":"Possible Solutions","allowGenerateNextVisit":false,"preGenerateUID":false,"publicAccess":"rw------","openAfterEnrollment":false,"repeatable":true,"remindCompleted":false,"displayGenerateEventBox":true,"generatedByEnrollmentDate":false,"validationStrategy":"ON_COMPLETE","autoGenerateEvent":true,"sortOrder":2,"hideDueDate":false,"blockEntryForm":false,"enableUserAssignment":false,"minDaysFromStart":0,"program":{"id":"Uvz0nfKVMQJ"},"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"notificationTemplates":[],"programStageDataElements":[{"lastUpdated":"2021-03-25T08:07:45.015","id":"d55BZP5pUyR","created":"2021-03-11T08:08:28.221","displayInReports":true,"skipSynchronization":false,"externalAccess":false,"renderOptionsAsRadio":false,"allowFutureDate":false,"compulsory":true,"allowProvidedElsewhere":false,"sortOrder":1,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"programStage":{"id":"JJaKjcOBapi"},"dataElement":{"id":"upT2cOT6UfJ"},"favorites":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:45.015","id":"Us9SEgB5JOk","created":"2021-03-11T08:08:28.220","displayInReports":true,"skipSynchronization":false,"externalAccess":false,"renderOptionsAsRadio":false,"allowFutureDate":false,"compulsory":false,"allowProvidedElsewhere":false,"sortOrder":2,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"programStage":{"id":"JJaKjcOBapi"},"dataElement":{"id":"kBkyDytdOmC"},"favorites":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]},{"lastUpdated":"2021-03-25T08:07:45.014","id":"AvWqNwk7aUc","created":"2021-03-11T08:36:45.920","displayInReports":true,"skipSynchronization":false,"externalAccess":false,"renderOptionsAsRadio":false,"allowFutureDate":false,"compulsory":false,"allowProvidedElsewhere":false,"sortOrder":3,"favorite":false,"access":{"read":true,"update":true,"externalize":true,"delete":true,"write":true,"manage":true},"programStage":{"id":"JJaKjcOBapi"},"dataElement":{"id":"Y4CIGFwWYJD"},"favorites":[],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[]}],"translations":[],"userGroupAccesses":[],"attributeValues":[],"userAccesses":[],"programStageSections":[{"id":"YgDeKz3FMT1"}]}],"categoryOptionCombos":[{"created":"2021-03-16T08:32:03.774","lastUpdated":"2021-03-16T08:32:03.777","name":"default","id":"HllvX50cXC0","ignoreApproval":false,"categoryCombo":{"id":"bjDvmb4bfuf"},"attributeValues":[],"translations":[],"categoryOptions":[{"id":"xYerKDKCefk"}],"code":"default"}],"programStageSections":[{"created":"2021-03-11T08:11:09.650","lastUpdated":"2021-03-25T08:07:44.847","name":"Action Status","id":"Glo7x5VVsbF","sortOrder":0,"renderType":{"MOBILE":{"type":"LISTING"},"DESKTOP":{"type":"LISTING"}},"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"programStage":{"id":"cBiAEANcXAj"},"programIndicators":[],"translations":[],"dataElements":[{"id":"f8JYVWLC7rE"},{"id":"nodiP54ocf5"},{"id":"FnengvwgsQv"}]},{"created":"2021-03-11T07:33:07.363","lastUpdated":"2021-03-25T08:07:44.847","name":"Gap","id":"MCRHv0EnBdB","sortOrder":0,"renderType":{"MOBILE":{"type":"LISTING"},"DESKTOP":{"type":"LISTING"}},"lastUpdatedBy":{"id":"M5zQapPyTZI","code":"admin","displayName":"admin admin","username":"admin"},"programStage":{"id":"zXB8tWKuwcl"},"programIndicators":[],"translations":[],"dataElements":[{"id":"JbMaVyglSit"},{"id":"GsbZkewUna5"},{"id":"W50aguV39tU"},{"id":"kBkyDytdOmC"}]},{"created":"2021-03-11T08:08:28.206","lastUpdated":"2021-03-25T08:07:44.847","name":"Possible Solutions","id":"YgDeKz3FMT1","sortOrder":0,"renderType":{"MOBILE":{"type":"LISTING"},"DESKTOP":{"type":"LISTING"}},"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"programStage":{"id":"JJaKjcOBapi"},"programIndicators":[],"translations":[],"dataElements":[{"id":"upT2cOT6UfJ"},{"id":"Y4CIGFwWYJD"},{"id":"kBkyDytdOmC"}]}],"system":{"id":"11882f13-6182-4ea7-aef3-af71321fa80a","rev":"fatal: not a git repository (or any of the parent directories): .git","version":"2.35.1","date":"2021-03-25T09:23:19.416"},"dataElementGroupSets":[{"created":"2021-03-11T09:31:44.781","lastUpdated":"2021-03-25T08:07:43.958","name":"Action tracker","id":"y9sDu6fOUWK","publicAccess":"rw------","description":"All dataelements for actiontracker","compulsory":false,"dataDimension":true,"lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"attributeValues":[],"dataElementGroups":[{"id":"QrprHT61XFk"},{"id":"oGoG8Fa2zPq"}],"translations":[],"userAccesses":[]}],"dataElementGroups":[{"created":"2021-03-11T09:30:29.282","lastUpdated":"2021-03-25T08:07:43.812","name":"Actiontracker_Action","id":"QrprHT61XFk","shortName":"Actiontracker_Action","publicAccess":"rw------","description":"Data elements assigned to Action program","lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"attributeValues":[],"translations":[],"userAccesses":[],"dataElements":[{"id":"nodiP54ocf5"},{"id":"FnengvwgsQv"},{"id":"f8JYVWLC7rE"}]},{"created":"2021-03-11T09:29:21.212","lastUpdated":"2021-03-25T08:07:43.812","name":"Actiontracker_Bottleneck","id":"oGoG8Fa2zPq","shortName":"Actiontracker_Bottleneck","publicAccess":"rw------","description":"Data elements for bottleneck program","lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"attributeValues":[],"translations":[],"userAccesses":[],"dataElements":[{"id":"GsbZkewUna5"},{"id":"kBkyDytdOmC"},{"id":"W50aguV39tU"},{"id":"Y4CIGFwWYJD"},{"id":"JbMaVyglSit"},{"id":"upT2cOT6UfJ"}]}],"options":[{"code":"Bottleneck analysis","created":"2021-03-24T05:46:34.891","lastUpdated":"2021-03-25T08:07:42.426","name":"Bottleneck analysis","id":"muIDRX5liMX","sortOrder":2,"optionSet":{"id":"tsShlbiHhxN"},"attributeValues":[],"translations":[]},{"code":"Completed","created":"2021-03-11T08:40:43.011","lastUpdated":"2021-03-25T08:07:42.426","name":"Completed","id":"may3lNgyU86","sortOrder":6,"optionSet":{"id":"Y3FLpktyYMC"},"style":{"color":"#00897b","icon":"yes_outline"},"attributeValues":[],"translations":[]},{"code":"In progress","created":"2021-03-11T08:40:31.764","lastUpdated":"2021-03-25T08:07:42.430","name":"In progress","id":"WzSWceQFMaA","sortOrder":5,"optionSet":{"id":"Y3FLpktyYMC"},"style":{"color":"#2196f3","icon":"medium_level_positive"},"attributeValues":[],"translations":[]},{"code":"Not started","created":"2021-03-11T08:40:15.214","lastUpdated":"2021-03-25T08:07:42.430","name":"Not started","id":"mkqLN1eGFMd","sortOrder":4,"optionSet":{"id":"Y3FLpktyYMC"},"style":{"color":"#a0adba","icon":"alert_circle_positive"},"attributeValues":[],"translations":[]}],"relationshipTypes":[{"created":"2021-03-11T08:30:13.710","lastUpdated":"2021-03-25T08:07:46.590","name":"Bottleneck to Action","id":"XTJrr4c45G7","bidirectional":true,"publicAccess":"rw------","description":"Bottleneck to Action","toFromName":"Action to Bottleneck relationship","fromToName":"Bottleneck to Action relationship","lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"fromConstraint":{"relationshipEntity":"TRACKED_ENTITY_INSTANCE","trackedEntityType":{"id":"jLaBp1GaZQ9"},"program":{"id":"Uvz0nfKVMQJ"}},"toConstraint":{"relationshipEntity":"TRACKED_ENTITY_INSTANCE","trackedEntityType":{"id":"TFYpX5EXmYp"},"program":{"id":"unD7wro3qPm"}},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"translations":[],"userAccesses":[]}],"optionSets":[{"code":"Actiontracker_Action status","created":"2021-03-11T08:40:03.048","lastUpdated":"2021-03-25T08:07:42.853","name":"Actiontracker_Action status","id":"Y3FLpktyYMC","publicAccess":"rw------","version":5,"valueType":"TEXT","lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"attributeValues":[],"translations":[],"userAccesses":[],"options":[{"id":"mkqLN1eGFMd"},{"id":"WzSWceQFMaA"},{"id":"may3lNgyU86"}]},{"created":"2021-03-24T05:46:14.217","lastUpdated":"2021-03-25T08:07:42.853","name":"Actiontracker_Method","id":"tsShlbiHhxN","publicAccess":"rw------","version":2,"valueType":"TEXT","lastUpdatedBy":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"user":{"code":"admin","displayName":"admin admin","id":"M5zQapPyTZI","username":"admin"},"userGroupAccesses":[],"attributeValues":[],"translations":[],"userAccesses":[],"options":[{"id":"muIDRX5liMX"}]}]}
+{
+  "system": {},
+  "optionSets": [
+    {
+      "code": "Actiontracker_Action status",
+      "created": "2021-03-11T08:40:03.048",
+      "lastUpdated": "2021-04-14T06:49:11.830",
+      "name": "Actiontracker_Action status",
+      "id": "Y3FLpktyYMC",
+      "version": 9,
+      "valueType": "TEXT",
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "attributeValues": [],
+      "translations": [],
+      "options": [
+        {
+          "id": "fLUmGT0p0Sh"
+        },
+        {
+          "id": "CI07xeRxsZU"
+        },
+        {
+          "id": "JzKswnTlxSn"
+        },
+        {
+          "id": "FEz7OK0NVRW"
+        }
+      ]
+    },
+    {
+      "created": "2021-03-24T05:46:14.217",
+      "lastUpdated": "2021-04-06T12:36:38.210",
+      "name": "Actiontracker_Method",
+      "id": "tsShlbiHhxN",
+      "version": 2,
+      "valueType": "TEXT",
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "attributeValues": [],
+      "translations": [],
+      "options": [
+        {
+          "id": "muIDRX5liMX"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "lastUpdated": "2021-04-14T07:08:37.430",
+      "id": "unD7wro3qPm",
+      "created": "2021-03-11T08:11:09.685",
+      "name": "Action",
+      "shortName": "Action",
+      "ignoreOverdueEvents": false,
+      "skipOffline": false,
+      "onlyEnrollOnce": false,
+      "version": 19,
+      "maxTeiCountToReturn": 0,
+      "selectIncidentDatesInFuture": false,
+      "selectEnrollmentDatesInFuture": false,
+      "useFirstStageDuringRegistration": false,
+      "completeEventsExpiryDays": 0,
+      "featureType": "NONE",
+      "minAttributesRequiredToSearch": 1,
+      "displayFrontPageList": true,
+      "programType": "WITH_REGISTRATION",
+      "accessLevel": "OPEN",
+      "displayIncidentDate": true,
+      "expiryDays": 0,
+      "categoryCombo": {
+        "id": "bjDvmb4bfuf"
+      },
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "trackedEntityType": {
+        "id": "TFYpX5EXmYp"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "programTrackedEntityAttributes": [
+        {
+          "lastUpdated": "2021-04-14T07:08:37.431",
+          "id": "urdrpu6iNb3",
+          "created": "2021-03-11T08:11:09.606",
+          "name": "Action Actiontracker_Title",
+          "displayName": "Action Actiontracker_Title",
+          "mandatory": true,
+          "displayShortName": "Action Actiontracker_Title",
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "valueType": "TEXT",
+          "searchable": true,
+          "displayInList": true,
+          "sortOrder": 1,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "program": {
+            "id": "unD7wro3qPm"
+          },
+          "trackedEntityAttribute": {
+            "id": "HQxzVwKedKu"
+          },
+          "favorites": [],
+          "programTrackedEntityAttributeGroups": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-14T07:08:37.431",
+          "id": "vtttkk1JVw2",
+          "created": "2021-03-11T08:11:09.606",
+          "name": "Action Actiontracker_Description",
+          "displayName": "Action Actiontracker_Description",
+          "mandatory": true,
+          "displayShortName": "Action Actiontracker_Description",
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "valueType": "LONG_TEXT",
+          "searchable": true,
+          "displayInList": true,
+          "sortOrder": 2,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "program": {
+            "id": "unD7wro3qPm"
+          },
+          "trackedEntityAttribute": {
+            "id": "GlvCtGIytIz"
+          },
+          "favorites": [],
+          "programTrackedEntityAttributeGroups": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-14T07:08:37.431",
+          "id": "JWo3ofhvPsA",
+          "created": "2021-03-11T08:11:09.606",
+          "name": "Action Actiontracker_Start Date",
+          "displayName": "Action Actiontracker_Start Date",
+          "mandatory": true,
+          "displayShortName": "Action Actiontracker_Start Date",
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "valueType": "DATE",
+          "allowFutureDate": true,
+          "searchable": true,
+          "displayInList": true,
+          "sortOrder": 3,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "program": {
+            "id": "unD7wro3qPm"
+          },
+          "trackedEntityAttribute": {
+            "id": "jFjnkx49Lg3"
+          },
+          "favorites": [],
+          "programTrackedEntityAttributeGroups": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-14T07:08:37.431",
+          "id": "WRS7ca4ygWa",
+          "created": "2021-03-11T08:11:09.606",
+          "name": "Action Actiontracker_End Date",
+          "displayName": "Action Actiontracker_End Date",
+          "mandatory": true,
+          "displayShortName": "Action Actiontracker_End Date",
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "valueType": "DATE",
+          "allowFutureDate": true,
+          "searchable": true,
+          "displayInList": true,
+          "sortOrder": 4,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "program": {
+            "id": "unD7wro3qPm"
+          },
+          "trackedEntityAttribute": {
+            "id": "BYCbHJ46BOr"
+          },
+          "favorites": [],
+          "programTrackedEntityAttributeGroups": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-14T07:08:37.431",
+          "id": "UcdVcucQtri",
+          "created": "2021-03-11T08:11:09.606",
+          "name": "Action Actiontracker_Responsible Person",
+          "displayName": "Action Actiontracker_Responsible Person",
+          "mandatory": false,
+          "displayShortName": "Action Actiontracker_Responsible Person",
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "valueType": "TEXT",
+          "searchable": true,
+          "displayInList": true,
+          "sortOrder": 5,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "program": {
+            "id": "unD7wro3qPm"
+          },
+          "trackedEntityAttribute": {
+            "id": "G3aWsZW2MpV"
+          },
+          "favorites": [],
+          "programTrackedEntityAttributeGroups": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-14T07:08:37.431",
+          "id": "Tj92f4zDeLk",
+          "created": "2021-03-11T08:11:09.606",
+          "name": "Action Actiontracker_Designation",
+          "displayName": "Action Actiontracker_Designation",
+          "mandatory": false,
+          "displayShortName": "Action Actiontracker_Designation",
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "valueType": "TEXT",
+          "searchable": false,
+          "displayInList": true,
+          "sortOrder": 6,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "program": {
+            "id": "unD7wro3qPm"
+          },
+          "trackedEntityAttribute": {
+            "id": "Ax6bWbKn46e"
+          },
+          "favorites": [],
+          "programTrackedEntityAttributeGroups": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-14T07:08:37.432",
+          "id": "prX0q7amAni",
+          "created": "2021-03-11T08:34:44.731",
+          "name": "Action Actiontracker_Action To Solution Linkage",
+          "displayName": "Action Actiontracker_Action To Solution Linkage",
+          "mandatory": false,
+          "displayShortName": "Action Actiontracker_Action To Solution Linkage",
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "valueType": "TEXT",
+          "searchable": false,
+          "displayInList": false,
+          "sortOrder": 7,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "program": {
+            "id": "unD7wro3qPm"
+          },
+          "trackedEntityAttribute": {
+            "id": "Hi3IjyMXzeW"
+          },
+          "favorites": [],
+          "programTrackedEntityAttributeGroups": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        }
+      ],
+      "notificationTemplates": [],
+      "organisationUnits": [],
+      "programSections": [],
+      "programStages": [
+        {
+          "id": "cBiAEANcXAj"
+        }
+      ]
+    },
+    {
+      "lastUpdated": "2021-04-14T07:08:56.176",
+      "id": "Uvz0nfKVMQJ",
+      "created": "2021-03-11T07:33:07.448",
+      "name": "Bottleneck",
+      "shortName": "Bottleneck",
+      "ignoreOverdueEvents": false,
+      "skipOffline": false,
+      "onlyEnrollOnce": false,
+      "version": 13,
+      "maxTeiCountToReturn": 0,
+      "selectIncidentDatesInFuture": false,
+      "selectEnrollmentDatesInFuture": false,
+      "useFirstStageDuringRegistration": false,
+      "completeEventsExpiryDays": 0,
+      "featureType": "NONE",
+      "minAttributesRequiredToSearch": 1,
+      "displayFrontPageList": true,
+      "programType": "WITH_REGISTRATION",
+      "accessLevel": "OPEN",
+      "displayIncidentDate": true,
+      "expiryDays": 0,
+      "categoryCombo": {
+        "id": "bjDvmb4bfuf"
+      },
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "trackedEntityType": {
+        "id": "jLaBp1GaZQ9"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "programTrackedEntityAttributes": [
+        {
+          "lastUpdated": "2021-04-14T07:08:56.177",
+          "id": "Cx4ba7NQIGv",
+          "created": "2021-03-11T07:33:07.257",
+          "name": "Bottleneck Actiontracker_Intervention",
+          "displayName": "Bottleneck Actiontracker_Intervention",
+          "mandatory": false,
+          "displayShortName": "Bottleneck Actiontracker_Intervention",
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "valueType": "TEXT",
+          "searchable": true,
+          "displayInList": true,
+          "sortOrder": 1,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "program": {
+            "id": "Uvz0nfKVMQJ"
+          },
+          "trackedEntityAttribute": {
+            "id": "jZ6WL4NQtp5"
+          },
+          "favorites": [],
+          "programTrackedEntityAttributeGroups": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-14T07:08:56.177",
+          "id": "hIZebzS6URQ",
+          "created": "2021-03-11T08:06:54.815",
+          "name": "Bottleneck Actiontracker_Bottleneck",
+          "displayName": "Bottleneck Actiontracker_Bottleneck",
+          "mandatory": false,
+          "displayShortName": "Bottleneck Actiontracker_Bottleneck",
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "valueType": "TEXT",
+          "searchable": true,
+          "displayInList": true,
+          "sortOrder": 2,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "program": {
+            "id": "Uvz0nfKVMQJ"
+          },
+          "trackedEntityAttribute": {
+            "id": "WLFrBgfl7lU"
+          },
+          "favorites": [],
+          "programTrackedEntityAttributeGroups": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-14T07:08:56.177",
+          "id": "o6TonGBLJkO",
+          "created": "2021-03-11T08:06:54.815",
+          "name": "Bottleneck Actiontracker_Coverage Indicator",
+          "displayName": "Bottleneck Actiontracker_Coverage Indicator",
+          "mandatory": false,
+          "displayShortName": "Bottleneck Actiontracker_Coverage Indicator",
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "valueType": "TEXT",
+          "searchable": true,
+          "displayInList": true,
+          "sortOrder": 3,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "program": {
+            "id": "Uvz0nfKVMQJ"
+          },
+          "trackedEntityAttribute": {
+            "id": "imiLbaQKYnA"
+          },
+          "favorites": [],
+          "programTrackedEntityAttributeGroups": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-14T07:08:56.177",
+          "id": "jLKwH4g2RKY",
+          "created": "2021-03-11T08:06:54.815",
+          "name": "Bottleneck Actiontracker_Indicator",
+          "displayName": "Bottleneck Actiontracker_Indicator",
+          "mandatory": false,
+          "displayShortName": "Bottleneck Actiontracker_Indicator",
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "valueType": "TEXT",
+          "searchable": true,
+          "displayInList": true,
+          "sortOrder": 4,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "program": {
+            "id": "Uvz0nfKVMQJ"
+          },
+          "trackedEntityAttribute": {
+            "id": "tVlKbtVfNjc"
+          },
+          "favorites": [],
+          "programTrackedEntityAttributeGroups": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        }
+      ],
+      "notificationTemplates": [],
+      "organisationUnits": [],
+      "programSections": [],
+      "programStages": [
+        {
+          "id": "zXB8tWKuwcl"
+        },
+        {
+          "id": "JJaKjcOBapi"
+        }
+      ]
+    }
+  ],
+  "trackedEntityAttributes": [
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "Hi3IjyMXzeW",
+      "created": "2021-03-11T08:32:45.540",
+      "name": "Actiontracker_Action To Solution Linkage",
+      "shortName": "Actiontracker_Action To Solution Linkage",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "Link to the Possible Solution",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Action To Solution Linkage",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "WLFrBgfl7lU",
+      "created": "2021-03-11T07:47:36.883",
+      "name": "Actiontracker_Bottleneck",
+      "shortName": "Actiontracker_Bottleneck",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Bottleneck",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "imiLbaQKYnA",
+      "created": "2021-03-11T07:48:07.018",
+      "name": "Actiontracker_Coverage Indicator",
+      "shortName": "Actiontracker_Coverage Indicator",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Coverage Indicator",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "GlvCtGIytIz",
+      "created": "2021-03-11T07:49:31.357",
+      "name": "Actiontracker_Description",
+      "shortName": "Actiontracker_Description",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "A description for the action item",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "LONG_TEXT",
+      "formName": "Description",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "Ax6bWbKn46e",
+      "created": "2021-03-11T07:52:36.013",
+      "name": "Actiontracker_Designation",
+      "shortName": "Actiontracker_Designation",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "Designation title of the responsible person to execute the action",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Designation",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "BYCbHJ46BOr",
+      "created": "2021-03-11T07:50:36.798",
+      "name": "Actiontracker_End Date",
+      "shortName": "Actiontracker_End Date",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "End date for the action",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "DATE",
+      "formName": "End Date",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "tVlKbtVfNjc",
+      "created": "2021-03-11T07:48:29.634",
+      "name": "Actiontracker_Indicator",
+      "shortName": "Actiontracker_Indicator",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Indicator",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "jZ6WL4NQtp5",
+      "created": "2021-03-11T07:29:34.946",
+      "name": "Actiontracker_Intervention",
+      "shortName": "Actiontracker_Intervention",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Intervention",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "G3aWsZW2MpV",
+      "created": "2021-03-11T07:52:14.282",
+      "name": "Actiontracker_Responsible Person",
+      "shortName": "Actiontracker_Responsible Person",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "To capture the name of the responsible person to execute the action",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Responsible Person",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "jFjnkx49Lg3",
+      "created": "2021-03-11T07:50:03.513",
+      "name": "Actiontracker_Start Date",
+      "shortName": "Actiontracker_Start Date",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "Start date for the action",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "DATE",
+      "formName": "Start Date",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "HQxzVwKedKu",
+      "created": "2021-03-11T07:49:00.386",
+      "name": "Actiontracker_Title",
+      "shortName": "Actiontracker_Title",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "Title of the action",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Title",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    }
+  ],
+  "programStages": [
+    {
+      "lastUpdated": "2021-04-06T12:36:39.815",
+      "id": "cBiAEANcXAj",
+      "created": "2021-03-11T08:11:09.659",
+      "name": "Action status",
+      "allowGenerateNextVisit": false,
+      "preGenerateUID": false,
+      "description": "Action status",
+      "openAfterEnrollment": false,
+      "repeatable": true,
+      "remindCompleted": false,
+      "displayGenerateEventBox": true,
+      "generatedByEnrollmentDate": false,
+      "validationStrategy": "ON_COMPLETE",
+      "autoGenerateEvent": true,
+      "sortOrder": 1,
+      "hideDueDate": false,
+      "blockEntryForm": false,
+      "enableUserAssignment": false,
+      "minDaysFromStart": 0,
+      "program": {
+        "id": "unD7wro3qPm"
+      },
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "notificationTemplates": [],
+      "programStageDataElements": [
+        {
+          "lastUpdated": "2021-04-06T12:36:39.472",
+          "id": "TitEqIE0jCf",
+          "created": "2021-03-11T08:11:09.660",
+          "displayInReports": true,
+          "skipSynchronization": false,
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "allowFutureDate": false,
+          "compulsory": true,
+          "allowProvidedElsewhere": false,
+          "sortOrder": 1,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "programStage": {
+            "id": "cBiAEANcXAj"
+          },
+          "dataElement": {
+            "id": "f8JYVWLC7rE"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-06T12:36:39.473",
+          "id": "O4DKXYMDpvD",
+          "created": "2021-03-11T08:11:09.660",
+          "displayInReports": true,
+          "skipSynchronization": false,
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "allowFutureDate": true,
+          "compulsory": true,
+          "allowProvidedElsewhere": false,
+          "sortOrder": 2,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "programStage": {
+            "id": "cBiAEANcXAj"
+          },
+          "dataElement": {
+            "id": "nodiP54ocf5"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-06T12:36:39.471",
+          "id": "QKPC4ftcfNQ",
+          "created": "2021-03-11T08:11:09.659",
+          "displayInReports": true,
+          "skipSynchronization": false,
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "allowFutureDate": false,
+          "compulsory": false,
+          "allowProvidedElsewhere": false,
+          "sortOrder": 3,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "programStage": {
+            "id": "cBiAEANcXAj"
+          },
+          "dataElement": {
+            "id": "FnengvwgsQv"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        }
+      ],
+      "translations": [],
+      "attributeValues": [],
+      "programStageSections": [
+        {
+          "id": "Glo7x5VVsbF"
+        }
+      ]
+    },
+    {
+      "lastUpdated": "2021-04-12T12:00:19.974",
+      "id": "zXB8tWKuwcl",
+      "created": "2021-03-11T07:33:07.378",
+      "name": "Gap",
+      "allowGenerateNextVisit": false,
+      "preGenerateUID": false,
+      "openAfterEnrollment": false,
+      "repeatable": true,
+      "remindCompleted": false,
+      "displayGenerateEventBox": true,
+      "generatedByEnrollmentDate": false,
+      "validationStrategy": "ON_COMPLETE",
+      "autoGenerateEvent": true,
+      "sortOrder": 1,
+      "hideDueDate": false,
+      "blockEntryForm": false,
+      "enableUserAssignment": false,
+      "minDaysFromStart": 0,
+      "program": {
+        "id": "Uvz0nfKVMQJ"
+      },
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "notificationTemplates": [],
+      "programStageDataElements": [
+        {
+          "lastUpdated": "2021-04-12T12:00:19.977",
+          "id": "KkFk22FtGHL",
+          "created": "2021-03-11T07:33:07.379",
+          "displayInReports": true,
+          "skipSynchronization": false,
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "allowFutureDate": false,
+          "compulsory": true,
+          "allowProvidedElsewhere": false,
+          "sortOrder": 1,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "programStage": {
+            "id": "zXB8tWKuwcl"
+          },
+          "dataElement": {
+            "id": "JbMaVyglSit"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-12T12:00:19.977",
+          "id": "NufCEDgwXRT",
+          "created": "2021-03-11T08:06:55.029",
+          "displayInReports": true,
+          "skipSynchronization": false,
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "allowFutureDate": false,
+          "compulsory": true,
+          "allowProvidedElsewhere": false,
+          "sortOrder": 2,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "programStage": {
+            "id": "zXB8tWKuwcl"
+          },
+          "dataElement": {
+            "id": "GsbZkewUna5"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-12T12:00:19.976",
+          "id": "ZgrWLgx1hCm",
+          "created": "2021-03-11T08:06:55.028",
+          "displayInReports": true,
+          "skipSynchronization": false,
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "allowFutureDate": false,
+          "compulsory": true,
+          "allowProvidedElsewhere": false,
+          "sortOrder": 3,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "programStage": {
+            "id": "zXB8tWKuwcl"
+          },
+          "dataElement": {
+            "id": "W50aguV39tU"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-12T12:00:19.978",
+          "id": "ksiDaorDatg",
+          "created": "2021-03-11T08:06:55.029",
+          "displayInReports": true,
+          "skipSynchronization": false,
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "allowFutureDate": false,
+          "compulsory": false,
+          "allowProvidedElsewhere": false,
+          "sortOrder": 4,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "programStage": {
+            "id": "zXB8tWKuwcl"
+          },
+          "dataElement": {
+            "id": "kBkyDytdOmC"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        }
+      ],
+      "translations": [],
+      "attributeValues": [],
+      "programStageSections": [
+        {
+          "id": "MCRHv0EnBdB"
+        }
+      ]
+    },
+    {
+      "lastUpdated": "2021-04-12T12:00:19.978",
+      "id": "JJaKjcOBapi",
+      "created": "2021-03-11T08:08:28.220",
+      "name": "Possible Solutions",
+      "allowGenerateNextVisit": false,
+      "preGenerateUID": false,
+      "openAfterEnrollment": false,
+      "repeatable": true,
+      "remindCompleted": false,
+      "displayGenerateEventBox": true,
+      "generatedByEnrollmentDate": false,
+      "validationStrategy": "ON_COMPLETE",
+      "autoGenerateEvent": true,
+      "sortOrder": 2,
+      "hideDueDate": false,
+      "blockEntryForm": false,
+      "enableUserAssignment": false,
+      "minDaysFromStart": 0,
+      "program": {
+        "id": "Uvz0nfKVMQJ"
+      },
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "notificationTemplates": [],
+      "programStageDataElements": [
+        {
+          "lastUpdated": "2021-04-12T12:00:19.981",
+          "id": "d55BZP5pUyR",
+          "created": "2021-03-11T08:08:28.221",
+          "displayInReports": true,
+          "skipSynchronization": false,
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "allowFutureDate": false,
+          "compulsory": true,
+          "allowProvidedElsewhere": false,
+          "sortOrder": 1,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "programStage": {
+            "id": "JJaKjcOBapi"
+          },
+          "dataElement": {
+            "id": "upT2cOT6UfJ"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-12T12:00:19.981",
+          "id": "Us9SEgB5JOk",
+          "created": "2021-03-11T08:08:28.220",
+          "displayInReports": true,
+          "skipSynchronization": false,
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "allowFutureDate": false,
+          "compulsory": false,
+          "allowProvidedElsewhere": false,
+          "sortOrder": 2,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "programStage": {
+            "id": "JJaKjcOBapi"
+          },
+          "dataElement": {
+            "id": "kBkyDytdOmC"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2021-04-12T12:00:19.980",
+          "id": "AvWqNwk7aUc",
+          "created": "2021-03-11T08:36:45.920",
+          "displayInReports": true,
+          "skipSynchronization": false,
+          "externalAccess": false,
+          "renderOptionsAsRadio": false,
+          "allowFutureDate": false,
+          "compulsory": false,
+          "allowProvidedElsewhere": false,
+          "sortOrder": 3,
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "programStage": {
+            "id": "JJaKjcOBapi"
+          },
+          "dataElement": {
+            "id": "Y4CIGFwWYJD"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        }
+      ],
+      "translations": [],
+      "attributeValues": [],
+      "programStageSections": [
+        {
+          "id": "YgDeKz3FMT1"
+        }
+      ]
+    }
+  ],
+  "options": [
+    {
+      "code": "Bottleneck analysis",
+      "created": "2021-03-24T05:46:34.891",
+      "lastUpdated": "2021-04-06T12:36:38.056",
+      "name": "Bottleneck analysis",
+      "id": "muIDRX5liMX",
+      "sortOrder": 2,
+      "optionSet": {
+        "id": "tsShlbiHhxN"
+      },
+      "attributeValues": [],
+      "translations": []
+    },
+    {
+      "code": "Cancelled",
+      "created": "2021-04-14T06:49:11.307",
+      "lastUpdated": "2021-04-14T06:49:11.322",
+      "name": "Cancelled",
+      "id": "FEz7OK0NVRW",
+      "sortOrder": 4,
+      "optionSet": {
+        "id": "Y3FLpktyYMC"
+      },
+      "attributeValues": [],
+      "translations": []
+    },
+    {
+      "code": "Completed",
+      "created": "2021-04-14T06:48:58.229",
+      "lastUpdated": "2021-04-14T06:48:58.245",
+      "name": "Completed",
+      "id": "JzKswnTlxSn",
+      "sortOrder": 3,
+      "optionSet": {
+        "id": "Y3FLpktyYMC"
+      },
+      "attributeValues": [],
+      "translations": []
+    },
+    {
+      "code": " In progress",
+      "created": "2021-04-14T06:48:46.383",
+      "lastUpdated": "2021-04-14T06:48:46.397",
+      "name": "In progress",
+      "id": "CI07xeRxsZU",
+      "sortOrder": 2,
+      "optionSet": {
+        "id": "Y3FLpktyYMC"
+      },
+      "attributeValues": [],
+      "translations": []
+    },
+    {
+      "code": "Not started",
+      "created": "2021-04-14T06:48:29.893",
+      "lastUpdated": "2021-04-14T06:48:29.904",
+      "name": "Not started",
+      "id": "fLUmGT0p0Sh",
+      "sortOrder": 1,
+      "optionSet": {
+        "id": "Y3FLpktyYMC"
+      },
+      "attributeValues": [],
+      "translations": []
+    }
+  ],
+  "dataElements": [
+    {
+      "lastUpdated": "2021-04-14T06:09:26.430",
+      "id": "f8JYVWLC7rE",
+      "created": "2021-03-11T08:00:57.880",
+      "name": "Actiontracker_Action status",
+      "shortName": "Actiontracker_Action status",
+      "aggregationType": "NONE",
+      "domainType": "TRACKER",
+      "description": "To collect the status of the action time at review date. The filed will have Action status options with color selection that can be configured.",
+      "valueType": "TEXT",
+      "formName": "Action status",
+      "zeroIsSignificant": false,
+      "optionSet": {
+        "id": "Y3FLpktyYMC"
+      },
+      "categoryCombo": {
+        "id": "bjDvmb4bfuf"
+      },
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": [],
+      "aggregationLevels": []
+    },
+    {
+      "lastUpdated": "2021-04-14T06:09:26.441",
+      "id": "GsbZkewUna5",
+      "created": "2021-03-11T07:57:58.131",
+      "name": "Actiontracker_Description",
+      "shortName": "Actiontracker_Description",
+      "aggregationType": "NONE",
+      "domainType": "TRACKER",
+      "description": "Description of the Gap",
+      "valueType": "LONG_TEXT",
+      "formName": "Description",
+      "zeroIsSignificant": false,
+      "categoryCombo": {
+        "id": "bjDvmb4bfuf"
+      },
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": [],
+      "aggregationLevels": []
+    },
+    {
+      "lastUpdated": "2021-04-14T06:09:26.442",
+      "id": "W50aguV39tU",
+      "created": "2021-03-11T07:58:13.336",
+      "name": "Actiontracker_Method",
+      "shortName": "Actiontracker_Method",
+      "aggregationType": "NONE",
+      "domainType": "TRACKER",
+      "description": "To capture the method or procedure used in identifying the gap.",
+      "valueType": "TEXT",
+      "formName": "Method",
+      "zeroIsSignificant": false,
+      "categoryCombo": {
+        "id": "bjDvmb4bfuf"
+      },
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": [],
+      "aggregationLevels": [],
+      "optionSet": {
+        "id": "tsShlbiHhxN"
+      }
+    },
+    {
+      "lastUpdated": "2021-04-14T06:09:26.445",
+      "id": "FnengvwgsQv",
+      "created": "2021-03-11T08:02:11.845",
+      "name": "Actiontracker_Remarks / comments",
+      "shortName": "Actiontracker_Remarks / comments",
+      "aggregationType": "NONE",
+      "domainType": "TRACKER",
+      "description": "Remarks or comments on the action as per the review period.",
+      "valueType": "LONG_TEXT",
+      "formName": "Remarks / comment",
+      "zeroIsSignificant": false,
+      "categoryCombo": {
+        "id": "bjDvmb4bfuf"
+      },
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": [],
+      "aggregationLevels": []
+    },
+    {
+      "lastUpdated": "2021-04-14T06:09:26.446",
+      "id": "nodiP54ocf5",
+      "created": "2021-03-11T08:01:38.206",
+      "name": "Actiontracker_Review Date",
+      "shortName": "Actiontracker_Review Date",
+      "aggregationType": "NONE",
+      "domainType": "TRACKER",
+      "description": "To capture the review date of the action execution.",
+      "valueType": "DATE",
+      "formName": "Review Date",
+      "zeroIsSignificant": false,
+      "categoryCombo": {
+        "id": "bjDvmb4bfuf"
+      },
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": [],
+      "aggregationLevels": []
+    },
+    {
+      "lastUpdated": "2021-04-14T06:09:26.448",
+      "id": "upT2cOT6UfJ",
+      "created": "2021-03-11T07:59:59.155",
+      "name": "Actiontracker_Solution ",
+      "shortName": "Actiontracker_Solution ",
+      "aggregationType": "NONE",
+      "domainType": "TRACKER",
+      "valueType": "LONG_TEXT",
+      "formName": "Solution",
+      "zeroIsSignificant": false,
+      "categoryCombo": {
+        "id": "bjDvmb4bfuf"
+      },
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": [],
+      "aggregationLevels": []
+    },
+    {
+      "lastUpdated": "2021-04-14T06:09:26.449",
+      "id": "Y4CIGFwWYJD",
+      "created": "2021-03-11T08:35:28.975",
+      "name": "Actiontracker_Solution To Action Linkage",
+      "shortName": "Actiontracker_Solution To Action Linkage",
+      "aggregationType": "NONE",
+      "domainType": "TRACKER",
+      "description": "To link gaps to solutions (Not visible to the user).",
+      "valueType": "TEXT",
+      "formName": "Solution To Action Linkage",
+      "zeroIsSignificant": false,
+      "categoryCombo": {
+        "id": "bjDvmb4bfuf"
+      },
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": [],
+      "aggregationLevels": []
+    },
+    {
+      "lastUpdated": "2021-04-14T06:09:26.450",
+      "id": "kBkyDytdOmC",
+      "created": "2021-03-11T07:59:37.230",
+      "name": "Actiontracker_Solution To Gap Linkage",
+      "shortName": "Actiontracker_Solution To Gap Linkage",
+      "aggregationType": "NONE",
+      "domainType": "TRACKER",
+      "description": "To link gaps to solutions (Not visible to the user).",
+      "valueType": "TEXT",
+      "formName": "Solution To Gap Linkage",
+      "zeroIsSignificant": false,
+      "categoryCombo": {
+        "id": "bjDvmb4bfuf"
+      },
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": [],
+      "aggregationLevels": []
+    },
+    {
+      "lastUpdated": "2021-04-14T06:09:26.451",
+      "id": "JbMaVyglSit",
+      "created": "2021-03-11T07:30:11.327",
+      "name": "Actiontracker_Title",
+      "shortName": "Actiontracker_Title",
+      "aggregationType": "NONE",
+      "domainType": "TRACKER",
+      "description": "Titlte of the identified Gap",
+      "valueType": "TEXT",
+      "formName": "Title",
+      "zeroIsSignificant": false,
+      "categoryCombo": {
+        "id": "bjDvmb4bfuf"
+      },
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": [],
+      "aggregationLevels": []
+    }
+  ],
+  "dataElementGroups": [
+    {
+      "created": "2021-03-11T09:30:29.282",
+      "lastUpdated": "2021-04-14T06:09:26.498",
+      "name": "Actiontracker_Action",
+      "id": "QrprHT61XFk",
+      "shortName": "Actiontracker_Action",
+      "description": "Data elements assigned to Action program",
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "attributeValues": [],
+      "translations": [],
+      "dataElements": [
+        {
+          "id": "FnengvwgsQv"
+        },
+        {
+          "id": "f8JYVWLC7rE"
+        },
+        {
+          "id": "nodiP54ocf5"
+        }
+      ]
+    },
+    {
+      "created": "2021-03-11T09:29:21.212",
+      "lastUpdated": "2021-04-14T06:09:26.502",
+      "name": "Actiontracker_Bottleneck",
+      "id": "oGoG8Fa2zPq",
+      "shortName": "Actiontracker_Bottleneck",
+      "description": "Data elements for bottleneck program",
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "attributeValues": [],
+      "translations": [],
+      "dataElements": [
+        {
+          "id": "GsbZkewUna5"
+        },
+        {
+          "id": "kBkyDytdOmC"
+        },
+        {
+          "id": "W50aguV39tU"
+        },
+        {
+          "id": "Y4CIGFwWYJD"
+        },
+        {
+          "id": "JbMaVyglSit"
+        },
+        {
+          "id": "upT2cOT6UfJ"
+        }
+      ]
+    }
+  ],
+  "programStageSections": [
+    {
+      "created": "2021-03-11T08:11:09.650",
+      "lastUpdated": "2021-04-06T12:36:39.372",
+      "name": "Action Status",
+      "id": "Glo7x5VVsbF",
+      "sortOrder": 0,
+      "renderType": {
+        "MOBILE": {
+          "type": "LISTING"
+        },
+        "DESKTOP": {
+          "type": "LISTING"
+        }
+      },
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "programStage": {
+        "id": "cBiAEANcXAj"
+      },
+      "programIndicators": [],
+      "translations": [],
+      "dataElements": [
+        {
+          "id": "f8JYVWLC7rE"
+        },
+        {
+          "id": "nodiP54ocf5"
+        },
+        {
+          "id": "FnengvwgsQv"
+        }
+      ]
+    },
+    {
+      "created": "2021-03-11T07:33:07.363",
+      "lastUpdated": "2021-04-06T12:36:39.372",
+      "name": "Gap",
+      "id": "MCRHv0EnBdB",
+      "sortOrder": 0,
+      "renderType": {
+        "MOBILE": {
+          "type": "LISTING"
+        },
+        "DESKTOP": {
+          "type": "LISTING"
+        }
+      },
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "programStage": {
+        "id": "zXB8tWKuwcl"
+      },
+      "programIndicators": [],
+      "translations": [],
+      "dataElements": [
+        {
+          "id": "JbMaVyglSit"
+        },
+        {
+          "id": "GsbZkewUna5"
+        },
+        {
+          "id": "W50aguV39tU"
+        },
+        {
+          "id": "kBkyDytdOmC"
+        }
+      ]
+    },
+    {
+      "created": "2021-03-11T08:08:28.206",
+      "lastUpdated": "2021-04-06T12:36:39.372",
+      "name": "Possible Solutions",
+      "id": "YgDeKz3FMT1",
+      "sortOrder": 0,
+      "renderType": {
+        "MOBILE": {
+          "type": "LISTING"
+        },
+        "DESKTOP": {
+          "type": "LISTING"
+        }
+      },
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "programStage": {
+        "id": "JJaKjcOBapi"
+      },
+      "programIndicators": [],
+      "translations": [],
+      "dataElements": [
+        {
+          "id": "upT2cOT6UfJ"
+        },
+        {
+          "id": "Y4CIGFwWYJD"
+        },
+        {
+          "id": "kBkyDytdOmC"
+        }
+      ]
+    }
+  ],
+  "dataElementGroupSets": [
+    {
+      "created": "2021-03-11T09:31:44.781",
+      "lastUpdated": "2021-04-14T06:09:26.522",
+      "name": "Action tracker",
+      "id": "y9sDu6fOUWK",
+      "description": "All dataelements for actiontracker",
+      "compulsory": false,
+      "dataDimension": true,
+      "lastUpdatedBy": {
+        "code": "admin",
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin"
+      },
+      "attributeValues": [],
+      "dataElementGroups": [
+        {
+          "id": "QrprHT61XFk"
+        },
+        {
+          "id": "oGoG8Fa2zPq"
+        }
+      ],
+      "translations": []
+    }
+  ],
+  "trackedEntityTypes": [
+    {
+      "lastUpdated": "2021-04-08T07:00:22.885",
+      "id": "TFYpX5EXmYp",
+      "created": "2021-03-11T08:03:38.194",
+      "name": "action",
+      "allowAuditLog": false,
+      "featureType": "NONE",
+      "minAttributesRequiredToSearch": 1,
+      "maxTeiCountToReturn": 0,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "trackedEntityTypeAttributes": [],
+      "translations": [],
+      "attributeValues": []
+    },
+    {
+      "lastUpdated": "2021-04-08T07:00:08.406",
+      "id": "jLaBp1GaZQ9",
+      "created": "2021-03-11T07:31:01.886",
+      "name": "bottleneck",
+      "allowAuditLog": false,
+      "featureType": "NONE",
+      "minAttributesRequiredToSearch": 1,
+      "maxTeiCountToReturn": 0,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "trackedEntityTypeAttributes": [],
+      "translations": [],
+      "attributeValues": []
+    }
+  ],
+  "relationshipTypes": [
+    {
+      "created": "2021-03-11T08:30:13.710",
+      "lastUpdated": "2021-04-08T07:02:22.363",
+      "name": "Bottleneck to Action",
+      "id": "XTJrr4c45G7",
+      "bidirectional": true,
+      "description": "Bottleneck to Action",
+      "toFromName": "Action to Bottleneck relationship",
+      "fromToName": "Bottleneck to Action relationship",
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "fromConstraint": {
+        "relationshipEntity": "TRACKED_ENTITY_INSTANCE",
+        "trackedEntityType": {
+          "id": "jLaBp1GaZQ9"
+        },
+        "program": {
+          "id": "Uvz0nfKVMQJ"
+        }
+      },
+      "toConstraint": {
+        "relationshipEntity": "TRACKED_ENTITY_INSTANCE",
+        "trackedEntityType": {
+          "id": "TFYpX5EXmYp"
+        },
+        "program": {
+          "id": "unD7wro3qPm"
+        }
+      },
+      "translations": []
+    }
+  ]
+}

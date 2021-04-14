@@ -22,12 +22,14 @@ import React, {useState} from "react";
 import AddIcon from '@material-ui/icons/Add';
 import DownloadIcon from '@material-ui/icons/GetApp';
 import ColumnIcon from '@material-ui/icons/ViewColumn';
+import SettingsIcon from '@material-ui/icons/Settings';
 import {useAlert} from '@dhis2/app-runtime';
 import {Period} from '@iapps/period-utilities';
 import DownloadOptionsMenu from "./DownloadOptionsMenu";
 import {UserRolesState} from "../../../core/states/user";
 import Visibility from "../../../shared/Components/Visibility";
 import ColumnManagerDialog from "../../../shared/Dialogs/ColumnManagerDialog";
+import {useHistory, useRouteMatch} from "react-router-dom";
 
 const PageSelector = () => {
     const [activePage, setActivePage] = useRecoilState(PageState);
@@ -80,10 +82,11 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
     const activePage = useRecoilValue(PageState);
     const actionStatus = useRecoilValue(ActionStatusState);
     const [statusFilter, setStatusFilter] = useRecoilState(StatusFilterState);
-    const {bottleneck} = useRecoilValue(UserRolesState);
+    const {bottleneck, settings} = useRecoilValue(UserRolesState);
     const [manageColumnOpen, setManageColumnOpen] = useState(false);
     const [reference, setReference] = useState(undefined);
-
+    const history = useHistory();
+    const {url} = useRouteMatch();
     return (
         <Container maxWidth={false} className="main-page-header">
             <Grid container spacing={4}>
@@ -117,6 +120,12 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
                             <Button onClick={(d, e) => setReference(e.currentTarget)} icon={<DownloadIcon/>}>
                                 Download
                             </Button>
+                           <Visibility visible={settings.users} >
+                               <Button onClick={() => history.push(`${url}admin`)}
+                                       icon={<SettingsIcon/>}>
+                                   Settings
+                               </Button>
+                           </Visibility>
                         </ButtonStrip>
                         {
                             reference &&

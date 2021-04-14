@@ -98,7 +98,7 @@ const StatusContainer = ({status}) => {
 
     useEffect(() => {
         if (iconRef.current) {
-            iconRef.current.innerHTML = formatSvg(icon, {size: 20, color: generateTextColor(style.color)});
+            iconRef.current.innerHTML = formatSvg(icon, {size: 14, color: generateTextColor(style.color)});
         }
     }, [])
 

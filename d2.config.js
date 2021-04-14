@@ -5,31 +5,36 @@ const config = {
     entryPoints: {
         app: './src/App',
     },
-   customAuthorities: [
-       "SAT_VIEW_BOTTLENECKS",
-       "SAT_CREATE_BOTTLENECKS",
-       "SAT_UPDATE_BOTTLENECKS",
-       "SAT_DELETE_BOTTLENECKS",
+    customAuthorities: [
+        "SAT_VIEW_BOTTLENECKS",
+        "SAT_CREATE_BOTTLENECKS",
+        "SAT_UPDATE_BOTTLENECKS",
+        "SAT_DELETE_BOTTLENECKS",
 
-       "SAT_VIEW_ACTIONS",
-       "SAT_CREATE_ACTIONS",
-       "SAT_UPDATE_ACTIONS",
-       "SAT_DELETE_ACTIONS",
+        "SAT_VIEW_ACTIONS",
+        "SAT_CREATE_ACTIONS",
+        "SAT_UPDATE_ACTIONS",
+        "SAT_DELETE_ACTIONS",
 
-       "SAT_VIEW_GAPS",
-       "SAT_CREATE_GAPS",
-       "SAT_UPDATE_GAPS",
-       "SAT_DELETE_GAPS",
+        "SAT_VIEW_GAPS",
+        "SAT_CREATE_GAPS",
+        "SAT_UPDATE_GAPS",
+        "SAT_DELETE_GAPS",
 
-       "SAT_VIEW_POSSIBLE_SOLUTIONS",
-       "SAT_CREATE_POSSIBLE_SOLUTIONS",
-       "SAT_UPDATE_POSSIBLE_SOLUTIONS",
-       "SAT_DELETE_POSSIBLE_SOLUTIONS",
+        "SAT_VIEW_POSSIBLE_SOLUTIONS",
+        "SAT_CREATE_POSSIBLE_SOLUTIONS",
+        "SAT_UPDATE_POSSIBLE_SOLUTIONS",
+        "SAT_DELETE_POSSIBLE_SOLUTIONS",
 
-       "SAT_VIEW_ACTION_STATUS",
-       "SAT_CREATE_ACTION_STATUS",
-       "SAT_UPDATE_ACTION_STATUS",
-       "SAT_DELETE_ACTION_STATUS"
-   ]
+        "SAT_VIEW_ACTION_STATUS",
+        "SAT_CREATE_ACTION_STATUS",
+        "SAT_UPDATE_ACTION_STATUS",
+        "SAT_DELETE_ACTION_STATUS",
+
+        "SAT_MANAGE_USERS",
+        "SAT_MANAGE_LEGENDS",
+        "SAT_MANAGE_PLANNING_PERIOD",
+        "SAT_MANAGE_REVIEW_PERIOD"
+    ]
 }
 module.exports = config
