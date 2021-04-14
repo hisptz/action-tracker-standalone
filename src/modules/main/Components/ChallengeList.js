@@ -90,8 +90,9 @@ export default function ChallengeList() {
     }
 
     function onDownloadPDF() {
-        setIsDownloadingPdf({isDownloadingPdf: true})
-        window.print();
+        setIsDownloadingPdf({isDownloadingPdf: true, loading: true})
+       
+       show({message: 'Preparing a PDF file', type: 'INFO'}); 
     }
 
     const onEdit = (object) => {
