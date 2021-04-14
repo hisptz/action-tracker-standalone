@@ -33,7 +33,7 @@ export default function MainPage() {
     const engine = useDataEngine();
     const setDataEngine = useSetRecoilState(DataEngineState);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
-    const [tablePDFDownloadData, setTablePDFDownloadData] = useState([]);
+    const [tablePDFDownloadData, setTablePDFDownloadData] = useState(undefined);
     const [downloadPdf, setDownloadPdf] = useRecoilState(DownloadPdfState);
     const {orgUnit} = useRecoilValue(DimensionsState);
 
@@ -48,14 +48,20 @@ export default function MainPage() {
     }
 
     if (downloadPdf && downloadPdf.isDownloadingPdf) {
+        console.log({tablePDFDownloadData})
         setUpPDFDownloadData();
         if (tablePDFDownloadData && tablePDFDownloadData.length) {
+            setDownloadPdf({isDownloadingPdf: true, loading: false})
             window.onafterprint = (_) => {
-                setDownloadPdf({isDownloadingPdf: false})
+                setDownloadPdf({isDownloadingPdf: false, loading: true})
             }
-        } else {
-            console.log('waiting');
+        } else if(tablePDFDownloadData === undefined) {
+           /* show({message: 'Preparing a PDF file', type: 'INFO'}); */
         }
+    }
+
+    if(downloadPdf && downloadPdf.loading === false) {
+       window.print()
     }
 
     return (
