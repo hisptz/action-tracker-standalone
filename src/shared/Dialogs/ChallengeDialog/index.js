@@ -33,7 +33,10 @@ const challengeCreateMutation = {
 function ChallengeDialog({onClose, onUpdate, challenge}) {
     const {orgUnit} = useRecoilValue(DimensionsState);
     const {indicators, loading: indicatorsLoading, error: indicatorsError} = useIndicators(0);
-    const [mutate, {loading: saving, data}] = useDataMutation(challenge ? challengeEditMutation : challengeCreateMutation, {
+    const [mutate, {
+        loading: saving,
+        data
+    }] = useDataMutation(challenge ? challengeEditMutation : challengeCreateMutation, {
         variables: {data: {}, id: challenge?.id},
         onComplete: (importSummary) => {
             onCompleteHandler(importSummary, show, {message: 'Challenge saved successfully', onClose, onUpdate})
@@ -78,7 +81,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
                     control={control}
                     name='indicator'
                     rules={{required: 'Please choose an indicator'}}
-                    render={({onChange, value}) => (
+                    render={({field: {onChange, value}}) => (
                         <DataFilter
                             options={indicators?.map(({displayName, id}) => ({label: displayName, value: id}))}
                             initiallySelected={value}
