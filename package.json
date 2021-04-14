@@ -28,6 +28,7 @@
     "file-saver": "^2.0.5",
     "highcharts": "^9.0.1",
     "highcharts-react-official": "^3.0.0",
+    "jspdf-autotable": "^3.5.14",
     "lodash": "^4.17.21",
     "react-hook-form": "^7.0.4",
     "react-router-dom": "^5.2.0",
