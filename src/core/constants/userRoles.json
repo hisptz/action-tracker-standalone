@@ -23,5 +23,11 @@
     "create": "SAT_CREATE_ACTION_STATUS",
     "update": "SAT_EDIT_ACTION_STATUS",
     "delete": "SAT_DELETE_ACTION_STATUS"
+  },
+  "settings": {
+    "users": "SAT_MANAGE_USERS",
+    "legends": "SAT_MANAGE_LEGENDS",
+    "planningPeriod": "SAT_MANAGE_PLANNING_PERIOD",
+    "reviewPeriod": "SAT_MANAGE_REVIEW_PERIOD"
   }
 }
