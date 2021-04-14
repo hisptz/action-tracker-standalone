@@ -48,7 +48,6 @@ export default function MainPage() {
     }
 
     if (downloadPdf && downloadPdf.isDownloadingPdf) {
-        console.log({tablePDFDownloadData})
         setUpPDFDownloadData();
         if (tablePDFDownloadData && tablePDFDownloadData.length) {
             setDownloadPdf({isDownloadingPdf: true, loading: false})
