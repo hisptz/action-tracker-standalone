@@ -8,7 +8,7 @@ import NoDimensionsSelectedView from "./NoDimensionsSelectedView";
 import MainPageHeader from "./MainPageHeader";
 import EmptyChallengeList from "./EmptyChallengeList";
 import FullPageLoader from "../../../shared/Components/FullPageLoader";
-import {useAlert, useDataQuery, useConfig} from "@dhis2/app-runtime";
+import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import Bottleneck from "../../../core/models/bottleneck";
 import ChallengeDialog from "../../../shared/Dialogs/ChallengeDialog";
 import generateErrorAlert from "../../../core/services/generateErrorAlert";
@@ -16,8 +16,8 @@ import Paginator from "../../../shared/Components/Paginator";
 import {CenteredContent} from '@dhis2/ui'
 import useGetFilteredTeis from "../hooks/useGetFilteredTeis";
 import FullPageError from "../../../shared/Components/FullPageError";
-import { downloadExcel } from '../../../core/services/downloadFilesService'
-import {UserConfigState, UserRolesState} from "../../../core/states/user";
+import {downloadExcel} from '../../../core/services/downloadFilesService'
+import {UserConfigState} from "../../../core/states/user";
 
 const indicatorQuery = {
     indicators: {
@@ -41,7 +41,6 @@ const indicatorQuery = {
 
 export default function ChallengeList() {
     const {orgUnit, period} = useRecoilValue(DimensionsState) || {};
-    const { baseUrl, apiVersion } = useConfig()
     const {selected: selectedStatus} = useRecoilValue(StatusFilterState) || {};
     const {ouMode} = useRecoilValue(UserConfigState) || {};
     const {filteredTeis, loading: filteredTeisLoading} = useGetFilteredTeis(selectedStatus, orgUnit);
@@ -79,18 +78,20 @@ export default function ChallengeList() {
     const onPageSizeChange = (newPageSize) => setPageSize(newPageSize);
 
     const [selectedChallenge, setSelectedChallenge] = useState(undefined);
-    const  setIsDownloadingPdf = useSetRecoilState(DownloadPdfState);
+    const setIsDownloadingPdf = useSetRecoilState(DownloadPdfState);
 
     const onModalClose = (onClose) => {
         setSelectedChallenge(undefined);
         onClose();
     }
+
     function onDownloadExcel() {
-        downloadExcel({engine, indicatorQuery, orgUnit })
+        downloadExcel({engine, indicatorQuery, orgUnit})
     }
+
     function onDownloadPDF() {
-       setIsDownloadingPdf({isDownloadingPdf: true})
-       window.print();
+        setIsDownloadingPdf({isDownloadingPdf: true})
+        window.print();
     }
 
     const onEdit = (object) => {
@@ -111,10 +112,10 @@ export default function ChallengeList() {
             maxHeight: 120,
             padding: '10px 0'
         },
-        card:{
+        card: {
             padding: '30px 0'
         },
-        fullPage:{
+        fullPage: {
             margin: 'auto',
             height: 'calc(100vh - 320px)'
         }
@@ -125,8 +126,8 @@ export default function ChallengeList() {
             <Container style={styles.container} fixed maxWidth={false}>
                 <Grid container alignItems='stretch' justify='space-between' spacing={5} direction='column'>
                     <Grid item style={styles.mainHeaderContainer}>
-                        <MainPageHeader
-                            onAddIndicatorClick={_ => onModalClose(_ => setAddIndicatorOpen(true))}/>
+                        <MainPageHeader onDownloadExcel={onDownloadExcel} onDownloadPDF={onDownloadPDF}
+                                        onAddIndicatorClick={_ => onModalClose(_ => setAddIndicatorOpen(true))}/>
                     </Grid>
                     {(loading || filteredTeisLoading) &&
                     <Grid item style={styles.fullPage}><FullPageLoader/></Grid>}
@@ -142,7 +143,7 @@ export default function ChallengeList() {
                                         _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
                                             const indicator = new Bottleneck(trackedEntityInstance);
                                             return (
-                                                <Grid item style={styles.card}>
+                                                <Grid key={`${indicator.id}-grid`} item style={styles.card}>
                                                     <ChallengeCard onEdit={onEdit} refresh={refetch}
                                                                    key={`${indicator.id}-card`} indicator={indicator}/>
                                                 </Grid>

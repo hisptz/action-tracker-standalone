@@ -82,6 +82,7 @@ const StyledStatusTableCell = withStyles((_) => ({
     root: {
         verticalAlign: 'top',
         paddingBottom: 5,
+        paddingTop: 10,
         fontSize: 14
     }
 }))(TableCell)
@@ -96,27 +97,28 @@ const StatusContainer = ({status}) => {
     const iconRef = useRef()
 
     useEffect(() => {
-        iconRef.current.innerHTML = formatSvg(icon, {size: 20, color: generateTextColor(style.color)});
-    })
+        if (iconRef.current) {
+            iconRef.current.innerHTML = formatSvg(icon, {size: 20, color: generateTextColor(style.color)});
+        }
+    }, [])
 
     return <>
-
         <Card variant='outlined' component={'div'} style={{
-            background: style.color,
+            background: style?.color || '#d8d8d8',
             textAlign: 'center',
             verticalAlign: 'center',
-            color: generateTextColor(style.color),
-        }}>
-            <Grid container justify='center' >
+            color: generateTextColor(style?.color || '#d8d8d8'),
+        }} className="status-cell-grid">
+            <Grid container justify='center' className="status-cell-grid">
                 {
-                    style.icon &&
-                    <Grid item>
+                    style?.icon &&
+                    <Grid item className="status-icon-grid">
                         <CenteredContent>
                             <div style={{paddingTop: 5}} ref={iconRef}/>
                         </CenteredContent>
                     </Grid>
                 }
-                <Grid item>
+                <Grid item className="status-cell-grid-item">
                     <CenteredContent>
                         {selectedStatus}
                     </CenteredContent>
@@ -126,16 +128,16 @@ const StatusContainer = ({status}) => {
     </>
 }
 
-const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object,roles, ...props}) => {
+const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object, roles, ...props}) => {
     const [currentTarget, setCurrentTarget] = useState(false);
     const {update: canUpdate, delete: canDelete} = roles || {canUpdate: false, canDelete: false};
     return (
         <StyledStatusTableCell {...props}>
             <Grid item container direction='row' justify='space-between' spacing={1}>
-                <Grid item xs={(canDelete || canUpdate) ? 9:12}>
+                <Grid item xs={(canDelete || canUpdate) ? 9 : 12}>
                     <StatusContainer status={status}/>
                 </Grid>
-                <Grid container justify='center' alignItems='center' item xs={(canDelete || canUpdate) ? 3:12}>
+                <Grid container justify='center' alignItems='center' item xs={(canDelete || canUpdate) ? 3 : 12}>
                     {
                         (canDelete || canUpdate) &&
                         <Button onClick={(d, e) => {
@@ -147,7 +149,8 @@ const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object,ro
             </Grid>
             {
                 (reference && reference === currentTarget) &&
-                <TableActionsMenu roles={roles} object={object} onEdit={onEdit} onDelete={onDelete} reference={reference}
+                <TableActionsMenu roles={roles} object={object} onEdit={onEdit} onDelete={onDelete}
+                                  reference={reference}
                                   onClose={_ => setRef(undefined)}/>
             }
         </StyledStatusTableCell>
@@ -232,12 +235,14 @@ const ActionStatusTableCell = ({actionStatus, action, refetch, roles, startDate,
                 {
                     actionStatus ?
                         <ActionStatusDetails actionStatus={actionStatus}/> :
-                       roles?.create ? <NoActionStatus onAddClick={onAddClick}/>: <></>
+                        roles?.create ? <NoActionStatus onAddClick={onAddClick}/> : <></>
                 }
             </CenteredContent>
             {
-                addActionStatusOpen && <ActionStatusDialog startDate={startDate} endDate={endDate}  onClose={_ => setAddActionStatusOpen(false)} action={action}
-                                                           onUpdate={refetch}/>
+                addActionStatusOpen &&
+                <ActionStatusDialog startDate={startDate} endDate={endDate} onClose={_ => setAddActionStatusOpen(false)}
+                                    action={action}
+                                    onUpdate={refetch}/>
             }
         </CustomTableCell>
     )

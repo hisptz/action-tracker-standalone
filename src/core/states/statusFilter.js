@@ -7,9 +7,6 @@ const StatusFilterState = atom({
     }
 });
 
-
-
-
 export {
     StatusFilterState,
 }

@@ -19,7 +19,7 @@ const defaultTables = {
             {
                 name: 'gap',
                 displayName: 'Gap',
-                mandatory: true,
+                mandatory: false,
                 visible: true,
                 width: 0,
                 render: (object, actions = {
@@ -44,7 +44,7 @@ const defaultTables = {
             {
                 name: 'orgUnit',
                 displayName: 'Org Unit',
-                mandatory: true,
+                mandatory: false,
                 visible: true,
                 width: 0,
                 render: (object) => {
@@ -65,7 +65,7 @@ const defaultTables = {
             {
                 name: 'possibleSolution',
                 displayName: 'Possible Solutions',
-                mandatory: true,
+                mandatory: false,
                 visible: true,
                 width: 0,
                 render: (object, actions = {
@@ -97,7 +97,7 @@ const defaultTables = {
             {
                 name: 'action',
                 displayName: 'Action Items',
-                mandatory: true,
+                mandatory: false,
                 visible: true,
                 width: 0,
                 render: (object, _, __, width) => {
@@ -111,7 +111,7 @@ const defaultTables = {
             {
                 name: 'responsiblePerson',
                 displayName: 'Responsible Person',
-                mandatory: true,
+                mandatory: false,
                 visible: true,
                 width: 0,
                 render: (object, _, __, width) => {
@@ -125,7 +125,7 @@ const defaultTables = {
             {
                 name: 'startDate',
                 displayName: 'Start Date',
-                mandatory: true,
+                mandatory: false,
                 visible: true,
                 width: 0,
                 render: (object, _, __, width) => {
@@ -139,7 +139,7 @@ const defaultTables = {
             {
                 name: 'endDate',
                 displayName: 'End Date',
-                mandatory: true,
+                mandatory: false,
                 visible: true,
                 width: 0,
                 render: (object, _, __, width) => {
@@ -152,7 +152,7 @@ const defaultTables = {
             {
                 name: 'status',
                 displayName: 'Status',
-                mandatory: true,
+                mandatory: false,
                 visible: true,
                 width: 0,
                 render: (object, refetch, actions, width) => {
