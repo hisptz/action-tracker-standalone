@@ -11,7 +11,14 @@ import {
 } from "react-router-dom";
 import AdminPage from "./modules/admin";
 
-const styles = {margin: 0, padding: 0, minHeight: 'calc(100vh - 48px)', minWidth: 'calc(100vw - 4px)', flex: 1};
+const styles = {
+    margin: 0,
+    overflowX: 'hidden',
+    padding: 0,
+    minHeight: 'calc(100vh - 48px)',
+    minWidth: 'calc(100vw - 4px)',
+    flex: 1
+};
 
 const MyApp = () => {
 
@@ -28,7 +35,7 @@ const MyApp = () => {
         <RecoilRoot>
             <CssReset/>
             <Container style={styles}>
-                <MemoryRouter initialEntries={modules} initialIndex={0} >
+                <MemoryRouter initialEntries={modules} initialIndex={0}>
                     <Switch>
                         <Route path={`/admin`}>
                             <AdminPage/>

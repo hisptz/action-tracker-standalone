@@ -38,3 +38,7 @@ div.jsx-1730587817 {
         display: none !important;
     }
 }
+
+.transparent{
+    background: transparent;
+}
