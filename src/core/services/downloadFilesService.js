@@ -19,7 +19,7 @@ const indicatorQuery = {
       totalPages: true,
       ou,
       fields:
-        fields && fields === 'none'
+         fields === 'none'
           ? 'none'
           : [
               'trackedEntityInstance',
@@ -74,7 +74,6 @@ export async function getPDFDownloadData({
     pageSize,
     engine,
   });
-  // return await formatDataForDownload(downloadData, engine, 'pdf');
 }
 
 export async function downloadExcel({
@@ -82,6 +81,7 @@ export async function downloadExcel({
   orgUnit,
   page = 1,
   pageSize = 50,
+  currentTab
 }) {
   let teis = [];
   const { indicators } = await engine.query(indicatorQuery, {
@@ -119,7 +119,7 @@ export async function downloadExcel({
   }
 
   const formattedTeis = await getFormattedTeis(teis, engine, orgUnit);
-  const downloadData = await formatDataForDownload(formattedTeis, engine);
+  const downloadData = await formatDataForDownload({formattedTeis, engine, currentTab});
   await exportAsExcelFile(downloadData, 'testing-file');
 }
 
@@ -149,7 +149,7 @@ async function getDownloadData({ indicators, engine, orgUnit, pageSize = 50 }) {
   }
 
   const formattedData = await getFormattedTeis(teis, engine, orgUnit);
-   const downloadFormattedData = await formatDataForDownload(formattedData,engine, 'pdf')
+   const downloadFormattedData = await formatDataForDownload({formattedTeis: formattedData, engine, downloadType: 'pdf'})
   const groupedFormattedDataObj = mapValues(
     groupBy(downloadFormattedData || [], 'id'),
     (formattedDataItemsList) =>
@@ -166,7 +166,6 @@ async function getDownloadData({ indicators, engine, orgUnit, pageSize = 50 }) {
     }
   );
 
-  //return await formatDataForDownload(formattedTeis, engine);
 }
 async function getIndicatorName(indicatorId, engine) {
   const { data } = await engine.query(indicatorNameQuery, {
@@ -308,10 +307,12 @@ function getFormattedActionStatusEvents(actionStatusEvents) {
   return formattedEvents;
 }
 
-async function formatDataForDownload(
+async function formatDataForDownload({
   formattedTeis,
   engine,
-  downloadType = 'excel'
+  downloadType = 'excel',
+  currentTab = 'Planning'
+}
 ) {
   let formatted = [];
   if (formattedTeis && formattedTeis.length) {
