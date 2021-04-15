@@ -103,8 +103,8 @@ export default function ChallengeList() {
         container: {
             paddingTop: 30,
             height: 'calc(100vh - 188px)',
-            paddingLeft: 0,
-            paddingRight: 0
+            paddingLeft: 20,
+            paddingRight: 20
         },
         challengesContainer: {
             flexGrow: 1,
@@ -125,11 +125,14 @@ export default function ChallengeList() {
 
 
     return (orgUnit && period ?
-            <Container style={styles.container} fixed maxWidth={false}>
+            <Container style={styles.container} maxWidth={false}>
                 <Grid container spacing={5} direction='column'>
                     <Grid item style={styles.mainHeaderContainer}>
-                        <MainPageHeader onDownloadExcel={onDownloadExcel} onDownloadPDF={onDownloadPDF}
-                                        onAddIndicatorClick={_ => onModalClose(_ => setAddIndicatorOpen(true))}/>
+                        <MainPageHeader
+                            onDownloadExcel={onDownloadExcel}
+                            onDownloadPDF={onDownloadPDF}
+                            onAddIndicatorClick={_ => onModalClose(_ => setAddIndicatorOpen(true))}
+                        />
                     </Grid>
                     {(loading || filteredTeisLoading) &&
                     <Grid item style={styles.fullPage}><FullPageLoader/></Grid>}

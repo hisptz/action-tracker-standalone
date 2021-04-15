@@ -82,11 +82,10 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
     const activePage = useRecoilValue(PageState);
     const actionStatus = useRecoilValue(ActionStatusState);
     const [statusFilter, setStatusFilter] = useRecoilState(StatusFilterState);
-    const {bottleneck, settings} = useRecoilValue(UserRolesState);
+    const {bottleneck} = useRecoilValue(UserRolesState);
     const [manageColumnOpen, setManageColumnOpen] = useState(false);
     const [reference, setReference] = useState(undefined);
-    const history = useHistory();
-    const {url} = useRouteMatch();
+
     return (
         <Container maxWidth={false} className="main-page-header">
             <Grid container spacing={4}>
@@ -120,12 +119,6 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
                             <Button onClick={(d, e) => setReference(e.currentTarget)} icon={<DownloadIcon/>}>
                                 Download
                             </Button>
-                           <Visibility visible={settings.users} >
-                               <Button onClick={() => history.push(`${url}admin`)}
-                                       icon={<SettingsIcon/>}>
-                                   Settings
-                               </Button>
-                           </Visibility>
                         </ButtonStrip>
                         {
                             reference &&
