@@ -1,7 +1,5 @@
 import Bottleneck from '../models/bottleneck';
-import { map, flattenDeep, groupBy, mapValues } from 'lodash';
-import Gap from '../models/gap';
-// import {GapConstants} from "../../../../core/constants";
+import { map, find, maxBy, filter, groupBy, mapValues } from 'lodash';
 import { GapConstants, ActionConstants } from '../constants';
 import Action from '../models/action';
 import ActionStatus from '../models/actionStatus';
@@ -19,7 +17,7 @@ const indicatorQuery = {
       totalPages: true,
       ou,
       fields:
-         fields === 'none'
+        fields === 'none'
           ? 'none'
           : [
               'trackedEntityInstance',
@@ -68,7 +66,7 @@ export async function getPDFDownloadData({
     lazy: true,
   });
 
- return await getDownloadData({
+  return await getDownloadData({
     indicators,
     orgUnit,
     pageSize,
@@ -81,7 +79,8 @@ export async function downloadExcel({
   orgUnit,
   page = 1,
   pageSize = 50,
-  currentTab
+  currentTab,
+  selectedPeriod
 }) {
   let teis = [];
   const { indicators } = await engine.query(indicatorQuery, {
@@ -119,11 +118,16 @@ export async function downloadExcel({
   }
 
   const formattedTeis = await getFormattedTeis(teis, engine, orgUnit);
-  const downloadData = await formatDataForDownload({formattedTeis, engine, currentTab});
-  await exportAsExcelFile(downloadData, 'testing-file');
+  const downloadData = await formatDataForDownload({
+    formattedTeis,
+    engine,
+    currentTab,
+    selectedPeriod
+  });
+  await exportAsExcelFile(downloadData, `Action ${currentTab}`);
 }
 
-async function getDownloadData({ indicators, engine, orgUnit, pageSize = 50 }) {
+async function getDownloadData({ indicators, engine, orgUnit, selectedPeriod, pageSize = 50 }) {
   const pager = indicators && indicators.pager ? indicators.pager : {};
   const { pageCount } = pager;
   let teis = [];
@@ -149,23 +153,29 @@ async function getDownloadData({ indicators, engine, orgUnit, pageSize = 50 }) {
   }
 
   const formattedData = await getFormattedTeis(teis, engine, orgUnit);
-   const downloadFormattedData = await formatDataForDownload({formattedTeis: formattedData, engine, downloadType: 'pdf'})
+  const downloadFormattedData = await formatDataForDownload({
+    formattedTeis: formattedData,
+    engine,
+    downloadType: 'pdf',
+    selectedPeriod
+  });
   const groupedFormattedDataObj = mapValues(
     groupBy(downloadFormattedData || [], 'id'),
     (formattedDataItemsList) =>
-      formattedDataItemsList.map((formattedDataItem) => formattedDataItem
-      )
+      formattedDataItemsList.map((formattedDataItem) => formattedDataItem)
   );
   return map(
     Object.keys(groupedFormattedDataObj) || [],
     (formattedDataGroupKey) => {
       return groupedFormattedDataObj &&
         groupedFormattedDataObj[formattedDataGroupKey]
-        ? {id: formattedDataGroupKey, items: groupedFormattedDataObj[formattedDataGroupKey] }
+        ? {
+            id: formattedDataGroupKey,
+            items: groupedFormattedDataObj[formattedDataGroupKey],
+          }
         : [];
     }
   );
-
 }
 async function getIndicatorName(indicatorId, engine) {
   const { data } = await engine.query(indicatorNameQuery, {
@@ -311,12 +321,11 @@ async function formatDataForDownload({
   formattedTeis,
   engine,
   downloadType = 'excel',
-  currentTab = 'Planning'
-}
-) {
+  currentTab = 'Planning',
+  selectedPeriod
+}) {
   let formatted = [];
   if (formattedTeis && formattedTeis.length) {
-    let formattedTeisIndex = 0;
     for (const tei of formattedTeis) {
       const indicatorName = await getIndicatorName(tei?.indicator, engine);
 
@@ -326,50 +335,22 @@ async function formatDataForDownload({
             for (const possibleSolution of gap.possibleSolutions) {
               if (possibleSolution && possibleSolution.actions) {
                 for (const action of possibleSolution.actions) {
-                  let actionStatusesObj = {};
-                  flattenDeep(
-                    map(action.actionStatus || [], (statusItem) => {
-                      if (statusItem && statusItem.reviewDate) {
-                        actionStatusesObj = {
-                          ...actionStatusesObj,
-                          [statusItem.reviewDate]: statusItem?.status || '',
-                        };
-                        return {
-                          [statusItem.reviewDate]: statusItem?.status || '',
-                        };
-                      }
-                      return [];
-                    })
-                  );
+                  let actionStatusesObj = getActionStatusObject({
+                    action,
+                    currentTab,
+                    downloadType
+                  });
 
-                  let formattedObj = {};
-                  if (downloadType === 'excel') {
-                    formattedObj = {
-                      ...formattedObj,
-                      Indicator: indicatorName,
-                      Gap: gap?.description || '',
-                      'Possible Solutions': possibleSolution?.solution || '',
-                      'Action Items': action?.description || '',
-                      'Responsible Person': action?.responsiblePerson || '',
-                      'Start Date': action?.startDate || '',
-                      'End Date': action?.endDate || '',
-                      ...actionStatusesObj,
-                    };
-                  } else {
-                    formattedObj = {
-                      ...formattedObj,
-                      id: tei?.id || '',
-                      indicator: indicatorName,
-                      gapId: gap?.id || '',
-                      gap: gap?.description || '',
-                      possibleSolution: possibleSolution?.solution || '',
-                      actionItem: action?.description || '',
-                      responsiblePerson: action?.responsiblePerson || '',
-                      startDate: action?.startDate || '',
-                      endDate: action?.endDate || '',
-                      rowId: uuidv4()
-                    };
-                  }
+                  const formattedObj = getRowObjectByDownloadType({
+                    downloadType,
+                    tei,
+                    gap,
+                    action,
+                    possibleSolution,
+                    actionStatusesObj,
+                    indicatorName,
+                    selectedPeriod
+                  });
 
                   formatted = [...formatted, formattedObj];
                 }
@@ -381,4 +362,63 @@ async function formatDataForDownload({
     }
   }
   return formatted;
+}
+
+function getRowObjectByDownloadType({
+  downloadType,
+  tei,
+  gap,
+  action,
+  possibleSolution,
+  actionStatusesObj,
+  indicatorName,
+  selectedPeriod
+}) {
+  return downloadType === 'excel'
+    ? {
+        Indicator: indicatorName,
+        Gap: gap?.description || '',
+        'Possible Solutions': possibleSolution?.solution || '',
+        'Action Items': action?.description || '',
+        'Responsible Person': action?.responsiblePerson || '',
+        'Start Date': action?.startDate || '',
+        'End Date': action?.endDate || '',
+        ...actionStatusesObj,
+      }
+    : downloadType === 'pdf'
+    ? {
+        id: tei?.id || '',
+        indicator: indicatorName,
+        gapId: gap?.id || '',
+        gap: gap?.description || '',
+        possibleSolution: possibleSolution?.solution || '',
+        actionItem: action?.description || '',
+        responsiblePerson: action?.responsiblePerson || '',
+        startDate: action?.startDate || '',
+        endDate: action?.endDate || '',
+        rowId: uuidv4(),
+      }
+    : {};
+}
+
+function getActionStatusObject({ action, currentTab, downloadType }) {
+  let actionStatusesObj = {};
+  const { startDate, endDate, actionStatus } = action || {};
+  if (currentTab === 'Planning') {
+   
+    const statusObj = maxBy(
+      actionStatus || [],
+      (actionStatusItem) => new Date(actionStatusItem?.reviewDate)
+    );
+   
+    actionStatusesObj =
+      statusObj && statusObj.status && downloadType === 'excel'
+        ? { ...actionStatusesObj, Status: statusObj.status }
+        : statusObj && statusObj.status && downloadType === 'pdf'
+        ? { ...actionStatusesObj, status: statusObj.status }
+        : {};
+  } else if(currentTab === 'Tracking') {
+
+  }
+  return actionStatusesObj;
 }
