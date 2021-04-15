@@ -5,7 +5,7 @@ import {useAppConfig} from "../../core/hooks";
 import FullPageLoader from "../../shared/Components/FullPageLoader";
 import {useSetRecoilState, useRecoilValue, useRecoilState} from "recoil";
 import {DataEngineState, DimensionsState, DownloadPdfState} from "../../core/states";
-import {useAlert, useDataEngine} from "@dhis2/app-runtime";
+import {useAlert, useDataEngine, useAlerts} from "@dhis2/app-runtime";
 import useUser from "../../core/hooks/user";
 import generateErrorAlert from "../../core/services/generateErrorAlert";
 import Grid from "@material-ui/core/Grid";
@@ -33,6 +33,7 @@ export default function MainPage() {
     const engine = useDataEngine();
     const setDataEngine = useSetRecoilState(DataEngineState);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
+    const alerts = useAlerts();
     const [tablePDFDownloadData, setTablePDFDownloadData] = useState(undefined);
     const [downloadPdf, setDownloadPdf] = useRecoilState(DownloadPdfState);
     const {orgUnit} = useRecoilValue(DimensionsState);
@@ -50,6 +51,7 @@ export default function MainPage() {
     if (downloadPdf && downloadPdf.isDownloadingPdf) {
         setUpPDFDownloadData();
         if (tablePDFDownloadData && tablePDFDownloadData.length) {
+            alerts.forEach(alert=> alert.remove())
             setDownloadPdf({isDownloadingPdf: true, loading: false})
             window.onafterprint = (_) => {
                 setDownloadPdf({isDownloadingPdf: false, loading: true})
@@ -59,7 +61,7 @@ export default function MainPage() {
         }
     }
 
-    if(downloadPdf && downloadPdf.loading === false) {
+    if(downloadPdf && downloadPdf.loading === false) { 
        window.print()
     }
 

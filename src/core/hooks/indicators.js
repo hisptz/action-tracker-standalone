@@ -21,6 +21,9 @@ const indicatorNameQuery = {
     data: {
         resource: 'indicators',
         id: ({id}) => id,
+        params: {
+            fields: ['name', 'displayName']
+        }
     }
 }
 

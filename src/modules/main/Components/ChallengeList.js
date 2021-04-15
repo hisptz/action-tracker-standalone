@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {Container, Grid} from "@material-ui/core";
 import ChallengeCard from "./ChallengeCard";
 import {useRecoilValue, useSetRecoilState} from "recoil";
-import {DataEngineState, DimensionsState, DownloadPdfState, StatusFilterState} from "../../../core/states";
+import {DataEngineState, DimensionsState, DownloadPdfState, PageState, StatusFilterState} from "../../../core/states";
 import NoDimensionsSelectedView from "./NoDimensionsSelectedView";
 import MainPageHeader from "./MainPageHeader";
 import EmptyChallengeList from "./EmptyChallengeList";
@@ -43,6 +43,7 @@ export default function ChallengeList() {
     const {orgUnit, period} = useRecoilValue(DimensionsState) || {};
     const {selected: selectedStatus} = useRecoilValue(StatusFilterState) || {};
     const {ouMode} = useRecoilValue(UserConfigState) || {};
+    const currentTab = useRecoilValue(PageState);
     const {filteredTeis, loading: filteredTeisLoading} = useGetFilteredTeis(selectedStatus, orgUnit);
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
@@ -53,8 +54,7 @@ export default function ChallengeList() {
     const engine = useRecoilValue(DataEngineState);
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
-    useEffect(() => generateErrorAlert(show, error), [error])
-    ;
+    useEffect(() => generateErrorAlert(show, error), [error]);
 
     useEffect(() => {
         function refresh() {
@@ -92,7 +92,8 @@ export default function ChallengeList() {
     function onDownloadPDF() {
         setIsDownloadingPdf({isDownloadingPdf: true, loading: true})
        
-       show({message: 'Preparing a PDF file', type: 'INFO'}); 
+       show({message: 'Preparing a PDF file', type: {permanent: true}}); 
+     
     }
 
     const onEdit = (object) => {
