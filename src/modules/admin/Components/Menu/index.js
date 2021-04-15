@@ -3,6 +3,7 @@ import React from 'react';
 import {useHistory, useLocation} from "react-router-dom";
 import _ from 'lodash';
 import PropTypes from "prop-types";
+import BackIcon from "@material-ui/icons/ArrowBack";
 
 export default function AdminMenu({menu}) {
     const history = useHistory();
@@ -15,18 +16,19 @@ export default function AdminMenu({menu}) {
     return (
         <Menu style={styles.menu}>
             {
-                _.map(menu, ({pathname, icon, label}, index) => <><MenuItem key={`${pathname}-menu`}
-                                                                            active={location.pathname === pathname}
-                                                                            onClick={_ => history.replace(pathname)}
-                                                                            icon={icon}
-                                                                            label={label}/>{index !== menu.length - 1 &&
-                <MenuDivider dense/>}</>)
+                _.map(menu, ({pathname, icon, label}, index) =>
+                    <div key={`${pathname}-menu`}>
+                        <MenuItem
+                            active={location.pathname === pathname}
+                            onClick={_ => history.replace(pathname)}
+                            icon={icon}
+                            label={label}/>
+                        {index !== menu.length - 1 &&
+                        <div style={{padding: 1}} />}</div>)
             }
         </Menu>
     )
 }
-
-
 
 
 AdminMenu.propTypes = {

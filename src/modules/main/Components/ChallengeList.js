@@ -39,6 +39,30 @@ const indicatorQuery = {
     }
 }
 
+const styles = {
+    container: {
+        paddingTop: 30,
+        height: 'calc(100vh - 188px)',
+        paddingLeft: 20,
+        paddingRight: 20
+    },
+    challengesContainer: {
+        flexGrow: 1,
+        minHeight: '100%'
+    },
+    mainHeaderContainer: {
+        maxHeight: 120,
+        padding: '10px 0'
+    },
+    card: {
+        padding: '30px 0'
+    },
+    fullPage: {
+        margin: 'auto',
+        height: 'calc(100vh - 320px)'
+    }
+};
+
 export default function ChallengeList() {
     const {orgUnit, period} = useRecoilValue(DimensionsState) || {};
     const {selected: selectedStatus} = useRecoilValue(StatusFilterState) || {};
@@ -54,7 +78,7 @@ export default function ChallengeList() {
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     useEffect(() => generateErrorAlert(show, error), [error])
-    ;
+
 
     useEffect(() => {
         function refresh() {
@@ -66,7 +90,6 @@ export default function ChallengeList() {
                 }
             }
         }
-
         refresh();
     }, [orgUnit, period, page, pageSize, selectedStatus, filteredTeisLoading, filteredTeis]);
 
@@ -98,32 +121,6 @@ export default function ChallengeList() {
         setSelectedChallenge(object);
         setAddIndicatorOpen(true);
     }
-
-    const styles = {
-        container: {
-            paddingTop: 30,
-            height: 'calc(100vh - 188px)',
-            paddingLeft: 20,
-            paddingRight: 20
-        },
-        challengesContainer: {
-            flexGrow: 1,
-            minHeight: '100%'
-        },
-        mainHeaderContainer: {
-            maxHeight: 120,
-            padding: '10px 0'
-        },
-        card: {
-            padding: '30px 0'
-        },
-        fullPage: {
-            margin: 'auto',
-            height: 'calc(100vh - 320px)'
-        }
-    }
-
-
     return (orgUnit && period ?
             <Container style={styles.container} maxWidth={false}>
                 <Grid container spacing={5} direction='column'>

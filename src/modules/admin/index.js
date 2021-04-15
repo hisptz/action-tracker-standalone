@@ -1,4 +1,4 @@
-import {Button} from '@dhis2/ui';
+import {Button, Menu, MenuDivider, MenuItem} from '@dhis2/ui';
 import React from 'react';
 import {MemoryRouter, Route, Switch, useHistory} from "react-router-dom";
 import {Container} from "@material-ui/core";
@@ -7,7 +7,7 @@ import BackIcon from '@material-ui/icons/ArrowBack';
 import AdminMenu from "./Components/Menu";
 import ActionStatusLegendSettingsPage from "./Components/ActionStatusLegend";
 import ChallengeMethodsSettingsPage from "./Components/ChallengeMethods";
-import PlanningPeriodSettingsPage from "./Components/GeneralSettings";
+import GeneralSettingsPage from "./Components/GeneralSettings";
 import _ from 'lodash';
 import ActionIcon from '@material-ui/icons/AssignmentTurnedIn';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -17,20 +17,17 @@ import MethodsIcon from "@material-ui/icons/AccountTree";
 const menu = [
     {
         pathname: '/general-settings',
-        component: PlanningPeriodSettingsPage,
-        icon: <SettingsIcon/>,
+        component: GeneralSettingsPage,
         label: 'General Settings'
     },
     {
         pathname: '/challenge-methods',
         component: ChallengeMethodsSettingsPage,
-        icon: <MethodsIcon/>,
         label: 'Challenge Identification Methods'
     },
     {
         pathname: '/action-status-settings',
-        component: ActionStatusLegendSettingsPage ,
-        icon: <ActionIcon/>,
+        component: ActionStatusLegendSettingsPage,
         label: 'Action Status Settings'
     },
 ]
@@ -48,19 +45,22 @@ export default function AdminPage() {
 
     return (
         <Container style={styles.container} maxWidth={false}>
-            <MemoryRouter  initialEntries={menu} initialIndex={0} >
+            <MemoryRouter initialEntries={menu} initialIndex={0}>
                 <Grid container spacing={3} direction='column'>
-                    <Grid item>
-                        <Button onClick={_ => history.goBack()} icon={<BackIcon/>}>Back</Button>
-                    </Grid>
                     <Grid item container spacing={3}>
-                        <Grid item md={4} lg={3} xs={12}>
-                            <AdminMenu menu={menu}/>
+                        <Grid container item md={4} lg={3} xs={12} direction='column' spacing={3}>
+                            <Grid item>
+                                <MenuItem onClick={_ => history.goBack()} label='Back to action planning' icon={<BackIcon/>}/>
+                            </Grid>
+                            <Grid item>
+                                <AdminMenu menu={menu}/>
+                            </Grid>
                         </Grid>
                         <Grid item md={8} lg={9} xs={12}>
                             <Switch>
                                 {
-                                    _.map(menu, ({component, pathname}) => <Route component={component} path={pathname} exact/>)
+                                    _.map(menu, ({component, pathname}) => <Route component={component} path={pathname}
+                                                                                  exact/>)
                                 }
                             </Switch>
                         </Grid>

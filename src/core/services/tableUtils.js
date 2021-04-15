@@ -45,7 +45,6 @@ export function getPeriodDates(quarter) {
     const [end, endMonth, endYear] = endDateString.split('-');
     const startDate = new Date(startYear, startMonth - 1, start);
     const endDate = new Date(endYear, endMonth - 1, end);
-    console.log(startDate,endDate);
     return {startDate, endDate}
 }
 
