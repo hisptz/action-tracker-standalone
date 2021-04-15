@@ -1,10 +1,11 @@
 import Bottleneck from '../models/bottleneck';
-import { map, find, maxBy, filter, groupBy, mapValues } from 'lodash';
+import { map, find, maxBy, filter, groupBy, mapValues, split, flattenDeep } from 'lodash';
 import { GapConstants, ActionConstants } from '../constants';
 import Action from '../models/action';
 import ActionStatus from '../models/actionStatus';
 import { exportAsExcelFile } from '../helpers/excelHelper';
 import { v4 as uuidv4 } from 'uuid';
+import { Period } from '@iapps/period-utilities';
 
 /* Queries variables */
 const indicatorQuery = {
@@ -58,6 +59,8 @@ const indicatorNameQuery = {
 export async function getPDFDownloadData({
   engine,
   orgUnit,
+  currentTab,
+  selectedPeriod,
   page = 1,
   pageSize = 50,
 }) {
@@ -71,6 +74,8 @@ export async function getPDFDownloadData({
     orgUnit,
     pageSize,
     engine,
+    currentTab,
+    selectedPeriod
   });
 }
 
@@ -80,7 +85,7 @@ export async function downloadExcel({
   page = 1,
   pageSize = 50,
   currentTab,
-  selectedPeriod
+  selectedPeriod,
 }) {
   let teis = [];
   const { indicators } = await engine.query(indicatorQuery, {
@@ -122,12 +127,20 @@ export async function downloadExcel({
     formattedTeis,
     engine,
     currentTab,
-    selectedPeriod
+    selectedPeriod,
+    downloadType: 'excel'
   });
   await exportAsExcelFile(downloadData, `Action ${currentTab}`);
 }
 
-async function getDownloadData({ indicators, engine, orgUnit, selectedPeriod, pageSize = 50 }) {
+async function getDownloadData({
+  indicators,
+  engine,
+  orgUnit,
+  selectedPeriod,
+  pageSize = 50,
+  currentTab
+}) {
   const pager = indicators && indicators.pager ? indicators.pager : {};
   const { pageCount } = pager;
   let teis = [];
@@ -157,7 +170,8 @@ async function getDownloadData({ indicators, engine, orgUnit, selectedPeriod, pa
     formattedTeis: formattedData,
     engine,
     downloadType: 'pdf',
-    selectedPeriod
+    selectedPeriod,
+    currentTab
   });
   const groupedFormattedDataObj = mapValues(
     groupBy(downloadFormattedData || [], 'id'),
@@ -322,7 +336,7 @@ async function formatDataForDownload({
   engine,
   downloadType = 'excel',
   currentTab = 'Planning',
-  selectedPeriod
+  selectedPeriod,
 }) {
   let formatted = [];
   if (formattedTeis && formattedTeis.length) {
@@ -338,9 +352,10 @@ async function formatDataForDownload({
                   let actionStatusesObj = getActionStatusObject({
                     action,
                     currentTab,
-                    downloadType
+                    downloadType,
+                    selectedPeriod,
                   });
-
+                  
                   const formattedObj = getRowObjectByDownloadType({
                     downloadType,
                     tei,
@@ -349,7 +364,7 @@ async function formatDataForDownload({
                     possibleSolution,
                     actionStatusesObj,
                     indicatorName,
-                    selectedPeriod
+                    selectedPeriod,
                   });
 
                   formatted = [...formatted, formattedObj];
@@ -372,8 +387,15 @@ function getRowObjectByDownloadType({
   possibleSolution,
   actionStatusesObj,
   indicatorName,
-  selectedPeriod
+  selectedPeriod,
 }) {
+
+  let statuses =  map(Object.keys(actionStatusesObj) || [], statusKey => {
+    return statusKey ? actionStatusesObj[statusKey] : '';
+  })
+ 
+  
+  
   return downloadType === 'excel'
     ? {
         Indicator: indicatorName,
@@ -397,28 +419,70 @@ function getRowObjectByDownloadType({
         startDate: action?.startDate || '',
         endDate: action?.endDate || '',
         rowId: uuidv4(),
+        statuses
       }
     : {};
 }
 
-function getActionStatusObject({ action, currentTab, downloadType }) {
+function getActionStatusObject({
+  action,
+  currentTab,
+  downloadType,
+  selectedPeriod,
+}) {
   let actionStatusesObj = {};
   const { startDate, endDate, actionStatus } = action || {};
+  const statusObj = maxBy(
+    actionStatus || [],
+    (actionStatusItem) => new Date(actionStatusItem?.reviewDate)
+  );
   if (currentTab === 'Planning') {
-   
-    const statusObj = maxBy(
-      actionStatus || [],
-      (actionStatusItem) => new Date(actionStatusItem?.reviewDate)
-    );
-   
-    actionStatusesObj =
-      statusObj && statusObj.status && downloadType === 'excel'
-        ? { ...actionStatusesObj, Status: statusObj.status }
-        : statusObj && statusObj.status && downloadType === 'pdf'
-        ? { ...actionStatusesObj, status: statusObj.status }
-        : {};
-  } else if(currentTab === 'Tracking') {
-
+  actionStatusesObj =
+    statusObj && statusObj.status && downloadType === 'excel'
+      ? { ...actionStatusesObj, Status: statusObj.status }
+      : statusObj && statusObj.status && downloadType === 'pdf'
+      ? { ...actionStatusesObj, status: statusObj.status }
+      : {};
   }
+ if (currentTab === 'Tracking') {
+    const periodInstance = new Period();
+    const { quarterly } = periodInstance.getById(selectedPeriod[0]?.id) || {};
+    if (quarterly && quarterly.length) {
+      for (const quarter of quarterly) {
+        if (
+          quarter.name &&
+          quarter.startDate &&
+          quarter.endDate
+        ) {
+          const formattedReviewDate = new Date(statusObj.reviewDate);
+          const formattedStartDate = new Date(validDate(quarter.startDate));
+          const formattedEndDate = new Date(validDate(quarter.endDate));
+          actionStatusesObj =
+          formattedReviewDate >= formattedStartDate &&
+          formattedReviewDate <=formattedEndDate
+              ? { ...actionStatusesObj, [quarter.name]: statusObj.status || '' }
+              : { ...actionStatusesObj, [quarter.name]: '' };
+        }
+      }
+    }
+  }
+  
   return actionStatusesObj;
+}
+function validDate(date) {
+  let dateStr = '';
+  const dateArr = split(date, '-').reverse();
+  if (dateArr && dateArr.length) {
+    for (
+      let dateItemIndex = 0;
+      dateItemIndex < dateArr.length;
+      dateItemIndex++
+    ) {
+      dateStr =
+        dateItemIndex === (dateArr.length - 1) 
+          ? `${dateStr}${dateArr[dateItemIndex]}`
+          : `${dateStr}${dateArr[dateItemIndex]}-`;
+    }
+  }
+  return dateStr;
 }
