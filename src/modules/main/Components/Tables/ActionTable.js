@@ -27,7 +27,7 @@ const actionsQuery = {
     actions: {
         resource: 'trackedEntityInstances',
         params: ({ou, solutionToActionLinkage, page, pageSize}) => ({
-            program: 'unD7wro3qPm',
+            program: ActionConstants.PROGRAM_ID,
             ou,
             page,
             pageSize,

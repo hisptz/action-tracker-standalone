@@ -11,69 +11,88 @@ import {
     Pagination
 } from '@dhis2/ui';
 import _ from 'lodash';
-import SettingsIcon from '@material-ui/icons/Settings';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
+import React, {useEffect, useState} from 'react';
+import {useAlert, useDataQuery} from "@dhis2/app-runtime";
+import generateErrorAlert from "../../../../../core/services/generateErrorAlert";
+import FullPageLoader from "../../../../../shared/Components/FullPageLoader";
+import ChallengeMethodConstants from "../constants/optionSets";
 
-
-import React from 'react';
-
+const methodsQuery = {
+    methodOptions: {
+        resource: 'options',
+        params: ({page, pageSize}) => ({
+            fields: [
+                'code',
+                'name'
+            ],
+            filter: [
+                `optionSet.id:eq:${ChallengeMethodConstants.CHALLENGE_METHOD_OPTION_SET_ID}`
+            ],
+            page,
+            pageSize,
+            totalPages: true,
+        })
+    }
+}
 
 const columns = [
     'Name',
     'Code',
-    <SettingsIcon/>
-]
-
-const rows = [
-    {
-        name: 'Not Started',
-        code: 'Not Started',
-    },
-    {
-        name: 'Not Started',
-        code: 'Not Started',
-    },
-
+    'Actions'
 ]
 
 export default function ChallengeMethodsTable() {
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(5);
+    const {loading, error, data, refetch} = useDataQuery(methodsQuery, {variables: {page, pageSize}});
+
+    const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
+    useEffect(() => generateErrorAlert(show, error), [error]);
+
+    useEffect(() => {
+        async function fetch() {
+            await refetch({page, pageSize})
+        }
+
+        fetch();
+    }, [page, pageSize]);
+
     return (
-        <Table>
-            <TableHead>
-                <TableRowHead>
+        loading ? <FullPageLoader/> :
+            <Table>
+                <TableHead>
+                    <TableRowHead>
+                        {
+                            _.map(columns, (column) => <TableCellHead
+                                key={`${column}-action-status`}>{column}</TableCellHead>)
+                        }
+                    </TableRowHead>
+                </TableHead>
+                <TableBody>
                     {
-                        _.map(columns, (column) => <TableCellHead
-                            key={`${column}-action-status`}>{column}</TableCellHead>)
+                        _.map(data?.methodOptions?.options, ({name, code}) => (
+                            <TableRow key={`${code}-row`}>
+                                <TableCell>{name}</TableCell>
+                                <TableCell>{code}</TableCell>
+                                <TableCell><Button icon={<MoreHorizIcon/>}/></TableCell>
+                            </TableRow>
+                        ))
                     }
-                </TableRowHead>
-            </TableHead>
-            <TableBody>
-                {
-                    _.map(rows, ({name, code}) => (
-                        <TableRow key={`${code}-row`}>
-                            <TableCell>{name}</TableCell>
-                            <TableCell>{code}</TableCell>
-                            <TableCell><Button icon={<MoreHorizIcon/>}/></TableCell>
-                        </TableRow>
-                    ))
-                }
-            </TableBody>
-            <TableFoot>
-                <TableRow >
-                    <TableCell colSpan={columns.length.toString()}>
-                        <Pagination
-                            onPageChange={_ => {
-                            }}
-                            onPageSizeChange={_ => {
-                            }}
-                            page={10}
-                            pageCount={21}
-                            pageSize={50}
-                            total={1035}
-                        />
-                    </TableCell>
-                </TableRow>
-            </TableFoot>
-        </Table>
+                </TableBody>
+                <TableFoot>
+                    <TableRow>
+                        <TableCell colSpan={columns.length.toString()}>
+                            <Pagination
+                                onPageChange={setPage}
+                                onPageSizeChange={setPageSize}
+                                page={page}
+                                pageSize={pageSize}
+                                {...data?.methodOptions?.pager}
+                            />
+                        </TableCell>
+                    </TableRow>
+                </TableFoot>
+            </Table>
     )
 }

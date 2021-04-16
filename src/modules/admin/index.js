@@ -38,7 +38,8 @@ export default function AdminPage() {
     const styles = {
         container: {
             padding: 20,
-            overflowX: 'hidden'
+            overflowX: 'hidden',
+            height: 'calc(100vh - 48px)'
         },
     }
 
@@ -46,9 +47,9 @@ export default function AdminPage() {
     return (
         <Container style={styles.container} maxWidth={false}>
             <MemoryRouter initialEntries={menu} initialIndex={0}>
-                <Grid container spacing={3} direction='column'>
+                <Grid container spacing={3} direction='column' style={{height: '100%'}}>
                     <Grid item container spacing={3}>
-                        <Grid container item md={4} lg={3} xs={12} direction='column' spacing={3}>
+                        <Grid container item md={4} lg={3} xs={12} direction='column' spacing={2}>
                             <Grid item>
                                 <MenuItem onClick={_ => history.goBack()} label='Back to action planning' icon={<BackIcon/>}/>
                             </Grid>
