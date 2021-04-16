@@ -15,73 +15,85 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import ActionStatusOptionSetConstants from "../constants/actionStatus";
+import {useAlert, useDataQuery} from "@dhis2/app-runtime";
+import generateErrorAlert from "../../../../../core/services/generateErrorAlert";
+import FullPageLoader from "../../../../../shared/Components/FullPageLoader";
 
+
+
+const actionStatusOptionsQuery ={
+    actionStatusOptions:{
+        resource: 'options',
+        params: ({page, pageSize})=>({
+            page,
+            pageSize,
+            totalPages: true,
+            fields:[
+                'code',
+                'name',
+                'style[icon,color]'
+            ],
+            filter:[
+                `optionSet.id:eq:${ActionStatusOptionSetConstants.ACTION_STATUS_OPTION_SET_ID}`
+            ]
+        })
+    }
+}
 
 const columns = [
     'Name',
     'Code',
     'Color',
     'Icon',
-    <SettingsIcon/>
-]
-
-const rows = [
-    {
-        name: 'Not Started',
-        code: 'Not Started',
-        color: '#FFFFFF',
-        icon: 'Some icon'
-    },
-    {
-        name: 'Not Started',
-        code: 'Not Started',
-        color: '#FFFFFF',
-        icon: 'Some icon'
-    },
-
+    'Actions'
 ]
 
 export default function ActionStatusTable() {
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(5);
+    const {loading, data, error} = useDataQuery(actionStatusOptionsQuery, {variables: {page, pageSize}});
+    const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
+    useEffect(() => generateErrorAlert(show, error), [error])
+
     return (
-        <Table>
-            <TableHead>
-                <TableRowHead>
+        loading ? <FullPageLoader/>:
+            <Table>
+                <TableHead>
+                    <TableRowHead>
+                        {
+                            _.map(columns, (column) => <TableCellHead
+                                key={`${column}-action-status`}>{column}</TableCellHead>)
+                        }
+                    </TableRowHead>
+                </TableHead>
+                <TableBody>
                     {
-                        _.map(columns, (column) => <TableCellHead
-                            key={`${column}-action-status`}>{column}</TableCellHead>)
+                        _.map(data?.actionStatusOptions?.options, ({name, code, style}) => (
+                            <TableRow key={`${code}-row`}>
+                                <TableCell>{name}</TableCell>
+                                <TableCell>{code}</TableCell>
+                                <TableCell>{style?.color}</TableCell>
+                                <TableCell>{style?.icon}</TableCell>
+                                <TableCell><Button icon={<MoreHorizIcon/>}/></TableCell>
+                            </TableRow>
+                        ))
                     }
-                </TableRowHead>
-            </TableHead>
-            <TableBody>
-                {
-                    _.map(rows, ({name, code, color, icon}) => (
-                        <TableRow key={`${code}-row`}>
-                            <TableCell>{name}</TableCell>
-                            <TableCell>{code}</TableCell>
-                            <TableCell>{color}</TableCell>
-                            <TableCell>{icon}</TableCell>
-                            <TableCell><Button icon={<MoreHorizIcon/>}/></TableCell>
-                        </TableRow>
-                    ))
-                }
-            </TableBody>
-            <TableFoot>
-                <TableRow >
-                    <TableCell colSpan={columns.length.toString()}>
-                        <Pagination
-                            onPageChange={_ => {
-                            }}
-                            onPageSizeChange={_ => {
-                            }}
-                            page={10}
-                            pageCount={21}
-                            pageSize={50}
-                            total={1035}
-                        />
-                    </TableCell>
-                </TableRow>
-            </TableFoot>
-        </Table>
+                </TableBody>
+                <TableFoot>
+                    <TableRow >
+                        <TableCell colSpan={columns.length.toString()}>
+                            <Pagination
+                                onPageChange={setPage}
+                                onPageSizeChange={setPageSize}
+                                page={page}
+                                pageSize={pageSize}
+                                {...data?.actionStatusOptions?.pager}
+                            />
+                        </TableCell>
+                    </TableRow>
+                </TableFoot>
+            </Table>
     )
 }
