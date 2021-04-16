@@ -4,7 +4,7 @@ import FilterComponents from "../../core/components/FilterComponents";
 import {useAppConfig} from "../../core/hooks";
 import FullPageLoader from "../../shared/Components/FullPageLoader";
 import {useSetRecoilState, useRecoilValue, useRecoilState} from "recoil";
-import {DataEngineState, DimensionsState, DownloadPdfState} from "../../core/states";
+import {DataEngineState, DimensionsState, DownloadPdfState, PageState} from "../../core/states";
 import {useAlert, useDataEngine, useAlerts} from "@dhis2/app-runtime";
 import useUser from "../../core/hooks/user";
 import generateErrorAlert from "../../core/services/generateErrorAlert";
@@ -36,7 +36,8 @@ export default function MainPage() {
     const alerts = useAlerts();
     const [tablePDFDownloadData, setTablePDFDownloadData] = useState(undefined);
     const [downloadPdf, setDownloadPdf] = useRecoilState(DownloadPdfState);
-    const {orgUnit} = useRecoilValue(DimensionsState);
+    const {orgUnit, period} = useRecoilValue(DimensionsState);
+    const currentTab = useRecoilValue(PageState);
 
     useEffect(() => {
         setDataEngine(engine)
@@ -44,7 +45,7 @@ export default function MainPage() {
     useEffect(() => generateErrorAlert(show, error), [error]);
 
     async function setUpPDFDownloadData() {
-        const pdfData = await getPDFDownloadData({engine, orgUnit});
+        const pdfData = await getPDFDownloadData({engine, orgUnit, currentTab, selectedPeriod: period});
         setTablePDFDownloadData(pdfData);
     }
 
@@ -80,7 +81,7 @@ export default function MainPage() {
                         </Suspense>
                     </Grid>
                 </Grid>
-                <PDFTable teiItems={tablePDFDownloadData}/>
+               {downloadPdf?.isDownloadingPdf && <PDFTable teiItems={tablePDFDownloadData}/> }
             </Container>
     )
 }

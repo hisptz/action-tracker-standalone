@@ -109,7 +109,7 @@ export default function ChallengeList() {
     }
 
     function onDownloadExcel() {
-        downloadExcel({engine, indicatorQuery, orgUnit})
+        downloadExcel({engine, indicatorQuery, orgUnit, currentTab, selectedPeriod: period})
     }
 
     function onDownloadPDF() {
