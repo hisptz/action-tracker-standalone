@@ -3,6 +3,7 @@ import {ConfigState} from "../states";
 import {useDataMutation, useDataQuery} from "@dhis2/app-runtime";
 import {useEffect} from "react";
 import {ActionConstants, BottleneckConstants, PROGRAMS} from "../constants";
+import actionStatusSettingsMetadata from '../../resources/Json/ActionStatusSettingsMetadata.json'
 
 
 const programFields = [
@@ -55,7 +56,7 @@ export default function useAppConfig() {
     useEffect(() => {
         async function setConfigData() {
             if (!loading && data && !error) {
-                setConfig(data);
+                setConfig({...data, actionStatusSettingsMetadata: actionStatusSettingsMetadata.fields});
             }
             if (!loading && !data) {
                 await programMutate()
