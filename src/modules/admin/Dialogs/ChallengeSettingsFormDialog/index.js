@@ -16,23 +16,23 @@ import CustomForm from '../../../../shared/Components/CustomForm';
 import { confirmModalClose } from '../../../../core/helpers/utils';
 
 
-function ActionStatusSettingsFormDialog({
+function ChallengeSettingsFormDialog({
   onClose,
   onUpdate,
-  actionStatusSettings,
+  challengeSettings,
 }) {
-  const { actionStatusSettingsMetadata } = useRecoilValue(ConfigState);
+  const { challengeSettingsMetadata } = useRecoilValue(ConfigState);
   const { control, handleSubmit } = useForm({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
-    defaultValues: actionStatusSettings?.getFormValues(),
+    defaultValues: challengeSettings?.getFormValues(),
   });
-  const formFields = getFormattedFormMetadata(actionStatusSettingsMetadata);
+  const formFields = getFormattedFormMetadata(challengeSettingsMetadata);
   const { show } = useAlert(
     ({ message }) => message,
     ({ type }) => ({ duration: 3000, ...type })
   );
-  // const [mutate, {loading: saving}] = useDataMutation(actionStatusSettings ? actionEditMutation : actionCreateMutation, {
+  // const [mutate, {loading: saving}] = useDataMutation(challengeSettings ? actionEditMutation : actionCreateMutation, {
   //     variables: {data: {}, id: action?.id},
   //     onComplete: (importSummary) => {
   //         onCompleteHandler(importSummary, show, {message: 'Action saved successfully', onClose, onUpdate})
@@ -56,7 +56,7 @@ function ActionStatusSettingsFormDialog({
       onClose={(_) => confirmModalClose(onClose)}
     >
       <ModalTitle>
-        {actionStatusSettings ? 'Edit' : 'Add'} Challenge Settings
+        {challengeSettings ? 'Edit' : 'Add'} Challenge Settings
       </ModalTitle>
       <ModalContent>
         <CustomForm formFields={formFields} control={control} />
@@ -67,16 +67,16 @@ function ActionStatusSettingsFormDialog({
             Hide
           </Button>
           <Button type="submit" onClick={handleSubmit(onSubmit)} primary>
-            Save Action
+            Save Action Settings
           </Button>
         </ButtonStrip>
       </ModalActions>
     </Modal>
   );
 }
-ActionStatusSettingsFormDialog.propTypes = {
+ChallengeSettingsFormDialog.propTypes = {
   onUpdate: PropTypes.func,
   onClose: PropTypes.func,
 };
 
-export default ActionStatusSettingsFormDialog;
+export default ChallengeSettingsFormDialog;

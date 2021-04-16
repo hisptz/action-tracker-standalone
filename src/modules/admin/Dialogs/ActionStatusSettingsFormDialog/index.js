@@ -67,7 +67,7 @@ function ActionStatusSettingsFormDialog({
             Hide
           </Button>
           <Button type="submit" onClick={handleSubmit(onSubmit)} primary>
-            Save Action
+            Save Action Status Settings
           </Button>
         </ButtonStrip>
       </ModalActions>
