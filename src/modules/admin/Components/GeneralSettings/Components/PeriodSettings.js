@@ -58,7 +58,6 @@ export default function PeriodSettings() {
         }
     }, [planningSetting]);
 
-
     return (
         <Grid item spacing={3} container direction='column'>
             <Grid item>

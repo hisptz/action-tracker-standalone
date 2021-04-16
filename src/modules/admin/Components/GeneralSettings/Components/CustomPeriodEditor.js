@@ -6,9 +6,10 @@ import {PeriodType} from "@iapps/period-utilities";
 
 export default function CustomPeriodEditor({label, exclude = [], onChange, value, error, saving}) {
 
-    const filteredPeriodTypes = _.differenceWith(new PeriodType().get(), exclude, (period, periodName) => period.name === periodName.name);
+    const filteredPeriodTypes = _.differenceWith(_.filter(new PeriodType().get(), ({name}) => !name.toLowerCase().includes('relative')), exclude, (period, periodName) => period.name === periodName.name)
     return (
-        <SingleSelectField validationText={error?.message || error?.toString()} disabled={saving} selected={value} filterable label={label} onChange={onChange}>
+        <SingleSelectField validationText={error?.message || error?.toString()} disabled={saving} selected={value}
+                           filterable label={label} onChange={onChange}>
             {
                 _.map(filteredPeriodTypes, (periodType) => <SingleSelectOption key={`${periodType?.name}-option`}
                                                                                label={periodType?.name}
