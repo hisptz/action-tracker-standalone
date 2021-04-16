@@ -1,0 +1,36 @@
+{
+    "fields": [
+        {
+            "id": "1",
+            "name": "Name",
+            "formName": "Name",
+            "valueType": "TEXT",
+            "mandatory": true
+
+        },
+        {
+            "id": "2",
+            "name": "Code",
+            "formName": "Code",
+            "valueType": "TEXT",
+            "mandatory": true
+
+        },
+        {
+            "id": "3",
+            "name": "Color",
+            "formName": "Color",
+            "valueType": "TEXT",
+            "mandatory": true
+
+        },
+        {
+            "id": "4",
+            "name": "Icon",
+            "formName": "Icon",
+            "valueType": "TEXT",
+            "mandatory": true
+
+        }
+    ]
+}
