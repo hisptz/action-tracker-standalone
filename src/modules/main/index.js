@@ -72,7 +72,7 @@ export default function MainPage() {
                 text={firstTimeUseLoading && 'Configuring for first time use. Please wait...'}/></div> :
             <Container maxWidth={false} id="mainPage" style={styles.container}>
                 <Grid id="mainGrid" container style={styles.container} spacing={0} direction='column'>
-                    <Grid item className="filter-components-grid">
+                    <Grid item className="filter-components-grid" style={styles.filterContainer}>
                         <FilterComponents/>
                     </Grid>
                     <Grid item style={styles.dataContainer}>

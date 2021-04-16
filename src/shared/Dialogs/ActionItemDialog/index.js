@@ -62,7 +62,7 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
         defaultValues: action?.getFormValues()
     });
     const formFields = getValidatedFormFields(metadataFields);
-    const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
+    const {show } = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     const [mutate, {loading: saving}] = useDataMutation(action ? actionEditMutation : actionCreateMutation, {
         variables: {data: {}, id: action?.id},
         onComplete: (importSummary) => {
