@@ -1,70 +1,73 @@
-import {useSetRecoilState} from "recoil";
-import {ConfigState} from "../states";
-import {useDataMutation, useDataQuery} from "@dhis2/app-runtime";
-import {useEffect} from "react";
-import {ActionConstants, BottleneckConstants, PROGRAMS} from "../constants";
-import actionStatusSettingsMetadata from '../../resources/Json/ActionStatusSettingsMetadata.json'
-
+import { useSetRecoilState } from 'recoil';
+import { ConfigState } from '../states';
+import { useDataMutation, useDataQuery } from '@dhis2/app-runtime';
+import { useEffect } from 'react';
+import { ActionConstants, BottleneckConstants, PROGRAMS } from '../constants';
+import actionStatusSettingsMetadata from '../../resources/Json/ActionStatusSettingsMetadata.json';
+import challengeSettingsMetadata from '../../resources/Json/ChallengeSettingsMetadata.json';
 
 const programFields = [
-    'id',
-    'programTrackedEntityAttributes[displayInList,mandatory,searchable, trackedEntityAttribute[id,name,formName,valueType]]',
-    'programStages[id, programStageDataElements[compulsory,displayInReports,dataElement[name,id,formName,valueType,optionSet[options[code, name,style[color, icon]]]'
+  'id',
+  'programTrackedEntityAttributes[displayInList,mandatory,searchable, trackedEntityAttribute[id,name,formName,valueType]]',
+  'programStages[id, programStageDataElements[compulsory,displayInReports,dataElement[name,id,formName,valueType,optionSet[options[code, name,style[color, icon]]]',
 ];
 
 const configQuery = {
-    bottleneckProgramMetadata: {
-        id: BottleneckConstants.PROGRAM_ID,
-        resource: 'programs',
-        params: {
-            fields: programFields
-        }
+  bottleneckProgramMetadata: {
+    id: BottleneckConstants.PROGRAM_ID,
+    resource: 'programs',
+    params: {
+      fields: programFields,
     },
-    actionProgramMetadata: {
-        resource: 'programs',
-        id: ActionConstants.PROGRAM_ID,
-        params: {
-            fields: programFields
-        }
-    }
-}
+  },
+  actionProgramMetadata: {
+    resource: 'programs',
+    id: ActionConstants.PROGRAM_ID,
+    params: {
+      fields: programFields,
+    },
+  },
+};
 
 const programConfigMutation = {
-    type: 'create',
-    resource: 'metadata',
-    data: ({programs}) => programs,
-    params: {
-        importMode: 'COMMIT',
-        importStrategy: 'CREATE_AND_UPDATE',
-    }
-}
+  type: 'create',
+  resource: 'metadata',
+  data: ({ programs }) => programs,
+  params: {
+    importMode: 'COMMIT',
+    importStrategy: 'CREATE_AND_UPDATE',
+  },
+};
 
 export default function useAppConfig() {
-    const setConfig = useSetRecoilState(ConfigState);
-    const {loading, data, error, refetch} = useDataQuery(configQuery);
-    const [programMutate, {
-        loading: firstTimeUseLoading,
-        error: mutationError
-    }] = useDataMutation(programConfigMutation,
-        {
-            variables: {
-                programs: PROGRAMS
-            },
-            onComplete: () => refetch()
+  const setConfig = useSetRecoilState(ConfigState);
+  const { loading, data, error, refetch } = useDataQuery(configQuery);
+  const [
+    programMutate,
+    { loading: firstTimeUseLoading, error: mutationError },
+  ] = useDataMutation(programConfigMutation, {
+    variables: {
+      programs: PROGRAMS,
+    },
+    onComplete: () => refetch(),
+  });
+
+  useEffect(() => {
+    async function setConfigData() {
+      if (!loading && data && !error) {
+        setConfig({
+          ...data,
+          actionStatusSettingsMetadata: actionStatusSettingsMetadata.fields,
+          challengeSettingsMetadata: challengeSettingsMetadata.fields,
         });
+      }
+      if (!loading && !data) {
+        await programMutate();
+      }
+    }
 
-    useEffect(() => {
-        async function setConfigData() {
-            if (!loading && data && !error) {
-                setConfig({...data, actionStatusSettingsMetadata: actionStatusSettingsMetadata.fields});
-            }
-            if (!loading && !data) {
-                await programMutate()
-            }
-        }
+    setConfigData();
+  }, [loading]);
 
-        setConfigData();
-    }, [loading])
-
-    return {loading, firstTimeUseLoading, mutationError, error};
+  return { loading, firstTimeUseLoading, mutationError, error };
 }
