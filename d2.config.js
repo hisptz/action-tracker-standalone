@@ -1,10 +1,14 @@
 const config = {
     type: 'app',
     title: 'Standalone Action Tracker',
-    // author: 'HISP Tanzania', This brings an error during install.
+    // developer:{
+    //     name: 'HISP Tanzania',
+    //     url: 'https://hisptanzania.org/'
+    // },
     entryPoints: {
         app: './src/App',
     },
+    dataStoreNamespace: 'Standalone_Action_Tracker',
     customAuthorities: [
         "SAT_VIEW_BOTTLENECKS",
         "SAT_CREATE_BOTTLENECKS",

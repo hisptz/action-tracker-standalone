@@ -20,22 +20,23 @@ import ActionStatusOptionSetConstants from "../constants/actionStatus";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import generateErrorAlert from "../../../../../core/services/generateErrorAlert";
 import FullPageLoader from "../../../../../shared/Components/FullPageLoader";
+import DHIS2Icon from "../../../../../shared/Components/DHIS2Icon";
+import ActionStatusColor from "./ActionStatusColor";
 
 
-
-const actionStatusOptionsQuery ={
-    actionStatusOptions:{
+const actionStatusOptionsQuery = {
+    actionStatusOptions: {
         resource: 'options',
-        params: ({page, pageSize})=>({
+        params: ({page, pageSize}) => ({
             page,
             pageSize,
             totalPages: true,
-            fields:[
+            fields: [
                 'code',
                 'name',
                 'style[icon,color]'
             ],
-            filter:[
+            filter: [
                 `optionSet.id:eq:${ActionStatusOptionSetConstants.ACTION_STATUS_OPTION_SET_ID}`
             ]
         })
@@ -50,15 +51,24 @@ const columns = [
     'Actions'
 ]
 
+
 export default function ActionStatusTable() {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
-    const {loading, data, error} = useDataQuery(actionStatusOptionsQuery, {variables: {page, pageSize}});
+    const {loading, data, error, refetch} = useDataQuery(actionStatusOptionsQuery, {variables: {page, pageSize}});
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
-    useEffect(() => generateErrorAlert(show, error), [error])
+    useEffect(() => generateErrorAlert(show, error), [error]);
+
+    useEffect(() => {
+        async function fetch() {
+            await refetch({page, pageSize})
+        }
+
+        fetch();
+    }, [page, pageSize]);
 
     return (
-        loading ? <FullPageLoader/>:
+        loading ? <FullPageLoader/> :
             <Table>
                 <TableHead>
                     <TableRowHead>
@@ -74,15 +84,15 @@ export default function ActionStatusTable() {
                             <TableRow key={`${code}-row`}>
                                 <TableCell>{name}</TableCell>
                                 <TableCell>{code}</TableCell>
-                                <TableCell>{style?.color}</TableCell>
-                                <TableCell>{style?.icon}</TableCell>
+                                <TableCell><ActionStatusColor color={style?.color}/></TableCell>
+                                <TableCell><DHIS2Icon iconName={style?.icon} size={20}/></TableCell>
                                 <TableCell><Button icon={<MoreHorizIcon/>}/></TableCell>
                             </TableRow>
                         ))
                     }
                 </TableBody>
                 <TableFoot>
-                    <TableRow >
+                    <TableRow>
                         <TableCell colSpan={columns.length.toString()}>
                             <Pagination
                                 onPageChange={setPage}

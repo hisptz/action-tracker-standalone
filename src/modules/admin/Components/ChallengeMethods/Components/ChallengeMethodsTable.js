@@ -26,7 +26,7 @@ const methodsQuery = {
                 'code',
                 'name'
             ],
-            filter:[
+            filter: [
                 `optionSet.id:eq:${ChallengeMethodConstants.CHALLENGE_METHOD_OPTION_SET_ID}`
             ],
             page,
@@ -45,10 +45,18 @@ const columns = [
 export default function ChallengeMethodsTable() {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
-    const {loading, error, data} = useDataQuery(methodsQuery, {variables: {page, pageSize}});
+    const {loading, error, data, refetch} = useDataQuery(methodsQuery, {variables: {page, pageSize}});
 
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
-    useEffect(() => generateErrorAlert(show, error), [error])
+    useEffect(() => generateErrorAlert(show, error), [error]);
+
+    useEffect(() => {
+        async function fetch() {
+            await refetch({page, pageSize})
+        }
+
+        fetch();
+    }, [page, pageSize]);
 
     return (
         loading ? <FullPageLoader/> :

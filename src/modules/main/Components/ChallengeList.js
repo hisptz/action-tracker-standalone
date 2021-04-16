@@ -18,12 +18,13 @@ import useGetFilteredTeis from "../hooks/useGetFilteredTeis";
 import FullPageError from "../../../shared/Components/FullPageError";
 import {downloadExcel} from '../../../core/services/downloadFilesService'
 import {UserConfigState} from "../../../core/states/user";
+import {BottleneckConstants} from "../../../core/constants";
 
 const indicatorQuery = {
     indicators: {
         resource: 'trackedEntityInstances',
         params: ({ou, page, pageSize, trackedEntityInstance, ouMode}) => ({
-            program: 'Uvz0nfKVMQJ',
+            program: BottleneckConstants.PROGRAM_ID,
             page,
             pageSize,
             totalPages: true,
@@ -67,7 +68,6 @@ export default function ChallengeList() {
     const {orgUnit, period} = useRecoilValue(DimensionsState) || {};
     const {selected: selectedStatus} = useRecoilValue(StatusFilterState) || {};
     const {ouMode} = useRecoilValue(UserConfigState) || {};
-    const currentTab = useRecoilValue(PageState);
     const {filteredTeis, loading: filteredTeisLoading} = useGetFilteredTeis(selectedStatus, orgUnit);
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);

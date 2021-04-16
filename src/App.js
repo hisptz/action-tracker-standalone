@@ -10,6 +10,8 @@ import {
     Route,
 } from "react-router-dom";
 import AdminPage from "./modules/admin";
+import {DataStoreProvider} from "@dhis2/app-service-datastore";
+import FullPageLoader from "./shared/Components/FullPageLoader";
 
 const styles = {
     margin: 0,
@@ -34,18 +36,20 @@ const MyApp = () => {
     return (
         <RecoilRoot>
             <CssReset/>
-            <Container style={styles}>
-                <MemoryRouter initialEntries={modules} initialIndex={0}>
-                    <Switch>
-                        <Route path={`/admin`}>
-                            <AdminPage/>
-                        </Route>
-                        <Route path={`/`}>
-                            <MainPage/>
-                        </Route>
-                    </Switch>
-                </MemoryRouter>
-            </Container>
+            <DataStoreProvider namespace={'Standalone_Action_Tracker'} loadingComponent={<FullPageLoader/>}>
+                <Container style={styles}>
+                    <MemoryRouter initialEntries={modules} initialIndex={0}>
+                        <Switch>
+                            <Route path={`/admin`}>
+                                <AdminPage/>
+                            </Route>
+                            <Route path={`/`}>
+                                <MainPage/>
+                            </Route>
+                        </Switch>
+                    </MemoryRouter>
+                </Container>
+            </DataStoreProvider>
         </RecoilRoot>
     )
 }
