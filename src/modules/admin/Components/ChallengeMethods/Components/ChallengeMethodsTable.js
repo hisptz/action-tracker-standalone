@@ -17,6 +17,7 @@ import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import generateErrorAlert from "../../../../../core/services/generateErrorAlert";
 import FullPageLoader from "../../../../../shared/Components/FullPageLoader";
 import ChallengeMethodConstants from "../constants/optionSets";
+import {getFormattedDate} from "../../../../../core/helpers/utils";
 
 const methodsQuery = {
     methodOptions: {
@@ -24,7 +25,8 @@ const methodsQuery = {
         params: ({page, pageSize}) => ({
             fields: [
                 'code',
-                'name'
+                'name',
+                'lastUpdated'
             ],
             filter: [
                 `optionSet.id:eq:${ChallengeMethodConstants.CHALLENGE_METHOD_OPTION_SET_ID}`
@@ -39,6 +41,7 @@ const methodsQuery = {
 const columns = [
     'Name',
     'Code',
+    'Last Updated',
     'Actions'
 ]
 
@@ -71,10 +74,11 @@ export default function ChallengeMethodsTable() {
                 </TableHead>
                 <TableBody>
                     {
-                        _.map(data?.methodOptions?.options, ({name, code}) => (
+                        _.map(data?.methodOptions?.options, ({name, code, lastUpdated}) => (
                             <TableRow key={`${code}-row`}>
                                 <TableCell>{name}</TableCell>
                                 <TableCell>{code}</TableCell>
+                                <TableCell>{getFormattedDate(lastUpdated)}</TableCell>
                                 <TableCell><Button icon={<MoreHorizIcon/>}/></TableCell>
                             </TableRow>
                         ))

@@ -36,7 +36,7 @@ const MyApp = () => {
     return (
         <RecoilRoot>
             <CssReset/>
-            <DataStoreProvider namespace={'Standalone_Action_Tracker'} loadingComponent={<FullPageLoader/>}>
+            <DataStoreProvider namespace={'Standalone_Action_Tracker'} loadingComponent={<FullPageLoader/>} >
                 <Container style={styles}>
                     <MemoryRouter initialEntries={modules} initialIndex={0}>
                         <Switch>

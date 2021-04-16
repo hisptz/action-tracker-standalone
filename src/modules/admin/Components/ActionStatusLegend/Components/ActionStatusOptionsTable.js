@@ -22,6 +22,7 @@ import generateErrorAlert from "../../../../../core/services/generateErrorAlert"
 import FullPageLoader from "../../../../../shared/Components/FullPageLoader";
 import DHIS2Icon from "../../../../../shared/Components/DHIS2Icon";
 import ActionStatusColor from "./ActionStatusColor";
+import {getFormattedDate} from "../../../../../core/helpers/utils";
 
 
 const actionStatusOptionsQuery = {
@@ -34,7 +35,8 @@ const actionStatusOptionsQuery = {
             fields: [
                 'code',
                 'name',
-                'style[icon,color]'
+                'style[icon,color]',
+                'lastUpdated'
             ],
             filter: [
                 `optionSet.id:eq:${ActionStatusOptionSetConstants.ACTION_STATUS_OPTION_SET_ID}`
@@ -48,6 +50,7 @@ const columns = [
     'Code',
     'Color',
     'Icon',
+    'Last Updated',
     'Actions'
 ]
 
@@ -80,12 +83,13 @@ export default function ActionStatusTable() {
                 </TableHead>
                 <TableBody>
                     {
-                        _.map(data?.actionStatusOptions?.options, ({name, code, style}) => (
+                        _.map(data?.actionStatusOptions?.options, ({name, code, style, lastUpdated}) => (
                             <TableRow key={`${code}-row`}>
                                 <TableCell>{name}</TableCell>
                                 <TableCell>{code}</TableCell>
                                 <TableCell><ActionStatusColor color={style?.color}/></TableCell>
                                 <TableCell><DHIS2Icon iconName={style?.icon} size={20}/></TableCell>
+                                <TableCell>{getFormattedDate(lastUpdated)}</TableCell>
                                 <TableCell><Button icon={<MoreHorizIcon/>}/></TableCell>
                             </TableRow>
                         ))

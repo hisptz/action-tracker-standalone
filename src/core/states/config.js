@@ -39,7 +39,7 @@ const ActionStatusState = selector({
                         console.log(e);
                     }
                 }
-            }else{
+            } else {
                 optionsWithSvgIcons.push(option);
             }
         }
@@ -52,8 +52,19 @@ const DataEngineState = atom({
     default: undefined
 });
 
+
+const PeriodConfigState = atom({
+        key: 'periodConfig',
+        default: {
+            planning: undefined,
+            tracking: undefined
+        }
+    }
+)
+
 export {
     ConfigState,
     ActionStatusState,
-    DataEngineState
+    DataEngineState,
+    PeriodConfigState
 }
