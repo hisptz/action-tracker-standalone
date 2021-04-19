@@ -20,7 +20,7 @@
             "id": "color",
             "name": "Color",
             "formName": "Color",
-            "valueType": "TEXT",
+            "valueType": "COLOR_PICKER",
             "mandatory": true
 
         },

@@ -9,6 +9,10 @@ html{
     height: 100%;
 }
 
+.popper{
+    z-index: 9999;
+}
+
 body {
     background: #F8F9FA;
     min-height: 100vh;
