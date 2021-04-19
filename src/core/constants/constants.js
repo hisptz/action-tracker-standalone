@@ -19,5 +19,6 @@ export const Dhis2ValueTypes = {
   TEXT: { name: 'TEXT', formName: 'text' },
   NUMBER: { name: 'NUMBER', formName: 'number' },
   DATE:  { name: 'DATE', formName: 'date' },
-  LONG_TEXT: {name: 'LONG_TEXT', formName: 'textarea'}
+  LONG_TEXT: {name: 'LONG_TEXT', formName: 'textarea'},
+  COLOR_PICKER: {name: 'COLOR_PICKER', formName: 'colorpicker'}
 };
