@@ -15,8 +15,23 @@ export function generateImportSummaryErrors(importSummary = {}) {
 
 }
 
+
+export function generateMetadataSummaryErrors(importSummary = {}) {
+    const {status, errorReports} = importSummary?.response || {};
+    if (status === 'ERROR') {
+        return _.map(errorReports, ({message}) => message);
+    } else {
+        return [];
+    }
+}
+
 export function onErrorHandler(error, show) {
     const errors = generateImportSummaryErrors(error?.details);
+    errors.forEach(error => show({message: error, type: {error: true}}))
+}
+
+export function onMetadataErrorHandler(error, show) {
+    const errors = generateMetadataSummaryErrors(error?.details);
     errors.forEach(error => show({message: error, type: {error: true}}))
 }
 
