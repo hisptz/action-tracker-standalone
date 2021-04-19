@@ -5,6 +5,7 @@ import { IndicatorsSelectedState } from './indicatorsSelected';
 import {StatusFilterState} from "./statusFilter";
 import { IndicatorProgressState } from './indicatorProgress'
 import { DownloadPdfState} from './downloadPdf';
+import { Dhis2IconState} from './dhis2Icon';
 
 export {
     DimensionsState,
@@ -15,5 +16,6 @@ export {
     DataEngineState,
     StatusFilterState,
     IndicatorProgressState,
-    DownloadPdfState
+    DownloadPdfState,
+    Dhis2IconState
 }
