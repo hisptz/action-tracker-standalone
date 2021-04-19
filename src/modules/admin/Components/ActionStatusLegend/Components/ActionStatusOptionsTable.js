@@ -174,6 +174,7 @@ export default function ActionStatusTable() {
                         <ActionStatusSettingsFormDialog
                             onClose={onClose}
                             onUpdate={onUpdate}
+                            actionStatusOption={selectedOption}
                         />
                     )}
                 </Grid>
