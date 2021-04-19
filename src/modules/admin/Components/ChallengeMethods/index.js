@@ -4,7 +4,7 @@ import { Divider } from '@dhis2/ui';
 import React, {useState} from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import ChallengeMethodsTable from './Components/ChallengeMethodsTable';
-import ChallengeSettingsFormDialog from '../../Dialogs/ChallengeSettingsFormDialog'
+import ChallengeSettingsFormDialog from '../Dialogs/ChallengeSettingsFormDialog'
 
 const styles = {
   container: {
@@ -26,17 +26,6 @@ const styles = {
 };
 
 export default function ChallengeMethodsSettings() {
-  const onClose = () => {
-    setOpenChallengeSettingsDialog(false);
-  };
-  const onUpdate = () => {
-    setOpenChallengeSettingsDialog(false);
-  };
-  const [
-    openChallengeSettingsDialog,
-    setOpenChallengeSettingsDialog,
-  ] = useState(false);
-
   return (
     <Container>
       <Grid container>
@@ -55,27 +44,6 @@ export default function ChallengeMethodsSettings() {
           <Grid item style={styles.tableContainer}>
             <ChallengeMethodsTable />
           </Grid>
-          <Grid item container justify="flex-end">
-            <Fab
-              className="primary.jsx-2371629422"
-              style={styles.floatingAction}
-              color="primary"
-              aria-label="add"
-              onClick={() =>
-                setOpenChallengeSettingsDialog(
-                  !openChallengeSettingsDialog
-                )
-              }
-            >
-              <AddIcon />
-            </Fab>
-          </Grid>
-          {openChallengeSettingsDialog && (
-            <ChallengeSettingsFormDialog
-              onClose={onClose}
-              onUpdate={onUpdate}
-            />
-          )}
         </Grid>
       </Grid>
     </Container>

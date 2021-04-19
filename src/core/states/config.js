@@ -52,6 +52,8 @@ const DataEngineState = atom({
     default: undefined
 });
 
+//TODO: Refactor to remove the usage of data engine state as it is redundant
+
 
 const PeriodConfigState = atom({
         key: 'periodConfig',

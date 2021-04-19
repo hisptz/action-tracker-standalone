@@ -4,7 +4,7 @@ import { Divider } from '@dhis2/ui';
 import {useState} from 'react';
 import ActionStatusTable from './Components/ActionStatusOptionsTable';
 import AddIcon from '@material-ui/icons/Add';
-import ActionStatusSettingsFormDialog from '../../Dialogs/ActionStatusSettingsFormDialog';
+import ActionStatusSettingsFormDialog from '../Dialogs/ActionStatusSettingsFormDialog';
 
 const styles = {
   container: {
@@ -17,25 +17,10 @@ const styles = {
   header: {
     paddingBottom: 20,
   },
-  floatingAction: {
-    position: 'absolute',
-    bottom: 30,
-    right: 30,
-    background: '#2b61b3',
-  },
 };
 
 export default function ActionStatusLegendSettingsPage() {
-  const onClose = () => {
-    setOpenActionStatusSettingsDialog(false);
-  };
-  const onUpdate = () => {
-    setOpenActionStatusSettingsDialog(false);
-  };
-  const [
-    openActionStatusSettingsDialog,
-    setOpenActionStatusSettingsDialog,
-  ] = useState(false);
+
   return (
     <Container>
       <Grid container>
@@ -53,27 +38,6 @@ export default function ActionStatusLegendSettingsPage() {
         >
           <Grid item style={styles.tableContainer}>
             <ActionStatusTable />
-          </Grid>
-          <Grid item container justify="flex-end">
-            <Fab
-              onClick={() =>
-                setOpenActionStatusSettingsDialog(
-                  !openActionStatusSettingsDialog
-                )
-              }
-              className="primary.jsx-2371629422"
-              style={styles.floatingAction}
-              color="primary"
-              aria-label="add"
-            >
-              <AddIcon />
-            </Fab>
-            {openActionStatusSettingsDialog && (
-              <ActionStatusSettingsFormDialog
-                onClose={onClose}
-                onUpdate={onUpdate}
-              />
-            )}
           </Grid>
         </Grid>
       </Grid>

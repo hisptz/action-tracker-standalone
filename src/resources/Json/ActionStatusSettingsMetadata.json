@@ -1,7 +1,7 @@
 {
     "fields": [
         {
-            "id": "1",
+            "id": "name",
             "name": "Name",
             "formName": "Name",
             "valueType": "TEXT",
@@ -9,7 +9,7 @@
 
         },
         {
-            "id": "2",
+            "id": "code",
             "name": "Code",
             "formName": "Code",
             "valueType": "TEXT",
@@ -17,7 +17,7 @@
 
         },
         {
-            "id": "3",
+            "id": "color",
             "name": "Color",
             "formName": "Color",
             "valueType": "TEXT",
@@ -25,7 +25,7 @@
 
         },
         {
-            "id": "4",
+            "id": "icon",
             "name": "Icon",
             "formName": "Icon",
             "valueType": "TEXT",

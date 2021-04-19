@@ -35,7 +35,7 @@ function FormField({ field, control }) {
                   return field.validations.required;
                 }
                 if (_.has(field?.validations, 'customValidate')) {
-                  return field?.validations?.customValidate(value, dependants);
+                  return field?.validations?.customValidate(value, dependants, control);
                 } else if (_.has(field?.validations, 'validate')) {
                   return field?.validations?.validate(value);
                 }
