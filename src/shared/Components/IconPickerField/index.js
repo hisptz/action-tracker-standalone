@@ -1,9 +1,5 @@
 import { useState } from 'react';
 import { Field, Input } from '@dhis2/ui';
-import DHIS2Icon from '../DHIS2Icon';
-import { useDhis2Icons } from '../../../core/hooks/dhis2Icon';
-import { Dhis2IconState } from '../../../core/states';
-import { useRecoilValue } from 'recoil';
 import './styles/iconPickerField.css'
 
 function InputPickerField({
@@ -16,9 +12,6 @@ function InputPickerField({
   value,
 }) {
   const [inputValue, setInputValue] = useState();
-  const iconsRequest = useDhis2Icons();
-  const dhis2Icons = useRecoilValue(Dhis2IconState);
-  console.log({ dhis2Icons });
 
   return (
     <div
