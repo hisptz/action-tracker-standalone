@@ -31,7 +31,6 @@ const actionStatusSettingsUpdateMutation = {
     id: ({id}) => id
 }
 
-
 const validationQuery = {
     options: {
         resource: 'options',
@@ -50,26 +49,28 @@ const validationQuery = {
 const setValidations = (formattedFormFields = [], engine) => {
     const formFields = formattedFormFields;
     formFields.forEach((field, index) => {
-        _.set(formFields, [index, 'validations'], {
-            ...field.validations,
-            customValidate: field.id === 'name' ?
-                async ({value}, __, control) => {
-                    if (control.defaultValuesRef.current.name.value === value) {
-                        return true;
-                    } else {
-                        const {options} = await engine.query(validationQuery, {variables: {field: 'name', value}});
-                        return _.isEmpty(options.options) || `Option with name ${value} already exists`
-                    }
-                } : async ({value}, __, control) => {
+        if (field.id === 'name' || field.id === 'code') {
+            _.set(formFields, [index, 'validations'], {
+                ...field.validations,
+                customValidate: field.id === 'name' ?
+                    async ({value}, __, control) => {
+                        if (control?.defaultValuesRef?.current?.name?.value === value) {
+                            return true;
+                        } else {
+                            const {options} = await engine.query(validationQuery, {variables: {field: 'name', value}});
+                            return _.isEmpty(options.options) || `Option with name ${value} already exists`
+                        }
+                    } : async ({value}, __, control) => {
 
-                    if (control.defaultValuesRef.current.code.value === value) {
-                        return true;
-                    } else {
-                        const {options} = await engine.query(validationQuery, {variables: {field: 'code', value}});
-                        return _.isEmpty(options.options) || `Option with code ${value} already exists`
+                        if (control?.defaultValuesRef?.current?.code?.value === value) {
+                            return true;
+                        } else {
+                            const {options} = await engine.query(validationQuery, {variables: {field: 'code', value}});
+                            return _.isEmpty(options.options) || `Option with code ${value} already exists`
+                        }
                     }
-                }
-        })
+            })
+        }
     });
     return formFields;
 }
@@ -82,16 +83,19 @@ function ActionStatusSettingsFormDialog({
     const {actionStatusSettingsMetadata} = useRecoilValue(ConfigState);
     const engine = useRecoilValue(DataEngineState);
     const {control, handleSubmit} = useForm({
-        mode: 'onBlur',
+        mode: 'all',
         reValidateMode: 'onBlur',
         defaultValues: {
-            name: {name: 'name', value: actionStatusOption?.name},
-            code: {name: 'code', value: actionStatusOption?.code},
-            color: {name: 'color', value: actionStatusOption?.style?.color},
-            icon: {name: 'icon', value: actionStatusOption?.style?.icon},
+            name: actionStatusOption && {name: 'name', value: actionStatusOption?.name},
+            code: actionStatusOption && {name: 'code', value: actionStatusOption?.code},
+            color: actionStatusOption && {name: 'color', value: actionStatusOption?.style?.color},
+            icon: actionStatusOption && {name: 'icon', value: actionStatusOption?.style?.icon},
         },
+        criteriaMode: "firstError"
     });
     const formFields = setValidations(getFormattedFormMetadata(actionStatusSettingsMetadata), engine);
+
+    console.log(formFields);
     const {show} = useAlert(
         ({message}) => message,
         ({type}) => ({duration: 3000, ...type})
@@ -111,9 +115,10 @@ function ActionStatusSettingsFormDialog({
     })
 
     const onSubmit = (payload) => {
-        mutate({
-            data: generatePayload(payload)
-        })
+        // mutate({
+        //     data: generatePayload(payload)
+        // })
+        console.log(generatePayload(payload));
     };
 
     const generatePayload = ({name, code, icon, color}) => {

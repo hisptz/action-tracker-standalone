@@ -17,6 +17,40 @@ import {confirmModalClose} from '../../../../../core/helpers/utils';
 import {onCompleteHandler, onMetadataErrorHandler} from "../../../../../core/services/errorHandling";
 import ChallengeMethodConstants from "../../ChallengeMethods/constants/optionSets";
 
+/*
+* Procedure
+*  1. url: https://vmi515671.contaboserver.net/staging/api/29/schemas/option
+*       data: {code: "Option", sortOrder: 1, name: "Option", optionSet: {id: "e0LaGMS2UTb"}}
+* method: POST
+*       response: OK
+*  2. url: https://vmi515671.contaboserver.net/staging/api/29/options
+*       data: {code: "Option", sortOrder: 1, name: "Option", optionSet: {id: "e0LaGMS2UTb"}}
+* method: POST
+*       response: OK
+*   3. url: https://vmi515671.contaboserver.net/staging/api/29/optionSets/e0LaGMS2UTb?mergeMode=REPLACE
+*       method: PUT
+*       data: {code: "Test", created: "2021-04-19T18:38:25.972", publicAccess: "rw------", attributeValues: [],…}
+*
+*
+* Edit
+*  1. url: https://vmi515671.contaboserver.net/staging/api/29/schemas/option
+*       data: {code: "Option", sortOrder: 1, name: "Option", optionSet: {id: "e0LaGMS2UTb"}}
+* method: POST
+*       response: OK
+*   2. url: https://vmi515671.contaboserver.net/staging/api/29/optionSets/e0LaGMS2UTb?mergeMode=REPLACE
+*       method: PUT
+*       data: {code: "Test", created: "2021-04-19T18:38:25.972", publicAccess: "rw------", attributeValues: [],…}
+*
+* Delete
+* 1  url: https://vmi515671.contaboserver.net/staging/api/29/optionSets/e0LaGMS2UTb/options/GJyxK0tv4OG
+*   method: DELETE
+*
+* 2 url:  https://vmi515671.contaboserver.net/staging/api/29/options/GJyxK0tv4OG
+*
+* */
+
+
+
 const createMethodQuery = {
     type: 'create',
     resource: 'options',
@@ -28,7 +62,6 @@ const updateMethodQuery = {
     data: ({data}) => data,
     id: ({id}) => id
 }
-
 
 const validationQuery = {
     options: {
@@ -52,14 +85,14 @@ const setValidations = (formattedFormFields = [], engine) => {
             ...field.validations,
             customValidate: field.id === 'name' ?
                 async ({value}, __, control) => {
-                    if (control.defaultValuesRef.current.name.value === value) {
+                    if (control?.defaultValuesRef?.current?.name?.value === value) {
                         return true;
                     } else {
                         const {options} = await engine.query(validationQuery, {variables: {field: 'name', value}});
                         return _.isEmpty(options.options) || `Option with name ${value} already exists`
                     }
                 } : async ({value}, __, control) => {
-                    if (control.defaultValuesRef.current.code.value === value) {
+                    if (control?.defaultValuesRef?.current?.code?.value === value) {
                         return true;
                     } else {
                         const {options} = await engine.query(validationQuery, {variables: {field: 'code', value}});
@@ -81,8 +114,8 @@ function ChallengeSettingsFormDialog({
         mode: 'all',
         reValidateMode: 'onBlur',
         defaultValues: {
-            name: {name: 'name', value: method?.name},
-            code: {name: 'code', value: method?.code}
+            name: method && {name: 'name', value: method?.name},
+            code: method &&  {name: 'code', value: method?.code}
         },
     });
     const engine = useRecoilValue(DataEngineState);
@@ -102,9 +135,11 @@ function ChallengeSettingsFormDialog({
     })
 
     const onSubmit = (payload) => {
-        mutate({
-            data: generatePayload(payload)
-        })
+        // mutate({
+        //     data: generatePayload(payload)
+        // })
+
+        console.log(generatePayload(payload))
     };
 
     const generatePayload = ({name, code}) => {

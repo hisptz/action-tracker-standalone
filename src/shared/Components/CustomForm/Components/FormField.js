@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import PropTypes from 'prop-types';
 import {CustomFormField} from '../../../../core/models/customFormField';
 import {Controller, useFormState, useWatch} from 'react-hook-form';
@@ -12,17 +11,11 @@ import {
 } from '@dhis2/ui';
 import {Dhis2ValueTypes} from '../../../../core/constants';
 import {map} from 'lodash';
-import {SketchPicker} from 'react-color';
 import ColorFormField from "./ColorFormField";
 
 function FormField({field, control}) {
-    const [selectedColor, setSelectedColor] = useState('#000');
     const dependants = useWatch({control, name: field.dependants}); //watchFields is an array of fieldIds that are used to validate other fields in the form
     const {errors} = useFormState({control});
-    const handleChangeComplete = (color) => {
-        setSelectedColor(color.hex);
-    };
-
     return (
         <>
             {field.id && field.formName && (
