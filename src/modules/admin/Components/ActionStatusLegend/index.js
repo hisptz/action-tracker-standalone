@@ -1,10 +1,7 @@
 import { Container, Fab, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { Divider } from '@dhis2/ui';
-import {useState} from 'react';
 import ActionStatusTable from './Components/ActionStatusOptionsTable';
-import AddIcon from '@material-ui/icons/Add';
-import ActionStatusSettingsFormDialog from '../Dialogs/ActionStatusSettingsFormDialog';
 
 const styles = {
   container: {
