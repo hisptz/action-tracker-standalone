@@ -13,12 +13,14 @@ import {
 import { Dhis2ValueTypes } from '../../../../core/constants';
 import { map } from 'lodash';
 import { SketchPicker } from 'react-color';
+import InputPickerField from '../../IconPickerField';
 
 function FormField({ field, control }) {
+  let dhis2Icons = [];
   const [selectedColor, setSelectedColor] = useState('#000');
   const dependants = useWatch({ control, name: field.dependants }); //watchFields is an array of fieldIds that are used to validate other fields in the form
   const { errors } = useFormState({ control });
- const handleChangeComplete = (color) => {
+  const handleChangeComplete = (color) => {
     setSelectedColor(color.hex);
   };
 
@@ -147,6 +149,19 @@ function FormField({ field, control }) {
                       onChangeComplete={handleChangeComplete}
                     />
                   );
+                case Dhis2ValueTypes.ICON_PICKER.name:
+                  return (
+                    <InputPickerField
+                      label={field?.formName}
+                      validation={errors && errors[field?.id]?.message}
+                      validationText={errors && errors[field?.id]?.message}
+                      error={Boolean(errors && errors[field?.id])}
+                      name={field?.id}
+                      onChange={onChange}
+                      value={value?.value}
+                    />
+                  );
+
                 default:
                   return <p />;
               }
