@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Field, Input } from '@dhis2/ui';
-import './styles/iconPickerField.css'
+import IconsSelectorDialog from '../../Dialogs/IconsSelectorDialog';
+import './styles/iconPickerField.css';
 
 function InputPickerField({
   name,
@@ -11,12 +12,11 @@ function InputPickerField({
   error,
   value,
 }) {
-  const [inputValue, setInputValue] = useState();
+  const [openIconSelectorDialog, setOpenIconSelectorDialog] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
   return (
-    <div
-      className="icon-picker-field-container"
-    >
+    <div className="icon-picker-field-container">
       <div className="icon-picker-field">
         <Field
           name={name}
@@ -29,8 +29,12 @@ function InputPickerField({
         </Field>
       </div>
       <div
+        onClick={() => setOpenIconSelectorDialog(!openIconSelectorDialog)}
         className="icon-selector-container"
       ></div>
+      {openIconSelectorDialog && (
+        <IconsSelectorDialog onClose={() => setOpenIconSelectorDialog(false)} />
+      )}
     </div>
   );
 }
