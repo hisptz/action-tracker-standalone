@@ -4,6 +4,7 @@ import DHIS2Icon from '../DHIS2Icon';
 import { useDhis2Icons } from '../../../core/hooks/dhis2Icon';
 import { Dhis2IconState } from '../../../core/states';
 import { useRecoilValue } from 'recoil';
+import './styles/iconPickerField.css'
 
 function InputPickerField({
   name,
@@ -21,12 +22,7 @@ function InputPickerField({
 
   return (
     <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-      }}
+      className="icon-picker-field-container"
     >
       <div style={{ width: '90%' }}>
         <Field
