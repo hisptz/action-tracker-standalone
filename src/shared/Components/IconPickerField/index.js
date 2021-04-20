@@ -24,7 +24,7 @@ function InputPickerField({
     <div
       className="icon-picker-field-container"
     >
-      <div style={{ width: '90%' }}>
+      <div className="icon-picker-field">
         <Field
           name={name}
           required={required}
