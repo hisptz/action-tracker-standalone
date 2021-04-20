@@ -36,15 +36,7 @@ function InputPickerField({
         </Field>
       </div>
       <div
-        style={{
-          position: 'absolute',
-          bottom: '0',
-          right: '0',
-          width: '10%',
-          height: '40px',
-          border: '1px solid black',
-          backgroundColor: 'black',
-        }}
+        className="icon-selector-container"
       ></div>
     </div>
   );
