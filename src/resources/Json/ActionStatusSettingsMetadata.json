@@ -28,7 +28,7 @@
             "id": "4",
             "name": "Icon",
             "formName": "Icon",
-            "valueType": "TEXT",
+            "valueType": "ICON_PICKER",
             "mandatory": true
 
         }
