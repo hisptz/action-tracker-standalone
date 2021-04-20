@@ -28,6 +28,7 @@ import Grid from "@material-ui/core/Grid";
 import {Fab} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import ActionStatusSettingsFormDialog from "../../Dialogs/ActionStatusSettingsFormDialog";
+import FullPageError from "../../../../../shared/Components/FullPageError";
 
 
 const actionStatusOptionsQuery = {
@@ -43,12 +44,26 @@ const actionStatusOptionsQuery = {
                 'style[icon,color]',
                 'lastUpdated',
                 'id',
-                'optionSet[id]'
+                'optionSet[id]',
+                'sortOrder'
             ],
             filter: [
                 `optionSet.id:eq:${ActionStatusOptionSetConstants.ACTION_STATUS_OPTION_SET_ID}`
             ]
         })
+    },
+    actionStatusOptionSet: {
+        resource: 'optionSets',
+        id: ActionStatusOptionSetConstants.ACTION_STATUS_OPTION_SET_ID,
+        params: {
+            fields: [
+                'id',
+                'options[name,code,id,sortOrder]',
+                'name',
+                'valueType',
+                'code'
+            ]
+        }
     }
 }
 
@@ -98,6 +113,7 @@ export default function ActionStatusTable() {
         async function fetch() {
             await refetch({page, pageSize})
         }
+
         fetch();
     }, [page, pageSize]);
 
@@ -112,7 +128,7 @@ export default function ActionStatusTable() {
 
     return (
         loading ? <FullPageLoader/> :
-            <>
+            error ? <FullPageError error={error.message || error.toString()} />: <>
                 <Table>
                     <TableHead>
                         <TableRowHead>
@@ -172,6 +188,7 @@ export default function ActionStatusTable() {
                     </Fab>
                     {openActionStatusSettingsDialog && (
                         <ActionStatusSettingsFormDialog
+                            optionSet={data?.actionStatusOptionSet}
                             onClose={onClose}
                             onUpdate={onUpdate}
                             actionStatusOption={selectedOption}
@@ -189,6 +206,7 @@ export default function ActionStatusTable() {
                         message='Are you sure you want to delete this action status option?'
                         onClose={_ => setOpenDelete(false)}
                         option={selectedOption}
+                        optionSet={data?.actionStatusOptionSet}
                         deletionSuccessMessage='Action status option deleted Successfully'
                         onUpdate={onUpdate}
                     />
