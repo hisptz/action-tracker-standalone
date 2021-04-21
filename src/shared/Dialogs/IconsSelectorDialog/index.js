@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Button,
   ButtonStrip,
@@ -8,11 +8,15 @@ import {
   ModalTitle,
   TabBar,
   Tab,
+  CircularLoader,
+  CenteredContent,
 } from '@dhis2/ui';
-import DHIS2Icon from '../../Components/DHIS2Icon';
 import { useDhis2Icons } from '../../../core/hooks/dhis2Icon';
 import { Dhis2IconState } from '../../../core/states';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import IconsContainer from './Components/IconsContainer'
+import {isEmpty} from 'lodash'
+
 const iconTabs = [
   {
     name: 'ALL',
@@ -30,34 +34,61 @@ const iconTabs = [
     key: 'outline',
   },
 ];
-function IconsSelectorDialog({ onClose }) {
-  const [selectedTab, setSelectedTab] = useState('ALL');
-  const iconsRequest = useDhis2Icons();
-  const dhis2Icons = useRecoilValue(Dhis2IconState);
+
+function IconsSelectorDialog({ onClose, onUpdate }) {
+  const [selectedTab, setSelectedTab] = useState(iconTabs[0]);
+  const [selectedIcon, setSelectedIcon] = useState(null);
+
+  const getSelectedIcon = (icon) => {
+      setSelectedIcon(icon);
+  }
+  function closeModal() {
+    onClose()
+  }
+
+
+  const selectTab = (tab) => {
+
+     
+   setSelectedTab(tab);
+
+  }
+
   return (
-    <Modal className="dialog-container" onClose={(_) => onClose} large>
+    <Modal onClose={(_) => onClose} large>
       <ModalTitle>Select Icon</ModalTitle>
       <ModalContent>
-        <div
-          style={{
-            maxWidth: 700,
-          }}
-        >
-          <TabBar>
-            {(iconTabs || []).map((tab) => {
-              return (
-                <Tab key={tab.name} onClick={() => setSelectedTab(tab?.name)} selected={tab.name === selectedTab}>
-                  {tab.name} 
-                </Tab>
-              );
-            })}
-          </TabBar>
-        </div>
+        <CenteredContent>
+          <div className="icon-selector-dialog-container">
+            <div
+              styCenteredContentle={{
+                width: 700,
+              }}
+            >
+              <TabBar fixed>
+                {(iconTabs || []).map((tab) => {
+                  return (
+                    <Tab
+                      key={tab.name}
+                      onClick={() => selectTab(tab)}
+                      selected={tab.name === selectedTab?.name}
+                    >
+                      {tab.name}
+                    </Tab>
+                  );
+                })}
+              </TabBar>
+             
+                 <IconsContainer selectedTab={selectedTab} setSelectedIcon={getSelectedIcon}/>
+        
+            </div>
+          </div>
+        </CenteredContent>
       </ModalContent>
       <ModalActions>
         <ButtonStrip>
-          <Button onClick={(_) => onClose}>Hide</Button>
-          <Button primary>Select</Button>
+          <Button onClick={(_) => closeModal()}>Hide</Button>
+          <Button primary disabled={isEmpty(selectedIcon)} onClick={()=> onUpdate(selectedIcon)}  >Select</Button>
         </ButtonStrip>
       </ModalActions>
     </Modal>
