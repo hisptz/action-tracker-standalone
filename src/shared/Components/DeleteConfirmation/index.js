@@ -8,6 +8,7 @@ import {
     CenteredContent
 } from '@dhis2/ui';
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
+import useOptionsMutation from "../../../modules/admin/hooks/option";
 
 
 const teiDeleteMutation = {
@@ -22,9 +23,9 @@ const eventDeleteMutation = {
 }
 
 const optionDeleteMutation = {
-    type:'delete',
+    type: 'delete',
     resource: 'optionSets',
-    id: ({id})=> id
+    id: ({id}) => id
 }
 
 
@@ -72,15 +73,11 @@ export default function DeleteConfirmation({onClose, id, type, message, onUpdate
         </Modal>
     )
 }
-export function OptionDeleteConfirmation({onClose, option, message, onUpdate, deletionSuccessMessage}) {
+
+export function OptionDeleteConfirmation({onClose, option, message, onUpdate, deletionSuccessMessage, optionSet}) {
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
 
-    const [mutate, {
-        loading,
-    }] = useDataMutation(optionDeleteMutation, {
-        variables: {
-            id: `${option.optionSet.id}/options/${option.id}`
-        },
+    const {loading, mutate} = useOptionsMutation('delete', optionSet, {
         onComplete: () => {
             show({message: deletionSuccessMessage || 'Entity deleted successfully', type: {success: true}})
             onUpdate();
@@ -92,7 +89,7 @@ export function OptionDeleteConfirmation({onClose, option, message, onUpdate, de
     })
 
     const onDeleteConfirm = () => {
-        mutate({id: `${option.optionSet.id}/options/${option.id}`});
+        mutate({id: option.id});
     }
 
     return (

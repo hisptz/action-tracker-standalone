@@ -7,29 +7,23 @@ import {
     Button,
     ButtonStrip,
 } from '@dhis2/ui';
-import {useAlert, useDataMutation} from '@dhis2/app-runtime';
+import {useAlert} from '@dhis2/app-runtime';
 import {useForm} from 'react-hook-form';
 import {ConfigState, DataEngineState} from '../../../../../core/states';
 import {useRecoilValue} from 'recoil';
 import {getFormattedFormMetadata} from '../../../../../core/helpers/formsUtilsHelper';
 import CustomForm from '../../../../../shared/Components/CustomForm';
-import {confirmModalClose} from '../../../../../core/helpers/utils';
+import {confirmModalClose, uid} from '../../../../../core/helpers/utils';
 import ActionStatusOptionSetConstants from "../../ActionStatusLegend/constants/actionStatus";
-import {onCompleteHandler, onMetadataErrorHandler} from "../../../../../core/services/errorHandling";
+import {
+    onMetadataCompleteHandler,
+    onMetadataErrorHandler
+} from "../../../../../core/services/errorHandling";
 import _ from 'lodash';
+import useOptionsMutation from "../../../hooks/option";
 
-
-const actionStatusSettingsCreateMutation = {
-    resource: 'options',
-    type: 'create',
-    data: ({data}) => data
-};
-const actionStatusSettingsUpdateMutation = {
-    resource: 'options',
-    type: 'update',
-    data: ({data}) => data,
-    id: ({id}) => id
-}
+import React from 'react';
+import {Typography} from "@material-ui/core";
 
 const validationQuery = {
     options: {
@@ -54,19 +48,18 @@ const setValidations = (formattedFormFields = [], engine) => {
                 ...field.validations,
                 customValidate: field.id === 'name' ?
                     async ({value}, __, control) => {
-                        if (control?.defaultValuesRef?.current?.name?.value === value) {
+                        if (control?.defaultValuesRef?.current?.name?.value === value.trim()) {
                             return true;
                         } else {
-                            const {options} = await engine.query(validationQuery, {variables: {field: 'name', value}});
+                            const {options} = await engine.query(validationQuery, {variables: {field: 'name', value: value.trim()}});
                             return _.isEmpty(options.options) || `Option with name ${value} already exists`
                         }
                     } : async ({value}, __, control) => {
-
-                        if (control?.defaultValuesRef?.current?.code?.value === value) {
+                        if (control?.defaultValuesRef?.current?.code?.value === value.trim()) {
                             return true;
                         } else {
-                            const {options} = await engine.query(validationQuery, {variables: {field: 'code', value}});
-                            return _.isEmpty(options.options) || `Option with code ${value} already exists`
+                            const {options} = await engine.query(validationQuery, {variables: {field: 'code', value: value.trim()}});
+                            return _.isEmpty(options?.options) || `Option with code ${value} already exists`
                         }
                     }
             })
@@ -79,6 +72,7 @@ function ActionStatusSettingsFormDialog({
                                             onClose,
                                             onUpdate,
                                             actionStatusOption,
+                                            optionSet
                                         }) {
     const {actionStatusSettingsMetadata} = useRecoilValue(ConfigState);
     const engine = useRecoilValue(DataEngineState);
@@ -95,33 +89,31 @@ function ActionStatusSettingsFormDialog({
     });
     const formFields = setValidations(getFormattedFormMetadata(actionStatusSettingsMetadata), engine);
 
-    console.log(formFields);
     const {show} = useAlert(
         ({message}) => message,
         ({type}) => ({duration: 3000, ...type})
     );
-    const [mutate, {loading: saving}] = useDataMutation(actionStatusOption ? actionStatusSettingsUpdateMutation : actionStatusSettingsCreateMutation, {
-        variables: {data: {}, id: actionStatusOption?.id},
+    const {loading: saving, mutate, error} = useOptionsMutation(actionStatusOption ? 'update' : 'create', optionSet, {
         onComplete: (importSummary) => {
-            onCompleteHandler(importSummary, show, {
+            onMetadataCompleteHandler(importSummary, show, {
                 message: 'Action status option saved successfully',
                 onClose,
                 onUpdate
-            })
+            });
         },
         onError: error => {
             onMetadataErrorHandler(error, show);
         }
     })
 
-    const onSubmit = (payload) => {
-        // mutate({
-        //     data: generatePayload(payload)
-        // })
-        console.log(generatePayload(payload));
+    const onSubmit = (data) => {
+        mutate({
+            ...generatePayload(data)
+        });
     };
 
     const generatePayload = ({name, code, icon, color}) => {
+        const sortOrder = optionSet?.options?.length + 1 || 1;
         return actionStatusOption ? {
             ...actionStatusOption,
             name: name.value,
@@ -131,6 +123,7 @@ function ActionStatusSettingsFormDialog({
                 icon: icon.value
             }
         } : {
+            id: uid(),
             name: name.value,
             code: code.value,
             style: {
@@ -139,9 +132,9 @@ function ActionStatusSettingsFormDialog({
             },
             optionSet: {
                 id: ActionStatusOptionSetConstants.ACTION_STATUS_OPTION_SET_ID
-            }
+            },
+            sortOrder
         }
-
     }
 
     return (
@@ -154,6 +147,7 @@ function ActionStatusSettingsFormDialog({
             </ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control}/>
+                {error && <Typography variant={'p'}>{error?.message || error?.toString()}</Typography>}
             </ModalContent>
             <ModalActions>
                 <ButtonStrip end>

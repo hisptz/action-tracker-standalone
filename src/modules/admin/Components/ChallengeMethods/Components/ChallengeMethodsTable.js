@@ -24,6 +24,7 @@ import AddIcon from "@material-ui/icons/Add";
 import ChallengeSettingsFormDialog from "../../Dialogs/ChallengeSettingsFormDialog";
 import TableActionsMenu from "../../../../main/Components/TableActionsMenu";
 import {OptionDeleteConfirmation} from "../../../../../shared/Components/DeleteConfirmation";
+import FullPageError from "../../../../../shared/Components/FullPageError";
 
 const methodsQuery = {
     methodOptions: {
@@ -32,9 +33,11 @@ const methodsQuery = {
             fields: [
                 'code',
                 'name',
+                'style[icon,color]',
                 'lastUpdated',
                 'id',
-                'optionSet[id]'
+                'optionSet[id]',
+                'sortOrder'
             ],
             filter: [
                 `optionSet.id:eq:${ChallengeMethodConstants.CHALLENGE_METHOD_OPTION_SET_ID}`
@@ -43,6 +46,19 @@ const methodsQuery = {
             pageSize,
             totalPages: true,
         })
+    },
+    actionStatusOptionSet: {
+        resource: 'optionSets',
+        id: ChallengeMethodConstants.CHALLENGE_METHOD_OPTION_SET_ID ,
+        params: {
+            fields: [
+                'id',
+                'options[name,code,id,sortOrder]',
+                'name',
+                'valueType',
+                'code'
+            ]
+        }
     }
 }
 
@@ -55,7 +71,7 @@ const columns = [
 
 export default function ChallengeMethodsTable() {
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(5);
+    const [pageSize, setPageSize] = useState(10);
     const {loading, error, data, refetch} = useDataQuery(methodsQuery, {variables: {page, pageSize}});
 
     const [ref, setRef] = useState(undefined);
@@ -74,6 +90,7 @@ export default function ChallengeMethodsTable() {
     const onClose = () => {
         setSelectedOption(undefined);
         setOpenChallengeSettingsDialog(false);
+        setOpenDelete(false);
     };
     const onUpdate = () => {
         refetch({page, pageSize});
@@ -105,7 +122,7 @@ export default function ChallengeMethodsTable() {
 
     return (
         loading ? <FullPageLoader/> :
-            <>
+            error ? <FullPageError error={error?.message || error?.toString()} />:  <>
                 <Table>
                     <TableHead>
                         <TableRowHead>
@@ -126,7 +143,7 @@ export default function ChallengeMethodsTable() {
                                         <TableCell>{getFormattedDate(lastUpdated)}</TableCell>
                                         <TableCell><Button onClick={(d, e) => {
                                             setSelectedOption(option);
-                                            setRef(e.currentTarget);
+                                            setRef(e?.currentTarget);
                                         }} icon={<MoreHorizIcon/>}/></TableCell>
                                     </TableRow>
                                 )
@@ -173,10 +190,11 @@ export default function ChallengeMethodsTable() {
                     openDelete && <OptionDeleteConfirmation
                         type='event'
                         message='Are you sure you want to delete this method?'
-                        onClose={_ => setOpenDelete(false)}
+                        onClose={onClose}
                         option={selectedOption}
                         deletionSuccessMessage='Method Deleted Successfully'
                         onUpdate={onUpdate}
+                        optionSet={data?.actionStatusOptionSet}
                     />
                 }
                 {openChallengeSettingsDialog && (
@@ -184,6 +202,7 @@ export default function ChallengeMethodsTable() {
                         onClose={onClose}
                         onUpdate={onUpdate}
                         method={selectedOption}
+                        optionSet={data?.actionStatusOptionSet}
                     />
                 )}</>
     )

@@ -25,8 +25,8 @@ function FormField({field, control}) {
                         rules={{
                             ...field?.validations,
                             validate: (value) => {
-                                if (!/[\S]/.test(value.value)) {
-                                    return field.validations.required;
+                                if (!/[\S]/.test(value?.value)) {
+                                    return field?.validations?.required;
                                 }
                                 if (_.has(field?.validations, 'customValidate')) {
                                     return field?.validations?.customValidate(value, dependants, control);
@@ -146,19 +146,6 @@ function FormField({field, control}) {
                                             }
                                             label={field?.formName}
                                             name={field?.id}
-                                            rules={{
-                                                ...field?.validations,
-                                                validate: (value) => {
-                                                    if (!/[\S]/.test(value.value)) {
-                                                        return field.validations.required;
-                                                    }
-                                                    if (_.has(field?.validations, 'customValidate')) {
-                                                        return field?.validations?.customValidate(value, dependants, control);
-                                                    } else if (_.has(field?.validations, 'validate')) {
-                                                        return field?.validations?.validate(value);
-                                                    }
-                                                },
-                                            }}
                                             validationText={errors && errors[field?.id]?.message}
                                             error={Boolean(errors && errors[field?.id])}
                                         />
