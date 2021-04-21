@@ -57,7 +57,7 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
                                         <Grid item container spacing={4} xs={11}>
                                             <Grid item>
                                                 <Typography
-                                                    variant='h6'>{name}
+                                                    variant='h6'> {indicator.intervention} - {name}
                                                 </Typography>
                                             </Grid>
                                             <Grid item>
@@ -88,7 +88,7 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
                         {
                             openDelete && <DeleteConfirmation
                                 type='trackedEntityInstance'
-                                message='Are you sure you want to delete this challenge and all related solutions and actions?'
+                                message='Are you sure you want to delete this intervention and all related solutions and actions?'
                                 onClose={_ => setOpenDelete(false)}
                                 id={indicator?.id}
                                 deletionSuccessMessage='Challenge Deleted Successfully'

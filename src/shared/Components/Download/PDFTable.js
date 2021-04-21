@@ -38,7 +38,7 @@ function PDFTable({ teiItems, isLoading }) {
               <TableHead>
                 <TableRowHead>
                   <TableCellHead>Indicator</TableCellHead>
-                  <TableCellHead>Gap</TableCellHead>
+                  <TableCellHead>Bottleneck</TableCellHead>
                   <TableCellHead>Possible Solution</TableCellHead>
                   <TableCellHead>Action Items</TableCellHead>
                   <TableCellHead>Responsible Person</TableCellHead>

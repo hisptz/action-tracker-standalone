@@ -172,7 +172,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
                             message='Are you sure you want to delete this gap and all related solutions and actions?'
                             onClose={_ => onModalClose(_ => setOpenDelete(false))}
                             id={selectedGap?.id}
-                            deletionSuccessMessage='Gap Deleted Successfully'
+                            deletionSuccessMessage='Bottleneck Deleted Successfully'
                             onUpdate={refetch}
                         />
                     }</Grid>

@@ -39,7 +39,7 @@ export default function GapDialog({onClose, gap, onUpdate, challenge}) {
     const [mutate, {loading: saving}] = useDataMutation(gap ? gapEditMutation : gapCreateMutation, {
         variables: {data: {}, id: gap?.id},
         onComplete: (importSummary) => {
-            onCompleteHandler(importSummary, show, {message: 'Gap saved successfully', onClose, onUpdate})
+            onCompleteHandler(importSummary, show, {message: 'Bottleneck saved successfully', onClose, onUpdate})
         },
         onError: (error) => {
             onErrorHandler(error, show);
@@ -71,7 +71,7 @@ export default function GapDialog({onClose, gap, onUpdate, challenge}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)} large>
-            <ModalTitle>{gap ? 'Edit' : 'Add'} Gap</ModalTitle>
+            <ModalTitle>{gap ? 'Edit' : 'Add'} Bottleneck</ModalTitle>
             <ModalContent>
                 {
                     <CustomForm
@@ -93,7 +93,7 @@ export default function GapDialog({onClose, gap, onUpdate, challenge}) {
                         primary
                     >
                         {
-                            saving ? 'Saving...' : 'Save Gap'
+                            saving ? 'Saving...' : 'Save Bottleneck'
                         }
                     </Button>
 

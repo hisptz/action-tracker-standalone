@@ -18,9 +18,9 @@ export default function EmptyChallengeList({onAddIndicatorClick}) {
     return (
         <CenteredContent>
             <div style={styles.container}>
-                <h2 style={styles.text}>There are no challenges documented for selected organisation unit and
+                <h2 style={styles.text}>There are no interventions documented for selected organisation unit and
                     period. </h2>
-                <Button onClick={onAddIndicatorClick} icon={<AddIcon/>} primary>Add Challenge</Button>
+                <Button onClick={onAddIndicatorClick} icon={<AddIcon/>} primary>Add Intervention</Button>
             </div>
         </CenteredContent>
     )

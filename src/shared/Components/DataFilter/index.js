@@ -5,25 +5,24 @@ import {useRecoilValue} from 'recoil';
 import { IndicatorsSelectedState} from '../../../core/states'
 import { formatDataFilterOptions} from '../../../core/helpers/dataManipulationHelper';
 
-function DataFilter({options, initiallySelected, getSelected, loading, error}) {
+function DataFilter({options, initiallySelected, getSelected, loading}) {
     const indicatorSelectedStatus = useIndicatorsSelected();
     const indicatorsSelected = useRecoilValue(IndicatorsSelectedState);
-
-    const [selected, setSelected] = useState(initiallySelected)
+    const [selected, setSelected] = useState([initiallySelected])
     const formattedOptionsList = formatDataFilterOptions(options,indicatorsSelected);
-    const onChange = payload => {
-        if (payload && payload.selected) {
-            setSelected(payload.selected)
-            getSelected(payload.selected);
+    const onChange = ({selected}) => {
+        if (selected) {
+            setSelected(selected)
+            getSelected(_.head(selected));
         }
     }
-
 
     return (
         <CenteredContent>
             <Transfer
                 filterable
-                height="250px"
+                height="100%"
+                width="100%"
                 maxSelections={1}
                 selected={selected || []}
                 onChange={onChange}

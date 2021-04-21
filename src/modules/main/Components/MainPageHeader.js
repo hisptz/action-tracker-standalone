@@ -22,14 +22,12 @@ import React, {useState} from "react";
 import AddIcon from '@material-ui/icons/Add';
 import DownloadIcon from '@material-ui/icons/GetApp';
 import ColumnIcon from '@material-ui/icons/ViewColumn';
-import SettingsIcon from '@material-ui/icons/Settings';
 import {useAlert} from '@dhis2/app-runtime';
 import {Period} from '@iapps/period-utilities';
 import DownloadOptionsMenu from "./DownloadOptionsMenu";
 import {UserRolesState} from "../../../core/states/user";
 import Visibility from "../../../shared/Components/Visibility";
 import ColumnManagerDialog from "../../../shared/Dialogs/ColumnManagerDialog";
-import {useHistory, useRouteMatch} from "react-router-dom";
 
 const PageSelector = () => {
     const [activePage, setActivePage] = useRecoilState(PageState);
@@ -98,7 +96,7 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
                     <Grid item container spacing={2} xs={6}>
                         <Grid item>
                             <Visibility visible={bottleneck?.create}>
-                                <Button onClick={onAddIndicatorClick} icon={<AddIcon/>}>Add Challenge</Button>
+                                <Button onClick={onAddIndicatorClick} icon={<AddIcon/>}>Add Intervention</Button>
                             </Visibility>
                         </Grid>
                         <Grid item xs={6}>

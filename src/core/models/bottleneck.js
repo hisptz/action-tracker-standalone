@@ -60,10 +60,10 @@ export default class Bottleneck {
     }
 
     setValuesFromForm(data) {
-        this.indicator = data['indicator'];
-        this.bottleneck = data[BottleneckConstants.BOTTLENECK_ATTRIBUTE];
-        this.intervention = data[BottleneckConstants.INTERVENTION_ATTRIBUTE];
-        this.coverageIndicator = data[BottleneckConstants.COVERAGE_INDICATOR];
+        this.indicator = data[BottleneckConstants.INDICATOR_ATTRIBUTE]?.value;
+        this.bottleneck = data[BottleneckConstants.BOTTLENECK_ATTRIBUTE]?.value;
+        this.intervention = data[BottleneckConstants.INTERVENTION_ATTRIBUTE]?.value;
+        this.coverageIndicator = data[BottleneckConstants.COVERAGE_INDICATOR]?.value;
         this.id = this.id || uid();
         this.incidentDate = this.incidentDate || new Date();
         this.enrollmentDate = this.enrollmentDate || new Date();
@@ -73,9 +73,15 @@ export default class Bottleneck {
 
     getFormValues() {
         let formData = {}
-        formData[BottleneckConstants.INDICATOR_ATTRIBUTE] = this.indicator;
+        formData[BottleneckConstants.INDICATOR_ATTRIBUTE] = {
+            name: BottleneckConstants.INDICATOR_ATTRIBUTE,
+            value: this.indicator
+        };
+        formData[BottleneckConstants.INTERVENTION_ATTRIBUTE] = {
+            name: BottleneckConstants.INTERVENTION_ATTRIBUTE,
+            value: this.intervention
+        };
         // formData[BOTTLENECK_ATTRIBUTE] = this.bottleneck;
-        // formData[INTERVENTION_ATTRIBUTE] = this.intervention;
         // formData[COVERAGE_INDICATOR] = this.coverageIndicator;
         return formData
     }
@@ -90,7 +96,7 @@ export default class Bottleneck {
             return _.filter(attributes, 'value');
         }
 
-        const programEvents = events.map(event => ({...event, trackedEntityInstance: this.id, }))
+        const programEvents = events.map(event => ({...event, trackedEntityInstance: this.id,}))
 
         function getEnrollments({id, status, enrollmentDate, incidentDate, enrollmentId}) {
             return [
@@ -123,10 +129,11 @@ export default class Bottleneck {
             for (const trackedEntityAttribute of programTrackedEntityAttributes) {
                 const {mandatory, trackedEntityAttribute: attribute} = trackedEntityAttribute || {};
                 const formField = new CustomFormField({...attribute, mandatory});
-                formFields.push(formField);
+                if (formField.id === BottleneckConstants.INTERVENTION_ATTRIBUTE || formField.id === BottleneckConstants.INDICATOR_ATTRIBUTE) {
+                    formFields.push(formField);
+                }
             }
         }
-
         return formFields;
 
     }

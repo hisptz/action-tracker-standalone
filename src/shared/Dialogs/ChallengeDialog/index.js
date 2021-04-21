@@ -5,17 +5,22 @@ import {
     ModalActions,
     Button,
     ButtonStrip,
-    CenteredContent
+    CenteredContent,
+    Field
 } from '@dhis2/ui';
 import DataFilter from '../../Components/DataFilter';
-import {useForm, Controller} from 'react-hook-form';
+import {useForm, Controller, useFormState} from 'react-hook-form';
 import useIndicators from "../../../core/hooks/indicators";
 import {useRecoilValue} from "recoil";
-import {DimensionsState} from "../../../core/states";
+import {ConfigState, DimensionsState} from "../../../core/states";
 import Bottleneck from "../../../core/models/bottleneck";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {confirmModalClose} from "../../../core/helpers/utils";
-import {generateImportSummaryErrors, onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
+import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
+import {getFormattedFormMetadata} from "../../../core/helpers/formsUtilsHelper";
+import FormField from "../../Components/CustomForm/Components/FormField";
+import {BottleneckConstants} from "../../../core/constants";
+import _ from 'lodash'
 
 const challengeEditMutation = {
     type: 'update',
@@ -33,13 +38,15 @@ const challengeCreateMutation = {
 function ChallengeDialog({onClose, onUpdate, challenge}) {
     const {orgUnit} = useRecoilValue(DimensionsState);
     const {indicators, loading: indicatorsLoading, error: indicatorsError} = useIndicators(0);
+    const {bottleneckProgramMetadata} = useRecoilValue(ConfigState);
+    const formFields = Bottleneck.getFormFields(bottleneckProgramMetadata);
+    const validatedFormFields = getFormattedFormMetadata(formFields)
     const [mutate, {
         loading: saving,
-        data
     }] = useDataMutation(challenge ? challengeEditMutation : challengeCreateMutation, {
         variables: {data: {}, id: challenge?.id},
         onComplete: (importSummary) => {
-            onCompleteHandler(importSummary, show, {message: 'Challenge saved successfully', onClose, onUpdate})
+            onCompleteHandler(importSummary, show, {message: 'Intervention saved successfully', onClose, onUpdate})
         },
         onError: error => {
             onErrorHandler(error, show);
@@ -47,55 +54,60 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
     })
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
 
-    const {handleSubmit, control, errors} = useForm({
+    const {handleSubmit, control} = useForm({
         mode: 'onBlur',
         reValidateMode: 'onBlur',
-        defaultValues: challenge && {
-            indicator: [Object.values(challenge?.getFormValues())[0]]
-        }
+        defaultValues: challenge?.getFormValues()
     });
 
-    const onSubmit = (payload) => {
-        mutate(
-            {
-                data: generatePayload(payload)
-            }
-        )
+    const {errors} = useFormState({control})
+
+    const onSubmit = (data) => {
+        mutate({data: generatePayload(data)})
     };
-    const generatePayload = (payload) => {
+    const generatePayload = (data) => {
         if (challenge) {
-            challenge.setValuesFromForm({indicator: payload.indicator[0]});
+            challenge.setValuesFromForm(data);
             return challenge.getPayload([], orgUnit.id);
         } else {
             const challenge = new Bottleneck();
-            challenge.setValuesFromForm({indicator: payload.indicator[0]});
+            challenge.setValuesFromForm(data);
             return challenge.getPayload([], orgUnit.id)
         }
     }
+    const interventionField = _.find(validatedFormFields, ['id', BottleneckConstants.INTERVENTION_ATTRIBUTE])
+    const indicatorField = _.find(validatedFormFields, ['id', BottleneckConstants.INDICATOR_ATTRIBUTE])
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)} large>
-            <ModalTitle>{challenge ? 'Change' : 'Select'} Indicator</ModalTitle>
+            <ModalTitle>{challenge ? 'Edit' : 'Add'} Intervention</ModalTitle>
             <ModalContent>
+                <FormField
+                    field={interventionField}
+                    key={interventionField.id}
+                    control={control}
+                />
                 <Controller
                     control={control}
-                    name='indicator'
-                    rules={{required: 'Please choose an indicator'}}
+                    name={indicatorField.id}
+                    rules={indicatorField.validations}
                     render={({field: {onChange, value}}) => (
-                        <DataFilter
-                            options={indicators?.map(({displayName, id}) => ({label: displayName, value: id}))}
-                            initiallySelected={value}
-                            getSelected={onChange}
-                            loading={indicatorsLoading}
-                            error={errors?.indicator || indicatorsError}
-                        />
+                        <Field required={Boolean(indicatorField?.validations?.required)}
+                               error={Boolean(errors[indicatorField.id] || indicatorsError)}
+                               validationText={errors[indicatorField.id]?.message} label={indicatorField.formName}>
+                            <DataFilter
+                                options={indicators?.map(({displayName, id}) => ({label: displayName, value: id}))}
+                                initiallySelected={value?.value}
+                                getSelected={(v) => {
+                                    console.log(v);
+                                    onChange({name: indicatorField.id, value: v})
+                                }
+                                }
+                                loading={indicatorsLoading}
+                            />
+                        </Field>
                     )}
                 />
-                {
-                    errors?.indicator &&
-                    <CenteredContent><p style={{fontSize: 12, color: 'red'}}>{errors?.indicator?.message}</p>
-                    </CenteredContent>
-                }
                 {
                     indicatorsError &&
                     <CenteredContent><p style={{

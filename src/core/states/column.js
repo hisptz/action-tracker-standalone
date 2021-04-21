@@ -18,7 +18,7 @@ const defaultTables = {
         columns: [
             {
                 name: 'gap',
-                displayName: 'Gap',
+                displayName: 'Bottleneck',
                 mandatory: false,
                 visible: true,
                 width: 0,
