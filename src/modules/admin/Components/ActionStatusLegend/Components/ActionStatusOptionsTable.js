@@ -78,7 +78,7 @@ const columns = [
 
 export default function ActionStatusTable() {
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(5);
+    const [pageSize, setPageSize] = useState(10);
     const {loading, data, error, refetch} = useDataQuery(actionStatusOptionsQuery, {
         variables: {page, pageSize},
     });
@@ -88,6 +88,7 @@ export default function ActionStatusTable() {
     const onClose = () => {
         setSelectedOption(undefined);
         setOpenActionStatusSettingsDialog(false);
+        setOpenDelete(false);
     };
     const onUpdate = () => {
         refetch({page, pageSize})
@@ -204,7 +205,7 @@ export default function ActionStatusTable() {
                 {
                     openDelete && <OptionDeleteConfirmation
                         message='Are you sure you want to delete this action status option?'
-                        onClose={_ => setOpenDelete(false)}
+                        onClose={onClose}
                         option={selectedOption}
                         optionSet={data?.actionStatusOptionSet}
                         deletionSuccessMessage='Action status option deleted Successfully'

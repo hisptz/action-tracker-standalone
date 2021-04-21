@@ -48,18 +48,17 @@ const setValidations = (formattedFormFields = [], engine) => {
                 ...field.validations,
                 customValidate: field.id === 'name' ?
                     async ({value}, __, control) => {
-                        if (control?.defaultValuesRef?.current?.name?.value === value) {
+                        if (control?.defaultValuesRef?.current?.name?.value === value.trim()) {
                             return true;
                         } else {
-                            const {options} = await engine.query(validationQuery, {variables: {field: 'name', value}});
+                            const {options} = await engine.query(validationQuery, {variables: {field: 'name', value: value.trim()}});
                             return _.isEmpty(options.options) || `Option with name ${value} already exists`
                         }
                     } : async ({value}, __, control) => {
-
-                        if (control?.defaultValuesRef?.current?.code?.value === value) {
+                        if (control?.defaultValuesRef?.current?.code?.value === value.trim()) {
                             return true;
                         } else {
-                            const {options} = await engine.query(validationQuery, {variables: {field: 'code', value}});
+                            const {options} = await engine.query(validationQuery, {variables: {field: 'code', value: value.trim()}});
                             return _.isEmpty(options?.options) || `Option with code ${value} already exists`
                         }
                     }
@@ -78,7 +77,7 @@ function ActionStatusSettingsFormDialog({
     const {actionStatusSettingsMetadata} = useRecoilValue(ConfigState);
     const engine = useRecoilValue(DataEngineState);
     const {control, handleSubmit} = useForm({
-        mode: 'onBlur',
+        mode: 'all',
         reValidateMode: 'onBlur',
         defaultValues: {
             name: actionStatusOption && {name: 'name', value: actionStatusOption?.name},
@@ -107,9 +106,9 @@ function ActionStatusSettingsFormDialog({
         }
     })
 
-    const onSubmit = (payload) => {
+    const onSubmit = (data) => {
         mutate({
-            ...generatePayload(payload)
+            ...generatePayload(data)
         });
     };
 

@@ -13,9 +13,14 @@ import {ConfigState, DataEngineState} from '../../../../../core/states';
 import {useRecoilValue} from 'recoil';
 import {getFormattedFormMetadata} from '../../../../../core/helpers/formsUtilsHelper';
 import CustomForm from '../../../../../shared/Components/CustomForm';
-import {confirmModalClose} from '../../../../../core/helpers/utils';
-import {onCompleteHandler, onMetadataErrorHandler} from "../../../../../core/services/errorHandling";
+import {confirmModalClose, uid} from '../../../../../core/helpers/utils';
+import {
+    onCompleteHandler,
+    onMetadataCompleteHandler,
+    onMetadataErrorHandler
+} from "../../../../../core/services/errorHandling";
 import ChallengeMethodConstants from "../../ChallengeMethods/constants/optionSets";
+import useOptionsMutation from "../../../hooks/option";
 
 /*
 * Procedure
@@ -50,7 +55,6 @@ import ChallengeMethodConstants from "../../ChallengeMethods/constants/optionSet
 * */
 
 
-
 const createMethodQuery = {
     type: 'create',
     resource: 'options',
@@ -82,21 +86,21 @@ const setValidations = (formattedFormFields = [], engine) => {
     const formFields = formattedFormFields;
     formFields.forEach((field, index) => {
         _.set(formFields, [index, 'validations'], {
-            ...field.validations,
-            customValidate: field.id === 'name' ?
+            ...field?.validations,
+            customValidate: field?.id === 'name' ?
                 async ({value}, __, control) => {
-                    if (control?.defaultValuesRef?.current?.name?.value === value) {
+                    if (control?.defaultValuesRef?.current?.name?.value === value.trim()) {
                         return true;
                     } else {
-                        const {options} = await engine.query(validationQuery, {variables: {field: 'name', value}});
+                        const {options} = await engine.query(validationQuery, {variables: {field: 'name', value: value.trim()}});
                         return _.isEmpty(options.options) || `Option with name ${value} already exists`
                     }
                 } : async ({value}, __, control) => {
-                    if (control?.defaultValuesRef?.current?.code?.value === value) {
+                    if (control?.defaultValuesRef?.current?.code?.value === value.trim()) {
                         return true;
                     } else {
-                        const {options} = await engine.query(validationQuery, {variables: {field: 'code', value}});
-                        return _.isEmpty(options.options) || `Option with code ${value} already exists`
+                        const {options} = await engine.query(validationQuery, {variables: {field: 'code', value: value.trim()}});
+                        return _.isEmpty(options?.options) || `Option with code ${value} already exists`
                     }
                 }
         })
@@ -108,6 +112,7 @@ function ChallengeSettingsFormDialog({
                                          onClose,
                                          onUpdate,
                                          method,
+                                         optionSet
                                      }) {
     const {challengeSettingsMetadata} = useRecoilValue(ConfigState);
     const {control, handleSubmit} = useForm({
@@ -115,7 +120,7 @@ function ChallengeSettingsFormDialog({
         reValidateMode: 'onBlur',
         defaultValues: {
             name: method && {name: 'name', value: method?.name},
-            code: method &&  {name: 'code', value: method?.code}
+            code: method && {name: 'code', value: method?.code}
         },
     });
     const engine = useRecoilValue(DataEngineState);
@@ -124,25 +129,25 @@ function ChallengeSettingsFormDialog({
         ({message}) => message,
         ({type}) => ({duration: 3000, ...type})
     );
-    const [mutate, {loading: saving}] = useDataMutation(method ? updateMethodQuery : createMethodQuery, {
-        variables: {data: {}, id: method?.id},
+    const {
+        loading: saving, mutate
+    } = useOptionsMutation(method ? 'update' : 'create', optionSet, {
         onComplete: (importSummary) => {
-            onCompleteHandler(importSummary, show, {message: 'Method saved successfully', onClose, onUpdate})
+            onMetadataCompleteHandler(importSummary, show, {message: 'Method saved successfully', onClose, onUpdate})
         },
         onError: error => {
             onMetadataErrorHandler(error, show);
         }
     })
 
-    const onSubmit = (payload) => {
-        // mutate({
-        //     data: generatePayload(payload)
-        // })
-
-        console.log(generatePayload(payload))
+    const onSubmit = (data) => {
+        mutate({
+            ...generatePayload(data)
+        })
     };
 
     const generatePayload = ({name, code}) => {
+        const sortOrder = optionSet?.options?.length + 1 || 1;
         return method ? {
             ...method,
             name: name.value,
@@ -151,8 +156,10 @@ function ChallengeSettingsFormDialog({
                 id: ChallengeMethodConstants.CHALLENGE_METHOD_OPTION_SET_ID
             }
         } : {
+            id: uid(),
             name: name.value,
             code: code.value,
+            sortOrder,
             optionSet: {
                 id: ChallengeMethodConstants.CHALLENGE_METHOD_OPTION_SET_ID
             }

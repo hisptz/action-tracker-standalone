@@ -26,11 +26,12 @@ export function generateMetadataSummaryErrors(importSummary = {}) {
 }
 
 export function onErrorHandler(error, show) {
-    const errors = generateImportSummaryErrors(error?.details);
+    const errors = generateImportSummaryErrors(error?.details) || [];
     errors.forEach(error => show({message: error, type: {error: true}}))
 }
 
 export function onMetadataErrorHandler(error, show) {
+    console.log(error);
     const errors = generateMetadataSummaryErrors(error?.details);
     errors.forEach(error => show({message: error, type: {error: true}}))
 }
@@ -46,7 +47,7 @@ export function onCompleteHandler(importSummary, show, {message, onUpdate, onClo
     }
 }
 export function onMetadataCompleteHandler(importSummary, show, {message, onUpdate, onClose}) {
-    const errors = generateImportSummaryErrors(importSummary);
+    const errors = generateMetadataSummaryErrors(importSummary) || [];
     if (_.isEmpty(errors)) {
         show({message, type: {success: true}})
         onClose && onUpdate();
