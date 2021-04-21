@@ -108,7 +108,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
                         <CustomNestedTable>
                             <colgroup>
                                 {
-                                    gapsTable.columns.map(_ => _.visible && <col key={`col-${_.name}`}
+                                    gapsTable?.columns?.map(({visible, name}) => visible && <col key={`col-${name}`}
                                                                     width={`${100 / visibleColumnsCount}%`}/>)
                                 }
                             </colgroup>
@@ -157,7 +157,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
             <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                 <Grid item>
                     <Visibility visible={gapRoles?.create}>
-                        <Button onClick={onAdd}>Add Gap</Button>
+                        <Button onClick={onAdd}>Add Bottleneck</Button>
                     </Visibility>
                 </Grid>
                 <Grid item>
@@ -169,7 +169,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
                     {
                         openDelete && <DeleteConfirmation
                             type='event'
-                            message='Are you sure you want to delete this gap and all related solutions and actions?'
+                            message='Are you sure you want to delete this bottleneck and all related solutions and actions?'
                             onClose={_ => onModalClose(_ => setOpenDelete(false))}
                             id={selectedGap?.id}
                             deletionSuccessMessage='Bottleneck Deleted Successfully'
