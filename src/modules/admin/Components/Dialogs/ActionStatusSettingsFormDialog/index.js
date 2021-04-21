@@ -51,15 +51,23 @@ const setValidations = (formattedFormFields = [], engine) => {
                         if (control?.defaultValuesRef?.current?.name?.value === value.trim()) {
                             return true;
                         } else {
-                            const {options} = await engine.query(validationQuery, {variables: {field: 'name', value: value.trim()}});
-                            return _.isEmpty(options.options) || `Option with name ${value} already exists`
+                            try{
+                                const {options} = await engine.query(validationQuery, {variables: {field: 'name', value: value.trim()}});
+                                return _.isEmpty(options.options) || `Option with name ${value} already exists`
+                            }catch (e) {
+                                return e.message || e.toString()
+                            }
                         }
                     } : async ({value}, __, control) => {
                         if (control?.defaultValuesRef?.current?.code?.value === value.trim()) {
                             return true;
                         } else {
-                            const {options} = await engine.query(validationQuery, {variables: {field: 'code', value: value.trim()}});
-                            return _.isEmpty(options?.options) || `Option with code ${value} already exists`
+                            try{
+                                const {options} = await engine.query(validationQuery, {variables: {field: 'code', value: value.trim()}});
+                                return _.isEmpty(options?.options) || `Option with code ${value} already exists`
+                            }catch (e) {
+                                return e.message || e.toString();
+                            }
                         }
                     }
             })

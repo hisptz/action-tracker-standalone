@@ -1,27 +1,44 @@
 export function generateImportSummaryErrors(importSummary = {}) {
-    const status = importSummary?.response?.status;
-    const importSummaries = importSummary?.response?.importSummaries;
-    if (status === 'SUCCESS') {
-        return [];
-    } else if (status === 'ERROR') {
-        const errors = [];
-        for (const summary of importSummaries) {
-            if (summary.status === 'ERROR') {
-                errors.push(summary?.description)
+    if (importSummary.response) {
+        const status = importSummary?.response?.status;
+        const importSummaries = importSummary?.response?.importSummaries;
+        if (status === 'SUCCESS') {
+            return [];
+        } else if (status === 'ERROR') {
+            const errors = [];
+            for (const summary of importSummaries) {
+                if (summary.status === 'ERROR') {
+                    errors.push(summary?.description)
+                }
             }
+            return errors;
         }
-        return errors;
+    } else {
+        const {status, httpStatus} = importSummary || {};
+        if (status === 'ERROR') {
+            return [httpStatus];
+        }
     }
 
 }
 
-
 export function generateMetadataSummaryErrors(importSummary = {}) {
-    const {status, errorReports} = importSummary?.response || {};
-    if (status === 'ERROR') {
-        return _.map(errorReports, ({message}) => message);
+    if (importSummary.response) {
+        const {status, errorReports, httpStatus} = importSummary?.response || {};
+        if (status === 'ERROR') {
+            if (errorReports) {
+                return _.map(errorReports, ({message}) => message);
+            } else {
+                return [httpStatus];
+            }
+        } else {
+            return [];
+        }
     } else {
-        return [];
+        const {status, httpStatus} = importSummary;
+        if (status === 'ERROR') {
+            return [httpStatus];
+        }
     }
 }
 
@@ -31,7 +48,6 @@ export function onErrorHandler(error, show) {
 }
 
 export function onMetadataErrorHandler(error, show) {
-    console.log(error);
     const errors = generateMetadataSummaryErrors(error?.details);
     errors.forEach(error => show({message: error, type: {error: true}}))
 }
@@ -46,6 +62,7 @@ export function onCompleteHandler(importSummary, show, {message, onUpdate, onClo
         errors.forEach(error => show({message: error, type: {error: true}}))
     }
 }
+
 export function onMetadataCompleteHandler(importSummary, show, {message, onUpdate, onClose}) {
     const errors = generateMetadataSummaryErrors(importSummary) || [];
     if (_.isEmpty(errors)) {

@@ -13,6 +13,7 @@ import './styles/main.css';
 import PDFTable from '../../shared/Components/Download/PDFTable';
 import {getPDFDownloadData} from '../../core/services/downloadFilesService';
 import {Container} from "@material-ui/core";
+import FullPageError from "../../shared/Components/FullPageError";
 
 
 const styles = {
@@ -28,8 +29,8 @@ const styles = {
 }
 
 export default function MainPage() {
-    const {loading, firstTimeUseLoading} = useAppConfig();
-    const {loading: userLoading, error} = useUser();
+    const {loading, firstTimeUseLoading, error} = useAppConfig();
+    const {loading: userLoading, error: userError} = useUser();
     const engine = useDataEngine();
     const setDataEngine = useSetRecoilState(DataEngineState);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
@@ -42,7 +43,7 @@ export default function MainPage() {
     useEffect(() => {
         setDataEngine(engine)
     }, []);
-    useEffect(() => generateErrorAlert(show, error), [error]);
+    useEffect(() => generateErrorAlert(show, error || userError), [error, userError]);
 
     async function setUpPDFDownloadData() {
         const pdfData = await getPDFDownloadData({engine, orgUnit, currentTab, selectedPeriod: period});
@@ -52,24 +53,24 @@ export default function MainPage() {
     if (downloadPdf && downloadPdf.isDownloadingPdf) {
         setUpPDFDownloadData();
         if (tablePDFDownloadData && tablePDFDownloadData.length) {
-            alerts.forEach(alert=> alert.remove())
+            alerts.forEach(alert => alert.remove())
             setDownloadPdf({isDownloadingPdf: true, loading: false})
             window.onafterprint = (_) => {
                 setDownloadPdf({isDownloadingPdf: false, loading: true})
             }
-        } else if(tablePDFDownloadData === undefined) {
-           /* show({message: 'Preparing a PDF file', type: 'INFO'}); */
+        } else if (tablePDFDownloadData === undefined) {
+            /* show({message: 'Preparing a PDF file', type: 'INFO'}); */
         }
     }
-
-    if(downloadPdf && downloadPdf.loading === false) { 
-       window.print()
+    if (downloadPdf && downloadPdf.loading === false) {
+        window.print()
     }
 
     return (
         loading || firstTimeUseLoading || userLoading ?
             <div style={styles.container} id="mainPage"><FullPageLoader
                 text={firstTimeUseLoading && 'Configuring for first time use. Please wait...'}/></div> :
+            error || userError ? <FullPageError error={error?.message || error.toString()} />:
             <Container maxWidth={false} id="mainPage" style={styles.container}>
                 <Grid id="mainGrid" container style={styles.container} spacing={0} direction='column'>
                     <Grid item className="filter-components-grid" style={styles.filterContainer}>
@@ -81,7 +82,7 @@ export default function MainPage() {
                         </Suspense>
                     </Grid>
                 </Grid>
-               {downloadPdf?.isDownloadingPdf && <PDFTable teiItems={tablePDFDownloadData}/> }
+                {downloadPdf?.isDownloadingPdf && <PDFTable teiItems={tablePDFDownloadData}/>}
             </Container>
     )
 }
