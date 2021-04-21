@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import {Divider} from '@dhis2/ui'
 import React from 'react';
 import PeriodSettings from "./Components/PeriodSettings";
+import OrgUnitSettings from "./Components/OrgUnitSettings";
 
 const styles = {
     container: {
@@ -24,7 +25,14 @@ export default function GeneralSettingsPage() {
                     <Divider/>
                 </Grid>
                 <div style={styles.container}>
-                    <PeriodSettings/>
+                    <Grid container spacing={3} direction='column'>
+                        <Grid item>
+                            <PeriodSettings/>
+                        </Grid>
+                        <Grid item>
+                            <OrgUnitSettings/>
+                        </Grid>
+                    </Grid>
                 </div>
             </Grid>
         </Container>
