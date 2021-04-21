@@ -19,7 +19,9 @@
     bottom: 0;
     right: 0;
     height: 40px;
+    cursor: pointer;
+}
+.bg-black {
     border: 1px solid black;
     background-color: black;
-    cursor: pointer;
 }
