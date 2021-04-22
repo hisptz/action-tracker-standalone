@@ -75,6 +75,7 @@ export default function ChallengeList() {
         variables: {ou: orgUnit?.id, page, pageSize, trackedEntityInstance: [], ouMode},
         lazy: true
     });
+    const currentTab = useRecoilValue(PageState);
     const engine = useRecoilValue(DataEngineState);
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
