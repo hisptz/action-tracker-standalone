@@ -36,11 +36,10 @@ const iconTabs = [
   },
 ];
 
-function IconsSelectorDialog({ onClose, onUpdate }) {
+function IconsSelectorDialog({ onClose, onUpdate, initialSelectedIcon }) {
   const [selectedTab, setSelectedTab] = useState(iconTabs[0]);
-  const [selectedIcon, setSelectedIcon] = useState(null);
+  const [selectedIcon, setSelectedIcon] = useState(initialSelectedIcon);
   const [searchInput, setSearchInput] = useState('');
-
 
   function getSearchedValue(value) {
      setSearchInput(value?.value);

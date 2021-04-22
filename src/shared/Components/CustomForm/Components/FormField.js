@@ -162,7 +162,7 @@ function FormField({field, control}) {
                                             error={Boolean(errors && errors[field?.id])}
                                             name={field?.id}
                                             onChange={(v) => {
-                                               console.log(v)
+                                                onChange({name: field.id, value: v})
                                             }}
                                             value={value?.value}
                                         />
