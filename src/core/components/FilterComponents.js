@@ -23,16 +23,14 @@ export function FilterComponents() {
     const {settings} = useRecoilValue(UserRolesState);
     const history = useHistory();
     const {url} = useRouteMatch();
-    const onUpdateOrgUnitFilter = (data) => {
-        if (data) {
+    const onUpdateOrgUnitFilter = (data) => {if (data) {
             setSelectedDimensions({...selectedDimensions, orgUnit: data});
         }
         setOpenOrgUnitFilter(false);
     };
     const onUpdatePeriodFilter = (data) => {
-        if (data && data.length) {
-            const items = data[0] && data[0].items ? data[0].items : [];
-            setSelectedDimensions({...selectedDimensions, period: items});
+        if (data?.length) {
+            setSelectedDimensions({...selectedDimensions, period: data});
         }
         setOpenPeriodFilter(false);
     };

@@ -7,12 +7,11 @@ import CustomPeriodEditor from "./CustomPeriodEditor";
 import {PeriodType} from "@iapps/period-utilities";
 import _ from "lodash";
 
-
 function getPeriodsToExclude(planningPeriod) {
     const periodTypes = new PeriodType().get();
     const planningPeriodObject = _.find(periodTypes, ['name', planningPeriod]);
     if (planningPeriodObject) {
-        return _.filter(periodTypes, ({rank}) => rank >= planningPeriodObject.rank);
+        return _.filter(periodTypes, ({rank}) => rank > planningPeriodObject.rank);
     } else {
         return []
     }
