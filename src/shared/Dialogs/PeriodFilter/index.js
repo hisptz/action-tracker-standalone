@@ -40,7 +40,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
                 onClose();
             }
         } else {
-            setError(`Invalid Period. please select period. Please select period of type ${planningPeriod}`);
+            setError(`Invalid Period. Please select period of type ${planningPeriod}.`);
             setSelectedPeriods([]);
         }
     }
