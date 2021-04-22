@@ -91,7 +91,7 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
                                 message='Are you sure you want to delete this intervention and all related solutions and actions?'
                                 onClose={_ => setOpenDelete(false)}
                                 id={indicator?.id}
-                                deletionSuccessMessage='Challenge Deleted Successfully'
+                                deletionSuccessMessage='Intervention Deleted Successfully'
                                 onUpdate={refresh}
                             />
                         }
