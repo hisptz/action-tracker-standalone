@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import PropTypes from 'prop-types';
-import { CustomFormField } from '../../../../core/models/customFormField';
-import { Controller, useFormState, useWatch } from 'react-hook-form';
+import {CustomFormField} from '../../../../core/models/customFormField';
+import {Controller, useFormState, useWatch} from 'react-hook-form';
 import '../styles/FormField.css';
 import {
-  InputField,
-  Checkbox,
-  TextAreaField,
-  SingleSelectField,
-  SingleSelectOption,
+    InputField,
+    Checkbox,
+    TextAreaField,
+    SingleSelectField,
+    SingleSelectOption,
 } from '@dhis2/ui';
 import {Dhis2ValueTypes} from '../../../../core/constants';
 import {map} from 'lodash';
@@ -17,7 +17,7 @@ import InputPickerField from '../../IconPickerField';
 
 function FormField({field, control}) {
     let dhis2Icons = [];
-  const dependants = useWatch({control, name: field.dependants}); //watchFields is an array of fieldIds that are used to validate other fields in the form
+    const dependants = useWatch({control, name: field.dependants}); //watchFields is an array of fieldIds that are used to validate other fields in the form
     const {errors} = useFormState({control});
     return (
         <>
@@ -141,8 +141,8 @@ function FormField({field, control}) {
                                     return (
                                         <ColorFormField
                                             value={value}
-                                            onChange={(value) => {
-                                                onChange({name: field.id, value})
+                                            onChange={(v) => {
+                                                onChange({name: field.id, value:v})
                                             }}
                                             required={
                                                 field?.validations && field.validations.required
@@ -151,20 +151,22 @@ function FormField({field, control}) {
                                             name={field?.id}
                                             validationText={errors && errors[field?.id]?.message}
                                             error={Boolean(errors && errors[field?.id])}
-                    />
-                  );
-                case Dhis2ValueTypes.ICON_PICKER.name:
-                  return (
-                    <InputPickerField
-                      label={field?.formName}
-                      validation={errors && errors[field?.id]?.message}
-                      validationText={errors && errors[field?.id]?.message}
-                      error={Boolean(errors && errors[field?.id])}
-                      name={field?.id}
-                      onChange={onChange}
-                      value={value?.value}
-                    />
-                                        );
+                                        />
+                                    );
+                                case Dhis2ValueTypes.ICON_PICKER.name:
+                                    return (
+                                        <InputPickerField
+                                            label={field?.formName}
+                                            validation={errors && errors[field?.id]?.message}
+                                            validationText={errors && errors[field?.id]?.message}
+                                            error={Boolean(errors && errors[field?.id])}
+                                            name={field?.id}
+                                            onChange={(v) => {
+                                               console.log(v)
+                                            }}
+                                            value={value?.value}
+                                        />
+                                    );
 
                                 default:
                                     return <p/>;
@@ -178,8 +180,8 @@ function FormField({field, control}) {
 }
 
 FormField.propTypes = {
-  field: PropTypes.instanceOf(CustomFormField).isRequired,
-  control: PropTypes.any.isRequired,
+    field: PropTypes.instanceOf(CustomFormField).isRequired,
+    control: PropTypes.any.isRequired,
 };
 
 export default FormField;
