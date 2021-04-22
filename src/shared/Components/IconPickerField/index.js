@@ -4,6 +4,7 @@ import IconsSelectorDialog from '../../Dialogs/IconsSelectorDialog';
 import './styles/iconPickerField.css';
 import { isEmpty } from 'lodash';
 import DHIS2Icon from '../DHIS2Icon';
+import  useDHIS2Icon from '../../Components/DHIS2Icon/hooks/icon'
 
 function InputPickerField({
   name,
@@ -15,13 +16,14 @@ function InputPickerField({
   value,
 }) {
   const [openIconSelectorDialog, setOpenIconSelectorDialog] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [selectedIcon, setSelectedIcon] = useState(null);
+  const {loading, icon} = useDHIS2Icon(value);
+  const [selectedIcon, setSelectedIcon] = useState(icon);
 
   function onUpdateIconsSelection(icon) {
     setSelectedIcon(icon);
     setOpenIconSelectorDialog(false);
-    console.log(selectedIcon);
+    onChange(icon?.key)
+
   }
   function onClose() {
     setOpenIconSelectorDialog(false);
@@ -40,6 +42,7 @@ function InputPickerField({
           validationText={validationText}
           error={error}
           value={selectedIcon?.key}
+        
         >
           <Input
             disabled={true}
@@ -64,7 +67,7 @@ function InputPickerField({
           onClick={() => setOpenIconSelectorDialog(!openIconSelectorDialog)}
           className="icon-selector-container"
         >
-          <DHIS2Icon iconName={selectedIcon?.key} size={50} />
+          <DHIS2Icon iconName={selectedIcon?.key} size={40} />
         </div>
       )}
       {openIconSelectorDialog && (
