@@ -3,8 +3,11 @@
     overflow: hidden !important;
 }
 .icon-selector-dialog-container {
-    height: 900px !important;
+   width: 75vw;
 }
 .selected-icon{
     border: 3px solid #64acf5;
+    cursor: pointer;
+    width: 70px;
+    height: 70px
  }
