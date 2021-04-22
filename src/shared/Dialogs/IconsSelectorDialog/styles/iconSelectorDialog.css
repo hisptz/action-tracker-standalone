@@ -1,3 +1,7 @@
+.icon-selector-dialog {
+    width: 80vw !important;
+    overflow: hidden !important;
+}
 .icon-selector-dialog-container {
     height: 900px !important;
 }

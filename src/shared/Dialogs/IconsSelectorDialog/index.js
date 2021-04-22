@@ -10,12 +10,13 @@ import {
   Tab,
   CircularLoader,
   CenteredContent,
+  InputField
 } from '@dhis2/ui';
 import { useDhis2Icons } from '../../../core/hooks/dhis2Icon';
 import { Dhis2IconState } from '../../../core/states';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import IconsContainer from './Components/IconsContainer'
-import {isEmpty} from 'lodash'
+import IconsContainer from './Components/IconsContainer';
+import { isEmpty } from 'lodash';
 
 const iconTabs = [
   {
@@ -38,49 +39,59 @@ const iconTabs = [
 function IconsSelectorDialog({ onClose, onUpdate }) {
   const [selectedTab, setSelectedTab] = useState(iconTabs[0]);
   const [selectedIcon, setSelectedIcon] = useState(null);
+  const [searchInput, setSearchInput] = useState('');
+
+
+  function getSearchedValue(value) {
+     setSearchInput(value?.value);
+  }
 
   const getSelectedIcon = (icon) => {
-      setSelectedIcon(icon);
-  }
+    setSelectedIcon(icon);
+  };
   function closeModal() {
-    onClose()
+    onClose();
   }
-
 
   const selectTab = (tab) => {
-
-     
-   setSelectedTab(tab);
-
-  }
+    setSelectedTab(tab);
+  };
 
   return (
-    <Modal onClose={(_) => onClose} large>
+    <Modal onClose={(_) => onClose} className="icon-selector-dialog" large>
       <ModalTitle>Select Icon</ModalTitle>
-      <ModalContent>
+      <ModalContent >
         <CenteredContent>
           <div className="icon-selector-dialog-container">
             <div
-              styCenteredContentle={{
-                width: 700,
-              }}
+
             >
-              <TabBar fixed>
-                {(iconTabs || []).map((tab) => {
-                  return (
-                    <Tab
-                      key={tab.name}
-                      onClick={() => selectTab(tab)}
-                      selected={tab.name === selectedTab?.name}
-                    >
-                      {tab.name}
-                    </Tab>
-                  );
-                })}
-              </TabBar>
-             
-                 <IconsContainer selectedTab={selectedTab} setSelectedIcon={getSelectedIcon}/>
-        
+              <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                <div style={{ width: '70%' }}>
+                  <TabBar fixed>
+                    {(iconTabs || []).map((tab) => {
+                      return (
+                        <Tab
+                          key={tab.name}
+                          onClick={() => selectTab(tab)}
+                          selected={tab.name === selectedTab?.name}
+                        >
+                          {tab.name}
+                        </Tab>
+                      );
+                    })}
+                  </TabBar>
+                </div>
+                <div style={{ width: '20%' }}>
+                <InputField name="searchIconsField" value={searchInput} placeholder="Search icons" onChange={getSearchedValue} />
+                </div>
+              </div>
+
+              <IconsContainer
+                selectedTab={selectedTab}
+                setSelectedIcon={getSelectedIcon}
+                searchInput={searchInput}
+              />
             </div>
           </div>
         </CenteredContent>
@@ -88,7 +99,13 @@ function IconsSelectorDialog({ onClose, onUpdate }) {
       <ModalActions>
         <ButtonStrip>
           <Button onClick={(_) => closeModal()}>Hide</Button>
-          <Button primary disabled={isEmpty(selectedIcon)} onClick={()=> onUpdate(selectedIcon)}  >Select</Button>
+          <Button
+            primary
+            disabled={isEmpty(selectedIcon)}
+            onClick={() => onUpdate(selectedIcon)}
+          >
+            Select
+          </Button>
         </ButtonStrip>
       </ModalActions>
     </Modal>
