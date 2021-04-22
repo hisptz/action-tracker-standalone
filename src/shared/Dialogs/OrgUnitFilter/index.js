@@ -12,7 +12,7 @@ import React, {useState} from 'react';
 import OrgUnitDimension from "./Components/OrgUnitDimension";
 import _ from 'lodash';
 import {useDataStore} from "@dhis2/app-service-datastore";
-import useOrganisationUnit, {useOrganisationUnitLevel} from "../../../core/hooks/organisationUnit";
+import {useOrganisationUnitLevel} from "../../../core/hooks/organisationUnit";
 import DataStoreConstants from "../../../core/constants/datastore";
 
 export default function OrganisationUnitFilter({onClose, onUpdate, initialOrgUnit}) {
@@ -22,10 +22,11 @@ export default function OrganisationUnitFilter({onClose, onUpdate, initialOrgUni
     const settings = globalSettings?.settings || {};
     const planningOrgUnitLevel = settings[DataStoreConstants.PLANNING_ORG_UNIT_KEY]
     const {orgUnitLevel, loading} = useOrganisationUnitLevel(planningOrgUnitLevel);
-    const onSelect = ({path}) => setSelectedOrgUnitPaths([path]);
+    const onSelect = ({path}) => {
+        setSelectedOrgUnitPaths([path])
+    };
     const onDeselect = ({path}) => setSelectedOrgUnitPaths(_.difference(selectedOrgUnitPaths, [path]))
     const onUpdateOrgUnit = (orgUnit) => setSelectedOrgUnit(orgUnit);
-    console.log(orgUnitLevel);
     return (
         <Modal onClose={onClose}>
             <ModalTitle>
