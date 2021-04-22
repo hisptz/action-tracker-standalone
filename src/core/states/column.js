@@ -97,7 +97,7 @@ const defaultTables = {
             {
                 name: 'action',
                 displayName: 'Action Items',
-                mandatory: false,
+                mandatory: true,
                 visible: true,
                 width: 0,
                 render: (object, _, __, width) => {
@@ -111,7 +111,7 @@ const defaultTables = {
             {
                 name: 'responsiblePerson',
                 displayName: 'Responsible Person',
-                mandatory: false,
+                mandatory: true,
                 visible: true,
                 width: 0,
                 render: (object, _, __, width) => {
@@ -125,7 +125,7 @@ const defaultTables = {
             {
                 name: 'startDate',
                 displayName: 'Start Date',
-                mandatory: false,
+                mandatory: true,
                 visible: true,
                 width: 0,
                 render: (object, _, __, width) => {
@@ -139,7 +139,7 @@ const defaultTables = {
             {
                 name: 'endDate',
                 displayName: 'End Date',
-                mandatory: false,
+                mandatory: true,
                 visible: true,
                 width: 0,
                 render: (object, _, __, width) => {

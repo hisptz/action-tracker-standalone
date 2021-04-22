@@ -13,13 +13,15 @@ import {useDataStore} from "@dhis2/app-service-datastore";
 import _ from 'lodash';
 import {useAlert} from "@dhis2/app-runtime";
 import generateErrorAlert from "../../../core/services/generateErrorAlert";
+import DataStoreConstants from "../../../core/constants/datastore";
 
 export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     const [selectedPeriods, setSelectedPeriods] = useState(initialPeriods);
     const [error, setError] = useState();
     const periodInstance = new Period();
     const {globalSettings} = useDataStore();
-    const {planningPeriod} = globalSettings?.settings;
+    const settings = globalSettings?.settings || {};
+    const planningPeriod = settings[DataStoreConstants.PLANNING_PERIOD_KEY];
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     useEffect(() => generateErrorAlert(show, error), [error])
 
