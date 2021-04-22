@@ -1,0 +1,27 @@
+.icon-picker-field-container {
+        position: relative;
+        box-sizing: border-box;
+        overflow: hidden;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+}
+.icon-picker-field {
+    width: 90%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.icon-selector-container {
+    width: 10%;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 40px;
+    cursor: pointer;
+}
+.bg-black {
+    border: 1px solid black;
+    background-color: black;
+}
