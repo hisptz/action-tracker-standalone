@@ -112,7 +112,7 @@ function IconsContainer({ selectedTab, setSelectedIcon, searchInput }) {
       {!loading && !filteredIcons.length  && <CenteredContent>
         <i>There is no icon to display for now.</i>
       </CenteredContent>}
-      {!loading && !searchedIcons.length  && <CenteredContent>
+      {!loading && !searchedIcons.length &&  !isEmpty(searchInput)   && <CenteredContent>
         <i>There is no icon to display for the searched text</i>
       </CenteredContent>}
       {!loading && isEmpty(searchInput) && filteredIcons.length && (
