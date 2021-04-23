@@ -1,6 +1,9 @@
 import {CenteredContent, Button} from "@dhis2/ui";
 import React from "react";
 import AddIcon from "@material-ui/icons/Add";
+import {useRecoilValue} from "recoil";
+import {UserRolesState} from "../../../core/states/user";
+import Visibility from "../../../shared/Components/Visibility";
 
 
 const styles = {
@@ -14,13 +17,15 @@ const styles = {
 }
 
 export default function EmptyChallengeList({onAddIndicatorClick}) {
-
+    const {bottleneck} = useRecoilValue(UserRolesState);
     return (
         <CenteredContent>
             <div style={styles.container}>
                 <h2 style={styles.text}>There are no interventions documented for selected organisation unit and
                     period. </h2>
-                <Button onClick={onAddIndicatorClick} icon={<AddIcon/>} primary>Add Intervention</Button>
+                <Visibility visible={bottleneck?.create}>
+                    <Button onClick={onAddIndicatorClick} icon={<AddIcon/>} primary>Add Intervention</Button>
+                </Visibility>
             </div>
         </CenteredContent>
     )

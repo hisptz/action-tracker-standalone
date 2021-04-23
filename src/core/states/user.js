@@ -2,9 +2,8 @@ import {selector, atom} from "recoil";
 import _ from 'lodash';
 import {USER_ROLES} from "../constants";
 import {PageState} from "./page";
-import {useDataStore} from "@dhis2/app-service-datastore";
-import DataStoreConstants from "../constants/datastore";
 import {DimensionsState} from "./index";
+import PlanningOrgUnitLevelState from "./orgUnit";
 
 export const UserState = atom({
     key: 'user',
@@ -24,8 +23,15 @@ function disablePlanning(userRoles) {
     return userRoles;
 }
 
-function isPlanningOrgUnitLevel(orgUnit, planningOrgUnit){
-
+function isPlanningOrgUnitLevel(orgUnit, planningOrgUnit) {
+    if (_.isEmpty(orgUnit) || _.isEmpty(planningOrgUnit)) {
+        return true;
+    } else {
+        const {level} = planningOrgUnit || {};
+        const {path} = orgUnit || {};
+        const orgUnitLevel = (path?.split('/'))?.length - 1;
+        return level === orgUnitLevel
+    }
 }
 
 export const UserRolesState = selector({
@@ -34,11 +40,8 @@ export const UserRolesState = selector({
         const {authorities} = get(UserState) || {};
         const activePage = get(PageState);
         const {orgUnit} = get(DimensionsState);
-        console.log(orgUnit);
-        const {globalSettings} = useDataStore();
-        const settings = globalSettings.settings;
-        const planningOrgUnitLevel = settings[DataStoreConstants.PLANNING_ORG_UNIT_KEY];
-
+        const planningOrgUnitLevel = get(PlanningOrgUnitLevelState);
+        const planningLevelSelected = isPlanningOrgUnitLevel(orgUnit, planningOrgUnitLevel);
         let userRoles = {};
         _.map(_.keys(rolesMapper), (entity) => {
             _.map(_.keys(rolesMapper[entity]), (authority) => {
@@ -52,8 +55,9 @@ export const UserRolesState = selector({
                     }
                 }
             });
-        })
-        if (activePage === 'Tracking' ) {
+        });
+
+        if (!planningLevelSelected || activePage === 'Tracking') {
             return disablePlanning(userRoles);
         } else {
             return userRoles;
