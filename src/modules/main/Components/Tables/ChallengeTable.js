@@ -12,18 +12,19 @@ export default function ChallengeTable({indicator = new Bottleneck()}) {
     const styles = {
         container: {
             maxHeight: 550,
-            borderRadius: 0
+            borderRadius: 0,
+            maxWidth: '100%',
+            overflowX: 'auto'
         }
     }
 
     return (
         <Card variant='outlined' style={styles.container}>
-            <CustomTable cellSpacing={0}>
+            <CustomTable cellSpacing={0} >
                 {
                     <colgroup>
                         {
-                            _.map(visibleColumnsNames, col => <col key={`col${col}`}
-                                                                   width={`${100 / visibleColumnsCount}%`}/>)
+                            _.map(visibleColumnsNames, col => <col key={`col${col}`} width={`${100 / visibleColumnsCount}%`}/>)
                         }
                     </colgroup>
                 }

@@ -67,6 +67,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
         tableContainer: {
             height: '100%',
             maxHeight: 450,
+            maxWidth: '100%',
             overflow: 'auto'
         }
     }
@@ -108,8 +109,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
                         <CustomNestedTable>
                             <colgroup>
                                 {
-                                    gapsTable?.columns?.map(({visible, name}) => visible && <col key={`col-${name}`}
-                                                                    width={`${100 / visibleColumnsCount}%`}/>)
+                                    gapsTable?.columns?.map(({visible, name}) => visible && <col key={`col-${name}`} width={`${100 / visibleColumnsCount}%`}/>)
                                 }
                             </colgroup>
                             <TableBody>

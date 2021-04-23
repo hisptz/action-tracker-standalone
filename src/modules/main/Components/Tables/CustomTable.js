@@ -36,7 +36,8 @@ const CustomTableCellHead = withStyles((_) => ({
         paddingBottom: 5,
         fontSize: 14,
         color: '#212934',
-        fontWeight: 'normal'
+        fontWeight: 'normal',
+        minWidth: 120
     }
 }))(TableCell)
 
@@ -46,6 +47,7 @@ const CustomTableCell = withStyles((_) => ({
         paddingBottom: 5,
         paddingTop: 10,
         fontSize: 14,
+        minWidth: 120
     }
 }))(TableCell)
 const CustomNestingTableCell = withStyles((_) => ({
@@ -56,7 +58,7 @@ const CustomNestingTableCell = withStyles((_) => ({
 
 const CustomTable = withStyles((_) => ({
     root: {
-        overflowY: 'auto',
+        overflow: 'auto',
         maxHeight: 500,
     }
 }))(Table)
@@ -83,7 +85,8 @@ const StyledStatusTableCell = withStyles((_) => ({
         verticalAlign: 'top',
         paddingBottom: 5,
         paddingTop: 10,
-        fontSize: 14
+        fontSize: 14,
+        minWidth: 50
     }
 }))(TableCell)
 

@@ -48,49 +48,59 @@ export function getPeriodDates(quarter) {
     return {startDate, endDate}
 }
 
-export function getTableQuartersColumn(period) {
-    if (period) {
+
+function getColumn(period) {
+    return {
+        name: period.name,
+        displayName: period.name,
+        visible: true,
+        mandatory: false,
+        id: period.id,
+        render: (object, refetch, actions) => {
+            const {ref, roles} = actions;
+            const {startDate, endDate} = getPeriodDates(period);
+            const actionStatusList = object.actionStatusList || [];
+            const actionStatus = _.filter(actionStatusList, (as => {
+                const eventDate = new Date(as.eventDate);
+                return startDate <= eventDate && endDate >= eventDate;
+            }))[0]
+            return (
+                actionStatus ?
+                    <CustomTableCellWithActions key={`${actionStatus?.id}-action-status-cell`}
+                                                object={actionStatus} reference={ref} {...actions} >
+                        <ActionStatusTableCell
+                            roles={roles}
+                            refetch={refetch} action={object}
+                            key={`${object.id}-${period?.id}`}
+                            actionStatus={actionStatus}
+                        />
+                    </CustomTableCellWithActions> :
+                    <ActionStatusTableCell
+                        startDate={startDate}
+                        endDate={endDate}
+                        roles={roles}
+                        refetch={refetch} action={object}
+                        key={`${object.id}-${period?.id}`}
+                        actionStatus={actionStatus}
+                    />
+            )
+        }
+    }
+}
+
+export function getTableTrackingColumns(period, trackingPeriod) {
+    if (period && trackingPeriod) {
         const periodInstance = new Period();
-        const {quarterly} = periodInstance.getById(period.id) || {};
-        if (quarterly) {
-            return _.map(_.reverse(quarterly), (quarter) => {
-                return {
-                    name: quarter.name,
-                    displayName: quarter.name,
-                    visible: true,
-                    mandatory: false,
-                    id: quarter.id,
-                    render: (object, refetch, actions) => {
-                        const {ref, roles} = actions;
-                        const {startDate, endDate} = getPeriodDates(quarter);
-                        const actionStatusList = object.actionStatusList || [];
-                        const actionStatus = _.filter(actionStatusList, (as => {
-                            const eventDate = new Date(as.eventDate);
-                            return startDate <= eventDate && endDate >= eventDate;
-                        }))[0]
-                        return (
-                            actionStatus ?
-                                <CustomTableCellWithActions key={`${actionStatus.id}-action-status-cell`}
-                                                            object={actionStatus} reference={ref} {...actions} >
-                                    <ActionStatusTableCell
-                                        roles={roles}
-                                        refetch={refetch} action={object}
-                                        key={`${object.id}-${quarter.id}`}
-                                        actionStatus={actionStatus}
-                                    />
-                                </CustomTableCellWithActions> :
-                                <ActionStatusTableCell
-                                    startDate={startDate}
-                                    endDate={endDate}
-                                    roles={roles}
-                                    refetch={refetch} action={object}
-                                    key={`${object.id}-${quarter.id}`}
-                                    actionStatus={actionStatus}
-                                />
-                        )
-                    }
-                }
-            })
+        const periodObject = periodInstance.getById(period.id) || {};
+        const trackingPeriods = periodObject[trackingPeriod.toLowerCase()] || [];
+        if (periodObject) {
+            if (periodObject.type === trackingPeriod) {
+                return [getColumn(periodObject)]
+            } else {
+                return _.map(_.reverse(trackingPeriods), (p) => {
+                    return getColumn(p);
+                })
+            }
         }
     }
     return []
@@ -124,20 +134,21 @@ export function resetColumnConfig(tables) {
     return {...tables};
 }
 
-export function setTrackingColumns(period = [], tables = {}) {
-    const quarterColumns = getTableQuartersColumn(period[0], tables.actionStatusTable);
-    if (quarterColumns && !_.isEmpty(quarterColumns)) {
+export function setTrackingColumns(period = [], tables = {}, trackingPeriod) {
+    const trackingColumns = getTableTrackingColumns(period[0],trackingPeriod);
+    if (trackingColumns && !_.isEmpty(trackingColumns)) {
         const actionsTable = setVisibility(false, tables.actionsTable, ['status']);
         tables = {
             ...tables,
             actionStatusTable: {
                 ...tables.actionStatusTable,
-                columns: quarterColumns,
+                columns: trackingColumns,
                 visible: true,
-                visibleColumnsCount: quarterColumns.length
+                visibleColumnsCount: trackingColumns.length
             },
             actionsTable
         };
+        console.log(tables);
         updateVisibleColumns(tables);
         return tables;
     } else {

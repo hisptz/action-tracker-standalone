@@ -14,16 +14,17 @@ import ProgressDialog from '../../../shared/Dialogs/ProgressDialog'
 import {useRecoilValue} from "recoil";
 import {UserRolesState} from "../../../core/states/user";
 import Visibility from "../../../shared/Components/Visibility";
+import useWindowDimensions from "../../../core/hooks/window";
 
 
 export default function ChallengeCard({indicator = new Bottleneck(), refresh, onEdit}) {
     const [openProgressDialog, setOpenProgressDialog] = useState(false);
-    // const closeProgressDialog = () => setOpenProgressDialog(false)
     const indicatorObject = indicator.toJson();
     const {loading, error, name} = useIndicatorsName(indicatorObject.indicator);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     useEffect(() => generateErrorAlert(show, error), [error]);
     const {bottleneck: bottleneckRoles} = useRecoilValue(UserRolesState) || {};
+    const {width} = useWindowDimensions();
 
 
     const [ref, setRef] = useState(undefined);
@@ -34,9 +35,8 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
         setOpenDelete(true);
     }
 
-
     return (
-            <Box maxHeight="600px">
+            <Box maxHeight="600px" maxWidth={`${width-40}px`} >
                 <Card variant='outlined'>
                     <CardContent>
                         {
@@ -75,7 +75,7 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
                                         openProgressDialog && <ProgressDialog indicatorId={indicator?.indicator} onClose={() => setOpenProgressDialog(false)}/>
                                     }
                                     <Grid item xs={12}>
-                                        <Box maxHeight='600px' className='overflow'>
+                                        <Box maxHeight='600px' width='100%' className='overflow'>
                                             <ChallengeTable indicator={indicatorObject}/>
                                         </Box>
                                     </Grid>

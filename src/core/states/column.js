@@ -9,6 +9,8 @@ import {
     StatusTableCell
 } from "../../modules/main/Components/Tables/CustomTable";
 import React from "react";
+import {useDataStore} from "@dhis2/app-service-datastore";
+import DataStoreConstants from "../constants/datastore";
 
 const defaultTables = {
     visibleColumnsCount: 0,
@@ -193,8 +195,10 @@ export const TableStateSelector = selector({
         const activePage = get(PageState);
         const {period} = get(DimensionsState);
         const tables = get(TableState);
+        const {globalSettings} = useDataStore();
+        const trackingPeriod = globalSettings?.settings[DataStoreConstants.TRACKING_PERIOD_KEY];
         if (activePage === 'Tracking') {
-            return setTrackingColumns(period, tables);
+            return setTrackingColumns(period, tables, trackingPeriod);
         } else {
             return resetColumnConfig(tables);
         }
