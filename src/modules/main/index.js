@@ -14,6 +14,7 @@ import PDFTable from '../../shared/Components/Download/PDFTable';
 import {getPDFDownloadData} from '../../core/services/downloadFilesService';
 import {Container} from "@material-ui/core";
 import FullPageError from "../../shared/Components/FullPageError";
+import useAllConfig from "../../core/hooks/config";
 
 
 const styles = {
@@ -29,8 +30,7 @@ const styles = {
 }
 
 export default function MainPage() {
-    const {loading, firstTimeUseLoading, error} = useAppConfig();
-    const {loading: userLoading, error: userError} = useUser();
+    const {loading, error, firstTimeUseLoading} = useAllConfig();
     const engine = useDataEngine();
     const setDataEngine = useSetRecoilState(DataEngineState);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
@@ -43,7 +43,7 @@ export default function MainPage() {
     useEffect(() => {
         setDataEngine(engine)
     }, []);
-    useEffect(() => generateErrorAlert(show, error || userError), [error, userError]);
+    useEffect(() => generateErrorAlert(show, error), [error]);
 
     async function setUpPDFDownloadData() {
         const pdfData = await getPDFDownloadData({engine, orgUnit, currentTab, selectedPeriod: period});
@@ -67,10 +67,10 @@ export default function MainPage() {
     }
 
     return (
-        loading || firstTimeUseLoading || userLoading ?
+        loading || firstTimeUseLoading ?
             <div style={styles.container} id="mainPage"><FullPageLoader
                 text={firstTimeUseLoading && 'Configuring for first time use. Please wait...'}/></div> :
-            error || userError ? <FullPageError error={error?.message || error.toString()} />:
+            error ? <FullPageError error={error?.message || error.toString()} />:
             <Container maxWidth={false} id="mainPage" style={styles.container}>
                 <Grid id="mainGrid" container style={styles.container} spacing={0} direction='column'>
                     <Grid item className="filter-components-grid" style={styles.filterContainer}>

@@ -24,6 +24,10 @@ function disablePlanning(userRoles) {
     return userRoles;
 }
 
+function isPlanningOrgUnitLevel(orgUnit, planningOrgUnit){
+
+}
+
 export const UserRolesState = selector({
     key: 'userRoles',
     get: ({get}) => {
