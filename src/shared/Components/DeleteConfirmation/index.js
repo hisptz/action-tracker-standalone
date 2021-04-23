@@ -5,9 +5,10 @@ import {
     ModalActions,
     Button,
     ButtonStrip,
-    CenteredContent
+    CenteredContent,
+    CircularLoader
 } from '@dhis2/ui';
-import {useAlert, useDataMutation} from "@dhis2/app-runtime";
+import {useAlert, useDataMutation, useDataQuery} from "@dhis2/app-runtime";
 import useOptionsMutation from "../../../modules/admin/hooks/option";
 
 
@@ -22,11 +23,6 @@ const eventDeleteMutation = {
     id: ({id}) => id,
 }
 
-const optionDeleteMutation = {
-    type: 'delete',
-    resource: 'optionSets',
-    id: ({id}) => id
-}
 
 
 export default function DeleteConfirmation({onClose, id, type, message, onUpdate, deletionSuccessMessage}) {
@@ -74,9 +70,40 @@ export default function DeleteConfirmation({onClose, id, type, message, onUpdate
     )
 }
 
-export function OptionDeleteConfirmation({onClose, option, message, onUpdate, deletionSuccessMessage, optionSet}) {
-    const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
 
+const eventQuery = {
+    events: {
+        resource: 'events',
+        params: ({optionCode, program, dataElement}) => ({
+            program: `${program}`,
+            filter: [
+                `${dataElement}:eq:${optionCode}`
+            ],
+            fields: [
+                'id'
+            ]
+        })
+    }
+}
+
+export function OptionDeleteConfirmation({
+                                             onClose,
+                                             option,
+                                             message,
+                                             onUpdate,
+                                             deletionSuccessMessage,
+                                             optionSet,
+                                             program,
+                                             dataElement
+                                         }) {
+    const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}));
+    const {loading: loadingEvents, error, data} = useDataQuery(eventQuery, {
+        variables: {
+            program,
+            dataElement,
+            optionCode: option.code
+        }
+    });
     const {loading, mutate} = useOptionsMutation('delete', optionSet, {
         onComplete: () => {
             show({message: deletionSuccessMessage || 'Entity deleted successfully', type: {success: true}})
@@ -91,7 +118,6 @@ export function OptionDeleteConfirmation({onClose, option, message, onUpdate, de
     const onDeleteConfirm = () => {
         mutate({id: option.id});
     }
-
     return (
         <Modal onClose={onClose}>
             <ModalTitle>
@@ -99,15 +125,21 @@ export function OptionDeleteConfirmation({onClose, option, message, onUpdate, de
             </ModalTitle>
             <ModalContent>
                 <CenteredContent>
-                    <div style={{textAlign: 'center'}}>
-                        {message || 'Are you sure you want to delete this entity?'}
-                    </div>
+                    {
+                        loadingEvents ? <CircularLoader small/> :
+                            _.isEmpty(data?.events?.events) ? <div style={{textAlign: 'center'}}>
+                                {message || 'Are you sure you want to delete this entity?'}
+                            </div> : <div style={{textAlign: 'center'}}>
+                                This option cannot be deleted. It is already used in documented entities.
+                            </div>
+                    }
                 </CenteredContent>
             </ModalContent>
             <ModalActions>
                 <ButtonStrip>
                     <Button onClick={onClose}>Cancel</Button>
-                    <Button onClick={onDeleteConfirm} destructive>{loading ? 'Deleting...' : 'Delete'}</Button>
+                    <Button disabled={loadingEvents || !_.isEmpty(data?.events?.events)} onClick={onDeleteConfirm}
+                            destructive>{loading ? 'Deleting...' : 'Delete'}</Button>
                 </ButtonStrip>
             </ModalActions>
         </Modal>

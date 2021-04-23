@@ -25,6 +25,7 @@ import ChallengeSettingsFormDialog from "../../Dialogs/ChallengeSettingsFormDial
 import TableActionsMenu from "../../../../main/Components/TableActionsMenu";
 import {OptionDeleteConfirmation} from "../../../../../shared/Components/DeleteConfirmation";
 import FullPageError from "../../../../../shared/Components/FullPageError";
+import {BottleneckConstants, GapConstants} from "../../../../../core/constants";
 
 const methodsQuery = {
     methodOptions: {
@@ -188,6 +189,8 @@ export default function ChallengeMethodsTable() {
                 }
                 {
                     openDelete && <OptionDeleteConfirmation
+                        dataElement={GapConstants.METHOD_DATA_ELEMENT}
+                        program={BottleneckConstants.PROGRAM_ID}
                         type='event'
                         message='Are you sure you want to delete this method?'
                         onClose={onClose}

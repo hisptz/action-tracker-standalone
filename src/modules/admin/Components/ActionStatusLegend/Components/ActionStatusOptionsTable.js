@@ -29,6 +29,7 @@ import {Fab} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import ActionStatusSettingsFormDialog from "../../Dialogs/ActionStatusSettingsFormDialog";
 import FullPageError from "../../../../../shared/Components/FullPageError";
+import {ActionConstants, ActionStatusConstants} from "../../../../../core/constants";
 
 
 const actionStatusOptionsQuery = {
@@ -204,6 +205,8 @@ export default function ActionStatusTable() {
                 }
                 {
                     openDelete && <OptionDeleteConfirmation
+                        dataElement={ActionStatusConstants.STATUS_DATA_ELEMENT}
+                        program={ActionConstants.PROGRAM_ID}
                         message='Are you sure you want to delete this action status option?'
                         onClose={onClose}
                         option={selectedOption}
