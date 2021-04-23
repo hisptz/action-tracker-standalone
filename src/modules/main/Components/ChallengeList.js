@@ -85,9 +85,9 @@ export default function ChallengeList() {
         function refresh() {
             if (orgUnit && !_.isEmpty(period)) {
                 if (!selectedStatus) {
-                    refetch({ou: orgUnit?.id, page, pageSize, trackedEntityInstance: []})
+                    refetch({ou: orgUnit?.id, page, pageSize, trackedEntityInstance: [], ouMode: 'DESCENDANTS'})
                 } else {
-                    refetch({ou: orgUnit?.id, page, pageSize, trackedEntityInstance: filteredTeis.join(';')})
+                    refetch({ou: orgUnit?.id, page, pageSize, trackedEntityInstance: filteredTeis.join(';'), ouMode: 'DESCENDANTS'})
                 }
             }
         }

@@ -35,7 +35,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     const onUpdateClick = () => {
         if (!_.isEmpty(selectedPeriods)) {
             const periodObject = periodInstance.getById(_.head(selectedPeriods)?.id);
-            if (periodObject.type === planningPeriod) {
+            if (periodObject?.type === planningPeriod) {
                 if (onUpdate) {
 
                     onUpdate(selectedPeriods);

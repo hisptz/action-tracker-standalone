@@ -4,6 +4,9 @@ export function getJSDate(dateString = '') {
         return new Date(parseInt(year), parseInt(month) - 1, parseInt(date))
     }
 }
+
+
+
 export function validDate(date) {
     let dateStr = '';
     const dateArr = split(date, '-').reverse();
@@ -14,11 +17,11 @@ export function validDate(date) {
         dateItemIndex++
       ) {
         dateStr =
-          dateItemIndex === (dateArr.length - 1) 
+          dateItemIndex === (dateArr.length - 1)
             ? `${dateStr}${dateArr[dateItemIndex]}`
             : `${dateStr}${dateArr[dateItemIndex]}-`;
       }
     }
     return dateStr;
   }
-  
+

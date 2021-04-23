@@ -33,6 +33,18 @@ export function getFormattedDate(date) {
     );
 }
 
+function getFormDate(date = new Date()) {
+    return `${date.getFullYear()}-${_.padStart((date.getMonth() + 1), 2, '0')}-${_.padStart(date.getDate(), 2, '0')}`
+}
+
+export function getFormattedDateFromPeriod(dateString = '') {
+    const [date, month, year] = dateString.split('-');
+    const dateObject = new Date(year, (month - 1), date);
+    if (dateObject) {
+        return getFormDate(dateObject);
+    }
+}
+
 
 export function generateTextColor(backgroundColor) {
     function hexToRgb(hex) {
@@ -55,10 +67,11 @@ export function generateTextColor(backgroundColor) {
     const {r, g, b} = hexToRgb(backgroundColor);
 
 
-    function colorIsLight(r, g, b){
+    function colorIsLight(r, g, b) {
         var a = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
         return (a < 0.5);
     }
-    return colorIsLight(r,g,b) ? '#000': '#fff'
+
+    return colorIsLight(r, g, b) ? '#000' : '#fff'
 }
 
