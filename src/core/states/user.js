@@ -2,6 +2,9 @@ import {selector, atom} from "recoil";
 import _ from 'lodash';
 import {USER_ROLES} from "../constants";
 import {PageState} from "./page";
+import {useDataStore} from "@dhis2/app-service-datastore";
+import DataStoreConstants from "../constants/datastore";
+import {DimensionsState} from "./index";
 
 export const UserState = atom({
     key: 'user',
@@ -11,7 +14,6 @@ export const UserState = atom({
 const rolesMapper = USER_ROLES;
 
 function disablePlanning(userRoles) {
-
     const planningEntities = _.filter(_.keys(rolesMapper), key => key !== 'actionStatus');
     const authorities = ['create', 'delete', 'update'];
     planningEntities.forEach(entity => {
@@ -27,6 +29,12 @@ export const UserRolesState = selector({
     get: ({get}) => {
         const {authorities} = get(UserState) || {};
         const activePage = get(PageState);
+        const {orgUnit} = get(DimensionsState);
+        console.log(orgUnit);
+        const {globalSettings} = useDataStore();
+        const settings = globalSettings.settings;
+        const planningOrgUnitLevel = settings[DataStoreConstants.PLANNING_ORG_UNIT_KEY];
+
         let userRoles = {};
         _.map(_.keys(rolesMapper), (entity) => {
             _.map(_.keys(rolesMapper[entity]), (authority) => {
@@ -41,7 +49,7 @@ export const UserRolesState = selector({
                 }
             });
         })
-        if (activePage === 'Tracking') {
+        if (activePage === 'Tracking' ) {
             return disablePlanning(userRoles);
         } else {
             return userRoles;
