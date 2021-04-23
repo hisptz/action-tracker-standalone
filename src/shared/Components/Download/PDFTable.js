@@ -10,25 +10,19 @@ import {
 import FullPageLoader from '../FullPageLoader';
 import { useRecoilValue } from 'recoil';
 import { DimensionsState, PageState } from '../../../core/states';
+import { TableStateSelector } from '../../../core/states/column';
 import { map } from 'lodash';
 import { Period } from '@iapps/period-utilities';
-function getQuarterColumnNames(period) {
-  const periodInstance = new Period();
-  const { quarterly } = periodInstance.getById(period[0]?.id) || {};
 
-  return map(quarterly || [], (quarter) => {
-    return quarter && quarter.name ? quarter.name : '';
-  });
-}
 function PDFTable({ teiItems, isLoading }) {
   const styles = {
     listTable: {
       marginBottom: '1em',
     },
   };
-  const { orgUnit, period } = useRecoilValue(DimensionsState) || {};
+  const tableColumnsData = useRecoilValue(TableStateSelector)
+
   const currentTab = useRecoilValue(PageState);
-  const quarterNames = getQuarterColumnNames(period);
   return (
     <div id="pdfTable">
       {teiItems && teiItems.length ? (
@@ -48,9 +42,9 @@ function PDFTable({ teiItems, isLoading }) {
                     <TableCellHead>Status</TableCellHead>
                   )}
                   {currentTab === 'Tracking' &&
-                    (quarterNames || []).map((quarter, index) => {
+                    (tableColumnsData?.actionStatusTable?.columns || []).map((actionStatusColumn, index) => {
                       return (
-                        <TableCellHead key={index}>{quarter}</TableCellHead>
+                        <TableCellHead key={actionStatusColumn}>{actionStatusColumn?.name}</TableCellHead>
                       );
                     })}
                 </TableRowHead>
