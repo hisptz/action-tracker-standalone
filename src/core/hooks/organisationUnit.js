@@ -1,4 +1,9 @@
-import {useDataQuery} from "@dhis2/app-runtime";
+import {useDataEngine, useDataQuery} from "@dhis2/app-runtime";
+import {useSetRecoilState} from "recoil";
+import PlanningOrgUnitLevelState from "../states/orgUnit";
+import {useEffect} from "react";
+import {useDataStore} from "@dhis2/app-service-datastore";
+import DataStoreConstants from "../constants/datastore";
 
 const orgUnitQuery = {
     ou: {
@@ -8,7 +13,8 @@ const orgUnitQuery = {
             fields: [
                 'id',
                 'name',
-                'displayName'
+                'displayName',
+                'level'
             ]
         }
     }
@@ -17,12 +23,13 @@ const orgUnitQuery = {
 const orgUnitLevelQuery = {
     level: {
         resource: 'organisationUnitLevels',
-        id:({id})=>id,
+        id: ({id}) => id,
         params: {
             fields: [
                 'id',
                 'name',
-                'displayName'
+                'displayName',
+                'level'
             ]
         }
     }
@@ -34,7 +41,18 @@ export default function useOrganisationUnit(id = '') {
     return {loading, error, orgUnit: data?.ou}
 }
 
-export function useOrganisationUnitLevel(id=''){
-    const {loading, data, error} = useDataQuery(orgUnitLevelQuery, {variables: {id}});
-    return {loading, error, orgUnitLevel: data?.level}
+export function useOrganisationUnitLevel() {
+    const {globalSettings} = useDataStore();
+    const planningOrgUnitLevelId = globalSettings?.settings[DataStoreConstants.PLANNING_ORG_UNIT_KEY];
+    const {loading, data, error} = useDataQuery(orgUnitLevelQuery, {variables: {id: planningOrgUnitLevelId}});
+    const setPlanningOrgUnitLevel = useSetRecoilState(PlanningOrgUnitLevelState);
+    useEffect(() => {
+        function assign() {
+            if (data) {
+                setPlanningOrgUnitLevel(data?.level);
+            }
+        }
+        assign();
+    }, [data]);
+    return {loading, error}
 }

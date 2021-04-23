@@ -5,6 +5,8 @@ import {useEffect, useState} from 'react';
 import {ActionConstants, BottleneckConstants, PROGRAMS} from '../constants';
 import actionStatusSettingsMetadata from '../../resources/Json/ActionStatusSettingsMetadata.json';
 import challengeSettingsMetadata from '../../resources/Json/ChallengeSettingsMetadata.json';
+import useUser from "./user";
+import {useOrganisationUnitLevel} from "./organisationUnit";
 
 const programFields = [
     'id',
@@ -61,9 +63,8 @@ async function sortOptionsInOptionSets(optionSets = [], engine) {
     }
 }
 
-export default function useAppConfig() {
+export  function useAppConfig() {
     const setConfig = useSetRecoilState(ConfigState);
-    const engine = useDataEngine();
     const {loading, data, refetch, error: queryError} = useDataQuery(configQuery,);
     const [error, setError] = useState();
     const [isFirstTime, setIsFirstTime] = useState(false);
@@ -104,4 +105,15 @@ export default function useAppConfig() {
     }, [loading]);
 
     return {loading, isFirstTime, firstTimeUseLoading, error};
+}
+
+export default function useAllConfig() {
+    const {loading, firstTimeUseLoading, error: configError} = useAppConfig();
+    const {loading: userLoading, error: userError} = useUser();
+    const {loading: orgUnitLevelLoading, error: orgUnitLevelError} = useOrganisationUnitLevel();
+    return {
+        firstTimeUseLoading,
+        loading: (userLoading || loading || orgUnitLevelLoading),
+        error: (configError || userError || orgUnitLevelError)
+    }
 }
