@@ -19,6 +19,7 @@ import FullPageError from "../../../shared/Components/FullPageError";
 import {downloadExcel} from '../../../core/services/downloadFilesService'
 import {UserConfigState} from "../../../core/states/user";
 import {BottleneckConstants} from "../../../core/constants";
+import {TableStateSelector} from '../../../core/states/column'
 
 const indicatorQuery = {
     indicators: {
@@ -75,6 +76,7 @@ export default function ChallengeList() {
         variables: {ou: orgUnit?.id, page, pageSize, trackedEntityInstance: [], ouMode},
         lazy: true
     });
+    const tableColumnsData = useRecoilValue(TableStateSelector)
     const currentTab = useRecoilValue(PageState);
     const engine = useRecoilValue(DataEngineState);
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
@@ -110,7 +112,7 @@ export default function ChallengeList() {
     }
 
     function onDownloadExcel() {
-        downloadExcel({engine, indicatorQuery, orgUnit, currentTab, selectedPeriod: period})
+        downloadExcel({engine, indicatorQuery, orgUnit, currentTab, selectedPeriod: period, tableColumnsData})
     }
 
     function onDownloadPDF() {

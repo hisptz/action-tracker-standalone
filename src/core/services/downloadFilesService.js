@@ -63,6 +63,7 @@ export async function getPDFDownloadData({
   selectedPeriod,
   page = 1,
   pageSize = 50,
+  tableColumnsData
 }) {
   const { indicators } = await engine.query(indicatorQuery, {
     variables: { ou: orgUnit?.id, page, pageSize, trackedEntityInstance: [] },
@@ -75,7 +76,8 @@ export async function getPDFDownloadData({
     pageSize,
     engine,
     currentTab,
-    selectedPeriod
+    selectedPeriod,
+    tableColumnsData
   });
 }
 
@@ -86,6 +88,7 @@ export async function downloadExcel({
   pageSize = 50,
   currentTab,
   selectedPeriod,
+  tableColumnsData
 }) {
   let teis = [];
   const { indicators } = await engine.query(indicatorQuery, {
@@ -128,9 +131,12 @@ export async function downloadExcel({
     engine,
     currentTab,
     selectedPeriod,
-    downloadType: 'excel'
+    downloadType: 'excel',
+    tableColumnsData
   });
-  await exportAsExcelFile(downloadData, `Action ${currentTab}`);
+  const periodInstance = new Period();
+  const period= periodInstance.getById(selectedPeriod[0]?.id) || {};
+  await exportAsExcelFile(downloadData, `${orgUnit?.displayName || ''}-${period?.name || ''}  Action ${currentTab}`);
 }
 
 async function getDownloadData({
@@ -139,7 +145,8 @@ async function getDownloadData({
   orgUnit,
   selectedPeriod,
   pageSize = 50,
-  currentTab
+  currentTab,
+  tableColumnsData
 }) {
   const pager = indicators && indicators.pager ? indicators.pager : {};
   const { pageCount } = pager;
@@ -171,7 +178,8 @@ async function getDownloadData({
     engine,
     downloadType: 'pdf',
     selectedPeriod,
-    currentTab
+    currentTab,
+    tableColumnsData
   });
   const groupedFormattedDataObj = mapValues(
     groupBy(downloadFormattedData || [], 'id'),
@@ -337,6 +345,7 @@ async function formatDataForDownload({
   downloadType = 'excel',
   currentTab = 'Planning',
   selectedPeriod,
+  tableColumnsData
 }) {
   let formatted = [];
   if (formattedTeis && formattedTeis.length) {
@@ -354,6 +363,7 @@ async function formatDataForDownload({
                     currentTab,
                     downloadType,
                     selectedPeriod,
+                    tableColumnsData
                   });
                   
                   const formattedObj = getRowObjectByDownloadType({
@@ -378,6 +388,7 @@ async function formatDataForDownload({
   }
   return formatted;
 }
+
 
 function getRowObjectByDownloadType({
   downloadType,
@@ -429,9 +440,11 @@ function getActionStatusObject({
   currentTab,
   downloadType,
   selectedPeriod,
+  tableColumnsData
 }) {
   let actionStatusesObj = {};
-  const { startDate, endDate, actionStatus } = action || {};
+  const { actionStatus } = action || {};
+ 
   const statusObj = maxBy(
     actionStatus || [],
     (actionStatusItem) => new Date(actionStatusItem?.reviewDate)
@@ -445,28 +458,36 @@ function getActionStatusObject({
       : {};
   }
  if (currentTab === 'Tracking') {
+  
+    
     const periodInstance = new Period();
     const { quarterly } = periodInstance.getById(selectedPeriod[0]?.id) || {};
-    if (quarterly && quarterly.length) {
-      for (const quarter of quarterly) {
-        if (
-          quarter.name &&
-          quarter.startDate &&
-          quarter.endDate
-        ) {
-          const formattedReviewDate = new Date(statusObj.reviewDate);
-          const formattedStartDate = new Date(validDate(quarter.startDate));
-          const formattedEndDate = new Date(validDate(quarter.endDate));
-          actionStatusesObj =
-          formattedReviewDate >= formattedStartDate &&
-          formattedReviewDate <=formattedEndDate
-              ? { ...actionStatusesObj, [quarter.name]: statusObj.status || '' }
-              : { ...actionStatusesObj, [quarter.name]: '' };
-        }
-      }
-    }
+
+     
+   const {columns} = tableColumnsData?.actionStatusTable || {columns: []};
+
+   if(columns?.length) {
+    
+    for (const column of columns) {
+
+      const periodValues = periodInstance.getById(column?.id)
+      const formattedStartDate = new Date(validDate(periodValues.startDate));
+      const formattedEndDate = new Date(validDate(periodValues.endDate));
+      const dateInGivenColumn = find(actionStatus || [], status => {
+        const formattedReviewDate = new Date(status?.reviewDate);
+       
+         if(formattedReviewDate >= formattedStartDate &&
+          formattedReviewDate <=formattedEndDate) {
+            return status;
+          }
+      });
+
+      actionStatusesObj = { ...actionStatusesObj, [column?.name]: dateInGivenColumn?.status || '' };
+     }
+   }
+
   }
-  
+ 
   return actionStatusesObj;
 }
 function validDate(date) {
