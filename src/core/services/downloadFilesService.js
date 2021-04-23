@@ -134,7 +134,9 @@ export async function downloadExcel({
     downloadType: 'excel',
     tableColumnsData
   });
-  await exportAsExcelFile(downloadData, `Action ${currentTab}`);
+  const periodInstance = new Period();
+  const period= periodInstance.getById(selectedPeriod[0]?.id) || {};
+  await exportAsExcelFile(downloadData, `${orgUnit?.displayName || ''}-${period?.name || ''}  Action ${currentTab}`);
 }
 
 async function getDownloadData({
