@@ -5,6 +5,7 @@ import {useAppConfig} from "../../core/hooks";
 import FullPageLoader from "../../shared/Components/FullPageLoader";
 import {useSetRecoilState, useRecoilValue, useRecoilState} from "recoil";
 import {DataEngineState, DimensionsState, DownloadPdfState, PageState} from "../../core/states";
+import {TableStateSelector} from "../../core/states/column";
 import {useAlert, useDataEngine, useAlerts} from "@dhis2/app-runtime";
 import useUser from "../../core/hooks/user";
 import generateErrorAlert from "../../core/services/generateErrorAlert";
@@ -39,6 +40,8 @@ export default function MainPage() {
     const [downloadPdf, setDownloadPdf] = useRecoilState(DownloadPdfState);
     const {orgUnit, period} = useRecoilValue(DimensionsState);
     const currentTab = useRecoilValue(PageState);
+    const tableColumnsData = useRecoilValue(TableStateSelector)
+    
 
     useEffect(() => {
         setDataEngine(engine)
@@ -46,7 +49,7 @@ export default function MainPage() {
     useEffect(() => generateErrorAlert(show, error), [error]);
 
     async function setUpPDFDownloadData() {
-        const pdfData = await getPDFDownloadData({engine, orgUnit, currentTab, selectedPeriod: period});
+        const pdfData = await getPDFDownloadData({engine, orgUnit, currentTab, selectedPeriod: period, tableColumnsData});
         setTablePDFDownloadData(pdfData);
     }
 
