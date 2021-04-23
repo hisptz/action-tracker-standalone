@@ -30,18 +30,22 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
         }
     }
 
-    const onUpdateClick = () =>{
-        const periodObject = periodInstance.getById(_.head(selectedPeriods)?.id);
-        if (periodObject.type === planningPeriod) {
-            if (onUpdate) {
+    const onUpdateClick = () => {
+        if (!_.isEmpty(selectedPeriods)) {
+            const periodObject = periodInstance.getById(_.head(selectedPeriods)?.id);
+            if (periodObject.type === planningPeriod) {
+                if (onUpdate) {
 
-                onUpdate(selectedPeriods);
+                    onUpdate(selectedPeriods);
+                } else {
+                    onClose();
+                }
             } else {
-                onClose();
+                setError(`Invalid Period. Please select period of type ${planningPeriod}.`);
+                setSelectedPeriods([]);
             }
         } else {
-            setError(`Invalid Period. Please select period of type ${planningPeriod}.`);
-            setSelectedPeriods([]);
+            show({message: 'Please select a period.', type: {critical: true}})
         }
     }
 
@@ -59,7 +63,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
                         if (items?.length && items.length > 1) {
                             items.shift();
                         }
-                       setSelectedPeriods(items)
+                        setSelectedPeriods(items)
                     }}
                     selectedPeriods={selectedPeriods}
                 />
@@ -72,7 +76,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
                     <Button
                         primary
                         onClick={(_) => {
-                          onUpdateClick();
+                            onUpdateClick();
                         }}
                     >
                         Update

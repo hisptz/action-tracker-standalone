@@ -24,6 +24,7 @@ export function FilterComponents() {
     const history = useHistory();
     const {url} = useRouteMatch();
     const onUpdateOrgUnitFilter = (data) => {if (data) {
+        console.log(data);
             setSelectedDimensions({...selectedDimensions, orgUnit: data});
         }
         setOpenOrgUnitFilter(false);
