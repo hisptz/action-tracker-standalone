@@ -100,6 +100,14 @@ export async function downloadExcel({
   selectedPeriod,
   tableColumnsData,
 }) {
+  const { gapsTable, actionsTable, solutionsTable } = tableColumnsData;
+
+  const columns = filter(concat(
+    [],
+    gapsTable?.columns || [],
+    solutionsTable?.columns || [],
+    actionsTable?.columns || []
+  ) || [], columnItem => columnItem.visible) ;
   let teis = [];
   const { indicators } = await engine.query(indicatorQuery, {
     variables: {
@@ -144,6 +152,7 @@ export async function downloadExcel({
     downloadType: 'excel',
     tableColumnsData,
     orgUnit,
+    columns
   });
   const periodInstance = new Period();
   const period = periodInstance.getById(selectedPeriod[0]?.id) || {};
@@ -462,6 +471,7 @@ function getRowObjectByDownloadType({
       possibleSolution,
       orgUnit,
       indicatorName,
+      actionStatusesObj
     });
   } else {
     return {};
@@ -629,6 +639,7 @@ function getExcelRowData({
   possibleSolution,
   action,
   indicatorName,
+  actionStatusesObj
 }) {
   let excelObj = { Indicator: indicatorName };
   for (const column of columns) {
