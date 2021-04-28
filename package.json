@@ -1,7 +1,8 @@
 {
+  "readme": "https://github.com/hisptz/action-tracker-standalone/blob/develop/README.md",
   "name": "action-tracker-standalone",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.0-beta-2804",
+  "description": "The action tracker is a management tool that helps improve effective coverage of priority interventions at district and community level, covering various interventions such as maternal, newborn, and child health (MNCH), HIV, and nutrition. ",
   "license": "BSD-3-Clause",
   "private": true,
   "scripts": {
@@ -12,12 +13,18 @@
     "e2e:interactive": "cypress open",
     "deploy": "d2-app-scripts deploy"
   },
+  "author": {
+    "email": "info@hisptanzania.org",
+    "name": "HISP Tanzania",
+    "url": "https://hisptanzania.org/"
+  },
   "devDependencies": {
     "@dhis2/cli-app-scripts": "^6.1.0",
     "cucumber": "^7.0.0-rc.0",
     "cypress": "^7.0.1",
     "cypress-cucumber-preprocessor": "^4.0.3"
   },
+  "homepage": "https://github.com/hisptz/action-tracker-standalone",
   "dependencies": {
     "@dhis2/analytics": "^16.0.18",
     "@dhis2/app-runtime": "^2.8.0",
