@@ -1,10 +1,8 @@
 import { Container, Fab, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { Divider } from '@dhis2/ui';
-import React, {useState} from 'react';
-import AddIcon from '@material-ui/icons/Add';
+import React from 'react';
 import ChallengeMethodsTable from './Components/ChallengeMethodsTable';
-import ChallengeSettingsFormDialog from '../Dialogs/ChallengeSettingsFormDialog'
 
 const styles = {
   container: {

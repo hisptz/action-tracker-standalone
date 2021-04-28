@@ -148,7 +148,6 @@ export function setTrackingColumns(period = [], tables = {}, trackingPeriod) {
             },
             actionsTable
         };
-        console.log(tables);
         updateVisibleColumns(tables);
         return tables;
     } else {

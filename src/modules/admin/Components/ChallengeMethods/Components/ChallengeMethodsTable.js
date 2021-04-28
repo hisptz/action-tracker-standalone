@@ -26,6 +26,9 @@ import TableActionsMenu from "../../../../main/Components/TableActionsMenu";
 import {OptionDeleteConfirmation} from "../../../../../shared/Components/DeleteConfirmation";
 import FullPageError from "../../../../../shared/Components/FullPageError";
 import {BottleneckConstants, GapConstants} from "../../../../../core/constants";
+import Visibility from "../../../../../shared/Components/Visibility";
+import {useRecoilValue} from "recoil";
+import {UserRolesState} from "../../../../../core/states/user";
 
 const methodsQuery = {
     methodOptions: {
@@ -50,7 +53,7 @@ const methodsQuery = {
     },
     actionStatusOptionSet: {
         resource: 'optionSets',
-        id: ChallengeMethodConstants.CHALLENGE_METHOD_OPTION_SET_ID ,
+        id: ChallengeMethodConstants.CHALLENGE_METHOD_OPTION_SET_ID,
         params: {
             fields: [
                 'id',
@@ -73,6 +76,7 @@ const columns = [
 export default function ChallengeMethodsTable() {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
+    const {settings} = useRecoilValue(UserRolesState);
     const {loading, error, data, refetch} = useDataQuery(methodsQuery, {variables: {page, pageSize}});
 
     const [ref, setRef] = useState(undefined);
@@ -123,7 +127,7 @@ export default function ChallengeMethodsTable() {
 
     return (
         loading ? <FullPageLoader/> :
-            error ? <FullPageError error={error?.message || error?.toString()} />:  <>
+            error ? <FullPageError error={error?.message || error?.toString()}/> : <>
                 <Table>
                     <TableHead>
                         <TableRowHead>
@@ -142,10 +146,12 @@ export default function ChallengeMethodsTable() {
                                         <TableCell>{name}</TableCell>
                                         <TableCell>{code}</TableCell>
                                         <TableCell>{getFormattedDate(lastUpdated)}</TableCell>
-                                        <TableCell><Button onClick={(d, e) => {
-                                            setSelectedOption(option);
-                                            setRef(e?.currentTarget);
-                                        }} icon={<MoreHorizIcon/>}/></TableCell>
+                                        <TableCell><Visibility visible={settings.challengeMethodsOptions}>
+                                            <Button onClick={(d, e) => {
+                                                setSelectedOption(option);
+                                                setRef(e.currentTarget);
+                                            }} icon={<MoreHorizIcon/>}/>
+                                        </Visibility></TableCell>
                                     </TableRow>
                                 )
                             })
@@ -167,19 +173,21 @@ export default function ChallengeMethodsTable() {
                 </Table>
 
                 <Grid item container justify="flex-end">
-                    <Fab
-                        className="primary.jsx-2371629422"
-                        style={styles.floatingAction}
-                        color="primary"
-                        aria-label="add"
-                        onClick={() =>
-                            setOpenChallengeSettingsDialog(
-                                !openChallengeSettingsDialog
-                            )
-                        }
-                    >
-                        <AddIcon/>
-                    </Fab>
+                    <Visibility visible={settings.challengeMethodsOptions}>
+                        <Fab
+                            className="primary.jsx-2371629422"
+                            style={styles.floatingAction}
+                            color="primary"
+                            aria-label="add"
+                            onClick={() =>
+                                setOpenChallengeSettingsDialog(
+                                    !openChallengeSettingsDialog
+                                )
+                            }
+                        >
+                            <AddIcon/>
+                        </Fab>
+                    </Visibility>
                 </Grid>
                 {
                     ref &&

@@ -7,7 +7,7 @@ export async function exportAsExcelFile(json, excelFileName) {
     return new Promise((resolve, reject) => {
       try {
         let worksheet = XLSX.utils.json_to_sheet(json);
-    
+
         const workbook = {
           Sheets: { data: worksheet },
           SheetNames: ['data'],
@@ -19,7 +19,6 @@ export async function exportAsExcelFile(json, excelFileName) {
         resolve();
         saveAsExcelFile(excelBuffer, excelFileName);
       } catch (error) {
-          console.log(error);
         reject(error);
       }
     });

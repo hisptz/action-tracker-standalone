@@ -6,6 +6,9 @@ import React, {useEffect, useState} from "react";
 import CustomPeriodEditor from "./CustomPeriodEditor";
 import {PeriodType} from "@iapps/period-utilities";
 import _ from "lodash";
+import Visibility from "../../../../../shared/Components/Visibility";
+import {useRecoilValue} from "recoil";
+import {UserRolesState} from "../../../../../core/states/user";
 
 function getPeriodsToExclude(planningPeriod) {
     const periodTypes = new PeriodType().get();
@@ -56,17 +59,22 @@ export default function PeriodSettings() {
             setPeriodsToExclude(getPeriodsToExclude(planningSetting));
         }
     }, [planningSetting]);
+    const {settings} = useRecoilValue(UserRolesState);
 
     return (
         <Grid item spacing={3} container direction='column'>
             <Grid item>
-                <CustomPeriodEditor error={planningError} saving={planningSaving} value={planningSetting}
-                                    onChange={({selected}) => planningSet(selected)} label='Planning Period'/>
+               <Visibility visible={settings.planningPeriod}>
+                   <CustomPeriodEditor error={planningError} saving={planningSaving} value={planningSetting}
+                                       onChange={({selected}) => planningSet(selected)} label='Planning Period'/>
+               </Visibility>
             </Grid>
             <Grid item>
-                <CustomPeriodEditor error={trackingError} saving={trackingSaving} value={trackingSetting}
-                                    exclude={!trackingSaving && periodsToExclude}
-                                    onChange={({selected}) => trackingSet(selected)} label='Tracking Period'/>
+                <Visibility visible={settings.trackingPeriod}>
+                    <CustomPeriodEditor error={trackingError} saving={trackingSaving} value={trackingSetting}
+                                        exclude={!trackingSaving && periodsToExclude}
+                                        onChange={({selected}) => trackingSet(selected)} label='Tracking Period'/>
+                </Visibility>
             </Grid>
         </Grid>
     )

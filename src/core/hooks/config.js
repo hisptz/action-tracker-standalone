@@ -1,6 +1,6 @@
 import {useSetRecoilState} from 'recoil';
 import {ConfigState} from '../states';
-import {useDataEngine, useDataMutation, useDataQuery} from '@dhis2/app-runtime';
+import {useDataMutation, useDataQuery} from '@dhis2/app-runtime';
 import {useEffect, useState} from 'react';
 import {ActionConstants, BottleneckConstants, PROGRAMS} from '../constants';
 import actionStatusSettingsMetadata from '../../resources/Json/ActionStatusSettingsMetadata.json';

@@ -37,7 +37,6 @@ const orgUnitLevelQuery = {
 
 export default function useOrganisationUnit(id = '') {
     const {loading, data, error} = useDataQuery(orgUnitQuery, {variables: {id}});
-    console.log(data);
     return {loading, error, orgUnit: data?.ou}
 }
 
@@ -50,6 +49,8 @@ export function useOrganisationUnitLevel() {
         function assign() {
             if (data) {
                 setPlanningOrgUnitLevel(data?.level);
+            }else{
+
             }
         }
         assign();

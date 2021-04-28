@@ -30,6 +30,9 @@ import AddIcon from "@material-ui/icons/Add";
 import ActionStatusSettingsFormDialog from "../../Dialogs/ActionStatusSettingsFormDialog";
 import FullPageError from "../../../../../shared/Components/FullPageError";
 import {ActionConstants, ActionStatusConstants} from "../../../../../core/constants";
+import {useRecoilValue} from "recoil";
+import {UserRolesState} from "../../../../../core/states/user";
+import Visibility from "../../../../../shared/Components/Visibility";
 
 
 const actionStatusOptionsQuery = {
@@ -80,6 +83,7 @@ const columns = [
 export default function ActionStatusTable() {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
+    const {settings} = useRecoilValue(UserRolesState);
     const {loading, data, error, refetch} = useDataQuery(actionStatusOptionsQuery, {
         variables: {page, pageSize},
     });
@@ -110,6 +114,8 @@ export default function ActionStatusTable() {
     const onEdit = () => {
         setOpenActionStatusSettingsDialog(true);
     }
+
+
 
     useEffect(() => {
         async function fetch() {
@@ -151,10 +157,13 @@ export default function ActionStatusTable() {
                                         <TableCell><ActionStatusColor color={style?.color}/></TableCell>
                                         <TableCell><DHIS2Icon iconName={style?.icon} size={20}/></TableCell>
                                         <TableCell>{getFormattedDate(lastUpdated)}</TableCell>
-                                        <TableCell><Button onClick={(d, e) => {
-                                            setSelectedOption(option);
-                                            setRef(e.currentTarget);
-                                        }} icon={<MoreHorizIcon/>}/></TableCell>
+                                        <TableCell><Visibility visible={settings.actionStatusOptions}>
+                                            <Button onClick={(d, e) => {
+                                                setSelectedOption(option);
+                                                setRef(e.currentTarget);
+                                            }} icon={<MoreHorizIcon/>}/>
+                                        </Visibility>
+                                        </TableCell>
                                     </TableRow>
                                 )
                             })
@@ -175,19 +184,21 @@ export default function ActionStatusTable() {
                     </TableFoot>
                 </Table>
                 <Grid item container justify="flex-end">
-                    <Fab
-                        onClick={() =>
-                            setOpenActionStatusSettingsDialog(
-                                !openActionStatusSettingsDialog
-                            )
-                        }
-                        className="primary.jsx-2371629422"
-                        style={styles.floatingAction}
-                        color="primary"
-                        aria-label="add"
-                    >
-                        <AddIcon/>
-                    </Fab>
+                   <Visibility visible={settings.actionStatusOptions}>
+                       <Fab
+                           onClick={() =>
+                               setOpenActionStatusSettingsDialog(
+                                   !openActionStatusSettingsDialog
+                               )
+                           }
+                           className="primary.jsx-2371629422"
+                           style={styles.floatingAction}
+                           color="primary"
+                           aria-label="add"
+                       >
+                           <AddIcon/>
+                       </Fab>
+                   </Visibility>
                     {openActionStatusSettingsDialog && (
                         <ActionStatusSettingsFormDialog
                             optionSet={data?.actionStatusOptionSet}

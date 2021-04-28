@@ -12,6 +12,7 @@ import {
 import AdminPage from "./modules/admin";
 import {DataStoreProvider} from "@dhis2/app-service-datastore";
 import FullPageLoader from "./shared/Components/FullPageLoader";
+import defaultGlobalSettings from './core/constants/defaultConfig.json'
 
 const styles = {
     margin: 0,
@@ -36,7 +37,8 @@ const MyApp = () => {
     return (
         <RecoilRoot>
             <CssReset/>
-            <DataStoreProvider namespace={'Standalone_Action_Tracker'} loadingComponent={<FullPageLoader/>} >
+            <DataStoreProvider namespace={'Standalone_Action_Tracker'} loadingComponent={<FullPageLoader/>}
+                               defaultGlobalSettings={defaultGlobalSettings}>
                 <Container style={styles}>
                     <MemoryRouter initialEntries={modules} initialIndex={0}>
                         <Switch>

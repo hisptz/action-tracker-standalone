@@ -22,7 +22,6 @@ export default function OrganisationUnitFilter({onClose, onUpdate, initialOrgUni
     const [selectedOrgUnitPaths, setSelectedOrgUnitPaths] = useState(initialOrgUnit && [initialOrgUnit?.path]);
     const [selectedOrgUnit, setSelectedOrgUnit] = useState(initialOrgUnit ? [initialOrgUnit] : []);
     const orgUnitLevel = useRecoilValue(PlanningOrgUnitLevelState);
-    console.log(orgUnitLevel);
     const onSelect = ({path}) => {
         setSelectedOrgUnitPaths([path])
     };

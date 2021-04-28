@@ -23,8 +23,8 @@ export function FilterComponents() {
     const {settings} = useRecoilValue(UserRolesState);
     const history = useHistory();
     const {url} = useRouteMatch();
-    const onUpdateOrgUnitFilter = (data) => {if (data) {
-        console.log(data);
+    const onUpdateOrgUnitFilter = (data) => {
+        if (data) {
             setSelectedDimensions({...selectedDimensions, orgUnit: data});
         }
         setOpenOrgUnitFilter(false);
@@ -57,7 +57,7 @@ export function FilterComponents() {
                         </Grid>
                     </Grid>
                     <Grid item xs={2} container direction='row' justify='flex-end'>
-                        <Visibility visible={settings.users} >
+                        <Visibility visible={Object.values(settings).reduce((pV, v) => pV || v)}>
                             <Button onClick={() => history.push(`${url}admin`)}
                                     icon={<SettingsIcon/>}>
                                 Settings

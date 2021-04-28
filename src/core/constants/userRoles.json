@@ -25,9 +25,10 @@
     "delete": "SAT_DELETE_ACTION_STATUS"
   },
   "settings": {
-    "users": "SAT_MANAGE_USERS",
-    "legends": "SAT_MANAGE_LEGENDS",
+    "actionStatusOptions": "SAT_MANAGE_ACTION_STATUS_OPTIONS",
+    "challengeMethodsOptions": "SAT_MANAGE_CHALLENGE_METHODS",
     "planningPeriod": "SAT_MANAGE_PLANNING_PERIOD",
-    "reviewPeriod": "SAT_MANAGE_REVIEW_PERIOD"
+    "trackingPeriod": "SAT_MANAGE_TRACKING_PERIOD",
+    "planningOrgUnitLevel": "SAT_MANAGE_PLANNING_ORG_UNIT_LEVEL"
   }
 }
