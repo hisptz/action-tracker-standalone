@@ -33,6 +33,7 @@ const actionsQuery = {
             pageSize,
             totalPages: true,
             fields: ActionConstants.ACTION_QUERY_FIELDS,
+            ouMode: 'DESCENDANTS',
             filter: [
                 `${ActionConstants.ACTION_TO_SOLUTION_LINKAGE}:eq:${solutionToActionLinkage}`,
             ]
@@ -103,10 +104,12 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                 <CustomNestedTable>
                     <colgroup>
                         {
-                            actionsTable.columns.map(_ => _.visible && <col key={`col-${_.name}`} width={`${100 / visibleColumnsCount}%`}/>)
+                            actionsTable.columns.map(_ => _.visible &&
+                                <col key={`col-${_.name}`} width={`${100 / visibleColumnsCount}%`}/>)
                         }
                         {
-                            actionStatusTable.visible && actionStatusTable.columns.map(_ => <col key={`col-${_.name}`} width={`${100 / visibleColumnsCount}%`}/>)
+                            actionStatusTable.visible && actionStatusTable.columns.map(_ => <col key={`col-${_.name}`}
+                                                                                                 width={`${100 / visibleColumnsCount}%`}/>)
                         }
                     </colgroup>
                     <TableBody>
@@ -156,7 +159,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                                     })
                                                 }{
                                                 actionStatusTable.visible &&
-                                                _.map(actionStatusTable.columns, ({ render, visible}) => {
+                                                _.map(actionStatusTable.columns, ({render, visible}) => {
                                                     if (render && visible) return render(action, refetch, {
                                                         roles: actionStatusRoles,
                                                         onDelete: (object) => {
@@ -193,9 +196,9 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                             <TableRow key={`${action?.id}-row`}>
                                                 {
                                                     _.map(actionsTable.columns, ({
-                                                                             render,
-                                                                             visible
-                                                                         }) => {
+                                                                                     render,
+                                                                                     visible
+                                                                                 }) => {
                                                         if (render && visible) return render(action, refetch, {
                                                             roles: actionRoles,
                                                             onDelete: (object) => {
@@ -229,9 +232,9 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                                 {
                                                     actionStatusTable.visible &&
                                                     _.map(actionStatusTable.columns, ({
-                                                                                  render,
-                                                                                  visible
-                                                                              }) => {
+                                                                                          render,
+                                                                                          visible
+                                                                                      }) => {
                                                         if (render && visible) return render(action, refetch, {
                                                             roles: actionStatusRoles,
                                                             onDelete: (object) => {
@@ -273,9 +276,9 @@ export default function ActionTable({solution = new PossibleSolution()}) {
             <Container maxWidth={false}>
                 <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                     <Grid item>
-                      <Visibility visible={actionRoles?.create}>
-                          <Button onClick={_ => setAddActionOpen(true)}>Add Action Item</Button>
-                      </Visibility>
+                        <Visibility visible={actionRoles?.create}>
+                            <Button onClick={_ => setAddActionOpen(true)}>Add Action Item</Button>
+                        </Visibility>
 
                     </Grid>
                     <Grid item>
