@@ -15,7 +15,7 @@ import FullPageLoader from "./shared/Components/FullPageLoader";
 
 const styles = {
     margin: 0,
-    overflowX: 'hidden',
+    overflowX: 'auto',
     padding: 0,
     minHeight: 'calc(100vh - 48px)',
     minWidth: 'calc(100vw - 4px)',

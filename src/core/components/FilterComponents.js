@@ -37,7 +37,7 @@ export function FilterComponents() {
     };
 
     return (
-        <Paper elevation={2}>
+        <Paper elevation={2} style={{minWidth: 1366}}>
             <Container maxWidth={false} style={{padding: 20}}>
                 <Grid container direction='row' justify='space-between'>
                     <Grid item container spacing={5} xs={10}>

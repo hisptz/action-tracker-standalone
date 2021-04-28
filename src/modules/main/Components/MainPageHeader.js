@@ -90,7 +90,7 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
     const [reference, setReference] = useState(undefined);
 
     return (
-        <Container maxWidth={false} className="main-page-header">
+        <Container style={{minWidth: 1366}} maxWidth={false} className="main-page-header">
             <Grid container spacing={4}>
                 <Grid item container xs={6} lg={6} spacing={3}>
                     <Grid item><Typography variant='h5'

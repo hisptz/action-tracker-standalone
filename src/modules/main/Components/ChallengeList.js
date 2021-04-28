@@ -46,11 +46,13 @@ const styles = {
         paddingTop: 30,
         height: 'calc(100vh - 188px)',
         paddingLeft: 20,
-        paddingRight: 20
+        paddingRight: 20,
+        minWidth: 1366
     },
     challengesContainer: {
         flexGrow: 1,
-        minHeight: '100%'
+        minHeight: '100%',
+        minWidth: 1366
     },
     mainHeaderContainer: {
         maxHeight: 120,
@@ -89,10 +91,17 @@ export default function ChallengeList() {
                 if (!selectedStatus) {
                     refetch({ou: orgUnit?.id, page, pageSize, trackedEntityInstance: [], ouMode: 'DESCENDANTS'})
                 } else {
-                    refetch({ou: orgUnit?.id, page, pageSize, trackedEntityInstance: filteredTeis.join(';'), ouMode: 'DESCENDANTS'})
+                    refetch({
+                        ou: orgUnit?.id,
+                        page,
+                        pageSize,
+                        trackedEntityInstance: filteredTeis.join(';'),
+                        ouMode: 'DESCENDANTS'
+                    })
                 }
             }
         }
+
         refresh();
     }, [orgUnit, period, page, pageSize, selectedStatus, filteredTeisLoading, filteredTeis]);
 
@@ -118,7 +127,7 @@ export default function ChallengeList() {
     function onDownloadPDF() {
         setIsDownloadingPdf({isDownloadingPdf: true, loading: true})
 
-       show({message: 'Preparing a PDF file', type: {permanent: true}});
+        show({message: 'Preparing a PDF file', type: {permanent: true}});
 
     }
 
@@ -145,7 +154,7 @@ export default function ChallengeList() {
                             _.isEmpty(data.indicators?.trackedEntityInstances) ?
                                 <Grid item style={styles.fullPage}> <EmptyChallengeList
                                     onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/></Grid> :
-                                <Grid item container spacing={0} direction='column'>
+                                <Grid item container spacing={0} direction='column' style={{minWidth: 1366}}>
                                     {
                                         _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
                                             const indicator = new Bottleneck(trackedEntityInstance);

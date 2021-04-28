@@ -1,4 +1,4 @@
-import {Button, Menu, MenuDivider, MenuItem} from '@dhis2/ui';
+import {MenuItem} from '@dhis2/ui';
 import React from 'react';
 import {MemoryRouter, Route, Switch, useHistory} from "react-router-dom";
 import {Container} from "@material-ui/core";
@@ -9,9 +9,6 @@ import ActionStatusLegendSettingsPage from "./Components/ActionStatusLegend";
 import ChallengeMethodsSettingsPage from "./Components/ChallengeMethods";
 import GeneralSettingsPage from "./Components/GeneralSettings";
 import _ from 'lodash';
-import ActionIcon from '@material-ui/icons/AssignmentTurnedIn';
-import SettingsIcon from '@material-ui/icons/Settings';
-import MethodsIcon from "@material-ui/icons/AccountTree";
 
 
 const menu = [
@@ -34,7 +31,6 @@ const menu = [
 
 export default function AdminPage() {
     const history = useHistory();
-
     const styles = {
         container: {
             padding: 20,
@@ -42,7 +38,6 @@ export default function AdminPage() {
             height: 'calc(100vh - 48px)'
         },
     }
-
 
     return (
         <Container style={styles.container} maxWidth={false}>

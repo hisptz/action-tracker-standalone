@@ -26,7 +26,6 @@ const CustomTableRowHead = withStyles((_) => ({
     root: {
         padding: 4,
         backgroundColor: '#F8F9FA',
-
     }
 }))(TableRow)
 
@@ -37,7 +36,7 @@ const CustomTableCellHead = withStyles((_) => ({
         fontSize: 14,
         color: '#212934',
         fontWeight: 'normal',
-        minWidth: 120
+        minWidth: 150
     }
 }))(TableCell)
 
@@ -47,7 +46,7 @@ const CustomTableCell = withStyles((_) => ({
         paddingBottom: 5,
         paddingTop: 10,
         fontSize: 14,
-        minWidth: 120
+
     }
 }))(TableCell)
 const CustomNestingTableCell = withStyles((_) => ({
@@ -161,7 +160,9 @@ const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object, r
 }
 
 const DueDateTableCell = ({dueDate, style}) => {
-    const warning = false;
+    const [year,month,date] = dueDate.split('-');
+    const dueJSDate = new Date(year, month, date)
+    const warning = dueJSDate < new Date();
     return (
         <CustomTableCell style={{
             background: warning && '#ffecb3',
@@ -256,11 +257,11 @@ const CustomTableCellWithActions = ({object, setRef, reference, onDelete, onEdit
     const {update: canUpdate, delete: canDelete} = roles || {canUpdate: false, canDelete: false};
     return (
         <CustomTableCell key={`${object?.id}-description`}>
-            <Grid container spacing={1}>
-                <Grid item xs={(canDelete || canUpdate) ? 9 : 12}>
+            <Grid container spacing={1} >
+                <Grid item xs={(canDelete || canUpdate) ? 8  : 12}>
                     {children}
                 </Grid>
-                <Grid item xs={(canDelete || canUpdate) ? 3 : 0}>
+                <Grid item xs={(canDelete || canUpdate) ? 4 : 0}>
                     {
                         (canDelete || canUpdate) &&
                         <Button key={`${object?.id}-action-menu-button`} onClick={(d, e) => {

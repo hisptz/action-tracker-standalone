@@ -1,13 +1,11 @@
 import React, {useEffect, Suspense, useState} from 'react';
 import ChallengeList from "./Components/ChallengeList";
 import FilterComponents from "../../core/components/FilterComponents";
-import {useAppConfig} from "../../core/hooks";
 import FullPageLoader from "../../shared/Components/FullPageLoader";
 import {useSetRecoilState, useRecoilValue, useRecoilState} from "recoil";
 import {DataEngineState, DimensionsState, DownloadPdfState, PageState} from "../../core/states";
 import {TableStateSelector} from "../../core/states/column";
 import {useAlert, useDataEngine, useAlerts} from "@dhis2/app-runtime";
-import useUser from "../../core/hooks/user";
 import generateErrorAlert from "../../core/services/generateErrorAlert";
 import Grid from "@material-ui/core/Grid";
 import './styles/main.css';
@@ -23,7 +21,6 @@ const styles = {
     gridContainer: {flexGrow: 1, height: 'calc(100vh - 48px)'},
     filterContainer: {
         width: '100%',
-        maxHeight: 130
     },
     dataContainer: {
         flexGrow: 1,
@@ -41,7 +38,7 @@ export default function MainPage() {
     const {orgUnit, period} = useRecoilValue(DimensionsState);
     const currentTab = useRecoilValue(PageState);
     const tableColumnsData = useRecoilValue(TableStateSelector)
-    
+
 
     useEffect(() => {
         setDataEngine(engine)
