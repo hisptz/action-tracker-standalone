@@ -14,6 +14,7 @@ import {getPDFDownloadData} from '../../core/services/downloadFilesService';
 import {Container} from "@material-ui/core";
 import FullPageError from "../../shared/Components/FullPageError";
 import useAllConfig from "../../core/hooks/config";
+import NoConfigPage from "./Components/NoConfigPage";
 
 
 const styles = {
@@ -28,7 +29,7 @@ const styles = {
 }
 
 export default function MainPage() {
-    const {loading, error, firstTimeUseLoading} = useAllConfig();
+    const {loading, error, firstTimeUseLoading, noConfig} = useAllConfig();
     const engine = useDataEngine();
     const setDataEngine = useSetRecoilState(DataEngineState);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
@@ -46,7 +47,13 @@ export default function MainPage() {
     useEffect(() => generateErrorAlert(show, error), [error]);
 
     async function setUpPDFDownloadData() {
-        const pdfData = await getPDFDownloadData({engine, orgUnit, currentTab, selectedPeriod: period, tableColumnsData});
+        const pdfData = await getPDFDownloadData({
+            engine,
+            orgUnit,
+            currentTab,
+            selectedPeriod: period,
+            tableColumnsData
+        });
         setTablePDFDownloadData(pdfData);
     }
 
@@ -70,19 +77,20 @@ export default function MainPage() {
         loading || firstTimeUseLoading ?
             <div style={styles.container} id="mainPage"><FullPageLoader
                 text={firstTimeUseLoading && 'Configuring for first time use. Please wait...'}/></div> :
-            error ? <FullPageError error={error?.message || error.toString()} />:
-            <Container maxWidth={false} id="mainPage" style={styles.container}>
-                <Grid id="mainGrid" container style={styles.container} spacing={0} direction='column'>
-                    <Grid item className="filter-components-grid" style={styles.filterContainer}>
-                        <FilterComponents/>
-                    </Grid>
-                    <Grid item style={styles.dataContainer}>
-                        <Suspense fallback={<FullPageLoader/>}>
-                            <ChallengeList/>
-                        </Suspense>
-                    </Grid>
-                </Grid>
-                {downloadPdf?.isDownloadingPdf && <PDFTable teiItems={tablePDFDownloadData}/>}
-            </Container>
+            error ? <FullPageError error={error?.message || error.toString()}/> :
+                noConfig ? <div style={styles.container} id="mainPage" ><NoConfigPage/></div> :
+                    <Container maxWidth={false} id="mainPage" style={styles.container}>
+                        <Grid id="mainGrid" container style={styles.container} spacing={0} direction='column'>
+                            <Grid item className="filter-components-grid" style={styles.filterContainer}>
+                                <FilterComponents/>
+                            </Grid>
+                            <Grid item style={styles.dataContainer}>
+                                <Suspense fallback={<FullPageLoader/>}>
+                                    <ChallengeList/>
+                                </Suspense>
+                            </Grid>
+                        </Grid>
+                        {downloadPdf?.isDownloadingPdf && <PDFTable teiItems={tablePDFDownloadData}/>}
+                    </Container>
     )
 }

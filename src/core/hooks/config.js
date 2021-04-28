@@ -110,10 +110,11 @@ export  function useAppConfig() {
 export default function useAllConfig() {
     const {loading, firstTimeUseLoading, error: configError} = useAppConfig();
     const {loading: userLoading, error: userError} = useUser();
-    const {loading: orgUnitLevelLoading, error: orgUnitLevelError} = useOrganisationUnitLevel();
+    const {loading: orgUnitLevelLoading, error: orgUnitLevelError, noConfig} = useOrganisationUnitLevel();
     return {
         firstTimeUseLoading,
         loading: (userLoading || loading || orgUnitLevelLoading),
-        error: (configError || userError || orgUnitLevelError)
+        error: (configError || userError || orgUnitLevelError),
+        noConfig
     }
 }
