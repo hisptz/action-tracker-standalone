@@ -1,0 +1,42 @@
+name: Build and Release App
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{matrix.node-version}}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{matrix.node-version}}
+      - name: Install dependecies
+        run: yarn install
+
+      - name: Build
+        run: yarn build
+
+      - name: Get app version
+        uses: dutscher/read-package-json-endpoint-actions@v1.33.7
+        id: package-json
+        run: echo "APP_VERSION=${{package-json.outputs.version}}"
+
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag:  ${{ env.APP_VERSION }}
+          name:  ${{ env.APP_VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: "build/bundle/*.zip"
+
