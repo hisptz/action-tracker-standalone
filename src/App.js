@@ -1,31 +1,58 @@
 import React from 'react'
-import { DataQuery } from '@dhis2/app-runtime'
-import i18n from '@dhis2/d2-i18n'
-import classes from './App.module.css'
+import './App.css'
+import MainPage from "./modules/main";
+import {RecoilRoot} from "recoil";
+import {CssReset} from '@dhis2/ui'
+import {Container} from "@material-ui/core";
+import {
+    MemoryRouter,
+    Switch,
+    Route,
+} from "react-router-dom";
+import AdminPage from "./modules/admin";
+import {DataStoreProvider} from "@dhis2/app-service-datastore";
+import FullPageLoader from "./shared/Components/FullPageLoader";
+import defaultGlobalSettings from './core/constants/defaultConfig.json'
 
-const query = {
-    me: {
-        resource: 'me',
-    },
+const styles = {
+    margin: 0,
+    overflowX: 'auto',
+    padding: 0,
+    minHeight: 'calc(100vh - 48px)',
+    minWidth: 'calc(100vw - 4px)',
+    flex: 1
+};
+
+const MyApp = () => {
+
+    const modules = [
+        {
+            pathname: '/',
+        },
+        {
+            pathname: '/admin',
+        }
+    ]
+
+    return (
+        <RecoilRoot>
+            <CssReset/>
+            <DataStoreProvider namespace={'Standalone_Action_Tracker'} loadingComponent={<FullPageLoader/>}
+                               defaultGlobalSettings={defaultGlobalSettings}>
+                <Container style={styles}>
+                    <MemoryRouter initialEntries={modules} initialIndex={0}>
+                        <Switch>
+                            <Route path={`/admin`}>
+                                <AdminPage/>
+                            </Route>
+                            <Route path={`/`}>
+                                <MainPage/>
+                            </Route>
+                        </Switch>
+                    </MemoryRouter>
+                </Container>
+            </DataStoreProvider>
+        </RecoilRoot>
+    )
 }
-
-const MyApp = () => (
-    <div className={classes.container}>
-        <DataQuery query={query}>
-            {({ error, loading, data }) => {
-                if (error) return <span>ERROR</span>
-                if (loading) return <span>...</span>
-                return (
-                    <>
-                        <h1>
-                            {i18n.t('Hello {{name}}', { name: data.me.name })}
-                        </h1>
-                        <h3>{i18n.t('Welcome to DHIS2!')}</h3>
-                    </>
-                )
-            }}
-        </DataQuery>
-    </div>
-)
-
 export default MyApp

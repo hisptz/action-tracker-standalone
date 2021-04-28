@@ -1,0 +1,15 @@
+.components-container {
+    width: 100vw;
+    min-height: 8.75px;
+     display: flex;
+    flex-wrap: wrap;
+    padding: 1em;
+    gap: 2em;
+    padding: 1em;  
+    gap: 2em; 
+};
+.MuiGrid-spacing-xs-5 {
+    width: 90% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}

@@ -1,0 +1,48 @@
+.app-container {
+    margin-left: 0 !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+}
+
+html{
+    height: 100%;
+}
+
+.popper{
+    z-index: 9999;
+}
+
+body {
+    background: #F8F9FA;
+    min-height: 100vh;
+    min-width: 100vw;
+}
+
+*::-webkit-scrollbar {
+    width: 0.3em;
+    height: 0.3em;
+}
+
+*::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.00)
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #D5DDE5;
+    outline: 0.5px solid #E8EDF2;
+}
+
+div.jsx-1730587817 {
+    z-index: 3000;
+}
+
+@media print {
+    .main-page-header {
+        display: none !important;
+    }
+}
+
+.transparent{
+    background: transparent;
+}
