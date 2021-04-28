@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        
+      - name: Get app version
+        uses: nyaa8/package-version@v1.0.3  
 
       - name: Use Node.js ${{matrix.node-version}}
         uses: actions/setup-node@v1
@@ -27,18 +30,11 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Get app version
-        uses: dutscher/read-package-json-endpoint-actions@v1.33.7
-        id: package-json-endpoint
-      
-      - name: Set app version
-        run: echo "APP_VERSION=${{steps.package-json-endpoint.outputs.version}}"
-
       - name: Release
         uses: ncipollo/release-action@v1
         with:
-          tag:  ${{ env.APP_VERSION }}
-          name:  ${{ env.APP_VERSION }}
+          tag:  ${{ env.PACKAGE_VERSION }}
+          name:  ${{ env.PACKAGE_VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: "build/bundle/*.zip"
 
