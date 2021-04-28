@@ -11,7 +11,7 @@ import FullPageLoader from '../FullPageLoader';
 import { useRecoilValue } from 'recoil';
 import { DimensionsState, PageState } from '../../../core/states';
 import { TableStateSelector } from '../../../core/states/column';
-import { map } from 'lodash';
+import { map, concat, filter, values } from 'lodash';
 import { Period } from '@iapps/period-utilities';
 
 function PDFTable({ teiItems, isLoading }) {
@@ -20,7 +20,7 @@ function PDFTable({ teiItems, isLoading }) {
       marginBottom: '1em',
     },
   };
-  const tableColumnsData = useRecoilValue(TableStateSelector)
+  const tableColumnsData = useRecoilValue(TableStateSelector);
 
   const currentTab = useRecoilValue(PageState);
   return (
@@ -31,22 +31,24 @@ function PDFTable({ teiItems, isLoading }) {
             <Table style={styles.listTable} key={teiItem?.id}>
               <TableHead>
                 <TableRowHead>
-                  <TableCellHead>Indicator</TableCellHead>
-                  <TableCellHead>Bottleneck</TableCellHead>
-                  <TableCellHead>Possible Solution</TableCellHead>
-                  <TableCellHead>Action Items</TableCellHead>
-                  <TableCellHead>Responsible Person</TableCellHead>
-                  <TableCellHead>Start Date</TableCellHead>
-                  <TableCellHead>End Date</TableCellHead>
+                  {map(teiItem.headers || [], (headerItem) => {
+                    return (
+                      <TableCellHead>{headerItem?.displayName}</TableCellHead>
+                    );
+                  })}
                   {currentTab === 'Planning' && (
                     <TableCellHead>Status</TableCellHead>
                   )}
                   {currentTab === 'Tracking' &&
-                    (tableColumnsData?.actionStatusTable?.columns || []).map((actionStatusColumn, index) => {
-                      return (
-                        <TableCellHead key={actionStatusColumn}>{actionStatusColumn?.name}</TableCellHead>
-                      );
-                    })}
+                    (tableColumnsData?.actionStatusTable?.columns || []).map(
+                      (actionStatusColumn, index) => {
+                        return (
+                          <TableCellHead key={actionStatusColumn}>
+                            {actionStatusColumn?.name}
+                          </TableCellHead>
+                        );
+                      }
+                    )}
                 </TableRowHead>
               </TableHead>
               <TableBody>
@@ -55,15 +57,14 @@ function PDFTable({ teiItems, isLoading }) {
                   teiItem.items.map((item, index) => {
                     return (
                       <TableRow key={item?.rowId}>
-                        <TableCell rowspan={teiItem?.items?.length}>
-                          {index === 0 && item?.indicator}
-                        </TableCell>
-                        <TableCell>{item?.gap}</TableCell>
-                        <TableCell>{item?.possibleSolution}</TableCell>
-                        <TableCell>{item?.actionItem}</TableCell>
-                        <TableCell>{item?.responsiblePerson}</TableCell>
-                        <TableCell>{item?.startDate}</TableCell>
-                        <TableCell>{item?.endDate}</TableCell>
+                        {map(teiItem.headers || [], (columnItem) => {
+                          return (
+                            <TableCell key={columnItem?.name}>
+                              {item[columnItem?.name]?.value}
+                            </TableCell>
+                          );
+                        })}
+
                         {currentTab === 'Planning' && (
                           <TableCell>{item?.statuses[0]}</TableCell>
                         )}
