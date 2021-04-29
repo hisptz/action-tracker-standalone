@@ -222,7 +222,7 @@ const ActionStatusDetails = ({actionStatus}) => {
     )
 }
 
-const ActionStatusTableCell = ({actionStatus, action, refetch, roles, startDate, endDate}) => {
+const ActionStatusTableCell = ({actionStatus, action, refetch, roles, startDate, endDate, disabled}) => {
     const [addActionStatusOpen, setAddActionStatusOpen] = useState(false);
     const styles = {
         margin: 'auto',
@@ -239,7 +239,7 @@ const ActionStatusTableCell = ({actionStatus, action, refetch, roles, startDate,
                 {
                     actionStatus ?
                         <ActionStatusDetails actionStatus={actionStatus}/> :
-                        roles?.create ? <NoActionStatus onAddClick={onAddClick}/> : <></>
+                       (!disabled && roles?.create) ? <NoActionStatus onAddClick={onAddClick}/> : <></>
                 }
             </CenteredContent>
             {
