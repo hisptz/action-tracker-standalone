@@ -140,6 +140,7 @@ export default function ChallengeList() {
                 <Grid container spacing={5} direction='column'>
                     <Grid item style={styles.mainHeaderContainer}>
                         <MainPageHeader
+                            listIsEmpty={_.isEmpty(data?.indicators?.trackedEntityInstances)}
                             onDownloadExcel={onDownloadExcel}
                             onDownloadPDF={onDownloadPDF}
                             onAddIndicatorClick={_ => onModalClose(_ => setAddIndicatorOpen(true))}

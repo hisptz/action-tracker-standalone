@@ -81,7 +81,7 @@ const PageSelector = () => {
     );
 }
 
-export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDownloadExcel}) {
+export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDownloadExcel, listIsEmpty}) {
     const activePage = useRecoilValue(PageState);
     const actionStatus = useRecoilValue(ActionStatusState);
     const [statusFilter, setStatusFilter] = useRecoilState(StatusFilterState);
@@ -105,7 +105,7 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
                             </Visibility>
                         </Grid>
                         <Grid item xs={6}>
-                            <SingleSelect clearText='Clear' clearable selected={statusFilter?.selected}
+                            <SingleSelect disabled={listIsEmpty} clearText='Clear' clearable selected={statusFilter?.selected}
                                           placeholder='Filter by status' onChange={setStatusFilter}>
                                 {
                                     _.map(actionStatus, status => (
@@ -117,9 +117,9 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
                     </Grid>
                     <Grid item xs={6} container justify='flex-end'>
                         <ButtonStrip>
-                            <Button icon={<ColumnIcon/>} onClick={_ => setManageColumnOpen(true)}>Manage
+                            <Button disabled={listIsEmpty} icon={<ColumnIcon/>} onClick={_ => setManageColumnOpen(true)}>Manage
                                 Columns</Button>
-                            <Button onClick={(d, e) => setReference(e.currentTarget)} icon={<DownloadIcon/>}>
+                            <Button disabled={listIsEmpty} onClick={(d, e) => setReference(e.currentTarget)} icon={<DownloadIcon/>}>
                                 Download
                             </Button>
                         </ButtonStrip>
