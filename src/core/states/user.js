@@ -56,7 +56,6 @@ export const UserRolesState = selector({
                 }
             });
         });
-        console.log(userRoles);
         if (!planningLevelSelected || activePage === 'Tracking') {
             return disablePlanning(userRoles);
         } else {

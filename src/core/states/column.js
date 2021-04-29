@@ -146,7 +146,7 @@ const defaultTables = {
                 width: 0,
                 render: (object, _, __, width) => {
                     return (
-                        <DueDateTableCell style={{maxWidth: width}} dueDate={object?.endDate}
+                        <DueDateTableCell pastDate={object?.pastDueDate} style={{maxWidth: width}} dueDate={object?.endDate}
                                           key={`${object.id}-endDate`}/>
                     )
                 }

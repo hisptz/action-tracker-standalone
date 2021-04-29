@@ -15,9 +15,8 @@ import {useRecoilValue} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import Action from "../../../core/models/action";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import ActionStatus from "../../../core/models/actionStatus";
 import {confirmModalClose, getFormattedDateFromPeriod} from "../../../core/helpers/utils";
-import {ActionConstants, ActionStatusConstants} from "../../../core/constants";
+import {ActionConstants} from "../../../core/constants";
 import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
 import {getJSDate} from "../../../core/services/dateUtils";
 import {Period} from "@iapps/period-utilities";
@@ -101,18 +100,7 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
         } else {
             const action = new Action();
             action.setValuesFromForm({...data, solution});
-            const actionStatus = new ActionStatus();
-            const defaultActionStatus = {};
-            defaultActionStatus[`${ActionStatusConstants.STATUS_DATA_ELEMENT}`] = {
-                name: `${ActionStatusConstants.STATUS_DATA_ELEMENT}`,
-                value: 'Not started'
-            };
-            defaultActionStatus[`${ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT}`] = {
-                name: `${ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT}`,
-                value: data[ActionConstants.START_DATE_ATTRIBUTE]?.value
-            }
-            actionStatus.setValuesFromForm(defaultActionStatus) //TODO: Link this to the option sets
-            return action.getPayload([actionStatus.getPayload()], orgUnit?.id);
+            return action.getPayload([], orgUnit?.id);
         }
     }
 
