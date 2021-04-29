@@ -30,6 +30,8 @@ jobs:
       - name: Get app version
         uses: dutscher/read-package-json-endpoint-actions@v1.33.7
         id: package-json
+      
+      - name: Set app version
         run: echo "APP_VERSION=${{package-json.outputs.version}}"
 
       - name: Release
