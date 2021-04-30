@@ -98,7 +98,6 @@ export function getTableTrackingColumns(period, trackingPeriod) {
     if (period && trackingPeriod) {
         const periodInstance = new Period();
         const periodObject = periodInstance.getById(period.id) || {};
-        console.log(periodInstance.getById('2021'));
         const trackingPeriods = periodObject[trackingPeriod.toLowerCase()] || [];
         if (periodObject) {
             if (periodObject.type === trackingPeriod) {
