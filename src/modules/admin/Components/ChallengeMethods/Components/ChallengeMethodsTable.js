@@ -19,7 +19,7 @@ import FullPageLoader from "../../../../../shared/Components/FullPageLoader";
 import ChallengeMethodConstants from "../constants/optionSets";
 import {getFormattedDate} from "../../../../../core/helpers/utils";
 import Grid from "@material-ui/core/Grid";
-import {CardContent, Fab} from "@material-ui/core";
+import {Fab} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import ChallengeSettingsFormDialog from "../../Dialogs/ChallengeSettingsFormDialog";
 import TableActionsMenu from "../../../../main/Components/TableActionsMenu";
@@ -148,7 +148,7 @@ export default function ChallengeMethodsTable() {
                                         <TableCell>{code}</TableCell>
                                         <TableCell>{getFormattedDate(lastUpdated)}</TableCell>
                                         <TableCell><Grid item container justify='flex-end' direction='row'>
-                                            <Visibility visible={settings.challengeMethodOptions}>
+                                            <Visibility visible={settings.challengeMethodsOptions}>
                                                 <Button onClick={(d, e) => {
                                                     setSelectedOption(option);
                                                     setRef(e.currentTarget);
