@@ -118,7 +118,7 @@ export default function ChallengeMethodsTable() {
     const styles = {
         floatingAction: {
             position: 'absolute',
-            bottom: 30,
+            bottom: 32,
             right: 32,
             background: '#2b61b3',
         },
@@ -178,10 +178,9 @@ export default function ChallengeMethodsTable() {
                 <Grid item container justify="flex-end">
                     <Visibility visible={settings.challengeMethodsOptions}>
                         <Fab
-                            className="primary.jsx-2371629422"
                             style={styles.floatingAction}
-                            color="primary"
                             aria-label="add"
+                            color='primary'
                             onClick={() =>
                                 setOpenChallengeSettingsDialog(
                                     !openChallengeSettingsDialog
