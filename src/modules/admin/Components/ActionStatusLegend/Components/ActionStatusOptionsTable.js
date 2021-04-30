@@ -129,7 +129,7 @@ export default function ActionStatusTable() {
         floatingAction: {
             position: 'absolute',
             bottom: 30,
-            right: 30,
+            right: 16,
             background: '#2b61b3',
         },
     }
