@@ -24,7 +24,6 @@ const eventDeleteMutation = {
 }
 
 
-
 export default function DeleteConfirmation({onClose, id, type, message, onUpdate, deletionSuccessMessage}) {
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
 
@@ -80,7 +79,7 @@ const eventQuery = {
                 `${dataElement}:eq:${optionCode}`
             ],
             fields: [
-                'id'
+                'event'
             ]
         })
     }
@@ -94,7 +93,8 @@ export function OptionDeleteConfirmation({
                                              deletionSuccessMessage,
                                              optionSet,
                                              program,
-                                             dataElement
+                                             dataElement,
+                                             cannotDeleteMessage
                                          }) {
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}));
     const {loading: loadingEvents, error, data} = useDataQuery(eventQuery, {
@@ -128,9 +128,9 @@ export function OptionDeleteConfirmation({
                     {
                         loadingEvents ? <CircularLoader small/> :
                             _.isEmpty(data?.events?.events) ? <div style={{textAlign: 'center'}}>
-                                {message || 'Are you sure you want to delete this entity?'}
+                                {message || 'Are you sure you want to delete this entity? This action cannot be undone'}
                             </div> : <div style={{textAlign: 'center'}}>
-                                This option cannot be deleted. It is already used in documented entities.
+                                {cannotDeleteMessage || 'This option cannot be deleted. It is already used in documented entities.'}
                             </div>
                     }
                 </CenteredContent>

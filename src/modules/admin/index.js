@@ -34,7 +34,7 @@ export default function AdminPage() {
         container: {
             width: '100%',
             minWidth: 'calc(1366px - 4px)',
-            overflowX: 'hidden',
+            overflowX: 'auto',
             height: 'calc(100vh - 48px)',
             display: 'flex',
             direction: 'row'

@@ -7,7 +7,7 @@ import {
     Button,
     ButtonStrip,
 } from '@dhis2/ui';
-import {useAlert, useDataMutation} from '@dhis2/app-runtime';
+import {useAlert} from '@dhis2/app-runtime';
 import {useForm} from 'react-hook-form';
 import {ConfigState, DataEngineState} from '../../../../../core/states';
 import {useRecoilValue} from 'recoil';
@@ -15,7 +15,6 @@ import {getFormattedFormMetadata} from '../../../../../core/helpers/formsUtilsHe
 import CustomForm from '../../../../../shared/Components/CustomForm';
 import {confirmModalClose, uid} from '../../../../../core/helpers/utils';
 import {
-    onCompleteHandler,
     onMetadataCompleteHandler,
     onMetadataErrorHandler
 } from "../../../../../core/services/errorHandling";
@@ -54,19 +53,6 @@ import useOptionsMutation from "../../../hooks/option";
 *
 * */
 
-
-const createMethodQuery = {
-    type: 'create',
-    resource: 'options',
-    data: ({data}) => data
-}
-const updateMethodQuery = {
-    type: 'update',
-    resource: 'options',
-    data: ({data}) => data,
-    id: ({id}) => id
-}
-
 const validationQuery = {
     options: {
         resource: 'options',
@@ -92,15 +78,35 @@ const setValidations = (formattedFormFields = [], engine) => {
                     if (control?.defaultValuesRef?.current?.name?.value === value.trim()) {
                         return true;
                     } else {
-                        const {options} = await engine.query(validationQuery, {variables: {field: 'name', value: value.trim()}});
-                        return _.isEmpty(options.options) || `Option with name ${value} already exists`
+                        if (value.length > 50) {
+                            return `${field.formName} should not exceed 50 characters`
+                        } else {
+                            const {options} = await engine.query(validationQuery, {
+                                variables: {
+                                    field: 'name',
+                                    value: value.trim()
+                                }
+                            });
+                            return _.isEmpty(options.options) || `Option with name ${value} already exists`
+                        }
+
                     }
                 } : async ({value}, __, control) => {
                     if (control?.defaultValuesRef?.current?.code?.value === value.trim()) {
                         return true;
                     } else {
-                        const {options} = await engine.query(validationQuery, {variables: {field: 'code', value: value.trim()}});
-                        return _.isEmpty(options?.options) || `Option with code ${value} already exists`
+                        if (value.length > 50) {
+                            return `${field.formName} should not exceed 50 characters`
+                        } else {
+                            const {options} = await engine.query(validationQuery, {
+                                variables: {
+                                    field: 'code',
+                                    value: value.trim()
+                                }
+                            });
+                            return _.isEmpty(options?.options) || `Option with code ${value} already exists`
+                        }
+
                     }
                 }
         })
@@ -183,7 +189,7 @@ function ChallengeSettingsFormDialog({
                         Hide
                     </Button>
                     <Button type="submit" onClick={handleSubmit(onSubmit)} primary>
-                        {saving ? 'Saving...' : 'Save Method Option'}
+                        {saving ? 'Saving...' : 'Save Method'}
                     </Button>
                 </ButtonStrip>
             </ModalActions>

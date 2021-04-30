@@ -42,8 +42,8 @@ export default function ColorFormField({value, onChange, error, label, ...props}
                            value={value?.value}/>
                 </Grid>
                 <Grid item sm={1}>
-                    <Box onClick={e => setReference(e.currentTarget)} component={Paper} elevation={0} width={40}
-                         height={40} style={{backgroundColor: value?.value}}/>
+                    <Box  onClick={e => setReference(e.currentTarget)} component={Paper} elevation={0} width={40}
+                         height={40} style={{backgroundColor: value?.value, border: '1px solid rgb(160,173,186)'}}/>
                 </Grid>
                 {
                     reference &&

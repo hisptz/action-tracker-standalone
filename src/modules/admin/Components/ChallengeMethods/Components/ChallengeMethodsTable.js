@@ -206,6 +206,7 @@ export default function ChallengeMethodsTable() {
                         onClose={onClose}
                         option={selectedOption}
                         deletionSuccessMessage='Method Deleted Successfully'
+                        cannotDeleteMessage='Cannot delete this method. It has been assigned to one or more interventions.'
                         onUpdate={onUpdate}
                         optionSet={data?.actionStatusOptionSet}
                     />

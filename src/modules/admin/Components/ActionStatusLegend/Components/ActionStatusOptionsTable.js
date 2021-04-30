@@ -224,6 +224,7 @@ export default function ActionStatusTable() {
                         option={selectedOption}
                         optionSet={data?.actionStatusOptionSet}
                         deletionSuccessMessage='Action status option deleted Successfully'
+                        cannotDeleteMessage='Cannot delete this action status option. It has been assigned to one or more action status.'
                         onUpdate={onUpdate}
                     />
                 }

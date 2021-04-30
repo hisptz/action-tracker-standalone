@@ -35,10 +35,11 @@ const MyApp = () => {
     ]
 
     return (
-        <RecoilRoot>
-            <CssReset/>
-            <DataStoreProvider namespace={'Standalone_Action_Tracker'} loadingComponent={<FullPageLoader/>}
-                               defaultGlobalSettings={defaultGlobalSettings}>
+        <DataStoreProvider namespace={'Standalone_Action_Tracker'} loadingComponent={<FullPageLoader/>}
+                           defaultGlobalSettings={defaultGlobalSettings}>
+            <RecoilRoot>
+                <CssReset/>
+
                 <Container style={styles}>
                     <MemoryRouter initialEntries={modules} initialIndex={0}>
                         <Switch>
@@ -51,8 +52,8 @@ const MyApp = () => {
                         </Switch>
                     </MemoryRouter>
                 </Container>
-            </DataStoreProvider>
-        </RecoilRoot>
+            </RecoilRoot>
+        </DataStoreProvider>
     )
 }
 export default MyApp

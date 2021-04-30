@@ -7,12 +7,12 @@
         flex-direction: row;
 }
 .icon-picker-field {
-    width: 90%;
+    width: calc(100% - 45px);
     box-sizing: border-box;
     overflow: hidden;
 }
 .icon-selector-container {
-    width: 10%;
+    width: 40px;
     box-sizing: border-box;
     overflow: hidden;
     position: absolute;
@@ -20,8 +20,13 @@
     right: 0;
     height: 40px;
     cursor: pointer;
+    border: 1px solid rgb(160,173,186);
+    border-radius: 3px;
+    text-align: center;
+    margin-right: 5px;
 }
 .bg-black {
     border: 1px solid black;
     background-color: black;
 }
+
