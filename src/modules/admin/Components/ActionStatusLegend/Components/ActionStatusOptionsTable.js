@@ -77,7 +77,6 @@ const columns = [
     'Color',
     'Icon',
     'Last Updated',
-    'Actions'
 ]
 
 export default function ActionStatusTable() {
@@ -116,7 +115,6 @@ export default function ActionStatusTable() {
     }
 
 
-
     useEffect(() => {
         async function fetch() {
             await refetch({page, pageSize})
@@ -129,14 +127,14 @@ export default function ActionStatusTable() {
         floatingAction: {
             position: 'absolute',
             bottom: 30,
-            right: 16,
+            right: 32,
             background: '#2b61b3',
         },
     }
 
     return (
         loading ? <FullPageLoader/> :
-            error ? <FullPageError error={error.message || error.toString()} />: <>
+            error ? <FullPageError error={error.message || error.toString()}/> : <>
                 <Table>
                     <TableHead>
                         <TableRowHead>
@@ -144,6 +142,8 @@ export default function ActionStatusTable() {
                                 _.map(columns, (column) => <TableCellHead
                                     key={`${column}-action-status`}>{column}</TableCellHead>)
                             }
+                            <TableCellHead><Grid item container justify='flex-end'
+                                                 direction='row'>Actions</Grid></TableCellHead>
                         </TableRowHead>
                     </TableHead>
                     <TableBody>
@@ -157,12 +157,14 @@ export default function ActionStatusTable() {
                                         <TableCell><ActionStatusColor color={style?.color}/></TableCell>
                                         <TableCell><DHIS2Icon iconName={style?.icon} size={20}/></TableCell>
                                         <TableCell>{getFormattedDate(lastUpdated)}</TableCell>
-                                        <TableCell><Visibility visible={settings.actionStatusOptions}>
-                                            <Button onClick={(d, e) => {
-                                                setSelectedOption(option);
-                                                setRef(e.currentTarget);
-                                            }} icon={<MoreHorizIcon/>}/>
-                                        </Visibility>
+                                        <TableCell><Grid item container justify='flex-end' direction='row'>
+                                            <Visibility visible={settings.actionStatusOptions}>
+                                                <Button onClick={(d, e) => {
+                                                    setSelectedOption(option);
+                                                    setRef(e.currentTarget);
+                                                }} icon={<MoreHorizIcon/>}/>
+                                            </Visibility>
+                                        </Grid>
                                         </TableCell>
                                     </TableRow>
                                 )
@@ -171,7 +173,7 @@ export default function ActionStatusTable() {
                     </TableBody>
                     <TableFoot>
                         <TableRow>
-                            <TableCell colSpan={columns.length.toString()}>
+                            <TableCell colSpan={`${columns.length + 1}`}>
                                 <Pagination
                                     onPageChange={setPage}
                                     onPageSizeChange={setPageSize}
@@ -184,21 +186,21 @@ export default function ActionStatusTable() {
                     </TableFoot>
                 </Table>
                 <Grid item container justify="flex-end">
-                   <Visibility visible={settings.actionStatusOptions}>
-                       <Fab
-                           onClick={() =>
-                               setOpenActionStatusSettingsDialog(
-                                   !openActionStatusSettingsDialog
-                               )
-                           }
-                           className="primary.jsx-2371629422"
-                           style={styles.floatingAction}
-                           color="primary"
-                           aria-label="add"
-                       >
-                           <AddIcon/>
-                       </Fab>
-                   </Visibility>
+                    <Visibility visible={settings.actionStatusOptions}>
+                        <Fab
+                            onClick={() =>
+                                setOpenActionStatusSettingsDialog(
+                                    !openActionStatusSettingsDialog
+                                )
+                            }
+                            className="primary.jsx-2371629422"
+                            style={styles.floatingAction}
+                            color="primary"
+                            aria-label="add"
+                        >
+                            <AddIcon/>
+                        </Fab>
+                    </Visibility>
                     {openActionStatusSettingsDialog && (
                         <ActionStatusSettingsFormDialog
                             optionSet={data?.actionStatusOptionSet}

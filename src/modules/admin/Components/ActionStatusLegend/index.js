@@ -12,7 +12,7 @@ const styles = {
     },
     tableContainer: {
         background: '#ffffff',
-        padding: 20,
+        padding: 16,
     },
     header: {
         paddingBottom: 20,

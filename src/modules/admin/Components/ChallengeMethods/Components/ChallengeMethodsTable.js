@@ -70,7 +70,6 @@ const columns = [
     'Name',
     'Code',
     'Last Updated',
-    'Actions'
 ]
 
 export default function ChallengeMethodsTable() {
@@ -120,7 +119,7 @@ export default function ChallengeMethodsTable() {
         floatingAction: {
             position: 'absolute',
             bottom: 30,
-            right: 30,
+            right: 32,
             background: '#2b61b3',
         },
     }
@@ -135,6 +134,8 @@ export default function ChallengeMethodsTable() {
                                 _.map(columns, (column) => <TableCellHead
                                     key={`${column}-action-status`}>{column}</TableCellHead>)
                             }
+                            <TableCellHead><Grid item container justify='flex-end'
+                                                 direction='row'>Actions</Grid></TableCellHead>
                         </TableRowHead>
                     </TableHead>
                     <TableBody>
@@ -146,12 +147,14 @@ export default function ChallengeMethodsTable() {
                                         <TableCell>{name}</TableCell>
                                         <TableCell>{code}</TableCell>
                                         <TableCell>{getFormattedDate(lastUpdated)}</TableCell>
-                                        <TableCell><Visibility visible={settings.challengeMethodsOptions}>
-                                            <Button onClick={(d, e) => {
-                                                setSelectedOption(option);
-                                                setRef(e.currentTarget);
-                                            }} icon={<MoreHorizIcon/>}/>
-                                        </Visibility></TableCell>
+                                        <TableCell><Grid item container justify='flex-end' direction='row'>
+                                            <Visibility visible={settings.challengeMethodOptions}>
+                                                <Button onClick={(d, e) => {
+                                                    setSelectedOption(option);
+                                                    setRef(e.currentTarget);
+                                                }} icon={<MoreHorizIcon/>}/>
+                                            </Visibility>
+                                        </Grid></TableCell>
                                     </TableRow>
                                 )
                             })
@@ -159,7 +162,7 @@ export default function ChallengeMethodsTable() {
                     </TableBody>
                     <TableFoot>
                         <TableRow>
-                            <TableCell colSpan={columns.length.toString()}>
+                            <TableCell colSpan={`${columns.length + 1}`}>
                                 <Pagination
                                     onPageChange={setPage}
                                     onPageSizeChange={setPageSize}
