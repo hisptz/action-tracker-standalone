@@ -69,7 +69,11 @@ const indicatorNameQuery = {
     id: ({ id }) => id,
   },
 };
-
+/* Get page Count from the response */
+function getPageCount(response) {
+  return response?.pager?.pageCount ? response?.pager?.pageCount : 0;
+}
+/* Get Engine Query */
 async function getEngineQuery({
   engine,
   query,
