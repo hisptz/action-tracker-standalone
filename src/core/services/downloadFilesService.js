@@ -73,6 +73,59 @@ const indicatorNameQuery = {
 
 
 
+async function getPossibleSolutionsFromGap({
+  possibleSolutions,
+  engine,
+  orgUnit,
+  gapColumns,
+  downloadType,
+  tableColumnsData,
+  currentTab,
+}) {
+  let formattedPossibleSolutions = [];
+  if (possibleSolutions?.length) {
+    for (const possibleSolution of possibleSolutions) {
+      let possibleSolutionObject = possibleSolution.toJson();
+      const visibleSolutions = await getVisibleColumnsFromSolutionsTable({
+        downloadType,
+        possibleSolution: possibleSolutionObject,
+        tableColumnsData,
+        gapColumns,
+      });
+      const actions = await getActionFromPossibleSolution({
+        engine,
+        orgUnit,
+        solutionToActionLinkage: possibleSolutionObject?.actionLinkage,
+        solutionsObj: visibleSolutions,
+        tableColumnsData,
+        downloadType,
+        currentTab,
+      });
+      formattedPossibleSolutions = [...formattedPossibleSolutions, ...actions];
+    }
+  } else {
+    formattedPossibleSolutions = [...formattedPossibleSolutions, gapColumns];
+    const { visibleColumnsNames } = tableColumnsData || {
+      visibleColumnsNames: [],
+    };
+
+    formattedPossibleSolutions =
+      downloadType === FILE_TYPES.excel
+        ? map(formattedPossibleSolutions || [], (solution) => {
+            let newSolution = solution;
+            map(visibleColumnsNames || [], (column) => {
+              newSolution = solution[column]
+                ? { ...newSolution }
+                : { ...newSolution, [column]: '' };
+            });
+            return newSolution;
+          })
+        : [...formattedPossibleSolutions];
+  }
+  return formattedPossibleSolutions;
+}
+
+
 async function getActionFromPossibleSolution({
   solutionToActionLinkage,
   engine,
