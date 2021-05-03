@@ -71,6 +71,50 @@ const indicatorNameQuery = {
 };
 
 
+
+
+
+/* Get solution visible columns */
+async function getVisibleColumnsFromSolutionsTable({
+  downloadType,
+  possibleSolution,
+  tableColumnsData,
+  gapColumns,
+}) {
+  let visibleSolutionObj = { ...gapColumns };
+  const { solutionsTable } = tableColumnsData;
+  map(
+    filter(
+      solutionsTable?.columns || [],
+      (solutionColumn) => solutionColumn.visible
+    ) || [],
+    (filteredSolutionColumn) => {
+      visibleSolutionObj = {
+        ...visibleSolutionObj,
+        ...getSolutionVisibleColumn({
+          column: filteredSolutionColumn,
+          solution: possibleSolution,
+          downloadType,
+        }),
+      };
+    }
+  );
+  return visibleSolutionObj;
+}
+/* Get solution visible column key and value */
+function getSolutionVisibleColumn({ column, solution, downloadType }) {
+  switch (column?.name) {
+    case 'possibleSolution':
+      return getColumnKeyByDownloadType({
+        column,
+        downloadType,
+        value: solution?.solution,
+      });
+    default:
+      return null;
+  }
+}
+
 /* Get Gap Visible Column from Gaps Table */
 function getVisibleColumnsFromGapsTable({
   downloadType,
