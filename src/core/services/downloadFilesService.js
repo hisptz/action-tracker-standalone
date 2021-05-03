@@ -71,6 +71,16 @@ const indicatorNameQuery = {
 };
 
 
+
+function getColumnKeyByDownloadType({ downloadType, column, value }) {
+  return downloadType === FILE_TYPES.excel
+    ? { [column?.displayName]: value || '' }
+    : downloadType === FILE_TYPES.pdf
+    ? {
+        [column?.name]: value || ''
+      }
+    : {};
+}
 /* Get Indicator values columns */
 async function getIndicatorValuesFromBottleneck({
   bottleneck,
