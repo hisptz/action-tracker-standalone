@@ -70,6 +70,34 @@ const indicatorNameQuery = {
   },
 };
 
+
+/* Get Gap Visible Column from Gaps Table */
+function getVisibleColumnsFromGapsTable({
+  downloadType,
+  gap,
+  orgUnit,
+  tableColumnsData,
+  indicatorObj,
+}) {
+  let visibleGapObj = { ...indicatorObj };
+  const { gapsTable } = tableColumnsData;
+  map(
+    filter(gapsTable.columns || [], (gapColumn) => gapColumn.visible) || [],
+    (filteredGapColumn) => {
+      visibleGapObj = {
+        ...visibleGapObj,
+        ...getGapVisibleColumn({
+          column: filteredGapColumn,
+          gap,
+          orgUnit,
+          downloadType,
+        }),
+      };
+    }
+  );
+  return visibleGapObj;
+}
+
 /* Get Gap Visible Columns */
 function getGapVisibleColumn({ column, gap, orgUnit, downloadType }) {
   switch (column?.name) {
