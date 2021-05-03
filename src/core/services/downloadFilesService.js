@@ -69,3 +69,31 @@ const indicatorNameQuery = {
     id: ({ id }) => id,
   },
 };
+
+async function getEngineQuery({
+  engine,
+  query,
+  queryKey,
+  variables: {
+    ou,
+    pageSize = 50,
+    lazy = true,
+    totalPages = true,
+    fields,
+    page = 1,
+    others = {},
+  },
+}) {
+  const response = await engine.query(query, {
+    variables: {
+      ou,
+      page,
+      pageSize,
+      fields,
+      ...others,
+    },
+    lazy,
+  });
+
+  return response[queryKey] ? response[queryKey] : [];
+}
