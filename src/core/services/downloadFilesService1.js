@@ -20,7 +20,6 @@ const FILE_TYPES = {
   pdf: 'pdf',
   excel: 'excel',
 };
-
 // Indicator Query
 const bottleneckQuery = {
   indicators: {
@@ -92,17 +91,6 @@ export async function getPdfDownloadData({
     orgUnit,
     currentTab,
   });
-  const { gapsTable, solutionsTable, actionsTable } = tableColumnsData;
-  const headers = filter(
-    concat(
-      [],
-      gapsTable?.columns || [],
-      solutionsTable?.columns || [],
-      actionsTable?.columns || []
-    ) || [],
-    (columnItem) => columnItem?.visible
-  );
-  console.log({headers})
   const formattedPayloadObj = mapValues(
     groupBy(payload || [], 'id'),
     (payloadItem) => payloadItem
@@ -114,15 +102,14 @@ export async function getPdfDownloadData({
         ? {
             id: formattedDataGroupKey,
             items: formattedPayloadObj[formattedDataGroupKey],
-            headers,
           }
         : [];
     }
   );
-  return formattedPayloadArray;
+  console.log({ formattedPayloadObj });
 }
 
-export async function downloadExcel({
+export async function downloadExcel1({
   engine,
   orgUnit,
   tableColumnsData,
@@ -462,7 +449,6 @@ function getFormattedActionStatusEvents(actionStatusEvents) {
   return formattedEvents;
 }
 
-/* Get solution visible columns */
 async function getVisibleColumnsFromSolutionsTable({
   downloadType,
   possibleSolution,
@@ -489,7 +475,7 @@ async function getVisibleColumnsFromSolutionsTable({
   );
   return visibleSolutionObj;
 }
-/* Get solution visible column key and value */
+
 function getSolutionVisibleColumn({ column, solution, downloadType }) {
   switch (column?.name) {
     case 'possibleSolution':
@@ -503,7 +489,6 @@ function getSolutionVisibleColumn({ column, solution, downloadType }) {
   }
 }
 
-/* Get Gap Visible Column from Gaps Table */
 function getVisibleColumnsFromGapsTable({
   downloadType,
   gap,
@@ -529,8 +514,6 @@ function getVisibleColumnsFromGapsTable({
   );
   return visibleGapObj;
 }
-
-/* Get Gap Visible Columns */
 function getGapVisibleColumn({ column, gap, orgUnit, downloadType }) {
   switch (column?.name) {
     case 'gap':
@@ -550,17 +533,6 @@ function getGapVisibleColumn({ column, gap, orgUnit, downloadType }) {
   }
 }
 
-/* Get column key by download type  */
-function getColumnKeyByDownloadType({ downloadType, column, value }) {
-  return downloadType === FILE_TYPES.excel
-    ? { [column?.displayName]: value || '' }
-    : downloadType === FILE_TYPES.pdf
-    ? {
-        [column?.name]: value || '',
-      }
-    : {};
-}
-/* Get Indicator values columns */
 async function getIndicatorValuesFromBottleneck({
   bottleneck,
   engine,
@@ -581,7 +553,13 @@ async function getIndicatorValuesFromBottleneck({
         id: bottleneck?.id || '',
       };
 }
-/* Get Total Indicator response */
+async function getIndicatorName({ indicator, engine }) {
+  const { data } = await engine.query(indicatorNameQuery, {
+    variables: { id: indicator },
+  });
+  return data && data.displayName ? data.displayName : '';
+}
+
 async function getTotalIndicatorsResponse({ engine, orgUnit }) {
   const indicatorPagingDetails = await getEngineQuery({
     engine,
@@ -599,7 +577,7 @@ async function getTotalIndicatorsResponse({ engine, orgUnit }) {
     resource: 'trackedEntityInstances',
   });
 }
-/* Get total response from the query */
+
 async function getTotalResponseArray({
   pageCount,
   engine,
@@ -631,11 +609,10 @@ async function getTotalResponseArray({
 
   return totalResponse;
 }
-/* Get page Count from the response */
+
 function getPageCount(response) {
   return response?.pager?.pageCount ? response?.pager?.pageCount : 0;
 }
-/* Get Engine Query */
 async function getEngineQuery({
   engine,
   query,
@@ -663,12 +640,7 @@ async function getEngineQuery({
 
   return response[queryKey] ? response[queryKey] : [];
 }
-async function getIndicatorName({ indicator, engine }) {
-  const { data } = await engine.query(indicatorNameQuery, {
-    variables: { id: indicator },
-  });
-  return data && data.displayName ? data.displayName : '';
-}
+
 function getActionStatusObject({
   action,
   currentTab,
@@ -734,7 +706,6 @@ function getActionStatuses({
   return actionStatusesObj;
 }
 
-/* Get valid date */
 function validDate(date) {
   let dateStr = '';
   const dateArr = split(date, '-').reverse();
@@ -751,4 +722,35 @@ function validDate(date) {
     }
   }
   return dateStr;
+}
+function getColumnKeyByDownloadType({ downloadType, column, value }) {
+  return downloadType === FILE_TYPES.excel
+    ? { [column?.displayName]: value || '' }
+    : downloadType === FILE_TYPES.pdf
+    ? {
+        [column?.name]: value || ''
+      }
+    : {};
+}
+function getRemainedColumnsInRow({
+  downloadType,
+  tableColumnsData,
+  formattedData,
+}) {
+  if (downloadType === FILE_TYPES.excel) {
+    const { visibleColumnsNames } = tableColumnsData || {
+      visibleColumnsNames: [],
+    };
+
+    return map(formattedData || [], (formattedDataItem) => {
+      let newFormattedDataItem = formattedData;
+      map(visibleColumnsNames || [], (column) => {
+        newFormattedDataItem = formattedDataItem[column]
+          ? { ...newFormattedDataItem }
+          : { ...newFormattedDataItem, [column]: '' };
+      });
+      return newFormattedDataItem;
+    });
+  }
+  return formattedData;
 }

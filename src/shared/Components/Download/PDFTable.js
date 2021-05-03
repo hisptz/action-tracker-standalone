@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {
   Table,
   TableHead,
@@ -13,76 +14,80 @@ import { DimensionsState, PageState } from '../../../core/states';
 import { TableStateSelector } from '../../../core/states/column';
 import { map, concat, filter, values } from 'lodash';
 import { Period } from '@iapps/period-utilities';
+import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import { getPdfDownloadData } from '../../../core/services/downloadFilesService';
+
+const styles = StyleSheet.create({
+  page: {
+    flexDirection: 'column',
+    backgroundColor: '#E4E4E4',
+  },
+  table: {
+   
+    border: '1px solid black',
+    marginTop: '1em',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  cell: {
+    border: '1px solid black',
+    padding: '1px'
+  },
+  text: {
+    fontSize: '10px'
+  },
+  bold: {
+    fontSize: '10px',
+    fontWeight: 'bold'
+  }
+});
 
 function PDFTable({ teiItems, isLoading }) {
-  const styles = {
-    listTable: {
-      marginBottom: '1em',
-    },
-  };
-  const tableColumnsData = useRecoilValue(TableStateSelector);
+  console.log({ teiItems });
+  const item = 'Kubali'
+  // const styles = {
+  //   listTable: {
+  //     marginBottom: '1em',
+  //   },
+  // };
+  // const tableColumnsData = useRecoilValue(TableStateSelector);
 
-  const currentTab = useRecoilValue(PageState);
+  // const currentTab = useRecoilValue(PageState);
   return (
-    <div id="pdfTable">
-      {teiItems && teiItems.length ? (
-        teiItems.map((teiItem) => {
-          return (
-            <Table style={styles.listTable} key={teiItem?.id}>
-              <TableHead>
-                <TableRowHead>
-                  {map(teiItem.headers || [], (headerItem) => {
+    <Document>
+      <Page size="A4" style={styles.page}>
+        {teiItems?.length &&
+          map(teiItems || [], (teiItem) => {
+            return (
+              <View key={teiItem?.id} style={styles.table}>
+                <View style={styles.row}>
+                  {map(teiItem?.headers || [], (header) => {
                     return (
-                      <TableCellHead>{headerItem?.displayName}</TableCellHead>
+                      <View key={header?.name} style={styles.cell}>
+                        <Text style={styles.bold}>{header?.displayName}</Text>
+                      </View>
                     );
                   })}
-                  {currentTab === 'Planning' && (
-                    <TableCellHead>Status</TableCellHead>
-                  )}
-                  {currentTab === 'Tracking' &&
-                    (tableColumnsData?.actionStatusTable?.columns || []).map(
-                      (actionStatusColumn, index) => {
-                        return (
-                          <TableCellHead key={actionStatusColumn}>
-                            {actionStatusColumn?.name}
-                          </TableCellHead>
-                        );
-                      }
-                    )}
-                </TableRowHead>
-              </TableHead>
-              <TableBody>
-                {teiItem.items &&
-                  teiItem.items.length &&
-                  teiItem.items.map((item, index) => {
+                </View>
+                <View style={styles.row}>
+                {map(teiItem?.headers || [], (header) => {
                     return (
-                      <TableRow key={item?.rowId}>
-                        {map(teiItem.headers || [], (columnItem) => {
-                          return (
-                            <TableCell key={columnItem?.name}>
-                              {item[columnItem?.name]?.value}
-                            </TableCell>
-                          );
-                        })}
+                      <View key={header?.name} style={styles.cell}>
+                        <Text style={styles.text}>{header?.displayName}</Text>
+                      </View>
+                    );
+                  })}
 
-                        {currentTab === 'Planning' && (
-                          <TableCell>{item?.statuses[0]}</TableCell>
-                        )}
-                        {currentTab === 'Tracking' &&
-                          (item.statuses || []).map((status, index) => {
-                            return <TableCell key={index}>{status}</TableCell>;
-                          })}
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          );
-        })
-      ) : (
-        <FullPageLoader text={'Configuring Action tables. Please wait...'} />
-      )}
-    </div>
+                </View>
+              </View>
+            );
+          })}
+      </Page>
+    </Document>
   );
 }
 
