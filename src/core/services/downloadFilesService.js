@@ -651,6 +651,73 @@ async function getIndicatorName({ indicator, engine }) {
   });
   return data && data.displayName ? data.displayName : '';
 }
+function getActionStatusObject({
+  action,
+  currentTab,
+  downloadType,
+  tableColumnsData,
+}) {
+  let actionStatusesObj = {};
+  const { actionStatus } = action || {};
+
+  const statusObj = maxBy(
+    actionStatus || [],
+    (actionStatusItem) => new Date(actionStatusItem?.reviewDate)
+  );
+  if (currentTab === 'Planning') {
+    actionStatusesObj =
+      statusObj?.status && downloadType === 'excel'
+        ? { ...actionStatusesObj, Status: statusObj.status }
+        : statusObj && statusObj.status && downloadType === 'pdf'
+        ? { ...actionStatusesObj, status: statusObj.status }
+        : {};
+  }
+  return actionStatusesObj;
+}
+
+
+
+function getActionStatuses({
+  action,
+  currentTab,
+  downloadType,
+  tableColumnsData,
+}) {
+  let actionStatusesObj = {};
+  const { actionStatus } = action || {};
+
+  if (currentTab === 'Tracking') {
+    const periodInstance = new Period();
+
+    const { columns } = tableColumnsData?.actionStatusTable || { columns: [] };
+
+    if (columns?.length) {
+      for (const column of columns) {
+        const periodValues = periodInstance.getById(column?.id);
+        const formattedStartDate = new Date(validDate(periodValues.startDate));
+        const formattedEndDate = new Date(validDate(periodValues.endDate));
+        const dateInGivenColumn = find(actionStatus || [], (status) => {
+          const formattedReviewDate = new Date(status?.reviewDate);
+
+          if (
+            formattedReviewDate >= formattedStartDate &&
+            formattedReviewDate <= formattedEndDate
+          ) {
+            return status;
+          }
+        });
+
+        actionStatusesObj = {
+          ...actionStatusesObj,
+          [column?.name]: dateInGivenColumn?.status || '',
+        };
+      }
+    }
+  }
+
+  return actionStatusesObj;
+}
+
 /* Get valid date */
 function validDate(date) {
   let dateStr = '';
