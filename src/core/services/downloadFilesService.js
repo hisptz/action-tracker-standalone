@@ -599,3 +599,9 @@ async function getEngineQuery({
 
   return response[queryKey] ? response[queryKey] : [];
 }
+async function getIndicatorName({ indicator, engine }) {
+  const { data } = await engine.query(indicatorNameQuery, {
+    variables: { id: indicator },
+  });
+  return data && data.displayName ? data.displayName : '';
+}
