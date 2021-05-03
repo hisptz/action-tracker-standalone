@@ -71,7 +71,24 @@ const indicatorNameQuery = {
 };
 
 
-
+/* Get Total Indicator response */
+async function getTotalIndicatorsResponse({ engine, orgUnit }) {
+  const indicatorPagingDetails = await getEngineQuery({
+    engine,
+    query: bottleneckQuery,
+    queryKey: 'indicators',
+    variables: { fields: FIELDS_NONE, ou: orgUnit?.id },
+  });
+  const pageCount = getPageCount(indicatorPagingDetails);
+  return await getTotalResponseArray({
+    pageCount,
+    engine,
+    query: bottleneckQuery,
+    queryKey: 'indicators',
+    ou: orgUnit?.id,
+    resource: 'trackedEntityInstances',
+  });
+}
 /* Get total response from the query */
 async function getTotalResponseArray({
   pageCount,
