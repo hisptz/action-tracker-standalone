@@ -70,8 +70,28 @@ const indicatorNameQuery = {
   },
 };
 
+/* Get Gap Visible Columns */
+function getGapVisibleColumn({ column, gap, orgUnit, downloadType }) {
+  switch (column?.name) {
+    case 'gap':
+      return getColumnKeyByDownloadType({
+        downloadType,
+        column,
+        value: gap?.title,
+      });
+    case 'orgUnit':
+      return getColumnKeyByDownloadType({
+        downloadType,
+        column,
+        value: orgUnit?.displayName,
+      });
+    default:
+      return null;
+  }
+}
 
 
+/* Get column key by download type  */
 function getColumnKeyByDownloadType({ downloadType, column, value }) {
   return downloadType === FILE_TYPES.excel
     ? { [column?.displayName]: value || '' }
