@@ -15,6 +15,12 @@ import ActionStatus from '../models/actionStatus';
 import { Period } from '@iapps/period-utilities';
 import { exportAsExcelFile } from '../helpers/excelHelper';
 
+const FIELDS_NONE = 'none';
+const FILE_TYPES = {
+  pdf: 'pdf',
+  excel: 'excel',
+};
+
 // Indicator Query
 const bottleneckQuery = {
   indicators: {
@@ -86,6 +92,11 @@ export async function getPdfDownloadData({
     orgUnit,
     currentTab,
   });
+  const { gapsTable, solutionsTable, actionsTable } = tableColumnsData;
+  const headers = filter(
+    concat([], gapsTable, solutionsTable, actionsTable) || [],
+    (columnItem) => columnItem?.visible
+  );
   const formattedPayloadObj = mapValues(
     groupBy(payload || [], 'id'),
     (payloadItem) => payloadItem
@@ -97,6 +108,7 @@ export async function getPdfDownloadData({
         ? {
             id: formattedDataGroupKey,
             items: formattedPayloadObj[formattedDataGroupKey],
+            headers
           }
         : [];
     }
@@ -674,8 +686,6 @@ function getActionStatusObject({
   }
   return actionStatusesObj;
 }
-
-
 
 function getActionStatuses({
   action,
