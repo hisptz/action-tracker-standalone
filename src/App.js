@@ -16,7 +16,7 @@ import defaultGlobalSettings from './core/constants/defaultConfig.json'
 
 const styles = {
     margin: 0,
-    overflowX: 'auto',
+    overflowX: 'hidden',
     padding: 0,
     minHeight: 'calc(100vh - 48px)',
     minWidth: 'calc(100vw - 4px)',
