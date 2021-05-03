@@ -72,7 +72,29 @@ const indicatorNameQuery = {
 
 
 
-
+export async function downloadExcel({
+  engine,
+  orgUnit,
+  tableColumnsData,
+  currentTab,
+  selectedPeriod,
+}) {
+  const bottlenecks = await getTotalIndicatorsResponse({ engine, orgUnit });
+  const payload = await getBottleneckCompletePayload({
+    bottlenecks,
+    engine,
+    downloadType: FILE_TYPES.excel,
+    tableColumnsData,
+    orgUnit,
+    currentTab,
+  });
+  const periodInstance = new Period();
+  const period = periodInstance.getById(selectedPeriod[0]?.id) || {};
+  await exportAsExcelFile(
+    payload,
+    `${orgUnit?.displayName || ''}-${period?.name || ''}  Action ${currentTab}`
+  );
+}
 
 async function getBottleneckCompletePayload({
   bottlenecks,
