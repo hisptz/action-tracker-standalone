@@ -1,6 +1,6 @@
 import {useSetRecoilState} from 'recoil';
 import {ConfigState} from '../states';
-import {useDataMutation, useDataQuery} from '@dhis2/app-runtime';
+import {useDataEngine, useDataMutation, useDataQuery} from '@dhis2/app-runtime';
 import {useEffect, useState} from 'react';
 import {ActionConstants, BottleneckConstants, PROGRAMS} from '../constants';
 import actionStatusSettingsMetadata from '../../resources/Json/ActionStatusSettingsMetadata.json';
@@ -47,14 +47,14 @@ const optionSetSortingMutation = {
     id: ({id}) => id,
     params: {
         mergeMode: 'REPLACE'
-    }
+    },
+    data: ({data})=>data
 }
 const optionSetSchemaUpdate = {
     type: 'create',
     resource: 'schemas/optionSet',
     data: ({data}) => data
 }
-
 
 async function sortOptionsInOptionSets(optionSets = [], engine) {
     for (const optionSet of optionSets) {
@@ -65,6 +65,7 @@ async function sortOptionsInOptionSets(optionSets = [], engine) {
 
 export  function useAppConfig() {
     const setConfig = useSetRecoilState(ConfigState);
+    const engine = useDataEngine();
     const {loading, data, refetch, error: queryError} = useDataQuery(configQuery,);
     const [error, setError] = useState();
     const [isFirstTime, setIsFirstTime] = useState(false);
@@ -76,7 +77,7 @@ export  function useAppConfig() {
             programs: PROGRAMS,
         },
         onComplete: async () => {
-            // await sortOptionsInOptionSets(PROGRAMS.optionSets, engine); //TODO: Figure out the best way to append sorting
+            await sortOptionsInOptionSets(PROGRAMS.optionSets, engine);
             refetch()
         },
         onError: (e) => setError(e)
