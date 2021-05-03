@@ -219,7 +219,7 @@ export default function ActionStatusTable() {
                     openDelete && <OptionDeleteConfirmation
                         dataElement={ActionStatusConstants.STATUS_DATA_ELEMENT}
                         program={ActionConstants.PROGRAM_ID}
-                        message='Are you sure you want to delete this action status option?'
+                        message='Are you sure you want to delete this action status option? This action cannot be undone.'
                         onClose={onClose}
                         option={selectedOption}
                         optionSet={data?.actionStatusOptionSet}

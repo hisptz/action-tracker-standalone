@@ -202,7 +202,7 @@ export default function ChallengeMethodsTable() {
                         dataElement={GapConstants.METHOD_DATA_ELEMENT}
                         program={BottleneckConstants.PROGRAM_ID}
                         type='event'
-                        message='Are you sure you want to delete this method?'
+                        message='Are you sure you want to delete this method? This action cannot be undone.'
                         onClose={onClose}
                         option={selectedOption}
                         deletionSuccessMessage='Method Deleted Successfully'
