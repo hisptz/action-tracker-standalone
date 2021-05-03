@@ -73,6 +73,178 @@ const indicatorNameQuery = {
 
 
 
+async function getActionFromPossibleSolution({
+  solutionToActionLinkage,
+  engine,
+  orgUnit,
+  solutionsObj,
+  tableColumnsData,
+  downloadType,
+  currentTab,
+}) {
+  let actionsArr = [];
+
+  const actions = await getTotalActionsResponse({
+    engine,
+    solutionToActionLinkage,
+    orgUnit,
+  });
+
+  const formattedActions = getFormattedActions(actions);
+  if (formattedActions?.length) {
+    for (const action of formattedActions) {
+      const visibleActionsColumns = getVisibleColumnsFromActionsTable({
+        downloadType,
+        action,
+        solutionsObj,
+        tableColumnsData,
+        currentTab,
+      });
+      actionsArr = [...actionsArr, visibleActionsColumns];
+    }
+  }
+  return actionsArr;
+}
+
+function getVisibleColumnsFromActionsTable({
+  downloadType,
+  action,
+  tableColumnsData,
+  solutionsObj,
+  currentTab,
+}) {
+  let visibleActionObj = { ...solutionsObj };
+  const { actionsTable } = tableColumnsData;
+  const actionStatusObj = getActionStatuses({
+    action,
+    currentTab,
+    tableColumnsData,
+    downloadType,
+  });
+  map(
+    filter(
+      actionsTable?.columns || [],
+      (actionColumn) => actionColumn.visible
+    ) || [],
+    (filteredActionColumn) => {
+      visibleActionObj = {
+        ...visibleActionObj,
+        ...getActionVisibleColumn({
+          column: filteredActionColumn,
+          action,
+          currentTab,
+          tableColumnsData,
+          downloadType,
+        }),
+        ...actionStatusObj,
+      };
+    }
+  );
+  return visibleActionObj;
+}
+
+function getActionVisibleColumn({
+  column,
+  action,
+  currentTab,
+  tableColumnsData,
+  downloadType,
+}) {
+  switch (column?.name) {
+    case 'action':
+      return getColumnKeyByDownloadType({
+        downloadType,
+        column,
+        value: action?.title,
+      });
+    case 'responsiblePerson':
+      return getColumnKeyByDownloadType({
+        downloadType,
+        column,
+        value: action?.responsiblePerson,
+      });
+    case 'startDate':
+      return getColumnKeyByDownloadType({
+        downloadType,
+        column,
+        value: action?.startDate,
+      });
+    case 'endDate':
+      return getColumnKeyByDownloadType({
+        downloadType,
+        column,
+        value: action?.endDate,
+      });
+    case 'status':
+      const actionStatusObj = getActionStatusObject({
+        action,
+        currentTab,
+        tableColumnsData,
+        downloadType,
+      });
+      return actionStatusObj;
+    default:
+      return null;
+  }
+}
+
+async function getTotalActionsResponse({
+  engine,
+  orgUnit,
+  solutionToActionLinkage,
+}) {
+  const actionsPagingDetails = await getEngineQuery({
+    engine,
+    query: actionsQuery,
+    queryKey: 'actions',
+    variables: {
+      fields: FIELDS_NONE,
+      ou: orgUnit?.id,
+      others: { solutionToActionLinkage },
+    },
+  });
+  const pageCount = getPageCount(actionsPagingDetails);
+  return await getTotalResponseArray({
+    pageCount,
+    engine,
+    query: actionsQuery,
+    queryKey: 'actions',
+    ou: orgUnit?.id,
+    resource: 'trackedEntityInstances',
+    others: { solutionToActionLinkage },
+  });
+}
+
+function getFormattedActions(teis) {
+  let formattedTeis = [];
+  if (teis && teis.length) {
+    for (const tei of teis) {
+      let action = new Action(tei).toJson();
+      // const gaps = await getGaps(bottleneck.id, engine)
+      const actionStatusEvents =
+        tei?.enrollments[0] && tei?.enrollments[0]?.events
+          ? tei.enrollments[0].events
+          : [];
+      const actionStatus = getFormattedActionStatusEvents(actionStatusEvents);
+
+      formattedTeis = [...formattedTeis, { ...action, actionStatus }];
+    }
+  }
+  return formattedTeis;
+}
+
+function getFormattedActionStatusEvents(actionStatusEvents) {
+  let formattedEvents = [];
+  if (actionStatusEvents && actionStatusEvents.length) {
+    for (const event of actionStatusEvents) {
+      let eventObject = new ActionStatus(event)?.toJson();
+
+      formattedEvents = [...formattedEvents, eventObject];
+    }
+  }
+  return formattedEvents;
+}
+
 
 /* Get solution visible columns */
 async function getVisibleColumnsFromSolutionsTable({
