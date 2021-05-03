@@ -71,6 +71,27 @@ const indicatorNameQuery = {
 };
 
 
+/* Get Indicator values columns */
+async function getIndicatorValuesFromBottleneck({
+  bottleneck,
+  engine,
+  downloadType,
+}) {
+  const indicatorName = await getIndicatorName({
+    indicator: bottleneck?.indicator,
+    engine,
+  });
+  return downloadType === FILE_TYPES.excel
+    ? {
+        Indicator: indicatorName || '',
+        Intervention: bottleneck?.intervention || '',
+      }
+    : {
+        indicator: indicatorName || '',
+        intervention: bottleneck?.intervention || '',
+        id: bottleneck?.id || '',
+      };
+}
 /* Get Total Indicator response */
 async function getTotalIndicatorsResponse({ engine, orgUnit }) {
   const indicatorPagingDetails = await getEngineQuery({
