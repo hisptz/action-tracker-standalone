@@ -73,6 +73,45 @@ const indicatorNameQuery = {
 
 
 
+
+async function getBottleneckCompletePayload({
+  bottlenecks,
+  engine,
+  downloadType,
+  tableColumnsData,
+  orgUnit,
+  currentTab,
+}) {
+  let payload = [];
+
+  if (bottlenecks?.length) {
+    let gaps = [];
+    for (const bottleneck of bottlenecks) {
+      const formattedBottleneck = new Bottleneck(bottleneck)?.toJson();
+
+      const indicatorObj = await getIndicatorValuesFromBottleneck({
+        bottleneck: formattedBottleneck,
+        engine,
+        downloadType,
+      });
+      const formattedGaps = await getGapsFromBottleneck({
+        gaps: formattedBottleneck?.gaps,
+        engine,
+        downloadType,
+        tableColumnsData,
+        orgUnit,
+        indicatorObj,
+        currentTab,
+      });
+
+      payload = [...payload, ...formattedGaps];
+    }
+    payload = [...payload, ...gaps];
+  }
+  return payload;
+}
+
+
 async function getGapsFromBottleneck({
   gaps,
   engine,
