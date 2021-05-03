@@ -70,7 +70,39 @@ const indicatorNameQuery = {
   },
 };
 
-
+export async function getPdfDownloadData({
+  engine,
+  orgUnit,
+  tableColumnsData,
+  currentTab,
+  selectedPeriod,
+}) {
+  const bottlenecks = await getTotalIndicatorsResponse({ engine, orgUnit });
+  const payload = await getBottleneckCompletePayload({
+    bottlenecks,
+    engine,
+    downloadType: FILE_TYPES.pdf,
+    tableColumnsData,
+    orgUnit,
+    currentTab,
+  });
+  const formattedPayloadObj = mapValues(
+    groupBy(payload || [], 'id'),
+    (payloadItem) => payloadItem
+  );
+  const formattedPayloadArray = map(
+    Object.keys(formattedPayloadObj) || [],
+    (formattedDataGroupKey) => {
+      return formattedPayloadObj[formattedDataGroupKey]
+        ? {
+            id: formattedDataGroupKey,
+            items: formattedPayloadObj[formattedDataGroupKey],
+          }
+        : [];
+    }
+  );
+  return formattedPayloadArray;
+}
 
 export async function downloadExcel({
   engine,
@@ -133,7 +165,6 @@ async function getBottleneckCompletePayload({
   return payload;
 }
 
-
 async function getGapsFromBottleneck({
   gaps,
   engine,
@@ -189,10 +220,6 @@ async function getGapsFromBottleneck({
   return formattedGaps;
 }
 
-
-
-
-
 async function getPossibleSolutionsFromGap({
   possibleSolutions,
   engine,
@@ -244,7 +271,6 @@ async function getPossibleSolutionsFromGap({
   }
   return formattedPossibleSolutions;
 }
-
 
 async function getActionFromPossibleSolution({
   solutionToActionLinkage,
@@ -418,7 +444,6 @@ function getFormattedActionStatusEvents(actionStatusEvents) {
   return formattedEvents;
 }
 
-
 /* Get solution visible columns */
 async function getVisibleColumnsFromSolutionsTable({
   downloadType,
@@ -507,14 +532,13 @@ function getGapVisibleColumn({ column, gap, orgUnit, downloadType }) {
   }
 }
 
-
 /* Get column key by download type  */
 function getColumnKeyByDownloadType({ downloadType, column, value }) {
   return downloadType === FILE_TYPES.excel
     ? { [column?.displayName]: value || '' }
     : downloadType === FILE_TYPES.pdf
     ? {
-        [column?.name]: value || ''
+        [column?.name]: value || '',
       }
     : {};
 }
