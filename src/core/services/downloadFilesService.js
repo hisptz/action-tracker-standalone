@@ -73,6 +73,65 @@ const indicatorNameQuery = {
 
 
 
+async function getGapsFromBottleneck({
+  gaps,
+  engine,
+  downloadType,
+  tableColumnsData,
+  orgUnit,
+  indicatorObj,
+  currentTab,
+}) {
+  let formattedGaps = [];
+  if (gaps?.length) {
+    for (const gap of gaps) {
+      let gapObject = gap.toJson();
+      const visibleGapColumns = getVisibleColumnsFromGapsTable({
+        downloadType,
+        gap: gapObject,
+        orgUnit,
+        tableColumnsData,
+        indicatorObj,
+      });
+      const possibleSolutions = await getPossibleSolutionsFromGap({
+        possibleSolutions: gapObject?.possibleSolutions,
+        engine,
+        orgUnit,
+        gapColumns: visibleGapColumns,
+        downloadType,
+        tableColumnsData,
+        currentTab,
+      });
+      formattedGaps = [...formattedGaps, ...possibleSolutions];
+    }
+  } else {
+    const { visibleColumnsNames } = tableColumnsData || {
+      visibleColumnsNames: [],
+    };
+
+    formattedGaps = indicatorObj
+      ? [...formattedGaps, indicatorObj]
+      : [...formattedGaps];
+    formattedGaps =
+      downloadType === FILE_TYPES.excel
+        ? map(formattedGaps || [], (gap) => {
+            let newGap = gap;
+            map(visibleColumnsNames || [], (column) => {
+              newGap = gap[column]
+                ? { ...newGap }
+                : { ...newGap, [column]: '' };
+            });
+            return newGap;
+          })
+        : [...formattedGaps];
+  }
+  return formattedGaps;
+}
+
+
+
+
+
 async function getPossibleSolutionsFromGap({
   possibleSolutions,
   engine,
