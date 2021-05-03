@@ -69,6 +69,41 @@ const indicatorNameQuery = {
     id: ({ id }) => id,
   },
 };
+
+
+
+/* Get total response from the query */
+async function getTotalResponseArray({
+  pageCount,
+  engine,
+  query,
+  queryKey,
+  ou,
+  resource,
+  others,
+}) {
+  let totalResponse = [];
+  if (pageCount >= 1) {
+    for (let page = 1; page <= pageCount; page++) {
+      const response = await getEngineQuery({
+        engine,
+        query,
+        queryKey,
+        variables: {
+          ou,
+          page,
+          others: { trackedEntityInstance: [], ...others },
+        },
+      });
+      totalResponse =
+        response[resource] && response[resource]?.length
+          ? [...totalResponse, ...response[resource]]
+          : [...totalResponse];
+    }
+  }
+
+  return totalResponse;
+}
 /* Get page Count from the response */
 function getPageCount(response) {
   return response?.pager?.pageCount ? response?.pager?.pageCount : 0;
