@@ -41,37 +41,10 @@ export default function MainPage() {
     const tableColumnsData = useRecoilValue(TableStateSelector)
 
 
-    useEffect(() => {
-        setDataEngine(engine)
-    }, []);
-    useEffect(() => generateErrorAlert(show, error), [error]);
-
-    async function setUpPDFDownloadData() {
-        const pdfData = await getPDFDownloadData({
-            engine,
-            orgUnit,
-            currentTab,
-            selectedPeriod: period,
-            tableColumnsData
-        });
-        setTablePDFDownloadData(pdfData);
-    }
-
-    if (downloadPdf && downloadPdf.isDownloadingPdf) {
-        setUpPDFDownloadData();
-        if (tablePDFDownloadData && tablePDFDownloadData.length) {
-            alerts.forEach(alert => alert.remove())
-            setDownloadPdf({isDownloadingPdf: true, loading: false})
-            window.onafterprint = (_) => {
-                setDownloadPdf({isDownloadingPdf: false, loading: true})
-            }
-        } else if (tablePDFDownloadData === undefined) {
-            /* show({message: 'Preparing a PDF file', type: 'INFO'}); */
-        }
-    }
-    if (downloadPdf && downloadPdf.loading === false) {
-        window.print()
-    }
+  useEffect(() => {
+    setDataEngine(engine);
+  }, []);
+  useEffect(() => generateErrorAlert(show, error), [error]);
 
     return (
         loading || firstTimeUseLoading ?
@@ -93,4 +66,5 @@ export default function MainPage() {
                         {downloadPdf?.isDownloadingPdf && <PDFTable teiItems={tablePDFDownloadData}/>}
                     </Container>
     )
+
 }

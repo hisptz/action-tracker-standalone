@@ -33,7 +33,7 @@ function getQuarterlyPeriods(periods) {
   return quarterlyPeriods;
 }
 
-function ProgressDialog({ onClose, indicatorId }) {
+function ProgressDialog({ onClose, indicatorId, selectedPeriod }) {
   const { period } = useRecoilValue(DimensionsState) || {};
   const quarterlyPeriods = getQuarterlyPeriods([period]);
   const indicatorProgressStatus =

@@ -1,86 +1,96 @@
-import {
-  Table,
-  TableHead,
-  TableRowHead,
-  TableCellHead,
-  TableBody,
-  TableRow,
-  TableCell,
-} from '@dhis2/ui';
-import FullPageLoader from '../FullPageLoader';
-import { useRecoilValue } from 'recoil';
-import { PageState } from '../../../core/states';
-import { TableStateSelector } from '../../../core/states/column';
+import { map } from 'lodash';
+import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
+const styles = StyleSheet.create({
+  page: {
+    flexDirection: 'column',
+    backgroundColor: '#E4E4E4',
+  },
+  container: {
+    padding: '1.5em',
+    marginTop: '20px',
+  },
+  table: {
+    border: '1px solid black',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cell: {
+    border: '1px solid black',
+    padding: '1px',
+    width: '100px',
+  },
+  text: {
+    fontSize: '10px',
+  },
+  textHeader: {
+    fontSize: '10px',
+    fontWeight: '600',
+  },
+  title: {
+    fontSize: '12px',
+  },
+});
 
-function PDFTable({ teiItems, isLoading }) {
-  const styles = {
-    listTable: {
-      marginBottom: '1em',
-    },
-  };
-  const tableColumnsData = useRecoilValue(TableStateSelector)
-
-  const currentTab = useRecoilValue(PageState);
+function PDFTable({ teiItems }) {
   return (
-    <div id="pdfTable">
-      {teiItems && teiItems.length ? (
-        teiItems.map((teiItem) => {
-          return (
-            <Table style={styles.listTable} key={teiItem?.id}>
-              <TableHead>
-                <TableRowHead>
-                  <TableCellHead>Indicator</TableCellHead>
-                  <TableCellHead>Bottleneck</TableCellHead>
-                  <TableCellHead>Possible Solution</TableCellHead>
-                  <TableCellHead>Action Items</TableCellHead>
-                  <TableCellHead>Responsible Person</TableCellHead>
-                  <TableCellHead>Start Date</TableCellHead>
-                  <TableCellHead>End Date</TableCellHead>
-                  {currentTab === 'Planning' && (
-                    <TableCellHead>Status</TableCellHead>
-                  )}
-                  {currentTab === 'Tracking' &&
-                    (tableColumnsData?.actionStatusTable?.columns || []).map((actionStatusColumn, index) => {
+    <Document>
+      <Page size="A4">
+        {teiItems?.length &&
+          map(teiItems || [], (teiItem) => {
+            return (
+              <View key={teiItem?.id} style={styles.container}>
+                <Text style={styles.title}>
+                  {teiItem?.items[0]?.intervention +
+                    ' - ' +
+                    teiItem?.items[0]?.indicator}
+                </Text>
+                <View style={styles.table}>
+                  <View style={styles.row}>
+                    {map(teiItem?.headers || [], (header) => {
                       return (
-                        <TableCellHead key={actionStatusColumn}>{actionStatusColumn?.name}</TableCellHead>
+                        <View key={header?.name} style={styles.cell}>
+                          <Text style={styles.textHeader}>
+                            {header?.displayName}
+                          </Text>
+                        </View>
                       );
                     })}
-                </TableRowHead>
-              </TableHead>
-              <TableBody>
-                {teiItem.items &&
-                  teiItem.items.length &&
-                  teiItem.items.map((item, index) => {
-                    return (
-                      <TableRow key={item?.rowId}>
-                        <TableCell rowspan={teiItem?.items?.length}>
-                          {index === 0 && item?.indicator}
-                        </TableCell>
-                        <TableCell>{item?.gap}</TableCell>
-                        <TableCell>{item?.possibleSolution}</TableCell>
-                        <TableCell>{item?.actionItem}</TableCell>
-                        <TableCell>{item?.responsiblePerson}</TableCell>
-                        <TableCell>{item?.startDate}</TableCell>
-                        <TableCell>{item?.endDate}</TableCell>
-                        {currentTab === 'Planning' && (
-                          <TableCell>{item?.statuses[0]}</TableCell>
-                        )}
-                        {currentTab === 'Tracking' &&
-                          (item.statuses || []).map((status, index) => {
-                            return <TableCell key={index}>{status}</TableCell>;
-                          })}
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          );
-        })
-      ) : (
-        <FullPageLoader text={'Configuring Action tables. Please wait...'} />
-      )}
-    </div>
+                  </View>
+                  <View style={styles.column}>
+                    {map(teiItem?.items || [], (item, itemIndex) => {
+                      return (
+                        <View key={item?.rowId} style={styles.row}>
+                          {map(
+                            teiItem?.headers || [],
+                            (header, headerIndex) => {
+                              return (
+                                <View key={header?.name} style={styles.cell}>
+                                  <Text style={styles.text}>
+                                    {item[header?.name]}
+                                  </Text>
+                                </View>
+                              );
+                            }
+                          )}
+                        </View>
+                      );
+                    })}
+                  </View>
+                </View>
+              </View>
+            );
+          })}
+      </Page>
+    </Document>
   );
 }
 
