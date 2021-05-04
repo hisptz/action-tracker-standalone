@@ -139,7 +139,7 @@ export async function downloadExcel({
     currentTab,
   });
   const periodInstance = new Period();
-  const period = periodInstance.getById(selectedPeriod[0]?.id) || {};
+  const period = periodInstance.getById(selectedPeriod?.id) || {};
   await exportAsExcelFile(
     payload,
     `${orgUnit?.displayName || ''}-${period?.name || ''}  Action ${currentTab}`

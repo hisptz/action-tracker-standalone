@@ -16,7 +16,7 @@ import Paginator from "../../../shared/Components/Paginator";
 import {CenteredContent} from '@dhis2/ui'
 import useGetFilteredTeis from "../hooks/useGetFilteredTeis";
 import FullPageError from "../../../shared/Components/FullPageError";
-import {downloadExcel} from '../../../core/services/downloadFilesService'
+import {downloadExcel, getPdfDownloadData} from '../../../core/services/downloadFilesService'
 import {UserConfigState} from "../../../core/states/user";
 import {BottleneckConstants} from "../../../core/constants";
 import {TableStateSelector} from '../../../core/states/column'
@@ -125,6 +125,7 @@ export default function ChallengeList() {
     }
 
     function onDownloadExcel() {
+     show({ message: 'Preparing an excel file', type: { permanent: false } });
          downloadExcel({
       engine,
       orgUnit,
@@ -150,7 +151,7 @@ export default function ChallengeList() {
       setDownloadPdf(true);
     });
 
-    show({ message: 'Preparing a PDF file', type: { permanent: true } });
+    show({ message: 'Preparing a PDF file', type: { permanent: false } });
   }
     const onEdit = (object) => {
         setSelectedChallenge(object);
