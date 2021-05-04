@@ -135,7 +135,7 @@ export default function ChallengeList() {
     });
     }
 
-    const document = <PDFTable teiItems={tablePDFDownloadData} />;
+    const document = <PDFTable teiItems={tablePDFDownloadData} currentTab={currentTab}  />;
   const [instance, update] = usePDF({ document });
 
   async function onDownloadPDF() {
