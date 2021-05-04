@@ -5,16 +5,11 @@ import {
     ModalActions,
     Button,
     ButtonStrip,
-    CenteredContent,
-    CircularLoader
 } from '@dhis2/ui';
 import React, {useState} from 'react';
 import OrgUnitDimension from "./Components/OrgUnitDimension";
 import _ from 'lodash';
 import {useAlert} from "@dhis2/app-runtime";
-import {useDataStore} from "@dhis2/app-service-datastore";
-import {useOrganisationUnitLevel} from "../../../core/hooks/organisationUnit";
-import DataStoreConstants from "../../../core/constants/datastore";
 import PlanningOrgUnitLevelState from "../../../core/states/orgUnit";
 import {useRecoilValue} from "recoil";
 
@@ -22,7 +17,6 @@ export default function OrganisationUnitFilter({onClose, onUpdate, initialOrgUni
     const [selectedOrgUnitPaths, setSelectedOrgUnitPaths] = useState(initialOrgUnit && [initialOrgUnit?.path]);
     const [selectedOrgUnit, setSelectedOrgUnit] = useState(initialOrgUnit ? [initialOrgUnit] : []);
     const orgUnitLevel = useRecoilValue(PlanningOrgUnitLevelState);
-    console.log(orgUnitLevel);
     const onSelect = ({path}) => {
         setSelectedOrgUnitPaths([path])
     };

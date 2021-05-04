@@ -1,6 +1,7 @@
 export class CustomFormField {
-  constructor({id, name, formName, valueType, mandatory, compulsory, validations, optionSet,min,max, dependants}) {
+  constructor({id, name, formName, valueType, mandatory, compulsory, validations, optionSet,min,max, dependants, disabled}) {
     this.id = id;
+    this.disabled = disabled;
     this.name = name;
     this.formName = formName;
     this.valueType = valueType;

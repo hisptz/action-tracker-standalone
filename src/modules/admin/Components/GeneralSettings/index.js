@@ -7,25 +7,28 @@ import OrgUnitSettings from "./Components/OrgUnitSettings";
 
 const styles = {
     container: {
-        background: '#ffffff',
-        padding: 20,
-        width: '100%'
+        padding: '16px 0'
     },
     header: {
-        paddingBottom: 20
+        paddingBottom: 16
+    },
+    content: {
+        background: '#ffffff',
+        padding: 16,
+        width: '100%'
     }
 }
 
 export default function GeneralSettingsPage() {
     return (
-        <Container>
+        <Container style={styles.container} maxWidth={false}>
             <Grid container>
                 <Grid item xs={12} style={styles.header}>
                     <Typography variant='h5'>General Settings</Typography>
                     <Divider/>
                 </Grid>
-                <div style={styles.container}>
-                    <Grid container spacing={3} direction='column'>
+                <div style={styles.content}>
+                    <Grid container spacing={2} direction='column'>
                         <Grid item>
                             <PeriodSettings/>
                         </Grid>

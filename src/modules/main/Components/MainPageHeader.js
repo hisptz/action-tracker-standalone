@@ -52,9 +52,8 @@ const PageSelector = () => {
         },
     };
     const onClick = (page) => {
-        const periodInstance = new Period().getById(_.head(period)?.id);
         if (page === 'Tracking') {
-            if (periodInstance.type === trackingPeriod || _.has(periodInstance, trackingPeriod.toLowerCase())) {
+            if (period.type === trackingPeriod || _.has(period, trackingPeriod.toLowerCase())) {
                 setActivePage(page);
             } else {
                 show({message: 'The selected period has no quarters'});
@@ -81,7 +80,7 @@ const PageSelector = () => {
     );
 }
 
-export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDownloadExcel}) {
+export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDownloadExcel, listIsEmpty}) {
     const activePage = useRecoilValue(PageState);
     const actionStatus = useRecoilValue(ActionStatusState);
     const [statusFilter, setStatusFilter] = useRecoilState(StatusFilterState);
@@ -90,7 +89,7 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
     const [reference, setReference] = useState(undefined);
 
     return (
-        <Container maxWidth={false} className="main-page-header">
+        <Container style={{minWidth: 1366}} maxWidth={false} className="main-page-header">
             <Grid container spacing={4}>
                 <Grid item container xs={6} lg={6} spacing={3}>
                     <Grid item><Typography variant='h5'
@@ -105,7 +104,7 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
                             </Visibility>
                         </Grid>
                         <Grid item xs={6}>
-                            <SingleSelect clearText='Clear' clearable selected={statusFilter?.selected}
+                            <SingleSelect disabled={listIsEmpty} clearText='Clear' clearable selected={statusFilter?.selected}
                                           placeholder='Filter by status' onChange={setStatusFilter}>
                                 {
                                     _.map(actionStatus, status => (
@@ -117,9 +116,9 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
                     </Grid>
                     <Grid item xs={6} container justify='flex-end'>
                         <ButtonStrip>
-                            <Button icon={<ColumnIcon/>} onClick={_ => setManageColumnOpen(true)}>Manage
+                            <Button disabled={listIsEmpty} icon={<ColumnIcon/>} onClick={_ => setManageColumnOpen(true)}>Manage
                                 Columns</Button>
-                            <Button onClick={(d, e) => setReference(e.currentTarget)} icon={<DownloadIcon/>}>
+                            <Button disabled={listIsEmpty} onClick={(d, e) => setReference(e.currentTarget)} icon={<DownloadIcon/>}>
                                 Download
                             </Button>
                         </ButtonStrip>

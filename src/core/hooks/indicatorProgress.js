@@ -1,19 +1,16 @@
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { DimensionsState } from '../states';
-import { IndicatorsSelectedState } from '../states';
-import { useDataQuery, useConfig, useDataEngine } from '@dhis2/app-runtime';
+import { useDataQuery} from '@dhis2/app-runtime';
 import { useEffect } from 'react';
 import { IndicatorProgressState } from '../states';
-import { Period } from '@iapps/period-utilities';
 import { map, flattenDeep } from 'lodash';
 import { formatAnalytics } from '../helpers/analyticsManipulation';
 
 
 function joinPeriodsArray(periods) {
   let isoPeriods = [];
-  const periodInstance = new Period();
   for (const period of periods) {
-    const { quarterly } = periodInstance.getById(period?.id);
+    const { quarterly } = period;
     const isoQuarterlyPeriods = flattenDeep(
       map(quarterly || [], (quarter) => {
         return quarter && quarter.id ? quarter.id : [];
@@ -36,22 +33,22 @@ const indicatorProgressQuery = ({ indicatorId, period, ou }) => {
 };
 
 export default function useIndicatorProgress({indicatorId, hasQuarterly}) {
-   
+
   const { orgUnit, period } = useRecoilValue(DimensionsState) || {};
 
   const setIndicatorProgress = useSetRecoilState(IndicatorProgressState);
 
   const { loading, data, error } = useDataQuery(
-    indicatorProgressQuery({ indicatorId, period, ou: orgUnit?.id }),
+    indicatorProgressQuery({ indicatorId, period: [period], ou: orgUnit?.id }),
     {
       variables: {
         ou: orgUnit?.id,
-        periods: period,
+        periods: [period],
         indicator: indicatorId,
       },
     }
   );
- 
+
 
   useEffect(() => {
     async function setIndicatorsSelectedData() {

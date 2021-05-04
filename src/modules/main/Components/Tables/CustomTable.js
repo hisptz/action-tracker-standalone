@@ -26,7 +26,6 @@ const CustomTableRowHead = withStyles((_) => ({
     root: {
         padding: 4,
         backgroundColor: '#F8F9FA',
-
     }
 }))(TableRow)
 
@@ -37,7 +36,7 @@ const CustomTableCellHead = withStyles((_) => ({
         fontSize: 14,
         color: '#212934',
         fontWeight: 'normal',
-        minWidth: 120
+        minWidth: 150
     }
 }))(TableCell)
 
@@ -47,7 +46,7 @@ const CustomTableCell = withStyles((_) => ({
         paddingBottom: 5,
         paddingTop: 10,
         fontSize: 14,
-        minWidth: 120
+
     }
 }))(TableCell)
 const CustomNestingTableCell = withStyles((_) => ({
@@ -160,22 +159,21 @@ const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object, r
     )
 }
 
-const DueDateTableCell = ({dueDate, style}) => {
-    const warning = false;
+const DueDateTableCell = ({dueDate, pastDate, style}) => {
     return (
         <CustomTableCell style={{
-            background: warning && '#ffecb3',
+            background: pastDate && '#ffecb3',
             maxWidth: style?.maxWidth
         }}>
             <Grid container direction='row' spacing={1}>
                 {
-                    warning &&
+                    pastDate &&
                     <Grid item>
-                        <DueDateWarningIcon fontSize='small' style={{color: warning && '#6f3205'}}/>
+                        <DueDateWarningIcon fontSize='small' style={{color: pastDate && '#6f3205'}}/>
                     </Grid>
                 }
                 <Grid item>
-                    <span style={{color: warning && '#6f3205'}}>{dueDate}</span>
+                    <span style={{color: pastDate && '#6f3205'}}>{dueDate}</span>
                 </Grid>
             </Grid>
         </CustomTableCell>
@@ -221,7 +219,7 @@ const ActionStatusDetails = ({actionStatus}) => {
     )
 }
 
-const ActionStatusTableCell = ({actionStatus, action, refetch, roles, startDate, endDate}) => {
+const ActionStatusTableCell = ({actionStatus, action, refetch, roles, startDate, endDate, disabled}) => {
     const [addActionStatusOpen, setAddActionStatusOpen] = useState(false);
     const styles = {
         margin: 'auto',
@@ -238,7 +236,7 @@ const ActionStatusTableCell = ({actionStatus, action, refetch, roles, startDate,
                 {
                     actionStatus ?
                         <ActionStatusDetails actionStatus={actionStatus}/> :
-                        roles?.create ? <NoActionStatus onAddClick={onAddClick}/> : <></>
+                        (!disabled && roles?.create) ? <NoActionStatus onAddClick={onAddClick}/> : <></>
                 }
             </CenteredContent>
             {
@@ -257,10 +255,10 @@ const CustomTableCellWithActions = ({object, setRef, reference, onDelete, onEdit
     return (
         <CustomTableCell key={`${object?.id}-description`}>
             <Grid container spacing={1}>
-                <Grid item xs={(canDelete || canUpdate) ? 9 : 12}>
+                <Grid item xs={(canDelete || canUpdate) ? 8 : 12}>
                     {children}
                 </Grid>
-                <Grid item xs={(canDelete || canUpdate) ? 3 : 0}>
+                <Grid item xs={(canDelete || canUpdate) ? 4 : 0}>
                     {
                         (canDelete || canUpdate) &&
                         <Button key={`${object?.id}-action-menu-button`} onClick={(d, e) => {

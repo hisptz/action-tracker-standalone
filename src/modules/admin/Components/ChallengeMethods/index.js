@@ -1,33 +1,34 @@
 import { Container, Fab, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { Divider } from '@dhis2/ui';
-import React, {useState} from 'react';
-import AddIcon from '@material-ui/icons/Add';
+import React from 'react';
 import ChallengeMethodsTable from './Components/ChallengeMethodsTable';
-import ChallengeSettingsFormDialog from '../Dialogs/ChallengeSettingsFormDialog'
 
 const styles = {
   container: {
-    height: '100%',
+    padding: '16px 0'
   },
   tableContainer: {
     background: '#ffffff',
-    padding: 20,
+    padding: 16,
+  },
+  content:{
+    height: '100%',
   },
   header: {
-    paddingBottom: 20,
+    paddingBottom: 16,
   },
   floatingAction: {
     position: 'absolute',
-    bottom: 30,
-    right: 30,
+    bottom: 32,
+    right: 32,
     background: '#2b61b3',
   },
 };
 
 export default function ChallengeMethodsSettings() {
   return (
-    <Container>
+    <Container maxWidth={false} style={styles.container}>
       <Grid container>
         <Grid item xs={12} style={styles.header}>
           <Typography variant="h5">Challenge Settings</Typography>
@@ -35,11 +36,11 @@ export default function ChallengeMethodsSettings() {
         </Grid>
         <Grid
           item
-          spacing={3}
+          spacing={0}
           container
           direction="column"
           justify="space-between"
-          style={styles.container}
+          style={styles.content}
         >
           <Grid item style={styles.tableContainer}>
             <ChallengeMethodsTable />

@@ -51,10 +51,19 @@ const setValidations = (formattedFormFields = [], engine) => {
                         if (control?.defaultValuesRef?.current?.name?.value === value.trim()) {
                             return true;
                         } else {
-                            try{
-                                const {options} = await engine.query(validationQuery, {variables: {field: 'name', value: value.trim()}});
-                                return _.isEmpty(options.options) || `Option with name ${value} already exists`
-                            }catch (e) {
+                            try {
+                                if (value.length > 50) {
+                                    return `${field.formName} should not exceed 50 characters`
+                                } else {
+                                    const {options} = await engine.query(validationQuery, {
+                                        variables: {
+                                            field: 'name',
+                                            value: value.trim()
+                                        }
+                                    });
+                                    return _.isEmpty(options.options) || `Option with name ${value} already exists`
+                                }
+                            } catch (e) {
                                 return e.message || e.toString()
                             }
                         }
@@ -62,15 +71,26 @@ const setValidations = (formattedFormFields = [], engine) => {
                         if (control?.defaultValuesRef?.current?.code?.value === value.trim()) {
                             return true;
                         } else {
-                            try{
-                                const {options} = await engine.query(validationQuery, {variables: {field: 'code', value: value.trim()}});
-                                return _.isEmpty(options?.options) || `Option with code ${value} already exists`
-                            }catch (e) {
+                            try {
+                                if (value.length > 50) {
+                                    return `${field.formName} should not exceed 50 characters`
+                                } else {
+                                    const {options} = await engine.query(validationQuery, {
+                                        variables: {
+                                            field: 'code',
+                                            value: value.trim()
+                                        }
+                                    });
+                                    return _.isEmpty(options?.options) || `Option with code ${value} already exists`
+                                }
+
+                            } catch (e) {
                                 return e.message || e.toString();
                             }
                         }
                     }
             })
+
         }
     });
     return formFields;
@@ -163,7 +183,7 @@ function ActionStatusSettingsFormDialog({
                         Hide
                     </Button>
                     <Button type="submit" onClick={handleSubmit(onSubmit)} primary>
-                        {saving ? 'Saving...' : 'Save Action Status Option'}
+                        {saving ? 'Saving...' : 'Save Action Status'}
                     </Button>
                 </ButtonStrip>
             </ModalActions>

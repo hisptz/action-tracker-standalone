@@ -5,6 +5,13 @@ export function getJSDate(dateString = '') {
     }
 }
 
+export function getDHIS2DateFromPeriodLibDate(dateString=''){
+    if(!_.isEmpty(dateString)){
+        const [date, month, year] = dateString.split('-');
+        return [year, month, date].join('-')
+    }
+}
+
 
 
 export function validDate(date) {

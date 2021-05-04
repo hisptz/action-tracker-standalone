@@ -11,15 +11,23 @@ export const UserState = atom({
 });
 
 const rolesMapper = USER_ROLES;
+const authorities = ['create', 'delete', 'update'];
 
 function disablePlanning(userRoles) {
     const planningEntities = _.filter(_.keys(rolesMapper), key => key !== 'actionStatus');
-    const authorities = ['create', 'delete', 'update'];
+
     planningEntities.forEach(entity => {
         authorities.forEach(authority => {
             userRoles = _.set(userRoles, [entity, authority], false);
         })
     });
+    return userRoles;
+}
+
+function disableTracking(userRoles) {
+    authorities.forEach(authority => {
+        userRoles = _.set(userRoles, ['actionStatus', authority], false);
+    })
     return userRoles;
 }
 
@@ -57,11 +65,16 @@ export const UserRolesState = selector({
             });
         });
 
-        if (!planningLevelSelected || activePage === 'Tracking') {
-            return disablePlanning(userRoles);
+        if (!planningLevelSelected) {
+            return disableTracking(disablePlanning(userRoles));
         } else {
-            return userRoles;
+            if (activePage === 'Tracking') {
+                return disablePlanning(userRoles);
+            } else {
+                return userRoles;
+            }
         }
+
     }
 });
 

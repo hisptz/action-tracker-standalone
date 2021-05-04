@@ -2,6 +2,7 @@ import {Period} from "@iapps/period-utilities";
 import _ from 'lodash'
 import {ActionStatusTableCell, CustomTableCellWithActions} from "../../modules/main/Components/Tables/CustomTable";
 import React from "react";
+import {getJSDate} from "./dateUtils";
 
 export function updateTablesVisibleColumnsCount(tables) {
     _.set(tables, 'gapsTable.visibleColumnsCount', _.filter(tables.gapsTable.columns, 'visible').length || 0)
@@ -59,6 +60,8 @@ function getColumn(period) {
         render: (object, refetch, actions) => {
             const {ref, roles} = actions;
             const {startDate, endDate} = getPeriodDates(period);
+            const actionStartDate = getJSDate(object.startDate);
+            const actionEndDate = getJSDate(object.endDate);
             const actionStatusList = object.actionStatusList || [];
             const actionStatus = _.filter(actionStatusList, (as => {
                 const eventDate = new Date(as.eventDate);
@@ -69,6 +72,8 @@ function getColumn(period) {
                     <CustomTableCellWithActions key={`${actionStatus?.id}-action-status-cell`}
                                                 object={actionStatus} reference={ref} {...actions} >
                         <ActionStatusTableCell
+                            startDate={startDate}
+                            endDate={endDate}
                             roles={roles}
                             refetch={refetch} action={object}
                             key={`${object.id}-${period?.id}`}
@@ -76,6 +81,7 @@ function getColumn(period) {
                         />
                     </CustomTableCellWithActions> :
                     <ActionStatusTableCell
+                        disabled={startDate < actionStartDate || actionEndDate < endDate}
                         startDate={startDate}
                         endDate={endDate}
                         roles={roles}
@@ -90,12 +96,10 @@ function getColumn(period) {
 
 export function getTableTrackingColumns(period, trackingPeriod) {
     if (period && trackingPeriod) {
-        const periodInstance = new Period();
-        const periodObject = periodInstance.getById(period.id) || {};
-        const trackingPeriods = periodObject[trackingPeriod.toLowerCase()] || [];
-        if (periodObject) {
-            if (periodObject.type === trackingPeriod) {
-                return [getColumn(periodObject)]
+        const trackingPeriods = [...period[trackingPeriod.toLowerCase()]] || [];
+        if (period) {
+            if (period.type === trackingPeriod) {
+                return [getColumn(period)]
             } else {
                 return _.map(_.reverse(trackingPeriods), (p) => {
                     return getColumn(p);
@@ -121,7 +125,6 @@ export function setVisibility(visible = true, table = {}, names = ['']) {
     return modifiedTable;
 }
 
-
 export function updateVisibleColumns(tables) {
     updateTablesVisibleColumnsCount(tables);
     updateVisibleColumnsCount(tables);
@@ -135,7 +138,7 @@ export function resetColumnConfig(tables) {
 }
 
 export function setTrackingColumns(period = [], tables = {}, trackingPeriod) {
-    const trackingColumns = getTableTrackingColumns(period[0],trackingPeriod);
+    const trackingColumns = getTableTrackingColumns(period, trackingPeriod);
     if (trackingColumns && !_.isEmpty(trackingColumns)) {
         const actionsTable = setVisibility(false, tables.actionsTable, ['status']);
         tables = {
@@ -148,7 +151,6 @@ export function setTrackingColumns(period = [], tables = {}, trackingPeriod) {
             },
             actionsTable
         };
-        console.log(tables);
         updateVisibleColumns(tables);
         return tables;
     } else {

@@ -30,6 +30,9 @@ import AddIcon from "@material-ui/icons/Add";
 import ActionStatusSettingsFormDialog from "../../Dialogs/ActionStatusSettingsFormDialog";
 import FullPageError from "../../../../../shared/Components/FullPageError";
 import {ActionConstants, ActionStatusConstants} from "../../../../../core/constants";
+import {useRecoilValue} from "recoil";
+import {UserRolesState} from "../../../../../core/states/user";
+import Visibility from "../../../../../shared/Components/Visibility";
 
 
 const actionStatusOptionsQuery = {
@@ -74,12 +77,12 @@ const columns = [
     'Color',
     'Icon',
     'Last Updated',
-    'Actions'
 ]
 
 export default function ActionStatusTable() {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
+    const {settings} = useRecoilValue(UserRolesState);
     const {loading, data, error, refetch} = useDataQuery(actionStatusOptionsQuery, {
         variables: {page, pageSize},
     });
@@ -111,6 +114,7 @@ export default function ActionStatusTable() {
         setOpenActionStatusSettingsDialog(true);
     }
 
+
     useEffect(() => {
         async function fetch() {
             await refetch({page, pageSize})
@@ -122,15 +126,15 @@ export default function ActionStatusTable() {
     const styles = {
         floatingAction: {
             position: 'absolute',
-            bottom: 30,
-            right: 30,
+            bottom: 32,
+            right: 32,
             background: '#2b61b3',
         },
     }
 
     return (
         loading ? <FullPageLoader/> :
-            error ? <FullPageError error={error.message || error.toString()} />: <>
+            error ? <FullPageError error={error.message || error.toString()}/> : <>
                 <Table>
                     <TableHead>
                         <TableRowHead>
@@ -138,6 +142,8 @@ export default function ActionStatusTable() {
                                 _.map(columns, (column) => <TableCellHead
                                     key={`${column}-action-status`}>{column}</TableCellHead>)
                             }
+                            <TableCellHead><Grid item container justify='flex-end'
+                                                 direction='row'>Actions</Grid></TableCellHead>
                         </TableRowHead>
                     </TableHead>
                     <TableBody>
@@ -151,10 +157,15 @@ export default function ActionStatusTable() {
                                         <TableCell><ActionStatusColor color={style?.color}/></TableCell>
                                         <TableCell><DHIS2Icon iconName={style?.icon} size={20}/></TableCell>
                                         <TableCell>{getFormattedDate(lastUpdated)}</TableCell>
-                                        <TableCell><Button onClick={(d, e) => {
-                                            setSelectedOption(option);
-                                            setRef(e.currentTarget);
-                                        }} icon={<MoreHorizIcon/>}/></TableCell>
+                                        <TableCell><Grid item container justify='flex-end' direction='row'>
+                                            <Visibility visible={settings.actionStatusOptions}>
+                                                <Button onClick={(d, e) => {
+                                                    setSelectedOption(option);
+                                                    setRef(e.currentTarget);
+                                                }} icon={<MoreHorizIcon/>}/>
+                                            </Visibility>
+                                        </Grid>
+                                        </TableCell>
                                     </TableRow>
                                 )
                             })
@@ -162,7 +173,7 @@ export default function ActionStatusTable() {
                     </TableBody>
                     <TableFoot>
                         <TableRow>
-                            <TableCell colSpan={columns.length.toString()}>
+                            <TableCell colSpan={`${columns.length + 1}`}>
                                 <Pagination
                                     onPageChange={setPage}
                                     onPageSizeChange={setPageSize}
@@ -175,19 +186,20 @@ export default function ActionStatusTable() {
                     </TableFoot>
                 </Table>
                 <Grid item container justify="flex-end">
-                    <Fab
-                        onClick={() =>
-                            setOpenActionStatusSettingsDialog(
-                                !openActionStatusSettingsDialog
-                            )
-                        }
-                        className="primary.jsx-2371629422"
-                        style={styles.floatingAction}
-                        color="primary"
-                        aria-label="add"
-                    >
-                        <AddIcon/>
-                    </Fab>
+                    <Visibility visible={settings.actionStatusOptions}>
+                        <Fab
+                            onClick={() =>
+                                setOpenActionStatusSettingsDialog(
+                                    !openActionStatusSettingsDialog
+                                )
+                            }
+                            style={styles.floatingAction}
+                            color='primary'
+                            aria-label="add"
+                        >
+                            <AddIcon/>
+                        </Fab>
+                    </Visibility>
                     {openActionStatusSettingsDialog && (
                         <ActionStatusSettingsFormDialog
                             optionSet={data?.actionStatusOptionSet}
@@ -207,11 +219,12 @@ export default function ActionStatusTable() {
                     openDelete && <OptionDeleteConfirmation
                         dataElement={ActionStatusConstants.STATUS_DATA_ELEMENT}
                         program={ActionConstants.PROGRAM_ID}
-                        message='Are you sure you want to delete this action status option?'
+                        message='Are you sure you want to delete this action status option? This action cannot be undone.'
                         onClose={onClose}
                         option={selectedOption}
                         optionSet={data?.actionStatusOptionSet}
                         deletionSuccessMessage='Action status option deleted Successfully'
+                        cannotDeleteMessage='Cannot delete this action status option. It has been assigned to one or more action status.'
                         onUpdate={onUpdate}
                     />
                 }

@@ -19,13 +19,16 @@ import FullPageLoader from "../../../../../shared/Components/FullPageLoader";
 import ChallengeMethodConstants from "../constants/optionSets";
 import {getFormattedDate} from "../../../../../core/helpers/utils";
 import Grid from "@material-ui/core/Grid";
-import {CardContent, Fab} from "@material-ui/core";
+import {Fab} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import ChallengeSettingsFormDialog from "../../Dialogs/ChallengeSettingsFormDialog";
 import TableActionsMenu from "../../../../main/Components/TableActionsMenu";
 import {OptionDeleteConfirmation} from "../../../../../shared/Components/DeleteConfirmation";
 import FullPageError from "../../../../../shared/Components/FullPageError";
 import {BottleneckConstants, GapConstants} from "../../../../../core/constants";
+import Visibility from "../../../../../shared/Components/Visibility";
+import {useRecoilValue} from "recoil";
+import {UserRolesState} from "../../../../../core/states/user";
 
 const methodsQuery = {
     methodOptions: {
@@ -50,7 +53,7 @@ const methodsQuery = {
     },
     actionStatusOptionSet: {
         resource: 'optionSets',
-        id: ChallengeMethodConstants.CHALLENGE_METHOD_OPTION_SET_ID ,
+        id: ChallengeMethodConstants.CHALLENGE_METHOD_OPTION_SET_ID,
         params: {
             fields: [
                 'id',
@@ -67,12 +70,12 @@ const columns = [
     'Name',
     'Code',
     'Last Updated',
-    'Actions'
 ]
 
 export default function ChallengeMethodsTable() {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
+    const {settings} = useRecoilValue(UserRolesState);
     const {loading, error, data, refetch} = useDataQuery(methodsQuery, {variables: {page, pageSize}});
 
     const [ref, setRef] = useState(undefined);
@@ -115,15 +118,15 @@ export default function ChallengeMethodsTable() {
     const styles = {
         floatingAction: {
             position: 'absolute',
-            bottom: 30,
-            right: 30,
+            bottom: 32,
+            right: 32,
             background: '#2b61b3',
         },
     }
 
     return (
         loading ? <FullPageLoader/> :
-            error ? <FullPageError error={error?.message || error?.toString()} />:  <>
+            error ? <FullPageError error={error?.message || error?.toString()}/> : <>
                 <Table>
                     <TableHead>
                         <TableRowHead>
@@ -131,6 +134,8 @@ export default function ChallengeMethodsTable() {
                                 _.map(columns, (column) => <TableCellHead
                                     key={`${column}-action-status`}>{column}</TableCellHead>)
                             }
+                            <TableCellHead><Grid item container justify='flex-end'
+                                                 direction='row'>Actions</Grid></TableCellHead>
                         </TableRowHead>
                     </TableHead>
                     <TableBody>
@@ -142,10 +147,14 @@ export default function ChallengeMethodsTable() {
                                         <TableCell>{name}</TableCell>
                                         <TableCell>{code}</TableCell>
                                         <TableCell>{getFormattedDate(lastUpdated)}</TableCell>
-                                        <TableCell><Button onClick={(d, e) => {
-                                            setSelectedOption(option);
-                                            setRef(e?.currentTarget);
-                                        }} icon={<MoreHorizIcon/>}/></TableCell>
+                                        <TableCell><Grid item container justify='flex-end' direction='row'>
+                                            <Visibility visible={settings.challengeMethodsOptions}>
+                                                <Button onClick={(d, e) => {
+                                                    setSelectedOption(option);
+                                                    setRef(e.currentTarget);
+                                                }} icon={<MoreHorizIcon/>}/>
+                                            </Visibility>
+                                        </Grid></TableCell>
                                     </TableRow>
                                 )
                             })
@@ -153,7 +162,7 @@ export default function ChallengeMethodsTable() {
                     </TableBody>
                     <TableFoot>
                         <TableRow>
-                            <TableCell colSpan={columns.length.toString()}>
+                            <TableCell colSpan={`${columns.length + 1}`}>
                                 <Pagination
                                     onPageChange={setPage}
                                     onPageSizeChange={setPageSize}
@@ -167,19 +176,20 @@ export default function ChallengeMethodsTable() {
                 </Table>
 
                 <Grid item container justify="flex-end">
-                    <Fab
-                        className="primary.jsx-2371629422"
-                        style={styles.floatingAction}
-                        color="primary"
-                        aria-label="add"
-                        onClick={() =>
-                            setOpenChallengeSettingsDialog(
-                                !openChallengeSettingsDialog
-                            )
-                        }
-                    >
-                        <AddIcon/>
-                    </Fab>
+                    <Visibility visible={settings.challengeMethodsOptions}>
+                        <Fab
+                            style={styles.floatingAction}
+                            aria-label="add"
+                            color='primary'
+                            onClick={() =>
+                                setOpenChallengeSettingsDialog(
+                                    !openChallengeSettingsDialog
+                                )
+                            }
+                        >
+                            <AddIcon/>
+                        </Fab>
+                    </Visibility>
                 </Grid>
                 {
                     ref &&
@@ -192,10 +202,11 @@ export default function ChallengeMethodsTable() {
                         dataElement={GapConstants.METHOD_DATA_ELEMENT}
                         program={BottleneckConstants.PROGRAM_ID}
                         type='event'
-                        message='Are you sure you want to delete this method?'
+                        message='Are you sure you want to delete this method? This action cannot be undone.'
                         onClose={onClose}
                         option={selectedOption}
                         deletionSuccessMessage='Method Deleted Successfully'
+                        cannotDeleteMessage='Cannot delete this method. It has been assigned to one or more interventions.'
                         onUpdate={onUpdate}
                         optionSet={data?.actionStatusOptionSet}
                     />

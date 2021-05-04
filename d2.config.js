@@ -1,10 +1,6 @@
 const config = {
     type: 'app',
     title: 'Standalone Action Tracker',
-    // developer:{
-    //     name: 'HISP Tanzania',
-    //     url: 'https://hisptanzania.org/'
-    // },
     entryPoints: {
         app: './src/App',
     },
@@ -35,10 +31,11 @@ const config = {
         "SAT_UPDATE_ACTION_STATUS",
         "SAT_DELETE_ACTION_STATUS",
 
-        "SAT_MANAGE_USERS",
-        "SAT_MANAGE_LEGENDS",
+        "SAT_MANAGE_ACTION_STATUS_OPTIONS",
+        "SAT_MANAGE_CHALLENGE_METHODS",
         "SAT_MANAGE_PLANNING_PERIOD",
-        "SAT_MANAGE_REVIEW_PERIOD"
+        "SAT_MANAGE_TRACKING_PERIOD",
+        "SAT_MANAGE_PLANNING_ORG_UNIT_LEVEL"
     ]
 }
 module.exports = config

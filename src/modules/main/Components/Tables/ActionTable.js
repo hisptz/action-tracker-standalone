@@ -21,20 +21,25 @@ import ActionStatus from "../../../../core/models/actionStatus";
 import ActionStatusDialog from "../../../../shared/Dialogs/ActionStatusDialog";
 import {UserRolesState} from "../../../../core/states/user";
 import Visibility from "../../../../shared/Components/Visibility";
+import {Period} from "@iapps/period-utilities";
+import {getDHIS2DateFromPeriodLibDate} from "../../../../core/services/dateUtils";
 
 
 const actionsQuery = {
     actions: {
         resource: 'trackedEntityInstances',
-        params: ({ou, solutionToActionLinkage, page, pageSize}) => ({
+        params: ({ou, solutionToActionLinkage, page, pageSize, startDate, endDate}) => ({
             program: ActionConstants.PROGRAM_ID,
             ou,
             page,
             pageSize,
             totalPages: true,
             fields: ActionConstants.ACTION_QUERY_FIELDS,
+            ouMode: 'DESCENDANTS',
             filter: [
                 `${ActionConstants.ACTION_TO_SOLUTION_LINKAGE}:eq:${solutionToActionLinkage}`,
+                `${ActionConstants.START_DATE_ATTRIBUTE}:ge:${startDate}`,
+                `${ActionConstants.END_DATE_ATTRIBUTE}:le:${endDate}`
             ]
         })
     }
@@ -44,23 +49,33 @@ export default function ActionTable({solution = new PossibleSolution()}) {
     const [page, setPage] = useState(1);
     const {selected: selectedStatus} = useRecoilValue(StatusFilterState);
     const [pageSize, setPageSize] = useState(5);
-    const {orgUnit} = useRecoilValue(DimensionsState);
+    const {orgUnit, period} = useRecoilValue(DimensionsState);
     const {actionsTable, actionStatusTable, visibleColumnsCount} = useRecoilValue(TableStateSelector);
     const {action: actionRoles, actionStatus: actionStatusRoles} = useRecoilValue(UserRolesState);
     const [addActionOpen, setAddActionOpen] = useState(false)
+    const {startDate, endDate} = period;
     const {loading, data, error, refetch} = useDataQuery(actionsQuery, {
         variables: {
             ou: orgUnit?.id,
             solutionToActionLinkage: solution.actionLinkage,
             page,
             pageSize,
+            startDate: getDHIS2DateFromPeriodLibDate(startDate),
+            endDate: getDHIS2DateFromPeriodLibDate(endDate)
         },
         lazy: true
     });
 
     useEffect(() => {
         function refresh() {
-            refetch({page, pageSize})
+            refetch({
+                page,
+                pageSize,
+                ou: orgUnit?.id,
+                solutionToActionLinkage: solution.actionLinkage,
+                startDate: getDHIS2DateFromPeriodLibDate(startDate),
+                endDate: getDHIS2DateFromPeriodLibDate(endDate)
+            })
         }
 
         refresh();
@@ -103,10 +118,12 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                 <CustomNestedTable>
                     <colgroup>
                         {
-                            actionsTable.columns.map(_ => _.visible && <col key={`col-${_.name}`} width={`${100 / visibleColumnsCount}%`}/>)
+                            actionsTable.columns.map(_ => _.visible &&
+                                <col key={`col-${_.name}`} width={`${100 / visibleColumnsCount}%`}/>)
                         }
                         {
-                            actionStatusTable.visible && actionStatusTable.columns.map(_ => <col key={`col-${_.name}`} width={`${100 / visibleColumnsCount}%`}/>)
+                            actionStatusTable.visible && actionStatusTable.columns.map(_ => <col key={`col-${_.name}`}
+                                                                                                 width={`${100 / visibleColumnsCount}%`}/>)
                         }
                     </colgroup>
                     <TableBody>
@@ -156,7 +173,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                                     })
                                                 }{
                                                 actionStatusTable.visible &&
-                                                _.map(actionStatusTable.columns, ({ render, visible}) => {
+                                                _.map(actionStatusTable.columns, ({render, visible}) => {
                                                     if (render && visible) return render(action, refetch, {
                                                         roles: actionStatusRoles,
                                                         onDelete: (object) => {
@@ -193,9 +210,9 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                             <TableRow key={`${action?.id}-row`}>
                                                 {
                                                     _.map(actionsTable.columns, ({
-                                                                             render,
-                                                                             visible
-                                                                         }) => {
+                                                                                     render,
+                                                                                     visible
+                                                                                 }) => {
                                                         if (render && visible) return render(action, refetch, {
                                                             roles: actionRoles,
                                                             onDelete: (object) => {
@@ -229,9 +246,9 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                                 {
                                                     actionStatusTable.visible &&
                                                     _.map(actionStatusTable.columns, ({
-                                                                                  render,
-                                                                                  visible
-                                                                              }) => {
+                                                                                          render,
+                                                                                          visible
+                                                                                      }) => {
                                                         if (render && visible) return render(action, refetch, {
                                                             roles: actionStatusRoles,
                                                             onDelete: (object) => {
@@ -273,9 +290,9 @@ export default function ActionTable({solution = new PossibleSolution()}) {
             <Container maxWidth={false}>
                 <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                     <Grid item>
-                      <Visibility visible={actionRoles?.create}>
-                          <Button onClick={_ => setAddActionOpen(true)}>Add Action Item</Button>
-                      </Visibility>
+                        <Visibility visible={actionRoles?.create}>
+                            <Button onClick={_ => setAddActionOpen(true)}>Add Action Item</Button>
+                        </Visibility>
 
                     </Grid>
                     <Grid item>

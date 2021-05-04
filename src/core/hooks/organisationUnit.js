@@ -1,7 +1,7 @@
 import {useDataEngine, useDataQuery} from "@dhis2/app-runtime";
 import {useSetRecoilState} from "recoil";
 import PlanningOrgUnitLevelState from "../states/orgUnit";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useDataStore} from "@dhis2/app-service-datastore";
 import DataStoreConstants from "../constants/datastore";
 
@@ -37,7 +37,6 @@ const orgUnitLevelQuery = {
 
 export default function useOrganisationUnit(id = '') {
     const {loading, data, error} = useDataQuery(orgUnitQuery, {variables: {id}});
-    console.log(data);
     return {loading, error, orgUnit: data?.ou}
 }
 
@@ -46,13 +45,18 @@ export function useOrganisationUnitLevel() {
     const planningOrgUnitLevelId = globalSettings?.settings[DataStoreConstants.PLANNING_ORG_UNIT_KEY];
     const {loading, data, error} = useDataQuery(orgUnitLevelQuery, {variables: {id: planningOrgUnitLevelId}});
     const setPlanningOrgUnitLevel = useSetRecoilState(PlanningOrgUnitLevelState);
+    const [noConfig, setNoConfig] = useState(false);
     useEffect(() => {
         function assign() {
-            if (data) {
-                setPlanningOrgUnitLevel(data?.level);
-            }
+           if(planningOrgUnitLevelId){
+               if (data) {
+                   setPlanningOrgUnitLevel(data?.level);
+               }
+           }else{
+               setNoConfig(true);
+           }
         }
         assign();
     }, [data]);
-    return {loading, error}
+    return {loading, error, noConfig}
 }

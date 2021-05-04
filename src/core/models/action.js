@@ -3,6 +3,7 @@ import ActionStatus from "./actionStatus";
 import {CustomFormField} from "./customFormField";
 import {ActionConstants} from "../constants";
 import {uid} from "../helpers/utils";
+import {getJSDate} from "../services/dateUtils";
 
 
 export default class Action {
@@ -13,7 +14,13 @@ export default class Action {
         enrollments: [{events: []}],
         relationships: []
     }) {
-        const {trackedEntityInstance: teiId, attributes, enrollments, relationships, orgUnit} = trackedEntityInstance || {};
+        const {
+            trackedEntityInstance: teiId,
+            attributes,
+            enrollments,
+            relationships,
+            orgUnit
+        } = trackedEntityInstance || {};
         this.id = teiId;
         this.title = _.find(attributes, ['attribute', ActionConstants.TITLE_ATTRIBUTE])?.value;
         this.description = _.find(attributes, ['attribute', ActionConstants.DESCRIPTION_ATTRIBUTE])?.value;
@@ -31,6 +38,7 @@ export default class Action {
         this.incidentDate = enrollments ? enrollments[0]?.incidentDate : new Date();
         this.status = enrollments ? enrollments[0]?.status : 'ACTIVE';
         this.orgUnit = orgUnit;
+        this.pastDueDate = this.getActionStatusOnDueDate(enrollments && enrollments[0].events)
 
         //Bind all methods
         this.toString = this.toString.bind(this);
@@ -39,10 +47,19 @@ export default class Action {
         this.getPayload = this.getPayload.bind(this);
         this.setValuesFromForm = this.setValuesFromForm.bind(this);
         this.getFormValues = this.getFormValues.bind(this);
+        this.getActionStatusOnDueDate = this.getActionStatusOnDueDate.bind(this);
+    }
+
+    getActionStatusOnDueDate(events = []) {
+        if (_.isEmpty(events)) {
+            return true;
+        } else {
+            return new Date() > getJSDate(this.endDate) && !(this.latestStatus === 'Completed') //TODO: This should be configurable
+        }
     }
 
     getLatestStatus(events) {
-        return _.find(_.reverse(_.sortBy(events, (event) => new Date(event?.eventDate)))[0]?.dataValues, ['dataElement', ActionConstants.STATUS_ATTRIBUTE])?.value
+        return _.find(_.reverse(_.sortBy(events, (event) => new Date(event?.eventDate)))[0]?.dataValues, ['dataElement', ActionConstants.STATUS_ATTRIBUTE])?.value || 'N/A' //TODO: Change to something appropriate and acceptable
     }
 
     toJson() {
@@ -126,13 +143,13 @@ export default class Action {
 
         const programEvents = events.map(event => ({...event, trackedEntityInstance: this.id, orgUnit}));
 
-        function getRelationships({challengeId, relationshipId, id}){
+        function getRelationships({challengeId, relationshipId, id}) {
             return [
                 {
                     relationshipType: ActionConstants.BOTTLENECK_ACTION_RELATIONSHIP_TYPE,
                     relationship: relationshipId || uid(),
                     from: {
-                        trackedEntityInstance:{
+                        trackedEntityInstance: {
                             trackedEntityInstance: challengeId
                         }
                     },

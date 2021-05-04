@@ -17,12 +17,11 @@ import { map, flattenDeep, find } from 'lodash';
 import { Period } from '@iapps/period-utilities';
 import './style/progressDialog.css';
 
-function getQuarteryPeriods(period) {
+function getQuarterlyPeriods(periods) {
   let quarterlyPeriods = [];
-  const periodInstance = new Period();
-  if (period && period.length) {
-    for (const periodItem of period) {
-      const { quarterly } = periodInstance.getById(periodItem?.id);
+  if (periods && periods.length) {
+    for (const period of periods) {
+      const { quarterly } = period;
       const isoQuarterlyPeriods = flattenDeep(
         map(quarterly || [], (quarter) => {
           return quarter ? quarter : [];
@@ -36,17 +35,16 @@ function getQuarteryPeriods(period) {
 
 function ProgressDialog({ onClose, indicatorId, selectedPeriod }) {
   const { period } = useRecoilValue(DimensionsState) || {};
-  const [selectedPeriods, setSelectedPeriods] = useState([]);
-  const quarteryPeriods = getQuarteryPeriods(period);
+  const quarterlyPeriods = getQuarterlyPeriods([period]);
   const indicatorProgressStatus =
-    quarteryPeriods && quarteryPeriods.length
+    quarterlyPeriods && quarterlyPeriods.length
       ? useIndicatorProgress({ indicatorId: indicatorId, hasQuarterly: true })
       : { hasQuarterly: false };
   const indicatorProgressData = useRecoilValue(IndicatorProgressState);
 
   let indicators = [];
 
-  const periodNames = map(quarteryPeriods || [], (quarteryPeriod) => {
+  const periodNames = map(quarterlyPeriods || [], (quarteryPeriod) => {
     const indicatorObj = find(
       indicatorProgressData || [],
       (indicatorProgressItem) =>

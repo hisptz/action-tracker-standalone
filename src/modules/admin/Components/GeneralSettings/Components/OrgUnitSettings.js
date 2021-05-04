@@ -5,6 +5,9 @@ import CustomOrgUnitSelector from "./CustomOrgUnitSelector";
 
 import React from 'react';
 import Grid from "@material-ui/core/Grid";
+import Visibility from "../../../../../shared/Components/Visibility";
+import {UserRolesState} from "../../../../../core/states/user";
+import {useRecoilValue} from "recoil";
 
 export default function OrgUnitSettings() {
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}));
@@ -22,14 +25,17 @@ export default function OrgUnitSettings() {
         }
     });
 
-    return (
-        <Grid item container spacing={3} direction='column'>
-            <Grid item>
-                <CustomOrgUnitSelector onChange={({selected}) => setPlanningOrgUnit(selected)}
-                                       label='Planning Organisation Unit' value={planningOrgUnit} saving={saving}
-                                       savingError={savingError}/>
+    const {settings} = useRecoilValue(UserRolesState);
+
+    return (<Visibility visible={settings.planningOrgUnitLevel}>
+            <Grid item container spacing={3} direction='column'>
+                <Grid item>
+                    <CustomOrgUnitSelector onChange={({selected}) => setPlanningOrgUnit(selected)}
+                                           label='Planning Organisation Unit' value={planningOrgUnit} saving={saving}
+                                           savingError={savingError}/>
+                </Grid>
             </Grid>
-        </Grid>
+        </Visibility>
     )
 
 

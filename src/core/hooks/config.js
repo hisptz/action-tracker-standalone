@@ -47,14 +47,14 @@ const optionSetSortingMutation = {
     id: ({id}) => id,
     params: {
         mergeMode: 'REPLACE'
-    }
+    },
+    data: ({data})=>data
 }
 const optionSetSchemaUpdate = {
     type: 'create',
     resource: 'schemas/optionSet',
     data: ({data}) => data
 }
-
 
 async function sortOptionsInOptionSets(optionSets = [], engine) {
     for (const optionSet of optionSets) {
@@ -65,6 +65,7 @@ async function sortOptionsInOptionSets(optionSets = [], engine) {
 
 export  function useAppConfig() {
     const setConfig = useSetRecoilState(ConfigState);
+    const engine = useDataEngine();
     const {loading, data, refetch, error: queryError} = useDataQuery(configQuery,);
     const [error, setError] = useState();
     const [isFirstTime, setIsFirstTime] = useState(false);
@@ -76,7 +77,7 @@ export  function useAppConfig() {
             programs: PROGRAMS,
         },
         onComplete: async () => {
-            // await sortOptionsInOptionSets(PROGRAMS.optionSets, engine); //TODO: Figure out the best way to append sorting
+            await sortOptionsInOptionSets(PROGRAMS.optionSets, engine);
             refetch()
         },
         onError: (e) => setError(e)
@@ -110,10 +111,11 @@ export  function useAppConfig() {
 export default function useAllConfig() {
     const {loading, firstTimeUseLoading, error: configError} = useAppConfig();
     const {loading: userLoading, error: userError} = useUser();
-    const {loading: orgUnitLevelLoading, error: orgUnitLevelError} = useOrganisationUnitLevel();
+    const {loading: orgUnitLevelLoading, error: orgUnitLevelError, noConfig} = useOrganisationUnitLevel();
     return {
         firstTimeUseLoading,
         loading: (userLoading || loading || orgUnitLevelLoading),
-        error: (configError || userError || orgUnitLevelError)
+        error: (configError || userError || orgUnitLevelError),
+        noConfig
     }
 }

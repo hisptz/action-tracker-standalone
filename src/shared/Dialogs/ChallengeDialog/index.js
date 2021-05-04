@@ -99,7 +99,6 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
                                 options={indicators?.map(({displayName, id}) => ({label: displayName, value: id}))}
                                 initiallySelected={value?.value}
                                 getSelected={(v) => {
-                                    console.log(v);
                                     onChange({name: indicatorField.id, value: v})
                                 }
                                 }
