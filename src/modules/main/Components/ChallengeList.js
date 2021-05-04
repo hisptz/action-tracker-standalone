@@ -182,26 +182,26 @@ export default function ChallengeList() {
       setDownloadPdf(true);
     });
 
-    //  console.log({pdfData, tablePDFDownloadData})
     show({ message: 'Preparing a PDF file', type: { permanent: true } });
-
-    //    update();
-    //     if (!instance?.loading) {
-    //         window.open(instance.url, '_blank');
-    //     }
   }
 
   useEffect(() => {
-    async function openDocument() {
-      if (downloadPdf && tablePDFDownloadData !== undefined) {
+    function openDocument() {
+      if (downloadPdf && tablePDFDownloadData) {
         update();
-        if (!instance?.loading ) {
-          window.open(instance.url, '_blank');
-        }
       }
     }
     openDocument();
-  }, [downloadPdf, instance?.loading]);
+  }, [downloadPdf, tablePDFDownloadData]);
+
+  useEffect(() => {
+    function openWindow() {
+      if (!instance?.loading && tablePDFDownloadData) {
+        window.open(instance.url, '_blank');
+      }
+    }
+    openWindow();
+  }, [instance?.loading, tablePDFDownloadData]);
 
   const onEdit = (object) => {
     setSelectedChallenge(object);
