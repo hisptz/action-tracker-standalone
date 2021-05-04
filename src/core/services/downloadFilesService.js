@@ -93,13 +93,15 @@ export async function getPdfDownloadData({
     orgUnit,
     currentTab,
   });
-  const { gapsTable, solutionsTable, actionsTable } = tableColumnsData;
+  console.log({tableColumnsData})
+  const { gapsTable, solutionsTable, actionsTable, actionStatusTable } = tableColumnsData;
   const headers = filter(
     concat(
       [],
       gapsTable?.columns || [],
       solutionsTable?.columns || [],
-      actionsTable?.columns || []
+      actionsTable?.columns || [],
+      actionStatusTable?.columns || []
     ) || [],
     (columnItem) => columnItem?.visible
   );
