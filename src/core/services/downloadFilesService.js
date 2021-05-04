@@ -14,6 +14,7 @@ import Action from '../models/action';
 import ActionStatus from '../models/actionStatus';
 import { Period } from '@iapps/period-utilities';
 import { exportAsExcelFile } from '../helpers/excelHelper';
+import { v4 as uuidv4 } from 'uuid';
 
 const FIELDS_NONE = 'none';
 const FILE_TYPES = {
@@ -38,7 +39,7 @@ const bottleneckQuery = {
           : [
               'trackedEntityInstance',
               'attributes[attribute,value]',
-              'enrollments[events[programStage,event,dataValues[dataElement,value]]]',
+              'enrollments[events[programStage,event,dataValues[dataElement,value],orgUnitName]]',
             ],
       trackedEntityInstance,
     }),
@@ -102,10 +103,9 @@ export async function getPdfDownloadData({
     ) || [],
     (columnItem) => columnItem?.visible
   );
-  console.log({headers})
   const formattedPayloadObj = mapValues(
     groupBy(payload || [], 'id'),
-    (payloadItem) => payloadItem
+    (payloadItemArr) => (payloadItemArr || []).map(payloadItem => ({...payloadItem, rowId: uuidv4() }))
   );
   const formattedPayloadArray = map(
     Object.keys(formattedPayloadObj) || [],
@@ -158,9 +158,9 @@ async function getBottleneckCompletePayload({
 
   if (bottlenecks?.length) {
     let gaps = [];
+
     for (const bottleneck of bottlenecks) {
       const formattedBottleneck = new Bottleneck(bottleneck)?.toJson();
-
       const indicatorObj = await getIndicatorValuesFromBottleneck({
         bottleneck: formattedBottleneck,
         engine,
@@ -199,7 +199,7 @@ async function getGapsFromBottleneck({
       const visibleGapColumns = getVisibleColumnsFromGapsTable({
         downloadType,
         gap: gapObject,
-        orgUnit,
+        orgUnit: { displayName: gap?.orgUnitName, name: 'orgUnit' },
         tableColumnsData,
         indicatorObj,
       });
