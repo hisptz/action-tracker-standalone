@@ -40,10 +40,13 @@ const styles = StyleSheet.create({
   },
 });
 
-function PDFTable({ teiItems }) {
+function PDFTable({ teiItems, currentTab }) {
   return (
     <Document>
-      <Page size="A4">
+      <Page
+        size="A4"
+        orientation={currentTab === 'Tracking' ? 'landscape' : 'portrait'}
+      >
         {teiItems?.length &&
           map(teiItems || [], (teiItem) => {
             return (
