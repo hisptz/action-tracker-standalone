@@ -96,12 +96,10 @@ function getColumn(period) {
 
 export function getTableTrackingColumns(period, trackingPeriod) {
     if (period && trackingPeriod) {
-        const periodInstance = new Period();
-        const periodObject = periodInstance.getById(period.id) || {};
-        const trackingPeriods = periodObject[trackingPeriod.toLowerCase()] || [];
-        if (periodObject) {
-            if (periodObject.type === trackingPeriod) {
-                return [getColumn(periodObject)]
+        const trackingPeriods = [...period[trackingPeriod.toLowerCase()]] || [];
+        if (period) {
+            if (period.type === trackingPeriod) {
+                return [getColumn(period)]
             } else {
                 return _.map(_.reverse(trackingPeriods), (p) => {
                     return getColumn(p);
@@ -140,7 +138,7 @@ export function resetColumnConfig(tables) {
 }
 
 export function setTrackingColumns(period = [], tables = {}, trackingPeriod) {
-    const trackingColumns = getTableTrackingColumns(period[0], trackingPeriod);
+    const trackingColumns = getTableTrackingColumns(period, trackingPeriod);
     if (trackingColumns && !_.isEmpty(trackingColumns)) {
         const actionsTable = setVisibility(false, tables.actionsTable, ['status']);
         tables = {

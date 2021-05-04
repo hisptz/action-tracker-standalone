@@ -63,7 +63,8 @@ const styles = {
     },
     fullPage: {
         margin: 'auto',
-        height: 'calc(100vh - 320px)'
+        height: 'calc(100vh - 320px)',
+        minWidth: 1366
     }
 };
 
@@ -101,7 +102,6 @@ export default function ChallengeList() {
                 }
             }
         }
-
         refresh();
     }, [orgUnit, period, page, pageSize, selectedStatus, filteredTeisLoading, filteredTeis]);
 
@@ -126,9 +126,7 @@ export default function ChallengeList() {
 
     function onDownloadPDF() {
         setIsDownloadingPdf({isDownloadingPdf: true, loading: true})
-
         show({message: 'Preparing a PDF file', type: {permanent: true}});
-
     }
 
     const onEdit = (object) => {

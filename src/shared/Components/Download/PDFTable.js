@@ -9,10 +9,9 @@ import {
 } from '@dhis2/ui';
 import FullPageLoader from '../FullPageLoader';
 import { useRecoilValue } from 'recoil';
-import { DimensionsState, PageState } from '../../../core/states';
+import { PageState } from '../../../core/states';
 import { TableStateSelector } from '../../../core/states/column';
-import { map } from 'lodash';
-import { Period } from '@iapps/period-utilities';
+
 
 function PDFTable({ teiItems, isLoading }) {
   const styles = {

@@ -53,7 +53,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
     const {actionsTable, actionStatusTable, visibleColumnsCount} = useRecoilValue(TableStateSelector);
     const {action: actionRoles, actionStatus: actionStatusRoles} = useRecoilValue(UserRolesState);
     const [addActionOpen, setAddActionOpen] = useState(false)
-    const {startDate, endDate} = new Period().getById(_.head(period)?.id);
+    const {startDate, endDate} = period;
     const {loading, data, error, refetch} = useDataQuery(actionsQuery, {
         variables: {
             ou: orgUnit?.id,

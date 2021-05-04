@@ -30,7 +30,7 @@ export function FilterComponents() {
         setOpenOrgUnitFilter(false);
     };
     const onUpdatePeriodFilter = (data) => {
-        if (data?.length) {
+        if (!_.isEmpty(data)) {
             setSelectedDimensions({...selectedDimensions, period: data});
         }
         setOpenPeriodFilter(false);

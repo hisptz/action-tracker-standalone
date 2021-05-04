@@ -134,9 +134,7 @@ export async function downloadExcel({
     downloadType: 'excel',
     tableColumnsData
   });
-  const periodInstance = new Period();
-  const period= periodInstance.getById(selectedPeriod[0]?.id) || {};
-  await exportAsExcelFile(downloadData, `${orgUnit?.displayName || ''}-${period?.name || ''}  Action ${currentTab}`);
+  await exportAsExcelFile(downloadData, `${orgUnit?.displayName || ''}-${selectedPeriod?.name || ''}  Action ${currentTab}`);
 }
 
 async function getDownloadData({
@@ -365,7 +363,7 @@ async function formatDataForDownload({
                     selectedPeriod,
                     tableColumnsData
                   });
-                  
+
                   const formattedObj = getRowObjectByDownloadType({
                     downloadType,
                     tei,
@@ -404,9 +402,9 @@ function getRowObjectByDownloadType({
   let statuses =  map(Object.keys(actionStatusesObj) || [], statusKey => {
     return statusKey ? actionStatusesObj[statusKey] : '';
   })
- 
-  
-  
+
+
+
   return downloadType === 'excel'
     ? {
         Indicator: indicatorName,
@@ -444,7 +442,7 @@ function getActionStatusObject({
 }) {
   let actionStatusesObj = {};
   const { actionStatus } = action || {};
- 
+
   const statusObj = maxBy(
     actionStatus || [],
     (actionStatusItem) => new Date(actionStatusItem?.reviewDate)
@@ -458,16 +456,16 @@ function getActionStatusObject({
       : {};
   }
  if (currentTab === 'Tracking') {
-  
-    
+
+
     const periodInstance = new Period();
     const { quarterly } = periodInstance.getById(selectedPeriod[0]?.id) || {};
 
-     
+
    const {columns} = tableColumnsData?.actionStatusTable || {columns: []};
 
    if(columns?.length) {
-    
+
     for (const column of columns) {
 
       const periodValues = periodInstance.getById(column?.id)
@@ -475,7 +473,7 @@ function getActionStatusObject({
       const formattedEndDate = new Date(validDate(periodValues.endDate));
       const dateInGivenColumn = find(actionStatus || [], status => {
         const formattedReviewDate = new Date(status?.reviewDate);
-       
+
          if(formattedReviewDate >= formattedStartDate &&
           formattedReviewDate <=formattedEndDate) {
             return status;
@@ -487,7 +485,7 @@ function getActionStatusObject({
    }
 
   }
- 
+
   return actionStatusesObj;
 }
 function validDate(date) {
@@ -500,7 +498,7 @@ function validDate(date) {
       dateItemIndex++
     ) {
       dateStr =
-        dateItemIndex === (dateArr.length - 1) 
+        dateItemIndex === (dateArr.length - 1)
           ? `${dateStr}${dateArr[dateItemIndex]}`
           : `${dateStr}${dateArr[dateItemIndex]}-`;
     }

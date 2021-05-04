@@ -21,7 +21,7 @@ const indicatorsSelectedQuery = {
 
 
 export default function useIndicatorsSelected() {
-    const {orgUnit, period} = useRecoilValue(DimensionsState);
+    const {orgUnit} = useRecoilValue(DimensionsState);
     const setIndicatorsSelected = useSetRecoilState(IndicatorsSelectedState);
     const {loading, data, error} = useDataQuery(indicatorsSelectedQuery, {
         variables: {

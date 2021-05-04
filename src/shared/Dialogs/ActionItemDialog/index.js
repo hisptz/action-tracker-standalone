@@ -39,18 +39,14 @@ function getValidatedFormFields(metadataFields = [], period) {
     const startDateFieldIndex = _.findIndex(formFields, ['id', ActionConstants.START_DATE_ATTRIBUTE]);
     const endDateFieldIndex = _.findIndex(formFields, ['id', ActionConstants.END_DATE_ATTRIBUTE]);
     if (period) {
-        const periodInstance = new Period();
-        const periodObject = periodInstance.getById(period?.id);
-        if (periodObject) {
             if (startDateFieldIndex >= 0) {
-                _.set(formFields, [startDateFieldIndex, 'min'], getFormattedDateFromPeriod(periodObject.startDate));
-                _.set(formFields, [startDateFieldIndex, 'max'], getFormattedDateFromPeriod(periodObject.endDate));
+                _.set(formFields, [startDateFieldIndex, 'min'], getFormattedDateFromPeriod(period.startDate));
+                _.set(formFields, [startDateFieldIndex, 'max'], getFormattedDateFromPeriod(period.endDate));
             }
             if (endDateFieldIndex >= 0) {
-                _.set(formFields, [endDateFieldIndex, 'min'], getFormattedDateFromPeriod(periodObject.startDate))
-                _.set(formFields, [endDateFieldIndex, 'max'], getFormattedDateFromPeriod(periodObject.endDate))
+                _.set(formFields, [endDateFieldIndex, 'min'], getFormattedDateFromPeriod(period.startDate))
+                _.set(formFields, [endDateFieldIndex, 'max'], getFormattedDateFromPeriod(period.endDate))
             }
-        }
     }
     if (endDateFieldIndex >= 0) {
         _.set(formFields, [endDateFieldIndex, 'dependants'], [...endDateFieldIndex.dependants || [], ActionConstants.START_DATE_ATTRIBUTE]);
@@ -76,7 +72,7 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
         reValidateMode: 'onBlur',
         defaultValues: action?.getFormValues()
     });
-    const formFields = getValidatedFormFields(metadataFields, _.head(period));
+    const formFields = getValidatedFormFields(metadataFields, period);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     const [mutate, {loading: saving}] = useDataMutation(action ? actionEditMutation : actionCreateMutation, {
         variables: {data: {}, id: action?.id},

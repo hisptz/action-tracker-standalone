@@ -52,9 +52,8 @@ const PageSelector = () => {
         },
     };
     const onClick = (page) => {
-        const periodInstance = new Period().getById(_.head(period)?.id);
         if (page === 'Tracking') {
-            if (periodInstance.type === trackingPeriod || _.has(periodInstance, trackingPeriod.toLowerCase())) {
+            if (period.type === trackingPeriod || _.has(period, trackingPeriod.toLowerCase())) {
                 setActivePage(page);
             } else {
                 show({message: 'The selected period has no quarters'});

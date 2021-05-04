@@ -22,7 +22,7 @@ export function SelectionWrapper({
   const selectText =
     selectDataObj && selectDataObj.text ? selectDataObj.text : '';
 
- 
+
   return (
     <Box
       component="div"
@@ -57,7 +57,7 @@ export function SelectionWrapper({
           { type === FilterComponentTypes.ORG_UNIT &&
             selectDataObj?.data?.displayName}
           {type === FilterComponentTypes.PERIOD &&
-             periodItems[0]?.name}
+             periodItems.name}
         </p>
       </Box>
     </Box>
