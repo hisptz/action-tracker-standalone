@@ -1,66 +1,81 @@
-import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { DimensionsState } from '../states';
-import { useDataQuery} from '@dhis2/app-runtime';
-import { useEffect } from 'react';
-import { IndicatorProgressState } from '../states';
-import { map, flattenDeep } from 'lodash';
-import { formatAnalytics } from '../helpers/analyticsManipulation';
+import {useSetRecoilState, useRecoilValue} from 'recoil';
+import {DimensionsState} from '../states';
+import {useDataQuery} from '@dhis2/app-runtime';
+import {useEffect} from 'react';
+import {IndicatorProgressState} from '../states';
+import {map, flattenDeep} from 'lodash';
+import {formatAnalytics} from '../helpers/analyticsManipulation';
+import {useDataStore} from "@dhis2/app-service-datastore";
+import DataStoreConstants from "../constants/datastore";
 
 
-function joinPeriodsArray(periods) {
-  let isoPeriods = [];
-  for (const period of periods) {
-    const { quarterly } = period;
-    const isoQuarterlyPeriods = flattenDeep(
-      map(quarterly || [], (quarter) => {
-        return quarter && quarter.id ? quarter.id : [];
-      })
-    );
-    isoPeriods = [...isoQuarterlyPeriods];
-  }
-
-  return isoPeriods && isoPeriods.length ? isoPeriods.join(';') : '';
+function joinPeriodsArray(periods, trackingPeriod) {
+    let isoPeriods = [];
+    for (const period of periods) {
+        const trackingPeriods = period[trackingPeriod.toLowerCase()]
+        const isoQuarterlyPeriods = flattenDeep(
+            map(trackingPeriods || [], (quarter) => {
+                return quarter && quarter.id ? quarter.id : [];
+            })
+        );
+        isoPeriods.push(...isoQuarterlyPeriods)
+    }
+    console.log(isoPeriods.join(';'));
+    return isoPeriods.length ? isoPeriods.join(';') : '';
 }
 
-const indicatorProgressQuery = ({ indicatorId, period, ou }) => {
-  return {
+const indicatorProgressQuery = {
     data: {
-      resource: `analytics?dimension=dx:${indicatorId}&dimension=pe:${joinPeriodsArray(
-        period
-      )}&filter=ou:${ou}&displayProperty=NAME&skipMeta=false&includeNumDen=true`,
-    },
-  };
-};
-
-export default function useIndicatorProgress({indicatorId, hasQuarterly}) {
-
-  const { orgUnit, period } = useRecoilValue(DimensionsState) || {};
-
-  const setIndicatorProgress = useSetRecoilState(IndicatorProgressState);
-
-  const { loading, data, error } = useDataQuery(
-    indicatorProgressQuery({ indicatorId, period: [period], ou: orgUnit?.id }),
-    {
-      variables: {
-        ou: orgUnit?.id,
-        periods: [period],
-        indicator: indicatorId,
-      },
+        resource: 'analytics',
+        params: ({indicatorId, periods, ou, trackingPeriod}) => ({
+            dimension: [
+                `dx:${indicatorId}`,
+                `pe:${joinPeriodsArray(
+                    periods, trackingPeriod
+                )}`,
+            ],
+            filter: [
+                `ou:${ou}`
+            ],
+            displayProperty: 'NAME',
+            skipMeta: false,
+            includeNumDen: true
+        })
     }
-  );
+}
 
 
-  useEffect(() => {
-    async function setIndicatorsSelectedData() {
-      if (!loading && data && !error) {
-        const responseData = data.data ? data.data : {};
-        const formattedData = formatAnalytics(responseData);
-        setIndicatorProgress(formattedData);
-      }
-    }
+export default function useIndicatorProgress({indicatorId}) {
 
-    setIndicatorsSelectedData();
-  }, [loading]);
+    const {orgUnit, period} = useRecoilValue(DimensionsState) || {};
+    const {globalSettings} = useDataStore();
+    const trackingPeriod = globalSettings.settings[DataStoreConstants.TRACKING_PERIOD_KEY];
+    const setIndicatorProgress = useSetRecoilState(IndicatorProgressState);
 
-  return { loading, error, hasQuarterly };
+    const {loading, data, error} = useDataQuery(
+        indicatorProgressQuery,
+        {
+            variables: {
+                ou: orgUnit?.id,
+                periods: [period],
+                indicatorId,
+                trackingPeriod
+            },
+        }
+    );
+
+
+    useEffect(() => {
+        async function setIndicatorsSelectedData() {
+            if (!loading && data && !error) {
+                const responseData = data.data ? data.data : {};
+                const formattedData = formatAnalytics(responseData);
+                setIndicatorProgress(formattedData);
+            }
+        }
+
+        setIndicatorsSelectedData();
+    }, [loading]);
+
+    return {loading, error};
 }

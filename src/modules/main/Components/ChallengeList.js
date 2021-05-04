@@ -20,7 +20,7 @@ import {downloadExcel, getPdfDownloadData} from '../../../core/services/download
 import {UserConfigState} from "../../../core/states/user";
 import {BottleneckConstants} from "../../../core/constants";
 import {TableStateSelector} from '../../../core/states/column'
-import { PDFViewer, usePDF } from '@react-pdf/renderer';
+import {usePDF} from '@react-pdf/renderer';
 import PDFTable from '../../../shared/Components/Download/PDFTable';
 
 const indicatorQuery = {
@@ -76,7 +76,7 @@ export default function ChallengeList() {
     const {ouMode} = useRecoilValue(UserConfigState) || {};
     const {filteredTeis, loading: filteredTeisLoading} = useGetFilteredTeis(selectedStatus, orgUnit);
     const [page, setPage] = useState(1);
-   const [downloadPdf, setDownloadPdf] = useState(false);
+    const [downloadPdf, setDownloadPdf] = useState(false);
     const [pageSize, setPageSize] = useState(5);
     const {loading, data, error, refetch} = useDataQuery(indicatorQuery, {
         variables: {ou: orgUnit?.id, page, pageSize, trackedEntityInstance: [], ouMode},
@@ -88,6 +88,8 @@ export default function ChallengeList() {
     const engine = useRecoilValue(DataEngineState);
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
+
+    const [documentHasData, setDocumentHasData] = useState(false);
     useEffect(() => generateErrorAlert(show, error), [error])
 
     useEffect(() => {
@@ -106,6 +108,7 @@ export default function ChallengeList() {
                 }
             }
         }
+
         refresh();
     }, [orgUnit, period, page, pageSize, selectedStatus, filteredTeisLoading, filteredTeis]);
 
@@ -125,55 +128,64 @@ export default function ChallengeList() {
     }
 
     function onDownloadExcel() {
-     show({ message: 'Preparing an excel file', type: { permanent: false } });
-         downloadExcel({
-      engine,
-      orgUnit,
-      tableColumnsData,
-      currentTab,
-      selectedPeriod: period,
-    });
+        show({message: 'Preparing an excel file', type: {permanent: false}});
+        downloadExcel({
+            engine,
+            orgUnit,
+            tableColumnsData,
+            currentTab,
+            selectedPeriod: period,
+        });
     }
 
-    const document = <PDFTable teiItems={tablePDFDownloadData} currentTab={currentTab}  />;
-  const [instance, update] = usePDF({ document });
+    const document = <PDFTable teiItems={tablePDFDownloadData} currentTab={currentTab}/>;
+    const [instance, update] = usePDF({document});
 
-  async function onDownloadPDF() {
-    setIsDownloadingPdf({ isDownloadingPdf: true, loading: true });
-    getPdfDownloadData({
-      engine,
-      orgUnit,
-      tableColumnsData,
-      currentTab,
-      selectedPeriod: period,
-    }).then((result) => {
-      setTablePDFDownloadData(result);
-      setDownloadPdf(true);
-    });
+    async function onDownloadPDF() {
+        setIsDownloadingPdf({isDownloadingPdf: true, loading: true});
+        getPdfDownloadData({
+            engine,
+            orgUnit,
+            tableColumnsData,
+            currentTab,
+            selectedPeriod: period,
+        }).then((result) => {
+            setTablePDFDownloadData(result);
+            setDownloadPdf(true);
+        });
 
-    show({ message: 'Preparing a PDF file', type: { permanent: false } });
-  }
+        show({message: 'Preparing a PDF file', type: {permanent: false}});
+    }
+
     const onEdit = (object) => {
         setSelectedChallenge(object);
         setAddIndicatorOpen(true);
     }
     useEffect(() => {
-    function openDocument() {
-      if (downloadPdf && tablePDFDownloadData) {
-        update();
-      }
-    }
-    openDocument();
-  }, [downloadPdf, tablePDFDownloadData]);
+        async function openDocument() {
+            if (downloadPdf && tablePDFDownloadData) {
+                await update();
+                setDocumentHasData(true);
+            }
+        }
 
-  useEffect(() => {
-    function openWindow() {
-      if (!instance?.loading && tablePDFDownloadData) {
-        window.open(instance.url, '_blank');
-      }
-    }
-    openWindow();
-  }, [instance?.loading, tablePDFDownloadData]);
+        openDocument();
+    }, [downloadPdf, tablePDFDownloadData]);
+
+    useEffect(() => {
+        function openWindow() {
+            setTimeout(() => {
+                if (!instance?.loading && documentHasData) {
+                    window.open(instance.url, '_blank');
+                    setDownloadPdf(false)
+                }
+            }, 1000)
+
+        }
+
+        openWindow();
+    }, [instance?.loading, tablePDFDownloadData, documentHasData]);
+
     return (orgUnit && period ?
             <Container style={styles.container} maxWidth={false}>
                 <Grid container spacing={5} direction='column'>
