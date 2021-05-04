@@ -1,31 +1,17 @@
-import { useState, useEffect } from 'react';
-import {
-  Table,
-  TableHead,
-  TableRowHead,
-  TableCellHead,
-  TableBody,
-  TableRow,
-  TableCell,
-} from '@dhis2/ui';
-import FullPageLoader from '../FullPageLoader';
-import { useRecoilValue } from 'recoil';
-import { DimensionsState, PageState } from '../../../core/states';
-import { TableStateSelector } from '../../../core/states/column';
-import { map, concat, filter, values } from 'lodash';
-import { Period } from '@iapps/period-utilities';
+import { map } from 'lodash';
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import { getPdfDownloadData } from '../../../core/services/downloadFilesService';
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
     backgroundColor: '#E4E4E4',
   },
+  container: {
+    padding: '1.5em',
+    marginTop: '20px',
+  },
   table: {
-   
     border: '1px solid black',
-    marginTop: '1em',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -33,55 +19,72 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
   },
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
   cell: {
     border: '1px solid black',
-    padding: '1px'
+    padding: '1px',
+    width: '100px',
   },
   text: {
-    fontSize: '10px'
-  },
-  bold: {
     fontSize: '10px',
-    fontWeight: 'bold'
-  }
+  },
+  textHeader: {
+    fontSize: '10px',
+    fontWeight: '600',
+  },
+  title: {
+    fontSize: '12px',
+  },
 });
 
-function PDFTable({ teiItems, isLoading }) {
-  console.log({ teiItems });
-  const item = 'Kubali'
-  // const styles = {
-  //   listTable: {
-  //     marginBottom: '1em',
-  //   },
-  // };
-  // const tableColumnsData = useRecoilValue(TableStateSelector);
-
-  // const currentTab = useRecoilValue(PageState);
+function PDFTable({ teiItems }) {
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4">
         {teiItems?.length &&
           map(teiItems || [], (teiItem) => {
             return (
-              <View key={teiItem?.id} style={styles.table}>
-                <View style={styles.row}>
-                  {map(teiItem?.headers || [], (header) => {
-                    return (
-                      <View key={header?.name} style={styles.cell}>
-                        <Text style={styles.bold}>{header?.displayName}</Text>
-                      </View>
-                    );
-                  })}
-                </View>
-                <View style={styles.row}>
-                {map(teiItem?.headers || [], (header) => {
-                    return (
-                      <View key={header?.name} style={styles.cell}>
-                        <Text style={styles.text}>{header?.displayName}</Text>
-                      </View>
-                    );
-                  })}
-
+              <View key={teiItem?.id} style={styles.container}>
+                <Text style={styles.title}>
+                  {teiItem?.items[0]?.intervention +
+                    ' - ' +
+                    teiItem?.items[0]?.indicator}
+                </Text>
+                <View style={styles.table}>
+                  <View style={styles.row}>
+                    {map(teiItem?.headers || [], (header) => {
+                      return (
+                        <View key={header?.name} style={styles.cell}>
+                          <Text style={styles.textHeader}>
+                            {header?.displayName}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                  <View style={styles.column}>
+                    {map(teiItem?.items || [], (item, itemIndex) => {
+                      return (
+                        <View key={item?.rowId} style={styles.row}>
+                          {map(
+                            teiItem?.headers || [],
+                            (header, headerIndex) => {
+                              return (
+                                <View key={header?.name} style={styles.cell}>
+                                  <Text style={styles.text}>
+                                    {item[header?.name]}
+                                  </Text>
+                                </View>
+                              );
+                            }
+                          )}
+                        </View>
+                      );
+                    })}
+                  </View>
                 </View>
               </View>
             );
