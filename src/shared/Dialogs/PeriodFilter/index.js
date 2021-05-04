@@ -16,9 +16,10 @@ import generateErrorAlert from "../../../core/services/generateErrorAlert";
 import DataStoreConstants from "../../../core/constants/datastore";
 
 export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
-    const [selectedPeriods, setSelectedPeriods] = useState(initialPeriods);
+    const [selectedPeriods, setSelectedPeriods] = useState(initialPeriods && [initialPeriods]);
     const [error, setError] = useState();
     const periodInstance = new Period();
+    periodInstance.setPreferences({allowFuturePeriods: true});
     const {globalSettings} = useDataStore();
     const settings = globalSettings?.settings || {};
     const planningPeriod = settings[DataStoreConstants.PLANNING_PERIOD_KEY];
@@ -37,8 +38,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
             const periodObject = periodInstance.getById(_.head(selectedPeriods)?.id);
             if (periodObject?.type === planningPeriod) {
                 if (onUpdate) {
-
-                    onUpdate(selectedPeriods);
+                    onUpdate(periodObject);
                 } else {
                     onClose();
                 }

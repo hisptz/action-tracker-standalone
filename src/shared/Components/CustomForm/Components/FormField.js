@@ -16,7 +16,6 @@ import ColorFormField from "./ColorFormField";
 import InputPickerField from '../../IconPickerField';
 
 function FormField({field, control}) {
-    let dhis2Icons = [];
     const dependants = useWatch({control, name: field.dependants}); //watchFields is an array of fieldIds that are used to validate other fields in the form
     const {errors} = useFormState({control});
     return (
@@ -24,6 +23,7 @@ function FormField({field, control}) {
             {field.id && field.formName && (
                 <div className="input-field">
                     <Controller
+                        disabled={field?.disabled}
                         name={field?.id}
                         rules={{
                             ...field?.validations,

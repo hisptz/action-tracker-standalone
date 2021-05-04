@@ -21,12 +21,14 @@ import ActionStatus from "../../../../core/models/actionStatus";
 import ActionStatusDialog from "../../../../shared/Dialogs/ActionStatusDialog";
 import {UserRolesState} from "../../../../core/states/user";
 import Visibility from "../../../../shared/Components/Visibility";
+import {Period} from "@iapps/period-utilities";
+import {getDHIS2DateFromPeriodLibDate} from "../../../../core/services/dateUtils";
 
 
 const actionsQuery = {
     actions: {
         resource: 'trackedEntityInstances',
-        params: ({ou, solutionToActionLinkage, page, pageSize}) => ({
+        params: ({ou, solutionToActionLinkage, page, pageSize, startDate, endDate}) => ({
             program: ActionConstants.PROGRAM_ID,
             ou,
             page,
@@ -36,6 +38,8 @@ const actionsQuery = {
             ouMode: 'DESCENDANTS',
             filter: [
                 `${ActionConstants.ACTION_TO_SOLUTION_LINKAGE}:eq:${solutionToActionLinkage}`,
+                `${ActionConstants.START_DATE_ATTRIBUTE}:ge:${startDate}`,
+                `${ActionConstants.END_DATE_ATTRIBUTE}:le:${endDate}`
             ]
         })
     }
@@ -45,23 +49,33 @@ export default function ActionTable({solution = new PossibleSolution()}) {
     const [page, setPage] = useState(1);
     const {selected: selectedStatus} = useRecoilValue(StatusFilterState);
     const [pageSize, setPageSize] = useState(5);
-    const {orgUnit} = useRecoilValue(DimensionsState);
+    const {orgUnit, period} = useRecoilValue(DimensionsState);
     const {actionsTable, actionStatusTable, visibleColumnsCount} = useRecoilValue(TableStateSelector);
     const {action: actionRoles, actionStatus: actionStatusRoles} = useRecoilValue(UserRolesState);
     const [addActionOpen, setAddActionOpen] = useState(false)
+    const {startDate, endDate} = period;
     const {loading, data, error, refetch} = useDataQuery(actionsQuery, {
         variables: {
             ou: orgUnit?.id,
             solutionToActionLinkage: solution.actionLinkage,
             page,
             pageSize,
+            startDate: getDHIS2DateFromPeriodLibDate(startDate),
+            endDate: getDHIS2DateFromPeriodLibDate(endDate)
         },
         lazy: true
     });
 
     useEffect(() => {
         function refresh() {
-            refetch({page, pageSize})
+            refetch({
+                page,
+                pageSize,
+                ou: orgUnit?.id,
+                solutionToActionLinkage: solution.actionLinkage,
+                startDate: getDHIS2DateFromPeriodLibDate(startDate),
+                endDate: getDHIS2DateFromPeriodLibDate(endDate)
+            })
         }
 
         refresh();

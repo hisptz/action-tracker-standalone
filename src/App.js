@@ -16,7 +16,7 @@ import defaultGlobalSettings from './core/constants/defaultConfig.json'
 
 const styles = {
     margin: 0,
-    overflowX: 'auto',
+    overflowX: 'hidden',
     padding: 0,
     minHeight: 'calc(100vh - 48px)',
     minWidth: 'calc(100vw - 4px)',
@@ -35,10 +35,11 @@ const MyApp = () => {
     ]
 
     return (
-        <RecoilRoot>
-            <CssReset/>
-            <DataStoreProvider namespace={'Standalone_Action_Tracker'} loadingComponent={<FullPageLoader/>}
-                               defaultGlobalSettings={defaultGlobalSettings}>
+        <DataStoreProvider namespace={'Standalone_Action_Tracker'} loadingComponent={<FullPageLoader/>}
+                           defaultGlobalSettings={defaultGlobalSettings}>
+            <RecoilRoot>
+                <CssReset/>
+
                 <Container style={styles}>
                     <MemoryRouter initialEntries={modules} initialIndex={0}>
                         <Switch>
@@ -51,8 +52,8 @@ const MyApp = () => {
                         </Switch>
                     </MemoryRouter>
                 </Container>
-            </DataStoreProvider>
-        </RecoilRoot>
+            </RecoilRoot>
+        </DataStoreProvider>
     )
 }
 export default MyApp
