@@ -14,10 +14,10 @@ import _ from 'lodash';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import React, {useEffect, useState} from 'react';
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
-import generateErrorAlert from "../../../../../core/services/generateErrorAlert";
+import {generateErrorAlert} from "../../../../../core/services/errorHandling.service";
 import FullPageLoader from "../../../../../shared/Components/FullPageLoader";
 import ChallengeMethodConstants from "../constants/optionSets";
-import {getFormattedDate} from "../../../../../core/helpers/utils";
+import {getFormattedDate} from "../../../../../core/helpers/utils/date.utils";
 import Grid from "@material-ui/core/Grid";
 import {Fab} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";

@@ -4,7 +4,7 @@ import {IndicatorsSelectedState} from "../states";
 import {useDataQuery} from "@dhis2/app-runtime";
 import {useEffect} from "react";
 import {BottleneckConstants} from "../constants";
-import {listOfSelectedIndicatorsFromResponse} from '../helpers/dataManipulationHelper';
+import {listOfSelectedIndicatorsFromResponse} from '../helpers/dataManipulation.helper';
 
 
 const indicatorsSelectedQuery = {

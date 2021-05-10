@@ -1,14 +1,14 @@
 import {Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle} from "@dhis2/ui";
-import {confirmModalClose} from "../../../core/helpers/utils";
+import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import CustomForm from "../../Components/CustomForm";
 import React from 'react';
 import {useRecoilValue} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import Gap from "../../../core/models/gap";
-import {getFormattedFormMetadata} from "../../../core/helpers/formsUtilsHelper";
+import {getFormattedFormMetadata} from "../../../core/helpers/utils/form.utils";
 import {useForm} from "react-hook-form";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
+import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling.service";
 
 function getFormattedMetadataFields(metadataFields) {
     return getFormattedFormMetadata(metadataFields);

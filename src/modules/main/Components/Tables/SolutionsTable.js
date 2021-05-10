@@ -9,7 +9,7 @@ import {
     BottleneckConstants, PossibleSolutionConstants,
 } from "../../../../core/constants";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
-import generateErrorAlert from "../../../../core/services/generateErrorAlert";
+import {generateErrorAlert} from "../../../../core/services/errorHandling.service";
 import Gap from "../../../../core/models/gap";
 import SolutionsDialog from "../../../../shared/Dialogs/SolutionsDialog";
 import {useRecoilValue} from "recoil";

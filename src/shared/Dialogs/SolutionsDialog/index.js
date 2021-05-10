@@ -10,11 +10,11 @@ import CustomForm from '../../Components/CustomForm';
 import {useForm} from 'react-hook-form';
 import {useRecoilValue} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
-import {confirmModalClose} from "../../../core/helpers/utils";
+import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import PossibleSolution from "../../../core/models/possibleSolution";
-import {getFormattedFormMetadata} from "../../../core/helpers/formsUtilsHelper";
+import {getFormattedFormMetadata} from "../../../core/helpers/utils/form.utils";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {generateImportSummaryErrors, onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
+import {generateImportSummaryErrors, onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling.service";
 
 const solutionEditMutation = {
     type: 'update',

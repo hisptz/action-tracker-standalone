@@ -11,12 +11,12 @@ import FullPageLoader from "../../../shared/Components/FullPageLoader";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import Bottleneck from "../../../core/models/bottleneck";
 import ChallengeDialog from "../../../shared/Dialogs/ChallengeDialog";
-import generateErrorAlert from "../../../core/services/generateErrorAlert";
+import {generateErrorAlert} from "../../../core/services/errorHandling.service";
 import Paginator from "../../../shared/Components/Paginator";
 import {CenteredContent} from '@dhis2/ui'
 import useGetFilteredTeis from "../hooks/useGetFilteredTeis";
 import FullPageError from "../../../shared/Components/FullPageError";
-import {downloadExcel, getPdfDownloadData} from '../../../core/services/downloadFilesService'
+import {downloadExcel, getPdfDownloadData} from '../../../core/services/downloadFiles.service'
 import {UserConfigState} from "../../../core/states/user";
 import {BottleneckConstants} from "../../../core/constants";
 import {TableStateSelector} from '../../../core/states/column'

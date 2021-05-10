@@ -1,7 +1,7 @@
 import {atom, selector} from "recoil";
 import {PageState} from "./page";
 import {DimensionsState} from "./dimensions";
-import {resetColumnConfig, setTrackingColumns} from "../services/tableUtils";
+import {resetColumnConfig, setTrackingColumns} from "../helpers/utils/table.utils";
 import {
     CustomTableCell,
     CustomTableCellWithActions,

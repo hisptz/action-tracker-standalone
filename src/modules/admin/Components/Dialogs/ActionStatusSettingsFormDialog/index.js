@@ -11,14 +11,14 @@ import {useAlert} from '@dhis2/app-runtime';
 import {useForm} from 'react-hook-form';
 import {ConfigState, DataEngineState} from '../../../../../core/states';
 import {useRecoilValue} from 'recoil';
-import {getFormattedFormMetadata} from '../../../../../core/helpers/formsUtilsHelper';
+import {getFormattedFormMetadata} from '../../../../../core/helpers/utils/form.utils';
 import CustomForm from '../../../../../shared/Components/CustomForm';
-import {confirmModalClose, uid} from '../../../../../core/helpers/utils';
+import {confirmModalClose, uid} from '../../../../../core/helpers/utils/utils';
 import ActionStatusOptionSetConstants from "../../ActionStatusLegend/constants/actionStatus";
 import {
     onMetadataCompleteHandler,
     onMetadataErrorHandler
-} from "../../../../../core/services/errorHandling";
+} from "../../../../../core/services/errorHandling.service";
 import _ from 'lodash';
 import useOptionsMutation from "../../../hooks/option";
 

@@ -1,8 +1,7 @@
-import {Period} from "@iapps/period-utilities";
 import _ from 'lodash'
-import {ActionStatusTableCell, CustomTableCellWithActions} from "../../modules/main/Components/Tables/CustomTable";
+import {ActionStatusTableCell, CustomTableCellWithActions} from "../../../modules/main/Components/Tables/CustomTable";
 import React from "react";
-import {getJSDate} from "./dateUtils";
+import {getJSDate} from "./date.utils";
 
 export function updateTablesVisibleColumnsCount(tables) {
     _.set(tables, 'gapsTable.visibleColumnsCount', _.filter(tables.gapsTable.columns, 'visible').length || 0)

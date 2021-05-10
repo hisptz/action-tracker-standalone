@@ -5,7 +5,7 @@ import {Card, CardContent, Grid, Typography} from "@material-ui/core";
 import ChallengeTable from "./Tables/ChallengeTable";
 import ProgressIcon from '@material-ui/icons/BarChart';
 import {useIndicatorsName} from "../../../core/hooks/indicators";
-import generateErrorAlert from "../../../core/services/generateErrorAlert";
+import {generateErrorAlert} from "../../../core/services/errorHandling.service";
 import {useAlert} from "@dhis2/app-runtime";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import TableActionsMenu from "./TableActionsMenu";

@@ -15,9 +15,9 @@ import {useRecoilValue} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import Bottleneck from "../../../core/models/bottleneck";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {confirmModalClose} from "../../../core/helpers/utils";
-import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
-import {getFormattedFormMetadata} from "../../../core/helpers/formsUtilsHelper";
+import {confirmModalClose} from "../../../core/helpers/utils/utils";
+import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling.service";
+import {getFormattedFormMetadata} from "../../../core/helpers/utils/form.utils";
 import FormField from "../../Components/CustomForm/Components/FormField";
 import {BottleneckConstants} from "../../../core/constants";
 import _ from 'lodash'

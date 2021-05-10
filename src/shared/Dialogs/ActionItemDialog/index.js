@@ -9,17 +9,17 @@ import {
 } from '@dhis2/ui';
 import CustomForm from '../../Components/CustomForm';
 import './styles/ActionItemFormDialog.css'
-import {getFormattedFormMetadata} from '../../../core/helpers/formsUtilsHelper';
+import {getFormattedFormMetadata} from '../../../core/helpers/utils/form.utils';
 import {useForm} from 'react-hook-form';
 import {useRecoilValue} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import Action from "../../../core/models/action";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {confirmModalClose, getFormattedDateFromPeriod} from "../../../core/helpers/utils";
+import {getFormattedDateFromPeriod} from "../../../core/helpers/utils/date.utils";
 import {ActionConstants} from "../../../core/constants";
-import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
-import {getJSDate} from "../../../core/services/dateUtils";
-import {Period} from "@iapps/period-utilities";
+import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling.service";
+import {getJSDate} from "../../../core/helpers/utils/date.utils";
+import {confirmModalClose} from "../../../core/helpers/utils/utils";
 
 const actionEditMutation = {
     type: 'update',

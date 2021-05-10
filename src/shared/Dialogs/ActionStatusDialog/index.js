@@ -8,15 +8,14 @@ import {
     ButtonStrip,
 } from '@dhis2/ui';
 import CustomForm from '../../Components/CustomForm';
-import Metadata from '../../../resources/Json/FormsMetadata.json';
-import {getFormattedFormMetadata} from '../../../core/helpers/formsUtilsHelper';
+import {getFormattedFormMetadata} from '../../../core/helpers/utils/form.utils';
 import {useForm} from 'react-hook-form';
 import ActionStatus from "../../../core/models/actionStatus";
 import {useRecoilValue} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {generateImportSummaryErrors, onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
-import {confirmModalClose} from "../../../core/helpers/utils";
+import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling.service";
+import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import {ActionStatusConstants} from "../../../core/constants";
 
 const actionStatusEditMutation = {

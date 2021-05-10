@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from "react";
-import {formatSvg} from "../../../core/services/utils";
+import {formatSvg} from "../../../core/helpers/utils/utils";
 import useDHIS2Icon from "./hooks/icon";
 import PropTypes from 'prop-types';
 

@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {TableState, TableStateSelector} from "../../../core/states/column";
 import {Button, ButtonStrip, Checkbox, Menu, Modal, ModalActions, ModalContent, ModalTitle,} from "@dhis2/ui";
-import {confirmModalClose} from "../../../core/helpers/utils";
+import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import {Container, Grid} from "@material-ui/core";
-import {setVisibility, updateVisibleColumns} from "../../../core/services/tableUtils";
+import {setVisibility, updateVisibleColumns} from "../../../core/helpers/utils/table.utils";
 import {useAlert} from "@dhis2/app-runtime";
 
 function ColumnListTile({column, onChange}) {

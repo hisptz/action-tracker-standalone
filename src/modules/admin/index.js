@@ -78,26 +78,3 @@ export default function AdminPage() {
     )
 }
 
-
-// <Container style={styles.container} maxWidth={false}>
-//     <MemoryRouter initialEntries={menu} initialIndex={0}>
-//         <Grid container spacing={0} direction='column' style={{height: '100%', width: '100%'}}>
-//             <Grid  item container spacing={3}>
-//                 <Grid style={styles.sideMenu} container item md={4} lg={3} xs={12} direction='column' spacing={2}>
-//                     <Grid item>
-//                         <MenuItem onClick={_ => history.goBack()} label='Back to action planning' icon={<BackIcon/>}/>
-//                     </Grid>
-//                     <Grid item>
-//                         <AdminMenu menu={menu}/>
-//                     </Grid>
-//                 </Grid>
-//                 <Grid item md={8} lg={9} xs={12}>
-
-//                 </Grid>
-//             </Grid>
-{/*        </Grid>*/
-}
-{/*    </MemoryRouter>*/
-}
-{/*</Container>*/
-}

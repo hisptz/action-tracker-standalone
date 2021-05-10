@@ -73,3 +73,8 @@ export function onMetadataCompleteHandler(importSummary, show, {message, onUpdat
         errors.forEach(error => show({message: error, type: {error: true}}))
     }
 }
+
+
+export function generateErrorAlert(show, error) {
+    error && show({message: error?.message || error?.toString(), type: {critical: true}})
+}

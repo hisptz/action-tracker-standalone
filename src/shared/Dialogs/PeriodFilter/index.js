@@ -12,7 +12,7 @@ import {Period} from "@iapps/period-utilities";
 import {useDataStore} from "@dhis2/app-service-datastore";
 import _ from 'lodash';
 import {useAlert} from "@dhis2/app-runtime";
-import generateErrorAlert from "../../../core/services/generateErrorAlert";
+import {generateErrorAlert} from "../../../core/services/errorHandling.service";
 import DataStoreConstants from "../../../core/constants/datastore";
 
 export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
