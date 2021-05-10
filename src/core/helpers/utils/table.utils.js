@@ -11,13 +11,20 @@ export function updateTablesVisibleColumnsCount(tables) {
 }
 
 export function updateVisibleColumnsCount(tables) {
-    let count = 0;
-    Object.values(tables).forEach(table => {
-        if (table.visibleColumnsCount) {
-            count += table.visibleColumnsCount;
+    if (!_.isEmpty(tables)) {
+        try {
+            let count = 0;
+            updateTablesVisibleColumnsCount(tables);
+            Object.values(tables).forEach(table => {
+                if (table.visibleColumnsCount) {
+                    count += table.visibleColumnsCount;
+                }
+            })
+            _.set(tables, 'visibleColumnsCount', count);
+        } catch (e) {
+            throw(Error('Invalid table configuration provided.'))
         }
-    })
-    _.set(tables, 'visibleColumnsCount', count);
+    }
 }
 
 export function updateVisibleColumnsNames(tables) {
@@ -47,7 +54,6 @@ export function getPeriodDates(quarter) {
     const endDate = new Date(endYear, endMonth - 1, end);
     return {startDate, endDate}
 }
-
 
 function getColumn(period) {
     return {

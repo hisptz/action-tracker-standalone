@@ -1,35 +1,27 @@
 import _ from "lodash";
 
+
+/*
+* @param {String} dateString
+* @returns: {Date} date
+* */
 export function getJSDate(dateString = '') {
     if (dateString) {
-        const [year, month, date] = dateString.split('-');
-        return new Date(parseInt(year), parseInt(month) - 1, parseInt(date))
+        if (typeof dateString === 'string') {
+            if (dateString.match(/([\d]{4}-[\d]{2}-[\d]{2})/)) {
+                const [year, month, date] = dateString.split('-');
+                return new Date(parseInt(year), parseInt(month) - 1, parseInt(date))
+            } else {
+                throw Error('Invalid date String. Please provide a string with the format YYYY-MM-DD.')
+            }
+        } else {
+            throw Error('Invalid parameter. The parameter should be of type string. A(n) ' + typeof dateString + ' was provided instead')
+        }
     }
 }
 
 export function getDHIS2DateFromPeriodLibDate(dateString = '') {
-    if (!_.isEmpty(dateString)) {
-        const [date, month, year] = dateString.split('-');
-        return [year, month, date].join('-')
-    }
-}
-
-export function validDate(date) {
-    let dateStr = '';
-    const dateArr = split(date, '-').reverse();
-    if (dateArr && dateArr.length) {
-        for (
-            let dateItemIndex = 0;
-            dateItemIndex < dateArr.length;
-            dateItemIndex++
-        ) {
-            dateStr =
-                dateItemIndex === (dateArr.length - 1)
-                    ? `${dateStr}${dateArr[dateItemIndex]}`
-                    : `${dateStr}${dateArr[dateItemIndex]}-`;
-        }
-    }
-    return dateStr;
+    return getFormattedDateFromPeriod(dateString)
 }
 
 function getFormDate(date = new Date()) {
@@ -37,10 +29,20 @@ function getFormDate(date = new Date()) {
 }
 
 export function getFormattedDateFromPeriod(dateString = '') {
-    const [date, month, year] = dateString.split('-');
-    const dateObject = new Date(year, (month - 1), date);
-    if (dateObject) {
-        return getFormDate(dateObject);
+    if (dateString) {
+        if (typeof dateString === 'string') {
+            if (dateString.match(/([\d]{2}-[\d]{2}-[\d]{4})/)) {
+                const [date, month, year] = dateString.split('-');
+                const dateObject = new Date(year, (month - 1), date);
+                if (dateObject) {
+                    return getFormDate(dateObject);
+                }
+            } else {
+                throw Error('Invalid date String. Please provide a string with the format DD-MM-YYYY.')
+            }
+        } else {
+            throw Error('Invalid parameter. The parameter should be of type string. A(n) ' + typeof dateString + ' was provided instead')
+        }
     }
 }
 

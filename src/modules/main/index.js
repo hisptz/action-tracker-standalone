@@ -1,6 +1,6 @@
 import React, {useEffect, Suspense, useState} from 'react';
 import ChallengeList from "./Components/ChallengeList";
-import FilterComponents from "../../core/components/FilterComponents";
+import FilterComponents from "../../core/Components/FilterComponents";
 import FullPageLoader from "../../shared/Components/FullPageLoader";
 import {useSetRecoilState} from "recoil";
 import {DataEngineState} from "../../core/states";
