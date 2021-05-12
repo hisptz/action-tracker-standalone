@@ -182,7 +182,7 @@ function ActionStatusSettingsFormDialog({
                     <Button secondary onClick={(_) => confirmModalClose(onClose)}>
                         Hide
                     </Button>
-                    <Button type="submit" onClick={handleSubmit(onSubmit)} primary>
+                    <Button disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
                         {saving ? 'Saving...' : 'Save Action Status'}
                     </Button>
                 </ButtonStrip>

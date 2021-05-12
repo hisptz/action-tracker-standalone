@@ -119,7 +119,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
             <ModalActions>
                 <ButtonStrip>
                     <Button onClick={_ => confirmModalClose(onClose)}>Hide</Button>
-                    <Button primary onClick={handleSubmit(onSubmit)}>{saving ? 'Saving...' : 'Save Intervention'}</Button>
+                    <Button disabled={saving} primary onClick={handleSubmit(onSubmit)}>{saving ? 'Saving...' : 'Save Intervention'}</Button>
                 </ButtonStrip>
             </ModalActions>
         </Modal>

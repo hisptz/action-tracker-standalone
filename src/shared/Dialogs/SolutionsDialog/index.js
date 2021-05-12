@@ -14,7 +14,10 @@ import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import PossibleSolution from "../../../core/models/possibleSolution";
 import {getFormattedFormMetadata} from "../../../core/helpers/utils/form.utils";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {generateImportSummaryErrors, onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling.service";
+import {
+    onCompleteHandler,
+    onErrorHandler
+} from "../../../core/services/errorHandling.service";
 
 const solutionEditMutation = {
     type: 'update',
@@ -70,7 +73,7 @@ function SolutionsDialog({onClose, gap, onUpdate, solution}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
-            <ModalTitle> {solution ? 'Edit': 'Add'} Possible Solution </ModalTitle>
+            <ModalTitle> {solution ? 'Edit' : 'Add'} Possible Solution </ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control} errors={errors}/>
             </ModalContent>
@@ -79,7 +82,7 @@ function SolutionsDialog({onClose, gap, onUpdate, solution}) {
                     <Button secondary onClick={_ => confirmModalClose(onClose)}>
                         Hide
                     </Button>
-                    <Button type="submit" onClick={handleSubmit(onSubmit)} primary>
+                    <Button disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
                         {
                             saving ?
                                 'Saving...' : 'Save Solution'

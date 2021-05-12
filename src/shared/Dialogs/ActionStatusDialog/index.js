@@ -91,7 +91,7 @@ export function ActionStatusDialog({onClose, action, onUpdate, actionStatus, sta
             <ModalActions>
                 <ButtonStrip end>
                     <Button secondary onClick={_ => confirmModalClose(onClose)}>Hide</Button>
-                    <Button type="submit" onClick={handleSubmit(onSubmit)} primary>
+                    <Button disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
                         {
                             saving ? 'Saving...' : 'Save Action Status'
                         }

@@ -91,6 +91,7 @@ export default function GapDialog({onClose, gap, onUpdate, challenge}) {
                     <Button
                         onClick={handleSubmit(onSubmit)}
                         primary
+                        disabled={saving}
                     >
                         {
                             saving ? 'Saving...' : 'Save Bottleneck'
