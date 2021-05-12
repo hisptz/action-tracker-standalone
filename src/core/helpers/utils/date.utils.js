@@ -60,3 +60,19 @@ export function getFormattedDate(date) {
         (day > 9 ? `-${day}` : `-0${day}`)
     );
 }
+
+export function getPeriodDates(quarter) {
+    if (quarter) {
+        if (typeof quarter === 'object') {
+            const {startDate: startDateString, endDate: endDateString} = quarter;
+            const [start, startMonth, startYear] = startDateString.split('-');
+            const [end, endMonth, endYear] = endDateString.split('-');
+            const startDate = new Date(startYear, startMonth - 1, start);
+            const endDate = new Date(endYear, endMonth - 1, end);
+            return {startDate, endDate}
+        } else {
+            throw Error('Invalid period provided.')
+        }
+    }
+}
+

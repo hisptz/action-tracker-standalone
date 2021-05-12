@@ -3,7 +3,9 @@ import {
     getFormattedDate,
     getFormattedDateFromPeriod,
     getDHIS2DateFromPeriodLibDate,
+    getPeriodDates
 } from "./date.utils";
+import {Period} from "@iapps/period-utilities";
 
 describe('Test getJSDate', () => {
 
@@ -51,5 +53,28 @@ describe('Test getDHIS2DateFromPeriodLibDate', () => {
     })
     it('should throw an error on an invalid parameter', () => {
         expect(() => getDHIS2DateFromPeriodLibDate('2021-12-01')).toThrow(Error('Invalid date String. Please provide a string with the format DD-MM-YYYY.'))
+    })
+})
+
+describe("Test getPeriodDates", () => {
+    it('should return an object with start and end keys', () => {
+        const period = new Period().getById('2020Q1');
+        const datesObject = getPeriodDates(period);
+        expect(datesObject).toHaveProperty('startDate')
+        expect(datesObject).toHaveProperty('endDate')
+
+    })
+    it('should return valid date values for start and end date', () => {
+        const period = new Period().getById('2020Q1');
+        const datesObject = getPeriodDates(period);
+        expect(datesObject).toHaveProperty('startDate', expect.any(Date))
+        expect(datesObject).toHaveProperty('endDate', expect.any(Date))
+
+    })
+    it('should throw an error if arguments are invalid', () => {
+        expect(()=>getPeriodDates('2020')).toThrow(Error('Invalid period provided.'))
+    })
+    it('should not throw an error if no argument is provided', () => {
+        expect(()=>getPeriodDates()).not.toThrow(Error);
     })
 })

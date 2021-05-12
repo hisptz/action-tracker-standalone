@@ -1,12 +1,10 @@
 import {
-    updateTablesVisibleColumnsCount,
     getTableTrackingColumns,
     updateVisibleColumns,
     setTablesWidth,
     setTrackingColumns,
     updateVisibleColumnsCount,
     updateVisibleColumnsNames,
-    resetColumnConfig,
     getPeriodDates,
     setVisibility
 } from "./table.utils";
@@ -225,29 +223,117 @@ describe("Test updateTablesVisibleColumnsCount", () => {
 
 })
 describe("Test getTableTrackingColumns", () => {
-
-})
-describe("Test updateVisibleColumns", () => {
-
+    it('should return an array', () => {
+        const trackingColumns = getTableTrackingColumns(new Period().getById('2020'), 'Quarterly');
+        expect(trackingColumns.length).toBeDefined()
+    })
+    it('should return 4 columns if Quarterly period is selected', () => {
+        const trackingColumns = getTableTrackingColumns(new Period().getById('2020'), 'Quarterly');
+        expect(trackingColumns.length).toBe(4)
+    })
+    it('should return 12 columns if Monthly period is selected', () => {
+        const trackingColumns = getTableTrackingColumns(new Period().getById('2020'), 'Monthly');
+        expect(trackingColumns.length).toBe(12)
+    })
+    it('should return empty array if tracking period selected is not supported', () => {
+        const trackingColumns = getTableTrackingColumns(new Period().getById('2020'), 'BiMonthly');
+        expect(trackingColumns).toEqual([])
+    })
+    it('should throw an error if parameters are invalid', () => {
+        expect(() => getTableTrackingColumns('2020', 'Monthly')).toThrow(Error('Invalid period'))
+        expect(() => getTableTrackingColumns(new Period().getById('2020'), 8908)).toThrow(Error('Invalid tracking period'))
+    })
+    it('should return an empty array if any of the parameters are missing', () => {
+        const trackingColumns = getTableTrackingColumns(undefined, 'Quarterly');
+        expect(trackingColumns).toEqual([])
+        const otherTrackingColumns = getTableTrackingColumns(new Period().getById('2020'), undefined)
+        expect(otherTrackingColumns).toEqual([])
+    })
 })
 describe("Test setTablesWidth", () => {
-
+    const tableConfiguration = initialTableConfiguration;
+    updateVisibleColumnsCount(tableConfiguration);
+    it('should populate width value on every visible table', () => {
+        setTablesWidth(tableConfiguration);
+        expect(tableConfiguration.actionsTable.width).not.toEqual(0);
+        expect(tableConfiguration.gapsTable.width).not.toBe(0);
+        expect(tableConfiguration.solutionsTable.width).not.toBe(0);
+    })
+    it('should throw an error if an invalid argument is provided', () => {
+        expect(() => setTablesWidth('tables')).toThrow(Error)
+    })
 })
 describe("Test setTrackingColumns", () => {
+    it('should throw an error if arguments are invalid', () => {
+        const tableConfiguration = initialTableConfiguration;
+        expect(() => setTrackingColumns(2020, tableConfiguration, 'Monthly')).toThrow(Error);
+        expect(() => setTrackingColumns(new Period().getById('2020'), tableConfiguration, 2589)).toThrow(Error);
+        expect(() => setTrackingColumns(new Period().getById('2020'), 'tables', 'Monthly')).toThrow(Error);
 
+    })
+    it('should not throw an error if any argument is provided', () => {
+        const tableConfiguration = initialTableConfiguration;
+        expect(() => setTrackingColumns()).not.toThrow(Error);
+        expect(() => setTrackingColumns(undefined, tableConfiguration, 'Monthly')).not.toThrow(Error);
+        expect(() => setTrackingColumns(new Period().getById('2020'), undefined, 2589)).not.toThrow(Error);
+        expect(() => setTrackingColumns(new Period().getById('2020'), tableConfiguration, undefined)).not.toThrow(Error);
+    })
 })
 describe("Test updateVisibleColumnsCount", () => {
+    it('should throw an error if arguments are invalid', () => {
+        expect(() => updateVisibleColumnsCount('invalidArgument')).toThrow(Error);
+    })
+    it('should not throw an error if no argument is provided', () => {
+        const tableConfig = initialTableConfiguration;
+        updateVisibleColumnsCount(tableConfig);
+        expect(tableConfig.solutionsTable.visibleColumnsCount).not.toBe(0)
+        expect(tableConfig.gapsTable.visibleColumnsCount).not.toBe(0)
+        expect(tableConfig.actionsTable.visibleColumnsCount).not.toBe(0)
 
+    })
 })
 describe("Test updateVisibleColumnsNames", () => {
+    it('should populate the columnName array', () => {
+        const tableConfig = initialTableConfiguration;
+        updateVisibleColumnsNames(tableConfig);
+        expect(tableConfig.visibleColumnsNames).not.toBe([])
+    })
+    it('should populate the name array to have all names of visible columns', () => {
+        let tableConfig = initialTableConfiguration;
+        updateVisibleColumnsNames(tableConfig);
+        expect(tableConfig.visibleColumnsNames.length).toBe(8)
+        tableConfig = setTrackingColumns(new Period().getById('2020'), tableConfig, 'Quarterly');
+        updateVisibleColumns(tableConfig)
+        updateVisibleColumnsNames(tableConfig)
+        expect(tableConfig.visibleColumnsNames.length).toBe(11)
+        tableConfig = setTrackingColumns(new Period().getById('2020'), tableConfig, 'Monthly');
+        updateVisibleColumnsNames(tableConfig)
+        expect(tableConfig.visibleColumnsNames.length).toBe(19)
 
-})
-describe("Test resetColumnConfig", () => {
-
-})
-describe("Test getPeriodDates", () => {
-
+    })
+    it('should throw an error if arguments are invalid', () => {
+        expect(() => updateVisibleColumnsNames('table')).toThrow(Error('Invalid table configuration provided.'))
+    })
+    it('should not throw an error if no argument is provided', () => {
+        expect(() => updateVisibleColumnsNames()).not.toThrow(Error)
+    })
 })
 describe("Test setVisibility", () => {
+    it('should alter visibility of the given column configuration', () => {
+        const tableConfig = initialTableConfiguration;
+        updateVisibleColumns(tableConfig);
+        const updatedTable = setVisibility(false, tableConfig.gapsTable, ['orgUnit']);
+        expect(updatedTable.columns[1].visible).toBe(false)
+    })
 
+    it('should throw an error if arguments are invalid', () => {
+        const tableConfig = initialTableConfiguration;
+
+        expect(() => setVisibility(true, {}, ['orgUnit'])).toThrow(Error('Invalid table configuration provided.'))
+        expect(() => setVisibility(true, tableConfig.gapsTable, 'orgUnit')).toThrow(Error('Invalid column list provided.'))
+        expect(() => setVisibility('true', tableConfig.gapsTable, ['orgUnit'])).toThrow(Error('Invalid visible value provided.'))
+    })
+    it('should not throw an error if no argument is provided', () => {
+        expect(()=>setVisibility()).not.toThrow(Error)
+    })
 })

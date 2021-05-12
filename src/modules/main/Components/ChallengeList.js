@@ -88,6 +88,11 @@ export default function ChallengeList() {
     const engine = useRecoilValue(DataEngineState);
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
+    const [selectedChallenge, setSelectedChallenge] = useState(undefined);
+    const setIsDownloadingPdf = useSetRecoilState(DownloadPdfState);
+
+    const document = <PDFTable teiItems={tablePDFDownloadData} currentTab={currentTab}/>;
+    const [instance, update] = usePDF({document});
 
     const [documentHasData, setDocumentHasData] = useState(false);
     useEffect(() => generateErrorAlert(show, error), [error])
@@ -119,9 +124,6 @@ export default function ChallengeList() {
     const onPageChange = (newPage) => setPage(newPage);
     const onPageSizeChange = (newPageSize) => setPageSize(newPageSize);
 
-    const [selectedChallenge, setSelectedChallenge] = useState(undefined);
-    const setIsDownloadingPdf = useSetRecoilState(DownloadPdfState);
-
     const onModalClose = (onClose) => {
         setSelectedChallenge(undefined);
         onClose();
@@ -137,9 +139,6 @@ export default function ChallengeList() {
             selectedPeriod: period,
         });
     }
-
-    const document = <PDFTable teiItems={tablePDFDownloadData} currentTab={currentTab}/>;
-    const [instance, update] = usePDF({document});
 
     async function onDownloadPDF() {
         setIsDownloadingPdf({isDownloadingPdf: true, loading: true});

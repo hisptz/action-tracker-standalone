@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import {ActionStatusTableCell, CustomTableCellWithActions} from "../../../modules/main/Components/Tables/CustomTable";
 import React from "react";
-import {getJSDate} from "./date.utils";
+import {getJSDate, getPeriodDates} from "./date.utils";
 
 export function updateTablesVisibleColumnsCount(tables) {
     _.set(tables, 'gapsTable.visibleColumnsCount', _.filter(tables.gapsTable.columns, 'visible').length || 0)
@@ -28,32 +28,34 @@ export function updateVisibleColumnsCount(tables) {
 }
 
 export function updateVisibleColumnsNames(tables) {
-    let names = [];
-    Object.values(tables).forEach(table => {
-        table?.columns?.forEach(column => {
-            if (column.visible) {
-                names.push(column.displayName)
-            }
-        })
-    })
-    _.set(tables, 'visibleColumnsNames', names)
+    if (tables) {
+        if (typeof tables === 'object') {
+            let names = [];
+            Object.values(tables).forEach(table => {
+                table?.columns?.forEach(column => {
+                    if (column.visible) {
+                        names.push(column.displayName)
+                    }
+                })
+            })
+            _.set(tables, 'visibleColumnsNames', names)
+        } else {
+            throw Error('Invalid table configuration provided.')
+        }
+    }
 }
 
-export function setTablesWidth(tables) {
-    _.set(tables, 'gapsTable.width', ((100 / tables.visibleColumnsCount) * tables.gapsTable.visibleColumnsCount) || 0);
-    _.set(tables, 'solutionsTable.width', ((100 / tables.visibleColumnsCount) * tables.solutionsTable.visibleColumnsCount) || 0);
-    _.set(tables, 'actionsTable.width', ((100 / tables.visibleColumnsCount) * tables.actionsTable.visibleColumnsCount) || 0);
-    _.set(tables, 'actionStatusTable.width', ((100 / tables.visibleColumnsCount) * tables.actionStatusTable.visibleColumnsCount) || 0);
+export function setTablesWidth(tables = {}) {
+    if (typeof tables === 'object') {
+        _.set(tables, 'gapsTable.width', ((100 / tables.visibleColumnsCount) * tables.gapsTable.visibleColumnsCount) || 0);
+        _.set(tables, 'solutionsTable.width', ((100 / tables.visibleColumnsCount) * tables.solutionsTable.visibleColumnsCount) || 0);
+        _.set(tables, 'actionsTable.width', ((100 / tables.visibleColumnsCount) * tables.actionsTable.visibleColumnsCount) || 0);
+        _.set(tables, 'actionStatusTable.width', ((100 / tables.visibleColumnsCount) * tables.actionStatusTable.visibleColumnsCount) || 0);
+    } else {
+        throw Error('Invalid arguments provided.')
+    }
 }
 
-export function getPeriodDates(quarter) {
-    const {startDate: startDateString, endDate: endDateString} = quarter;
-    const [start, startMonth, startYear] = startDateString.split('-');
-    const [end, endMonth, endYear] = endDateString.split('-');
-    const startDate = new Date(startYear, startMonth - 1, start);
-    const endDate = new Date(endYear, endMonth - 1, end);
-    return {startDate, endDate}
-}
 
 function getColumn(period) {
     return {
@@ -101,33 +103,55 @@ function getColumn(period) {
 
 export function getTableTrackingColumns(period, trackingPeriod) {
     if (period && trackingPeriod) {
-        const trackingPeriods = [...period[trackingPeriod.toLowerCase()]] || [];
-        if (period) {
-            if (period.type === trackingPeriod) {
-                return [getColumn(period)]
+        if (period instanceof Object) {
+            if (typeof trackingPeriod === 'string') {
+                const trackingPeriods = period[trackingPeriod.toLowerCase()] ? [...period[trackingPeriod.toLowerCase()]] : [];
+                if (!_.isEmpty(trackingPeriods)) {
+                    if (period.type === trackingPeriod) {
+                        return [getColumn(period)]
+                    } else {
+                        return _.map(_.reverse(trackingPeriods), (p) => {
+                            return getColumn(p);
+                        })
+                    }
+                }
             } else {
-                return _.map(_.reverse(trackingPeriods), (p) => {
-                    return getColumn(p);
-                })
+                throw Error('Invalid tracking period')
             }
+        } else {
+            throw Error('Invalid period')
         }
     }
     return []
 }
 
-export function setVisibility(visible = true, table = {}, names = ['']) {
-    let modifiedTable = {...table};
-    names.forEach(name => {
-        let columnIndex = _.findIndex(modifiedTable.columns, (col) => col.name === name);
-        const modifiedColumn = {...modifiedTable.columns[columnIndex], visible}
-        let columns = [...modifiedTable.columns];
-        columns[columnIndex] = modifiedColumn;
-        modifiedTable = {
-            ...modifiedTable,
-            columns
+export function setVisibility(visible = true, table, names = ['']) {
+    if (table) {
+        if (Object.keys(table).includes('columns')) {
+            if (typeof visible === 'boolean') {
+                if (Array.isArray(names)) {
+                    let modifiedTable = {...table};
+                    names.forEach(name => {
+                        let columnIndex = _.findIndex(modifiedTable.columns, (col) => col.name === name);
+                        const modifiedColumn = {...modifiedTable.columns[columnIndex], visible}
+                        let columns = [...modifiedTable.columns];
+                        columns[columnIndex] = modifiedColumn;
+                        modifiedTable = {
+                            ...modifiedTable,
+                            columns
+                        }
+                    });
+                    return modifiedTable;
+                } else {
+                    throw Error('Invalid column list provided.')
+                }
+            } else {
+                throw Error('Invalid visible value provided.')
+            }
+        } else {
+            throw Error('Invalid table configuration provided.')
         }
-    });
-    return modifiedTable;
+    }
 }
 
 export function updateVisibleColumns(tables) {
@@ -142,23 +166,25 @@ export function resetColumnConfig(tables) {
     return {...tables};
 }
 
-export function setTrackingColumns(period = [], tables = {}, trackingPeriod) {
-    const trackingColumns = getTableTrackingColumns(period, trackingPeriod);
-    if (trackingColumns && !_.isEmpty(trackingColumns)) {
-        const actionsTable = setVisibility(false, tables.actionsTable, ['status']);
-        tables = {
-            ...tables,
-            actionStatusTable: {
-                ...tables.actionStatusTable,
-                columns: trackingColumns,
-                visible: true,
-                visibleColumnsCount: trackingColumns.length
-            },
-            actionsTable
-        };
-        updateVisibleColumns(tables);
-        return tables;
-    } else {
-        return resetColumnConfig(tables);
+export function setTrackingColumns(period, tables = {}, trackingPeriod) {
+    if (period && !_.isEmpty(tables) && trackingPeriod) {
+        const trackingColumns = getTableTrackingColumns(period, trackingPeriod);
+        if (trackingColumns && !_.isEmpty(trackingColumns)) {
+            const actionsTable = setVisibility(false, tables.actionsTable, ['status']);
+            tables = {
+                ...tables,
+                actionStatusTable: {
+                    ...tables.actionStatusTable,
+                    columns: trackingColumns,
+                    visible: true,
+                    visibleColumnsCount: trackingColumns.length
+                },
+                actionsTable
+            };
+            updateVisibleColumns(tables);
+            return tables;
+        } else {
+            return resetColumnConfig(tables);
+        }
     }
 }
