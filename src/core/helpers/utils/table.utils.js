@@ -56,7 +56,6 @@ export function setTablesWidth(tables = {}) {
     }
 }
 
-
 function getColumn(period) {
     return {
         name: period.name,
@@ -88,7 +87,7 @@ function getColumn(period) {
                         />
                     </CustomTableCellWithActions> :
                     <ActionStatusTableCell
-                        disabled={startDate < actionStartDate || actionEndDate < endDate}
+                        disabled={actionEndDate < endDate}
                         startDate={startDate}
                         endDate={endDate}
                         roles={roles}
