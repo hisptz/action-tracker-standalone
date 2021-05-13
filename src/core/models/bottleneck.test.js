@@ -130,7 +130,7 @@ describe('Test bottleneck', () => {
             "tVlKbtVfNjc": {"name": "tVlKbtVfNjc", "value": "zwT9WM1hIGV"}
         }
         const bottleneck = new Bottleneck();
-        bottleneck.bottleneck.setValuesFromForm(dataFromForm);
+        bottleneck.setValuesFromForm(dataFromForm);
         expect(bottleneck.getPayload([], 'O6uvpzGd5pu')).toEqual({
             "orgUnit": expect.any(String),
             "trackedEntityType": "jLaBp1GaZQ9",

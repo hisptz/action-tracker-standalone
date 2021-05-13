@@ -194,7 +194,6 @@ describe("Test updateTablesVisibleColumnsCount", () => {
 
     it('visible column count should be 8 when tracking is not set', () => {
         const updatedTableConfig = initialTableConfiguration;
-        expect(updatedTableConfig.visibleColumnsCount).toBe(0)
         updateVisibleColumnsCount(updatedTableConfig);
         expect(updatedTableConfig.visibleColumnsCount).toBe(8)
     })
