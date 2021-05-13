@@ -1,4 +1,4 @@
-import {CustomNestedTable, CustomNestingTableCell, CustomTableCell, CustomTableFooter} from "./CustomTable";
+import {CustomNestedTable, CustomNestingTableCell} from "./CustomTable";
 import {Container, TableBody, TableRow} from "@material-ui/core";
 import _ from "lodash";
 import React, {useEffect, useState} from "react";
@@ -33,14 +33,7 @@ const possibleSolutionQuery = {
             filter: [
                 `${PossibleSolutionConstants.GAP_TO_SOLUTION_LINKAGE_DATA_ELEMENT}:eq:${linkage}`
             ],
-            fields: [
-                'programStage',
-                'trackedEntityInstance',
-                'event',
-                'dataValues[dataElement, value]',
-                'eventDate',
-                'orgUnit'
-            ]
+            fields: PossibleSolutionConstants.FIELDS
         })
     }
 }
