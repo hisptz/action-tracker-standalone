@@ -30,15 +30,7 @@ const gapQuery = {
             trackedEntityInstance,
             programStage: GapConstants.PROGRAM_STAGE_ID,
             totalPages: true,
-            fields: [
-                'programStage',
-                'trackedEntityInstance',
-                'event',
-                'dataValues[dataElement,value]',
-                'eventDate',
-                'orgUnit',
-                'orgUnitName'
-            ]
+            fields: GapConstants.FIELDS
         })
     }
 }
