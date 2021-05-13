@@ -13,7 +13,7 @@ import { GapConstants, ActionConstants } from '../constants';
 import Action from '../models/action';
 import ActionStatus from '../models/actionStatus';
 import { Period } from '@iapps/period-utilities';
-import { exportAsExcelFile } from '../helpers/excelHelper';
+import { exportAsExcelFile } from '../helpers/excel.helper';
 import { v4 as uuidv4 } from 'uuid';
 
 const FIELDS_NONE = 'none';

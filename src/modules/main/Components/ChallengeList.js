@@ -11,12 +11,12 @@ import FullPageLoader from "../../../shared/Components/FullPageLoader";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import Bottleneck from "../../../core/models/bottleneck";
 import ChallengeDialog from "../../../shared/Dialogs/ChallengeDialog";
-import generateErrorAlert from "../../../core/services/generateErrorAlert";
+import {generateErrorAlert} from "../../../core/services/errorHandling.service";
 import Paginator from "../../../shared/Components/Paginator";
 import {CenteredContent} from '@dhis2/ui'
 import useGetFilteredTeis from "../hooks/useGetFilteredTeis";
 import FullPageError from "../../../shared/Components/FullPageError";
-import {downloadExcel, getPdfDownloadData} from '../../../core/services/downloadFilesService'
+import {downloadExcel, getPdfDownloadData} from '../../../core/services/downloadFiles.service'
 import {UserConfigState} from "../../../core/states/user";
 import {BottleneckConstants} from "../../../core/constants";
 import {TableStateSelector} from '../../../core/states/column'
@@ -33,11 +33,7 @@ const indicatorQuery = {
             totalPages: true,
             ou,
             ouMode,
-            fields: [
-                'trackedEntityInstance',
-                'attributes[attribute,value]',
-                'enrollments[events[programStage,event,dataValues[dataElement,value]]]'
-            ],
+            fields: BottleneckConstants.FIELDS,
             trackedEntityInstance
         })
     }
@@ -88,6 +84,11 @@ export default function ChallengeList() {
     const engine = useRecoilValue(DataEngineState);
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
+    const [selectedChallenge, setSelectedChallenge] = useState(undefined);
+    const setIsDownloadingPdf = useSetRecoilState(DownloadPdfState);
+
+    const document = <PDFTable teiItems={tablePDFDownloadData} currentTab={currentTab}/>;
+    const [instance, update] = usePDF({document});
 
     const [documentHasData, setDocumentHasData] = useState(false);
     useEffect(() => generateErrorAlert(show, error), [error])
@@ -119,9 +120,6 @@ export default function ChallengeList() {
     const onPageChange = (newPage) => setPage(newPage);
     const onPageSizeChange = (newPageSize) => setPageSize(newPageSize);
 
-    const [selectedChallenge, setSelectedChallenge] = useState(undefined);
-    const setIsDownloadingPdf = useSetRecoilState(DownloadPdfState);
-
     const onModalClose = (onClose) => {
         setSelectedChallenge(undefined);
         onClose();
@@ -137,9 +135,6 @@ export default function ChallengeList() {
             selectedPeriod: period,
         });
     }
-
-    const document = <PDFTable teiItems={tablePDFDownloadData} currentTab={currentTab}/>;
-    const [instance, update] = usePDF({document});
 
     async function onDownloadPDF() {
         setIsDownloadingPdf({isDownloadingPdf: true, loading: true});

@@ -1,5 +1,5 @@
 import { flattenDeep, map } from 'lodash';
-import { CustomFormField } from '../models/customFormField';
+import { CustomFormField } from '../../models/customFormField';
 export const getFormattedFormMetadata = (dhisMetadataFields) => {
   return flattenDeep(
     map(dhisMetadataFields || [], (field) => {

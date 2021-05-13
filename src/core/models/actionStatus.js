@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {CustomFormField} from "./customFormField";
 import {ActionConstants, ActionStatusConstants} from "../constants";
-import {uid} from "../helpers/utils";
+import {uid} from "../helpers/utils/utils";
 
 
 export default class ActionStatus {

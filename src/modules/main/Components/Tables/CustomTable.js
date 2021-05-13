@@ -19,8 +19,8 @@ import TableActionsMenu from "../TableActionsMenu";
 import {ActionStatusState} from "../../../../core/states";
 import {useRecoilValue} from "recoil";
 import _ from 'lodash';
-import {generateTextColor} from "../../../../core/helpers/utils";
-import {formatSvg} from "../../../../core/services/utils";
+import {generateTextColor} from "../../../../core/helpers/utils/utils";
+import {formatSvg} from "../../../../core/helpers/utils/utils";
 
 const CustomTableRowHead = withStyles((_) => ({
     root: {

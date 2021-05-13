@@ -8,4 +8,10 @@ export default class BottleneckConstants {
     static GAP_PROGRAM_STAGE_ID = 'zXB8tWKuwcl';
     static SOLUTION_PROGRAM_STAGE = 'JJaKjcOBapi';
     static GAP_TO_SOLUTION_LINKAGE = 'kBkyDytdOmC';
+    static FIELDS = [
+        'trackedEntityInstance',
+        'attributes[attribute,value]',
+        'enrollments[events[programStage,event,dataValues[dataElement,value]]]',
+        'orgUnit'
+    ]
 }

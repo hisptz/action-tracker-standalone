@@ -2,8 +2,8 @@ import _ from 'lodash';
 import ActionStatus from "./actionStatus";
 import {CustomFormField} from "./customFormField";
 import {ActionConstants} from "../constants";
-import {uid} from "../helpers/utils";
-import {getJSDate} from "../services/dateUtils";
+import {uid} from "../helpers/utils/utils";
+import {getJSDate} from "../helpers/utils/date.utils";
 
 
 export default class Action {

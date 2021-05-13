@@ -17,11 +17,11 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import React, {useEffect, useState} from 'react';
 import ActionStatusOptionSetConstants from "../constants/actionStatus";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
-import generateErrorAlert from "../../../../../core/services/generateErrorAlert";
+import {generateErrorAlert} from "../../../../../core/services/errorHandling.service";
 import FullPageLoader from "../../../../../shared/Components/FullPageLoader";
 import DHIS2Icon from "../../../../../shared/Components/DHIS2Icon";
 import ActionStatusColor from "./ActionStatusColor";
-import {getFormattedDate} from "../../../../../core/helpers/utils";
+import {getFormattedDate} from "../../../../../core/helpers/utils/date.utils";
 import TableActionsMenu from "../../../../main/Components/TableActionsMenu";
 import {OptionDeleteConfirmation} from "../../../../../shared/Components/DeleteConfirmation";
 import Grid from "@material-ui/core/Grid";

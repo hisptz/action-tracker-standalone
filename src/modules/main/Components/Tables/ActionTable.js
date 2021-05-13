@@ -22,7 +22,7 @@ import ActionStatusDialog from "../../../../shared/Dialogs/ActionStatusDialog";
 import {UserRolesState} from "../../../../core/states/user";
 import Visibility from "../../../../shared/Components/Visibility";
 import {Period} from "@iapps/period-utilities";
-import {getDHIS2DateFromPeriodLibDate} from "../../../../core/services/dateUtils";
+import {getDHIS2DateFromPeriodLibDate} from "../../../../core/helpers/utils/date.utils";
 
 
 const actionsQuery = {

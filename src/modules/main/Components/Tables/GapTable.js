@@ -9,7 +9,7 @@ import SolutionsTable from "./SolutionsTable";
 import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
 import Gap from "../../../../core/models/gap";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
-import generateErrorAlert from "../../../../core/services/generateErrorAlert";
+import {generateErrorAlert} from "../../../../core/services/errorHandling.service";
 import Bottleneck from "../../../../core/models/bottleneck";
 import {useRecoilValue} from "recoil";
 import {TableStateSelector} from "../../../../core/states/column";
@@ -30,15 +30,7 @@ const gapQuery = {
             trackedEntityInstance,
             programStage: GapConstants.PROGRAM_STAGE_ID,
             totalPages: true,
-            fields: [
-                'programStage',
-                'trackedEntityInstance',
-                'event',
-                'dataValues[dataElement,value]',
-                'eventDate',
-                'orgUnit',
-                'orgUnitName'
-            ]
+            fields: GapConstants.FIELDS
         })
     }
 }

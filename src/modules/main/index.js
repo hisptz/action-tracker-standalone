@@ -1,11 +1,11 @@
 import React, {useEffect, Suspense, useState} from 'react';
 import ChallengeList from "./Components/ChallengeList";
-import FilterComponents from "../../core/components/FilterComponents";
+import FilterComponents from "../../core/Components/FilterComponents";
 import FullPageLoader from "../../shared/Components/FullPageLoader";
 import {useSetRecoilState} from "recoil";
 import {DataEngineState} from "../../core/states";
 import {useAlert, useDataEngine} from "@dhis2/app-runtime";
-import generateErrorAlert from "../../core/services/generateErrorAlert";
+import {generateErrorAlert} from "../../core/services/errorHandling.service";
 import Grid from "@material-ui/core/Grid";
 import './styles/main.css';
 import {Container} from "@material-ui/core";
