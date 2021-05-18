@@ -2,12 +2,24 @@
  * Scenario: Update Action Status
  */
 
-Given('an authorized CHMT member', () => {
-    cy.visit("/");
-    cy.login('admin', 'district')
-}) 
-And('with tracked list of gaps and solutions', () => {}) 
-When('updating status or timeline for the action items', () => {}) 
-And('and save updates', () => {}) 
-Then('CHMT member should be displayed with save confirmation message/notification', () => {})
-And('update should be reflected in the list', () => {})
+const actionStatusFieldIds = {
+    status: 'f8JYVWLC7rE',
+    reviewDate: 'nodiP54ocf5',
+    remarks: 'FnengvwgsQv'
+}
+
+When(/^updating status or timeline for the action items$/, function () {
+    cy.get('#add-action-status-button').first().click();
+    cy.get(`[data-test="dhis2-uiwidgets-singleselectfield-${actionStatusFieldIds.status}-content"]`).click();
+    cy.get('[data-test="dhis2-uicore-singleselectoption"]').contains('In progress').click();
+    cy.get(`#${actionStatusFieldIds.reviewDate}`).type('2020-02-01')
+    cy.get(`#${actionStatusFieldIds.remarks}`).type('This is an automated test to verify adding action status.')
+});
+
+
+When(/^and save updates$/, function () {
+    cy.get('button').contains('Save Action Status').click();
+});
+Then(/^updated status should be reflected in the list$/, function () {
+    cy.get('#action-status-remarks').contains('This is an automated test to verify adding action status.').should('be.visible')
+});

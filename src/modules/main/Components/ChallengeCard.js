@@ -36,7 +36,7 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
     }
 
     return (
-            <Box maxHeight="600px" minWidth={'1326px'} maxWidth={`${width-40}px`} >
+            <Box id={`intervention-card-${indicator.id}`} maxHeight="600px" minWidth={'1326px'} maxWidth={`${width-40}px`} >
                 <Card variant='outlined'>
                     <CardContent>
                         {

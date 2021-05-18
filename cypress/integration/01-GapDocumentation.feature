@@ -7,15 +7,15 @@ Feature: Gap/Challenges Documentation
     @focus
     Scenario: Authorize Challenge Management
         Given an authorized District Planning officer
-        When selecting assigned district
-        And selecting period for planning
+        When selecting assigned district Kono
+        And selecting period for planning as 2020
         Then I should be authorized or have a means to add a challenges should be visible and enabled
 
     @focus
     Scenario: Access Challenge Management Form
         Given an authorized District Planning officer
-        When selecting assigned district
-        And selecting period for planning
+        When selecting assigned district Kono
+        And selecting period for planning as 2020
         And I am allowed to access challenges management form
         When opening the form to record challenges
         Then form with all needed fields should be displayed
@@ -23,8 +23,8 @@ Feature: Gap/Challenges Documentation
     @focus
     Scenario: Record Challenges
         Given an authorized District Planning officer
-        When selecting assigned district
-        And selecting period for planning
+        When selecting assigned district Kono
+        And selecting period for planning as 2020
         When opening the form to record challenges
         And form with all needed fields should be displayed
         Then i should be able to fill all the fields and submit the form

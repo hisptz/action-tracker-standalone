@@ -184,7 +184,7 @@ const NoActionStatus = ({onAddClick}) => {
 
     return (
         <div>
-            <IconButton onClick={onAddClick}>
+            <IconButton id='add-action-status-button' onClick={onAddClick}>
                 <AddIcon/>
             </IconButton>
         </div>
@@ -205,13 +205,13 @@ const ActionStatusDetails = ({actionStatus}) => {
                 <Grid item xs={12}>
                     <b> Remarks</b>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid id='action-status-remarks' item xs={12}>
                     {actionStatus?.remarks}
                 </Grid>
                 <Grid item xs={12}>
                     <b>Review Date</b>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid id='action-status-review-date' item xs={12}>
                     {actionStatus?.reviewDate}
                 </Grid>
             </Grid>
