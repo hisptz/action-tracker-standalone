@@ -1,6 +1,9 @@
 {
-    "baseUrl": "http://localhost:3000",
-    "testFiles": "**/*.feature",
-    "chromeWebSecurity": false,
-    "reporter": "cypress-multi-reporters"
+  "baseUrl": "http://localhost:3000",
+  "testFiles": "**/*.feature",
+  "chromeWebSecurity": false,
+  "reporter": "cypress-multi-reporters",
+  "video": true,
+  "projectId": "demzvf",
+  "experimentalStudio": true
 }

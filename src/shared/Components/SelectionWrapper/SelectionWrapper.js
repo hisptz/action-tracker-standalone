@@ -6,7 +6,7 @@ export function SelectionWrapper({
   type,
   onClick,
   dataObj,
-  periodItems
+  periodItems, ...props
 }) {
   const componentTypes = {
     [FilterComponentTypes.ORG_UNIT]: {
@@ -38,6 +38,7 @@ export function SelectionWrapper({
       flexDirection="column"
       justifyContent="center"
       onClick={onClick}
+        {...props}
     >
       <p style={{margin: 0, padding: 0, fontSize: '1.05em'}}>{selectText}</p>
       <Box

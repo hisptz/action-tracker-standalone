@@ -14,16 +14,18 @@ Feature: Gap/Challenges Documentation
     @focus
     Scenario: Access Challenge Management Form
         Given an authorized District Planning officer
-        And I am allowed to access challenges managment form
+        When selecting assigned district
+        And selecting period for planning
+        And I am allowed to access challenges management form
         When opening the form to record challenges
         Then form with all needed fields should be displayed
 
     @focus
     Scenario: Record Challenges
         Given an authorized District Planning officer
-        And Form to record challenges is opened
-        When selecting indicator or bottleneck with challenges
-        And type in faced challenges for the indicator one after another
-        And save the details
-        Then district planning officer should be displayed with save confirmation message
-        And saved data should be reflected in the list
+        When selecting assigned district
+        And selecting period for planning
+        When opening the form to record challenges
+        And form with all needed fields should be displayed
+        Then i should be able to fill all the fields and submit the form
+
