@@ -31,6 +31,4 @@ And('update should be reflected in the list', () => {
     cy.get('td').contains('Eric Chingalo')
     cy.get('td').contains('District Officer')
 })
-Then(/^CHMT member should be displayed with save confirmation message\/notification$/, function () {
-    cy.get('[data-test="dhis2-uicore-alertbar"]').should('have.class', 'success')
-});
+

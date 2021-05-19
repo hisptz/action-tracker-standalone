@@ -66,7 +66,7 @@ export default function ChallengeCard({indicator = new Bottleneck(), refresh, on
                                         </Grid>
                                         <Grid item container justify='flex-end' xs={1}>
                                             <Visibility visible={bottleneckRoles.update || bottleneckRoles.delete}>
-                                                <Button onClick={(d, e) => setRef(e.currentTarget)}
+                                                <Button dataTest="context-menu-button-challenge-card" onClick={(d, e) => setRef(e.currentTarget)}
                                                         icon={<MoreHorizIcon/>}/>
                                             </Visibility>
                                         </Grid>

@@ -10,6 +10,7 @@ Feature: Action Status Review
     When selecting assigned district Bo
     And selecting period for planning as 2020
     And select to track actions
+    When selecting an action to track
     And updating status or timeline for the action items
     And and save updates
     Then CHMT member should be displayed with save confirmation message/notification
