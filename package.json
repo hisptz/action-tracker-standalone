@@ -9,8 +9,8 @@
     "build": "d2-app-scripts build",
     "start": "d2-app-scripts start",
     "test": "d2-app-scripts test",
-    "e2e": "d2-utils-cypress open",
-    "e2e:interactive": "cypress open",
+    "e2e": "cypress run",
+    "e2e:interactive": "d2-utils-cypress open",
     "deploy": "d2-app-scripts deploy"
   },
   "author": {

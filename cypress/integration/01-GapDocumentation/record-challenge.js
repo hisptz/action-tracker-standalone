@@ -28,4 +28,6 @@ Then(/^i should be able to fill all the fields and submit the form$/, function (
     cy.get('[data-test="dhis2-uicore-transferoption"]').contains('Testing Indicator 1').dblclick();
     cy.get('button').contains('Save Intervention').click();
     cy.get('[data-test="dhis2-uicore-alertbar"]').should('have.class', 'success')
+    cy.wait(3000);
+    deleteIntervention();
 });
