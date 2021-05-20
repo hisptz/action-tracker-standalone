@@ -54,11 +54,11 @@ export default function GapTable({challenge = new Bottleneck()}) {
 
     const styles = {
         container:{
-            maxHeight: 550,
+
         },
         tableContainer: {
             height: '100%',
-            maxHeight: 450,
+
             maxWidth: '100%',
             overflow: 'auto'
         }
