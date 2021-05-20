@@ -36,7 +36,7 @@ const defaultTables = {
                 }) => {
                     const {ref} = actions || {};
                     return (
-                        <CustomTableCellWithActions key={`${object.id}-custom-table-cell-action`}
+                        <CustomTableCellWithActions key={`${object.id}-custom-table-cell-gap`}
                                                     object={object} {...actions} reference={ref}>
                             {object.title}
                         </CustomTableCellWithActions>

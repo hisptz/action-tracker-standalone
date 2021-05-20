@@ -79,7 +79,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
     const indicatorField = _.find(validatedFormFields, ['id', BottleneckConstants.INDICATOR_ATTRIBUTE])
 
     return (
-        <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)} large>
+        <Modal dataTest='add-challenge-modal' className="dialog-container" onClose={_ => confirmModalClose(onClose)} large>
             <ModalTitle>{challenge ? 'Edit' : 'Add'} Intervention</ModalTitle>
             <ModalContent>
                 <FormField

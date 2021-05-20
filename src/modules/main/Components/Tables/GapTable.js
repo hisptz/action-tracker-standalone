@@ -149,7 +149,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
             <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                 <Grid item>
                     <Visibility visible={gapRoles?.create}>
-                        <Button onClick={onAdd}>Add Bottleneck</Button>
+                        <Button dataTest='add-bottleneck-button' onClick={onAdd}>Add Bottleneck</Button>
                     </Visibility>
                 </Grid>
                 <Grid item>

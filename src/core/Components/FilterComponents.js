@@ -43,6 +43,7 @@ export function FilterComponents() {
                     <Grid item container spacing={5} xs={10}>
                         <Grid item>
                             <SelectionWrapper
+                                id='orgUnit-selector'
                                 onClick={(_) => setOpenOrgUnitFilter(true)}
                                 dataObj={selectedDimensions.orgUnit || {}}
                                 type={FilterComponentTypes.ORG_UNIT}
@@ -50,6 +51,7 @@ export function FilterComponents() {
                         </Grid>
                         <Grid item>
                             <SelectionWrapper
+                                id='period-selector'
                                 onClick={(_) => setOpenPeriodFilter(true)}
                                 type={FilterComponentTypes.PERIOD}
                                 periodItems={selectedDimensions.period || []}

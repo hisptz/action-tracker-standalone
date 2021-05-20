@@ -65,12 +65,14 @@ const PageSelector = () => {
     return (
         <ButtonGroup>
             <MaterialButton
+                id='planning-button'
                 onClick={(_) => onClick('Planning')}
                 style={activePage === 'Planning' ? styles.active : styles.inactive}
             >
                 Planning
             </MaterialButton>
             <MaterialButton
+                id='tracking-button'
                 style={activePage === 'Tracking' ? styles.active : styles.inactive}
                 onClick={(_) => onClick('Tracking')}
             >
@@ -100,11 +102,13 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
                     <Grid item container spacing={2} xs={6}>
                         <Grid item>
                             <Visibility visible={bottleneck?.create}>
-                                <Button onClick={onAddIndicatorClick} icon={<AddIcon/>}>Add Intervention</Button>
+                                <Button dataTest='add-intervention-button' onClick={onAddIndicatorClick}
+                                        icon={<AddIcon/>}>Add Intervention</Button>
                             </Visibility>
                         </Grid>
                         <Grid item xs={6}>
-                            <SingleSelect disabled={listIsEmpty} clearText='Clear' clearable selected={statusFilter?.selected}
+                            <SingleSelect disabled={listIsEmpty} clearText='Clear' clearable
+                                          selected={statusFilter?.selected}
                                           placeholder='Filter by status' onChange={setStatusFilter}>
                                 {
                                     _.map(actionStatus, status => (
@@ -116,9 +120,11 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
                     </Grid>
                     <Grid item xs={6} container justify='flex-end'>
                         <ButtonStrip>
-                            <Button disabled={listIsEmpty} icon={<ColumnIcon/>} onClick={_ => setManageColumnOpen(true)}>Manage
+                            <Button disabled={listIsEmpty} icon={<ColumnIcon/>}
+                                    onClick={_ => setManageColumnOpen(true)}>Manage
                                 Columns</Button>
-                            <Button disabled={listIsEmpty} onClick={(d, e) => setReference(e.currentTarget)} icon={<DownloadIcon/>}>
+                            <Button disabled={listIsEmpty} onClick={(d, e) => setReference(e.currentTarget)}
+                                    icon={<DownloadIcon/>}>
                                 Download
                             </Button>
                         </ButtonStrip>
