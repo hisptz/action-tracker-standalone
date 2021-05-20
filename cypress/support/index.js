@@ -15,7 +15,7 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
-import { enableAutoLogin, enableNetworkShim } from '@dhis2/cypress-commands';
+import { enableAutoLogin, enableNetworkShim, } from '@dhis2/cypress-commands';
 
 enableAutoLogin();
 
