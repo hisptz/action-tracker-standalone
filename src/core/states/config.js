@@ -23,27 +23,7 @@ const ActionStatusState = selector({
         const engine = get(DataEngineState);
         const {actionProgramMetadata} = get(ConfigState);
         const {dataElement} = _.find(_.head(actionProgramMetadata?.programStages)?.programStageDataElements, ['dataElement.id', ActionStatusConstants.STATUS_DATA_ELEMENT]) || {};
-        const options = dataElement?.optionSet?.options || [];
-        const optionsWithSvgIcons = [];
-        for (const option of options) {
-            const {style} = option;
-            if (style) {
-                const iconName = style?.icon
-                if (iconName) {
-                    try {
-                        const {icon} = await engine.query(iconQuery, {variables: {id: `${iconName}/icon.svg`}});
-                        const iconToRender = icon instanceof Blob ? await icon.text() : icon;
-                        const newOption = {...option, style: {...style, icon: iconToRender}}
-                        optionsWithSvgIcons.push(newOption);
-                    } catch (e) {
-                        console.log(e);
-                    }
-                }
-            } else {
-                optionsWithSvgIcons.push(option);
-            }
-        }
-        return optionsWithSvgIcons;
+        return dataElement?.optionSet?.options || [];
     }
 });
 

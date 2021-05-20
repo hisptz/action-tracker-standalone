@@ -21,6 +21,7 @@ import {useRecoilValue} from "recoil";
 import _ from 'lodash';
 import {generateTextColor} from "../../../../core/helpers/utils/utils";
 import {formatSvg} from "../../../../core/helpers/utils/utils";
+import DHIS2Icon from "../../../../shared/Components/DHIS2Icon";
 
 const CustomTableRowHead = withStyles((_) => ({
     root: {
@@ -105,39 +106,42 @@ const StatusContainer = ({status}) => {
     }, [])
 
     return <>
-        <Card variant='outlined' component={'div'} style={{
-            background: style?.color || '#d8d8d8',
-            textAlign: 'center',
-            verticalAlign: 'center',
-            color: generateTextColor(style?.color || '#d8d8d8'),
-        }} className="status-cell-grid">
-            <Grid container justify='center' className="status-cell-grid">
-                {
-                    style?.icon &&
-                    <Grid item className="status-icon-grid">
-                        <CenteredContent>
-                            <div style={{paddingTop: 5}} ref={iconRef}/>
-                        </CenteredContent>
-                    </Grid>
-                }
-                <Grid item className="status-cell-grid-item">
-                    <CenteredContent>
-                        {selectedStatus}
-                    </CenteredContent>
-                </Grid>
-            </Grid>
-        </Card>
+        <b style={{color: style.color}}>{selectedStatus}</b>
     </>
 }
 
 const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object, roles, ...props}) => {
     const [currentTarget, setCurrentTarget] = useState(false);
     const {update: canUpdate, delete: canDelete} = roles || {canUpdate: false, canDelete: false};
+    const statusLegend = useRecoilValue(ActionStatusState);
+    const {code: selectedStatus, style} = _.find(statusLegend, ['code', status]) || {
+        code: status,
+        style: {color: '#d8d8d8'}
+    };
+    const icon = style?.icon;
     return (
-        <StyledStatusTableCell {...props}>
+        <StyledStatusTableCell {...props}  style={{
+            background: `${style?.color || '#d8d8d8'}70`,
+            textAlign: 'center',
+            verticalAlign: 'top',
+            color: generateTextColor(style?.color || '#d8d8d8'),
+        }}   >
             <Grid item container direction='row' justify='space-between' spacing={1}>
-                <Grid item xs={(canDelete || canUpdate) ? 9 : 12}>
-                    <StatusContainer status={status}/>
+                <Grid item xs={(canDelete || canUpdate) ? 9 : 12} container justify='center' alignItems='center'
+                      className="status-cell-grid">
+                    {
+                        style?.icon &&
+                        <Grid item className="status-icon-grid">
+                            <CenteredContent>
+                                <DHIS2Icon iconName={icon}/>
+                            </CenteredContent>
+                        </Grid>
+                    }
+                    <Grid item className="status-cell-grid-item">
+                        <CenteredContent>
+                            {selectedStatus}
+                        </CenteredContent>
+                    </Grid>
                 </Grid>
                 <Grid container justify='center' alignItems='center' item xs={(canDelete || canUpdate) ? 3 : 12}>
                     {
