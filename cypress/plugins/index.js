@@ -1,3 +1,9 @@
+const {
+ networkShim,
+ chromeAllowXSiteCookies,
+ cucumberPreprocessor
+} = require('@dhis2/cypress-plugins');
+
 /// <reference types="cypress" />
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
@@ -18,7 +24,10 @@ const cucumber = require('cypress-cucumber-preprocessor').default
  * @type {Cypress.PluginConfig}
  */
 module.exports = (on, config) => {
-  on('file:preprocessor', cucumber())
+ networkShim(on, config);
+ chromeAllowXSiteCookies(on, config);
+ cucumberPreprocessor(on, config);
+ on('file:preprocessor', cucumber())
 }
 
 

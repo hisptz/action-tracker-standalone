@@ -291,7 +291,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                 <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                     <Grid item>
                         <Visibility visible={actionRoles?.create}>
-                            <Button onClick={_ => setAddActionOpen(true)}>Add Action Item</Button>
+                            <Button dataTest='add-action-button' onClick={_ => setAddActionOpen(true)}>Add Action Item</Button>
                         </Visibility>
 
                     </Grid>

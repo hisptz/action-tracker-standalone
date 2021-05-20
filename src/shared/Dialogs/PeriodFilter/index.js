@@ -52,7 +52,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     }
 
     return (
-        <Modal open={open} onClose={onClose}>
+        <Modal open={open} onClose={onClose} dataTest='period-filter'>
             <ModalTitle>
                 Period
             </ModalTitle>

@@ -7,13 +7,13 @@ Feature: Gap And Solution List
     @focus
     Scenario: View Gap and Solution List
         Given an authorized CHMT member
-        When selecting assigned district
-        And selecting period for planning
+        When selecting assigned district Bo
+        When selecting period for planning as 2020
         Then list of identified gaps and agreed solutions should be displayed
 
     @focus
     Scenario: View Empty List
         Given an authorized CHMT member
-        When selecting assigned district
-        And selecting period for planning
-        Then I should be presented with a message "You currently don't have any gaps to work on"
+        When selecting assigned district Tonkolili
+        When selecting period for planning as 2020
+        Then I should be presented with a message There are no interventions documented for selected organisation unit and period.

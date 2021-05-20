@@ -143,7 +143,7 @@ export default function SolutionsTable({gap = new Gap()}) {
                     <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                         <Grid item>
                             <Visibility visible={solutionRoles?.create}>
-                                <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
+                                <Button dataTest='add-solution-button' onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
                             </Visibility>
                         </Grid>
                         <Grid item>

@@ -201,7 +201,7 @@ export default function ChallengeList() {
                             _.isEmpty(data.indicators?.trackedEntityInstances) ?
                                 <Grid item style={styles.fullPage}> <EmptyChallengeList
                                     onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/></Grid> :
-                                <Grid item container spacing={0} direction='column' style={{minWidth: 1366}}>
+                                <Grid id='challenge-list' item container spacing={0} direction='column' style={{minWidth: 1366}}>
                                     {
                                         _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
                                             const indicator = new Bottleneck(trackedEntityInstance);

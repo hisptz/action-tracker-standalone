@@ -47,7 +47,7 @@ function FormField({field, control}) {
                                             className="select"
                                             filterable
                                             clearable
-                                            dataTest="dhis2-uiwidgets-singleselectfield"
+                                            dataTest={"dhis2-uiwidgets-singleselectfield" + `-${field.id}`}
                                             required={
                                                 field?.validations && field.validations.required
                                             }

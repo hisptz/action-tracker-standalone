@@ -24,7 +24,7 @@ export default function OrganisationUnitFilter({onClose, onUpdate, initialOrgUni
     const onUpdateOrgUnit = (orgUnit) => setSelectedOrgUnit(orgUnit);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     return (
-        <Modal onClose={onClose}>
+        <Modal onClose={onClose} dataTest='orgUnit-filter'>
             <ModalTitle>
                 Organisation Units
             </ModalTitle>
