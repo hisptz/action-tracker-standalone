@@ -86,13 +86,20 @@ export default function ChallengeList() {
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     const [selectedChallenge, setSelectedChallenge] = useState(undefined);
     const setIsDownloadingPdf = useSetRecoilState(DownloadPdfState);
-    const [expandedCardId, setExpandedCardId] = useState(_.head(data?.indicators?.trackedEntityInstances)?.trackedEntityInstance)
+    const [expandedCardId, setExpandedCardId] = useState()
     const document = <PDFTable teiItems={tablePDFDownloadData} currentTab={currentTab}/>;
     const [instance, update] = usePDF({document});
 
     const [documentHasData, setDocumentHasData] = useState(false);
     useEffect(() => generateErrorAlert(show, error), [error])
-
+    useEffect(()=>{
+        function setInitialExpandedCard(){
+            if(data?.indicators?.trackedEntityInstances){
+                setExpandedCardId(_.head(data?.indicators?.trackedEntityInstances)?.trackedEntityInstance)
+            }
+        }
+        setInitialExpandedCard();
+    }, [data])
     useEffect(() => {
         function refresh() {
             if (orgUnit && !_.isEmpty(period)) {
