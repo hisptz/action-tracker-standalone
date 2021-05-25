@@ -135,7 +135,7 @@ export default function ActionStatusTable() {
     return (
         loading ? <FullPageLoader/> :
             error ? <FullPageError error={error.message || error.toString()}/> : <>
-                <Table>
+                <Table dataTest='action-status-options-table'>
                     <TableHead>
                         <TableRowHead>
                             {
@@ -159,7 +159,7 @@ export default function ActionStatusTable() {
                                         <TableCell>{getFormattedDate(lastUpdated)}</TableCell>
                                         <TableCell><Grid item container justify='flex-end' direction='row'>
                                             <Visibility visible={settings.actionStatusOptions}>
-                                                <Button onClick={(d, e) => {
+                                                <Button dataTest={`action-status-option-menu-${code}`} onClick={(d, e) => {
                                                     setSelectedOption(option);
                                                     setRef(e.currentTarget);
                                                 }} icon={<MoreHorizIcon/>}/>
@@ -188,6 +188,7 @@ export default function ActionStatusTable() {
                 <Grid item container justify="flex-end">
                     <Visibility visible={settings.actionStatusOptions}>
                         <Fab
+                            id='add-action-status-button'
                             onClick={() =>
                                 setOpenActionStatusSettingsDialog(
                                     !openActionStatusSettingsDialog

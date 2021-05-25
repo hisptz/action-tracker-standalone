@@ -55,7 +55,7 @@ When(/^the method is deleted$/, function () {
     cy.get('button').contains('Delete').click()
 });
 Then(/^the deleted method should not visible on the list$/, function () {
-    cy.get('[data-test="dhis2-uicore-tablecell"]').contains('Testing Challenge Methods').should('not.exist')
+    cy.get('[data-test="dhis2-uicore-tablecell"]').contains('Edited Testing Challenge Methods').should('not.exist')
     cy.get('[data-test="dhis2-uicore-tablecell"]').contains('challenge code').should('not.exist')
 });
 

@@ -14,7 +14,7 @@ export default function DHIS2Icon({iconName, size, color, style}) {
         }
     }, [icon])
     return (
-        <div style={style} ref={iconRef}/>
+        <div id={`dhis2-icon-${iconName}`} style={style} ref={iconRef}/>
     )
 }
 

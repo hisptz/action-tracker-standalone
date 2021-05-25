@@ -13,7 +13,7 @@ Feature: Action Status Options Management
     When opening the management panel
     And opening section to manage action statuses
     Then administrator should be able to open for form for setting up new action status
-
+  @Focus
   Scenario:
     Given an authorized technical lead
     When opening the management panel
@@ -25,24 +25,32 @@ Feature: Action Status Options Management
 
   Scenario:
     Given an authorized technical lead
+    When opening the management panel
+    And opening section to manage action statuses
     And list of documented actions statuses is opened
     When I select on a specific status
     Then form for editing the action status should be opened
+    When I edit the name of action status option
+    Then save the details
+    Then edit success notification should be displayed and new action should be reflected in the list
 
   Scenario:
     Given an authorized technical lead
+    When opening the management panel
+    And opening section to manage action statuses
     And list of documented actions statuses is opened
+    When I select on a specific status
     When selecting to delete an action status
     And delete confirmation dialog is displayed
     Then I should be able to confirm delete and action status should be removed from the list
 
   Scenario:
     Given an authorized technical lead
+    When opening the management panel
+    And opening section to manage action statuses
     And list of documented actions statuses is opened
+    And I select on a action status option that is already used on some recorded action status
     When selecting to delete an action status
-    And delete confirmation dialog is displayed
-    And there are already documented action items that use certain action statuses
-    When I want to delete used action status
     And delete confirmation dialog is displayed
     Then I should be restricted to delete
 
