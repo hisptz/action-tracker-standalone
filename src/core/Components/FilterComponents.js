@@ -60,7 +60,7 @@ export function FilterComponents() {
                     </Grid>
                     <Grid item xs={2} container direction='row' justify='flex-end'>
                         <Visibility visible={Object.values(settings).reduce((pV, v) => pV || v)}>
-                            <Button onClick={() => history.push(`${url}admin`)}
+                            <Button dataTest='settings-button' onClick={() => history.push(`${url}admin`)}
                                     icon={<SettingsIcon/>}>
                                 Settings
                             </Button>

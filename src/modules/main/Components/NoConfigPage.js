@@ -18,7 +18,7 @@ export default function NoConfigPage(){
             <div style={{textAlign:'center'}}>
                 <ErrorIcon fontSize='large' style={{color: '#6E7A8A' }} />
                 <h4 style={{color: '#6E7A8A'}}>Configurations not found. {`${Object.values(settings).reduce((pV, v)=> pV || v) ? 'Configure the app to continue.': 'Contact the administrator.'}`}</h4>
-                <Button onClick={() => history.push(`${url}admin`)}
+                <Button dataTest='settings-button' onClick={() => history.push(`${url}admin`)}
                         icon={<SettingsIcon/>}>
                     Settings
                 </Button>
