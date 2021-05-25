@@ -48,8 +48,8 @@ export default function DeleteConfirmation({onClose, id, type, message, onUpdate
     }
 
     return (
-        <Modal onClose={onClose}>
-            <ModalTitle>
+        <Modal  onClose={onClose}>
+            <ModalTitle dataTest='delete-confirmation-modal'>
                 Confirm Delete
             </ModalTitle>
             <ModalContent>

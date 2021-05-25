@@ -32,7 +32,7 @@ Feature: Challenge Identification Methods Management
     When the changes are made
     And the form is submitted
     Then a success notification should be displayed
-    And the changes should be reflected on the list
+    And the edited changes should be reflected on the list
 
 
   Scenario:
@@ -44,6 +44,6 @@ Feature: Challenge Identification Methods Management
     Then a confirmation dialog should be displayed asking for delete confirmation
     When the method is deleted
     Then a success notification should be displayed
-    And the changes should be reflected on the list
+    And the deleted method should not visible on the list
 
 
