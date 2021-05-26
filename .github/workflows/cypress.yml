@@ -20,9 +20,8 @@ jobs:
       # report machine parameters
       - run: yarn cypress info
       - run: node -p 'os.cpus()'
-      - run: yarn types
-      - run: yarn test:unit:ci
-      - run: yarn build:ci
+      - run: yarn test
+      - run: yarn build
 
       - name: Save build folder
         uses: actions/upload-artifact@v2
@@ -41,7 +40,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           runTests: false
-      - run: yarn build:ci
+      - run: yarn build
 
       - name: Save build folder
         uses: actions/upload-artifact@v2
@@ -77,7 +76,7 @@ jobs:
       - name: "UI Tests - Chrome"
         uses: cypress-io/github-action@v2
         with:
-          start: yarn start:ci
+          start: yarn start
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: chrome
@@ -121,7 +120,7 @@ jobs:
       - name: "UI Tests - Firefox"
         uses: cypress-io/github-action@v2
         with:
-          start: yarn start:ci
+          start: yarn start
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: firefox
@@ -162,7 +161,7 @@ jobs:
       - name: "UI Tests - Electron - Windows"
         uses: cypress-io/github-action@v2
         with:
-          start: yarn start:ci
+          start: yarn start
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           record: true
