@@ -198,7 +198,7 @@ const NoActionStatus = ({onAddClick}) => {
 const ActionStatusDetails = ({actionStatus}) => {
 
     return (
-        <div>
+        <div >
             <Grid container>
                 <Grid item xs={12}>
                     <b> Status</b>

@@ -3,10 +3,10 @@
     "testFiles": "**/*.feature",
     "chromeWebSecurity": false,
     "reporter": "cypress-multi-reporters",
-    "video": true,
+    "video": false,
     "projectId": "demzvf",
     "experimentalStudio": true,
     "viewportWidth": 1366,
     "viewportHeight": 768,
-    "defaultCommandTimeout": 15000
+    "defaultCommandTimeout": 30000
 }

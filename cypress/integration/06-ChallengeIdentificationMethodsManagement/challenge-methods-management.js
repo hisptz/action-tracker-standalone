@@ -24,8 +24,8 @@ Then(/^a success notification should be displayed$/, function () {
 });
 Then(/^the changes should be reflected on the list$/, function () {
     cy.wait(3000)
-    cy.get('[data-test="dhis2-uicore-tablecell"]').contains('Testing Challenge Methods').should('exist')
-    cy.get('[data-test="dhis2-uicore-tablecell"]').contains('challenge code').should('exist')
+    cy.get('td[data-test="dhis2-uicore-tablecell"]').contains('Testing Challenge Methods').should('exist')
+    cy.get('td[data-test="dhis2-uicore-tablecell"]').contains('challenge code').should('exist')
 });
 When(/^a list of challenge identification methods is displayed$/, function () {
     cy.get('[data-test="challenge-methods-table"]').should('exist')

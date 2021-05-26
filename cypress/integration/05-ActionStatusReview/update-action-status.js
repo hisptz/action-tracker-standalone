@@ -24,5 +24,5 @@ When(/^and save updates$/, function () {
 });
 
 Then(/^updated status should be reflected in the list$/, function () {
-    cy.get('#action-status-remarks').contains('This is an automated test to verify adding action status.').should('be.visible')
+    cy.get('#action-status-remarks').contains('This is an automated test to verify adding action status.').should('exist')
 });

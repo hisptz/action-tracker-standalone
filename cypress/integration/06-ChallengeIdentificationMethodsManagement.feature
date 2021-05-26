@@ -4,13 +4,13 @@ Feature: Challenge Identification Methods Management
   used to derive the action so that users can complete fields related to methods used e.g., if it is BNA then they
   can add interventions, bottlenecks and indicators.
 
-  Scenario:
+  Scenario: List challenge methods options
     Given an authorized technical lead
     When opening the management panel
     And open section to manage challenge identification methods
     Then a list of already set challenge identification methods should be visible
 
-  Scenario:
+  Scenario: Add challenge methods option
     Given an authorized technical lead
     When opening the management panel
     And open section to manage challenge identification methods
@@ -22,7 +22,7 @@ Feature: Challenge Identification Methods Management
     And the changes should be reflected on the list
 
 
-  Scenario:
+  Scenario: Edit challenge methods option
     Given an authorized technical lead
     When opening the management panel
     And open section to manage challenge identification methods
@@ -35,7 +35,7 @@ Feature: Challenge Identification Methods Management
     And the edited changes should be reflected on the list
 
 
-  Scenario:
+  Scenario: Delete challenge methods option
     Given an authorized technical lead
     When opening the management panel
     And open section to manage challenge identification methods
