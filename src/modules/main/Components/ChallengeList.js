@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import _ from 'lodash';
 import {Container, Grid} from "@material-ui/core";
 import ChallengeCard from "./ChallengeCard";
@@ -22,6 +22,7 @@ import {BottleneckConstants} from "../../../core/constants";
 import {TableStateSelector} from '../../../core/states/column'
 import {usePDF} from '@react-pdf/renderer';
 import PDFTable from '../../../shared/Components/Download/PDFTable';
+
 
 const indicatorQuery = {
     indicators: {
@@ -86,11 +87,11 @@ export default function ChallengeList() {
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     const [selectedChallenge, setSelectedChallenge] = useState(undefined);
     const setIsDownloadingPdf = useSetRecoilState(DownloadPdfState);
-
+    const [documentHasData, setDocumentHasData] = useState(false);
     const document = <PDFTable teiItems={tablePDFDownloadData} currentTab={currentTab}/>;
     const [instance, update] = usePDF({document});
 
-    const [documentHasData, setDocumentHasData] = useState(false);
+
     useEffect(() => generateErrorAlert(show, error), [error])
 
     useEffect(() => {
@@ -113,19 +114,19 @@ export default function ChallengeList() {
         refresh();
     }, [orgUnit, period, page, pageSize, selectedStatus, filteredTeisLoading, filteredTeis]);
 
-    const onAddIndicator = () => {
+    const onAddIndicator = useCallback(() => {
         refetch()
-    }
+    }, [])
 
-    const onPageChange = (newPage) => setPage(newPage);
-    const onPageSizeChange = (newPageSize) => setPageSize(newPageSize);
+    const onPageChange = useCallback((newPage) => setPage(newPage), []);
+    const onPageSizeChange = useCallback((newPageSize) => setPageSize(newPageSize), []);
 
-    const onModalClose = (onClose) => {
+    const onModalClose = useCallback((onClose) => {
         setSelectedChallenge(undefined);
         onClose();
-    }
+    }, [])
 
-    function onDownloadExcel() {
+    const onDownloadExcel = useCallback(()=>{
         show({message: 'Preparing an excel file', type: {permanent: false}});
         downloadExcel({
             engine,
@@ -134,9 +135,9 @@ export default function ChallengeList() {
             currentTab,
             selectedPeriod: period,
         });
-    }
+    }, [])
 
-    async function onDownloadPDF() {
+    const  onDownloadPDF = useCallback(()=>{
         setIsDownloadingPdf({isDownloadingPdf: true, loading: true});
         getPdfDownloadData({
             engine,
@@ -150,12 +151,13 @@ export default function ChallengeList() {
         });
 
         show({message: 'Preparing a PDF file', type: {permanent: false}});
-    }
+    }, [])
 
-    const onEdit = (object) => {
+    const onEdit = useCallback((object) => {
         setSelectedChallenge(object);
         setAddIndicatorOpen(true);
-    }
+    }, [])
+
     useEffect(() => {
         async function openDocument() {
             if (downloadPdf && tablePDFDownloadData) {

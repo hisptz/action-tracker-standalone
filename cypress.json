@@ -1,12 +1,12 @@
 {
-  "baseUrl": "http://localhost:3000",
-  "testFiles": "**/*.feature",
-  "chromeWebSecurity": false,
-  "reporter": "cypress-multi-reporters",
-  "video": true,
-  "projectId": "demzvf",
-  "experimentalStudio": true,
-  "viewportWidth": 1366,
-  "viewportHeight": 768,
-  "defaultCommandTimeout": 15000
+    "baseUrl": "http://localhost:3000",
+    "testFiles": "**/*.feature",
+    "chromeWebSecurity": false,
+    "reporter": "cypress-multi-reporters",
+    "video": false,
+    "projectId": "demzvf",
+    "experimentalStudio": true,
+    "viewportWidth": 1366,
+    "viewportHeight": 768,
+    "defaultCommandTimeout": 30000
 }

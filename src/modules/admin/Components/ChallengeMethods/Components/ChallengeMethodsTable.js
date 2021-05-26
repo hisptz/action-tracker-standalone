@@ -127,7 +127,7 @@ export default function ChallengeMethodsTable() {
     return (
         loading ? <FullPageLoader/> :
             error ? <FullPageError error={error?.message || error?.toString()}/> : <>
-                <Table>
+                <Table dataTest='challenge-methods-table'>
                     <TableHead>
                         <TableRowHead>
                             {
@@ -149,7 +149,7 @@ export default function ChallengeMethodsTable() {
                                         <TableCell>{getFormattedDate(lastUpdated)}</TableCell>
                                         <TableCell><Grid item container justify='flex-end' direction='row'>
                                             <Visibility visible={settings.challengeMethodsOptions}>
-                                                <Button onClick={(d, e) => {
+                                                <Button dataTest={`challenge-method-menu-${code}`} onClick={(d, e) => {
                                                     setSelectedOption(option);
                                                     setRef(e.currentTarget);
                                                 }} icon={<MoreHorizIcon/>}/>
@@ -178,6 +178,7 @@ export default function ChallengeMethodsTable() {
                 <Grid item container justify="flex-end">
                     <Visibility visible={settings.challengeMethodsOptions}>
                         <Fab
+                            id='add-challenge-method-button'
                             style={styles.floatingAction}
                             aria-label="add"
                             color='primary'

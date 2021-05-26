@@ -68,7 +68,7 @@ export default function AdminPage() {
                 <div style={styles.content}>
                     <Switch>
                         {
-                            _.map(menu, ({component, pathname}) => <Route component={component} path={pathname}
+                            _.map(menu, ({component, pathname}) => <Route key={pathname} component={component} path={pathname}
                                                                           exact/>)
                         }
                     </Switch>

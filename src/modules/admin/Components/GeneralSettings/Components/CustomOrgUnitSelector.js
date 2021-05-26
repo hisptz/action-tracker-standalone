@@ -28,13 +28,14 @@ export default function CustomOrgUnitSelector({onChange, value, savingError, sav
 
     return (
         loading ? <InputField loading={loading}  label={label} disabled={true}/> :
-            <SingleSelectField error={Boolean(error || savingError)}
+            <SingleSelectField dataTest={'planning-org-unit-level-select'} error={Boolean(error || savingError)}
                                validationText={(error?.message || error?.toString()) || (savingError?.message || savingError?.toString())}
                                disabled={loading || saving} loading={loading} selected={value}
                                filterable label={label} onChange={onChange}>
                 {
                     _.map(sortedOrgUnitLevels, (orgUnitLevel) =>
                         <SingleSelectOption
+                            dataTest={`${orgUnitLevel?.id}-option`}
                             key={`${orgUnitLevel?.id}-option`}
                             label={orgUnitLevel?.displayName}
                             value={orgUnitLevel?.id}/>)
