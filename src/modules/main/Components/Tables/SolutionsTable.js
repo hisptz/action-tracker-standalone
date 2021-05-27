@@ -83,13 +83,13 @@ export default function SolutionsTable({gap = new Gap()}) {
 
     const styles = {
         container: {
-            maxHeight: 300,
+            maxHeight: 700,
         },
         tableContainer: {
             height: '100%',
             overflow: 'auto',
             width: '100%',
-            maxHeight: 300,
+            maxHeight: 700,
         }
     }
 

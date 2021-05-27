@@ -106,7 +106,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
 
     const styles = {
         container: {
-            maxHeight: 200,
+            maxHeight: 500,
             width: '100%',
             overflow: 'auto'
         }

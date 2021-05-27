@@ -43,7 +43,7 @@ export default function MainPage() {
             error ? <FullPageError error={error?.message || error.toString()}/> :
                 noConfig ? <div style={styles.container} id="mainPage"><NoConfigPage/></div> :
                     <Container maxWidth={false} id="mainPage" style={styles.container}>
-                        <Grid id="mainGrid" container style={styles.container} spacing={0} direction='column'>
+                        <Grid id="mainGrid" container style={styles.gridContainer} spacing={0} direction='column'>
                             <Grid item className="filter-components-grid" style={styles.filterContainer}>
                                 <FilterComponents/>
                             </Grid>

@@ -228,6 +228,7 @@ const ActionStatusTableCell = ({actionStatus, action, refetch, roles, startDate,
     const styles = {
         margin: 'auto',
         verticalAlign: 'center',
+        border: 'none'
     };
 
     const onAddClick = () => {

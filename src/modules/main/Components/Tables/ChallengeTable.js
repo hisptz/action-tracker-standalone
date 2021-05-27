@@ -11,7 +11,7 @@ export default function ChallengeTable({indicator = new Bottleneck()}) {
     const {visibleColumnsNames, visibleColumnsCount} = useRecoilValue(TableStateSelector) || {};
     const styles = {
         container: {
-            maxHeight: 550,
+
             borderRadius: 0,
             maxWidth: '100%',
             overflowX: 'auto'

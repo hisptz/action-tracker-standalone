@@ -23,7 +23,6 @@ import {TableStateSelector} from '../../../core/states/column'
 import {usePDF} from '@react-pdf/renderer';
 import PDFTable from '../../../shared/Components/Download/PDFTable';
 
-
 const indicatorQuery = {
     indicators: {
         resource: 'trackedEntityInstances',
@@ -42,10 +41,10 @@ const indicatorQuery = {
 
 const styles = {
     container: {
-        paddingTop: 30,
+        paddingTop: 32,
         height: 'calc(100vh - 188px)',
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingLeft: 16,
+        paddingRight: 16,
         minWidth: 1366
     },
     challengesContainer: {
@@ -55,10 +54,10 @@ const styles = {
     },
     mainHeaderContainer: {
         maxHeight: 120,
-        padding: '10px 0'
+        padding: '8px 0'
     },
     card: {
-        padding: '30px 0'
+        padding: '8px 0'
     },
     fullPage: {
         margin: 'auto',
@@ -87,13 +86,20 @@ export default function ChallengeList() {
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     const [selectedChallenge, setSelectedChallenge] = useState(undefined);
     const setIsDownloadingPdf = useSetRecoilState(DownloadPdfState);
-    const [documentHasData, setDocumentHasData] = useState(false);
+    const [expandedCardId, setExpandedCardId] = useState()
     const document = <PDFTable teiItems={tablePDFDownloadData} currentTab={currentTab}/>;
     const [instance, update] = usePDF({document});
 
-
+    const [documentHasData, setDocumentHasData] = useState(false);
     useEffect(() => generateErrorAlert(show, error), [error])
-
+    useEffect(()=>{
+        function setInitialExpandedCard(){
+            if(data?.indicators?.trackedEntityInstances){
+                setExpandedCardId(_.head(data?.indicators?.trackedEntityInstances)?.trackedEntityInstance)
+            }
+        }
+        setInitialExpandedCard();
+    }, [data])
     useEffect(() => {
         function refresh() {
             if (orgUnit && !_.isEmpty(period)) {
@@ -203,13 +209,13 @@ export default function ChallengeList() {
                             _.isEmpty(data.indicators?.trackedEntityInstances) ?
                                 <Grid item style={styles.fullPage}> <EmptyChallengeList
                                     onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/></Grid> :
-                                <Grid id='challenge-list' item container spacing={0} direction='column' style={{minWidth: 1366}}>
+                                <Grid id='challenge-list' item container spacing={0} direction='column' style={{minWidth: 1326, margin: 0}}>
                                     {
                                         _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
                                             const indicator = new Bottleneck(trackedEntityInstance);
                                             return (
                                                 <Grid key={`${indicator.id}-grid`} item style={styles.card}>
-                                                    <ChallengeCard onEdit={onEdit} refresh={refetch}
+                                                    <ChallengeCard expandedCardId={expandedCardId} setExpandedCardId={setExpandedCardId} onEdit={onEdit} refresh={refetch}
                                                                    key={`${indicator.id}-card`} indicator={indicator}/>
                                                 </Grid>
                                             )
