@@ -1,4 +1,4 @@
-import React, {useEffect, Suspense, useState} from 'react';
+import React, {useEffect, Suspense} from 'react';
 import ChallengeList from "./Components/ChallengeList";
 import FilterComponents from "../../core/Components/FilterComponents";
 import FullPageLoader from "../../shared/Components/FullPageLoader";
