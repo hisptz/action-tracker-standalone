@@ -5,10 +5,109 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-05-27T08:19:00.776Z\n"
-"PO-Revision-Date: 2021-05-27T08:19:00.776Z\n"
+"POT-Creation-Date: 2021-05-27T10:38:21.377Z\n"
+"PO-Revision-Date: 2021-05-27T10:38:21.377Z\n"
+
+msgid "Are you sure you want to quit? All changes will be lost."
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Code"
+msgstr ""
+
+msgid "Color"
+msgstr ""
+
+msgid "Icon"
+msgstr ""
+
+msgid "Last Updated"
+msgstr ""
+
+msgid "{{ displayName }}"
+msgstr ""
+
+msgid ""
+"Are you sure you want to delete this action status option? This action "
+"cannot be undone."
+msgstr ""
+
+msgid "Action status option deleted Successfully"
+msgstr ""
+
+msgid ""
+"Cannot delete this action status option. It has been assigned to one or "
+"more action status."
+msgstr ""
+
+msgid "Action Status Settings"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Are you sure you want to delete this method? This action cannot be undone."
+msgstr ""
+
+msgid "Method Deleted Successfully"
+msgstr ""
+
+msgid ""
+"Cannot delete this method. It has been assigned to one or more "
+"interventions."
+msgstr ""
+
+msgid "Challenge Settings"
+msgstr ""
+
+msgid " {{ field }} should not exceed 50 characters`"
+msgstr ""
+
+msgid "Option with name {{value}} already exists"
+msgstr ""
+
+msgid "{{message}}"
+msgstr ""
+
+msgid "Action status option saved successfully"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Action Status Setting"
+msgstr ""
+
+msgid "{{ message }}"
+msgstr ""
+
+msgid "Saving..."
+msgstr ""
+
+msgid "Save Action Status"
+msgstr ""
+
+msgid "Method saved successfully"
+msgstr ""
+
+msgid "Save Method"
+msgstr ""
+
+msgid "{{ orgUnitLevel }}"
+msgstr ""
 
 msgid "{{label}}"
+msgstr ""
+
+msgid "Planning organisation unit changed successfully"
+msgstr ""
+
+msgid "Planning Organisation Unit"
 msgstr ""
 
 msgid "Planning period changed successfully"
@@ -29,8 +128,29 @@ msgstr ""
 msgid "Challenge Identification Methods"
 msgstr ""
 
-msgid "Action Status Settings"
+msgid "Back to action planning"
 msgstr ""
 
-msgid "Back to action planning"
+msgid "Delete"
+msgstr ""
+
+msgid "{{ label }}"
+msgstr ""
+
+msgid "Entity deleted successfully"
+msgstr ""
+
+msgid "Confirm Delete"
+msgstr ""
+
+msgid "Are you sure you want to delete this entity?"
+msgstr ""
+
+msgid "Deleting..."
+msgstr ""
+
+msgid "Are you sure you want to delete this entity? This action cannot be undone"
+msgstr ""
+
+msgid "This option cannot be deleted. It is already used in documented entities."
 msgstr ""

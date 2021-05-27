@@ -1,7 +1,7 @@
 import Box from '@material-ui/core/Box';
 import { FilterComponentTypes } from '../../../core/constants';
 import PropTypes from 'prop-types';
-
+import i18n from '@dhis2/d2-i18n'
 export function SelectionWrapper({
   type,
   onClick,
@@ -10,11 +10,11 @@ export function SelectionWrapper({
 }) {
   const componentTypes = {
     [FilterComponentTypes.ORG_UNIT]: {
-      text: 'Selected organisation unit',
+      text: i18n.t('Selected organisation unit'),
       data: dataObj ? dataObj : null,
     },
     [FilterComponentTypes.PERIOD]: {
-      text: 'Selected period',
+      text: i18n.t('Selected period'),
       data: dataObj ? dataObj : null,
     },
   };

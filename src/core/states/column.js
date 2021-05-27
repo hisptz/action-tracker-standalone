@@ -11,6 +11,8 @@ import {
 import React from "react";
 import {useDataStore} from "@dhis2/app-service-datastore";
 import DataStoreConstants from "../constants/datastore";
+import i18n from '@dhis2/d2-i18n'
+
 
 const defaultTables = {
     visibleColumnsCount: 0,
@@ -20,7 +22,7 @@ const defaultTables = {
         columns: [
             {
                 name: 'gap',
-                displayName: 'Bottleneck',
+                displayName: i18n.t('Bottleneck'),
                 mandatory: false,
                 visible: true,
                 width: 0,
@@ -45,7 +47,7 @@ const defaultTables = {
             },
             {
                 name: 'orgUnit',
-                displayName: 'Org Unit',
+                displayName: i18n.t('Org Unit'),
                 mandatory: false,
                 visible: true,
                 width: 0,
@@ -66,7 +68,7 @@ const defaultTables = {
         columns: [
             {
                 name: 'possibleSolution',
-                displayName: 'Possible Solutions',
+                displayName: i18n.t('Possible Solutions'),
                 mandatory: false,
                 visible: true,
                 width: 0,
@@ -98,7 +100,7 @@ const defaultTables = {
         columns: [
             {
                 name: 'action',
-                displayName: 'Action Items',
+                displayName: i18n.t('Action Items'),
                 mandatory: true,
                 visible: true,
                 width: 0,
@@ -112,7 +114,7 @@ const defaultTables = {
             },
             {
                 name: 'responsiblePerson',
-                displayName: 'Responsible Person',
+                displayName: i18n.t('Responsible Person'),
                 mandatory: true,
                 visible: true,
                 width: 0,
@@ -126,7 +128,7 @@ const defaultTables = {
             },
             {
                 name: 'startDate',
-                displayName: 'Start Date',
+                displayName: i18n.t('Start Date'),
                 mandatory: true,
                 visible: true,
                 width: 0,
@@ -140,7 +142,7 @@ const defaultTables = {
             },
             {
                 name: 'endDate',
-                displayName: 'End Date',
+                displayName: i18n.t('End Date'),
                 mandatory: true,
                 visible: true,
                 width: 0,
@@ -153,7 +155,7 @@ const defaultTables = {
             },
             {
                 name: 'status',
-                displayName: 'Status',
+                displayName: i18n.t('Status'),
                 mandatory: false,
                 visible: true,
                 width: 0,

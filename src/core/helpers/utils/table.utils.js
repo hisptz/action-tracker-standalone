@@ -66,7 +66,6 @@ function getColumn(period) {
         render: (object, refetch, actions) => {
             const {ref, roles} = actions;
             const {startDate, endDate} = getPeriodDates(period);
-            const actionStartDate = getJSDate(object.startDate);
             const actionEndDate = getJSDate(object.endDate);
             const actionStatusList = object.actionStatusList || [];
             const actionStatus = _.filter(actionStatusList, (as => {
