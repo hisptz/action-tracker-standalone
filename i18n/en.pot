@@ -5,11 +5,32 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2020-12-01T14:55:02.089Z\n"
-"PO-Revision-Date: 2020-12-01T14:55:02.089Z\n"
+"POT-Creation-Date: 2021-05-27T08:19:00.776Z\n"
+"PO-Revision-Date: 2021-05-27T08:19:00.776Z\n"
 
-msgid "Hello {{name}}"
+msgid "{{label}}"
 msgstr ""
 
-msgid "Welcome to DHIS2!"
+msgid "Planning period changed successfully"
+msgstr ""
+
+msgid "Tracking period changed successfully"
+msgstr ""
+
+msgid "Planning Period"
+msgstr ""
+
+msgid "Tracking Period"
+msgstr ""
+
+msgid "General Settings"
+msgstr ""
+
+msgid "Challenge Identification Methods"
+msgstr ""
+
+msgid "Action Status Settings"
+msgstr ""
+
+msgid "Back to action planning"
 msgstr ""

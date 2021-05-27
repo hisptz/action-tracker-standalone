@@ -8,23 +8,24 @@ import ActionStatusLegendSettingsPage from "./Components/ActionStatusLegend";
 import ChallengeMethodsSettingsPage from "./Components/ChallengeMethods";
 import GeneralSettingsPage from "./Components/GeneralSettings";
 import _ from 'lodash';
+import i18n from '@dhis2/d2-i18n'
 
 
 const menu = [
     {
         pathname: '/general-settings',
         component: GeneralSettingsPage,
-        label: 'General Settings'
+        label: i18n.t('General Settings')
     },
     {
         pathname: '/challenge-methods',
         component: ChallengeMethodsSettingsPage,
-        label: 'Challenge Identification Methods'
+        label: i18n.t('Challenge Identification Methods')
     },
     {
         pathname: '/action-status-settings',
         component: ActionStatusLegendSettingsPage,
-        label: 'Action Status Settings'
+        label: i18n.t('Action Status Settings')
     },
 ]
 
@@ -41,13 +42,14 @@ export default function AdminPage() {
         },
         sideMenu: {
             width: '20%',
+            maxWidth: 320,
             paddingTop: 16,
             borderRight: '1px solid #D5DDE5',
             height: 'calc(100vh - 48px)'
         },
         content: {
             padding: 16,
-            width: '80%'
+            flex: 1
         }
     }
 
@@ -57,7 +59,7 @@ export default function AdminPage() {
                 <div style={styles.sideMenu}>
                     <Grid style={{width: '100%'}} container direction='column' spacing={0}>
                         <Grid item style={{padding: '8px 0'}}>
-                            <MenuItem onClick={_ => history.goBack()} label='Back to action planning'
+                            <MenuItem onClick={_ => history.goBack()} label={i18n.t('Back to action planning')}
                                       icon={<BackIcon/>}/>
                         </Grid>
                         <Grid item style={{padding: '8px 0'}}>

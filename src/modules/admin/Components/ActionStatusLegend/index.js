@@ -2,6 +2,7 @@ import {Container, Fab, Typography} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import {Divider} from '@dhis2/ui';
 import ActionStatusTable from './Components/ActionStatusOptionsTable';
+import i18n from '@dhis2/d2-i18n'
 
 const styles = {
     container: {
@@ -25,7 +26,7 @@ export default function ActionStatusLegendSettingsPage() {
         <Container maxWidth={false} style={styles.container}>
             <Grid container>
                 <Grid item xs={12} style={styles.header}>
-                    <Typography variant="h5">Action Status Settings</Typography>
+                    <Typography variant="h5">{i18n.t('Action Status Settings')}.</Typography>
                     <Divider/>
                 </Grid>
                 <Grid

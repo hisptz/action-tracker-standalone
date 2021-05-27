@@ -29,6 +29,8 @@ import {BottleneckConstants, GapConstants} from "../../../../../core/constants";
 import Visibility from "../../../../../shared/Components/Visibility";
 import {useRecoilValue} from "recoil";
 import {UserRolesState} from "../../../../../core/states/user";
+import i18n from '@dhis2/d2-i18n'
+
 
 const methodsQuery = {
     methodOptions: {
@@ -36,6 +38,7 @@ const methodsQuery = {
         params: ({page, pageSize}) => ({
             fields: [
                 'code',
+                'displayName',
                 'name',
                 'style[icon,color]',
                 'lastUpdated',
@@ -59,6 +62,7 @@ const methodsQuery = {
                 'id',
                 'options[name,code,id,sortOrder]',
                 'name',
+                'displayName',
                 'valueType',
                 'code'
             ]
@@ -67,9 +71,9 @@ const methodsQuery = {
 }
 
 const columns = [
-    'Name',
-    'Code',
-    'Last Updated',
+    i18n.t('Name'),
+    i18n.t('Code'),
+    i18n.t('Last Updated'),
 ]
 
 export default function ChallengeMethodsTable() {
@@ -135,16 +139,16 @@ export default function ChallengeMethodsTable() {
                                     key={`${column}-action-status`}>{column}</TableCellHead>)
                             }
                             <TableCellHead><Grid item container justify='flex-end'
-                                                 direction='row'>Actions</Grid></TableCellHead>
+                                                 direction='row'>{i18n.t('Actions')}</Grid></TableCellHead>
                         </TableRowHead>
                     </TableHead>
                     <TableBody>
                         {
                             _.map(data?.methodOptions?.options, (option) => {
-                                const {name, code, lastUpdated} = option;
+                                const { code, lastUpdated, displayName} = option;
                                 return (
                                     <TableRow key={`${code}-row`}>
-                                        <TableCell>{name}</TableCell>
+                                        <TableCell>{i18n.t('{{ displayName }}', {displayName})}</TableCell>
                                         <TableCell>{code}</TableCell>
                                         <TableCell>{getFormattedDate(lastUpdated)}</TableCell>
                                         <TableCell><Grid item container justify='flex-end' direction='row'>
@@ -203,11 +207,11 @@ export default function ChallengeMethodsTable() {
                         dataElement={GapConstants.METHOD_DATA_ELEMENT}
                         program={BottleneckConstants.PROGRAM_ID}
                         type='event'
-                        message='Are you sure you want to delete this method? This action cannot be undone.'
+                        message={i18n.t('Are you sure you want to delete this method? This action cannot be undone.')}
                         onClose={onClose}
                         option={selectedOption}
-                        deletionSuccessMessage='Method Deleted Successfully'
-                        cannotDeleteMessage='Cannot delete this method. It has been assigned to one or more interventions.'
+                        deletionSuccessMessage={i18n.t('Method Deleted Successfully')}
+                        cannotDeleteMessage={i18n.t('Cannot delete this method. It has been assigned to one or more interventions.')}
                         onUpdate={onUpdate}
                         optionSet={data?.actionStatusOptionSet}
                     />

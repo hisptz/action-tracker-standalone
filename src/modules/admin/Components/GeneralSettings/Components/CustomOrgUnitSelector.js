@@ -2,6 +2,7 @@ import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import {SingleSelectField, SingleSelectOption, InputField} from "@dhis2/ui";
 import _ from "lodash";
 import React from "react";
+import i18n from '@dhis2/d2-i18n'
 
 
 const orgUnitLevelsQuery = {
@@ -37,7 +38,7 @@ export default function CustomOrgUnitSelector({onChange, value, savingError, sav
                         <SingleSelectOption
                             dataTest={`${orgUnitLevel?.id}-option`}
                             key={`${orgUnitLevel?.id}-option`}
-                            label={orgUnitLevel?.displayName}
+                            label={i18n.t('{{ orgUnitLevel }}', {orgUnitLevel: orgUnitLevel?.displayName})}
                             value={orgUnitLevel?.id}/>)
                 }
             </SingleSelectField>

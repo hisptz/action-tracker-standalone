@@ -33,6 +33,7 @@ import {ActionConstants, ActionStatusConstants} from "../../../../../core/consta
 import {useRecoilValue} from "recoil";
 import {UserRolesState} from "../../../../../core/states/user";
 import Visibility from "../../../../../shared/Components/Visibility";
+import i18n from '@dhis2/d2-i18n'
 
 
 const actionStatusOptionsQuery = {
@@ -45,6 +46,7 @@ const actionStatusOptionsQuery = {
             fields: [
                 'code',
                 'name',
+                'displayName',
                 'style[icon,color]',
                 'lastUpdated',
                 'id',
@@ -64,6 +66,7 @@ const actionStatusOptionsQuery = {
                 'id',
                 'options[name,code,id,sortOrder]',
                 'name',
+                'displayName',
                 'valueType',
                 'code'
             ]
@@ -72,11 +75,11 @@ const actionStatusOptionsQuery = {
 }
 
 const columns = [
-    'Name',
-    'Code',
-    'Color',
-    'Icon',
-    'Last Updated',
+    i18n.t('Name'),
+    i18n.t('Code'),
+    i18n.t('Color'),
+    i18n.t('Icon'),
+    i18n.t('Last Updated'),
 ]
 
 export default function ActionStatusTable() {
@@ -149,10 +152,10 @@ export default function ActionStatusTable() {
                     <TableBody>
                         {
                             _.map(data?.actionStatusOptions?.options, (option) => {
-                                const {name, code, style, lastUpdated} = option;
+                                const {displayName, code, style, lastUpdated} = option;
                                 return (
                                     <TableRow key={`${code}-row`}>
-                                        <TableCell>{name}</TableCell>
+                                        <TableCell>{i18n.t('{{ displayName }}', { displayName })}</TableCell>
                                         <TableCell>{code}</TableCell>
                                         <TableCell><ActionStatusColor color={style?.color}/></TableCell>
                                         <TableCell><DHIS2Icon iconName={style?.icon} size={20}/></TableCell>
@@ -220,12 +223,12 @@ export default function ActionStatusTable() {
                     openDelete && <OptionDeleteConfirmation
                         dataElement={ActionStatusConstants.STATUS_DATA_ELEMENT}
                         program={ActionConstants.PROGRAM_ID}
-                        message='Are you sure you want to delete this action status option? This action cannot be undone.'
+                        message={i18n.t('Are you sure you want to delete this action status option? This action cannot be undone.')}
                         onClose={onClose}
                         option={selectedOption}
                         optionSet={data?.actionStatusOptionSet}
-                        deletionSuccessMessage='Action status option deleted Successfully'
-                        cannotDeleteMessage='Cannot delete this action status option. It has been assigned to one or more action status.'
+                        deletionSuccessMessage={i18n.t('Action status option deleted Successfully')}
+                        cannotDeleteMessage={i18n.t('Cannot delete this action status option. It has been assigned to one or more action status.')}
                         onUpdate={onUpdate}
                     />
                 }
