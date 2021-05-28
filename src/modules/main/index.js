@@ -12,7 +12,7 @@ import {Container} from "@material-ui/core";
 import FullPageError from "../../shared/Components/FullPageError";
 import useAllConfig from "../../core/hooks/config";
 import NoConfigPage from "./Components/NoConfigPage";
-
+import i18n from '@dhis2/d2-i18n'
 
 const styles = {
     container: {padding: 0, flexGrow: 1, height: 'calc(100vh - 48px)'},
@@ -39,7 +39,7 @@ export default function MainPage() {
     return (
         loading || firstTimeUseLoading ?
             <div style={styles.container} id="mainPage"><FullPageLoader
-                text={firstTimeUseLoading && 'Configuring for first time use. Please wait...'}/></div> :
+                text={firstTimeUseLoading && i18n.t('Configuring for first time use. Please wait...')}/></div> :
             error ? <FullPageError error={error?.message || error.toString()}/> :
                 noConfig ? <div style={styles.container} id="mainPage"><NoConfigPage/></div> :
                     <Container maxWidth={false} id="mainPage" style={styles.container}>

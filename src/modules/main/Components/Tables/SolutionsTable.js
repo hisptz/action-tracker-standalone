@@ -19,7 +19,7 @@ import Paginator from "../../../../shared/Components/Paginator";
 import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
 import {UserRolesState} from "../../../../core/states/user";
 import Visibility from "../../../../shared/Components/Visibility";
-
+import i18n from '@dhis2/d2-i18n'
 const possibleSolutionQuery = {
     data: {
         resource: 'events',
@@ -143,7 +143,7 @@ export default function SolutionsTable({gap = new Gap()}) {
                     <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                         <Grid item>
                             <Visibility visible={solutionRoles?.create}>
-                                <Button dataTest='add-solution-button' onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
+                                <Button dataTest='add-solution-button' onClick={_ => setAddSolutionOpen(true)}>{i18n.t('Add Solution')}</Button>
                             </Visibility>
                         </Grid>
                         <Grid item>
@@ -167,10 +167,10 @@ export default function SolutionsTable({gap = new Gap()}) {
                 openDelete &&
                 <DeleteConfirmation
                     type='event'
-                    message='Are you sure you want to delete this solution and all related actions?'
+                    message={i18n.t('Are you sure you want to delete this solution and all related actions?')}
                     onClose={_ => onModalClose(_ => setOpenDelete(false))}
                     id={selectedSolution?.id}
-                    deletionSuccessMessage='Solution Deleted Successfully'
+                    deletionSuccessMessage={i18n.t('Solution Deleted Successfully')}
                     onUpdate={refetch}
                 />
             }

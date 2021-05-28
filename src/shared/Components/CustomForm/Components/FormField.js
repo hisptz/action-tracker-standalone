@@ -51,7 +51,7 @@ function FormField({field, control}) {
                                                 field?.validations && field.validations.required
                                             }
                                             label={i18n.t('{{ label }}', {label: field?.formName})}
-                                            noMatchText="No option available"
+                                            noMatchText={i18n.t("No option available")}
                                             validationText={errors && i18n.t('{{ message }}', {message: errors[field?.id]?.message})}
                                             error={Boolean(errors && errors[field?.id])}
                                             onChange={(e) => {
@@ -66,7 +66,7 @@ function FormField({field, control}) {
                                             {map(field.optionSet.options || [], (option) => {
                                                 return (
                                                     <SingleSelectOption
-                                                        label={option?.name}
+                                                        label={i18n.t('{{name}}', {name: option?.name})}
                                                         value={option?.code}
                                                         key={option?.code}
                                                     />
