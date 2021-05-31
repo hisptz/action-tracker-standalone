@@ -3,7 +3,7 @@ import React from 'react';
 import {useHistory, useLocation} from "react-router-dom";
 import _ from 'lodash';
 import PropTypes from "prop-types";
-
+import i18n from '@dhis2/d2-i18n'
 export default function AdminMenu({menu}) {
     const history = useHistory();
     const location = useLocation();
@@ -12,6 +12,7 @@ export default function AdminMenu({menu}) {
             background: '#F8F9FA'
         }
     }
+
     return (
         <Menu style={styles.menu}>
             {
@@ -22,9 +23,9 @@ export default function AdminMenu({menu}) {
                             active={location.pathname === pathname}
                             onClick={_ => history.replace(pathname)}
                             icon={icon}
-                            label={label}/>
+                            label={i18n.t('{{- label }}', {label})}/>
                         {index !== menu.length - 1 &&
-                        <div style={{padding: 1}} />}</div>)
+                        <div style={{padding: 1}}/>}</div>)
             }
         </Menu>
     )

@@ -14,7 +14,7 @@ import _ from 'lodash';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import ActionStatusOptionSetConstants from "../constants/actionStatus";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import {generateErrorAlert} from "../../../../../core/services/errorHandling.service";
@@ -74,18 +74,19 @@ const actionStatusOptionsQuery = {
     }
 }
 
-const columns = [
-    i18n.t('Name'),
-    i18n.t('Code'),
-    i18n.t('Color'),
-    i18n.t('Icon'),
-    i18n.t('Last Updated'),
-]
 
 export default function ActionStatusTable() {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const {settings} = useRecoilValue(UserRolesState);
+
+    const columns = useMemo(()=>[
+        i18n.t('Name'),
+        i18n.t('Code'),
+        i18n.t('Color'),
+        i18n.t('Icon'),
+        i18n.t('Last Updated'),
+    ], [])
     const {loading, data, error, refetch} = useDataQuery(actionStatusOptionsQuery, {
         variables: {page, pageSize},
     });
@@ -143,10 +144,10 @@ export default function ActionStatusTable() {
                         <TableRowHead>
                             {
                                 _.map(columns, (column) => <TableCellHead
-                                    key={`${column}-action-status`}>{column}</TableCellHead>)
+                                    key={`${column}-action-status`}>{i18n.t('{{ column }}', {column})}</TableCellHead>)
                             }
                             <TableCellHead><Grid item container justify='flex-end'
-                                                 direction='row'>Actions</Grid></TableCellHead>
+                                                 direction='row'>{i18n.t('Actions')}</Grid></TableCellHead>
                         </TableRowHead>
                     </TableHead>
                     <TableBody>

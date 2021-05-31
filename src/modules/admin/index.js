@@ -1,5 +1,5 @@
 import {MenuItem} from '@dhis2/ui';
-import React from 'react';
+import React, {useMemo} from 'react';
 import {MemoryRouter, Route, Switch, useHistory} from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import BackIcon from '@material-ui/icons/ArrowBack';
@@ -11,25 +11,26 @@ import _ from 'lodash';
 import i18n from '@dhis2/d2-i18n'
 
 
-const menu = [
-    {
-        pathname: '/general-settings',
-        component: GeneralSettingsPage,
-        label: i18n.t('General Settings')
-    },
-    {
-        pathname: '/challenge-methods',
-        component: ChallengeMethodsSettingsPage,
-        label: i18n.t('Challenge Identification Methods')
-    },
-    {
-        pathname: '/action-status-settings',
-        component: ActionStatusLegendSettingsPage,
-        label: i18n.t('Action Status Settings')
-    },
-]
-
 export default function AdminPage() {
+
+    const menu = useMemo(() => [
+        {
+            pathname: '/general-settings',
+            component: GeneralSettingsPage,
+            label: i18n.t('General Settings')
+        },
+        {
+            pathname: '/challenge-methods',
+            component: ChallengeMethodsSettingsPage,
+            label: i18n.t('Challenge Identification Methods')
+        },
+        {
+            pathname: '/action-status-settings',
+            component: ActionStatusLegendSettingsPage,
+            label: i18n.t('Action Status Settings')
+        },
+    ], []);
+
     const history = useHistory();
     const styles = {
         container: {
@@ -70,7 +71,8 @@ export default function AdminPage() {
                 <div style={styles.content}>
                     <Switch>
                         {
-                            _.map(menu, ({component, pathname}) => <Route key={pathname} component={component} path={pathname}
+                            _.map(menu, ({component, pathname}) => <Route key={pathname} component={component}
+                                                                          path={pathname}
                                                                           exact/>)
                         }
                     </Switch>

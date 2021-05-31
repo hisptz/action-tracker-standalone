@@ -50,7 +50,7 @@ function FormField({field, control}) {
                                             required={
                                                 field?.validations && field.validations.required
                                             }
-                                            label={i18n.t('{{ label }}', {label: field?.formName})}
+                                            label={i18n.t('{{- label }}', {label: field?.formName})}
                                             noMatchText={i18n.t("No option available")}
                                             validationText={errors && i18n.t('{{ message }}', {message: errors[field?.id]?.message})}
                                             error={Boolean(errors && errors[field?.id])}
@@ -99,7 +99,7 @@ function FormField({field, control}) {
                                                 Boolean(field.validations.required)
                                             }
                                             type={Dhis2ValueTypes[field?.valueType]?.formName}
-                                            label={i18n.t('{{ label }}', {label: field?.formName})}
+                                            label={i18n.t('{{- label }}', {label: field?.formName})}
                                             error={Boolean(errors && errors[field?.id])}
                                             validationText={errors && i18n.t('{{ message }}', {message: errors[field?.id]?.message})}
                                         />
@@ -115,7 +115,7 @@ function FormField({field, control}) {
                                                 field?.validations &&
                                                 Boolean(field.validations.required)
                                             }
-                                            label={i18n.t('{{ label }}', {label: field?.formName})}
+                                            label={i18n.t('{{- label }}', {label: field?.formName})}
                                             error={Boolean(errors && errors[field?.id])}
                                             validationText={errors && i18n.t('{{ message }}', {message: errors[field?.id]?.message})}
                                         />
@@ -131,7 +131,7 @@ function FormField({field, control}) {
                                             required={
                                                 field?.validations && field.validations.required
                                             }
-                                            label={i18n.t('{{ label }}', {label: field?.formName})}
+                                            label={i18n.t('{{- label }}', {label: field?.formName})}
                                             error={Boolean(errors && errors[field?.id])}
                                             validationText={errors && i18n.t('{{ message }}', {message: errors[field?.id]?.message})}
                                         />
@@ -146,7 +146,7 @@ function FormField({field, control}) {
                                             required={
                                                 field?.validations && field.validations.required
                                             }
-                                            label={i18n.t('{{ label }}', {label: field?.formName})}
+                                            label={i18n.t('{{- label }}', {label: field?.formName})}
                                             name={field?.id}
                                             validationText={errors && i18n.t('{{ message }}', {message: errors[field?.id]?.message})}
                                             error={Boolean(errors && errors[field?.id])}
@@ -155,7 +155,7 @@ function FormField({field, control}) {
                                 case Dhis2ValueTypes.ICON_PICKER.name:
                                     return (
                                         <InputPickerField
-                                            label={i18n.t('{{ label }}', {label: field?.formName})}
+                                            label={i18n.t('{{- label }}', {label: field?.formName})}
                                             validation={errors && errors[field?.id]?.message}
                                             validationText={errors && i18n.t('{{ message }}', {message: errors[field?.id]?.message})}
                                             error={Boolean(errors && errors[field?.id])}

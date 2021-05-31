@@ -22,6 +22,7 @@ import _ from 'lodash';
 import {generateTextColor} from "../../../../core/helpers/utils/utils";
 import {formatSvg} from "../../../../core/helpers/utils/utils";
 import DHIS2Icon from "../../../../shared/Components/DHIS2Icon";
+import i18n from '@dhis2/d2-i18n'
 
 const CustomTableRowHead = withStyles((_) => ({
     root: {
@@ -201,19 +202,19 @@ const ActionStatusDetails = ({actionStatus}) => {
         <div >
             <Grid container>
                 <Grid item xs={12}>
-                    <b> Status</b>
+                    <b>{i18n.t('Status')}</b>
                 </Grid>
                 <Grid item xs={12}>
                     <StatusContainer status={actionStatus?.status}/>
                 </Grid>
                 <Grid item xs={12}>
-                    <b> Remarks</b>
+                    <b>{i18n.t('Remarks')}</b>
                 </Grid>
                 <Grid id='action-status-remarks' item xs={12}>
                     {actionStatus?.remarks}
                 </Grid>
                 <Grid item xs={12}>
-                    <b>Review Date</b>
+                    <b>{i18n.t('Review Date')}</b>
                 </Grid>
                 <Grid id='action-status-review-date' item xs={12}>
                     {actionStatus?.reviewDate}

@@ -30,7 +30,7 @@ export default function OrganisationUnitFilter({onClose, onUpdate, initialOrgUni
             </ModalTitle>
             <ModalContent>
                 <>
-                    <p><b>{i18n.t('Planning Organisation Unit Level:')}</b> {i18n.t('{{ displayName }}', {displayName: orgUnitLevel?.displayName})}</p>
+                    <p><b>{i18n.t('Planning Organisation Unit Level')}:</b> {i18n.t('{{ displayName }}', {displayName: orgUnitLevel?.displayName})}</p>
                     <OrgUnitDimension
                         selectedOrgUnitPaths={selectedOrgUnitPaths}
                         onSelect={onSelect}

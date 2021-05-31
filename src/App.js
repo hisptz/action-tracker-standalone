@@ -13,6 +13,8 @@ import AdminPage from "./modules/admin";
 import {DataStoreProvider} from "@dhis2/app-service-datastore";
 import FullPageLoader from "./shared/Components/FullPageLoader";
 import defaultGlobalSettings from './core/constants/defaultConfig.json'
+import "./locales/index.js";
+
 
 const styles = {
     margin: 0,
