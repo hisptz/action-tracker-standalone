@@ -24,9 +24,6 @@ jobs:
       - name: Run the tests
         run: yarn test
 
-      - name: Build
-        run: yarn build
-
     env:
       CI: true
-      REACT_APP_DHIS2_BASE_URL: 'https://debug.dhis2.org/ca-test-2.36'
+      REACT_APP_DHIS2_BASE_URL: 'https://dhis2academy.hisptz.com/unicefappsdemo'
