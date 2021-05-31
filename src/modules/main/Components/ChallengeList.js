@@ -3,12 +3,12 @@ import _ from 'lodash';
 import {Container, Grid} from "@material-ui/core";
 import ChallengeCard from "./ChallengeCard";
 import {useRecoilValue, useSetRecoilState} from "recoil";
-import {DataEngineState, DimensionsState, DownloadPdfState, PageState, StatusFilterState} from "../../../core/states";
+import { DimensionsState, DownloadPdfState, PageState, StatusFilterState} from "../../../core/states";
 import NoDimensionsSelectedView from "./NoDimensionsSelectedView";
 import MainPageHeader from "./MainPageHeader";
 import EmptyChallengeList from "./EmptyChallengeList";
 import FullPageLoader from "../../../shared/Components/FullPageLoader";
-import {useAlert, useDataQuery} from "@dhis2/app-runtime";
+import {useAlert, useDataEngine, useDataQuery} from "@dhis2/app-runtime";
 import Bottleneck from "../../../core/models/bottleneck";
 import ChallengeDialog from "../../../shared/Dialogs/ChallengeDialog";
 import {generateErrorAlert} from "../../../core/services/errorHandling.service";
@@ -81,7 +81,7 @@ export default function ChallengeList() {
     const [tablePDFDownloadData, setTablePDFDownloadData] = useState(undefined);
     const tableColumnsData = useRecoilValue(TableStateSelector)
     const currentTab = useRecoilValue(PageState);
-    const engine = useRecoilValue(DataEngineState);
+    const engine = useDataEngine();
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     const [selectedChallenge, setSelectedChallenge] = useState(undefined);

@@ -2,9 +2,7 @@ import React, {useEffect, Suspense} from 'react';
 import ChallengeList from "./Components/ChallengeList";
 import FilterComponents from "../../core/Components/FilterComponents";
 import FullPageLoader from "../../shared/Components/FullPageLoader";
-import {useSetRecoilState} from "recoil";
-import {DataEngineState} from "../../core/states";
-import {useAlert, useDataEngine} from "@dhis2/app-runtime";
+import {useAlert} from "@dhis2/app-runtime";
 import {generateErrorAlert} from "../../core/services/errorHandling.service";
 import Grid from "@material-ui/core/Grid";
 import './styles/main.css';
@@ -27,13 +25,8 @@ const styles = {
 
 export default function MainPage() {
     const {loading, error, firstTimeUseLoading, noConfig} = useAllConfig();
-    const engine = useDataEngine();
-    const setDataEngine = useSetRecoilState(DataEngineState);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
 
-    useEffect(() => {
-        setDataEngine(engine);
-    }, []);
     useEffect(() => generateErrorAlert(show, error), [error]);
 
     return (

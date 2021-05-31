@@ -26,12 +26,6 @@ const ActionStatusState = selector({
     }
 });
 
-const DataEngineState = atom({
-    key: 'dataEngineState',
-    default: undefined
-});
-
-//TODO: Refactor to remove the usage of data engine state as it is redundant
 
 const PeriodConfigState = atom({
         key: 'periodConfig',
@@ -45,6 +39,5 @@ const PeriodConfigState = atom({
 export {
     ConfigState,
     ActionStatusState,
-    DataEngineState,
     PeriodConfigState
 }

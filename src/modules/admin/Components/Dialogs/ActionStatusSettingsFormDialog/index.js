@@ -7,9 +7,9 @@ import {
     Button,
     ButtonStrip,
 } from '@dhis2/ui';
-import {useAlert} from '@dhis2/app-runtime';
+import {useAlert, useDataEngine} from '@dhis2/app-runtime';
 import {useForm} from 'react-hook-form';
-import {ConfigState, DataEngineState} from '../../../../../core/states';
+import {ConfigState} from '../../../../../core/states';
 import {useRecoilValue} from 'recoil';
 import {getFormattedFormMetadata} from '../../../../../core/helpers/utils/form.utils';
 import CustomForm from '../../../../../shared/Components/CustomForm';
@@ -105,7 +105,7 @@ function ActionStatusSettingsFormDialog({
                                             optionSet
                                         }) {
     const {actionStatusSettingsMetadata} = useRecoilValue(ConfigState);
-    const engine = useRecoilValue(DataEngineState);
+    const engine = useDataEngine();
     const {control, handleSubmit} = useForm({
         mode: 'all',
         reValidateMode: 'onBlur',
