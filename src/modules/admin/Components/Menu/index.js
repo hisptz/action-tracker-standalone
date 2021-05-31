@@ -1,10 +1,9 @@
-import {Menu, MenuItem, MenuDivider} from '@dhis2/ui'
+import {Menu, MenuItem} from '@dhis2/ui'
 import React from 'react';
 import {useHistory, useLocation} from "react-router-dom";
 import _ from 'lodash';
 import PropTypes from "prop-types";
-import BackIcon from "@material-ui/icons/ArrowBack";
-
+import i18n from '@dhis2/d2-i18n'
 export default function AdminMenu({menu}) {
     const history = useHistory();
     const location = useLocation();
@@ -13,18 +12,20 @@ export default function AdminMenu({menu}) {
             background: '#F8F9FA'
         }
     }
+
     return (
         <Menu style={styles.menu}>
             {
                 _.map(menu, ({pathname, icon, label}, index) =>
                     <div key={`${pathname}-menu`}>
                         <MenuItem
+                            dataTest={`menu-item-${pathname}`}
                             active={location.pathname === pathname}
                             onClick={_ => history.replace(pathname)}
                             icon={icon}
-                            label={label}/>
+                            label={i18n.t('{{- label }}', {label})}/>
                         {index !== menu.length - 1 &&
-                        <div style={{padding: 1}} />}</div>)
+                        <div style={{padding: 1}}/>}</div>)
             }
         </Menu>
     )

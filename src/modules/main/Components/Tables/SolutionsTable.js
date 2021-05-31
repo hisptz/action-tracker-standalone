@@ -1,4 +1,4 @@
-import {CustomNestedTable, CustomNestingTableCell, CustomTableCell, CustomTableFooter} from "./CustomTable";
+import {CustomNestedTable, CustomNestingTableCell} from "./CustomTable";
 import {Container, TableBody, TableRow} from "@material-ui/core";
 import _ from "lodash";
 import React, {useEffect, useState} from "react";
@@ -9,7 +9,7 @@ import {
     BottleneckConstants, PossibleSolutionConstants,
 } from "../../../../core/constants";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
-import generateErrorAlert from "../../../../core/services/generateErrorAlert";
+import {generateErrorAlert} from "../../../../core/services/errorHandling.service";
 import Gap from "../../../../core/models/gap";
 import SolutionsDialog from "../../../../shared/Dialogs/SolutionsDialog";
 import {useRecoilValue} from "recoil";
@@ -19,7 +19,7 @@ import Paginator from "../../../../shared/Components/Paginator";
 import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation";
 import {UserRolesState} from "../../../../core/states/user";
 import Visibility from "../../../../shared/Components/Visibility";
-
+import i18n from '@dhis2/d2-i18n'
 const possibleSolutionQuery = {
     data: {
         resource: 'events',
@@ -33,14 +33,7 @@ const possibleSolutionQuery = {
             filter: [
                 `${PossibleSolutionConstants.GAP_TO_SOLUTION_LINKAGE_DATA_ELEMENT}:eq:${linkage}`
             ],
-            fields: [
-                'programStage',
-                'trackedEntityInstance',
-                'event',
-                'dataValues[dataElement, value]',
-                'eventDate',
-                'orgUnit'
-            ]
+            fields: PossibleSolutionConstants.FIELDS
         })
     }
 }
@@ -90,13 +83,13 @@ export default function SolutionsTable({gap = new Gap()}) {
 
     const styles = {
         container: {
-            maxHeight: 300,
+            maxHeight: 700,
         },
         tableContainer: {
             height: '100%',
             overflow: 'auto',
             width: '100%',
-            maxHeight: 300,
+            maxHeight: 700,
         }
     }
 
@@ -150,7 +143,7 @@ export default function SolutionsTable({gap = new Gap()}) {
                     <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                         <Grid item>
                             <Visibility visible={solutionRoles?.create}>
-                                <Button onClick={_ => setAddSolutionOpen(true)}>Add Solution</Button>
+                                <Button dataTest='add-solution-button' onClick={_ => setAddSolutionOpen(true)}>{i18n.t('Add Solution')}</Button>
                             </Visibility>
                         </Grid>
                         <Grid item>
@@ -174,10 +167,10 @@ export default function SolutionsTable({gap = new Gap()}) {
                 openDelete &&
                 <DeleteConfirmation
                     type='event'
-                    message='Are you sure you want to delete this solution and all related actions?'
+                    message={i18n.t('Are you sure you want to delete this solution and all related actions?')}
                     onClose={_ => onModalClose(_ => setOpenDelete(false))}
                     id={selectedSolution?.id}
-                    deletionSuccessMessage='Solution Deleted Successfully'
+                    deletionSuccessMessage={i18n.t('Solution Deleted Successfully')}
                     onUpdate={refetch}
                 />
             }

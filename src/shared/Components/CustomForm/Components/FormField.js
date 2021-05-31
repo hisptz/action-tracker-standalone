@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import PropTypes from 'prop-types';
 import {CustomFormField} from '../../../../core/models/customFormField';
 import {Controller, useFormState, useWatch} from 'react-hook-form';
@@ -14,7 +13,7 @@ import {Dhis2ValueTypes} from '../../../../core/constants';
 import {map} from 'lodash';
 import ColorFormField from "./ColorFormField";
 import InputPickerField from '../../IconPickerField';
-
+import i18n from '@dhis2/d2-i18n'
 function FormField({field, control}) {
     const dependants = useWatch({control, name: field.dependants}); //watchFields is an array of fieldIds that are used to validate other fields in the form
     const {errors} = useFormState({control});
@@ -47,13 +46,13 @@ function FormField({field, control}) {
                                             className="select"
                                             filterable
                                             clearable
-                                            dataTest="dhis2-uiwidgets-singleselectfield"
+                                            dataTest={"dhis2-uiwidgets-singleselectfield" + `-${field.id}`}
                                             required={
                                                 field?.validations && field.validations.required
                                             }
-                                            label={field?.formName}
-                                            noMatchText="No option available"
-                                            validationText={errors && errors[field?.id]?.message}
+                                            label={i18n.t('{{- label }}', {label: field?.formName})}
+                                            noMatchText={i18n.t("No option available")}
+                                            validationText={errors && i18n.t('{{ message }}', {message: errors[field?.id]?.message})}
                                             error={Boolean(errors && errors[field?.id])}
                                             onChange={(e) => {
                                                 onChange({
@@ -67,7 +66,7 @@ function FormField({field, control}) {
                                             {map(field.optionSet.options || [], (option) => {
                                                 return (
                                                     <SingleSelectOption
-                                                        label={option?.name}
+                                                        label={i18n.t('{{name}}', {name: option?.name})}
                                                         value={option?.code}
                                                         key={option?.code}
                                                     />
@@ -100,9 +99,9 @@ function FormField({field, control}) {
                                                 Boolean(field.validations.required)
                                             }
                                             type={Dhis2ValueTypes[field?.valueType]?.formName}
-                                            label={field?.formName}
+                                            label={i18n.t('{{- label }}', {label: field?.formName})}
                                             error={Boolean(errors && errors[field?.id])}
-                                            validationText={errors && errors[field?.id]?.message}
+                                            validationText={errors && i18n.t('{{ message }}', {message: errors[field?.id]?.message})}
                                         />
                                     );
                                 case Dhis2ValueTypes.TRUE_ONLY.name:
@@ -116,9 +115,9 @@ function FormField({field, control}) {
                                                 field?.validations &&
                                                 Boolean(field.validations.required)
                                             }
-                                            label={field?.formName}
+                                            label={i18n.t('{{- label }}', {label: field?.formName})}
                                             error={Boolean(errors && errors[field?.id])}
-                                            validationText={errors && errors[field?.id]?.message}
+                                            validationText={errors && i18n.t('{{ message }}', {message: errors[field?.id]?.message})}
                                         />
                                     );
                                 case Dhis2ValueTypes.LONG_TEXT.name:
@@ -132,9 +131,9 @@ function FormField({field, control}) {
                                             required={
                                                 field?.validations && field.validations.required
                                             }
-                                            label={field?.formName}
+                                            label={i18n.t('{{- label }}', {label: field?.formName})}
                                             error={Boolean(errors && errors[field?.id])}
-                                            validationText={errors && errors[field?.id]?.message}
+                                            validationText={errors && i18n.t('{{ message }}', {message: errors[field?.id]?.message})}
                                         />
                                     );
                                 case Dhis2ValueTypes.COLOR_PICKER.name:
@@ -147,18 +146,18 @@ function FormField({field, control}) {
                                             required={
                                                 field?.validations && field.validations.required
                                             }
-                                            label={field?.formName}
+                                            label={i18n.t('{{- label }}', {label: field?.formName})}
                                             name={field?.id}
-                                            validationText={errors && errors[field?.id]?.message}
+                                            validationText={errors && i18n.t('{{ message }}', {message: errors[field?.id]?.message})}
                                             error={Boolean(errors && errors[field?.id])}
                                         />
                                     );
                                 case Dhis2ValueTypes.ICON_PICKER.name:
                                     return (
                                         <InputPickerField
-                                            label={field?.formName}
+                                            label={i18n.t('{{- label }}', {label: field?.formName})}
                                             validation={errors && errors[field?.id]?.message}
-                                            validationText={errors && errors[field?.id]?.message}
+                                            validationText={errors && i18n.t('{{ message }}', {message: errors[field?.id]?.message})}
                                             error={Boolean(errors && errors[field?.id])}
                                             name={field?.id}
                                             onChange={(v) => {

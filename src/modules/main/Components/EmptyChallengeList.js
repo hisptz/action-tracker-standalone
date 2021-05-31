@@ -4,7 +4,7 @@ import AddIcon from "@material-ui/icons/Add";
 import {useRecoilValue} from "recoil";
 import {UserRolesState} from "../../../core/states/user";
 import Visibility from "../../../shared/Components/Visibility";
-
+import i18n from '@dhis2/d2-i18n'
 
 const styles = {
     container: {
@@ -21,10 +21,9 @@ export default function EmptyChallengeList({onAddIndicatorClick}) {
     return (
         <CenteredContent>
             <div style={styles.container}>
-                <h2 style={styles.text}>There are no interventions documented for selected organisation unit and
-                    period. </h2>
+                <h2 id='empty-challenge-list' style={styles.text}>{i18n.t('There are no interventions documented for selected organisation unit and period.')}</h2>
                 <Visibility visible={bottleneck?.create}>
-                    <Button onClick={onAddIndicatorClick} icon={<AddIcon/>} primary>Add Intervention</Button>
+                    <Button onClick={onAddIndicatorClick} icon={<AddIcon/>} primary>{i18n.t('Add Intervention')}</Button>
                 </Visibility>
             </div>
         </CenteredContent>

@@ -3,7 +3,7 @@ import {Transfer, CenteredContent} from '@dhis2/ui';
 import useIndicatorsSelected from '../../../core/hooks/indicatorsSelected';
 import {useRecoilValue} from 'recoil';
 import { IndicatorsSelectedState} from '../../../core/states'
-import { formatDataFilterOptions} from '../../../core/helpers/dataManipulationHelper';
+import { formatDataFilterOptions} from '../../../core/helpers/dataManipulation.helper';
 
 function DataFilter({options, initiallySelected, getSelected, loading}) {
     const indicatorSelectedStatus = useIndicatorsSelected();

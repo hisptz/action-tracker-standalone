@@ -10,7 +10,7 @@ import {
 } from '@dhis2/ui';
 import {useAlert, useDataMutation, useDataQuery} from "@dhis2/app-runtime";
 import useOptionsMutation from "../../../modules/admin/hooks/option";
-
+import i18n from '@dhis2/d2-i18n'
 
 const teiDeleteMutation = {
     type: 'delete',
@@ -34,7 +34,7 @@ export default function DeleteConfirmation({onClose, id, type, message, onUpdate
             id
         },
         onComplete: () => {
-            show({message: deletionSuccessMessage || 'Entity deleted successfully', type: {success: true}})
+            show({message: deletionSuccessMessage || i18n.t('Entity deleted successfully'), type: {success: true}})
             onUpdate();
             onClose();
         },
@@ -48,21 +48,21 @@ export default function DeleteConfirmation({onClose, id, type, message, onUpdate
     }
 
     return (
-        <Modal onClose={onClose}>
-            <ModalTitle>
-                Confirm Delete
+        <Modal  onClose={onClose}>
+            <ModalTitle dataTest='delete-confirmation-modal'>
+                {i18n.t('Confirm Delete')}
             </ModalTitle>
             <ModalContent>
                 <CenteredContent>
                     <div style={{textAlign: 'center'}}>
-                        {message || 'Are you sure you want to delete this entity?'}
+                        {message || i18n.t('Are you sure you want to delete this entity?')}
                     </div>
                 </CenteredContent>
             </ModalContent>
             <ModalActions>
                 <ButtonStrip>
                     <Button onClick={onClose}>Cancel</Button>
-                    <Button onClick={onDeleteConfirm} destructive>{loading ? 'Deleting...' : 'Delete'}</Button>
+                    <Button onClick={onDeleteConfirm} destructive>{loading ? i18n.t('Deleting...') : i18n.t('Delete')}</Button>
                 </ButtonStrip>
             </ModalActions>
         </Modal>
@@ -106,12 +106,12 @@ export function OptionDeleteConfirmation({
     });
     const {loading, mutate} = useOptionsMutation('delete', optionSet, {
         onComplete: () => {
-            show({message: deletionSuccessMessage || 'Entity deleted successfully', type: {success: true}})
+            show({message: deletionSuccessMessage || i18n.t('Entity deleted successfully'), type: {success: true}})
             onUpdate();
             onClose();
         },
         onError: error => {
-            show({message: error?.message || error.toString()})
+            show({message: i18n.t('{{ message }}', {message: error?.message || error.toString()}), type: {critical: true}})
         }
     })
 
@@ -121,16 +121,16 @@ export function OptionDeleteConfirmation({
     return (
         <Modal onClose={onClose}>
             <ModalTitle>
-                Confirm Delete
+                {i18n.t('Confirm Delete')}
             </ModalTitle>
             <ModalContent>
                 <CenteredContent>
                     {
                         loadingEvents ? <CircularLoader small/> :
                             _.isEmpty(data?.events?.events) ? <div style={{textAlign: 'center'}}>
-                                {message || 'Are you sure you want to delete this entity? This action cannot be undone'}
+                                {message || i18n.t('Are you sure you want to delete this entity? This action cannot be undone')}
                             </div> : <div style={{textAlign: 'center'}}>
-                                {cannotDeleteMessage || 'This option cannot be deleted. It is already used in documented entities.'}
+                                {cannotDeleteMessage || i18n.t('This option cannot be deleted. It is already used in documented entities.')}
                             </div>
                     }
                 </CenteredContent>
@@ -139,7 +139,7 @@ export function OptionDeleteConfirmation({
                 <ButtonStrip>
                     <Button onClick={onClose}>Cancel</Button>
                     <Button disabled={loadingEvents || !_.isEmpty(data?.events?.events)} onClick={onDeleteConfirm}
-                            destructive>{loading ? 'Deleting...' : 'Delete'}</Button>
+                            destructive>{loading ? i18n.t('Deleting...') : i18n.t('Delete')}</Button>
                 </ButtonStrip>
             </ModalActions>
         </Modal>

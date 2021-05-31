@@ -4,7 +4,7 @@ import {useDataQuery} from '@dhis2/app-runtime';
 import {useEffect} from 'react';
 import {IndicatorProgressState} from '../states';
 import {map, flattenDeep} from 'lodash';
-import {formatAnalytics} from '../helpers/analyticsManipulation';
+import {formatAnalytics} from '../helpers/analyticsManipulation.helper';
 import {useDataStore} from "@dhis2/app-service-datastore";
 import DataStoreConstants from "../constants/datastore";
 

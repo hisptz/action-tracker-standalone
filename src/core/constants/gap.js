@@ -5,4 +5,13 @@ export default class GapConstants {
     static METHOD_DATA_ELEMENT = 'W50aguV39tU';
     static SOLUTION_LINK_DATA_ELEMENT = 'kBkyDytdOmC';
     static GAP_PROGRAM_STAGE_ID = 'zXB8tWKuwcl';
+    static FIELDS = [
+        'programStage',
+        'trackedEntityInstance',
+        'event',
+        'dataValues[dataElement,value]',
+        'eventDate',
+        'orgUnit',
+        'orgUnitName'
+    ];
 }

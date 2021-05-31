@@ -1,6 +1,9 @@
 
 # STAND-ALONE ACTION TRACKER
 
+[![action-tracker-standalone](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/demzvf/develop&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/demzvf/runs)
+[![dhis2: tests](https://github.com/hisptz/action-tracker-standalone/actions/workflows/tests.yml/badge.svg?branch=develop)](https://github.com/hisptz/action-tracker-standalone/actions/workflows/tests.yml)
+
 1.  [Introduction](#Introduction)
 
 2.  [Admin Guide](#Admin)

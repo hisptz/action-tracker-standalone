@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import _ from 'lodash';
 import {Container, Grid} from "@material-ui/core";
 import ChallengeCard from "./ChallengeCard";
@@ -11,18 +11,18 @@ import FullPageLoader from "../../../shared/Components/FullPageLoader";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import Bottleneck from "../../../core/models/bottleneck";
 import ChallengeDialog from "../../../shared/Dialogs/ChallengeDialog";
-import generateErrorAlert from "../../../core/services/generateErrorAlert";
+import {generateErrorAlert} from "../../../core/services/errorHandling.service";
 import Paginator from "../../../shared/Components/Paginator";
 import {CenteredContent} from '@dhis2/ui'
 import useGetFilteredTeis from "../hooks/useGetFilteredTeis";
 import FullPageError from "../../../shared/Components/FullPageError";
-import {downloadExcel, getPdfDownloadData} from '../../../core/services/downloadFilesService'
+import {downloadExcel, getPdfDownloadData} from '../../../core/services/downloadFiles.service'
 import {UserConfigState} from "../../../core/states/user";
 import {BottleneckConstants} from "../../../core/constants";
 import {TableStateSelector} from '../../../core/states/column'
 import {usePDF} from '@react-pdf/renderer';
 import PDFTable from '../../../shared/Components/Download/PDFTable';
-
+import i18n from '@dhis2/d2-i18n'
 const indicatorQuery = {
     indicators: {
         resource: 'trackedEntityInstances',
@@ -33,11 +33,7 @@ const indicatorQuery = {
             totalPages: true,
             ou,
             ouMode,
-            fields: [
-                'trackedEntityInstance',
-                'attributes[attribute,value]',
-                'enrollments[events[programStage,event,dataValues[dataElement,value]]]'
-            ],
+            fields: BottleneckConstants.FIELDS,
             trackedEntityInstance
         })
     }
@@ -45,10 +41,10 @@ const indicatorQuery = {
 
 const styles = {
     container: {
-        paddingTop: 30,
+        paddingTop: 32,
         height: 'calc(100vh - 188px)',
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingLeft: 16,
+        paddingRight: 16,
         minWidth: 1366
     },
     challengesContainer: {
@@ -58,10 +54,10 @@ const styles = {
     },
     mainHeaderContainer: {
         maxHeight: 120,
-        padding: '10px 0'
+        padding: '8px 0'
     },
     card: {
-        padding: '30px 0'
+        padding: '8px 0'
     },
     fullPage: {
         margin: 'auto',
@@ -88,10 +84,22 @@ export default function ChallengeList() {
     const engine = useRecoilValue(DataEngineState);
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
+    const [selectedChallenge, setSelectedChallenge] = useState(undefined);
+    const setIsDownloadingPdf = useSetRecoilState(DownloadPdfState);
+    const [expandedCardId, setExpandedCardId] = useState()
+    const document = <PDFTable teiItems={tablePDFDownloadData} currentTab={currentTab}/>;
+    const [instance, update] = usePDF({document});
 
     const [documentHasData, setDocumentHasData] = useState(false);
     useEffect(() => generateErrorAlert(show, error), [error])
-
+    useEffect(()=>{
+        function setInitialExpandedCard(){
+            if(data?.indicators?.trackedEntityInstances){
+                setExpandedCardId(_.head(data?.indicators?.trackedEntityInstances)?.trackedEntityInstance)
+            }
+        }
+        setInitialExpandedCard();
+    }, [data])
     useEffect(() => {
         function refresh() {
             if (orgUnit && !_.isEmpty(period)) {
@@ -112,23 +120,20 @@ export default function ChallengeList() {
         refresh();
     }, [orgUnit, period, page, pageSize, selectedStatus, filteredTeisLoading, filteredTeis]);
 
-    const onAddIndicator = () => {
+    const onAddIndicator = useCallback(() => {
         refetch()
-    }
+    }, [])
 
-    const onPageChange = (newPage) => setPage(newPage);
-    const onPageSizeChange = (newPageSize) => setPageSize(newPageSize);
+    const onPageChange = useCallback((newPage) => setPage(newPage), []);
+    const onPageSizeChange = useCallback((newPageSize) => setPageSize(newPageSize), []);
 
-    const [selectedChallenge, setSelectedChallenge] = useState(undefined);
-    const setIsDownloadingPdf = useSetRecoilState(DownloadPdfState);
-
-    const onModalClose = (onClose) => {
+    const onModalClose = useCallback((onClose) => {
         setSelectedChallenge(undefined);
         onClose();
-    }
+    }, [])
 
-    function onDownloadExcel() {
-        show({message: 'Preparing an excel file', type: {permanent: false}});
+    const onDownloadExcel = useCallback(()=>{
+        show({message: i18n.t('Preparing an excel file'), type: {permanent: false}});
         downloadExcel({
             engine,
             orgUnit,
@@ -136,12 +141,9 @@ export default function ChallengeList() {
             currentTab,
             selectedPeriod: period,
         });
-    }
+    }, [])
 
-    const document = <PDFTable teiItems={tablePDFDownloadData} currentTab={currentTab}/>;
-    const [instance, update] = usePDF({document});
-
-    async function onDownloadPDF() {
+    const  onDownloadPDF = useCallback(()=>{
         setIsDownloadingPdf({isDownloadingPdf: true, loading: true});
         getPdfDownloadData({
             engine,
@@ -154,13 +156,14 @@ export default function ChallengeList() {
             setDownloadPdf(true);
         });
 
-        show({message: 'Preparing a PDF file', type: {permanent: false}});
-    }
+        show({message: i18n.t('Preparing a PDF file'), type: {permanent: false}});
+    }, [])
 
-    const onEdit = (object) => {
+    const onEdit = useCallback((object) => {
         setSelectedChallenge(object);
         setAddIndicatorOpen(true);
-    }
+    }, [])
+
     useEffect(() => {
         async function openDocument() {
             if (downloadPdf && tablePDFDownloadData) {
@@ -206,13 +209,13 @@ export default function ChallengeList() {
                             _.isEmpty(data.indicators?.trackedEntityInstances) ?
                                 <Grid item style={styles.fullPage}> <EmptyChallengeList
                                     onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/></Grid> :
-                                <Grid item container spacing={0} direction='column' style={{minWidth: 1366}}>
+                                <Grid id='challenge-list' item container spacing={0} direction='column' style={{minWidth: 1326, margin: 0}}>
                                     {
                                         _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
                                             const indicator = new Bottleneck(trackedEntityInstance);
                                             return (
                                                 <Grid key={`${indicator.id}-grid`} item style={styles.card}>
-                                                    <ChallengeCard onEdit={onEdit} refresh={refetch}
+                                                    <ChallengeCard expandedCardId={expandedCardId} setExpandedCardId={setExpandedCardId} onEdit={onEdit} refresh={refetch}
                                                                    key={`${indicator.id}-card`} indicator={indicator}/>
                                                 </Grid>
                                             )

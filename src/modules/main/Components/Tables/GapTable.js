@@ -9,7 +9,7 @@ import SolutionsTable from "./SolutionsTable";
 import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
 import Gap from "../../../../core/models/gap";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
-import generateErrorAlert from "../../../../core/services/generateErrorAlert";
+import {generateErrorAlert} from "../../../../core/services/errorHandling.service";
 import Bottleneck from "../../../../core/models/bottleneck";
 import {useRecoilValue} from "recoil";
 import {TableStateSelector} from "../../../../core/states/column";
@@ -20,6 +20,7 @@ import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation
 import GapDialog from "../../../../shared/Dialogs/GapDialog";
 import {UserRolesState} from "../../../../core/states/user";
 import Visibility from "../../../../shared/Components/Visibility";
+import i18n from '@dhis2/d2-i18n'
 
 const gapQuery = {
     data: {
@@ -30,15 +31,7 @@ const gapQuery = {
             trackedEntityInstance,
             programStage: GapConstants.PROGRAM_STAGE_ID,
             totalPages: true,
-            fields: [
-                'programStage',
-                'trackedEntityInstance',
-                'event',
-                'dataValues[dataElement,value]',
-                'eventDate',
-                'orgUnit',
-                'orgUnitName'
-            ]
+            fields: GapConstants.FIELDS
         })
     }
 }
@@ -61,12 +54,9 @@ export default function GapTable({challenge = new Bottleneck()}) {
     useEffect(() => generateErrorAlert(show, error), [error]);
 
     const styles = {
-        container:{
-            maxHeight: 550,
-        },
+        container: {},
         tableContainer: {
             height: '100%',
-            maxHeight: 450,
             maxWidth: '100%',
             overflow: 'auto'
         }
@@ -109,7 +99,8 @@ export default function GapTable({challenge = new Bottleneck()}) {
                         <CustomNestedTable>
                             <colgroup>
                                 {
-                                    gapsTable?.columns?.map(({visible, name}) => visible && <col key={`col-${name}`} width={`${100 / visibleColumnsCount}%`}/>)
+                                    gapsTable?.columns?.map(({visible, name}) => visible &&
+                                        <col key={`col-${name}`} width={`${100 / visibleColumnsCount}%`}/>)
                                 }
                             </colgroup>
                             <TableBody>
@@ -157,7 +148,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
             <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                 <Grid item>
                     <Visibility visible={gapRoles?.create}>
-                        <Button onClick={onAdd}>Add Bottleneck</Button>
+                        <Button dataTest='add-bottleneck-button' onClick={onAdd}>{i18n.t('Add Bottleneck')}</Button>
                     </Visibility>
                 </Grid>
                 <Grid item>
@@ -169,10 +160,10 @@ export default function GapTable({challenge = new Bottleneck()}) {
                     {
                         openDelete && <DeleteConfirmation
                             type='event'
-                            message='Are you sure you want to delete this bottleneck and all related solutions and actions?'
+                            message={i18n.t('Are you sure you want to delete this bottleneck and all related solutions and actions?')}
                             onClose={_ => onModalClose(_ => setOpenDelete(false))}
                             id={selectedGap?.id}
-                            deletionSuccessMessage='Bottleneck Deleted Successfully'
+                            deletionSuccessMessage={i18n.t('Bottleneck Deleted Successfully')}
                             onUpdate={refetch}
                         />
                     }</Grid>

@@ -6,12 +6,12 @@ import GapTable from "./GapTable";
 import Bottleneck from "../../../../core/models/bottleneck";
 import {useRecoilValue} from "recoil";
 import {TableStateSelector} from "../../../../core/states/column";
-
+import i18n from '@dhis2/d2-i18n'
 export default function ChallengeTable({indicator = new Bottleneck()}) {
     const {visibleColumnsNames, visibleColumnsCount} = useRecoilValue(TableStateSelector) || {};
     const styles = {
         container: {
-            maxHeight: 550,
+
             borderRadius: 0,
             maxWidth: '100%',
             overflowX: 'auto'
@@ -32,7 +32,7 @@ export default function ChallengeTable({indicator = new Bottleneck()}) {
                     <CustomTableRowHead>
                         {
                             _.map(visibleColumnsNames, (column) => column && <CustomTableCellHead
-                                key={`${column}-${indicator.id}-header`}>{column}</CustomTableCellHead>)
+                                key={`${column}-${indicator.id}-header`}>{i18n.t('{{- column }}', {column})}</CustomTableCellHead>)
                         }
                     </CustomTableRowHead>
                 </TableHead>

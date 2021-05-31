@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from "react";
-import {formatSvg} from "../../../core/services/utils";
+import {formatSvg} from "../../../core/helpers/utils/utils";
 import useDHIS2Icon from "./hooks/icon";
 import PropTypes from 'prop-types';
 
@@ -14,7 +14,7 @@ export default function DHIS2Icon({iconName, size, color, style}) {
         }
     }, [icon])
     return (
-        <div style={style} ref={iconRef}/>
+        <div id={`dhis2-icon-${iconName}`} style={style} ref={iconRef}/>
     )
 }
 

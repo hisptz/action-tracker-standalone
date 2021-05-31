@@ -36,7 +36,7 @@ export default function ColorFormField({value, onChange, error, label, ...props}
             <Grid container spacing={0} direction='row'>
                 <Grid item sm={11}>
                     <div onClick={e => setReference(e.currentTarget)}>
-                        <Input error={error} disabled={Boolean(reference)} value={value?.value}/>
+                        <Input {...props} error={error} disabled={Boolean(reference)} value={value?.value}/>
                     </div>
                 </Grid>
                 <Grid item sm={1}>

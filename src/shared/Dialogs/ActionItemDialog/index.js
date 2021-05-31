@@ -9,18 +9,18 @@ import {
 } from '@dhis2/ui';
 import CustomForm from '../../Components/CustomForm';
 import './styles/ActionItemFormDialog.css'
-import {getFormattedFormMetadata} from '../../../core/helpers/formsUtilsHelper';
+import {getFormattedFormMetadata} from '../../../core/helpers/utils/form.utils';
 import {useForm} from 'react-hook-form';
 import {useRecoilValue} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import Action from "../../../core/models/action";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {confirmModalClose, getFormattedDateFromPeriod} from "../../../core/helpers/utils";
+import {getFormattedDateFromPeriod} from "../../../core/helpers/utils/date.utils";
 import {ActionConstants} from "../../../core/constants";
-import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
-import {getJSDate} from "../../../core/services/dateUtils";
-import {Period} from "@iapps/period-utilities";
-
+import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling.service";
+import {getJSDate} from "../../../core/helpers/utils/date.utils";
+import {confirmModalClose} from "../../../core/helpers/utils/utils";
+import i18n from '@dhis2/d2-i18n'
 const actionEditMutation = {
     type: 'update',
     resource: 'trackedEntityInstances',
@@ -55,7 +55,7 @@ function getValidatedFormFields(metadataFields = [], period) {
             customValidate: (value, dependants) => {
                 const startDate = getJSDate(_.find(dependants, ['name', ActionConstants.START_DATE_ATTRIBUTE])?.value);
                 const endDate = getJSDate(value?.value);
-                return (endDate > startDate) || 'The end date should be after start date'
+                return (endDate > startDate) || i18n.t('The end date should be after start date')
             }
         })
 
@@ -77,7 +77,7 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
     const [mutate, {loading: saving}] = useDataMutation(action ? actionEditMutation : actionCreateMutation, {
         variables: {data: {}, id: action?.id},
         onComplete: (importSummary) => {
-            onCompleteHandler(importSummary, show, {message: 'Action saved successfully', onClose, onUpdate})
+            onCompleteHandler(importSummary, show, {message: i18n.t('Action saved successfully'), onClose, onUpdate})
         },
         onError: error => {
             onErrorHandler(error, show);
@@ -102,16 +102,16 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
-            <ModalTitle>{action ? 'Edit' : 'Add'} Action Item</ModalTitle>
+            <ModalTitle>{action ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Action Item')}</ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control}/>
             </ModalContent>
             <ModalActions>
                 <ButtonStrip end>
-                    <Button secondary onClick={_ => confirmModalClose(onClose)}>Hide</Button>
-                    <Button type="submit" onClick={handleSubmit(onSubmit)} primary>
+                    <Button secondary onClick={_ => confirmModalClose(onClose)}>{i18n.t('Hide')}</Button>
+                    <Button disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
                         {
-                            saving ? 'Saving...' : 'Save Action'
+                            saving ? i18n.t('Saving...') : i18n.t('Save Action')
                         }
                     </Button>
                 </ButtonStrip>

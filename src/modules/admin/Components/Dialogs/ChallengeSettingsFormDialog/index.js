@@ -11,15 +11,16 @@ import {useAlert} from '@dhis2/app-runtime';
 import {useForm} from 'react-hook-form';
 import {ConfigState, DataEngineState} from '../../../../../core/states';
 import {useRecoilValue} from 'recoil';
-import {getFormattedFormMetadata} from '../../../../../core/helpers/formsUtilsHelper';
+import {getFormattedFormMetadata} from '../../../../../core/helpers/utils/form.utils';
 import CustomForm from '../../../../../shared/Components/CustomForm';
-import {confirmModalClose, uid} from '../../../../../core/helpers/utils';
+import {confirmModalClose, uid} from '../../../../../core/helpers/utils/utils';
 import {
     onMetadataCompleteHandler,
     onMetadataErrorHandler
-} from "../../../../../core/services/errorHandling";
+} from "../../../../../core/services/errorHandling.service";
 import ChallengeMethodConstants from "../../ChallengeMethods/constants/optionSets";
 import useOptionsMutation from "../../../hooks/option";
+import i18n from '@dhis2/d2-i18n'
 
 /*
 * Procedure
@@ -79,7 +80,7 @@ const setValidations = (formattedFormFields = [], engine) => {
                         return true;
                     } else {
                         if (value.length > 50) {
-                            return `${field.formName} should not exceed 50 characters`
+                            return  i18n.t(' {{ field }} should not exceed 50 characters`', {field: field.formName})
                         } else {
                             const {options} = await engine.query(validationQuery, {
                                 variables: {
@@ -87,7 +88,7 @@ const setValidations = (formattedFormFields = [], engine) => {
                                     value: value.trim()
                                 }
                             });
-                            return _.isEmpty(options.options) || `Option with name ${value} already exists`
+                            return _.isEmpty(options.options) || i18n.t('Option with name {{value}} already exists', {value})
                         }
 
                     }
@@ -96,7 +97,7 @@ const setValidations = (formattedFormFields = [], engine) => {
                         return true;
                     } else {
                         if (value.length > 50) {
-                            return `${field.formName} should not exceed 50 characters`
+                            return  i18n.t(' {{ field }} should not exceed 50 characters`', {field: field.formName})
                         } else {
                             const {options} = await engine.query(validationQuery, {
                                 variables: {
@@ -104,7 +105,7 @@ const setValidations = (formattedFormFields = [], engine) => {
                                     value: value.trim()
                                 }
                             });
-                            return _.isEmpty(options?.options) || `Option with code ${value} already exists`
+                            return _.isEmpty(options?.options) || i18n.t('Option with name {{value}} already exists', {value})
                         }
 
                     }
@@ -139,7 +140,7 @@ function ChallengeSettingsFormDialog({
         loading: saving, mutate
     } = useOptionsMutation(method ? 'update' : 'create', optionSet, {
         onComplete: (importSummary) => {
-            onMetadataCompleteHandler(importSummary, show, {message: 'Method saved successfully', onClose, onUpdate})
+            onMetadataCompleteHandler(importSummary, show, {message: i18n.t('Method saved successfully'), onClose, onUpdate})
         },
         onError: error => {
             onMetadataErrorHandler(error, show);
@@ -178,7 +179,7 @@ function ChallengeSettingsFormDialog({
             onClose={(_) => confirmModalClose(onClose)}
         >
             <ModalTitle>
-                {method ? 'Edit' : 'Add'} Challenge Settings
+                {method ? i18n.t('Edit') : i18n.t('Add')} Challenge Settings
             </ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control}/>
@@ -188,8 +189,8 @@ function ChallengeSettingsFormDialog({
                     <Button secondary onClick={(_) => confirmModalClose(onClose)}>
                         Hide
                     </Button>
-                    <Button type="submit" onClick={handleSubmit(onSubmit)} primary>
-                        {saving ? 'Saving...' : 'Save Method'}
+                    <Button disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
+                        {saving ? i18n.t('Saving...') : i18n.t('Save Method')}
                     </Button>
                 </ButtonStrip>
             </ModalActions>

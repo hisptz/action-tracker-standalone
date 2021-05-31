@@ -11,19 +11,21 @@ import {useAlert} from '@dhis2/app-runtime';
 import {useForm} from 'react-hook-form';
 import {ConfigState, DataEngineState} from '../../../../../core/states';
 import {useRecoilValue} from 'recoil';
-import {getFormattedFormMetadata} from '../../../../../core/helpers/formsUtilsHelper';
+import {getFormattedFormMetadata} from '../../../../../core/helpers/utils/form.utils';
 import CustomForm from '../../../../../shared/Components/CustomForm';
-import {confirmModalClose, uid} from '../../../../../core/helpers/utils';
+import {confirmModalClose, uid} from '../../../../../core/helpers/utils/utils';
 import ActionStatusOptionSetConstants from "../../ActionStatusLegend/constants/actionStatus";
 import {
     onMetadataCompleteHandler,
     onMetadataErrorHandler
-} from "../../../../../core/services/errorHandling";
+} from "../../../../../core/services/errorHandling.service";
 import _ from 'lodash';
 import useOptionsMutation from "../../../hooks/option";
 
 import React from 'react';
 import {Typography} from "@material-ui/core";
+import i18n from '@dhis2/d2-i18n'
+
 
 const validationQuery = {
     options: {
@@ -53,7 +55,7 @@ const setValidations = (formattedFormFields = [], engine) => {
                         } else {
                             try {
                                 if (value.length > 50) {
-                                    return `${field.formName} should not exceed 50 characters`
+                                    return i18n.t(' {{ field }} should not exceed 50 characters`', {field: field.formName})
                                 } else {
                                     const {options} = await engine.query(validationQuery, {
                                         variables: {
@@ -61,10 +63,10 @@ const setValidations = (formattedFormFields = [], engine) => {
                                             value: value.trim()
                                         }
                                     });
-                                    return _.isEmpty(options.options) || `Option with name ${value} already exists`
+                                    return _.isEmpty(options.options) || i18n.t('Option with name {{value}} already exists', {value})
                                 }
                             } catch (e) {
-                                return e.message || e.toString()
+                                return i18n.t('{{message}}', {message: e.message || e.toString()})
                             }
                         }
                     } : async ({value}, __, control) => {
@@ -73,7 +75,7 @@ const setValidations = (formattedFormFields = [], engine) => {
                         } else {
                             try {
                                 if (value.length > 50) {
-                                    return `${field.formName} should not exceed 50 characters`
+                                    return i18n.t(' {{ field }} should not exceed 50 characters`', {field: field.formName})
                                 } else {
                                     const {options} = await engine.query(validationQuery, {
                                         variables: {
@@ -81,7 +83,7 @@ const setValidations = (formattedFormFields = [], engine) => {
                                             value: value.trim()
                                         }
                                     });
-                                    return _.isEmpty(options?.options) || `Option with code ${value} already exists`
+                                    return _.isEmpty(options?.options) || i18n.t('Option with name {{value}} already exists', {value})
                                 }
 
                             } catch (e) {
@@ -124,7 +126,7 @@ function ActionStatusSettingsFormDialog({
     const {loading: saving, mutate, error} = useOptionsMutation(actionStatusOption ? 'update' : 'create', optionSet, {
         onComplete: (importSummary) => {
             onMetadataCompleteHandler(importSummary, show, {
-                message: 'Action status option saved successfully',
+                message: i18n.t('Action status option saved successfully'),
                 onClose,
                 onUpdate
             });
@@ -171,19 +173,20 @@ function ActionStatusSettingsFormDialog({
             onClose={(_) => confirmModalClose(onClose)}
         >
             <ModalTitle>
-                {actionStatusOption ? 'Edit' : 'Add'} Action Status Setting
+                {actionStatusOption ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Action Status Setting')}
             </ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control}/>
-                {error && <Typography variant={'p'}>{error?.message || error?.toString()}</Typography>}
+                {error && <Typography
+                    variant={'p'}>{i18n.t('{{ message }}', {message: error?.message || error?.toString()})}</Typography>}
             </ModalContent>
             <ModalActions>
                 <ButtonStrip end>
                     <Button secondary onClick={(_) => confirmModalClose(onClose)}>
                         Hide
                     </Button>
-                    <Button type="submit" onClick={handleSubmit(onSubmit)} primary>
-                        {saving ? 'Saving...' : 'Save Action Status'}
+                    <Button disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
+                        {saving ? i18n.t('Saving...') : i18n.t('Save Action Status')}
                     </Button>
                 </ButtonStrip>
             </ModalActions>

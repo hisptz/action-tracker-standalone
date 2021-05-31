@@ -21,9 +21,8 @@ import ActionStatus from "../../../../core/models/actionStatus";
 import ActionStatusDialog from "../../../../shared/Dialogs/ActionStatusDialog";
 import {UserRolesState} from "../../../../core/states/user";
 import Visibility from "../../../../shared/Components/Visibility";
-import {Period} from "@iapps/period-utilities";
-import {getDHIS2DateFromPeriodLibDate} from "../../../../core/services/dateUtils";
-
+import {getDHIS2DateFromPeriodLibDate} from "../../../../core/helpers/utils/date.utils";
+import i18n from '@dhis2/d2-i18n'
 
 const actionsQuery = {
     actions: {
@@ -106,7 +105,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
 
     const styles = {
         container: {
-            maxHeight: 200,
+            maxHeight: 500,
             width: '100%',
             overflow: 'auto'
         }
@@ -291,7 +290,8 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                 <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                     <Grid item>
                         <Visibility visible={actionRoles?.create}>
-                            <Button onClick={_ => setAddActionOpen(true)}>Add Action Item</Button>
+                            <Button dataTest='add-action-button'
+                                    onClick={_ => setAddActionOpen(true)}>{i18n.t('Add Action Item')}</Button>
                         </Visibility>
 
                     </Grid>
@@ -318,14 +318,14 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                 openDelete &&
                 <DeleteConfirmation
                     type={selectedAction ? 'trackedEntityInstance' : 'event'}
-                    message={selectedAction ? 'Are you sure you want to delete this actions and all related actions status?' : 'Are you sure you want to delete this action status?'}
+                    message={selectedAction ? i18n.t('Are you sure you want to delete this actions and all related actions status?') : i18n.t('Are you sure you want to delete this action status?')}
                     onClose={_ => {
                         if (selectedAction) onActionModalClose(_ => setOpenDelete(false));
                         else onActionStatusModalClose(_ => setOpenDelete(false))
                     }
                     }
                     id={selectedAction?.id || selectedActionStatus?.id}
-                    deletionSuccessMessage='Action Deleted Successfully'
+                    deletionSuccessMessage={i18n.t('Action Deleted Successfully')}
                     onUpdate={refetch}
                 />
             }

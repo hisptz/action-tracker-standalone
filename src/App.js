@@ -13,10 +13,12 @@ import AdminPage from "./modules/admin";
 import {DataStoreProvider} from "@dhis2/app-service-datastore";
 import FullPageLoader from "./shared/Components/FullPageLoader";
 import defaultGlobalSettings from './core/constants/defaultConfig.json'
+import "./locales/index.js";
+
 
 const styles = {
     margin: 0,
-    overflowX: 'hidden',
+    overflowX: 'auto',
     padding: 0,
     minHeight: 'calc(100vh - 48px)',
     minWidth: 'calc(100vw - 4px)',
@@ -39,7 +41,6 @@ const MyApp = () => {
                            defaultGlobalSettings={defaultGlobalSettings}>
             <RecoilRoot>
                 <CssReset/>
-
                 <Container style={styles}>
                     <MemoryRouter initialEntries={modules} initialIndex={0}>
                         <Switch>

@@ -10,12 +10,15 @@ import CustomForm from '../../Components/CustomForm';
 import {useForm} from 'react-hook-form';
 import {useRecoilValue} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
-import {confirmModalClose} from "../../../core/helpers/utils";
+import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import PossibleSolution from "../../../core/models/possibleSolution";
-import {getFormattedFormMetadata} from "../../../core/helpers/formsUtilsHelper";
+import {getFormattedFormMetadata} from "../../../core/helpers/utils/form.utils";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {generateImportSummaryErrors, onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling";
-
+import {
+    onCompleteHandler,
+    onErrorHandler
+} from "../../../core/services/errorHandling.service";
+import i18n from '@dhis2/d2-i18n'
 const solutionEditMutation = {
     type: 'update',
     resource: 'events',
@@ -46,7 +49,7 @@ function SolutionsDialog({onClose, gap, onUpdate, solution}) {
     const [mutate, {loading: saving}] = useDataMutation(solution ? solutionEditMutation : solutionCreateMutation, {
         variables: {data: {}, id: solution?.id},
         onComplete: (importSummary) => {
-            onCompleteHandler(importSummary, show, {message: 'Solution saved successfully', onClose, onUpdate})
+            onCompleteHandler(importSummary, show, {message: i18n.t('Solution saved successfully'), onClose, onUpdate})
         },
         onError: error => {
             onErrorHandler(error, show);
@@ -70,19 +73,19 @@ function SolutionsDialog({onClose, gap, onUpdate, solution}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
-            <ModalTitle> {solution ? 'Edit': 'Add'} Possible Solution </ModalTitle>
+            <ModalTitle> {solution ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Possible Solution')} </ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control} errors={errors}/>
             </ModalContent>
             <ModalActions>
                 <ButtonStrip end>
                     <Button secondary onClick={_ => confirmModalClose(onClose)}>
-                        Hide
+                        {i18n.t('Hide')}
                     </Button>
-                    <Button type="submit" onClick={handleSubmit(onSubmit)} primary>
+                    <Button disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
                         {
                             saving ?
-                                'Saving...' : 'Save Solution'
+                                i18n.t('Saving...') : i18n.t('Save Solution')
                         }
                     </Button>
                 </ButtonStrip>

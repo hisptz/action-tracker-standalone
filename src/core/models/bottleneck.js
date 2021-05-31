@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Gap from "./gap";
 import {CustomFormField} from "./customFormField";
 import {BottleneckConstants} from "../constants";
-import {uid} from "../helpers/utils";
+import {uid} from "../helpers/utils/utils";
 
 
 export default class Bottleneck {

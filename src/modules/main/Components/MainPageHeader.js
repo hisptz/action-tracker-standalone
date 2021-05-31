@@ -30,6 +30,7 @@ import Visibility from "../../../shared/Components/Visibility";
 import ColumnManagerDialog from "../../../shared/Dialogs/ColumnManagerDialog";
 import {useDataStore} from "@dhis2/app-service-datastore";
 import DataStoreConstants from "../../../core/constants/datastore";
+import i18n from '@dhis2/d2-i18n'
 
 const PageSelector = () => {
     const [activePage, setActivePage] = useRecoilState(PageState);
@@ -56,7 +57,7 @@ const PageSelector = () => {
             if (period.type === trackingPeriod || _.has(period, trackingPeriod.toLowerCase())) {
                 setActivePage(page);
             } else {
-                show({message: 'The selected period has no quarters'});
+                show({message: i18n.t('The selected period has no quarters')});
             }
         } else {
             setActivePage(page);
@@ -65,19 +66,29 @@ const PageSelector = () => {
     return (
         <ButtonGroup>
             <MaterialButton
+                id='planning-button'
                 onClick={(_) => onClick('Planning')}
                 style={activePage === 'Planning' ? styles.active : styles.inactive}
             >
-                Planning
+                {
+                    i18n.t('Planning')
+                }
             </MaterialButton>
             <MaterialButton
+                id='tracking-button'
                 style={activePage === 'Tracking' ? styles.active : styles.inactive}
                 onClick={(_) => onClick('Tracking')}
             >
-                Tracking
+                {
+                    i18n.t('Tracking')
+                }
             </MaterialButton>
         </ButtonGroup>
     );
+}
+
+function getTranslation(activePage) {
+    return activePage === 'Tracking' ? i18n.t('Tracking') : i18n.t('Planning')
 }
 
 export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDownloadExcel, listIsEmpty}) {
@@ -93,33 +104,36 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
             <Grid container spacing={4}>
                 <Grid item container xs={6} lg={6} spacing={3}>
                     <Grid item><Typography variant='h5'
-                                           style={{color: '#6E7A8A'}}><b>Action {activePage}</b></Typography></Grid>
+                                           style={{color: '#6E7A8A'}}><b>{i18n.t('Action {{ activePage }}', {activePage: getTranslation(activePage)})}</b></Typography></Grid>
                     <Grid item> <PageSelector/></Grid>
                 </Grid>
                 <Grid container direction='row' justify='space-between' alignItems='center' item xs={12}>
                     <Grid item container spacing={2} xs={6}>
                         <Grid item>
                             <Visibility visible={bottleneck?.create}>
-                                <Button onClick={onAddIndicatorClick} icon={<AddIcon/>}>Add Intervention</Button>
+                                <Button dataTest='add-intervention-button' onClick={onAddIndicatorClick}
+                                        icon={<AddIcon/>}>{i18n.t('Add Intervention')}</Button>
                             </Visibility>
                         </Grid>
                         <Grid item xs={6}>
-                            <SingleSelect disabled={listIsEmpty} clearText='Clear' clearable selected={statusFilter?.selected}
-                                          placeholder='Filter by status' onChange={setStatusFilter}>
+                            <SingleSelect disabled={listIsEmpty} clearText={i18n.t('Clear')} clearable
+                                          selected={statusFilter?.selected}
+                                          placeholder={i18n.t('Filter by status')} onChange={setStatusFilter}>
                                 {
                                     _.map(actionStatus, status => (
                                         <SingleSelectOption key={`${status.code}-status`} value={status.code}
-                                                            label={status.name}/>))
+                                                            label={i18n.t('{{name}}', {name: status.name})}/>))
                                 }
                             </SingleSelect>
                         </Grid>
                     </Grid>
                     <Grid item xs={6} container justify='flex-end'>
                         <ButtonStrip>
-                            <Button disabled={listIsEmpty} icon={<ColumnIcon/>} onClick={_ => setManageColumnOpen(true)}>Manage
-                                Columns</Button>
-                            <Button disabled={listIsEmpty} onClick={(d, e) => setReference(e.currentTarget)} icon={<DownloadIcon/>}>
-                                Download
+                            <Button disabled={listIsEmpty} icon={<ColumnIcon/>}
+                                    onClick={_ => setManageColumnOpen(true)}>{i18n.t('Manage Columns')}</Button>
+                            <Button disabled={listIsEmpty} onClick={(d, e) => setReference(e.currentTarget)}
+                                    icon={<DownloadIcon/>}>
+                                {i18n.t('Download')}
                             </Button>
                         </ButtonStrip>
                         {

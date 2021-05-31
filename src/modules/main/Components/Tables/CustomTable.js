@@ -19,8 +19,10 @@ import TableActionsMenu from "../TableActionsMenu";
 import {ActionStatusState} from "../../../../core/states";
 import {useRecoilValue} from "recoil";
 import _ from 'lodash';
-import {generateTextColor} from "../../../../core/helpers/utils";
-import {formatSvg} from "../../../../core/services/utils";
+import {generateTextColor} from "../../../../core/helpers/utils/utils";
+import {formatSvg} from "../../../../core/helpers/utils/utils";
+import DHIS2Icon from "../../../../shared/Components/DHIS2Icon";
+import i18n from '@dhis2/d2-i18n'
 
 const CustomTableRowHead = withStyles((_) => ({
     root: {
@@ -105,39 +107,42 @@ const StatusContainer = ({status}) => {
     }, [])
 
     return <>
-        <Card variant='outlined' component={'div'} style={{
-            background: style?.color || '#d8d8d8',
-            textAlign: 'center',
-            verticalAlign: 'center',
-            color: generateTextColor(style?.color || '#d8d8d8'),
-        }} className="status-cell-grid">
-            <Grid container justify='center' className="status-cell-grid">
-                {
-                    style?.icon &&
-                    <Grid item className="status-icon-grid">
-                        <CenteredContent>
-                            <div style={{paddingTop: 5}} ref={iconRef}/>
-                        </CenteredContent>
-                    </Grid>
-                }
-                <Grid item className="status-cell-grid-item">
-                    <CenteredContent>
-                        {selectedStatus}
-                    </CenteredContent>
-                </Grid>
-            </Grid>
-        </Card>
+        <b style={{color: style.color}}>{selectedStatus}</b>
     </>
 }
 
 const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object, roles, ...props}) => {
     const [currentTarget, setCurrentTarget] = useState(false);
     const {update: canUpdate, delete: canDelete} = roles || {canUpdate: false, canDelete: false};
+    const statusLegend = useRecoilValue(ActionStatusState);
+    const {code: selectedStatus, style} = _.find(statusLegend, ['code', status]) || {
+        code: status,
+        style: {color: '#d8d8d8'}
+    };
+    const icon = style?.icon;
     return (
-        <StyledStatusTableCell {...props}>
+        <StyledStatusTableCell {...props}  style={{
+            background: `${style?.color || '#d8d8d8'}70`,
+            textAlign: 'center',
+            verticalAlign: 'top',
+            color: generateTextColor(style?.color || '#d8d8d8'),
+        }}   >
             <Grid item container direction='row' justify='space-between' spacing={1}>
-                <Grid item xs={(canDelete || canUpdate) ? 9 : 12}>
-                    <StatusContainer status={status}/>
+                <Grid item xs={(canDelete || canUpdate) ? 9 : 12} container justify='center' alignItems='center'
+                      className="status-cell-grid">
+                    {
+                        style?.icon &&
+                        <Grid item className="status-icon-grid">
+                            <CenteredContent>
+                                <DHIS2Icon iconName={icon}/>
+                            </CenteredContent>
+                        </Grid>
+                    }
+                    <Grid item className="status-cell-grid-item">
+                        <CenteredContent>
+                            {selectedStatus}
+                        </CenteredContent>
+                    </Grid>
                 </Grid>
                 <Grid container justify='center' alignItems='center' item xs={(canDelete || canUpdate) ? 3 : 12}>
                     {
@@ -184,7 +189,7 @@ const NoActionStatus = ({onAddClick}) => {
 
     return (
         <div>
-            <IconButton onClick={onAddClick}>
+            <IconButton id='add-action-status-button' onClick={onAddClick}>
                 <AddIcon/>
             </IconButton>
         </div>
@@ -194,24 +199,24 @@ const NoActionStatus = ({onAddClick}) => {
 const ActionStatusDetails = ({actionStatus}) => {
 
     return (
-        <div>
+        <div >
             <Grid container>
                 <Grid item xs={12}>
-                    <b> Status</b>
+                    <b>{i18n.t('Status')}</b>
                 </Grid>
                 <Grid item xs={12}>
                     <StatusContainer status={actionStatus?.status}/>
                 </Grid>
                 <Grid item xs={12}>
-                    <b> Remarks</b>
+                    <b>{i18n.t('Remarks')}</b>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid id='action-status-remarks' item xs={12}>
                     {actionStatus?.remarks}
                 </Grid>
                 <Grid item xs={12}>
-                    <b>Review Date</b>
+                    <b>{i18n.t('Review Date')}</b>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid id='action-status-review-date' item xs={12}>
                     {actionStatus?.reviewDate}
                 </Grid>
             </Grid>
@@ -224,6 +229,7 @@ const ActionStatusTableCell = ({actionStatus, action, refetch, roles, startDate,
     const styles = {
         margin: 'auto',
         verticalAlign: 'center',
+        border: 'none'
     };
 
     const onAddClick = () => {
