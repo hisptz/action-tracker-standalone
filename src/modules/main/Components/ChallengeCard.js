@@ -17,7 +17,7 @@ import Visibility from "../../../shared/Components/Visibility";
 import useWindowDimensions from "../../../core/hooks/window";
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import i18n from '@dhis2/d2-i18n'
 export default function ChallengeCard({
                                           indicator = new Bottleneck(),
                                           refresh,
@@ -70,8 +70,7 @@ export default function ChallengeCard({
                                             </Grid>
                                             <Grid item>
                                                 <Button onClick={() => setOpenProgressDialog(true)}
-                                                        icon={<ProgressIcon/>}>View
-                                                    Progress</Button>
+                                                        icon={<ProgressIcon/>}>{i18n.t('View Indicator Progress')}</Button>
                                             </Grid>
                                         </Grid>
                                         <Grid item container justify='flex-end' xs={1}>
@@ -110,10 +109,10 @@ export default function ChallengeCard({
                         {
                             openDelete && <DeleteConfirmation
                                 type='trackedEntityInstance'
-                                message='Are you sure you want to delete this intervention and all related solutions and actions?'
+                                message={i18n.t('Are you sure you want to delete this intervention and all related solutions and actions?')}
                                 onClose={_ => setOpenDelete(false)}
                                 id={indicator?.id}
-                                deletionSuccessMessage='Intervention Deleted Successfully'
+                                deletionSuccessMessage={i18n.t('Intervention Deleted Successfully')}
                                 onUpdate={refresh}
                             />
                         }

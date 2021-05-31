@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import { Divider } from '@dhis2/ui';
 import React from 'react';
 import ChallengeMethodsTable from './Components/ChallengeMethodsTable';
+import i18n from '@dhis2/d2-i18n'
 
 const styles = {
   container: {
@@ -31,7 +32,7 @@ export default function ChallengeMethodsSettings() {
     <Container maxWidth={false} style={styles.container}>
       <Grid container>
         <Grid item xs={12} style={styles.header}>
-          <Typography variant="h5">Challenge Settings</Typography>
+          <Typography variant="h5">{i18n.t('Challenge Settings')}</Typography>
           <Divider />
         </Grid>
         <Grid

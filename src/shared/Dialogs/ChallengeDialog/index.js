@@ -21,7 +21,7 @@ import {getFormattedFormMetadata} from "../../../core/helpers/utils/form.utils";
 import FormField from "../../Components/CustomForm/Components/FormField";
 import {BottleneckConstants} from "../../../core/constants";
 import _ from 'lodash'
-
+import i18n from '@dhis2/d2-i18n'
 const challengeEditMutation = {
     type: 'update',
     resource: 'trackedEntityInstances',
@@ -46,7 +46,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
     }] = useDataMutation(challenge ? challengeEditMutation : challengeCreateMutation, {
         variables: {data: {}, id: challenge?.id},
         onComplete: (importSummary) => {
-            onCompleteHandler(importSummary, show, {message: 'Intervention saved successfully', onClose, onUpdate})
+            onCompleteHandler(importSummary, show, {message: i18n.t('Intervention saved successfully'), onClose, onUpdate})
         },
         onError: error => {
             onErrorHandler(error, show);
@@ -80,7 +80,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
 
     return (
         <Modal dataTest='add-challenge-modal' className="dialog-container" onClose={_ => confirmModalClose(onClose)} large>
-            <ModalTitle>{challenge ? 'Edit' : 'Add'} Intervention</ModalTitle>
+            <ModalTitle>{challenge ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Intervention')}</ModalTitle>
             <ModalContent>
                 <FormField
                     field={interventionField}
@@ -94,7 +94,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
                     render={({field: {onChange, value}}) => (
                         <Field required={Boolean(indicatorField?.validations?.required)}
                                error={Boolean(errors[indicatorField.id] || indicatorsError)}
-                               validationText={errors[indicatorField.id]?.message} label={indicatorField.formName}>
+                               validationText={errors[indicatorField.id]?.message} label={i18n.t('{{message}}', {message: indicatorField.formName})}>
                             <DataFilter
                                 options={indicators?.map(({displayName, id}) => ({label: displayName, value: id}))}
                                 initiallySelected={value?.value}
@@ -112,14 +112,14 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
                     <CenteredContent><p style={{
                         fontSize: 12,
                         color: 'red'
-                    }}>{indicatorsError?.message || indicatorsError.toString()}</p>
+                    }}>{i18n.t('{{message}}', {message: indicatorsError?.message || indicatorsError.toString()})}</p>
                     </CenteredContent>
                 }
             </ModalContent>
             <ModalActions>
                 <ButtonStrip>
-                    <Button onClick={_ => confirmModalClose(onClose)}>Hide</Button>
-                    <Button disabled={saving} primary onClick={handleSubmit(onSubmit)}>{saving ? 'Saving...' : 'Save Intervention'}</Button>
+                    <Button onClick={_ => confirmModalClose(onClose)}>{i18n.t('Hide')}</Button>
+                    <Button disabled={saving} primary onClick={handleSubmit(onSubmit)}>{saving ? i18n.t('Saving...') : i18n.t('Save Intervention')}</Button>
                 </ButtonStrip>
             </ModalActions>
         </Modal>

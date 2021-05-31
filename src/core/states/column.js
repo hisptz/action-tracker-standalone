@@ -11,181 +11,188 @@ import {
 import React from "react";
 import {useDataStore} from "@dhis2/app-service-datastore";
 import DataStoreConstants from "../constants/datastore";
+import i18n from '@dhis2/d2-i18n'
 
-const defaultTables = {
-    visibleColumnsCount: 0,
-    visibleColumnsNames: [],
-    gapsTable: {
-        width: 0,
-        columns: [
-            {
-                name: 'gap',
-                displayName: 'Bottleneck',
-                mandatory: false,
-                visible: true,
-                width: 0,
-                render: (object, actions = {
-                    onEdit: () => {
-                    },
-                    onDelete: () => {
-                    },
-                    ref: undefined,
-                    setRef: () => {
-                    },
-                    roles: {}
-                }) => {
-                    const {ref} = actions || {};
-                    return (
-                        <CustomTableCellWithActions key={`${object.id}-custom-table-cell-gap`}
-                                                    object={object} {...actions} reference={ref}>
-                            {object.title}
-                        </CustomTableCellWithActions>
-                    )
-                }
-            },
-            {
-                name: 'orgUnit',
-                displayName: 'Org Unit',
-                mandatory: false,
-                visible: true,
-                width: 0,
-                render: (object) => {
-                    return (
-                        <CustomTableCell key={`${object.id}-custom-table-cell-orgunit`}>
-                            {object?.orgUnitName}
-                        </CustomTableCell>
-                    )
-                }
-            },
-        ],
-        visibleColumnsCount: 2,
-        visible: true
-    },
-    solutionsTable: {
-        width: 0,
-        columns: [
-            {
-                name: 'possibleSolution',
-                displayName: 'Possible Solutions',
-                mandatory: false,
-                visible: true,
-                width: 0,
-                render: (object, actions = {
-                    onEdit: () => {
-                    },
-                    onDelete: () => {
-                    },
-                    ref: undefined,
-                    setRef: () => {
-                    }
-                }) => {
-                    const {ref} = actions || {};
-                    return (
-                        <CustomTableCellWithActions key={`${object.id}-custom-table-cell-action`}
-                                                    object={object} {...actions}
-                                                    reference={ref}>
-                            {object?.solution}
-                        </CustomTableCellWithActions>
-                    )
-                }
-            },
-        ],
-        visibleColumnsCount: 1,
-        visible: true
-    },
-    actionsTable: {
-        width: 0,
-        columns: [
-            {
-                name: 'action',
-                displayName: 'Action Items',
-                mandatory: true,
-                visible: true,
-                width: 0,
-                render: (object, _, __, width) => {
-                    return (
-                        <CustomTableCell style={{maxWidth: width}} key={`${object.id}-description`}>
-                            {object?.title}
-                        </CustomTableCell>
-                    )
-                }
-            },
-            {
-                name: 'responsiblePerson',
-                displayName: 'Responsible Person',
-                mandatory: true,
-                visible: true,
-                width: 0,
-                render: (object, _, __, width) => {
-                    return (
-                        <CustomTableCell style={{maxWidth: width}} key={`${object.id}-responsible-designation`}>
-                            {object?.responsiblePerson}, {object?.designation}
-                        </CustomTableCell>
-                    )
-                }
-            },
-            {
-                name: 'startDate',
-                displayName: 'Start Date',
-                mandatory: true,
-                visible: true,
-                width: 0,
-                render: (object, _, __, width) => {
-                    return (
-                        <CustomTableCell style={{maxWidth: width}} key={`${object.id}-startDate`}>
-                            {object?.startDate}
-                        </CustomTableCell>
-                    )
-                }
-            },
-            {
-                name: 'endDate',
-                displayName: 'End Date',
-                mandatory: true,
-                visible: true,
-                width: 0,
-                render: (object, _, __, width) => {
-                    return (
-                        <DueDateTableCell pastDate={object?.pastDueDate} style={{maxWidth: width}} dueDate={object?.endDate}
-                                          key={`${object.id}-endDate`}/>
-                    )
-                }
-            },
-            {
-                name: 'status',
-                displayName: 'Status',
-                mandatory: false,
-                visible: true,
-                width: 0,
-                render: (object, refetch, actions, width) => {
-                    const {ref} = actions || {};
-                    return (
-                        <StatusTableCell
-                            style={{maxWidth: width}}
-                            object={object}
-                            reference={ref}
-                            {...actions}
-                            status={object?.latestStatus}
-                            key={`${object.id}-latestStatus`}
-                        />
-                    )
-                }
-            },
-        ],
-        visibleColumnsCount: 5,
-        visible: true
-    },
-    actionStatusTable: {
-        width: 0,
-        visible: false,
-        visibleColumnsCount: 4,
-        columns: []
-    }
-}
+
 
 export const TableState = atom({
     key: 'tables',
-    default: resetColumnConfig(defaultTables)
+    default: selector({
+        key: 'tables-selector',
+        get: ()=>{
+                const defaultTables = {
+                    visibleColumnsCount: 0,
+                    visibleColumnsNames: [],
+                    gapsTable: {
+                        width: 0,
+                        columns: [
+                            {
+                                name: 'gap',
+                                displayName: i18n.t('Bottleneck'),
+                                mandatory: false,
+                                visible: true,
+                                width: 0,
+                                render: (object, actions = {
+                                    onEdit: () => {
+                                    },
+                                    onDelete: () => {
+                                    },
+                                    ref: undefined,
+                                    setRef: () => {
+                                    },
+                                    roles: {}
+                                }) => {
+                                    const {ref} = actions || {};
+                                    return (
+                                        <CustomTableCellWithActions key={`${object.id}-custom-table-cell-gap`}
+                                                                    object={object} {...actions} reference={ref}>
+                                            {object.title}
+                                        </CustomTableCellWithActions>
+                                    )
+                                }
+                            },
+                            {
+                                name: 'orgUnit',
+                                displayName: i18n.t('Org Unit'),
+                                mandatory: false,
+                                visible: true,
+                                width: 0,
+                                render: (object) => {
+                                    return (
+                                        <CustomTableCell key={`${object.id}-custom-table-cell-orgunit`}>
+                                            {object?.orgUnitName}
+                                        </CustomTableCell>
+                                    )
+                                }
+                            },
+                        ],
+                        visibleColumnsCount: 2,
+                        visible: true
+                    },
+                    solutionsTable: {
+                        width: 0,
+                        columns: [
+                            {
+                                name: 'possibleSolution',
+                                displayName: i18n.t('Possible Solutions'),
+                                mandatory: false,
+                                visible: true,
+                                width: 0,
+                                render: (object, actions = {
+                                    onEdit: () => {
+                                    },
+                                    onDelete: () => {
+                                    },
+                                    ref: undefined,
+                                    setRef: () => {
+                                    }
+                                }) => {
+                                    const {ref} = actions || {};
+                                    return (
+                                        <CustomTableCellWithActions key={`${object.id}-custom-table-cell-action`}
+                                                                    object={object} {...actions}
+                                                                    reference={ref}>
+                                            {object?.solution}
+                                        </CustomTableCellWithActions>
+                                    )
+                                }
+                            },
+                        ],
+                        visibleColumnsCount: 1,
+                        visible: true
+                    },
+                    actionsTable: {
+                        width: 0,
+                        columns: [
+                            {
+                                name: 'action',
+                                displayName: i18n.t('Action Items'),
+                                mandatory: true,
+                                visible: true,
+                                width: 0,
+                                render: (object, _, __, width) => {
+                                    return (
+                                        <CustomTableCell style={{maxWidth: width}} key={`${object.id}-description`}>
+                                            {object?.title}
+                                        </CustomTableCell>
+                                    )
+                                }
+                            },
+                            {
+                                name: 'responsiblePerson',
+                                displayName: i18n.t('Responsible Person'),
+                                mandatory: true,
+                                visible: true,
+                                width: 0,
+                                render: (object, _, __, width) => {
+                                    return (
+                                        <CustomTableCell style={{maxWidth: width}} key={`${object.id}-responsible-designation`}>
+                                            {object?.responsiblePerson}, {object?.designation}
+                                        </CustomTableCell>
+                                    )
+                                }
+                            },
+                            {
+                                name: 'startDate',
+                                displayName: i18n.t('Start Date'),
+                                mandatory: true,
+                                visible: true,
+                                width: 0,
+                                render: (object, _, __, width) => {
+                                    return (
+                                        <CustomTableCell style={{maxWidth: width}} key={`${object.id}-startDate`}>
+                                            {object?.startDate}
+                                        </CustomTableCell>
+                                    )
+                                }
+                            },
+                            {
+                                name: 'endDate',
+                                displayName: i18n.t('End Date'),
+                                mandatory: true,
+                                visible: true,
+                                width: 0,
+                                render: (object, _, __, width) => {
+                                    return (
+                                        <DueDateTableCell pastDate={object?.pastDueDate} style={{maxWidth: width}} dueDate={object?.endDate}
+                                                          key={`${object.id}-endDate`}/>
+                                    )
+                                }
+                            },
+                            {
+                                name: 'status',
+                                displayName: i18n.t('Latest Status'),
+                                mandatory: false,
+                                visible: true,
+                                width: 0,
+                                render: (object, refetch, actions, width) => {
+                                    const {ref} = actions || {};
+                                    return (
+                                        <StatusTableCell
+                                            style={{maxWidth: width}}
+                                            object={object}
+                                            reference={ref}
+                                            {...actions}
+                                            status={object?.latestStatus}
+                                            key={`${object.id}-latestStatus`}
+                                        />
+                                    )
+                                }
+                            },
+                        ],
+                        visibleColumnsCount: 5,
+                        visible: true
+                    },
+                    actionStatusTable: {
+                        width: 0,
+                        visible: false,
+                        visibleColumnsCount: 4,
+                        columns: []
+                    }
+                }
+                return resetColumnConfig(defaultTables)
+        }
+    })
 });
 
 

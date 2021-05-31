@@ -14,7 +14,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Visibility from "../../shared/Components/Visibility";
 import {useHistory, useRouteMatch} from "react-router-dom";
 import {UserRolesState} from "../states/user";
-
+import i18n from '@dhis2/d2-i18n'
 
 export function FilterComponents() {
     const [openPeriodFilter, setOpenPeriodFilter] = useState(false);
@@ -62,7 +62,7 @@ export function FilterComponents() {
                         <Visibility visible={Object.values(settings).reduce((pV, v) => pV || v)}>
                             <Button dataTest='settings-button' onClick={() => history.push(`${url}admin`)}
                                     icon={<SettingsIcon/>}>
-                                Settings
+                                {i18n.t('Settings')}
                             </Button>
                         </Visibility>
                     </Grid>

@@ -51,7 +51,7 @@ When(/^delete confirmation dialog is displayed$/, function () {
 });
 Then(/^I should be able to confirm delete and action status should be removed from the list$/, function () {
     cy.get('button').contains('Delete').click()
-    cy.wait(3000)
+    cy.wait(6000)
     cy.get('[data-test="dhis2-uicore-tablecell"]').contains('Edited Testing Action Status Option').should('not.exist')
 });
 When(/^I select on a action status option that is already used on some recorded action status$/, function () {
@@ -69,6 +69,6 @@ When(/^I edit the name of action status option$/, function () {
 });
 Then(/^edit success notification should be displayed and new action should be reflected in the list$/, function () {
     cy.get('[data-test="dhis2-uicore-alertbar"]').should('have.class', 'success')
-    cy.wait(3000)
+    cy.wait(6000)
     cy.get('[data-test="dhis2-uicore-tablecell"]').contains('Edited Testing Action Status Option').should('exist')
 });

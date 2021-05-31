@@ -4,6 +4,7 @@ import {Divider} from '@dhis2/ui'
 import React from 'react';
 import PeriodSettings from "./Components/PeriodSettings";
 import OrgUnitSettings from "./Components/OrgUnitSettings";
+import i18n from '@dhis2/d2-i18n'
 
 const styles = {
     container: {
@@ -24,7 +25,7 @@ export default function GeneralSettingsPage() {
         <Container style={styles.container} maxWidth={false}>
             <Grid container>
                 <Grid item xs={12} style={styles.header}>
-                    <Typography variant='h5'>General Settings</Typography>
+                    <Typography variant='h5'>{i18n.t('General Settings')}</Typography>
                     <Divider/>
                 </Grid>
                 <div style={styles.content}>

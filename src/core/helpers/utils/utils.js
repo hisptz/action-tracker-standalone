@@ -1,5 +1,5 @@
 import _ from "lodash";
-
+import i18n from '@dhis2/d2-i18n'
 export function uid() {
     const letters = 'abcdefghijklmnopqrstuvwxyz' + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const allowedChars = '0123456789' + letters;
@@ -14,7 +14,7 @@ export function uid() {
 }
 
 export const confirmModalClose = (onClose) => {
-    const confirmation = window.confirm('Are you sure you want to quit? All changes will be lost.');
+    const confirmation = window.confirm(i18n.t('Are you sure you want to quit? All changes will be lost.'));
     if (confirmation) {
         onClose();
     }

@@ -9,7 +9,7 @@ import {getFormattedFormMetadata} from "../../../core/helpers/utils/form.utils";
 import {useForm} from "react-hook-form";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling.service";
-
+import i18n from '@dhis2/d2-i18n'
 function getFormattedMetadataFields(metadataFields) {
     return getFormattedFormMetadata(metadataFields);
 }
@@ -39,7 +39,7 @@ export default function GapDialog({onClose, gap, onUpdate, challenge}) {
     const [mutate, {loading: saving}] = useDataMutation(gap ? gapEditMutation : gapCreateMutation, {
         variables: {data: {}, id: gap?.id},
         onComplete: (importSummary) => {
-            onCompleteHandler(importSummary, show, {message: 'Bottleneck saved successfully', onClose, onUpdate})
+            onCompleteHandler(importSummary, show, {message: i18n.t('Bottleneck saved successfully'), onClose, onUpdate})
         },
         onError: (error) => {
             onErrorHandler(error, show);
@@ -71,7 +71,7 @@ export default function GapDialog({onClose, gap, onUpdate, challenge}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)} large>
-            <ModalTitle>{gap ? 'Edit' : 'Add'} Bottleneck</ModalTitle>
+            <ModalTitle>{gap ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Bottleneck')}</ModalTitle>
             <ModalContent>
                 {
                     <CustomForm
@@ -86,7 +86,9 @@ export default function GapDialog({onClose, gap, onUpdate, challenge}) {
                     <Button
                         onClick={_ => confirmModalClose(onClose)}
                     >
-                        Hide
+                        {
+                            i18n.t('Hide')
+                        }
                     </Button>
                     <Button
                         onClick={handleSubmit(onSubmit)}
@@ -94,7 +96,7 @@ export default function GapDialog({onClose, gap, onUpdate, challenge}) {
                         disabled={saving}
                     >
                         {
-                            saving ? 'Saving...' : 'Save Bottleneck'
+                            saving ? i18n.t('Saving...') : i18n.t('Save Bottleneck')
                         }
                     </Button>
 

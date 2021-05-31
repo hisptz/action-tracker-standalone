@@ -9,6 +9,7 @@ import _ from "lodash";
 import Visibility from "../../../../../shared/Components/Visibility";
 import {useRecoilValue} from "recoil";
 import {UserRolesState} from "../../../../../core/states/user";
+import i18n from '@dhis2/d2-i18n'
 
 function getPeriodsToExclude(planningPeriod) {
     const periodTypes = new PeriodType().get();
@@ -30,10 +31,10 @@ export default function PeriodSettings() {
         error: planningError
     } = useSetting(DataStoreConstants.PLANNING_PERIOD_KEY, {
         onError: (e) => {
-            show({message: e?.message || e?.toString(), type: {success: true}})
+            show({message: i18n.t('{{ message }}', {message: e?.message || e.toString()}) , type: {success: true}})
         },
         onSaveComplete: () => {
-            show({message: 'Planning period changed successfully', type: {success: true}})
+            show({message:  i18n.t('Planning period changed successfully'), type: {success: true}})
         }
     });
 
@@ -48,7 +49,7 @@ export default function PeriodSettings() {
             show({message: e?.message || e?.toString(), type: {success: true}})
         },
         onSaveComplete: () => {
-            show({message: 'Tracking period changed successfully', type: {success: true}})
+            show({message: i18n.t('Tracking period changed successfully'), type: {success: true}})
         }
     });
 
@@ -66,14 +67,14 @@ export default function PeriodSettings() {
             <Grid item>
                <Visibility visible={settings.planningPeriod}>
                    <CustomPeriodEditor error={planningError} saving={planningSaving} value={planningSetting}
-                                       onChange={({selected}) => planningSet(selected)} label='Planning Period'/>
+                                       onChange={({selected}) => planningSet(selected)} label={i18n.t('Planning Period')}/>
                </Visibility>
             </Grid>
             <Grid item>
                 <Visibility visible={settings.trackingPeriod}>
                     <CustomPeriodEditor error={trackingError} saving={trackingSaving} value={trackingSetting}
                                         exclude={!trackingSaving && periodsToExclude}
-                                        onChange={({selected}) => trackingSet(selected)} label='Tracking Period'/>
+                                        onChange={({selected}) => trackingSet(selected)} label={i18n.t('Tracking Period')}/>
                 </Visibility>
             </Grid>
         </Grid>

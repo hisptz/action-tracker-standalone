@@ -19,8 +19,7 @@ const iconQuery = {
 
 const ActionStatusState = selector({
     key: 'actionStatus',
-    get: async ({get}) => {
-        const engine = get(DataEngineState);
+    get: ({get}) => {
         const {actionProgramMetadata} = get(ConfigState);
         const {dataElement} = _.find(_.head(actionProgramMetadata?.programStages)?.programStageDataElements, ['dataElement.id', ActionStatusConstants.STATUS_DATA_ELEMENT]) || {};
         return dataElement?.optionSet?.options || [];

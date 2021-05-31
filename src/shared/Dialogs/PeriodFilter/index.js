@@ -14,6 +14,7 @@ import _ from 'lodash';
 import {useAlert} from "@dhis2/app-runtime";
 import {generateErrorAlert} from "../../../core/services/errorHandling.service";
 import DataStoreConstants from "../../../core/constants/datastore";
+import i18n from '@dhis2/d2-i18n'
 
 export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     const [selectedPeriods, setSelectedPeriods] = useState(initialPeriods && [initialPeriods]);
@@ -43,22 +44,24 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
                     onClose();
                 }
             } else {
-                setError(`Invalid Period. Please select period of type ${planningPeriod}.`);
+                setError(i18n.t(`Invalid Period. Please select period of type {{ planningPeriod }}.`, {planningPeriod}));
                 setSelectedPeriods([]);
             }
         } else {
-            show({message: 'Please select a period.', type: {critical: true}})
+            show({message: i18n.t('Please select a period.')})
         }
     }
 
     return (
         <Modal open={open} onClose={onClose} dataTest='period-filter'>
             <ModalTitle>
-                Period
+                {
+                    i18n.t('Period')
+                }
             </ModalTitle>
             <ModalContent>
-                <p><b>Planning Period:</b> {planningPeriod}</p>
-                {error && <p style={styles.errorText}>{error}</p>}
+                <p><b>{i18n.t('Planning Period')}: </b> {i18n.t('{{ planningPeriod }} ', {planningPeriod})}</p>
+                {error && <p style={styles.errorText}>{i18n.t('{{ error }}', {error})}</p>}
                 <PeriodDimension
                     onSelect={(period) => {
                         const items = period?.items || [];
@@ -73,7 +76,9 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
             <ModalActions>
                 <ButtonStrip>
                     <Button secondary onClick={onClose}>
-                        Hide
+                        {
+                            i18n.t('Hide')
+                        }
                     </Button>
                     <Button
                         primary
@@ -81,7 +86,9 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
                             onUpdateClick();
                         }}
                     >
-                        Update
+                        {
+                            i18n.t('Update')
+                        }
                     </Button>
                 </ButtonStrip>
             </ModalActions>

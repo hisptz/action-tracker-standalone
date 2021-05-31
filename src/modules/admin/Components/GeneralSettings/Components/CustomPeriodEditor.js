@@ -2,6 +2,8 @@ import {SingleSelectField, SingleSelectOption} from '@dhis2/ui';
 import _ from 'lodash';
 import React, {useMemo} from 'react';
 import {PeriodType} from "@iapps/period-utilities";
+import i18n from '@dhis2/d2-i18n'
+
 
 
 export default function CustomPeriodEditor({label, exclude = [], onChange, value, error, saving}) {
@@ -13,7 +15,7 @@ export default function CustomPeriodEditor({label, exclude = [], onChange, value
             {
                 _.map(filteredPeriodTypes, (periodType) => <SingleSelectOption dataTest={`${periodType?.name}-option`}
                                                                                key={`${periodType?.name}-option`}
-                                                                               label={periodType?.name}
+                                                                               label={i18n.t('{{label}}', {label: periodType.name})}
                                                                                value={periodType?.name}/>)
             }
         </SingleSelectField>

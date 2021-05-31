@@ -2,7 +2,7 @@ import _ from 'lodash'
 import {ActionStatusTableCell, CustomTableCellWithActions} from "../../../modules/main/Components/Tables/CustomTable";
 import React from "react";
 import {getJSDate, getPeriodDates} from "./date.utils";
-
+import i18n from '@dhis2/d2-i18n'
 export function updateTablesVisibleColumnsCount(tables) {
     _.set(tables, 'gapsTable.visibleColumnsCount', _.filter(tables.gapsTable.columns, 'visible').length || 0)
     _.set(tables, 'solutionsTable.visibleColumnsCount', _.filter(tables.solutionsTable.columns, 'visible').length || 0)
@@ -34,7 +34,7 @@ export function updateVisibleColumnsNames(tables) {
             Object.values(tables).forEach(table => {
                 table?.columns?.forEach(column => {
                     if (column.visible) {
-                        names.push(column.displayName)
+                        names.push(i18n.t('{{- displayName }}', {displayName: column.displayName}))
                     }
                 })
             })
@@ -56,6 +56,7 @@ export function setTablesWidth(tables = {}) {
     }
 }
 
+
 function getColumn(period) {
     return {
         name: period.name,
@@ -66,7 +67,6 @@ function getColumn(period) {
         render: (object, refetch, actions) => {
             const {ref, roles} = actions;
             const {startDate, endDate} = getPeriodDates(period);
-            const actionStartDate = getJSDate(object.startDate);
             const actionEndDate = getJSDate(object.endDate);
             const actionStatusList = object.actionStatusList || [];
             const actionStatus = _.filter(actionStatusList, (as => {

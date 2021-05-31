@@ -17,7 +17,7 @@ import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling.service";
 import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import {ActionStatusConstants} from "../../../core/constants";
-
+import i18n from '@dhis2/d2-i18n'
 const actionStatusEditMutation = {
     type: 'update',
     resource: 'events',
@@ -64,7 +64,7 @@ export function ActionStatusDialog({onClose, action, onUpdate, actionStatus, sta
     const [mutate, {loading: saving}] = useDataMutation(actionStatus ? actionStatusEditMutation : actionStatusCreateMutation, {
         variables: {data: {}, id: actionStatus?.id},
         onComplete: (importSummary) => {
-            onCompleteHandler(importSummary, show, {message: 'Action status saved successfully', onClose, onUpdate})
+            onCompleteHandler(importSummary, show, {message: i18n.t('Action status saved successfully'), onClose, onUpdate})
         },
         onError: error => {
             onErrorHandler(error, show);
@@ -84,16 +84,16 @@ export function ActionStatusDialog({onClose, action, onUpdate, actionStatus, sta
     }
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
-            <ModalTitle>Add Action Status</ModalTitle>
+            <ModalTitle> {actionStatus ? i18n.t('Edit'): i18n.t('Add')} {i18n.t('Action Status')}</ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control} errors={errors}/>
             </ModalContent>
             <ModalActions>
                 <ButtonStrip end>
-                    <Button secondary onClick={_ => confirmModalClose(onClose)}>Hide</Button>
+                    <Button secondary onClick={_ => confirmModalClose(onClose)}>{i18n.t('Hide')}</Button>
                     <Button disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
                         {
-                            saving ? 'Saving...' : 'Save Action Status'
+                            saving ? i18n.t('Saving...') : i18n.t('Save Action Status')
                         }
                     </Button>
                 </ButtonStrip>

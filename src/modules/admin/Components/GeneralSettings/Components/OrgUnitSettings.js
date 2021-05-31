@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Visibility from "../../../../../shared/Components/Visibility";
 import {UserRolesState} from "../../../../../core/states/user";
 import {useRecoilValue} from "recoil";
+import i18n from '@dhis2/d2-i18n'
 
 export default function OrgUnitSettings() {
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}));
@@ -18,10 +19,13 @@ export default function OrgUnitSettings() {
         error: savingError
     } = useSetting(DataStoreConstants.PLANNING_ORG_UNIT_KEY, {
         onError: (e) => {
-            show({message: e?.message || e?.toString(), type: {success: true}})
+            show({
+                message: i18n.t('{{ message }}', {message: e?.message || e.toString()}) || e?.toString(),
+                type: {critical: true}
+            })
         },
         onSaveComplete: () => {
-            show({message: 'Planning organisation unit changed successfully', type: {success: true}})
+            show({message: i18n.t('Planning organisation unit changed successfully'), type: {success: true}})
         }
     });
 
@@ -31,7 +35,8 @@ export default function OrgUnitSettings() {
             <Grid item container spacing={3} direction='column'>
                 <Grid item>
                     <CustomOrgUnitSelector onChange={({selected}) => setPlanningOrgUnit(selected)}
-                                           label='Planning Organisation Unit' value={planningOrgUnit} saving={saving}
+                                           label={i18n.t('Planning Organisation Unit')} value={planningOrgUnit}
+                                           saving={saving}
                                            savingError={savingError}/>
                 </Grid>
             </Grid>

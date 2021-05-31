@@ -12,7 +12,7 @@ import _ from 'lodash';
 import {useAlert} from "@dhis2/app-runtime";
 import PlanningOrgUnitLevelState from "../../../core/states/orgUnit";
 import {useRecoilValue} from "recoil";
-
+import i18n from '@dhis2/d2-i18n'
 export default function OrganisationUnitFilter({onClose, onUpdate, initialOrgUnit}) {
     const [selectedOrgUnitPaths, setSelectedOrgUnitPaths] = useState(initialOrgUnit && [initialOrgUnit?.path]);
     const [selectedOrgUnit, setSelectedOrgUnit] = useState(initialOrgUnit ? [initialOrgUnit] : []);
@@ -26,11 +26,11 @@ export default function OrganisationUnitFilter({onClose, onUpdate, initialOrgUni
     return (
         <Modal onClose={onClose} dataTest='orgUnit-filter'>
             <ModalTitle>
-                Organisation Units
+                {i18n.t('Organisation Units')}
             </ModalTitle>
             <ModalContent>
                 <>
-                    <p><b>Planning Organisation Unit Level:</b> {orgUnitLevel?.displayName}</p>
+                    <p><b>{i18n.t('Planning Organisation Unit Level')}:</b> {i18n.t('{{ displayName }}', {displayName: orgUnitLevel?.displayName})}</p>
                     <OrgUnitDimension
                         selectedOrgUnitPaths={selectedOrgUnitPaths}
                         onSelect={onSelect}
@@ -41,20 +41,24 @@ export default function OrganisationUnitFilter({onClose, onUpdate, initialOrgUni
             <ModalActions>
                 <ButtonStrip>
                     <Button secondary onClick={onClose}>
-                        Hide
+                        {
+                            i18n.t('Hide')
+                        }
                     </Button>
                     <Button primary onClick={() => {
                         if (onUpdate) {
                             if (!_.isEmpty(selectedOrgUnit)) {
                                 onUpdate(selectedOrgUnit);
                             } else {
-                                show({message: 'Please select an organisation unit', type: {critical: true}})
+                                show({message: i18n.t('Please select an organisation unit')})
                             }
                         } else {
                             onClose()
                         }
                     }}>
-                        Update
+                        {
+                            i18n.t('Update')
+                        }
                     </Button>
                 </ButtonStrip>
             </ModalActions>

@@ -22,7 +22,7 @@ import {BottleneckConstants} from "../../../core/constants";
 import {TableStateSelector} from '../../../core/states/column'
 import {usePDF} from '@react-pdf/renderer';
 import PDFTable from '../../../shared/Components/Download/PDFTable';
-
+import i18n from '@dhis2/d2-i18n'
 const indicatorQuery = {
     indicators: {
         resource: 'trackedEntityInstances',
@@ -133,7 +133,7 @@ export default function ChallengeList() {
     }, [])
 
     const onDownloadExcel = useCallback(()=>{
-        show({message: 'Preparing an excel file', type: {permanent: false}});
+        show({message: i18n.t('Preparing an excel file'), type: {permanent: false}});
         downloadExcel({
             engine,
             orgUnit,
@@ -156,7 +156,7 @@ export default function ChallengeList() {
             setDownloadPdf(true);
         });
 
-        show({message: 'Preparing a PDF file', type: {permanent: false}});
+        show({message: i18n.t('Preparing a PDF file'), type: {permanent: false}});
     }, [])
 
     const onEdit = useCallback((object) => {
