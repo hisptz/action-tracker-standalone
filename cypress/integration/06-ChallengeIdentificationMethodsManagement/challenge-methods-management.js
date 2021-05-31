@@ -23,7 +23,7 @@ Then(/^a success notification should be displayed$/, function () {
     cy.get('[data-test="dhis2-uicore-alertbar"]').should('have.class', 'success')
 });
 Then(/^the changes should be reflected on the list$/, function () {
-    cy.wait(3000)
+    cy.wait(6000)
     cy.get('td[data-test="dhis2-uicore-tablecell"]').contains('Testing Challenge Methods').should('exist')
     cy.get('td[data-test="dhis2-uicore-tablecell"]').contains('challenge code').should('exist')
 });
@@ -60,7 +60,7 @@ Then(/^the deleted method should not visible on the list$/, function () {
 });
 
 Then(/^the edited changes should be reflected on the list$/, function () {
-    cy.wait(3000)
+    cy.wait(6000)
     cy.get('[data-test="dhis2-uicore-tablecell"]').contains('Edited Testing Challenge Methods').should('exist')
     cy.get('[data-test="dhis2-uicore-tablecell"]').contains('challenge code').should('exist')
 });
