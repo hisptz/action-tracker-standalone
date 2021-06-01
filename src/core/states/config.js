@@ -10,12 +10,6 @@ const ConfigState = atom({
     }
 });
 
-const iconQuery = {
-    icon: {
-        resource: 'icons',
-        id: ({id}) => id
-    }
-}
 
 const ActionStatusState = selector({
     key: 'actionStatus',

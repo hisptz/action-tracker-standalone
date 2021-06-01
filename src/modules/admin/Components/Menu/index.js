@@ -7,14 +7,9 @@ import i18n from '@dhis2/d2-i18n'
 export default function AdminMenu({menu}) {
     const history = useHistory();
     const location = useLocation();
-    const styles = {
-        menu: {
-            background: '#F8F9FA'
-        }
-    }
 
     return (
-        <Menu style={styles.menu}>
+        <Menu >
             {
                 _.map(menu, ({pathname, icon, label}, index) =>
                     <div key={`${pathname}-menu`}>
@@ -25,7 +20,7 @@ export default function AdminMenu({menu}) {
                             icon={icon}
                             label={i18n.t('{{- label }}', {label})}/>
                         {index !== menu.length - 1 &&
-                        <div style={{padding: 1}}/>}</div>)
+                        <div style={{padding: 2}}/>}</div>)
             }
         </Menu>
     )

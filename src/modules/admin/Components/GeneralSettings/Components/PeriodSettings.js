@@ -1,7 +1,6 @@
 import useSetting from "../hooks/setting";
 import DataStoreConstants from "../../../../../core/constants/datastore";
 import {useAlert} from "@dhis2/app-runtime";
-import Grid from "@material-ui/core/Grid";
 import React, {useEffect, useState} from "react";
 import CustomPeriodEditor from "./CustomPeriodEditor";
 import {PeriodType} from "@iapps/period-utilities";
@@ -10,6 +9,7 @@ import Visibility from "../../../../../shared/Components/Visibility";
 import {useRecoilValue} from "recoil";
 import {UserRolesState} from "../../../../../core/states/user";
 import i18n from '@dhis2/d2-i18n'
+import classes from '../../../admin.module.css'
 
 function getPeriodsToExclude(planningPeriod) {
     const periodTypes = new PeriodType().get();
@@ -63,21 +63,21 @@ export default function PeriodSettings() {
     const {settings} = useRecoilValue(UserRolesState);
 
     return (
-        <Grid item spacing={3} container direction='column'>
-            <Grid item>
+        <div className={classes.column} >
+            <div className={classes['selector']}>
                <Visibility visible={settings.planningPeriod}>
                    <CustomPeriodEditor error={planningError} saving={planningSaving} value={planningSetting}
                                        onChange={({selected}) => planningSet(selected)} label={i18n.t('Planning Period')}/>
                </Visibility>
-            </Grid>
-            <Grid item>
+            </div>
+            <div className={classes['selector']}>
                 <Visibility visible={settings.trackingPeriod}>
                     <CustomPeriodEditor error={trackingError} saving={trackingSaving} value={trackingSetting}
                                         exclude={!trackingSaving && periodsToExclude}
                                         onChange={({selected}) => trackingSet(selected)} label={i18n.t('Tracking Period')}/>
                 </Visibility>
-            </Grid>
-        </Grid>
+            </div>
+        </div>
     )
 
 }

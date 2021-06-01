@@ -4,11 +4,11 @@ import DataStoreConstants from "../../../../../core/constants/datastore";
 import CustomOrgUnitSelector from "./CustomOrgUnitSelector";
 
 import React from 'react';
-import Grid from "@material-ui/core/Grid";
 import Visibility from "../../../../../shared/Components/Visibility";
 import {UserRolesState} from "../../../../../core/states/user";
 import {useRecoilValue} from "recoil";
 import i18n from '@dhis2/d2-i18n'
+import classes from '../../../admin.module.css'
 
 export default function OrgUnitSettings() {
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}));
@@ -32,14 +32,12 @@ export default function OrgUnitSettings() {
     const {settings} = useRecoilValue(UserRolesState);
 
     return (<Visibility visible={settings.planningOrgUnitLevel}>
-            <Grid item container spacing={3} direction='column'>
-                <Grid item>
-                    <CustomOrgUnitSelector onChange={({selected}) => setPlanningOrgUnit(selected)}
-                                           label={i18n.t('Planning Organisation Unit')} value={planningOrgUnit}
-                                           saving={saving}
-                                           savingError={savingError}/>
-                </Grid>
-            </Grid>
+            <div className={classes['selector']}>
+                <CustomOrgUnitSelector onChange={({selected}) => setPlanningOrgUnit(selected)}
+                                       label={i18n.t('Planning Organisation Unit')} value={planningOrgUnit}
+                                       saving={saving}
+                                       savingError={savingError}/>
+            </div>
         </Visibility>
     )
 
