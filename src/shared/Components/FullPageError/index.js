@@ -8,7 +8,7 @@ export default function FullPageError({error}){
         <CenteredContent>
             <div style={{textAlign:'center'}}>
                 <ErrorIcon fontSize='large' style={{color: '#6E7A8A' }} />
-                <h4 style={{color: '#6E7A8A'}}>{error}</h4>
+                <h4 style={{color: '#6E7A8A'}}>{error.message || error.details || error.toString()}</h4>
             </div>
         </CenteredContent>
     )
