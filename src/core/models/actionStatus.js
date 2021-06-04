@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from "lodash";
 import {CustomFormField} from "./customFormField";
 import {ActionConstants, ActionStatusConstants} from "../constants";
 import {uid} from "../helpers/utils/utils";

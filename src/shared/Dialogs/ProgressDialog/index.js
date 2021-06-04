@@ -8,15 +8,13 @@ import {
     CircularLoader,
     CenteredContent,
 } from '@dhis2/ui';
-import {useState} from 'react';
 import ProgressChart from '../../Components/ProgressChart';
 import useIndicatorProgress from '../../../core/hooks/indicatorProgress';
 import {useRecoilValue} from 'recoil';
 import {IndicatorProgressState, DimensionsState} from '../../../core/states';
 import {map, flattenDeep, find} from 'lodash';
-import {Period} from '@iapps/period-utilities';
 import './style/progressDialog.css';
-import {useDataStore} from "@dhis2/app-service-datastore";
+import {useSetting} from "@dhis2/app-service-datastore";
 import DataStoreConstants from "../../../core/constants/datastore";
 
 function getQuarterlyPeriods(periods) {
@@ -37,8 +35,7 @@ function getQuarterlyPeriods(periods) {
 
 function ProgressDialog({onClose, indicatorId, selectedPeriod}) {
     const {period} = useRecoilValue(DimensionsState) || {};
-    const {globalSettings} = useDataStore();
-    const trackingPeriod = globalSettings.settings[DataStoreConstants.TRACKING_PERIOD_KEY];
+    const [trackingPeriod] = useSetting(DataStoreConstants.TRACKING_PERIOD_KEY, {global: true})
     const quarterlyPeriods = period[trackingPeriod.toLowerCase()];
     const indicatorProgressStatus = useIndicatorProgress({indicatorId})
     const indicatorProgressData = useRecoilValue(IndicatorProgressState);

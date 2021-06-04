@@ -1,5 +1,5 @@
 import {SingleSelectField, SingleSelectOption} from '@dhis2/ui';
-import _ from 'lodash';
+import * as _ from "lodash";
 import React, {useMemo} from 'react';
 import {PeriodType} from "@iapps/period-utilities";
 import i18n from '@dhis2/d2-i18n'

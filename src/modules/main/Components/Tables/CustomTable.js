@@ -18,7 +18,7 @@ import ActionStatusDialog from "../../../../shared/Dialogs/ActionStatusDialog";
 import TableActionsMenu from "../TableActionsMenu";
 import {ActionStatusState} from "../../../../core/states";
 import {useRecoilValue} from "recoil";
-import _ from 'lodash';
+import * as _ from "lodash";
 import {generateTextColor} from "../../../../core/helpers/utils/utils";
 import {formatSvg} from "../../../../core/helpers/utils/utils";
 import DHIS2Icon from "../../../../shared/Components/DHIS2Icon";

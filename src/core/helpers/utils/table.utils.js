@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import * as _ from "lodash"
 import {ActionStatusTableCell, CustomTableCellWithActions} from "../../../modules/main/Components/Tables/CustomTable";
 import React from "react";
 import {getJSDate, getPeriodDates} from "./date.utils";

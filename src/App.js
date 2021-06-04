@@ -1,9 +1,7 @@
 import React from 'react'
-import './App.css'
 import MainPage from "./modules/main";
 import {RecoilRoot} from "recoil";
 import {CssReset} from '@dhis2/ui'
-import {Container} from "@material-ui/core";
 import {
     MemoryRouter,
     Switch,
@@ -14,16 +12,8 @@ import {DataStoreProvider} from "@dhis2/app-service-datastore";
 import FullPageLoader from "./shared/Components/FullPageLoader";
 import defaultGlobalSettings from './core/constants/defaultConfig.json'
 import "./locales/index.js";
+import classes from './App.module.css'
 
-
-const styles = {
-    margin: 0,
-    overflowX: 'auto',
-    padding: 0,
-    minHeight: 'calc(100vh - 48px)',
-    minWidth: 'calc(100vw - 4px)',
-    flex: 1
-};
 
 const MyApp = () => {
 
@@ -41,7 +31,7 @@ const MyApp = () => {
                            defaultGlobalSettings={defaultGlobalSettings}>
             <RecoilRoot>
                 <CssReset/>
-                <Container style={styles}>
+                <div className={classes['app-container']}>
                     <MemoryRouter initialEntries={modules} initialIndex={0}>
                         <Switch>
                             <Route path={`/admin`}>
@@ -52,7 +42,7 @@ const MyApp = () => {
                             </Route>
                         </Switch>
                     </MemoryRouter>
-                </Container>
+                </div>
             </RecoilRoot>
         </DataStoreProvider>
     )

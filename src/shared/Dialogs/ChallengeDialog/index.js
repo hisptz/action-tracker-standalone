@@ -20,7 +20,7 @@ import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHan
 import {getFormattedFormMetadata} from "../../../core/helpers/utils/form.utils";
 import FormField from "../../Components/CustomForm/Components/FormField";
 import {BottleneckConstants} from "../../../core/constants";
-import _ from 'lodash'
+import * as _ from "lodash"
 import i18n from '@dhis2/d2-i18n'
 const challengeEditMutation = {
     type: 'update',

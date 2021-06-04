@@ -1,17 +1,17 @@
-import {useDataStore} from "@dhis2/app-service-datastore";
+import {useSetting} from "@dhis2/app-service-datastore";
 import {useState} from "react";
 
 
-export default function useSetting(key = '', {onSaveComplete, onError}) {
+export default function useSATSetting(key = '', {onSaveComplete, onError}) {
     const [error, setError] = useState();
-    const {globalSettings} = useDataStore();
+    const [value, {set}] = useSetting(key, {global: true})
     const [saving, setSaving] = useState();
 
-    async function setNewValue(value) {
-        if (value !== globalSettings.get(key)) {
+    async function setNewValue(newValue) {
+        if (newValue !== value) {
             try {
                 setSaving(true);
-                await globalSettings.set(key, value);
+                await set(newValue);
                 setSaving(false);
                 if (onSaveComplete) {
                     onSaveComplete();
@@ -28,7 +28,7 @@ export default function useSetting(key = '', {onSaveComplete, onError}) {
     async function clearValue(){
         try {
             setSaving(true);
-            await globalSettings.set(key, undefined);
+            await set(undefined);
             setSaving(false);
         } catch (e) {
             setError(e);
@@ -38,6 +38,6 @@ export default function useSetting(key = '', {onSaveComplete, onError}) {
         }
     }
 
-    return {saving, setting: globalSettings.get(key), error, setSetting: setNewValue, clearValue}
+    return {saving, setting: value, error, setSetting: setNewValue, clearValue}
 }
 

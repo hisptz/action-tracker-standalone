@@ -3,7 +3,7 @@ import {
     CustomNestingTableCell,
 } from "./CustomTable";
 import {TableBody, TableRow} from "@material-ui/core";
-import _ from "lodash";
+import * as _ from "lodash";
 import React, {useEffect, useState} from "react";
 import SolutionsTable from "./SolutionsTable";
 import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";

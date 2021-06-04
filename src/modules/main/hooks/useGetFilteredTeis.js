@@ -1,8 +1,8 @@
 import {useState, useEffect} from "react";
 import {ActionConstants} from "../../../core/constants";
-import {useRecoilValue} from "recoil";
-import {DataEngineState} from "../../../core/states";
+
 import Action from "../../../core/models/action";
+import {useDataEngine} from "@dhis2/app-runtime";
 
 const actionFilterQuery = {
     filteredActions: {
@@ -17,7 +17,7 @@ const actionFilterQuery = {
 
 export default function useGetFilteredTeis(selectedStatus = '', orgUnit) {
     const [filteredTeis, setFilteredTeis] = useState([]);
-    const engine = useRecoilValue(DataEngineState);
+    const engine = useDataEngine();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(undefined);
 

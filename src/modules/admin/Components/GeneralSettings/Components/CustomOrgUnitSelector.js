@@ -1,6 +1,6 @@
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import {SingleSelectField, SingleSelectOption, InputField} from "@dhis2/ui";
-import _ from "lodash";
+import * as _ from "lodash";
 import React from "react";
 import i18n from '@dhis2/d2-i18n'
 

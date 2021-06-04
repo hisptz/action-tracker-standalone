@@ -8,7 +8,7 @@ import {
 } from '@dhis2/ui';
 import React, {useState} from 'react';
 import OrgUnitDimension from "./Components/OrgUnitDimension";
-import _ from 'lodash';
+import * as _ from "lodash";
 import {useAlert} from "@dhis2/app-runtime";
 import PlanningOrgUnitLevelState from "../../../core/states/orgUnit";
 import {useRecoilValue} from "recoil";
