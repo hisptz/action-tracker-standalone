@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import * as _ from "lodash";
 import {Card, TableBody, TableHead, TableRow} from '@material-ui/core'
 import {CustomNestingTableCell, CustomTable, CustomTableCellHead, CustomTableRowHead} from "./CustomTable";
 import GapTable from "./GapTable";

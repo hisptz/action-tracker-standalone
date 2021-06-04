@@ -1,9 +1,6 @@
 import {
     Button as MaterialButton,
     ButtonGroup,
-    Container,
-    Grid,
-    Typography,
 } from '@material-ui/core';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
@@ -27,7 +24,7 @@ import DownloadOptionsMenu from "./DownloadOptionsMenu";
 import {UserRolesState} from "../../../core/states/user";
 import Visibility from "../../../shared/Components/Visibility";
 import ColumnManagerDialog from "../../../shared/Dialogs/ColumnManagerDialog";
-import {useDataStore} from "@dhis2/app-service-datastore";
+import {useSetting} from "@dhis2/app-service-datastore";
 import DataStoreConstants from "../../../core/constants/datastore";
 import i18n from '@dhis2/d2-i18n'
 import classes from '../main.module.css'
@@ -35,8 +32,7 @@ import classes from '../main.module.css'
 const PageSelector = () => {
     const [activePage, setActivePage] = useRecoilState(PageState);
     const {period} = useRecoilValue(DimensionsState);
-    const {globalSettings} = useDataStore();
-    const trackingPeriod = globalSettings.settings[DataStoreConstants.TRACKING_PERIOD_KEY];
+    const [trackingPeriod] = useSetting(DataStoreConstants.TRACKING_PERIOD_KEY, {global: true})
 
     const {show} = useAlert(
         ({message}) => message,

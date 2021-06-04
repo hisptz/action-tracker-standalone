@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as _ from "lodash";
 import i18n from '@dhis2/d2-i18n'
 export function uid() {
     const letters = 'abcdefghijklmnopqrstuvwxyz' + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

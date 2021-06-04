@@ -5,7 +5,7 @@ import {useEffect} from 'react';
 import {IndicatorProgressState} from '../states';
 import {map, flattenDeep} from 'lodash';
 import {formatAnalytics} from '../helpers/analyticsManipulation.helper';
-import {useDataStore} from "@dhis2/app-service-datastore";
+import { useSetting} from "@dhis2/app-service-datastore";
 import DataStoreConstants from "../constants/datastore";
 
 
@@ -20,7 +20,6 @@ function joinPeriodsArray(periods, trackingPeriod) {
         );
         isoPeriods.push(...isoQuarterlyPeriods)
     }
-    console.log(isoPeriods.join(';'));
     return isoPeriods.length ? isoPeriods.join(';') : '';
 }
 
@@ -48,8 +47,7 @@ const indicatorProgressQuery = {
 export default function useIndicatorProgress({indicatorId}) {
 
     const {orgUnit, period} = useRecoilValue(DimensionsState) || {};
-    const {globalSettings} = useDataStore();
-    const trackingPeriod = globalSettings.settings[DataStoreConstants.TRACKING_PERIOD_KEY];
+    const [trackingPeriod] = useSetting(DataStoreConstants.TRACKING_PERIOD_KEY, {global: true})
     const setIndicatorProgress = useSetRecoilState(IndicatorProgressState);
 
     const {loading, data, error} = useDataQuery(

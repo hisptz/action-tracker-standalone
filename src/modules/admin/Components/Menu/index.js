@@ -1,7 +1,7 @@
 import {Menu, MenuItem} from '@dhis2/ui'
 import React from 'react';
 import {useHistory, useLocation} from "react-router-dom";
-import _ from 'lodash';
+import * as _ from "lodash";
 import PropTypes from "prop-types";
 import i18n from '@dhis2/d2-i18n'
 export default function AdminMenu({menu}) {

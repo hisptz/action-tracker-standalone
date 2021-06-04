@@ -1,5 +1,5 @@
 import {useAlert} from "@dhis2/app-runtime";
-import useSetting from "../hooks/setting";
+import useSATSetting from "../hooks/setting";
 import DataStoreConstants from "../../../../../core/constants/datastore";
 import CustomOrgUnitSelector from "./CustomOrgUnitSelector";
 
@@ -17,7 +17,7 @@ export default function OrgUnitSettings() {
         saving,
         setSetting: setPlanningOrgUnit,
         error: savingError
-    } = useSetting(DataStoreConstants.PLANNING_ORG_UNIT_KEY, {
+    } = useSATSetting(DataStoreConstants.PLANNING_ORG_UNIT_KEY, {
         onError: (e) => {
             show({
                 message: i18n.t('{{ message }}', {message: e?.message || e.toString()}) || e?.toString(),

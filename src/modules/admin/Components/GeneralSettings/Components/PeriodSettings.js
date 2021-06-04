@@ -1,10 +1,10 @@
-import useSetting from "../hooks/setting";
+import useSATSetting from "../hooks/setting";
 import DataStoreConstants from "../../../../../core/constants/datastore";
 import {useAlert} from "@dhis2/app-runtime";
 import React, {useEffect, useState} from "react";
 import CustomPeriodEditor from "./CustomPeriodEditor";
 import {PeriodType} from "@iapps/period-utilities";
-import _ from "lodash";
+import * as _ from "lodash";
 import Visibility from "../../../../../shared/Components/Visibility";
 import {useRecoilValue} from "recoil";
 import {UserRolesState} from "../../../../../core/states/user";
@@ -29,12 +29,12 @@ export default function PeriodSettings() {
         saving: planningSaving,
         setSetting: planningSet,
         error: planningError
-    } = useSetting(DataStoreConstants.PLANNING_PERIOD_KEY, {
+    } = useSATSetting(DataStoreConstants.PLANNING_PERIOD_KEY, {
         onError: (e) => {
-            show({message: i18n.t('{{ message }}', {message: e?.message || e.toString()}) , type: {success: true}})
+            show({message: i18n.t('{{ message }}', {message: e?.message || e.toString()}), type: {success: true}})
         },
         onSaveComplete: () => {
-            show({message:  i18n.t('Planning period changed successfully'), type: {success: true}})
+            show({message: i18n.t('Planning period changed successfully'), type: {success: true}})
         }
     });
 
@@ -44,7 +44,7 @@ export default function PeriodSettings() {
         setSetting: trackingSet,
         error: trackingError,
         clearValue: clearTrackingPeriod
-    } = useSetting(DataStoreConstants.TRACKING_PERIOD_KEY, {
+    } = useSATSetting(DataStoreConstants.TRACKING_PERIOD_KEY, {
         onError: (e) => {
             show({message: e?.message || e?.toString(), type: {success: true}})
         },
@@ -63,21 +63,22 @@ export default function PeriodSettings() {
     const {settings} = useRecoilValue(UserRolesState);
 
     return (
-        <div className={classes.column} >
+        <div className={classes.column}>
             <div className={classes['selector']}>
-               <Visibility visible={settings.planningPeriod}>
-                   <CustomPeriodEditor error={planningError} saving={planningSaving} value={planningSetting}
-                                       onChange={({selected}) => planningSet(selected)} label={i18n.t('Planning Period')}/>
-               </Visibility>
+                <Visibility visible={settings.planningPeriod}>
+                    <CustomPeriodEditor error={planningError} saving={planningSaving} value={planningSetting}
+                                        onChange={({selected}) => planningSet(selected)}
+                                        label={i18n.t('Planning Period')}/>
+                </Visibility>
             </div>
             <div className={classes['selector']}>
                 <Visibility visible={settings.trackingPeriod}>
                     <CustomPeriodEditor error={trackingError} saving={trackingSaving} value={trackingSetting}
                                         exclude={!trackingSaving && periodsToExclude}
-                                        onChange={({selected}) => trackingSet(selected)} label={i18n.t('Tracking Period')}/>
+                                        onChange={({selected}) => trackingSet(selected)}
+                                        label={i18n.t('Tracking Period')}/>
                 </Visibility>
             </div>
         </div>
     )
-
 }

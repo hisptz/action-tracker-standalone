@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from "lodash";
 import Gap from "./gap";
 import {CustomFormField} from "./customFormField";
 import {BottleneckConstants} from "../constants";

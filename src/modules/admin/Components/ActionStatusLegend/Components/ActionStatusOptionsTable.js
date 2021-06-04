@@ -10,7 +10,7 @@ import {
     Button,
     Pagination
 } from '@dhis2/ui';
-import _ from 'lodash';
+import * as _ from "lodash";
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 
 

@@ -1,5 +1,5 @@
 import {atom, selector} from "recoil";
-import _ from 'lodash';
+import * as _ from "lodash";
 import {ActionStatusConstants} from "../constants";
 
 const ConfigState = atom({

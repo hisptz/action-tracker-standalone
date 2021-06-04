@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as _ from "lodash";
 import {CustomFormField} from "./customFormField";
 import {BottleneckConstants, PossibleSolutionConstants} from "../constants";
 import {uid} from "../helpers/utils/utils";

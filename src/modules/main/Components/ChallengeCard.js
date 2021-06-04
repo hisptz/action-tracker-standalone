@@ -108,6 +108,7 @@ export default function ChallengeCard({
                         }
                         {
                             openDelete && <DeleteConfirmation
+                                hasRelationships
                                 type='trackedEntityInstance'
                                 message={i18n.t('Are you sure you want to delete this intervention and all related solutions and actions?')}
                                 onClose={_ => setOpenDelete(false)}

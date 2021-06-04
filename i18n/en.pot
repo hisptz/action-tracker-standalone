@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-06-01T12:49:43.789Z\n"
-"PO-Revision-Date: 2021-06-01T12:49:43.789Z\n"
+"POT-Creation-Date: 2021-06-04T08:04:00.582Z\n"
+"PO-Revision-Date: 2021-06-04T08:04:00.582Z\n"
 
 msgid "{{- displayName }}"
 msgstr ""
@@ -288,6 +288,9 @@ msgid "Confirm Delete"
 msgstr ""
 
 msgid "Are you sure you want to delete this entity?"
+msgstr ""
+
+msgid "Cancel"
 msgstr ""
 
 msgid "Deleting..."

@@ -1,16 +1,18 @@
 import {
-    Modal,
-    ModalTitle,
-    ModalContent,
-    ModalActions,
     Button,
     ButtonStrip,
     CenteredContent,
-    CircularLoader
+    CircularLoader,
+    Modal,
+    ModalActions,
+    ModalContent,
+    ModalTitle
 } from '@dhis2/ui';
-import {useAlert, useDataMutation, useDataQuery} from "@dhis2/app-runtime";
+import {useAlert, useDataEngine, useDataMutation, useDataQuery} from "@dhis2/app-runtime";
 import useOptionsMutation from "../../../modules/admin/hooks/option";
 import i18n from '@dhis2/d2-i18n'
+import {useState} from "react";
+
 
 const teiDeleteMutation = {
     type: 'delete',
@@ -23,10 +25,54 @@ const eventDeleteMutation = {
     id: ({id}) => id,
 }
 
+const relationshipQuery = {
+    relationships: {
+        resource: 'relationships',
+        params: ({tei}) => ({
+            tei,
+            fields: [
+                'relationship',
+                'from[trackedEntityInstance[trackedEntityInstance]]',
+                'to[trackedEntityInstance[trackedEntityInstance]]',
+            ]
+        })
+    }
+}
 
-export default function DeleteConfirmation({onClose, id, type, message, onUpdate, deletionSuccessMessage}) {
+const relatedTeiDeleteMutation = {
+    type: 'create', //To send a POST request
+    resource: 'trackedEntityInstances',
+    data: ({data}) => data,
+    params: {
+        strategy: 'DELETE'
+    }
+}
+
+async function deleteRelatedTeis(engine, id) {
+    const {relationships} = await engine.query(relationshipQuery, {variables: {tei: id}})
+    const teisToBeDeleted = relationships.map(tei => ({trackedEntityInstance: _.get(tei, ['to', 'trackedEntityInstance', 'trackedEntityInstance'])}))
+    console.log(teisToBeDeleted);
+    return await engine.mutate(relatedTeiDeleteMutation, {
+        variables: {
+            data: {
+                trackedEntityInstances: teisToBeDeleted
+            }
+        }
+    })
+}
+
+export default function DeleteConfirmation({
+                                               onClose,
+                                               id,
+                                               type,
+                                               message,
+                                               onUpdate,
+                                               deletionSuccessMessage,
+                                               hasRelationships
+                                           }) {
+    const [deletingRelatedTeis, setDeletingRelatedTeis] = useState(false);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
-
+    const engine = useDataEngine();
     const [mutate, {
         loading,
     }] = useDataMutation(type === 'trackedEntityInstance' ? teiDeleteMutation : eventDeleteMutation, {
@@ -43,12 +89,17 @@ export default function DeleteConfirmation({onClose, id, type, message, onUpdate
         }
     })
 
-    const onDeleteConfirm = () => {
-        mutate({id});
+    const onDeleteConfirm = async () => {
+        if (hasRelationships) {
+            setDeletingRelatedTeis(true);
+            await deleteRelatedTeis(engine, id)
+            setDeletingRelatedTeis(false);
+        }
+        mutate({id})
     }
 
     return (
-        <Modal  onClose={onClose}>
+        <Modal onClose={onClose}>
             <ModalTitle dataTest='delete-confirmation-modal'>
                 {i18n.t('Confirm Delete')}
             </ModalTitle>
@@ -61,8 +112,9 @@ export default function DeleteConfirmation({onClose, id, type, message, onUpdate
             </ModalContent>
             <ModalActions>
                 <ButtonStrip>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button onClick={onDeleteConfirm} destructive>{loading ? i18n.t('Deleting...') : i18n.t('Delete')}</Button>
+                    <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
+                    <Button disabled={loading || deletingRelatedTeis} onClick={onDeleteConfirm}
+                            destructive>{loading || deletingRelatedTeis ? i18n.t('Deleting...') : i18n.t('Delete')}</Button>
                 </ButtonStrip>
             </ModalActions>
         </Modal>
@@ -111,7 +163,10 @@ export function OptionDeleteConfirmation({
             onClose();
         },
         onError: error => {
-            show({message: i18n.t('{{ message }}', {message: error?.message || error.toString()}), type: {critical: true}})
+            show({
+                message: i18n.t('{{ message }}', {message: error?.message || error.toString()}),
+                type: {critical: true}
+            })
         }
     })
 

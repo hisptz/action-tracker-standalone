@@ -19,7 +19,7 @@ import {
     onMetadataCompleteHandler,
     onMetadataErrorHandler
 } from "../../../../../core/services/errorHandling.service";
-import _ from 'lodash';
+import * as _ from "lodash";
 import useOptionsMutation from "../../../hooks/option";
 
 import React from 'react';
