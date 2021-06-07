@@ -1,17 +1,8 @@
-import {
-    Card,
-    Grid,
-    IconButton,
-    Table,
-    TableCell,
-    TableFooter,
-    TableRow,
-    withStyles
-} from "@material-ui/core";
+import {Grid, IconButton, Table, TableCell, TableFooter, TableRow, withStyles} from "@material-ui/core";
 import {Button, CenteredContent} from '@dhis2/ui'
 import DueDateWarningIcon from '@material-ui/icons/ReportProblemOutlined';
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {ActionConstants} from "../../../../core/constants/action";
 import AddIcon from '@material-ui/icons/Add';
 import ActionStatusDialog from "../../../../shared/Dialogs/ActionStatusDialog";
@@ -19,8 +10,7 @@ import TableActionsMenu from "../TableActionsMenu";
 import {ActionStatusState} from "../../../../core/states";
 import {useRecoilValue} from "recoil";
 import * as _ from "lodash";
-import {generateTextColor} from "../../../../core/helpers/utils/utils";
-import {formatSvg} from "../../../../core/helpers/utils/utils";
+import {formatSvg, generateTextColor} from "../../../../core/helpers/utils/utils";
 import DHIS2Icon from "../../../../shared/Components/DHIS2Icon";
 import i18n from '@dhis2/d2-i18n'
 
@@ -95,19 +85,22 @@ const StatusContainer = ({status}) => {
     const statusLegend = useRecoilValue(ActionStatusState);
     const {code: selectedStatus, style} = _.find(statusLegend, ['code', status]) || {
         code: status,
-        style: {color: '#d8d8d8'}
+        style: {color: '#6E7A8A'}
     };
     const icon = style?.icon;
     const iconRef = useRef()
 
     useEffect(() => {
         if (iconRef.current) {
-            iconRef.current.innerHTML = formatSvg(icon, {size: 14, color: generateTextColor(style.color)});
+            iconRef.current.innerHTML = formatSvg(icon, {
+                size: 14,
+                color: generateTextColor(style?.color || '#6E7A8A')
+            });
         }
     }, [])
 
     return <>
-        <b style={{color: style.color}}>{selectedStatus}</b>
+        <b style={{color: style?.color || '#6E7A8A'}}>{selectedStatus}</b>
     </>
 }
 
@@ -117,16 +110,16 @@ const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object, r
     const statusLegend = useRecoilValue(ActionStatusState);
     const {code: selectedStatus, style} = _.find(statusLegend, ['code', status]) || {
         code: status,
-        style: {color: '#d8d8d8'}
+        style: {color: '#6E7A8A'}
     };
     const icon = style?.icon;
     return (
-        <StyledStatusTableCell {...props}  style={{
-            background: `${style?.color || '#d8d8d8'}70`,
+        <StyledStatusTableCell {...props} style={{
+            background: `${style?.color || '#6E7A8A'}70`,
             textAlign: 'center',
             verticalAlign: 'top',
-            color: generateTextColor(style?.color || '#d8d8d8'),
-        }}   >
+            color: generateTextColor(style?.color || '#6E7A8A'),
+        }}>
             <Grid item container direction='row' justify='space-between' spacing={1}>
                 <Grid item xs={(canDelete || canUpdate) ? 9 : 12} container justify='center' alignItems='center'
                       className="status-cell-grid">
@@ -199,7 +192,7 @@ const NoActionStatus = ({onAddClick}) => {
 const ActionStatusDetails = ({actionStatus}) => {
 
     return (
-        <div >
+        <div>
             <Grid container>
                 <Grid item xs={12}>
                     <b>{i18n.t('Status')}</b>

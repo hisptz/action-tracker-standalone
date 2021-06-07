@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-06-04T08:04:00.582Z\n"
-"PO-Revision-Date: 2021-06-04T08:04:00.582Z\n"
+"POT-Creation-Date: 2021-06-07T08:15:23.897Z\n"
+"PO-Revision-Date: 2021-06-07T08:15:23.897Z\n"
 
 msgid "{{- displayName }}"
 msgstr ""
@@ -226,6 +226,12 @@ msgid "Configure the app to continue."
 msgstr ""
 
 msgid "Contact the administrator."
+msgstr ""
+
+msgid "If you are the admin, configure the appropriate in app authorities in "
+msgstr ""
+
+msgid "user settings"
 msgstr ""
 
 msgid "Select organisation unit and period to start"
