@@ -1,4 +1,3 @@
-import {useState} from 'react'
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import {useConfig} from '@dhis2/app-runtime'

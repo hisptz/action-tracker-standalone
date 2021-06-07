@@ -1,6 +1,5 @@
 import {
     Modal,
-    ModalTitle,
     ModalContent,
     ModalActions,
     Button,
@@ -12,28 +11,12 @@ import ProgressChart from '../../Components/ProgressChart';
 import useIndicatorProgress from '../../../core/hooks/indicatorProgress';
 import {useRecoilValue} from 'recoil';
 import {IndicatorProgressState, DimensionsState} from '../../../core/states';
-import {map, flattenDeep, find} from 'lodash';
+import {map,find} from 'lodash';
 import './style/progressDialog.css';
 import {useSetting} from "@dhis2/app-service-datastore";
 import DataStoreConstants from "../../../core/constants/datastore";
 
-function getQuarterlyPeriods(periods) {
-    let quarterlyPeriods = [];
-    if (periods && periods.length) {
-        for (const period of periods) {
-            const {quarterly} = period;
-            const isoQuarterlyPeriods = flattenDeep(
-                map(quarterly || [], (quarter) => {
-                    return quarter ? quarter : [];
-                })
-            );
-            quarterlyPeriods = [...isoQuarterlyPeriods];
-        }
-    }
-    return quarterlyPeriods;
-}
-
-function ProgressDialog({onClose, indicatorId, selectedPeriod}) {
+function ProgressDialog({onClose, indicatorId}) {
     const {period} = useRecoilValue(DimensionsState) || {};
     const [trackingPeriod] = useSetting(DataStoreConstants.TRACKING_PERIOD_KEY, {global: true})
     const quarterlyPeriods = period[trackingPeriod.toLowerCase()];
