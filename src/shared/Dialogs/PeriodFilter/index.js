@@ -9,8 +9,8 @@ import {
 import React, {useEffect, useState} from 'react';
 import {PeriodDimension} from '@dhis2/analytics';
 import {Period} from "@iapps/period-utilities";
-import {useDataStore} from "@dhis2/app-service-datastore";
-import _ from 'lodash';
+import {useDataStore, useSetting} from "@dhis2/app-service-datastore";
+import * as _ from "lodash";
 import {useAlert} from "@dhis2/app-runtime";
 import {generateErrorAlert} from "../../../core/services/errorHandling.service";
 import DataStoreConstants from "../../../core/constants/datastore";
@@ -21,9 +21,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     const [error, setError] = useState();
     const periodInstance = new Period();
     periodInstance.setPreferences({allowFuturePeriods: true});
-    const {globalSettings} = useDataStore();
-    const settings = globalSettings?.settings || {};
-    const planningPeriod = settings[DataStoreConstants.PLANNING_PERIOD_KEY];
+    const [planningPeriod] = useSetting(DataStoreConstants.PLANNING_PERIOD_KEY, {global: true})
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     useEffect(() => generateErrorAlert(show, error), [error])
 

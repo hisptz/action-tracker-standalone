@@ -1,5 +1,5 @@
 import {selector, atom} from "recoil";
-import _ from 'lodash';
+import * as _ from "lodash";
 import {USER_ROLES} from "../constants";
 import {PageState} from "./page";
 import {DimensionsState} from "./index";

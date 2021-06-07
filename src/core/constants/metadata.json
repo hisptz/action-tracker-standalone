@@ -1,55 +1,98 @@
 {
-  "optionSets": [
+  "options": [
     {
-      "code": "Actiontracker_Action status",
-      "created": "2021-03-11T08:40:03.048",
-      "lastUpdated": "2021-04-14T06:49:11.830",
-      "name": "Actiontracker_Action status",
-      "id": "Y3FLpktyYMC",
-      "version": 9,
-      "valueType": "TEXT",
-      "lastUpdatedBy": {
-        "code": "admin",
-        "displayName": "admin admin",
-        "id": "M5zQapPyTZI",
-        "username": "admin"
+      "code": "Bottleneck analysis",
+      "created": "2021-03-24T05:46:34.891",
+      "lastUpdated": "2021-04-20T14:13:54.805",
+      "name": "Bottleneck analysis",
+      "id": "muIDRX5liMX",
+      "sortOrder": 1,
+      "optionSet": {
+        "id": "tsShlbiHhxN"
       },
       "attributeValues": [],
-      "translations": [],
-      "options": [
-        {
-          "id": "fLUmGT0p0Sh"
-        },
-        {
-          "id": "CI07xeRxsZU"
-        },
-        {
-          "id": "JzKswnTlxSn"
-        },
-        {
-          "id": "FEz7OK0NVRW"
-        }
-      ]
+      "translations": []
     },
     {
-      "created": "2021-03-24T05:46:14.217",
-      "lastUpdated": "2021-04-06T12:36:38.210",
-      "name": "Actiontracker_Method",
-      "id": "tsShlbiHhxN",
-      "version": 2,
-      "valueType": "TEXT",
-      "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
+      "code": "Cancelled",
+      "created": "2021-04-22T12:50:22.498",
+      "lastUpdated": "2021-04-22T12:50:22.585",
+      "name": "Cancelled",
+      "id": "FEz7OK0NVRW",
+      "sortOrder": 6,
+      "optionSet": {
+        "id": "Y3FLpktyYMC"
+      },
+      "style": {
+        "color": "#d0021b",
+        "icon": "no_outline"
       },
       "attributeValues": [],
-      "translations": [],
-      "options": [
-        {
-          "id": "muIDRX5liMX"
-        }
-      ]
+      "translations": []
+    },
+    {
+      "code": "Completed",
+      "created": "2021-04-22T13:06:06.292",
+      "lastUpdated": "2021-04-22T13:06:06.325",
+      "name": "Completed",
+      "id": "JzKswnTlxSn",
+      "sortOrder": 5,
+      "optionSet": {
+        "id": "Y3FLpktyYMC"
+      },
+      "style": {
+        "color": "#7ed321",
+        "icon": "yes_positive"
+      },
+      "attributeValues": [],
+      "translations": []
+    },
+    {
+      "code": " In progress",
+      "created": "2021-04-22T13:07:26.200",
+      "lastUpdated": "2021-04-22T13:07:26.241",
+      "name": "In progress",
+      "id": "CI07xeRxsZU",
+      "sortOrder": 4,
+      "optionSet": {
+        "id": "Y3FLpktyYMC"
+      },
+      "style": {
+        "color": "#f5a623",
+        "icon": "high_level_positive"
+      },
+      "attributeValues": [],
+      "translations": []
+    },
+    {
+      "code": "Not started",
+      "created": "2021-04-22T13:08:26.117",
+      "lastUpdated": "2021-04-22T13:08:26.148",
+      "name": "Not started",
+      "id": "fLUmGT0p0Sh",
+      "sortOrder": 3,
+      "optionSet": {
+        "id": "Y3FLpktyYMC"
+      },
+      "style": {
+        "color": "#4a90e2",
+        "icon": "alert_positive"
+      },
+      "attributeValues": [],
+      "translations": []
+    },
+    {
+      "code": "Root cause analysis",
+      "created": "2021-04-21T07:26:48.993",
+      "lastUpdated": "2021-04-21T07:26:49.008",
+      "name": "Root cause analysis",
+      "id": "H8dVCYKzpuO",
+      "sortOrder": 2,
+      "optionSet": {
+        "id": "tsShlbiHhxN"
+      },
+      "attributeValues": [],
+      "translations": []
     }
   ],
   "programs": [
@@ -59,36 +102,34 @@
       "created": "2021-03-11T08:11:09.685",
       "name": "Action",
       "shortName": "Action",
+      "completeEventsExpiryDays": 0,
       "ignoreOverdueEvents": false,
       "skipOffline": false,
-      "onlyEnrollOnce": false,
-      "version": 19,
-      "maxTeiCountToReturn": 0,
-      "selectIncidentDatesInFuture": false,
-      "selectEnrollmentDatesInFuture": false,
-      "useFirstStageDuringRegistration": false,
-      "completeEventsExpiryDays": 0,
       "featureType": "NONE",
       "minAttributesRequiredToSearch": 1,
       "displayFrontPageList": true,
+      "onlyEnrollOnce": false,
       "programType": "WITH_REGISTRATION",
       "accessLevel": "OPEN",
+      "version": 19,
+      "maxTeiCountToReturn": 0,
+      "selectIncidentDatesInFuture": false,
       "displayIncidentDate": true,
+      "selectEnrollmentDatesInFuture": false,
       "expiryDays": 0,
+      "useFirstStageDuringRegistration": false,
       "categoryCombo": {
         "id": "bjDvmb4bfuf"
       },
       "lastUpdatedBy": {
-        "code": "admin",
         "displayName": "admin admin",
         "id": "M5zQapPyTZI",
-        "username": "admin"
+        "username": "admin",
+        "code": "admin"
       },
       "trackedEntityType": {
         "id": "TFYpX5EXmYp"
       },
-      "translations": [],
-      "attributeValues": [],
       "programTrackedEntityAttributes": [
         {
           "lastUpdated": "2021-04-14T07:08:37.431",
@@ -346,8 +387,10 @@
         }
       ],
       "notificationTemplates": [],
+      "translations": [],
       "organisationUnits": [],
       "programSections": [],
+      "attributeValues": [],
       "programStages": [
         {
           "id": "cBiAEANcXAj"
@@ -360,36 +403,34 @@
       "created": "2021-03-11T07:33:07.448",
       "name": "Bottleneck",
       "shortName": "Bottleneck",
+      "completeEventsExpiryDays": 0,
       "ignoreOverdueEvents": false,
       "skipOffline": false,
-      "onlyEnrollOnce": false,
-      "version": 13,
-      "maxTeiCountToReturn": 0,
-      "selectIncidentDatesInFuture": false,
-      "selectEnrollmentDatesInFuture": false,
-      "useFirstStageDuringRegistration": false,
-      "completeEventsExpiryDays": 0,
       "featureType": "NONE",
       "minAttributesRequiredToSearch": 1,
       "displayFrontPageList": true,
+      "onlyEnrollOnce": false,
       "programType": "WITH_REGISTRATION",
       "accessLevel": "OPEN",
+      "version": 13,
+      "maxTeiCountToReturn": 0,
+      "selectIncidentDatesInFuture": false,
       "displayIncidentDate": true,
+      "selectEnrollmentDatesInFuture": false,
       "expiryDays": 0,
+      "useFirstStageDuringRegistration": false,
       "categoryCombo": {
         "id": "bjDvmb4bfuf"
       },
       "lastUpdatedBy": {
-        "code": "admin",
         "displayName": "admin admin",
         "id": "M5zQapPyTZI",
-        "username": "admin"
+        "username": "admin",
+        "code": "admin"
       },
       "trackedEntityType": {
         "id": "jLaBp1GaZQ9"
       },
-      "translations": [],
-      "attributeValues": [],
       "programTrackedEntityAttributes": [
         {
           "lastUpdated": "2021-04-14T07:08:56.177",
@@ -397,7 +438,7 @@
           "created": "2021-03-11T07:33:07.257",
           "name": "Bottleneck Actiontracker_Intervention",
           "displayName": "Bottleneck Actiontracker_Intervention",
-          "mandatory": false,
+          "mandatory": true,
           "displayShortName": "Bottleneck Actiontracker_Intervention",
           "externalAccess": false,
           "renderOptionsAsRadio": false,
@@ -505,7 +546,7 @@
           "created": "2021-03-11T08:06:54.815",
           "name": "Bottleneck Actiontracker_Indicator",
           "displayName": "Bottleneck Actiontracker_Indicator",
-          "mandatory": false,
+          "mandatory": true,
           "displayShortName": "Bottleneck Actiontracker_Indicator",
           "externalAccess": false,
           "renderOptionsAsRadio": false,
@@ -537,8 +578,10 @@
         }
       ],
       "notificationTemplates": [],
+      "translations": [],
       "organisationUnits": [],
       "programSections": [],
+      "attributeValues": [],
       "programStages": [
         {
           "id": "zXB8tWKuwcl"
@@ -549,310 +592,98 @@
       ]
     }
   ],
-  "trackedEntityAttributes": [
+  "trackedEntityTypes": [
     {
-      "lastUpdated": "2021-04-06T12:36:39.173",
-      "id": "Hi3IjyMXzeW",
-      "created": "2021-03-11T08:32:45.540",
-      "name": "Actiontracker_Action To Solution Linkage",
-      "shortName": "Actiontracker_Action To Solution Linkage",
-      "aggregationType": "NONE",
-      "displayInListNoProgram": false,
-      "pattern": "",
-      "description": "Link to the Possible Solution",
-      "skipSynchronization": false,
-      "generated": false,
-      "displayOnVisitSchedule": false,
+      "created": "2021-03-11T08:03:38.194",
+      "lastUpdated": "2021-04-08T07:00:22.885",
+      "name": "action",
+      "id": "TFYpX5EXmYp",
+      "maxTeiCountToReturn": 0,
+      "allowAuditLog": false,
+      "featureType": "NONE",
+      "minAttributesRequiredToSearch": 1,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "attributeValues": [],
+      "trackedEntityTypeAttributes": [],
+      "translations": []
+    },
+    {
+      "created": "2021-03-11T07:31:01.886",
+      "lastUpdated": "2021-04-08T07:00:08.406",
+      "name": "bottleneck",
+      "id": "jLaBp1GaZQ9",
+      "maxTeiCountToReturn": 0,
+      "allowAuditLog": false,
+      "featureType": "NONE",
+      "minAttributesRequiredToSearch": 1,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "attributeValues": [],
+      "trackedEntityTypeAttributes": [],
+      "translations": []
+    }
+  ],
+  "optionSets": [
+    {
+      "code": "Actiontracker_Action status",
+      "created": "2021-03-11T08:40:03.048",
+      "lastUpdated": "2021-04-14T06:49:11.830",
+      "name": "Actiontracker_Action status",
+      "id": "Y3FLpktyYMC",
+      "version": 9,
       "valueType": "TEXT",
-      "formName": "Action To Solution Linkage",
-      "confidential": false,
-      "orgunitScope": false,
-      "unique": false,
-      "inherit": false,
       "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
+        "displayName": "admin admin",
+        "id": "M5zQapPyTZI",
+        "username": "admin",
+        "code": "admin"
       },
-      "translations": [],
       "attributeValues": [],
-      "legendSets": []
+      "translations": [],
+      "options": [
+        {
+          "id": "fLUmGT0p0Sh"
+        },
+        {
+          "id": "CI07xeRxsZU"
+        },
+        {
+          "id": "JzKswnTlxSn"
+        },
+        {
+          "id": "FEz7OK0NVRW"
+        }
+      ]
     },
     {
-      "lastUpdated": "2021-04-06T12:36:39.173",
-      "id": "WLFrBgfl7lU",
-      "created": "2021-03-11T07:47:36.883",
-      "name": "Actiontracker_Bottleneck",
-      "shortName": "Actiontracker_Bottleneck",
-      "aggregationType": "NONE",
-      "displayInListNoProgram": false,
-      "pattern": "",
-      "skipSynchronization": false,
-      "generated": false,
-      "displayOnVisitSchedule": false,
+      "created": "2021-06-07T09:27:39.455",
+      "lastUpdated": "2021-06-07T09:28:04.668",
+      "name": "Actiontracker_Method",
+      "id": "tsShlbiHhxN",
+      "version": 82,
       "valueType": "TEXT",
-      "formName": "Bottleneck",
-      "confidential": false,
-      "orgunitScope": false,
-      "unique": false,
-      "inherit": false,
       "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
+        "displayName": "Auto Tester",
+        "id": "gskMxnpgzZF",
+        "username": "auto-tester"
       },
-      "translations": [],
       "attributeValues": [],
-      "legendSets": []
-    },
-    {
-      "lastUpdated": "2021-04-06T12:36:39.173",
-      "id": "imiLbaQKYnA",
-      "created": "2021-03-11T07:48:07.018",
-      "name": "Actiontracker_Coverage Indicator",
-      "shortName": "Actiontracker_Coverage Indicator",
-      "aggregationType": "NONE",
-      "displayInListNoProgram": false,
-      "pattern": "",
-      "skipSynchronization": false,
-      "generated": false,
-      "displayOnVisitSchedule": false,
-      "valueType": "TEXT",
-      "formName": "Coverage Indicator",
-      "confidential": false,
-      "orgunitScope": false,
-      "unique": false,
-      "inherit": false,
-      "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
-      },
       "translations": [],
-      "attributeValues": [],
-      "legendSets": []
-    },
-    {
-      "lastUpdated": "2021-04-06T12:36:39.173",
-      "id": "GlvCtGIytIz",
-      "created": "2021-03-11T07:49:31.357",
-      "name": "Actiontracker_Description",
-      "shortName": "Actiontracker_Description",
-      "aggregationType": "NONE",
-      "displayInListNoProgram": false,
-      "pattern": "",
-      "description": "A description for the action item",
-      "skipSynchronization": false,
-      "generated": false,
-      "displayOnVisitSchedule": false,
-      "valueType": "LONG_TEXT",
-      "formName": "Description",
-      "confidential": false,
-      "orgunitScope": false,
-      "unique": false,
-      "inherit": false,
-      "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
-      },
-      "translations": [],
-      "attributeValues": [],
-      "legendSets": []
-    },
-    {
-      "lastUpdated": "2021-04-06T12:36:39.173",
-      "id": "Ax6bWbKn46e",
-      "created": "2021-03-11T07:52:36.013",
-      "name": "Actiontracker_Designation",
-      "shortName": "Actiontracker_Designation",
-      "aggregationType": "NONE",
-      "displayInListNoProgram": false,
-      "pattern": "",
-      "description": "Designation title of the responsible person to execute the action",
-      "skipSynchronization": false,
-      "generated": false,
-      "displayOnVisitSchedule": false,
-      "valueType": "TEXT",
-      "formName": "Designation",
-      "confidential": false,
-      "orgunitScope": false,
-      "unique": false,
-      "inherit": false,
-      "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
-      },
-      "translations": [],
-      "attributeValues": [],
-      "legendSets": []
-    },
-    {
-      "lastUpdated": "2021-04-06T12:36:39.173",
-      "id": "BYCbHJ46BOr",
-      "created": "2021-03-11T07:50:36.798",
-      "name": "Actiontracker_End Date",
-      "shortName": "Actiontracker_End Date",
-      "aggregationType": "NONE",
-      "displayInListNoProgram": false,
-      "pattern": "",
-      "description": "End date for the action",
-      "skipSynchronization": false,
-      "generated": false,
-      "displayOnVisitSchedule": false,
-      "valueType": "DATE",
-      "formName": "End Date",
-      "confidential": false,
-      "orgunitScope": false,
-      "unique": false,
-      "inherit": false,
-      "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
-      },
-      "translations": [],
-      "attributeValues": [],
-      "legendSets": []
-    },
-    {
-      "lastUpdated": "2021-04-06T12:36:39.173",
-      "id": "tVlKbtVfNjc",
-      "created": "2021-03-11T07:48:29.634",
-      "name": "Actiontracker_Indicator",
-      "shortName": "Actiontracker_Indicator",
-      "aggregationType": "NONE",
-      "displayInListNoProgram": false,
-      "pattern": "",
-      "skipSynchronization": false,
-      "generated": false,
-      "displayOnVisitSchedule": false,
-      "valueType": "TEXT",
-      "formName": "Indicator",
-      "confidential": false,
-      "orgunitScope": false,
-      "unique": false,
-      "inherit": false,
-      "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
-      },
-      "translations": [],
-      "attributeValues": [],
-      "legendSets": []
-    },
-    {
-      "lastUpdated": "2021-04-06T12:36:39.173",
-      "id": "jZ6WL4NQtp5",
-      "created": "2021-03-11T07:29:34.946",
-      "name": "Actiontracker_Intervention",
-      "shortName": "Actiontracker_Intervention",
-      "aggregationType": "NONE",
-      "displayInListNoProgram": false,
-      "pattern": "",
-      "skipSynchronization": false,
-      "generated": false,
-      "displayOnVisitSchedule": false,
-      "valueType": "TEXT",
-      "formName": "Intervention",
-      "confidential": false,
-      "orgunitScope": false,
-      "unique": false,
-      "inherit": false,
-      "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
-      },
-      "translations": [],
-      "attributeValues": [],
-      "legendSets": []
-    },
-    {
-      "lastUpdated": "2021-04-06T12:36:39.173",
-      "id": "G3aWsZW2MpV",
-      "created": "2021-03-11T07:52:14.282",
-      "name": "Actiontracker_Responsible Person",
-      "shortName": "Actiontracker_Responsible Person",
-      "aggregationType": "NONE",
-      "displayInListNoProgram": false,
-      "pattern": "",
-      "description": "To capture the name of the responsible person to execute the action",
-      "skipSynchronization": false,
-      "generated": false,
-      "displayOnVisitSchedule": false,
-      "valueType": "TEXT",
-      "formName": "Responsible Person",
-      "confidential": false,
-      "orgunitScope": false,
-      "unique": false,
-      "inherit": false,
-      "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
-      },
-      "translations": [],
-      "attributeValues": [],
-      "legendSets": []
-    },
-    {
-      "lastUpdated": "2021-04-06T12:36:39.173",
-      "id": "jFjnkx49Lg3",
-      "created": "2021-03-11T07:50:03.513",
-      "name": "Actiontracker_Start Date",
-      "shortName": "Actiontracker_Start Date",
-      "aggregationType": "NONE",
-      "displayInListNoProgram": false,
-      "pattern": "",
-      "description": "Start date for the action",
-      "skipSynchronization": false,
-      "generated": false,
-      "displayOnVisitSchedule": false,
-      "valueType": "DATE",
-      "formName": "Start Date",
-      "confidential": false,
-      "orgunitScope": false,
-      "unique": false,
-      "inherit": false,
-      "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
-      },
-      "translations": [],
-      "attributeValues": [],
-      "legendSets": []
-    },
-    {
-      "lastUpdated": "2021-04-06T12:36:39.173",
-      "id": "HQxzVwKedKu",
-      "created": "2021-03-11T07:49:00.386",
-      "name": "Actiontracker_Title",
-      "shortName": "Actiontracker_Title",
-      "aggregationType": "NONE",
-      "displayInListNoProgram": false,
-      "pattern": "",
-      "description": "Title of the action",
-      "skipSynchronization": false,
-      "generated": false,
-      "displayOnVisitSchedule": false,
-      "valueType": "TEXT",
-      "formName": "Title",
-      "confidential": false,
-      "orgunitScope": false,
-      "unique": false,
-      "inherit": false,
-      "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
-      },
-      "translations": [],
-      "attributeValues": [],
-      "legendSets": []
+      "options": [
+        {
+          "id": "muIDRX5liMX"
+        },
+        {
+          "id": "H8dVCYKzpuO"
+        }
+      ]
     }
   ],
   "programStages": [
@@ -1302,73 +1133,6 @@
       ]
     }
   ],
-  "options": [
-    {
-      "code": "Bottleneck analysis",
-      "created": "2021-03-24T05:46:34.891",
-      "lastUpdated": "2021-04-06T12:36:38.056",
-      "name": "Bottleneck analysis",
-      "id": "muIDRX5liMX",
-      "sortOrder": 2,
-      "optionSet": {
-        "id": "tsShlbiHhxN"
-      },
-      "attributeValues": [],
-      "translations": []
-    },
-    {
-      "code": "Cancelled",
-      "created": "2021-04-14T06:49:11.307",
-      "lastUpdated": "2021-04-14T06:49:11.322",
-      "name": "Cancelled",
-      "id": "FEz7OK0NVRW",
-      "sortOrder": 4,
-      "optionSet": {
-        "id": "Y3FLpktyYMC"
-      },
-      "attributeValues": [],
-      "translations": []
-    },
-    {
-      "code": "Completed",
-      "created": "2021-04-14T06:48:58.229",
-      "lastUpdated": "2021-04-14T06:48:58.245",
-      "name": "Completed",
-      "id": "JzKswnTlxSn",
-      "sortOrder": 3,
-      "optionSet": {
-        "id": "Y3FLpktyYMC"
-      },
-      "attributeValues": [],
-      "translations": []
-    },
-    {
-      "code": " In progress",
-      "created": "2021-04-14T06:48:46.383",
-      "lastUpdated": "2021-04-14T06:48:46.397",
-      "name": "In progress",
-      "id": "CI07xeRxsZU",
-      "sortOrder": 2,
-      "optionSet": {
-        "id": "Y3FLpktyYMC"
-      },
-      "attributeValues": [],
-      "translations": []
-    },
-    {
-      "code": "Not started",
-      "created": "2021-04-14T06:48:29.893",
-      "lastUpdated": "2021-04-14T06:48:29.904",
-      "name": "Not started",
-      "id": "fLUmGT0p0Sh",
-      "sortOrder": 1,
-      "optionSet": {
-        "id": "Y3FLpktyYMC"
-      },
-      "attributeValues": [],
-      "translations": []
-    }
-  ],
   "dataElements": [
     {
       "lastUpdated": "2021-04-14T06:09:26.430",
@@ -1389,10 +1153,10 @@
         "id": "bjDvmb4bfuf"
       },
       "lastUpdatedBy": {
-        "code": "admin",
         "displayName": "admin admin",
         "id": "M5zQapPyTZI",
-        "username": "admin"
+        "username": "admin",
+        "code": "admin"
       },
       "translations": [],
       "attributeValues": [],
@@ -1415,10 +1179,10 @@
         "id": "bjDvmb4bfuf"
       },
       "lastUpdatedBy": {
-        "code": "admin",
         "displayName": "admin admin",
         "id": "M5zQapPyTZI",
-        "username": "admin"
+        "username": "admin",
+        "code": "admin"
       },
       "translations": [],
       "attributeValues": [],
@@ -1437,22 +1201,22 @@
       "valueType": "TEXT",
       "formName": "Method",
       "zeroIsSignificant": false,
+      "optionSet": {
+        "id": "tsShlbiHhxN"
+      },
       "categoryCombo": {
         "id": "bjDvmb4bfuf"
       },
       "lastUpdatedBy": {
-        "code": "admin",
         "displayName": "admin admin",
         "id": "M5zQapPyTZI",
-        "username": "admin"
+        "username": "admin",
+        "code": "admin"
       },
       "translations": [],
       "attributeValues": [],
       "legendSets": [],
-      "aggregationLevels": [],
-      "optionSet": {
-        "id": "tsShlbiHhxN"
-      }
+      "aggregationLevels": []
     },
     {
       "lastUpdated": "2021-04-14T06:09:26.445",
@@ -1470,10 +1234,10 @@
         "id": "bjDvmb4bfuf"
       },
       "lastUpdatedBy": {
-        "code": "admin",
         "displayName": "admin admin",
         "id": "M5zQapPyTZI",
-        "username": "admin"
+        "username": "admin",
+        "code": "admin"
       },
       "translations": [],
       "attributeValues": [],
@@ -1496,10 +1260,10 @@
         "id": "bjDvmb4bfuf"
       },
       "lastUpdatedBy": {
-        "code": "admin",
         "displayName": "admin admin",
         "id": "M5zQapPyTZI",
-        "username": "admin"
+        "username": "admin",
+        "code": "admin"
       },
       "translations": [],
       "attributeValues": [],
@@ -1521,10 +1285,10 @@
         "id": "bjDvmb4bfuf"
       },
       "lastUpdatedBy": {
-        "code": "admin",
         "displayName": "admin admin",
         "id": "M5zQapPyTZI",
-        "username": "admin"
+        "username": "admin",
+        "code": "admin"
       },
       "translations": [],
       "attributeValues": [],
@@ -1547,10 +1311,10 @@
         "id": "bjDvmb4bfuf"
       },
       "lastUpdatedBy": {
-        "code": "admin",
         "displayName": "admin admin",
         "id": "M5zQapPyTZI",
-        "username": "admin"
+        "username": "admin",
+        "code": "admin"
       },
       "translations": [],
       "attributeValues": [],
@@ -1573,10 +1337,10 @@
         "id": "bjDvmb4bfuf"
       },
       "lastUpdatedBy": {
-        "code": "admin",
         "displayName": "admin admin",
         "id": "M5zQapPyTZI",
-        "username": "admin"
+        "username": "admin",
+        "code": "admin"
       },
       "translations": [],
       "attributeValues": [],
@@ -1599,15 +1363,321 @@
         "id": "bjDvmb4bfuf"
       },
       "lastUpdatedBy": {
-        "code": "admin",
         "displayName": "admin admin",
         "id": "M5zQapPyTZI",
-        "username": "admin"
+        "username": "admin",
+        "code": "admin"
       },
       "translations": [],
       "attributeValues": [],
       "legendSets": [],
       "aggregationLevels": []
+    }
+  ],
+  "trackedEntityAttributes": [
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "Hi3IjyMXzeW",
+      "created": "2021-03-11T08:32:45.540",
+      "name": "Actiontracker_Action To Solution Linkage",
+      "shortName": "Actiontracker_Action To Solution Linkage",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "Link to the Possible Solution",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Action To Solution Linkage",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "WLFrBgfl7lU",
+      "created": "2021-03-11T07:47:36.883",
+      "name": "Actiontracker_Bottleneck",
+      "shortName": "Actiontracker_Bottleneck",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Bottleneck",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "imiLbaQKYnA",
+      "created": "2021-03-11T07:48:07.018",
+      "name": "Actiontracker_Coverage Indicator",
+      "shortName": "Actiontracker_Coverage Indicator",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Coverage Indicator",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "GlvCtGIytIz",
+      "created": "2021-03-11T07:49:31.357",
+      "name": "Actiontracker_Description",
+      "shortName": "Actiontracker_Description",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "A description for the action item",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "LONG_TEXT",
+      "formName": "Description",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "Ax6bWbKn46e",
+      "created": "2021-03-11T07:52:36.013",
+      "name": "Actiontracker_Designation",
+      "shortName": "Actiontracker_Designation",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "Designation title of the responsible person to execute the action",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Designation",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "BYCbHJ46BOr",
+      "created": "2021-03-11T07:50:36.798",
+      "name": "Actiontracker_End Date",
+      "shortName": "Actiontracker_End Date",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "End date for the action",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "DATE",
+      "formName": "End Date",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "tVlKbtVfNjc",
+      "created": "2021-03-11T07:48:29.634",
+      "name": "Actiontracker_Indicator",
+      "shortName": "Actiontracker_Indicator",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Indicator",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "jZ6WL4NQtp5",
+      "created": "2021-03-11T07:29:34.946",
+      "name": "Actiontracker_Intervention",
+      "shortName": "Actiontracker_Intervention",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Intervention",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "G3aWsZW2MpV",
+      "created": "2021-03-11T07:52:14.282",
+      "name": "Actiontracker_Responsible Person",
+      "shortName": "Actiontracker_Responsible Person",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "To capture the name of the responsible person to execute the action",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Responsible Person",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "jFjnkx49Lg3",
+      "created": "2021-03-11T07:50:03.513",
+      "name": "Actiontracker_Start Date",
+      "shortName": "Actiontracker_Start Date",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "Start date for the action",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "DATE",
+      "formName": "Start Date",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
+    },
+    {
+      "lastUpdated": "2021-04-06T12:36:39.173",
+      "id": "HQxzVwKedKu",
+      "created": "2021-03-11T07:49:00.386",
+      "name": "Actiontracker_Title",
+      "shortName": "Actiontracker_Title",
+      "aggregationType": "NONE",
+      "displayInListNoProgram": false,
+      "pattern": "",
+      "description": "Title of the action",
+      "skipSynchronization": false,
+      "generated": false,
+      "displayOnVisitSchedule": false,
+      "valueType": "TEXT",
+      "formName": "Title",
+      "confidential": false,
+      "orgunitScope": false,
+      "unique": false,
+      "inherit": false,
+      "lastUpdatedBy": {
+        "displayName": "Gift Nnko",
+        "id": "II9InK8WpYg",
+        "username": "gnnko"
+      },
+      "translations": [],
+      "attributeValues": [],
+      "legendSets": []
     }
   ],
   "dataElementGroups": [
@@ -1814,44 +1884,6 @@
         }
       ],
       "translations": []
-    }
-  ],
-  "trackedEntityTypes": [
-    {
-      "lastUpdated": "2021-04-08T07:00:22.885",
-      "id": "TFYpX5EXmYp",
-      "created": "2021-03-11T08:03:38.194",
-      "name": "action",
-      "allowAuditLog": false,
-      "featureType": "NONE",
-      "minAttributesRequiredToSearch": 1,
-      "maxTeiCountToReturn": 0,
-      "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
-      },
-      "trackedEntityTypeAttributes": [],
-      "translations": [],
-      "attributeValues": []
-    },
-    {
-      "lastUpdated": "2021-04-08T07:00:08.406",
-      "id": "jLaBp1GaZQ9",
-      "created": "2021-03-11T07:31:01.886",
-      "name": "bottleneck",
-      "allowAuditLog": false,
-      "featureType": "NONE",
-      "minAttributesRequiredToSearch": 1,
-      "maxTeiCountToReturn": 0,
-      "lastUpdatedBy": {
-        "displayName": "Gift Nnko",
-        "id": "II9InK8WpYg",
-        "username": "gnnko"
-      },
-      "trackedEntityTypeAttributes": [],
-      "translations": [],
-      "attributeValues": []
     }
   ],
   "relationshipTypes": [

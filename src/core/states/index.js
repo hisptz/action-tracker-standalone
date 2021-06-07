@@ -1,5 +1,5 @@
 import {DimensionsState} from "./dimensions";
-import {ConfigState, ActionStatusState, DataEngineState} from "./config";
+import {ConfigState, ActionStatusState} from "./config";
 import {PageState} from "./page";
 import { IndicatorsSelectedState } from './indicatorsSelected';
 import {StatusFilterState} from "./statusFilter";
@@ -13,7 +13,7 @@ export {
     PageState,
     IndicatorsSelectedState,
     ActionStatusState,
-    DataEngineState,
+
     StatusFilterState,
     IndicatorProgressState,
     DownloadPdfState,

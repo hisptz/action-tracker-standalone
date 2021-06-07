@@ -1,5 +1,5 @@
 import {atom, selector} from "recoil";
-import _ from 'lodash';
+import * as _ from "lodash";
 import {ActionStatusConstants} from "../constants";
 
 const ConfigState = atom({
@@ -10,12 +10,6 @@ const ConfigState = atom({
     }
 });
 
-const iconQuery = {
-    icon: {
-        resource: 'icons',
-        id: ({id}) => id
-    }
-}
 
 const ActionStatusState = selector({
     key: 'actionStatus',
@@ -26,12 +20,6 @@ const ActionStatusState = selector({
     }
 });
 
-const DataEngineState = atom({
-    key: 'dataEngineState',
-    default: undefined
-});
-
-//TODO: Refactor to remove the usage of data engine state as it is redundant
 
 const PeriodConfigState = atom({
         key: 'periodConfig',
@@ -45,6 +33,5 @@ const PeriodConfigState = atom({
 export {
     ConfigState,
     ActionStatusState,
-    DataEngineState,
     PeriodConfigState
 }

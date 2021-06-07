@@ -1,6 +1,6 @@
 import {CustomNestedTable, CustomNestingTableCell} from "./CustomTable";
 import {Container, TableBody, TableRow} from "@material-ui/core";
-import _ from "lodash";
+import * as _ from "lodash";
 import React, {useEffect, useState} from "react";
 import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
 import ActionTable from "./ActionTable";

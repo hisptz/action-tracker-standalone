@@ -1,7 +1,7 @@
 {
   "readme": "https://github.com/hisptz/action-tracker-standalone/blob/develop/README.md",
   "name": "action-tracker-standalone",
-  "version": "1.0.0-beta-3105",
+  "version": "1.0.0",
   "description": "The action tracker is a management tool that helps improve effective coverage of priority interventions at district and community level, covering various interventions such as maternal, newborn, and child health (MNCH), HIV, and nutrition. ",
   "license": "BSD-3-Clause",
   "private": true,
@@ -31,7 +31,7 @@
   "dependencies": {
     "@dhis2/analytics": "^16.0.18",
     "@dhis2/app-runtime": "^2.8.0",
-    "@dhis2/app-service-datastore": "^1.0.0-alpha.1",
+    "@dhis2/app-service-datastore": "^1.0.0-alpha.2",
     "@dhis2/ui": "^6.6.0",
     "@iapps/period-utilities": "^1.0.0-beta.4",
     "@material-ui/core": "^4.11.3",

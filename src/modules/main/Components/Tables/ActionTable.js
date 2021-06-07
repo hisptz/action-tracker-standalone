@@ -3,7 +3,7 @@ import {
     CustomTableCell,
 } from "./CustomTable";
 import {Container, TableBody, TableRow} from "@material-ui/core";
-import _ from "lodash";
+import * as _ from "lodash";
 import React, {useEffect, useState} from "react";
 import Action from "../../../../core/models/action";
 import {useRecoilValue} from "recoil";
