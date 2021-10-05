@@ -6,11 +6,13 @@ import {
     Button,
     ModalTitle,
 } from '@dhis2/ui';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {PeriodDimension} from '@dhis2/analytics';
 import {Period} from "@iapps/period-utilities";
 import {useDataStore, useSetting} from "@dhis2/app-service-datastore";
 import * as _ from "lodash";
+import {useAlert} from "@dhis2/app-runtime";
+import {generateErrorAlert} from "../../../core/services/errorHandling.service";
 import DataStoreConstants from "../../../core/constants/datastore";
 import i18n from '@dhis2/d2-i18n'
 import { AlertBar } from '@dhis2/ui'
@@ -21,12 +23,13 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     const periodInstance = new Period();
     periodInstance.setPreferences({allowFuturePeriods: true});
     const [planningPeriod] = useSetting(DataStoreConstants.PLANNING_PERIOD_KEY, {global: true})
+    const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
+    // useEffect(() => generateErrorAlert(show, error), [error])
 
     const styles = {
         errorText: {
             fontSize: 12,
             color: 'red',
-            'backGroundColor':'red'
         }
     }
 
