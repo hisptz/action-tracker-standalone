@@ -38,7 +38,7 @@ const challengeCreateMutation = {
 function ChallengeDialog({onClose, onUpdate, challenge}) {
     const {orgUnit} = useRecoilValue(DimensionsState);
     const {pageNumber} = useRecoilValue(IndicatorPaginationState);
-    const {indicators, loading: indicatorsLoading, error: indicatorsError} = useIndicators(89798989);
+    const {indicators, loading: indicatorsLoading, error: indicatorsError} = useIndicators(pageNumber);
     const {bottleneckProgramMetadata} = useRecoilValue(ConfigState);
     const formFields = Bottleneck.getFormFields(bottleneckProgramMetadata);
     const validatedFormFields = getFormattedFormMetadata(formFields)

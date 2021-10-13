@@ -11,7 +11,6 @@ function DataFilter({options, initiallySelected, getSelected, loading}) {
     const [selected, setSelected] = useState([initiallySelected]);
     const [indicatorPage,setIndicatorPage] = useRecoilState(IndicatorPaginationState);
     const formattedOptionsList = formatDataFilterOptions(options,indicatorsSelected);
-    const [page, setPage] = useState(0)
     const onChange = ({selected}) => {
         if (selected) {
             setSelected(selected)
