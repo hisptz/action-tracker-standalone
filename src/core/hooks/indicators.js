@@ -1,4 +1,6 @@
 import {useDataQuery} from "@dhis2/app-runtime";
+import { useRecoilValue } from "recoil";
+import {IndicatorPaginationState} from "../states";
 
 const indicatorQuery = {
     data: {
@@ -10,7 +12,7 @@ const indicatorQuery = {
     }
 }
 
-export default function useIndicators(page = 0) {
+export default function useIndicators(page) {
     const {loading, data, error} = useDataQuery(indicatorQuery, {variables: {page}});
     const {totalPages, total, pageSize, indicators} = data?.data || {};
     return {loading, error, total, totalPages, pageSize, indicators}

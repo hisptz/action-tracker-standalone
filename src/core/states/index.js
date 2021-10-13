@@ -6,6 +6,8 @@ import {StatusFilterState} from "./statusFilter";
 import { IndicatorProgressState } from './indicatorProgress'
 import { DownloadPdfState} from './downloadPdf';
 import { Dhis2IconState} from './dhis2Icon';
+import {IndicatorPaginationState} from './indicators-pagination';
+
 
 export {
     DimensionsState,
@@ -13,7 +15,7 @@ export {
     PageState,
     IndicatorsSelectedState,
     ActionStatusState,
-
+    IndicatorPaginationState,
     StatusFilterState,
     IndicatorProgressState,
     DownloadPdfState,

@@ -30,6 +30,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
         errorText: {
             fontSize: 12,
             color: 'red',
+            backGroundColor:'red'
         }
     }
 
@@ -62,20 +63,24 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
                 <p><b>{i18n.t('Planning Period')}: </b> {i18n.t('{{ planningPeriod }} ', {planningPeriod})}</p>
                 {error && 
                       
-                <AlertBar  style={styles.errorText} duration ={2000}  >
+                <AlertBar backGroundColor={'red'}  color={'blue'} duration ={2000}  >
         {i18n.t('{{ error }}', {error})}
         </AlertBar>
   
             }
                 <PeriodDimension
+                   
                     onSelect={(period) => {
-                        const items = period?.items || [];
+                       const items = period?.items || [];
                         if (items?.length && items.length > 1) {
-                            items.shift();
-                        }
-                        setSelectedPeriods(items)
+                            items.shift();                                          
+                        }      
+                        
+                        setSelectedPeriods(items)                       
+                      
                     }}
                     selectedPeriods={selectedPeriods}
+
                 />
             </ModalContent>
             <ModalActions>
