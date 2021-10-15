@@ -25,7 +25,7 @@ Then(/^form with all needed fields should be displayed$/, function () {
 Then(/^i should be able to fill all the fields and submit the form$/, function () {
 
     cy.get('#jZ6WL4NQtp5').type('Testing adding interventions');
-    cy.get('[data-test="dhis2-uicore-transferoption"]').contains('Testing Indicator 1').dblclick();
+    cy.get('[data-test="dhis2-uicore-transferoption"]').contains('ANC 1 Coverage').dblclick();
     cy.get('button').contains('Save Intervention').click();
     cy.get('[data-test="dhis2-uicore-alertbar"]').should('have.class', 'success')
 });
