@@ -7,6 +7,8 @@ import actionStatusSettingsMetadata from '../../resources/Json/ActionStatusSetti
 import challengeSettingsMetadata from '../../resources/Json/ChallengeSettingsMetadata.json';
 import useUser from "./user";
 import {useOrganisationUnitLevel} from "./organisationUnit";
+import {useDataStore} from "@dhis2/app-service-datastore";
+import {GlobalSettingsState} from "../states/config";
 
 const programFields = [
     'id',
@@ -48,7 +50,7 @@ const optionSetSortingMutation = {
     params: {
         mergeMode: 'REPLACE'
     },
-    data: ({data})=>data
+    data: ({data}) => data
 }
 const optionSetSchemaUpdate = {
     type: 'create',
@@ -63,7 +65,20 @@ async function sortOptionsInOptionSets(optionSets = [], engine) {
     }
 }
 
-export  function useAppConfig() {
+
+export function useDataStoreSettings() {
+    const setGlobalSettingsState = useSetRecoilState(GlobalSettingsState)
+    const {globalSettings} = useDataStore();
+    console.log(globalSettings)
+
+    useEffect(() => {
+        if (globalSettings) {
+            setGlobalSettingsState(globalSettings?.settings)
+        }
+    }, [globalSettings])
+}
+
+export function useAppConfig() {
     const setConfig = useSetRecoilState(ConfigState);
     const engine = useDataEngine();
     const {loading, data, refetch, error: queryError} = useDataQuery(configQuery,);
