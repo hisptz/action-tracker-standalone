@@ -1,21 +1,12 @@
-import {
-    Modal,
-    ModalContent,
-    ModalActions,
-    ButtonStrip,
-    Button,
-    ModalTitle,
-} from '@dhis2/ui';
-import React, {useEffect, useState} from 'react';
+import {AlertBar, Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle,} from '@dhis2/ui';
+import React, {useState} from 'react';
 import {PeriodDimension} from '@dhis2/analytics';
 import {Period} from "@iapps/period-utilities";
-import {useDataStore, useSetting} from "@dhis2/app-service-datastore";
+import {useSetting} from "@dhis2/app-service-datastore";
 import * as _ from "lodash";
 import {useAlert} from "@dhis2/app-runtime";
-import {generateErrorAlert} from "../../../core/services/errorHandling.service";
 import DataStoreConstants from "../../../core/constants/datastore";
 import i18n from '@dhis2/d2-i18n'
-import { AlertBar } from '@dhis2/ui'
 
 export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     const [selectedPeriods, setSelectedPeriods] = useState(initialPeriods && [initialPeriods]);
@@ -30,7 +21,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
         errorText: {
             fontSize: 12,
             color: 'red',
-            backGroundColor:'red'
+            backGroundColor: 'red'
         }
     }
 
@@ -53,7 +44,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     }
 
     return (
-        <Modal open={open} onClose={onClose} dataTest='period-filter'>
+        <Modal position={'middle'} open={open} onClose={onClose} dataTest='period-filter'>
             <ModalTitle>
                 {
                     i18n.t('Period')
@@ -61,23 +52,23 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
             </ModalTitle>
             <ModalContent>
                 <p><b>{i18n.t('Planning Period')}: </b> {i18n.t('{{ planningPeriod }} ', {planningPeriod})}</p>
-                {error && 
-                      
-                <AlertBar backGroundColor={'red'}  color={'blue'} duration ={2000}  >
-        {i18n.t('{{ error }}', {error})}
-        </AlertBar>
-  
-            }
+                {error &&
+
+                <AlertBar backGroundColor={'red'} color={'blue'} duration={2000}>
+                    {i18n.t('{{ error }}', {error})}
+                </AlertBar>
+
+                }
                 <PeriodDimension
-                   
+
                     onSelect={(period) => {
-                       const items = period?.items || [];
+                        const items = period?.items || [];
                         if (items?.length && items.length > 1) {
-                            items.shift();                                          
-                        }      
-                        
-                        setSelectedPeriods(items)                       
-                      
+                            items.shift();
+                        }
+
+                        setSelectedPeriods(items)
+
                     }}
                     selectedPeriods={selectedPeriods}
 
