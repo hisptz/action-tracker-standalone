@@ -9,7 +9,7 @@ import {Period} from "@iapps/period-utilities";
 
 describe('Test getJSDate', () => {
 
-    it('Returns a JS date', () => {
+    it.only('Returns a JS date', () => {
         const date = getJSDate('2021-05-10');
         expect(date.getDate()).toBeDefined()
     })

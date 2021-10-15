@@ -12,7 +12,7 @@ import DataFilter from '../../Components/DataFilter';
 import {useForm, Controller, useFormState} from 'react-hook-form';
 import useIndicators from "../../../core/hooks/indicators";
 import {useRecoilValue} from "recoil";
-import {ConfigState, DimensionsState} from "../../../core/states";
+import {ConfigState, DimensionsState,IndicatorPaginationState} from "../../../core/states";
 import Bottleneck from "../../../core/models/bottleneck";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {confirmModalClose} from "../../../core/helpers/utils/utils";
@@ -37,7 +37,8 @@ const challengeCreateMutation = {
 
 function ChallengeDialog({onClose, onUpdate, challenge}) {
     const {orgUnit} = useRecoilValue(DimensionsState);
-    const {indicators, loading: indicatorsLoading, error: indicatorsError} = useIndicators(0);
+    const {pageNumber} = useRecoilValue(IndicatorPaginationState);
+    const {indicators, loading: indicatorsLoading, error: indicatorsError} = useIndicators(pageNumber);
     const {bottleneckProgramMetadata} = useRecoilValue(ConfigState);
     const formFields = Bottleneck.getFormFields(bottleneckProgramMetadata);
     const validatedFormFields = getFormattedFormMetadata(formFields)
@@ -52,6 +53,7 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
             onErrorHandler(error, show);
         }
     })
+
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
 
     const {handleSubmit, control} = useForm({

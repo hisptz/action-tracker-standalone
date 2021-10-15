@@ -15,6 +15,7 @@ import {useAlert} from "@dhis2/app-runtime";
 import {generateErrorAlert} from "../../../core/services/errorHandling.service";
 import DataStoreConstants from "../../../core/constants/datastore";
 import i18n from '@dhis2/d2-i18n'
+import { AlertBar } from '@dhis2/ui'
 
 export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     const [selectedPeriods, setSelectedPeriods] = useState(initialPeriods && [initialPeriods]);
@@ -23,12 +24,13 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     periodInstance.setPreferences({allowFuturePeriods: true});
     const [planningPeriod] = useSetting(DataStoreConstants.PLANNING_PERIOD_KEY, {global: true})
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
-    useEffect(() => generateErrorAlert(show, error), [error])
+    // useEffect(() => generateErrorAlert(show, error), [error])
 
     const styles = {
         errorText: {
             fontSize: 12,
             color: 'red',
+            backGroundColor:'red'
         }
     }
 
@@ -42,7 +44,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
                     onClose();
                 }
             } else {
-                setError(i18n.t(`Invalid Period. Please select period of type {{ planningPeriod }}.`, {planningPeriod}));
+                setError(i18n.t(`Invalid Period. Please select period of type  {{ planningPeriod }}.`, {planningPeriod}));
                 setSelectedPeriods([]);
             }
         } else {
@@ -59,16 +61,26 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
             </ModalTitle>
             <ModalContent>
                 <p><b>{i18n.t('Planning Period')}: </b> {i18n.t('{{ planningPeriod }} ', {planningPeriod})}</p>
-                {error && <p style={styles.errorText}>{i18n.t('{{ error }}', {error})}</p>}
+                {error && 
+                      
+                <AlertBar backGroundColor={'red'}  color={'blue'} duration ={2000}  >
+        {i18n.t('{{ error }}', {error})}
+        </AlertBar>
+  
+            }
                 <PeriodDimension
+                   
                     onSelect={(period) => {
-                        const items = period?.items || [];
+                       const items = period?.items || [];
                         if (items?.length && items.length > 1) {
-                            items.shift();
-                        }
-                        setSelectedPeriods(items)
+                            items.shift();                                          
+                        }      
+                        
+                        setSelectedPeriods(items)                       
+                      
                     }}
                     selectedPeriods={selectedPeriods}
+
                 />
             </ModalContent>
             <ModalActions>
