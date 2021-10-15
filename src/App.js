@@ -14,17 +14,18 @@ import defaultGlobalSettings from './core/constants/defaultConfig.json'
 import "./locales/index.js";
 import classes from './App.module.css'
 
+const modules = [
+    {
+        pathname: '/',
+    },
+    {
+        pathname: '/admin',
+    }
+]
+
+
 
 const MyApp = () => {
-
-    const modules = [
-        {
-            pathname: '/',
-        },
-        {
-            pathname: '/admin',
-        }
-    ]
 
     return (
         <DataStoreProvider namespace={'Standalone_Action_Tracker'} loadingComponent={<FullPageLoader/>}
