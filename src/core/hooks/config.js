@@ -8,7 +8,7 @@ import challengeSettingsMetadata from '../../resources/Json/ChallengeSettingsMet
 import useUser from "./user";
 import {useOrganisationUnitLevel} from "./organisationUnit";
 import {useDataStore} from "@dhis2/app-service-datastore";
-import {GlobalSettingsState} from "../states/config";
+import {EngineState, GlobalSettingsState} from "../states/config";
 
 const programFields = [
     'id',
@@ -69,13 +69,20 @@ async function sortOptionsInOptionSets(optionSets = [], engine) {
 export function useDataStoreSettings() {
     const setGlobalSettingsState = useSetRecoilState(GlobalSettingsState)
     const {globalSettings} = useDataStore();
-    console.log(globalSettings)
 
     useEffect(() => {
         if (globalSettings) {
             setGlobalSettingsState(globalSettings?.settings)
         }
     }, [globalSettings])
+}
+
+function useSetEngine() {
+    const engine = useDataEngine()
+    const setEngine = useSetRecoilState(EngineState);
+
+    useEffect(() => setEngine(engine), [])
+
 }
 
 export function useAppConfig() {
@@ -124,6 +131,7 @@ export function useAppConfig() {
 }
 
 export default function useAllConfig() {
+    useSetEngine()
     const {loading, firstTimeUseLoading, error: configError} = useAppConfig();
     const {loading: userLoading, error: userError} = useUser();
     const {loading: orgUnitLevelLoading, error: orgUnitLevelError, noConfig} = useOrganisationUnitLevel();

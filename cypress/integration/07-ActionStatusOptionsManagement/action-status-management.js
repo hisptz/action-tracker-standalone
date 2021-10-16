@@ -21,8 +21,7 @@ When(/^typing in required details including selecting color for the status$/, fu
         cy.get('div[title="#7ED321"]').click()
     })
     cy.get('.icon-picker-field').first().click()
-    cy.wait('@icon-requests')
-    cy.get('#dhis2-icon-dhis2_logo_outline').click()
+    cy.get('#dhis2-icon-rdt_result_pf_negative').click({force: true})
     cy.get('button').contains('Select').click()
 
 });
