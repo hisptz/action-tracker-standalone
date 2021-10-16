@@ -16,17 +16,9 @@ defineParameterType({
 })
 
 And("selecting period for planning as {period}", function (period) {
-    cy.fixture('configs').then((conf) => {
-        cy.get('#period-selector').click()
-        cy.get('[data-test="period-dimension-fixed-periods-button"]').click();
-        cy.get('[data-test="dhis2-uicore-select-input"]').click();
-        cy.get('[data-test="dhis2-uicore-layer"]')
-            .get('[data-test="dhis2-uicore-popper"]')
-            .get('[data-test="dhis2-uicore-select-menu-menuwrapper"]')
-            .get(`[data-test="period-dimension-fixed-period-filter-period-type-option-${conf.planningPeriodType.toUpperCase()}"]`).click()
-        cy.contains(period).dblclick();
-        cy.get('button').contains('Update').click();
-    })
+    cy.get('#period-selector').click()
+    cy.contains(period).dblclick();
+    cy.get('button').contains('Update').click();
 })
 
 defineParameterType({
@@ -35,14 +27,11 @@ defineParameterType({
 })
 
 When("selecting assigned district {district}", function (selectedDistrict) {
-    cy.fixture('configs').then((config) => {
-        cy.get('#orgUnit-selector').click({timeout: 8000})
-        cy.get('[data-test="dhis2-uiwidgets-orgunittree-node-toggle"]').click({timeout: 9000});
-        cy.wait(1000)
-        cy.contains(selectedDistrict).click({timeout: 5000});
-        cy.get('button').contains('Update').click();
-    })
-
+    cy.get('#orgUnit-selector').click({timeout: 8000})
+    cy.get('[data-test="dhis2-uiwidgets-orgunittree-node-toggle"]').click({timeout: 9000});
+    cy.wait(1000)
+    cy.contains(selectedDistrict).click({timeout: 5000});
+    cy.get('button').contains('Update').click();
 })
 
 
