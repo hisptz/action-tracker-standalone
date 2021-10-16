@@ -1,10 +1,11 @@
 import React, {useEffect, useRef} from "react";
 import {formatSvg} from "../../../core/helpers/utils/utils";
-import useDHIS2Icon from "./hooks/icon";
 import PropTypes from 'prop-types';
+import {useRecoilValueLoadable} from "recoil";
+import {Dhis2IconState} from "../../../core/states";
 
 export default function DHIS2Icon({iconName, size, color, style}) {
-    const {icon} = useDHIS2Icon(iconName);
+    const {contents: icon, state} = useRecoilValueLoadable(Dhis2IconState(iconName));
     const iconRef = useRef();
     useEffect(() => {
         if (icon) {
@@ -14,7 +15,7 @@ export default function DHIS2Icon({iconName, size, color, style}) {
         }
     }, [icon])
     return (
-        <div id={`dhis2-icon-${iconName}`} style={style} ref={iconRef}/>
+        state === 'loading' ? <div/> : <div id={`dhis2-icon-${iconName}`} style={style} ref={iconRef}/>
     )
 }
 

@@ -1,6 +1,6 @@
 import {atom, selector, selectorFamily} from "recoil";
 import {ActionStatusConstants} from "../constants";
-import {find, head, get as _get} from "lodash";
+import {find, get as _get, head} from "lodash";
 
 const ConfigState = atom({
     key: 'config',
@@ -9,6 +9,11 @@ const ConfigState = atom({
         actionProgramMetadata: {},
     }
 });
+
+const EngineState = atom({
+    key: 'engine-state',
+    default: undefined
+})
 
 
 const ActionStatusState = selector({
@@ -36,7 +41,7 @@ const GlobalSettingsState = atom({
 
 const GlobalSettingsSelector = selectorFamily({
     key: 'global-settings-selector',
-    get: (key)=> ({get})=>{
+    get: (key) => ({get}) => {
         const globalSettings = get(GlobalSettingsState)
         return _get(globalSettings, key)
     }
@@ -47,5 +52,6 @@ export {
     ActionStatusState,
     PeriodConfigState,
     GlobalSettingsState,
-    GlobalSettingsSelector
+    GlobalSettingsSelector,
+    EngineState
 }

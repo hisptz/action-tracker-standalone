@@ -1,0 +1,18 @@
+{
+    "count": 880,
+    "totalResponseSize": 827600,
+    "duplicates": 427,
+    "nonDeterministicResponses": 40,
+    "apiVersion": "36",
+    "fixtureFiles": [
+        "static_resources.json",
+        "gap_or_challenges_documentation.json",
+        "gap_and_solution_list.json",
+        "action_item_documentation.json",
+        "action_tracking_list.json",
+        "action_status_review.json",
+        "challenge_identification_methods_management.json",
+        "action_status_options_management.json",
+        "general_settings_management.json"
+    ]
+}
