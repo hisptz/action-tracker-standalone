@@ -105,7 +105,7 @@ console.log(actionEndDate)
                         />
                     </CustomTableCellWithActions> :
                     <ActionStatusTableCell
-                        disabled={  ! ( ( actionEndDate < endDate || actionEndDate == endDate) || (actionStartDate > startDate && actionStartDate < endDate )) }
+                        disabled={  ! (( actionEndDate < endDate || actionEndDate == endDate) || (actionStartDate > startDate && actionStartDate < endDate ))}
                         startDate={startDate}
                         endDate={endDate}
                         roles={roles}
