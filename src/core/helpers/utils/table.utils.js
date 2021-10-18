@@ -68,11 +68,15 @@ function getColumn(period) {
             const {ref, roles} = actions;
             const {startDate, endDate} = getPeriodDates(period);
             const actionEndDate = getJSDate(object.endDate);
+             const actionStartDate = getJSDate(object.startDate);
             const actionStatusList = object.actionStatusList || [];
             const actionStatus = _.filter(actionStatusList, (as => {
                 const eventDate = new Date(as.eventDate);
                 return startDate <= eventDate && endDate >= eventDate;
             }))[0]
+
+
+
             return (
                 actionStatus ?
                     <CustomTableCellWithActions key={`${actionStatus?.id}-action-status-cell`}
@@ -87,7 +91,7 @@ function getColumn(period) {
                         />
                     </CustomTableCellWithActions> :
                     <ActionStatusTableCell
-                        disabled={actionEndDate < endDate}
+                        disabled={  ! (( actionEndDate < endDate || actionEndDate == endDate) || (actionStartDate > startDate && actionStartDate < endDate ))}
                         startDate={startDate}
                         endDate={endDate}
                         roles={roles}
