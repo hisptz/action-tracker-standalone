@@ -75,20 +75,6 @@ function getColumn(period) {
                 return startDate <= eventDate && endDate >= eventDate;
             }))[0]
 
-console.log("startDate")
-console.log(startDate)
-
-console.log("actionStartDate")
-
-console.log(actionStartDate)
-console.log("endDate")
-
-console.log(endDate)
-
-console.log("actionEndDate")
-
-console.log(actionEndDate)
-
 
 
             return (
