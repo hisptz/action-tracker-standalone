@@ -3,7 +3,7 @@
     "testFiles": "**/*.feature",
     "chromeWebSecurity": false,
     "reporter": "cypress-multi-reporters",
-    "video": true,
+    "video": false,
     "projectId": "demzvf",
     "experimentalStudio": true,
     "viewportWidth": 1366,

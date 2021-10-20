@@ -6,7 +6,7 @@
   "license": "BSD-3-Clause",
   "private": true,
   "scripts": {
-    "build": "d2-app-scripts build",
+    "build": "d2-app-scripts build --no-verify",
     "start": "d2-app-scripts start",
     "test": "d2-app-scripts test",
     "e2e": "concurrently 'yarn cy:start' 'wait-on 'http-get://localhost:3000' && cypress run' --kill-others --success first",
@@ -53,6 +53,7 @@
     "highcharts-react-official": "^3.0.0",
     "jspdf-autotable": "^3.5.14",
     "lodash": "^4.17.21",
+    "luxon": "^2.0.2",
     "prop-types": "^15.7.2",
     "react-color": "^2.19.3",
     "react-hook-form": "^7.0.4",

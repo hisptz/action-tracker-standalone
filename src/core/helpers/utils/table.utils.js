@@ -1,7 +1,7 @@
 import * as _ from "lodash"
 import {ActionStatusTableCell, CustomTableCellWithActions} from "../../../modules/main/Components/Tables/CustomTable";
 import React from "react";
-import {getJSDate, getPeriodDates} from "./date.utils";
+import {getJSDate, getPeriodDates, isValidTrackingPeriod} from "./date.utils";
 import i18n from '@dhis2/d2-i18n'
 export function updateTablesVisibleColumnsCount(tables) {
     _.set(tables, 'gapsTable.visibleColumnsCount', _.filter(tables.gapsTable.columns, 'visible').length || 0)
@@ -91,7 +91,7 @@ function getColumn(period) {
                         />
                     </CustomTableCellWithActions> :
                     <ActionStatusTableCell
-                        disabled={  ! (( actionEndDate < endDate || actionEndDate == endDate) || (actionStartDate > startDate && actionStartDate < endDate ))}
+                        disabled={!isValidTrackingPeriod({actionStartDate, actionEndDate, startDate, endDate})}
                         startDate={startDate}
                         endDate={endDate}
                         roles={roles}
