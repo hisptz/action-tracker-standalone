@@ -34,6 +34,15 @@ https://github.com/hisptz/action-tracker-standalone/releases
 ```
 Go to your DHIS2 instance with the organisation units already in place,then install the downloaded app via App Management
 
+After you have installed the app into DHIS2 instance here are few steps you need to take before using it.
+
+1. Search Users Apps in DHIS2 menu, click it then go to user role.Select the user role of a person(s) dealing with action tracking and assign all authorities starting with SAT_ to it.
+
+2. Search Stand Alone Action Tracker app and click it, you will be required to go to Setting where you will fill in 'Planning Organisation Unit' field as per your use case.
+
+3. Search for maintainance app in DHIS2 menu,click it and open programs,then click into 'Actions' program and assign orgnization units of your use case.Do the same for 'Bottleneck' program too.
+
+
 ## 3. <a name='Developer'></a>Developer Guide
 
 ### 3.1. <a name='DevInstallation'></a>Installations
