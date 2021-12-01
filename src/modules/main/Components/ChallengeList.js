@@ -35,7 +35,8 @@ const indicatorQuery = {
             ou,
             ouMode,
             fields: BottleneckConstants.FIELDS,
-            trackedEntityInstance
+            trackedEntityInstance,
+            order: 'created:asc',
         })
     }
 }

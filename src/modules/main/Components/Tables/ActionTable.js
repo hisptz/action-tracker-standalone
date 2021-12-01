@@ -1,7 +1,4 @@
-import {
-    CustomNestedTable,
-    CustomTableCell,
-} from "./CustomTable";
+import {CustomNestedTable, CustomTableCell,} from "./CustomTable";
 import {Container, TableBody, TableRow} from "@material-ui/core";
 import * as _ from "lodash";
 import React, {useEffect, useState} from "react";
@@ -39,7 +36,8 @@ const actionsQuery = {
                 `${ActionConstants.ACTION_TO_SOLUTION_LINKAGE}:eq:${solutionToActionLinkage}`,
                 `${ActionConstants.START_DATE_ATTRIBUTE}:ge:${startDate}`,
                 `${ActionConstants.END_DATE_ATTRIBUTE}:le:${endDate}`
-            ]
+            ],
+            order: 'created:asc'
         })
     }
 }
