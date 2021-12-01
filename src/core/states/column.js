@@ -27,7 +27,7 @@ export const TableState = atom({
                     columns: [
                         {
                             name: 'gap',
-                            displayName: i18n.t('Bottleneck'),
+                            displayName: i18n.t('General Activity'),
                             mandatory: false,
                             visible: true,
                             width: 0,
@@ -73,7 +73,7 @@ export const TableState = atom({
                     columns: [
                         {
                             name: 'possibleSolution',
-                            displayName: i18n.t('Possible Solutions'),
+                            displayName: i18n.t('Specific Activity'),
                             mandatory: false,
                             visible: true,
                             width: 0,
@@ -105,7 +105,7 @@ export const TableState = atom({
                     columns: [
                         {
                             name: 'action',
-                            displayName: i18n.t('Action Items'),
+                            displayName: i18n.t('Tasks'),
                             mandatory: true,
                             visible: true,
                             width: 0,

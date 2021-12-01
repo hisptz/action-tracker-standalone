@@ -157,21 +157,14 @@ const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object, r
     )
 }
 
-const DueDateTableCell = ({dueDate, pastDate, style}) => {
+const DueDateTableCell = ({dueDate, style}) => {
     return (
         <CustomTableCell style={{
-            background: pastDate && '#ffecb3',
             maxWidth: style?.maxWidth
         }}>
             <Grid container direction='row' spacing={1}>
-                {
-                    pastDate &&
-                    <Grid item>
-                        <DueDateWarningIcon fontSize='small' style={{color: pastDate && '#6f3205'}}/>
-                    </Grid>
-                }
                 <Grid item>
-                    <span style={{color: pastDate && '#6f3205'}}>{dueDate}</span>
+                    <span>{dueDate}</span>
                 </Grid>
             </Grid>
         </CustomTableCell>

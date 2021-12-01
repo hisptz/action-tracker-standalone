@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import _ from 'lodash';
+import _, {sortBy} from 'lodash';
 import ChallengeCard from "./ChallengeCard";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {DimensionsState, DownloadPdfState, PageState, StatusFilterState} from "../../../core/states";
@@ -48,7 +48,7 @@ export default function ChallengeList() {
     const {filteredTeis, loading: filteredTeisLoading} = useGetFilteredTeis(selectedStatus, orgUnit);
     const [page, setPage] = useState(1);
     const [downloadPdf, setDownloadPdf] = useState(false);
-    const [pageSize, setPageSize] = useState(5);
+    const [pageSize, setPageSize] = useState(20);
     const {loading, data, error, refetch} = useDataQuery(indicatorQuery, {
         variables: {ou: orgUnit?.id, page, pageSize, trackedEntityInstance: [], ouMode},
         lazy: true
@@ -67,11 +67,14 @@ export default function ChallengeList() {
 
 
     const [documentHasData, setDocumentHasData] = useState(false);
+
+    const sortedData = sortBy(data?.indicators?.trackedEntityInstances, (item) => new Date(item.created));
+
     useEffect(() => generateErrorAlert(show, error), [error])
     useEffect(() => {
         function setInitialExpandedCard() {
-            if (data?.indicators?.trackedEntityInstances) {
-                setExpandedCardId(_.head(data?.indicators?.trackedEntityInstances)?.trackedEntityInstance)
+            if (sortedData) {
+                setExpandedCardId(_.head(sortedData)?.trackedEntityInstance)
             }
         }
 
@@ -81,7 +84,7 @@ export default function ChallengeList() {
         function refresh() {
             if (orgUnit && !_.isEmpty(period)) {
                 if (!selectedStatus) {
-                    refetch({ou: orgUnit?.id, page, pageSize, trackedEntityInstance: [], ouMode: 'DESCENDANTS'})
+                    refetch({ou: orgUnit?.id, page, pageSize, ouMode: 'DESCENDANTS'})
                 } else {
                     refetch({
                         ou: orgUnit?.id,
@@ -96,6 +99,7 @@ export default function ChallengeList() {
 
         refresh();
     }, [orgUnit, period, page, pageSize, selectedStatus, filteredTeisLoading, filteredTeis]);
+
 
     const onAddIndicator = useCallback(() => {
         refetch()
@@ -184,12 +188,12 @@ export default function ChallengeList() {
                 </div>}
                 {((!loading || !filteredTeisLoading) && !error && data) && <>
                     {
-                        _.isEmpty(data.indicators?.trackedEntityInstances) ?
+                        _.isEmpty(sortedData) ?
                             <div className={classes['full-page']}><EmptyChallengeList
                                 onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/></div> :
                             <div id='challenge-list'>
                                 {
-                                    _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
+                                    _.map(sortedData, (trackedEntityInstance) => {
                                         const indicator = new Bottleneck(trackedEntityInstance);
                                         return (
                                             <div className={classes['challenge-card']} key={`${indicator.id}-grid`}>

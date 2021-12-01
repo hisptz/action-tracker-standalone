@@ -12,6 +12,7 @@ export default class BottleneckConstants {
         'trackedEntityInstance',
         'attributes[attribute,value]',
         'enrollments[events[programStage,event,dataValues[dataElement,value]]]',
-        'orgUnit'
+        'orgUnit',
+        'created',
     ]
 }

@@ -44,12 +44,12 @@ export function generateMetadataSummaryErrors(importSummary = {}) {
 
 export function onErrorHandler(error, show) {
     const errors = generateImportSummaryErrors(error?.details) || [];
-    errors.forEach(error => show({message: error, type: {error: true}}))
+    errors.forEach(error => show({message: error, type: {info: true}}))
 }
 
 export function onMetadataErrorHandler(error, show) {
     const errors = generateMetadataSummaryErrors(error?.details);
-    errors.forEach(error => show({message: error, type: {error: true}}))
+    errors.forEach(error => show({message: error, type: {info: true}}))
 }
 
 export function onCompleteHandler(importSummary, show, {message, onUpdate, onClose}) {
@@ -59,7 +59,7 @@ export function onCompleteHandler(importSummary, show, {message, onUpdate, onClo
         onClose && onUpdate();
         onUpdate && onClose();
     } else {
-        errors.forEach(error => show({message: error, type: {error: true}}))
+        errors.forEach(error => show({message: error, type: {info: true}}))
     }
 }
 
@@ -70,11 +70,11 @@ export function onMetadataCompleteHandler(importSummary, show, {message, onUpdat
         onClose && onUpdate();
         onUpdate && onClose();
     } else {
-        errors.forEach(error => show({message: error, type: {error: true}}))
+        errors.forEach(error => show({message: error, type: {info: true}}))
     }
 }
 
 
 export function generateErrorAlert(show, error) {
-    error && show({message: error?.message || error?.toString(), type: {critical: true}})
+    error && show({message: error?.message || error?.toString(), type: {info: true}})
 }

@@ -1,12 +1,10 @@
 import Bottleneck from "../../../core/models/bottleneck";
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Box, Button, CenteredContent, CircularLoader} from '@dhis2/ui';
 import {Card, CardContent, Grid, Typography} from "@material-ui/core";
 import ChallengeTable from "./Tables/ChallengeTable";
 import ProgressIcon from '@material-ui/icons/BarChart';
 import {useIndicatorsName} from "../../../core/hooks/indicators";
-import {generateErrorAlert} from "../../../core/services/errorHandling.service";
-import {useAlert} from "@dhis2/app-runtime";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import TableActionsMenu from "./TableActionsMenu";
 import DeleteConfirmation from "../../../shared/Components/DeleteConfirmation";
@@ -18,6 +16,7 @@ import useWindowDimensions from "../../../core/hooks/window";
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import i18n from '@dhis2/d2-i18n'
+
 export default function ChallengeCard({
                                           indicator = new Bottleneck(),
                                           refresh,
@@ -28,8 +27,6 @@ export default function ChallengeCard({
     const [openProgressDialog, setOpenProgressDialog] = useState(false);
     const indicatorObject = indicator.toJson();
     const {loading, error, name} = useIndicatorsName(indicatorObject.indicator);
-    const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
-    useEffect(() => generateErrorAlert(show, error), [error]);
     const {bottleneck: bottleneckRoles} = useRecoilValue(UserRolesState) || {};
     const {width} = useWindowDimensions();
 
@@ -70,7 +67,8 @@ export default function ChallengeCard({
                                             </Grid>
                                             <Grid item>
                                                 <Button onClick={() => setOpenProgressDialog(true)}
-                                                        icon={<ProgressIcon/>}>{i18n.t('View Indicator Progress')}</Button>
+                                                        icon={
+                                                            <ProgressIcon/>}>{i18n.t('View Indicator Progress')}</Button>
                                             </Grid>
                                         </Grid>
                                         <Grid item container justify='flex-end' xs={1}>

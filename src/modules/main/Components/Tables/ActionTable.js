@@ -1,6 +1,7 @@
 import {CustomNestedTable, CustomTableCell,} from "./CustomTable";
 import {Container, TableBody, TableRow} from "@material-ui/core";
 import * as _ from "lodash";
+import {sortBy} from "lodash";
 import React, {useEffect, useState} from "react";
 import Action from "../../../../core/models/action";
 import {useRecoilValue} from "recoil";
@@ -87,6 +88,8 @@ export default function ActionTable({solution = new PossibleSolution()}) {
     const [openAddActionStatus, setOpenAddActionStatus] = useState(false)
     const [openDelete, setOpenDelete] = useState(false);
 
+    const sortedData = sortBy(data?.actions?.trackedEntityInstances, (action) => new Date(action.created));
+
     const onDelete = () => {
         setOpenDelete(true);
     }
@@ -135,7 +138,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                         {
                             data && <>
                                 {
-                                    selectedStatus ? _.map(_.filter(_.map(data?.actions?.trackedEntityInstances, (trackedEntityInstance) => new Action(trackedEntityInstance)), (action) => action?.latestStatus === selectedStatus), (action) =>
+                                    selectedStatus ? _.map(_.filter(_.map(sortedData, (trackedEntityInstance) => new Action(trackedEntityInstance)), (action) => action?.latestStatus === selectedStatus), (action) =>
                                             <TableRow key={`${action?.id}-row`}>
                                                 {
                                                     _.map(actionsTable.columns, ({render, visible}) => {
@@ -203,7 +206,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                                             }
                                             </TableRow>
                                         ) :
-                                        _.map(_.map(data?.actions?.trackedEntityInstances, (trackedEntityInstance) => new Action(trackedEntityInstance)), (action) =>
+                                        _.map(_.map(sortedData, (trackedEntityInstance) => new Action(trackedEntityInstance)), (action) =>
                                             <TableRow key={`${action?.id}-row`}>
                                                 {
                                                     _.map(actionsTable.columns, ({

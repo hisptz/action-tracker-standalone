@@ -14,6 +14,7 @@ export default class ActionConstants {
         'trackedEntityInstance',
         'attributes[attribute,value]',
         'enrollments[events[trackedEntityInstance,eventDate,programStage,event,dataValues[dataElement,value]]]',
-        'relationships[relationship,from[trackedEntityInstance[trackedEntityInstance]]]'
+        'relationships[relationship,from[trackedEntityInstance[trackedEntityInstance]]]',
+        'created'
     ];
 }
