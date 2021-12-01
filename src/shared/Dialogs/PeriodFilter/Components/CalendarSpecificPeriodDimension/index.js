@@ -60,6 +60,7 @@ export default function CalendarSpecificPeriodDimension({
             if (selectedRelativePeriodType) {
                 if (selectedPeriodCategory.key === PeriodCategories.RELATIVE.key) {
                     return new Period()
+                        .setPreferences({allowFuturePeriods: true})
                         .setCalendar(calendar)
                         .setYear(year)
                         .setType(selectedRelativePeriodType)
@@ -70,6 +71,7 @@ export default function CalendarSpecificPeriodDimension({
             if (selectedFixedPeriodType) {
                 if (selectedPeriodCategory.key === PeriodCategories.FIXED.key) {
                     return new Period()
+                        .setPreferences({allowFuturePeriods: true})
                         .setCalendar(calendar)
                         .setYear(year)
                         .setType(selectedFixedPeriodType)
