@@ -4,21 +4,22 @@ import {UserState} from "../states/user";
 import {useEffect} from "react";
 
 const userQuery = {
-    user:{
+    user: {
         resource: 'me',
-        params:{
+        params: {
             fields: [
                 'id',
                 'name',
                 'displayName',
                 'userCredentials[userRoles[id,name]]',
-                'authorities'
+                'authorities',
+                'organisationUnits[id,displayName,children,path]'
             ]
         }
     }
 }
 
-export default function useUser(){
+export default function useUser() {
     const {loading, data, error} = useDataQuery(userQuery);
     const setUser = useSetRecoilState(UserState);
 
