@@ -54,7 +54,7 @@ export const TableState = atom({
                             name: 'orgUnit',
                             displayName: i18n.t('Org Unit'),
                             mandatory: false,
-                            visible: true,
+                            visible: false,
                             width: 0,
                             render: (object) => {
                                 return (
@@ -121,7 +121,7 @@ export const TableState = atom({
                             name: 'responsiblePerson',
                             displayName: i18n.t('Responsible Person'),
                             mandatory: true,
-                            visible: true,
+                            visible: false,
                             width: 0,
                             render: (object, _, __, width) => {
                                 return (
