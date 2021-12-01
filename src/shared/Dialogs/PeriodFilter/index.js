@@ -9,6 +9,8 @@ import i18n from '@dhis2/d2-i18n'
 import CalendarSpecificPeriodDimension from "./Components/CalendarSpecificPeriodDimension";
 import {CalendarTypes} from "./Components/CalendarSpecificPeriodDimension/constants/calendar";
 
+import {PeriodDimension} from '@dhis2/analytics'
+
 export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     const [selectedPeriods, setSelectedPeriods] = useState(initialPeriods && [initialPeriods]);
     const [error, setError] = useState();
