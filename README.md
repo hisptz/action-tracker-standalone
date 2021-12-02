@@ -18,7 +18,7 @@
 
 The action tracker is a management tool that helps improve effective coverage of priority interventions at district and community level, covering various interventions such as maternal, newborn, and child health (MNCH), HIV, and nutrition. This process ensures appropriate equity analysis at the sub-national level with the aim of identifying underserved populations and the specific bottlenecks they face in accessing life-saving healthcare. Alongside Bottleneck analysis that analyses hindrances to achieving desired coverage, action tracking allows program implementers to register and track actions based on suggested solutions from root causes, or the ones which are not originating from Bottleneck analysis.
 
-Stand Alone Action tracker is an application developed to operate and installed in DHIS 2 instance, and aimed to operate without the existence of set up Bottleneck Analysis. Stand Alone Action tracker must be installed in DHIS 2 system by user with administrative privilege and configure data entry and report based on in-country needs. Users at sub-national levels will be using action tracker to register actions and track the status of their implementation of tasks based on the roles they are assigned in the application and DHIS 2 system in general. 
+Stand-Alone Action tracker is an application developed to operate and installed in DHIS 2 instance, and aimed to operate without the existence of set up Bottleneck Analysis. Stand Alone Action tracker must be installed in DHIS 2 system by user with administrative privilege and configure data entry and report based on in-country needs. Users at sub-national levels will be using action tracker to register actions and track the status of their implementation of tasks based on the roles they are assigned in the application and DHIS 2 system in general. 
 The application is developed using DHIS 2 tracker implementation, that gives the possibility of migrating registered actions and their implementations from stand alone action tracker to Bottleneck Analysis (BNA) linked action tracker. Stand Alone Action Tracker differs from BNA linked Action tracker by allowing to set some fields from BNA linked action tracker as optional, that gives possibility of registration and tracking of tasks that are not necessarily obtained from Bottleneck Analysis of interventions.
 
 
@@ -33,6 +33,15 @@ Download the latest version of the App via
 https://github.com/hisptz/action-tracker-standalone/releases
 ```
 Go to your DHIS2 instance with the organisation units already in place,then install the downloaded app via App Management
+
+After you have installed the app into DHIS2 instance here are few steps you need to take before using it.
+
+1. Search Users Apps in DHIS2 menu, click it then go to user role.Select the user role of a person(s) dealing with action tracking and assign all authorities starting with SAT_ to it.
+
+2. Search Stand Alone Action Tracker app and click it, you will be required to go to Setting where you will fill in 'Planning Organisation Unit' field as per your use case.
+
+3. Search for maintainance app in DHIS2 menu,click it and open programs,then click into 'Actions' program and assign orgnization units of your use case.Do the same for 'Bottleneck' program too.
+
 
 ## 3. <a name='Developer'></a>Developer Guide
 

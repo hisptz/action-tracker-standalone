@@ -40,7 +40,6 @@ const indicatorQuery = {
     }
 }
 
-
 export default function ChallengeList() {
     const {orgUnit, period} = useRecoilValue(DimensionsState) || {};
     const {selected: selectedStatus} = useRecoilValue(StatusFilterState) || {};
@@ -98,7 +97,7 @@ export default function ChallengeList() {
 
     const onAddIndicator = useCallback(() => {
         refetch()
-    }, [])
+    }, [refetch])
 
     const onPageChange = useCallback((newPage) => setPage(newPage), []);
     const onPageSizeChange = useCallback((newPageSize) => setPageSize(newPageSize), []);

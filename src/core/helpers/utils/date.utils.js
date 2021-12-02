@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-
+import {DateTime, Interval} from 'luxon'
 
 /*
 * @param {String} dateString
@@ -74,5 +74,17 @@ export function getPeriodDates(quarter) {
             throw Error('Invalid period provided.')
         }
     }
+}
+
+
+export function isValidTrackingPeriod({actionStartDate, actionEndDate, startDate, endDate}) {
+    const actionInterval = Interval.fromDateTimes(DateTime.fromJSDate(actionStartDate), DateTime.fromJSDate(actionEndDate))
+    const interval = Interval.fromDateTimes(DateTime.fromJSDate(startDate), DateTime.fromJSDate(endDate))
+    const intersection = interval.intersection(actionInterval)
+    console.log({
+        startDate: intersection?.start,
+        endDate: intersection?.end
+    })
+    return !!actionInterval.intersection(interval)
 }
 

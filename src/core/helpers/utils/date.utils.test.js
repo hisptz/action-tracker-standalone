@@ -1,15 +1,17 @@
 import {
-    getJSDate,
+    getDHIS2DateFromPeriodLibDate,
     getFormattedDate,
     getFormattedDateFromPeriod,
-    getDHIS2DateFromPeriodLibDate,
-    getPeriodDates
-} from "./date.utils";
+    getJSDate,
+    getPeriodDates,
+    isValidTrackingPeriod
+} from "./date.utils.js";
 import {Period} from "@iapps/period-utilities";
+import {reduce} from "lodash";
 
 describe('Test getJSDate', () => {
 
-    it('Returns a JS date', () => {
+    it.only('Returns a JS date', () => {
         const date = getJSDate('2021-05-10');
         expect(date.getDate()).toBeDefined()
     })
@@ -72,9 +74,63 @@ describe("Test getPeriodDates", () => {
 
     })
     it('should throw an error if arguments are invalid', () => {
-        expect(()=>getPeriodDates('2020')).toThrow(Error('Invalid period provided.'))
+        expect(() => getPeriodDates('2020')).toThrow(Error('Invalid period provided.'))
     })
     it('should not throw an error if no argument is provided', () => {
-        expect(()=>getPeriodDates()).not.toThrow(Error);
+        expect(() => getPeriodDates()).not.toThrow(Error);
     })
+})
+
+
+const QuarterPeriods = [
+    {
+        startDate: new Date(2020, 1, 1),
+        endDate: new Date(2020, 3, 31)
+    },
+    {
+        startDate: new Date(2020, 4, 1),
+        endDate: new Date(2020, 6, 30)
+    },
+    {
+        startDate: new Date(2020, 7, 1),
+        endDate: new Date(2020, 9, 30)
+    },
+    {
+        startDate: new Date(2020, 10, 1),
+        endDate: new Date(2020, 12, 31)
+    },
+
+]
+
+const ActionDates = [
+    {
+        startDate: new Date(2020, 1, 1),
+        endDate: new Date(2020, 12, 31)
+    },
+    {
+        startDate: new Date(2020, 1, 1),
+        endDate: new Date(2020, 6, 30)
+    },
+    {
+        startDate: new Date(2020, 7, 1),
+        endDate: new Date(2020, 12, 31)
+    },
+    {
+        startDate: new Date(2020, 3, 1),
+        endDate: new Date(2020, 9, 30)
+    },
+]
+
+describe("Test isValidTrackingPeriod", () => {
+    it('should return all quarters for full year', function () {
+        const {startDate: actionStartDate, endDate: actionEndDate} = ActionDates[0]
+        const allValid = reduce(QuarterPeriods, (acc, {startDate, endDate}) => {
+            return acc || isValidTrackingPeriod({
+                actionStartDate,
+                actionEndDate, startDate, endDate
+            })
+        }, false)
+
+        expect(allValid).to.be.true
+    });
 })
