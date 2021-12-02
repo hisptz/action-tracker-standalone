@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-01T05:18:06.322Z\n"
-"PO-Revision-Date: 2021-12-01T05:18:06.322Z\n"
+"POT-Creation-Date: 2021-12-02T15:29:19.437Z\n"
+"PO-Revision-Date: 2021-12-02T15:29:19.437Z\n"
 
 msgid "{{- displayName }}"
 msgstr "{{- displayName }}"
@@ -183,8 +183,8 @@ msgstr ""
 msgid "Intervention Deleted Successfully"
 msgstr "Intervention Deleted Successfully"
 
-msgid "Preparing an excel file"
-msgstr "Preparing an excel file"
+msgid "Preparing a Excel file"
+msgstr "Preparing a Excel file"
 
 msgid "Preparing a PDF file"
 msgstr "Preparing a PDF file"
@@ -271,6 +271,12 @@ msgstr "Status"
 msgid "Remarks"
 msgstr "Remarks"
 
+msgid "Image"
+msgstr "Image"
+
+msgid "View Image"
+msgstr "View Image"
+
 msgid "Review Date"
 msgstr "Review Date"
 
@@ -295,6 +301,9 @@ msgstr "Are you sure you want to delete this solution and all related actions?"
 
 msgid "Solution Deleted Successfully"
 msgstr "Solution Deleted Successfully"
+
+msgid "Invalid value"
+msgstr "Invalid value"
 
 msgid "No option available"
 msgstr "No option available"
@@ -341,11 +350,17 @@ msgstr "Hide"
 msgid "Save Action"
 msgstr "Save Action"
 
+msgid "Invalid URL"
+msgstr "Invalid URL"
+
 msgid "Action status saved successfully"
 msgstr "Action status saved successfully"
 
-msgid "Action Status"
-msgstr "Action Status"
+msgid "Task Status"
+msgstr "Task Status"
+
+msgid "Save"
+msgstr "Save"
 
 msgid "Intervention saved successfully"
 msgstr "Intervention saved successfully"
@@ -424,3 +439,6 @@ msgstr "Possible Solution"
 
 msgid "Save Solution"
 msgstr "Save Solution"
+
+msgid "Close"
+msgstr "Close"

@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import _, {sortBy} from 'lodash';
 import ChallengeCard from "./ChallengeCard";
-import {useRecoilValue, useSetRecoilState} from "recoil";
-import {DimensionsState, DownloadPdfState, PageState, StatusFilterState} from "../../../core/states";
+import {useRecoilCallback, useRecoilState, useRecoilValue} from "recoil";
+import {DimensionsState, StatusFilterState} from "../../../core/states";
 import NoDimensionsSelectedView from "./NoDimensionsSelectedView";
 import MainPageHeader from "./MainPageHeader";
 import EmptyChallengeList from "./EmptyChallengeList";
 import FullPageLoader from "../../../shared/Components/FullPageLoader";
-import {useAlert, useDataEngine, useDataQuery} from "@dhis2/app-runtime";
+import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import Bottleneck from "../../../core/models/bottleneck";
 import ChallengeDialog from "../../../shared/Dialogs/ChallengeDialog";
 import {generateErrorAlert} from "../../../core/services/errorHandling.service";
@@ -15,14 +15,13 @@ import Paginator from "../../../shared/Components/Paginator";
 import {CenteredContent} from '@dhis2/ui'
 import useGetFilteredTeis from "../hooks/useGetFilteredTeis";
 import FullPageError from "../../../shared/Components/FullPageError";
-import {downloadExcel, getPdfDownloadData} from '../../../core/services/downloadFiles.service'
 import {UserConfigState} from "../../../core/states/user";
 import {BottleneckConstants} from "../../../core/constants";
-import {TableStateSelector} from '../../../core/states/column'
-import {usePDF} from '@react-pdf/renderer';
-import PDFTable from '../../../shared/Components/Download/PDFTable';
 import i18n from '@dhis2/d2-i18n'
 import classes from '../main.module.css'
+import useDownload from "../hooks/useDownload";
+import {DownloadActive, DownloadType} from "./Download/state/download";
+import Download from "./Download";
 
 const indicatorQuery = {
     indicators: {
@@ -47,27 +46,17 @@ export default function ChallengeList() {
     const {ouMode} = useRecoilValue(UserConfigState) || {};
     const {filteredTeis, loading: filteredTeisLoading} = useGetFilteredTeis(selectedStatus, orgUnit);
     const [page, setPage] = useState(1);
-    const [downloadPdf, setDownloadPdf] = useState(false);
     const [pageSize, setPageSize] = useState(20);
     const {loading, data, error, refetch} = useDataQuery(indicatorQuery, {
         variables: {ou: orgUnit?.id, page, pageSize, trackedEntityInstance: [], ouMode},
         lazy: true
     });
-    const [tablePDFDownloadData, setTablePDFDownloadData] = useState(undefined);
-    const tableColumnsData = useRecoilValue(TableStateSelector)
-    const currentTab = useRecoilValue(PageState);
-    const engine = useDataEngine();
     const [addIndicatorOpen, setAddIndicatorOpen] = useState(false)
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     const [selectedChallenge, setSelectedChallenge] = useState(undefined);
-    const setIsDownloadingPdf = useSetRecoilState(DownloadPdfState);
     const [expandedCardId, setExpandedCardId] = useState()
-    const document = <PDFTable teiItems={tablePDFDownloadData} currentTab={currentTab}/>;
-    const [instance, update] = usePDF({document});
-
-
-    const [documentHasData, setDocumentHasData] = useState(false);
-
+    const {onDownload, downloadRef} = useDownload()
+    const [downloadActive, setDownloadActive] = useRecoilState(DownloadActive)
     const sortedData = sortBy(data?.indicators?.trackedEntityInstances, (item) => new Date(item.created));
 
     useEffect(() => generateErrorAlert(show, error), [error])
@@ -100,7 +89,6 @@ export default function ChallengeList() {
         refresh();
     }, [orgUnit, period, page, pageSize, selectedStatus, filteredTeisLoading, filteredTeis]);
 
-
     const onAddIndicator = useCallback(() => {
         refetch()
     }, [refetch])
@@ -113,66 +101,29 @@ export default function ChallengeList() {
         onClose();
     }, [])
 
-    const onDownloadExcel = useCallback(() => {
-        show({message: i18n.t('Preparing an excel file'), type: {permanent: false}});
-        downloadExcel({
-            engine,
-            orgUnit,
-            tableColumnsData,
-            currentTab,
-            selectedPeriod: period,
-        });
-    }, [])
+    const onDownloadExcel = useRecoilCallback(({set}) => () => {
+        show({message: i18n.t('Preparing a Excel file'), type: {info: true}});
+        set(DownloadType, 'excel')
+        set(DownloadActive, true)
+    }, [show])
 
-    const onDownloadPDF = useCallback(() => {
-        setIsDownloadingPdf({isDownloadingPdf: true, loading: true});
-        getPdfDownloadData({
-            engine,
-            orgUnit,
-            tableColumnsData,
-            currentTab,
-            selectedPeriod: period,
-        }).then((result) => {
-            setTablePDFDownloadData(result);
-            setDownloadPdf(true);
-        });
-
-        show({message: i18n.t('Preparing a PDF file'), type: {permanent: false}});
-    }, [])
+    const onDownloadPDF = useRecoilCallback(({set}) => () => {
+        show({message: i18n.t('Preparing a PDF file'), type: {info: true}});
+        set(DownloadType, 'pdf')
+        set(DownloadActive, true)
+    }, [show])
 
     const onEdit = useCallback((object) => {
         setSelectedChallenge(object);
         setAddIndicatorOpen(true);
     }, [])
 
-    useEffect(() => {
-        async function openDocument() {
-            if (downloadPdf && tablePDFDownloadData) {
-                await update();
-                setDocumentHasData(true);
-            }
-        }
-
-        openDocument();
-    }, [downloadPdf, tablePDFDownloadData]);
-
-    useEffect(() => {
-        function openWindow() {
-            setTimeout(() => {
-                if (!instance?.loading && documentHasData) {
-                    window.open(instance.url, '_blank');
-                    setDownloadPdf(false)
-                }
-            }, 1000)
-
-        }
-
-        openWindow();
-    }, [instance?.loading, tablePDFDownloadData, documentHasData]);
 
     return (orgUnit && period ?
             <div className={classes['challenge-list-container']}>
-
+                {
+                    downloadActive && <Download onDownload={onDownload} downloadRef={downloadRef}/>
+                }
                 <div className={classes['header-container']}>
                     <MainPageHeader
                         listIsEmpty={_.isEmpty(data?.indicators?.trackedEntityInstances)}

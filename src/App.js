@@ -2,11 +2,7 @@ import React from 'react'
 import MainPage from "./modules/main";
 import {RecoilRoot} from "recoil";
 import {CssReset} from '@dhis2/ui'
-import {
-    MemoryRouter,
-    Switch,
-    Route,
-} from "react-router-dom";
+import {HashRouter, Route, Switch,} from "react-router-dom";
 import AdminPage from "./modules/admin";
 import {DataStoreProvider} from "@dhis2/app-service-datastore";
 import FullPageLoader from "./shared/Components/FullPageLoader";
@@ -20,6 +16,8 @@ const modules = [
     },
     {
         pathname: '/admin',
+    }, {
+        pathname: '/download/:type',
     }
 ]
 const MyApp = () => {
@@ -30,7 +28,7 @@ const MyApp = () => {
             <RecoilRoot>
                 <CssReset/>
                 <div className={classes['app-container']}>
-                    <MemoryRouter initialEntries={modules} initialIndex={0}>
+                    <HashRouter initialEntries={modules} initialIndex={0}>
                         <Switch>
                             <Route path={`/admin`}>
                                 <AdminPage/>
@@ -39,7 +37,7 @@ const MyApp = () => {
                                 <MainPage/>
                             </Route>
                         </Switch>
-                    </MemoryRouter>
+                    </HashRouter>
                 </div>
             </RecoilRoot>
         </DataStoreProvider>
