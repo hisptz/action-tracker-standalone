@@ -203,10 +203,14 @@ const ActionStatusDetails = ({actionStatus}) => {
                     {actionStatus?.remarks}
                 </span>
                 </div>
-                <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <b>{i18n.t('Image')}</b>
-                    <a onClick={() => setImageViewerOpen(true)} className='link'>{i18n.t("View Image")}</a>
-                </div>
+                {
+                    actionStatus.imageLink && (
+                        <div style={{display: 'flex', flexDirection: 'column'}}>
+                            <b>{i18n.t('Image')}</b>
+                            <a onClick={() => setImageViewerOpen(true)} className='link'>{i18n.t("View Image")}</a>
+                        </div>
+                    )
+                }
                 <div style={{display: 'flex', flexDirection: 'column'}}>
                     <b>{i18n.t('Review Date')}</b>
                     <span id='action-status-review-date'>

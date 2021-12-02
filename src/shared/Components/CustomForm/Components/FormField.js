@@ -25,6 +25,11 @@ function FormField({field, control}) {
                                 if (!/[\S]/.test(value?.value)) {
                                     return field?.validations?.required;
                                 }
+                                if (value) {
+                                    if (_.has(field.validations, 'pattern')) {
+                                        return field?.validations?.pattern?.value?.test(value.value) ? true : field?.validations?.pattern?.message ?? i18n.t('Invalid value');
+                                    }
+                                }
                                 if (_.has(field?.validations, 'customValidate')) {
                                     return field?.validations?.customValidate(value, dependants, control);
                                 } else if (_.has(field?.validations, 'validate')) {

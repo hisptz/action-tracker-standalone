@@ -1,12 +1,5 @@
 import PropTypes from 'prop-types';
-import {
-    Modal,
-    ModalTitle,
-    ModalContent,
-    ModalActions,
-    Button,
-    ButtonStrip,
-} from '@dhis2/ui';
+import {Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle,} from '@dhis2/ui';
 import CustomForm from '../../Components/CustomForm';
 import {getFormattedFormMetadata} from '../../../core/helpers/utils/form.utils';
 import {useForm} from 'react-hook-form';
@@ -18,6 +11,8 @@ import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHan
 import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import {ActionStatusConstants} from "../../../core/constants";
 import i18n from '@dhis2/d2-i18n'
+import React from 'react'
+
 const actionStatusEditMutation = {
     type: 'update',
     resource: 'events',
@@ -40,6 +35,15 @@ function getValidatedFormFields(metadataFields, {startDate, endDate}) {
         if (field.id === ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT) {
             field.max = getFormDate(endDate);
             field.min = getFormDate(startDate);
+        }
+        if (field.id === ActionStatusConstants.IMAGE_LINK_DATA_ELEMENT) {
+            field.validations = {
+                ...field.validations,
+                pattern: {
+                    value: RegExp("[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)"),
+                    message: i18n.t("Invalid URL")
+                }
+            };
         }
     })
     return formFields;
@@ -64,7 +68,11 @@ export function ActionStatusDialog({onClose, action, onUpdate, actionStatus, sta
     const [mutate, {loading: saving}] = useDataMutation(actionStatus ? actionStatusEditMutation : actionStatusCreateMutation, {
         variables: {data: {}, id: actionStatus?.id},
         onComplete: (importSummary) => {
-            onCompleteHandler(importSummary, show, {message: i18n.t('Action status saved successfully'), onClose, onUpdate})
+            onCompleteHandler(importSummary, show, {
+                message: i18n.t('Action status saved successfully'),
+                onClose,
+                onUpdate
+            })
         },
         onError: error => {
             onErrorHandler(error, show);
@@ -83,10 +91,9 @@ export function ActionStatusDialog({onClose, action, onUpdate, actionStatus, sta
 
     }
 
-    console.log(formFields)
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
-            <ModalTitle> {actionStatus ? i18n.t('Edit'): i18n.t('Add')} {i18n.t('Task Status')}</ModalTitle>
+            <ModalTitle> {actionStatus ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Task Status')}</ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control} errors={errors}/>
             </ModalContent>
