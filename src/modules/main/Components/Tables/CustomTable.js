@@ -1,6 +1,5 @@
 import {Grid, IconButton, Table, TableCell, TableFooter, TableRow, withStyles} from "@material-ui/core";
 import {Button, CenteredContent} from '@dhis2/ui'
-import DueDateWarningIcon from '@material-ui/icons/ReportProblemOutlined';
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React, {useEffect, useRef, useState} from "react";
 import {ActionConstants} from "../../../../core/constants/action";
@@ -13,6 +12,7 @@ import * as _ from "lodash";
 import {formatSvg, generateTextColor} from "../../../../core/helpers/utils/utils";
 import DHIS2Icon from "../../../../shared/Components/DHIS2Icon";
 import i18n from '@dhis2/d2-i18n'
+import ImageViewerModal from "../../../../shared/ImageViewerModal";
 
 const CustomTableRowHead = withStyles((_) => ({
     root: {
@@ -183,29 +183,41 @@ const NoActionStatus = ({onAddClick}) => {
 }
 
 const ActionStatusDetails = ({actionStatus}) => {
-
+    const [imageViewerOpen, setImageViewerOpen] = useState(false);
     return (
-        <div>
-            <Grid container>
-                <Grid item xs={12}>
+        <div style={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column'}}>
+            <div style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'center',
+                gap: 8,
+                flexDirection: 'column'
+            }}>
+                <div style={{display: 'flex', flexDirection: 'column'}}>
                     <b>{i18n.t('Status')}</b>
-                </Grid>
-                <Grid item xs={12}>
                     <StatusContainer status={actionStatus?.status}/>
-                </Grid>
-                <Grid item xs={12}>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'column'}}>
                     <b>{i18n.t('Remarks')}</b>
-                </Grid>
-                <Grid id='action-status-remarks' item xs={12}>
+                    <span id='action-status-remarks'>
                     {actionStatus?.remarks}
-                </Grid>
-                <Grid item xs={12}>
+                </span>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'column'}}>
+                    <b>{i18n.t('Image')}</b>
+                    <a onClick={() => setImageViewerOpen(true)} className='link'>{i18n.t("View Image")}</a>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'column'}}>
                     <b>{i18n.t('Review Date')}</b>
-                </Grid>
-                <Grid id='action-status-review-date' item xs={12}>
+                    <span id='action-status-review-date'>
                     {actionStatus?.reviewDate}
-                </Grid>
-            </Grid>
+                </span>
+                </div>
+            </div>
+            {
+                imageViewerOpen &&
+                <ImageViewerModal onClose={() => setImageViewerOpen(false)} actionStatus={actionStatus}/>
+            }
         </div>
     )
 }

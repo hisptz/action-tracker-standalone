@@ -2,18 +2,13 @@ import PropTypes from 'prop-types';
 import {CustomFormField} from '../../../../core/models/customFormField';
 import {Controller, useFormState, useWatch} from 'react-hook-form';
 import '../styles/FormField.css';
-import {
-    InputField,
-    Checkbox,
-    TextAreaField,
-    SingleSelectField,
-    SingleSelectOption,
-} from '@dhis2/ui';
+import {Checkbox, InputField, SingleSelectField, SingleSelectOption, TextAreaField,} from '@dhis2/ui';
 import {Dhis2ValueTypes} from '../../../../core/constants';
 import {map} from 'lodash';
 import ColorFormField from "./ColorFormField";
 import InputPickerField from '../../IconPickerField';
 import i18n from '@dhis2/d2-i18n'
+
 function FormField({field, control}) {
     const dependants = useWatch({control, name: field.dependants}); //watchFields is an array of fieldIds that are used to validate other fields in the form
     const {errors} = useFormState({control});
@@ -81,6 +76,7 @@ function FormField({field, control}) {
                                 case Dhis2ValueTypes.INTEGER.name:
                                 case Dhis2ValueTypes.TEXT.name:
                                 case Dhis2ValueTypes.DATE.name:
+                                case Dhis2ValueTypes.URL.name:
                                     return (
                                         <InputField
                                             min={field?.min}
@@ -141,7 +137,7 @@ function FormField({field, control}) {
                                         <ColorFormField
                                             value={value}
                                             onChange={(v) => {
-                                                onChange({name: field.id, value:v})
+                                                onChange({name: field.id, value: v})
                                             }}
                                             required={
                                                 field?.validations && field.validations.required

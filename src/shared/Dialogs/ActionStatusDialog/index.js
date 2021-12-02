@@ -82,9 +82,11 @@ export function ActionStatusDialog({onClose, action, onUpdate, actionStatus, sta
         }
 
     }
+
+    console.log(formFields)
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
-            <ModalTitle> {actionStatus ? i18n.t('Edit'): i18n.t('Add')} {i18n.t('Action Status')}</ModalTitle>
+            <ModalTitle> {actionStatus ? i18n.t('Edit'): i18n.t('Add')} {i18n.t('Task Status')}</ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control} errors={errors}/>
             </ModalContent>
@@ -93,7 +95,7 @@ export function ActionStatusDialog({onClose, action, onUpdate, actionStatus, sta
                     <Button secondary onClick={_ => confirmModalClose(onClose)}>{i18n.t('Hide')}</Button>
                     <Button disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
                         {
-                            saving ? i18n.t('Saving...') : i18n.t('Save Action Status')
+                            saving ? i18n.t('Saving...') : i18n.t('Save')
                         }
                     </Button>
                 </ButtonStrip>

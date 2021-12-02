@@ -1,4 +1,4 @@
-.app-container{
+.app-container {
     margin: 0;
     overflow-x: auto;
     padding: 0;
@@ -7,11 +7,11 @@
     flex: 1;
 }
 
-html{
+html {
     height: 100%;
 }
 
-.popper{
+.popper {
     z-index: 9999;
 }
 
@@ -44,7 +44,17 @@ div.jsx-1730587817 {
     }
 }
 
-.transparent{
+.transparent {
     background: transparent;
 }
 
+a {
+    color: #3970a8;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:hover {
+    color: #204970;
+    text-decoration: underline;
+}

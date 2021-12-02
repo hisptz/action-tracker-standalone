@@ -22,9 +22,6 @@ const modules = [
         pathname: '/admin',
     }
 ]
-
-
-
 const MyApp = () => {
 
     return (

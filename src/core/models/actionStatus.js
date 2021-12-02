@@ -12,6 +12,7 @@ export default class ActionStatus {
         this.status = _.find(dataValues, ['dataElement', ActionStatusConstants.STATUS_DATA_ELEMENT])?.value;
         this.remarks = _.find(dataValues, ['dataElement', ActionStatusConstants.REMARKS_DATA_ELEMENT])?.value;
         this.reviewDate = _.find(dataValues, ['dataElement', ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT])?.value;
+        this.imageLink = _.find(dataValues, ['dataElement', ActionStatusConstants.IMAGE_LINK_DATA_ELEMENT])?.value;
         this.actionId = trackedEntityInstance
         this.eventDate = eventDate;
         this.orgUnit = orgUnit;
@@ -30,6 +31,7 @@ export default class ActionStatus {
             status: this.status,
             remarks: this.remarks,
             reviewDate: this.reviewDate,
+            imageLink: this.imageLink,
             actionId: this.actionId,
             eventDate: this.eventDate
         }
@@ -39,6 +41,7 @@ export default class ActionStatus {
         this.status = data[ActionStatusConstants.STATUS_DATA_ELEMENT]?.value;
         this.remarks = data[ActionStatusConstants.REMARKS_DATA_ELEMENT]?.value;
         this.reviewDate = data[ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT]?.value;
+        this.imageLink = data[ActionStatusConstants.IMAGE_LINK_DATA_ELEMENT]?.value;
         this.actionId = this.actionId || data['actionId'];
         this.id = this.id || uid();
         this.eventDate = this.eventDate || data[ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT]?.value
@@ -58,17 +61,22 @@ export default class ActionStatus {
             name: ActionStatusConstants.REMARKS_DATA_ELEMENT,
             value: this.remarks
         };
+        formData[ActionStatusConstants.IMAGE_LINK_DATA_ELEMENT] = {
+            name: ActionStatusConstants.IMAGE_LINK_DATA_ELEMENT,
+            value: this.imageLink
+        };
         formData['actionId'] = this.actionId;
         return formData
     }
 
     getPayload(orgUnit = '') {
 
-        function getDataValues({status, remarks, reviewDate}) {
+        function getDataValues({status, remarks, reviewDate, imageLink}) {
             const dataValues = [];
             dataValues.push({'dataElement': ActionStatusConstants.STATUS_DATA_ELEMENT, value: status})
             dataValues.push({'dataElement': ActionStatusConstants.REMARKS_DATA_ELEMENT, value: remarks})
             dataValues.push({'dataElement': ActionStatusConstants.REVIEW_DATE_DATA_ELEMENT, value: reviewDate})
+            dataValues.push({'dataElement': ActionStatusConstants.IMAGE_LINK_DATA_ELEMENT, value: imageLink})
             return dataValues;
         }
 
@@ -96,7 +104,6 @@ export default class ActionStatus {
                 formFields.push(formField);
             }
         }
-
         return formFields;
 
     }
