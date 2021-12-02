@@ -110,12 +110,12 @@ const StatusTableCell = ({status, reference, onDelete, onEdit, setRef, object, r
     const statusLegend = useRecoilValue(ActionStatusState);
     const {code: selectedStatus, style} = _.find(statusLegend, ['code', status]) || {
         code: status,
-        style: {color: '#6E7A8A'}
+        style: {color: '#e9edf2'}
     };
     const icon = style?.icon;
     return (
         <StyledStatusTableCell {...props} style={{
-            background: `${style?.color || '#6E7A8A'}70`,
+            background: `${style?.color || '#e9edf2'}`,
             textAlign: 'center',
             verticalAlign: 'top',
             color: generateTextColor(style?.color || '#6E7A8A'),

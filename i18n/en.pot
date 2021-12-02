@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-10-15T15:56:37.994Z\n"
-"PO-Revision-Date: 2021-10-15T15:56:37.994Z\n"
+"POT-Creation-Date: 2021-12-01T05:18:06.322Z\n"
+"PO-Revision-Date: 2021-12-01T05:18:06.322Z\n"
 
 msgid "{{- displayName }}"
 msgstr "{{- displayName }}"
@@ -14,17 +14,17 @@ msgstr "{{- displayName }}"
 msgid "Are you sure you want to quit? All changes will be lost."
 msgstr "Are you sure you want to quit? All changes will be lost."
 
-msgid "Bottleneck"
-msgstr "Bottleneck"
+msgid "General Activity"
+msgstr "General Activity"
 
 msgid "Org Unit"
 msgstr "Org Unit"
 
-msgid "Possible Solutions"
-msgstr "Possible Solutions"
+msgid "Specific Activity"
+msgstr "Specific Activity"
 
-msgid "Action Items"
-msgstr "Action Items"
+msgid "Tasks"
+msgstr "Tasks"
 
 msgid "Responsible Person"
 msgstr "Responsible Person"
@@ -373,6 +373,9 @@ msgstr "Update"
 
 msgid "Bottleneck saved successfully"
 msgstr "Bottleneck saved successfully"
+
+msgid "Bottleneck"
+msgstr "Bottleneck"
 
 msgid "Save Bottleneck"
 msgstr "Save Bottleneck"
