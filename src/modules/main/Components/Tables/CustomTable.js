@@ -207,7 +207,7 @@ const ActionStatusDetails = ({actionStatus}) => {
                     actionStatus.imageLink && (
                         <div style={{display: 'flex', flexDirection: 'column'}}>
                             <b>{i18n.t('Image')}</b>
-                            <a onClick={() => setImageViewerOpen(true)} className='link'>{i18n.t("View Image")}</a>
+                            <a rel="noreferrer" href={actionStatus.imageLink} target="_blank"  className='link'>{i18n.t("View Image")}</a>
                         </div>
                     )
                 }
