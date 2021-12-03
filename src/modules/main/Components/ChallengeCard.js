@@ -42,7 +42,6 @@ export default function ChallengeCard({
         <Box id={`intervention-card-${indicator.id}`} minWidth={'1326px'} maxWidth={`${width - 40}px`}>
             <Card variant='outlined' style={{minHeight: 32}}>
                 {
-
                     <CardContent>
                         {
                             loading ?
@@ -64,11 +63,6 @@ export default function ChallengeCard({
                                                 <Typography
                                                     variant='h6'> {indicator.intervention} - {name}
                                                 </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                                <Button onClick={() => setOpenProgressDialog(true)}
-                                                        icon={
-                                                            <ProgressIcon/>}>{i18n.t('View Indicator Progress')}</Button>
                                             </Grid>
                                         </Grid>
                                         <Grid item container justify='flex-end' xs={1}>
