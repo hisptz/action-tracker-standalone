@@ -1,13 +1,11 @@
 import {CustomNestedTable, CustomNestingTableCell} from "./CustomTable";
 import {Container, TableBody, TableRow} from "@material-ui/core";
 import * as _ from "lodash";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {Button, CenteredContent, CircularLoader} from "@dhis2/ui";
 import ActionTable from "./ActionTable";
 import PossibleSolution from "../../../../core/models/possibleSolution";
-import {
-    BottleneckConstants, PossibleSolutionConstants,
-} from "../../../../core/constants";
+import {BottleneckConstants, PossibleSolutionConstants,} from "../../../../core/constants";
 import {useAlert, useDataQuery} from "@dhis2/app-runtime";
 import {generateErrorAlert} from "../../../../core/services/errorHandling.service";
 import Gap from "../../../../core/models/gap";
@@ -20,9 +18,11 @@ import DeleteConfirmation from "../../../../shared/Components/DeleteConfirmation
 import {UserRolesState} from "../../../../core/states/user";
 import Visibility from "../../../../shared/Components/Visibility";
 import i18n from '@dhis2/d2-i18n'
+import {sanitizedData} from "../../../../shared/utils/data";
+
 const possibleSolutionQuery = {
     data: {
-        resource: 'events',
+        resource: 'events/query',
         params: ({trackedEntityInstance, page, pageSize, linkage}) => ({
             page,
             pageSize,
@@ -44,7 +44,7 @@ export default function SolutionsTable({gap = new Gap()}) {
     const {solutionsTable, visibleColumnsCount, gapsTable} = useRecoilValue(TableStateSelector);
     const {possibleSolution: solutionRoles} = useRecoilValue(UserRolesState);
     const [pageSize, setPageSize] = useState(5);
-    const {loading, error, data, refetch} = useDataQuery(possibleSolutionQuery, {
+    const {loading, error, data: rawData, refetch} = useDataQuery(possibleSolutionQuery, {
         variables: {
             trackedEntityInstance: gap.indicatorId,
             page,
@@ -52,6 +52,13 @@ export default function SolutionsTable({gap = new Gap()}) {
             linkage: gap.solutionLinkage
         }
     })
+
+    const data = useMemo(() => {
+        if (rawData) {
+            return sanitizedData(rawData.data);
+        }
+        return []
+    }, [rawData])
 
     useEffect(() => {
         function refresh() {
@@ -109,7 +116,7 @@ export default function SolutionsTable({gap = new Gap()}) {
                             </colgroup>
                             <TableBody>
                                 {
-                                    _.map(_.map(data?.data?.events, (event) => new PossibleSolution(event)), (solution) =>
+                                    _.map(_.map(data, (event) => PossibleSolution.fromQueryObject(event, gap.indicatorId)), (solution) =>
                                         <TableRow key={`${solution.id}-row`}>
                                             {
                                                 _.map(solutionsTable.columns, ({render, visible}) => {
@@ -143,7 +150,8 @@ export default function SolutionsTable({gap = new Gap()}) {
                     <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                         <Grid item>
                             <Visibility visible={solutionRoles?.create}>
-                                <Button dataTest='add-solution-button' onClick={_ => setAddSolutionOpen(true)}>{i18n.t('Add Solution')}</Button>
+                                <Button dataTest='add-solution-button'
+                                        onClick={_ => setAddSolutionOpen(true)}>{i18n.t('Add Solution')}</Button>
                             </Visibility>
                         </Grid>
                         <Grid item>
