@@ -1,9 +1,8 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import _ from 'lodash';
-import {Container, Grid} from "@material-ui/core";
 import ChallengeCard from "./ChallengeCard";
 import {useRecoilValue, useSetRecoilState} from "recoil";
-import { DimensionsState, DownloadPdfState, PageState, StatusFilterState} from "../../../core/states";
+import {DimensionsState, DownloadPdfState, PageState, StatusFilterState} from "../../../core/states";
 import NoDimensionsSelectedView from "./NoDimensionsSelectedView";
 import MainPageHeader from "./MainPageHeader";
 import EmptyChallengeList from "./EmptyChallengeList";
@@ -24,6 +23,7 @@ import {usePDF} from '@react-pdf/renderer';
 import PDFTable from '../../../shared/Components/Download/PDFTable';
 import i18n from '@dhis2/d2-i18n'
 import classes from '../main.module.css'
+
 const indicatorQuery = {
     indicators: {
         resource: 'trackedEntityInstances',
@@ -66,12 +66,13 @@ export default function ChallengeList() {
 
     const [documentHasData, setDocumentHasData] = useState(false);
     useEffect(() => generateErrorAlert(show, error), [error])
-    useEffect(()=>{
-        function setInitialExpandedCard(){
-            if(data?.indicators?.trackedEntityInstances){
+    useEffect(() => {
+        function setInitialExpandedCard() {
+            if (data?.indicators?.trackedEntityInstances) {
                 setExpandedCardId(_.head(data?.indicators?.trackedEntityInstances)?.trackedEntityInstance)
             }
         }
+
         setInitialExpandedCard();
     }, [data])
     useEffect(() => {
@@ -106,7 +107,7 @@ export default function ChallengeList() {
         onClose();
     }, [])
 
-    const onDownloadExcel = useCallback(()=>{
+    const onDownloadExcel = useCallback(() => {
         show({message: i18n.t('Preparing an excel file'), type: {permanent: false}});
         downloadExcel({
             engine,
@@ -115,10 +116,11 @@ export default function ChallengeList() {
             currentTab,
             selectedPeriod: period,
         });
-    }, [])
+    }, [orgUnit, currentTab, period, tableColumnsData, engine])
 
-    const  onDownloadPDF = useCallback(()=>{
+    const onDownloadPDF = useCallback(() => {
         setIsDownloadingPdf({isDownloadingPdf: true, loading: true});
+        console.log(orgUnit)
         getPdfDownloadData({
             engine,
             orgUnit,
@@ -131,7 +133,7 @@ export default function ChallengeList() {
         });
 
         show({message: i18n.t('Preparing a PDF file'), type: {permanent: false}});
-    }, [])
+    }, [orgUnit, currentTab, period, tableColumnsData, engine])
 
     const onEdit = useCallback((object) => {
         setSelectedChallenge(object);
@@ -166,7 +168,7 @@ export default function ChallengeList() {
     return (orgUnit && period ?
             <div className={classes['challenge-list-container']}>
 
-                <div className={classes['header-container']} >
+                <div className={classes['header-container']}>
                     <MainPageHeader
                         listIsEmpty={_.isEmpty(data?.indicators?.trackedEntityInstances)}
                         onDownloadExcel={onDownloadExcel}
@@ -174,47 +176,50 @@ export default function ChallengeList() {
                         onAddIndicatorClick={_ => onModalClose(_ => setAddIndicatorOpen(true))}
                     />
                 </div>
-                                       {(loading || filteredTeisLoading) &&
-                    <div className={classes['full-page']} ><FullPageLoader/></div>}
-                    {((!loading || !filteredTeisLoading) && error) &&
-                    <div className={classes['full-page']} ><FullPageError error={error?.message || error?.toString()}/></div>}
-                    {((!loading || !filteredTeisLoading) && !error && data) && <>
-                        {
-                            _.isEmpty(data.indicators?.trackedEntityInstances) ?
-                                <div className={classes['full-page']} ><EmptyChallengeList
-                                    onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/></div> :
-                                <div id='challenge-list'  >
-                                    {
-                                        _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
-                                            const indicator = new Bottleneck(trackedEntityInstance);
-                                            return (
-                                                <div className={classes['challenge-card']} key={`${indicator.id}-grid`} >
-                                                    <ChallengeCard expandedCardId={expandedCardId} setExpandedCardId={setExpandedCardId} onEdit={onEdit} refresh={refetch}
-                                                                   key={`${indicator.id}-card`} indicator={indicator}/>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div>
-                        }
-                        {
-                            data?.indicators?.pager.pageCount > 1 &&
-                            <div className={classes['paginator-container']}>
-                                <CenteredContent>
-                                    <Paginator pager={data.indicators.pager} onPageChange={onPageChange}
-                                               onPageSizeChange={onPageSizeChange}/>
-                                </CenteredContent>
+                {(loading || filteredTeisLoading) &&
+                <div className={classes['full-page']}><FullPageLoader/></div>}
+                {((!loading || !filteredTeisLoading) && error) &&
+                <div className={classes['full-page']}><FullPageError error={error?.message || error?.toString()}/>
+                </div>}
+                {((!loading || !filteredTeisLoading) && !error && data) && <>
+                    {
+                        _.isEmpty(data.indicators?.trackedEntityInstances) ?
+                            <div className={classes['full-page']}><EmptyChallengeList
+                                onAddIndicatorClick={_ => setAddIndicatorOpen(true)}/></div> :
+                            <div id='challenge-list'>
+                                {
+                                    _.map(data.indicators?.trackedEntityInstances, (trackedEntityInstance) => {
+                                        const indicator = new Bottleneck(trackedEntityInstance);
+                                        return (
+                                            <div className={classes['challenge-card']} key={`${indicator.id}-grid`}>
+                                                <ChallengeCard expandedCardId={expandedCardId}
+                                                               setExpandedCardId={setExpandedCardId} onEdit={onEdit}
+                                                               refresh={refetch}
+                                                               key={`${indicator.id}-card`} indicator={indicator}/>
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
-                        }
-                        {
-                            addIndicatorOpen &&
-                            <ChallengeDialog challenge={selectedChallenge}
-                                             onClose={_ => onModalClose(_ => setAddIndicatorOpen(false))}
-                                             onUpdate={onAddIndicator}/>
-
-                        }
-                    </>
                     }
+                    {
+                        data?.indicators?.pager.pageCount > 1 &&
+                        <div className={classes['paginator-container']}>
+                            <CenteredContent>
+                                <Paginator pager={data.indicators.pager} onPageChange={onPageChange}
+                                           onPageSizeChange={onPageSizeChange}/>
+                            </CenteredContent>
+                        </div>
+                    }
+                    {
+                        addIndicatorOpen &&
+                        <ChallengeDialog challenge={selectedChallenge}
+                                         onClose={_ => onModalClose(_ => setAddIndicatorOpen(false))}
+                                         onUpdate={onAddIndicator}/>
+
+                    }
+                </>
+                }
             </div> : <NoDimensionsSelectedView/>
     )
 }

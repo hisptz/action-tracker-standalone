@@ -46,6 +46,6 @@ export default function OrgUnitDimension({onSelect, selectedOrgUnitPaths = [],  
 OrgUnitDimension.propTypes = {
     onSelect: PropTypes.func.isRequired,
     onDeselect: PropTypes.func.isRequired,
-    selectedOrgUnits: PropTypes.arrayOf(PropTypes.string),
+    selectedOrgUnitPaths: PropTypes.arrayOf(PropTypes.string),
     onUpdate: PropTypes.func
 }
