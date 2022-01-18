@@ -87,6 +87,11 @@ export const DownloadActive = atom({
     default: false
 })
 
+export const DownloadRequestId = atom({
+    key: 'download-request-id',
+    default: 0
+})
+
 export const DownloadedData = atom({
     key: 'downloadedData',
     default: selector({
@@ -97,6 +102,7 @@ export const DownloadedData = atom({
                 const {orgUnit} = get(DimensionsState)
                 const {pagination} = await getPagination(engine, orgUnit);
                 const totalPages = pagination?.pager?.pageCount;
+                get(DownloadRequestId);
                 if (totalPages) {
                     const bottlenecks = []
                     for (let i = 0; i < totalPages; i++) {

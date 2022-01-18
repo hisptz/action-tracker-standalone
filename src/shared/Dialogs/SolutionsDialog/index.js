@@ -8,7 +8,7 @@ import {
 } from '@dhis2/ui';
 import CustomForm from '../../Components/CustomForm';
 import {useForm} from 'react-hook-form';
-import {useRecoilValue} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import PossibleSolution from "../../../core/models/possibleSolution";
@@ -19,6 +19,7 @@ import {
     onErrorHandler
 } from "../../../core/services/errorHandling.service";
 import i18n from '@dhis2/d2-i18n'
+import {DownloadRequestId} from "../../../modules/main/Components/Download/state/download";
 const solutionEditMutation = {
     type: 'update',
     resource: 'events',
@@ -34,6 +35,7 @@ const solutionCreateMutation = {
 function SolutionsDialog({onClose, gap, onUpdate, solution}) {
     const {orgUnit} = useRecoilValue(DimensionsState);
     const {bottleneckProgramMetadata} = useRecoilValue(ConfigState);
+    const setDownloadDataRequestId = useSetRecoilState(DownloadRequestId);
     const formFields = getFormattedFormMetadata(PossibleSolution.getFormFields(bottleneckProgramMetadata));
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     const onSubmit = (payload) => {
@@ -49,6 +51,7 @@ function SolutionsDialog({onClose, gap, onUpdate, solution}) {
     const [mutate, {loading: saving}] = useDataMutation(solution ? solutionEditMutation : solutionCreateMutation, {
         variables: {data: {}, id: solution?.id},
         onComplete: (importSummary) => {
+            setDownloadDataRequestId(prevState=>prevState + 1)
             onCompleteHandler(importSummary, show, {message: i18n.t('Solution saved successfully'), onClose, onUpdate})
         },
         onError: error => {

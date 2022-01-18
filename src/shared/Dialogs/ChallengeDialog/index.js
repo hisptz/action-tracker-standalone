@@ -2,7 +2,7 @@ import {Button, ButtonStrip, CenteredContent, Field, Modal, ModalActions, ModalC
 import DataFilter from '../../Components/DataFilter';
 import {Controller, useForm, useFormState} from 'react-hook-form';
 import useIndicators from "../../../core/hooks/indicators";
-import {useRecoilValue} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import Bottleneck from "../../../core/models/bottleneck";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
@@ -13,6 +13,7 @@ import FormField from "../../Components/CustomForm/Components/FormField";
 import {BottleneckConstants} from "../../../core/constants";
 import * as _ from "lodash"
 import i18n from '@dhis2/d2-i18n'
+import {DownloadRequestId} from "../../../modules/main/Components/Download/state/download";
 
 const challengeEditMutation = {
     type: 'update',
@@ -32,11 +33,13 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
     const {bottleneckProgramMetadata} = useRecoilValue(ConfigState);
     const formFields = Bottleneck.getFormFields(bottleneckProgramMetadata);
     const validatedFormFields = getFormattedFormMetadata(formFields)
+    const setDownloadDataRequestId = useSetRecoilState(DownloadRequestId);
     const [mutate, {
         loading: saving,
     }] = useDataMutation(challenge ? challengeEditMutation : challengeCreateMutation, {
         variables: {data: {}, id: challenge?.id},
         onComplete: (importSummary) => {
+            setDownloadDataRequestId(prevState=>prevState + 1)
             onCompleteHandler(importSummary, show, {
                 message: i18n.t('Intervention saved successfully'),
                 onClose,

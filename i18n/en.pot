@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-18T07:59:33.882Z\n"
-"PO-Revision-Date: 2022-01-18T07:59:33.882Z\n"
+"POT-Creation-Date: 2022-01-18T08:31:57.437Z\n"
+"PO-Revision-Date: 2022-01-18T08:31:57.437Z\n"
 
 msgid "{{- displayName }}"
 msgstr "{{- displayName }}"
@@ -180,8 +180,8 @@ msgstr ""
 msgid "Intervention Deleted Successfully"
 msgstr "Intervention Deleted Successfully"
 
-msgid "Preparing an excel file"
-msgstr "Preparing an excel file"
+msgid "Preparing a Excel file"
+msgstr "Preparing a Excel file"
 
 msgid "Preparing a PDF file"
 msgstr "Preparing a PDF file"
@@ -292,6 +292,9 @@ msgstr "Are you sure you want to delete this solution and all related actions?"
 
 msgid "Solution Deleted Successfully"
 msgstr "Solution Deleted Successfully"
+
+msgid "Action Tracker Data"
+msgstr "Action Tracker Data"
 
 msgid "No option available"
 msgstr "No option available"
