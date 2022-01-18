@@ -8,5 +8,11 @@
     "experimentalStudio": true,
     "viewportWidth": 1366,
     "viewportHeight": 768,
-    "defaultCommandTimeout": 30000
+    "defaultCommandTimeout": 30000,
+    "env": {
+        "dhis2DataTestPrefix": "dhis2-actiontrackerstandalone",
+        "networkMode": "live",
+        "dhis2ApiVersion": "36"
+    },
+    "experimentalInteractiveRunEvents": true
 }

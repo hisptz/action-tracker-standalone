@@ -153,7 +153,7 @@ export function OptionDeleteConfirmation({
         variables: {
             program,
             dataElement,
-            optionCode: option.code
+            optionCode: option?.code
         }
     });
     const {loading, mutate} = useOptionsMutation('delete', optionSet, {

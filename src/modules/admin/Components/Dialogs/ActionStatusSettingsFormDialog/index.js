@@ -173,7 +173,7 @@ function ActionStatusSettingsFormDialog({
             onClose={(_) => confirmModalClose(onClose)}
         >
             <ModalTitle>
-                {actionStatusOption ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Action Status Setting')}
+                {actionStatusOption ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Action Status Settings')}
             </ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control}/>

@@ -78,7 +78,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
         }
 
         refresh();
-    }, [page, pageSize]);
+    }, [page, pageSize, orgUnit, period]);
 
     const onPageChange = (newPage) => setPage(newPage);
     const onPageSizeChange = (newPageSize) => setPageSize(newPageSize);

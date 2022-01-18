@@ -5,395 +5,419 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-06-07T08:15:23.897Z\n"
-"PO-Revision-Date: 2021-06-07T08:15:23.897Z\n"
+"POT-Creation-Date: 2022-01-18T08:31:57.437Z\n"
+"PO-Revision-Date: 2022-01-18T08:31:57.437Z\n"
 
 msgid "{{- displayName }}"
-msgstr ""
+msgstr "{{- displayName }}"
 
 msgid "Are you sure you want to quit? All changes will be lost."
-msgstr ""
+msgstr "Are you sure you want to quit? All changes will be lost."
 
 msgid "Bottleneck"
-msgstr ""
+msgstr "Bottleneck"
 
 msgid "Org Unit"
-msgstr ""
+msgstr "Org Unit"
 
 msgid "Possible Solutions"
-msgstr ""
+msgstr "Possible Solutions"
 
 msgid "Action Items"
-msgstr ""
+msgstr "Action Items"
 
 msgid "Responsible Person"
-msgstr ""
+msgstr "Responsible Person"
 
 msgid "Start Date"
-msgstr ""
+msgstr "Start Date"
 
 msgid "End Date"
-msgstr ""
+msgstr "End Date"
 
 msgid "Latest Status"
-msgstr ""
+msgstr "Latest Status"
 
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 msgid "Color"
-msgstr ""
+msgstr "Color"
 
 msgid "Icon"
-msgstr ""
+msgstr "Icon"
 
 msgid "Last Updated"
-msgstr ""
+msgstr "Last Updated"
 
 msgid "{{ column }}"
-msgstr ""
+msgstr "{{ column }}"
 
 msgid "Actions"
-msgstr ""
+msgstr "Actions"
 
 msgid "{{ displayName }}"
-msgstr ""
+msgstr "{{ displayName }}"
 
 msgid ""
 "Are you sure you want to delete this action status option? This action "
 "cannot be undone."
 msgstr ""
+"Are you sure you want to delete this action status option? This action "
+"cannot be undone."
 
 msgid "Action status option deleted Successfully"
-msgstr ""
+msgstr "Action status option deleted Successfully"
 
 msgid ""
 "Cannot delete this action status option. It has been assigned to one or "
 "more action status."
 msgstr ""
+"Cannot delete this action status option. It has been assigned to one or "
+"more action status."
 
 msgid "Action Status Settings"
-msgstr ""
+msgstr "Action Status Settings"
 
 msgid "Are you sure you want to delete this method? This action cannot be undone."
-msgstr ""
+msgstr "Are you sure you want to delete this method? This action cannot be undone."
 
 msgid "Method Deleted Successfully"
-msgstr ""
+msgstr "Method Deleted Successfully"
 
 msgid ""
 "Cannot delete this method. It has been assigned to one or more "
 "interventions."
 msgstr ""
+"Cannot delete this method. It has been assigned to one or more "
+"interventions."
 
 msgid "Challenge Settings"
-msgstr ""
+msgstr "Challenge Settings"
 
 msgid " {{ field }} should not exceed 50 characters`"
-msgstr ""
+msgstr " {{ field }} should not exceed 50 characters`"
 
 msgid "Option with name {{value}} already exists"
-msgstr ""
+msgstr "Option with name {{value}} already exists"
 
 msgid "{{message}}"
-msgstr ""
+msgstr "{{message}}"
 
 msgid "Action status option saved successfully"
-msgstr ""
+msgstr "Action status option saved successfully"
 
 msgid "Edit"
-msgstr ""
+msgstr "Edit"
 
 msgid "Add"
-msgstr ""
-
-msgid "Action Status Setting"
-msgstr ""
+msgstr "Add"
 
 msgid "{{ message }}"
-msgstr ""
+msgstr "{{ message }}"
 
 msgid "Saving..."
-msgstr ""
+msgstr "Saving..."
 
 msgid "Save Action Status"
-msgstr ""
+msgstr "Save Action Status"
 
 msgid "Method saved successfully"
-msgstr ""
+msgstr "Method saved successfully"
 
 msgid "Save Method"
-msgstr ""
+msgstr "Save Method"
 
 msgid "{{ orgUnitLevel }}"
-msgstr ""
+msgstr "{{ orgUnitLevel }}"
 
 msgid "{{label}}"
-msgstr ""
+msgstr "{{label}}"
 
 msgid "Planning organisation unit changed successfully"
-msgstr ""
+msgstr "Planning organisation unit changed successfully"
 
 msgid "Planning Organisation Unit"
-msgstr ""
+msgstr "Planning Organisation Unit"
 
 msgid "Planning period changed successfully"
-msgstr ""
+msgstr "Planning period changed successfully"
 
 msgid "Tracking period changed successfully"
-msgstr ""
+msgstr "Tracking period changed successfully"
 
 msgid "Planning Period"
-msgstr ""
+msgstr "Planning Period"
 
 msgid "Tracking Period"
-msgstr ""
+msgstr "Tracking Period"
 
 msgid "General Settings"
-msgstr ""
+msgstr "General Settings"
 
 msgid "{{- label }}"
-msgstr ""
+msgstr "{{- label }}"
 
 msgid "Challenge Identification Methods"
-msgstr ""
+msgstr "Challenge Identification Methods"
 
 msgid "Back to action planning"
-msgstr ""
+msgstr "Back to action planning"
 
 msgid "View Indicator Progress"
-msgstr ""
+msgstr "View Indicator Progress"
 
 msgid ""
 "Are you sure you want to delete this intervention and all related solutions "
 "and actions?"
 msgstr ""
+"Are you sure you want to delete this intervention and all related solutions "
+"and actions?"
 
 msgid "Intervention Deleted Successfully"
-msgstr ""
+msgstr "Intervention Deleted Successfully"
 
-msgid "Preparing an excel file"
-msgstr ""
+msgid "Preparing a Excel file"
+msgstr "Preparing a Excel file"
 
 msgid "Preparing a PDF file"
-msgstr ""
+msgstr "Preparing a PDF file"
 
 msgid ""
 "There are no interventions documented for selected organisation unit and "
 "period."
 msgstr ""
+"There are no interventions documented for selected organisation unit and "
+"period."
 
 msgid "Add Intervention"
-msgstr ""
+msgstr "Add Intervention"
 
 msgid "Settings"
-msgstr ""
+msgstr "Settings"
 
 msgid "The selected period has no quarters"
-msgstr ""
+msgstr "The selected period has no quarters"
 
 msgid "Planning"
-msgstr ""
+msgstr "Planning"
 
 msgid "Tracking"
-msgstr ""
+msgstr "Tracking"
 
 msgid "Action {{ activePage }}"
-msgstr ""
+msgstr "Action {{ activePage }}"
 
 msgid "Clear"
-msgstr ""
+msgstr "Clear"
 
 msgid "Filter by status"
-msgstr ""
+msgstr "Filter by status"
 
 msgid "{{name}}"
-msgstr ""
+msgstr "{{name}}"
 
 msgid "Manage Columns"
-msgstr ""
+msgstr "Manage Columns"
 
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 msgid "Configurations not found."
-msgstr ""
+msgstr "Configurations not found."
 
 msgid "Configure the app to continue."
-msgstr ""
+msgstr "Configure the app to continue."
 
 msgid "Contact the administrator."
-msgstr ""
+msgstr "Contact the administrator."
 
 msgid "If you are the admin, configure the appropriate in app authorities in "
-msgstr ""
+msgstr "If you are the admin, configure the appropriate in app authorities in "
 
 msgid "user settings"
-msgstr ""
+msgstr "user settings"
 
 msgid "Select organisation unit and period to start"
-msgstr ""
+msgstr "Select organisation unit and period to start"
 
 msgid "Delete"
-msgstr ""
+msgstr "Delete"
 
 msgid "Add Action Item"
-msgstr ""
+msgstr "Add Action Item"
 
 msgid "Are you sure you want to delete this actions and all related actions status?"
-msgstr ""
+msgstr "Are you sure you want to delete this actions and all related actions status?"
 
 msgid "Are you sure you want to delete this action status?"
-msgstr ""
+msgstr "Are you sure you want to delete this action status?"
 
 msgid "Action Deleted Successfully"
-msgstr ""
+msgstr "Action Deleted Successfully"
 
 msgid "{{- column }}"
-msgstr ""
+msgstr "{{- column }}"
 
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 msgid "Remarks"
-msgstr ""
+msgstr "Remarks"
 
 msgid "Review Date"
-msgstr ""
+msgstr "Review Date"
 
 msgid "Add Bottleneck"
-msgstr ""
+msgstr "Add Bottleneck"
 
 msgid ""
 "Are you sure you want to delete this bottleneck and all related solutions "
 "and actions?"
 msgstr ""
+"Are you sure you want to delete this bottleneck and all related solutions "
+"and actions?"
 
 msgid "Bottleneck Deleted Successfully"
-msgstr ""
+msgstr "Bottleneck Deleted Successfully"
 
 msgid "Add Solution"
-msgstr ""
+msgstr "Add Solution"
 
 msgid "Are you sure you want to delete this solution and all related actions?"
-msgstr ""
+msgstr "Are you sure you want to delete this solution and all related actions?"
 
 msgid "Solution Deleted Successfully"
-msgstr ""
+msgstr "Solution Deleted Successfully"
+
+msgid "Action Tracker Data"
+msgstr "Action Tracker Data"
 
 msgid "No option available"
-msgstr ""
+msgstr "No option available"
 
 msgid "Entity deleted successfully"
-msgstr ""
+msgstr "Entity deleted successfully"
 
 msgid "Confirm Delete"
-msgstr ""
+msgstr "Confirm Delete"
 
 msgid "Are you sure you want to delete this entity?"
-msgstr ""
+msgstr "Are you sure you want to delete this entity?"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel"
 
 msgid "Deleting..."
-msgstr ""
+msgstr "Deleting..."
 
 msgid "Are you sure you want to delete this entity? This action cannot be undone"
-msgstr ""
+msgstr "Are you sure you want to delete this entity? This action cannot be undone"
 
 msgid "This option cannot be deleted. It is already used in documented entities."
-msgstr ""
+msgstr "This option cannot be deleted. It is already used in documented entities."
 
 msgid "Selected organisation unit"
-msgstr ""
+msgstr "Selected organisation unit"
 
 msgid "Selected period"
-msgstr ""
+msgstr "Selected period"
 
 msgid "The end date should be after start date"
-msgstr ""
+msgstr "The end date should be after start date"
 
 msgid "Action saved successfully"
-msgstr ""
+msgstr "Action saved successfully"
 
 msgid "Action Item"
-msgstr ""
+msgstr "Action Item"
 
 msgid "Hide"
-msgstr ""
+msgstr "Hide"
 
 msgid "Save Action"
-msgstr ""
+msgstr "Save Action"
 
 msgid "Action status saved successfully"
-msgstr ""
+msgstr "Action status saved successfully"
 
 msgid "Action Status"
-msgstr ""
+msgstr "Action Status"
 
 msgid "Intervention saved successfully"
-msgstr ""
+msgstr "Intervention saved successfully"
 
 msgid "Intervention"
-msgstr ""
+msgstr "Intervention"
 
 msgid "Save Intervention"
-msgstr ""
+msgstr "Save Intervention"
 
 msgid "Choose columns to be displayed on the table"
-msgstr ""
+msgstr "Choose columns to be displayed on the table"
 
 msgid "Check all"
-msgstr ""
+msgstr "Check all"
 
 msgid "Uncheck all"
-msgstr ""
+msgstr "Uncheck all"
 
 msgid "Columns changed successfully"
-msgstr ""
+msgstr "Columns changed successfully"
 
 msgid "Update"
-msgstr ""
+msgstr "Update"
 
 msgid "Bottleneck saved successfully"
-msgstr ""
+msgstr "Bottleneck saved successfully"
 
 msgid "Save Bottleneck"
-msgstr ""
+msgstr "Save Bottleneck"
 
 msgid "Organisation Units"
-msgstr ""
+msgstr "Organisation Units"
 
 msgid "Planning Organisation Unit Level"
-msgstr ""
+msgstr "Planning Organisation Unit Level"
 
 msgid "Please select an organisation unit"
-msgstr ""
+msgstr "Please select an organisation unit"
 
-msgid "Invalid Period. Please select period of type {{ planningPeriod }}."
-msgstr ""
+msgid "Relative Periods"
+msgstr "Relative Periods"
+
+msgid "Fixed Periods"
+msgstr "Fixed Periods"
+
+msgid "Period Type"
+msgstr "Period Type"
+
+msgid "Year"
+msgstr "Year"
+
+msgid "Invalid Period. Please select period of type  {{ planningPeriod }}."
+msgstr "Invalid Period. Please select period of type  {{ planningPeriod }}."
 
 msgid "Please select a period."
-msgstr ""
+msgstr "Please select a period."
 
 msgid "Period"
-msgstr ""
+msgstr "Period"
 
 msgid "{{ planningPeriod }} "
-msgstr ""
+msgstr "{{ planningPeriod }} "
 
 msgid "{{ error }}"
-msgstr ""
+msgstr "{{ error }}"
 
 msgid "Solution saved successfully"
-msgstr ""
+msgstr "Solution saved successfully"
 
 msgid "Possible Solution"
-msgstr ""
+msgstr "Possible Solution"
 
 msgid "Save Solution"
-msgstr ""
+msgstr "Save Solution"

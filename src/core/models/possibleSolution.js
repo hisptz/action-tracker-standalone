@@ -97,6 +97,20 @@ export default class PossibleSolution {
 
     }
 
+
+    static fromQueryObject(object, trackedEntityInstance){
+        const solution = new PossibleSolution({});
+        solution.id = object.event;
+        solution.eventDate = object.eventDate;
+        solution.indicatorId = object.trackedEntityInstance;
+        solution.solution = object[PossibleSolutionConstants.SOLUTION_DATA_ELEMENT];
+        solution.gapLinkage = object[PossibleSolutionConstants.GAP_TO_SOLUTION_LINKAGE_DATA_ELEMENT];
+        solution.actionLinkage = object[PossibleSolutionConstants.SOLUTION_TO_ACTION_LINKAGE_DATA_ELEMENT];
+        solution.orgUnit = object.orgUnit;
+        solution.indicatorId = trackedEntityInstance;
+        return solution;
+    }
+
     toString() {
         return JSON.stringify(this.toJson());
     }

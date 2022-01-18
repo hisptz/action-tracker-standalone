@@ -1,4 +1,4 @@
-Feature: Gap/Challenges Documentation
+Feature: Gap or Challenges Documentation
 
     As Maryam, a district planning officer,
     I want to be able to document challenges I face

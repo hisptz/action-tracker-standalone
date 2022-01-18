@@ -11,7 +11,7 @@ import CustomForm from '../../Components/CustomForm';
 import './styles/ActionItemFormDialog.css'
 import {getFormattedFormMetadata} from '../../../core/helpers/utils/form.utils';
 import {useForm} from 'react-hook-form';
-import {useRecoilValue} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import Action from "../../../core/models/action";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
@@ -21,6 +21,7 @@ import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHan
 import {getJSDate} from "../../../core/helpers/utils/date.utils";
 import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import i18n from '@dhis2/d2-i18n'
+import {DownloadRequestId} from "../../../modules/main/Components/Download/state/download";
 const actionEditMutation = {
     type: 'update',
     resource: 'trackedEntityInstances',
@@ -67,6 +68,8 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
     const {orgUnit, period} = useRecoilValue(DimensionsState);
     const {actionProgramMetadata} = useRecoilValue(ConfigState);
     const metadataFields = Action.getFormFields(actionProgramMetadata);
+    const setDownloadDataRequestId = useSetRecoilState(DownloadRequestId);
+
     const {control, handleSubmit} = useForm({
         mode: 'onBlur',
         reValidateMode: 'onBlur',
@@ -77,6 +80,7 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
     const [mutate, {loading: saving}] = useDataMutation(action ? actionEditMutation : actionCreateMutation, {
         variables: {data: {}, id: action?.id},
         onComplete: (importSummary) => {
+            setDownloadDataRequestId(prevState=>prevState + 1)
             onCompleteHandler(importSummary, show, {message: i18n.t('Action saved successfully'), onClose, onUpdate})
         },
         onError: error => {

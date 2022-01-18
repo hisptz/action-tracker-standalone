@@ -2,7 +2,7 @@ import {Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle} from
 import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import CustomForm from "../../Components/CustomForm";
 import React from 'react';
-import {useRecoilValue} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import Gap from "../../../core/models/gap";
 import {getFormattedFormMetadata} from "../../../core/helpers/utils/form.utils";
@@ -10,6 +10,7 @@ import {useForm} from "react-hook-form";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling.service";
 import i18n from '@dhis2/d2-i18n'
+import {DownloadRequestId} from "../../../modules/main/Components/Download/state/download";
 function getFormattedMetadataFields(metadataFields) {
     return getFormattedFormMetadata(metadataFields);
 }
@@ -30,6 +31,7 @@ const gapEditMutation = {
 export default function GapDialog({onClose, gap, onUpdate, challenge}) {
     const {bottleneckProgramMetadata} = useRecoilValue(ConfigState);
     const {orgUnit} = useRecoilValue(DimensionsState);
+    const setDownloadDataRequestId = useSetRecoilState(DownloadRequestId);
     const {control, errors, handleSubmit} = useForm({
             defaultValues: gap?.getFormValues() || {}
         }
@@ -39,6 +41,7 @@ export default function GapDialog({onClose, gap, onUpdate, challenge}) {
     const [mutate, {loading: saving}] = useDataMutation(gap ? gapEditMutation : gapCreateMutation, {
         variables: {data: {}, id: gap?.id},
         onComplete: (importSummary) => {
+            setDownloadDataRequestId(prevState=>prevState + 1)
             onCompleteHandler(importSummary, show, {message: i18n.t('Bottleneck saved successfully'), onClose, onUpdate})
         },
         onError: (error) => {

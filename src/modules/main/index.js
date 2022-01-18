@@ -4,13 +4,14 @@ import FilterComponents from "./Components/FilterComponents";
 import FullPageLoader from "../../shared/Components/FullPageLoader";
 import './styles/main.css';
 import classes from './main.module.css'
-import useAllConfig from "../../core/hooks/config";
+import useAllConfig, {useDataStoreSettings} from "../../core/hooks/config";
 import FullPageError from "../../shared/Components/FullPageError";
 import NoConfigPage from "./Components/NoConfigPage";
 
 
 export default function MainPage() {
     const {loading, error, noConfig, firstTimeUseLoading} = useAllConfig()
+    useDataStoreSettings()
     return (
         <div className={classes.container}>
             {

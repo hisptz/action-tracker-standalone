@@ -11,13 +11,14 @@ import CustomForm from '../../Components/CustomForm';
 import {getFormattedFormMetadata} from '../../../core/helpers/utils/form.utils';
 import {useForm} from 'react-hook-form';
 import ActionStatus from "../../../core/models/actionStatus";
-import {useRecoilValue} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling.service";
 import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import {ActionStatusConstants} from "../../../core/constants";
 import i18n from '@dhis2/d2-i18n'
+import {DownloadRequestId} from "../../../modules/main/Components/Download/state/download";
 const actionStatusEditMutation = {
     type: 'update',
     resource: 'events',
@@ -48,6 +49,7 @@ function getValidatedFormFields(metadataFields, {startDate, endDate}) {
 export function ActionStatusDialog({onClose, action, onUpdate, actionStatus, startDate, endDate}) {
     const {orgUnit} = useRecoilValue(DimensionsState);
     const {actionProgramMetadata} = useRecoilValue(ConfigState);
+    const setDownloadDataRequestId = useSetRecoilState(DownloadRequestId);
     const metadataFields = ActionStatus.getFormFields(actionProgramMetadata);
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
     const onSubmit = (payload) => {
@@ -64,6 +66,7 @@ export function ActionStatusDialog({onClose, action, onUpdate, actionStatus, sta
     const [mutate, {loading: saving}] = useDataMutation(actionStatus ? actionStatusEditMutation : actionStatusCreateMutation, {
         variables: {data: {}, id: actionStatus?.id},
         onComplete: (importSummary) => {
+            setDownloadDataRequestId(prevState=>prevState + 1)
             onCompleteHandler(importSummary, show, {message: i18n.t('Action status saved successfully'), onClose, onUpdate})
         },
         onError: error => {

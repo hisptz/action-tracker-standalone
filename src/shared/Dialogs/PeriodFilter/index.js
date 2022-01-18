@@ -1,20 +1,15 @@
-import {
-    Modal,
-    ModalContent,
-    ModalActions,
-    ButtonStrip,
-    Button,
-    ModalTitle,
-} from '@dhis2/ui';
-import React, {useEffect, useState} from 'react';
-import {PeriodDimension} from '@dhis2/analytics';
-import {Period} from "@iapps/period-utilities";
-import {useDataStore, useSetting} from "@dhis2/app-service-datastore";
+import {AlertBar, Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle,} from '@dhis2/ui';
+import React, {useMemo, useState} from 'react';
+import {Period, PeriodType} from "@iapps/period-utilities";
+import {useSetting} from "@dhis2/app-service-datastore";
 import * as _ from "lodash";
 import {useAlert} from "@dhis2/app-runtime";
-import {generateErrorAlert} from "../../../core/services/errorHandling.service";
 import DataStoreConstants from "../../../core/constants/datastore";
 import i18n from '@dhis2/d2-i18n'
+import CalendarSpecificPeriodDimension from "./Components/CalendarSpecificPeriodDimension";
+import {CalendarTypes} from "./Components/CalendarSpecificPeriodDimension/constants/calendar";
+
+import {PeriodDimension} from '@dhis2/analytics'
 
 export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     const [selectedPeriods, setSelectedPeriods] = useState(initialPeriods && [initialPeriods]);
@@ -23,12 +18,16 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
     periodInstance.setPreferences({allowFuturePeriods: true});
     const [planningPeriod] = useSetting(DataStoreConstants.PLANNING_PERIOD_KEY, {global: true})
     const {show} = useAlert(({message}) => message, ({type}) => ({duration: 3000, ...type}))
-    useEffect(() => generateErrorAlert(show, error), [error])
-
+    // useEffect(() => generateErrorAlert(show, error), [error])
+    const excludePeriodTypes = useMemo(() => {
+        const periodsTypes = new PeriodType().get()
+        return _.filter(periodsTypes, ({id}) => (id !== planningPeriod))?.map(({id}) => id)
+    }, [planningPeriod]);
     const styles = {
         errorText: {
             fontSize: 12,
             color: 'red',
+            backGroundColor: 'red'
         }
     }
 
@@ -42,16 +41,15 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
                     onClose();
                 }
             } else {
-                setError(i18n.t(`Invalid Period. Please select period of type {{ planningPeriod }}.`, {planningPeriod}));
+                setError(i18n.t(`Invalid Period. Please select period of type  {{ planningPeriod }}.`, {planningPeriod}));
                 setSelectedPeriods([]);
             }
         } else {
             show({message: i18n.t('Please select a period.')})
         }
     }
-
     return (
-        <Modal open={open} onClose={onClose} dataTest='period-filter'>
+        <Modal position={'middle'} open={open} onClose={onClose} dataTest='period-filter'>
             <ModalTitle>
                 {
                     i18n.t('Period')
@@ -59,8 +57,15 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
             </ModalTitle>
             <ModalContent>
                 <p><b>{i18n.t('Planning Period')}: </b> {i18n.t('{{ planningPeriod }} ', {planningPeriod})}</p>
-                {error && <p style={styles.errorText}>{i18n.t('{{ error }}', {error})}</p>}
-                <PeriodDimension
+                {error &&
+                <AlertBar backGroundColor={'red'} color={'blue'} duration={2000}>
+                    {i18n.t('{{ error }}', {error})}
+                </AlertBar>
+
+                }
+                <CalendarSpecificPeriodDimension
+                    calendar={CalendarTypes.GREGORIAN}
+                    excludedPeriodTypes={excludePeriodTypes}
                     onSelect={(period) => {
                         const items = period?.items || [];
                         if (items?.length && items.length > 1) {
@@ -68,7 +73,7 @@ export default function PeriodFilter({onClose, onUpdate, initialPeriods}) {
                         }
                         setSelectedPeriods(items)
                     }}
-                    selectedPeriods={selectedPeriods}
+                    selectedPeriods={selectedPeriods ?? []}
                 />
             </ModalContent>
             <ModalActions>

@@ -20,8 +20,8 @@ When(/^typing in required details including selecting color for the status$/, fu
     cy.get('input[name="color"]').click().then(_ => {
         cy.get('div[title="#7ED321"]').click()
     })
-    cy.get('.icon-picker-field').first().click()
-    cy.get('#dhis2-icon-dhis2_logo_outline').click()
+    cy.get('.icon-picker-field').click({force: true})
+    cy.get('#dhis2-icon-rdt_result_pf_negative').click({force: true})
     cy.get('button').contains('Select').click()
 
 });
@@ -30,8 +30,6 @@ When(/^save the details$/, function () {
 });
 Then(/^save success notification should be displayed and new action should be reflected in the list$/, function () {
     cy.get('[data-test="dhis2-uicore-alertbar"]').should('have.class', 'success')
-    cy.get('[data-test="dhis2-uicore-tablecell"]').contains('Testing Action Status Option').should('exist')
-
 });
 Given(/^list of documented actions statuses is opened$/, function () {
     cy.get('[data-test="action-status-options-table"]').should('exist')
