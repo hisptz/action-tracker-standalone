@@ -53,7 +53,7 @@
     "highcharts-react-official": "^3.0.0",
     "jspdf-autotable": "^3.5.14",
     "lodash": "^4.17.21",
-    "luxon": "^2.0.2",
+    "luxon": "^2.5.2",
     "prop-types": "^15.7.2",
     "react-color": "^2.19.3",
     "react-hook-form": "^7.0.4",
