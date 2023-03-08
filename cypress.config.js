@@ -37,6 +37,14 @@ module.exports = defineConfig({
     },
     experimentalInteractiveRunEvents: true,
     e2e: {
+        env: {
+            dhis2DataTestPrefix: 'dhis2-actiontrackerstandalone',
+            networkMode: 'live',
+            dhis2ApiVersion: '36',
+            dhis2BaseUrl: "http://localhost:8081",
+            dhis2Username: "admin",
+            dhis2Password: "district"
+        },
         // We've imported your old cypress plugins here.
         // You may want to clean this up later by importing these.
         async setupNodeEvents(on, config) {
@@ -48,7 +56,7 @@ module.exports = defineConfig({
                 ]
             })
             on('file:preprocessor', bundler);
-            await addCucumberPreprocessorPlugin(on,config)
+            await addCucumberPreprocessorPlugin(on, config)
             return config;
         },
         baseUrl: 'http://localhost:3000',

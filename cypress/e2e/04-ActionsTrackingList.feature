@@ -8,14 +8,14 @@ Feature: Action Tracking List
     Scenario: View Tracked Action List
         Given an authorized CHMT member
         When selecting assigned district Bo
-        And selecting period for planning as 2020
-        And select to track actions
+        Then selecting period for planning as 2020
+        Then select to track actions
         Then list of identified gaps, their solutions, action items and statuses should be displayed in calendar view fashion following configured period type
 
     @focus
     Scenario: View Empty Tracked Action List
         Given an authorized CHMT member
         When selecting assigned district Tonkolili
-        And selecting period for planning as 2020
-        And select to track actions
+        Then selecting period for planning as 2020
+        Then select to track actions
         Then I should be presented with a message "There are no interventions documented for selected organisation unit and period."

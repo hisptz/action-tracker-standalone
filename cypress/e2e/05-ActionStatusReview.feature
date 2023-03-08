@@ -8,8 +8,8 @@ Feature: Action Status Review
   Scenario: Update Action Status
     Given an authorized CHMT member
     When selecting assigned district Bombali
-    And selecting period for planning as 2020
-    And select to track actions
+    Then selecting period for planning as 2020
+    Then select to track actions
     When selecting an action to track
     And updating status or timeline for the action items
     And and save updates

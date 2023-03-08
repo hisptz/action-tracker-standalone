@@ -1,4 +1,4 @@
-import {Then, When, And, } from "@badeball/cypress-cucumber-preprocessor"
+import {defineParameterType, Then, When} from "@badeball/cypress-cucumber-preprocessor"
 
 const acceptedDistricts = [
     'Kono',
@@ -17,7 +17,7 @@ defineParameterType({
     regexp: new RegExp(acceptedPeriods.join('|'))
 })
 
-And("selecting period for planning as {period}", function (period) {
+Then("selecting period for planning as {period}", function (period) {
     cy.get('#period-selector').click()
     cy.contains(period).dblclick();
     cy.get('button').contains('Update').click();
@@ -37,6 +37,6 @@ When("selecting assigned district {district}", function (selectedDistrict) {
 })
 
 
-And(/^select to track actions$/, function () {
+Then(/^select to track actions$/, function () {
     cy.get('#tracking-button').click();
 });
