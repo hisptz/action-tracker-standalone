@@ -1,3 +1,6 @@
+import {Then, When} from "@badeball/cypress-cucumber-preprocessor"
+
+
 When(/^open section to manage challenge identification methods$/, function () {
     cy.get('[data-test="menu-item-/challenge-methods"]').click()
 

@@ -1,3 +1,5 @@
+import {Then} from "@badeball/cypress-cucumber-preprocessor"
+
 /**
  *  Scenario: View Tracked Action List
  */

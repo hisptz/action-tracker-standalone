@@ -1,3 +1,4 @@
 {
-    "nonGlobalStepDefinitions": true
+    "nonGlobalStepDefinitions": true,
+    "stepDefinitions": "cypress/e2e/*"
 }

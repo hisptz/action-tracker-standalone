@@ -1,3 +1,4 @@
+import {Then, When} from "@badeball/cypress-cucumber-preprocessor"
 
 
 Then(/^CHMT member should be displayed with save confirmation message\/notification$/, function () {

@@ -1,3 +1,5 @@
+import {Then, When} from "@badeball/cypress-cucumber-preprocessor"
+
 /**
  * Scenario: Update Action Status
  */

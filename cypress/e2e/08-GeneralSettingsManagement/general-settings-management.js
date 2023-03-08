@@ -1,3 +1,4 @@
+import {Then, When} from "@badeball/cypress-cucumber-preprocessor"
 
 
 When(/^opening section to manage planning and tracking frequencies$/, function () {

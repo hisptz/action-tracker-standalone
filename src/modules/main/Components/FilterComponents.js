@@ -10,7 +10,7 @@ import {DimensionsState} from "../../../core/states";
 import {Button} from '@dhis2/ui';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Visibility from "../../../shared/Components/Visibility";
-import {useHistory, useRouteMatch} from "react-router-dom";
+import {useHistory, useNavigate, useRouteMatch} from "react-router-dom";
 import {UserRolesState} from "../../../core/states/user";
 import i18n from '@dhis2/d2-i18n'
 import classes from '../main.module.css'
@@ -20,8 +20,7 @@ export function FilterComponents() {
     const [openOrgUnitFilter, setOpenOrgUnitFilter] = useState(false);
     const [selectedDimensions, setSelectedDimensions] = useRecoilState(DimensionsState);
     const {settings} = useRecoilValue(UserRolesState);
-    const history = useHistory();
-    const {url} = useRouteMatch();
+    const navigate = useNavigate();
     const onUpdateOrgUnitFilter = (data) => {
         if (data) {
             setSelectedDimensions({...selectedDimensions, orgUnit: data});
@@ -59,7 +58,7 @@ export function FilterComponents() {
                 </div>
                 <div className={classes['settings-btn']} >
                     <Visibility visible={Object.values(settings).reduce((pV, v) => pV || v)}>
-                        <Button dataTest='settings-button' onClick={() => history.push(`${url}admin`)}
+                        <Button dataTest='settings-button' onClick={() => navigate(`/admin`)}
                                 icon={<SettingsIcon/>}>
                             {i18n.t('Settings')}
                         </Button>

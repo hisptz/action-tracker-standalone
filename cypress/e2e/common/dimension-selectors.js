@@ -1,3 +1,5 @@
+import {Then, When, And, } from "@badeball/cypress-cucumber-preprocessor"
+
 const acceptedDistricts = [
     'Kono',
     'Bo',

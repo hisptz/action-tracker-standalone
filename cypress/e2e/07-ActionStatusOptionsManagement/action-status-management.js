@@ -1,3 +1,6 @@
+import {Then, When} from "@badeball/cypress-cucumber-preprocessor"
+
+
 When(/^opening section to manage action statuses$/, function () {
     cy.get('[data-test="menu-item-/action-status-settings"]').click()
 });

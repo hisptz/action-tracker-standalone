@@ -4,7 +4,7 @@ import React, {useMemo} from "react";
 import {useRecoilValue} from "recoil";
 import {UserRolesState} from "../../../core/states/user";
 import SettingsIcon from "@material-ui/icons/Settings";
-import {useHistory, useRouteMatch} from "react-router-dom";
+import { useNavigate, useLocation} from "react-router-dom";
 import i18n from '@dhis2/d2-i18n'
 import Visibility from "../../../shared/Components/Visibility";
 import {useConfig} from "@dhis2/app-runtime";
@@ -12,8 +12,7 @@ import {useConfig} from "@dhis2/app-runtime";
 export default function NoConfigPage() {
     const {settings} = useRecoilValue(UserRolesState);
     const {baseUrl} = useConfig()
-    const history = useHistory();
-    const {url} = useRouteMatch();
+    const navigate = useNavigate();
     const isAdmin = useMemo(() => Object.values(settings).reduce((pV, v) => pV || v), [settings]);
 
     return (
@@ -27,7 +26,7 @@ export default function NoConfigPage() {
                 }}>{i18n.t('If you are the admin, configure the appropriate in app authorities in ')}<a
                     href={`${baseUrl}/dhis-web-user/index.action`}>{i18n.t('user settings')}</a></p>}
                 <Visibility visible={isAdmin}>
-                    <Button dataTest='settings-button' onClick={() => history.push(`${url}admin`)}
+                    <Button dataTest='settings-button' onClick={() => navigate(`/admin`)}
                             icon={<SettingsIcon/>}>
                         {i18n.t('Settings')}
                     </Button>

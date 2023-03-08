@@ -1,6 +1,5 @@
-import {TransferOption} from "@dhis2/analytics/build/cjs/components/TransferOption";
 import i18n from "@dhis2/d2-i18n";
-import {InputField, SingleSelectField, SingleSelectOption, Tab, TabBar, Transfer,} from "@dhis2/ui";
+import {InputField, SingleSelectField, SingleSelectOption, Tab, TabBar, Transfer, TransferOption} from "@dhis2/ui";
 import {Period} from "@iapps/period-utilities";
 import PeriodIcon from "@material-ui/icons/AccessTime";
 import {filter, find, head, isEmpty} from "lodash";

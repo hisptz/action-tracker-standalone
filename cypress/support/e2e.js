@@ -5,5 +5,5 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     return false
 })
 
-enableAutoLogin();
+// enableAutoLogin();
 enableNetworkShim();

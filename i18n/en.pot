@@ -5,8 +5,17 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-18T08:31:57.437Z\n"
-"PO-Revision-Date: 2022-01-18T08:31:57.437Z\n"
+"POT-Creation-Date: 2023-03-08T12:37:38.442Z\n"
+"PO-Revision-Date: 2023-03-08T12:37:38.442Z\n"
+
+msgid "General Settings"
+msgstr "General Settings"
+
+msgid "Challenge Identification Methods"
+msgstr "Challenge Identification Methods"
+
+msgid "Action Status Settings"
+msgstr "Action Status Settings"
 
 msgid "{{- displayName }}"
 msgstr "{{- displayName }}"
@@ -78,9 +87,6 @@ msgid ""
 msgstr ""
 "Cannot delete this action status option. It has been assigned to one or "
 "more action status."
-
-msgid "Action Status Settings"
-msgstr "Action Status Settings"
 
 msgid "Are you sure you want to delete this method? This action cannot be undone."
 msgstr "Are you sure you want to delete this method? This action cannot be undone."
@@ -155,14 +161,8 @@ msgstr "Planning Period"
 msgid "Tracking Period"
 msgstr "Tracking Period"
 
-msgid "General Settings"
-msgstr "General Settings"
-
 msgid "{{- label }}"
 msgstr "{{- label }}"
-
-msgid "Challenge Identification Methods"
-msgstr "Challenge Identification Methods"
 
 msgid "Back to action planning"
 msgstr "Back to action planning"
