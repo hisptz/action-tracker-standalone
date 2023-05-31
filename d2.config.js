@@ -2,7 +2,7 @@ const config = {
     type: 'app',
     title: 'Standalone Action Tracker',
     entryPoints: {
-        app: './src/App',
+        app: './src/App.tsx',
     },
     dataStoreNamespace: 'Standalone_Action_Tracker',
     customAuthorities: [

@@ -1,7 +1,7 @@
 {
   "readme": "https://github.com/hisptz/action-tracker-standalone/blob/develop/README.md",
   "name": "action-tracker-standalone",
-  "version": "1.0.1",
+  "version": "2.0.0-alpha.00",
   "description": "The action tracker is a management tool that helps improve effective coverage of priority interventions at district and community level, covering various interventions such as maternal, newborn, and child health (MNCH), HIV, and nutrition. ",
   "license": "BSD-3-Clause",
   "private": true,
@@ -33,6 +33,7 @@
     "@dhis2/cli-utils-cypress": "^10.0.3",
     "@dhis2/cypress-commands": "^10.0.3",
     "@dhis2/cypress-plugins": "^10.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
     "concurrently": "^8.0.1",
     "cross-var": "^1.1.0",
     "cucumber": "^7.0.0-rc.0",
@@ -40,6 +41,13 @@
     "cypress-multi-reporters": "^1.6.3",
     "dotenv": "^16.0.3",
     "dotenv-cli": "^7.2.1",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^34.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.32.2",
+    "typescript": "*",
     "wait-on": "^7.0.1"
   },
   "dependencies": {
