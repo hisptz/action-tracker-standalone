@@ -4,7 +4,7 @@ const config = {
     entryPoints: {
         app: './src/App.tsx',
     },
-    dataStoreNamespace: 'Standalone_Action_Tracker',
+    dataStoreNamespace: 'hisptz-standalone-action-tracker',
     customAuthorities: [
         "SAT_VIEW_BOTTLENECKS",
         "SAT_CREATE_BOTTLENECKS",

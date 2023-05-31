@@ -2,6 +2,7 @@ import {ActionConfig, ActionStatusConfig, CategoryConfig, Config, DataField} fro
 import {
     DataElement,
     DHIS2ValueType,
+    Option,
     OptionSet,
     Program,
     ProgramStage,
@@ -21,13 +22,22 @@ function generateDataItemsFromConfig(field: DataField): TrackedEntityAttribute |
         code: field.name,
         shortName: field.name,
         valueType: field.type as DHIS2ValueType,
+        aggregationType: "NONE",
+        domainType: "TRACKER"
     }
 
     if (!isEmpty(field.options)) {
+        const optionSetId = uid();
         set(dataItem, 'optionSet', {
-            id: uid(),
+            id: optionSetId,
             name: `${field.name} options`,
-            options: field.options?.map((option, index) => ({...option, id: uid(), sortOrder: index + 1}))
+            options: field.options?.map((option, index) => ({
+                ...option,
+                id: uid(),
+                sortOrder: index + 1,
+                optionSet: {id: optionSetId}
+            })),
+            valueType: field.type as DHIS2ValueType
         })
     }
     return dataItem;
@@ -46,6 +56,7 @@ function generateProgramFromConfig(config: CategoryConfig | ActionConfig, tracke
         programType: "WITH_REGISTRATION",
         programTrackedEntityAttributes,
         name: config.name,
+        shortName: config.name,
         trackedEntityType
     }
 }
@@ -118,6 +129,10 @@ function extractOptionSets({dataElements, trackedEntityAttributes}: {
     return uniqBy([...dataElementOptionSets, ...trackedEntityAttributeOptionSets], 'id')
 }
 
+function extractOptions(optionSets: OptionSet[]): (Option | undefined)[] {
+    return optionSets.flatMap(optionSet => optionSet.options) ?? [] as Option[]
+}
+
 export function generateMetadataFromConfig(config: Config, {meta}: { meta: InitialMetadata }) {
     const {
         program: categoryProgram,
@@ -133,11 +148,13 @@ export function generateMetadataFromConfig(config: Config, {meta}: { meta: Initi
 
     const trackedEntityAttributes = compact(extractTrackedEntityAttributes(programs)) ?? [];
     const dataElements = compact(extractDataElements(programStages)) ?? [];
-    const optionSets = compact(extractOptionSets({dataElements, trackedEntityAttributes}))
+    const optionSets = compact(extractOptionSets({dataElements, trackedEntityAttributes}));
+    const options = compact(extractOptions(optionSets))
 
     return {
         dataElements,
         trackedEntityAttributes,
+        options,
         optionSets,
         programs,
         programStages,

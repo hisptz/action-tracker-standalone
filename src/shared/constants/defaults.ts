@@ -45,13 +45,13 @@ export function generateBasicTemplate({orgUnitLevel}: {
                 name: "Category",
                 fields: [
                     {
-                        name: "Name",
+                        name: "Title",
                         id: uid(),
                         type: "TEXT",
                         mandatory: true,
                     },
                     {
-                        name: "Description",
+                        name: "About",
                         id: uid(),
                         type: "LONG_TEXT",
                         mandatory: false,
