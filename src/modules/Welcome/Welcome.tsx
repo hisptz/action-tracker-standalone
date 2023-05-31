@@ -4,39 +4,43 @@ import {useNavigate} from "react-router-dom"
 import {CircularLoader} from "@dhis2/ui"
 import {generateBasicTemplate, initialMetadata} from "../../shared/constants/defaults";
 import {generateMetadataFromConfig} from "../../shared/utils/metadata";
-import config from "../../d2.config.js"
 import {useDataMutation} from "@dhis2/app-runtime";
-import {logger} from "../../shared/utils/logging";
+import {DATASTORE_NAMESPACE} from "../../shared/constants/meta";
 
 const defaultConfig = generateBasicTemplate({orgUnitLevel: "1"});
-const metadata = generateMetadataFromConfig(defaultConfig, {meta: initialMetadata});
+const metadata = {...initialMetadata, ...generateMetadataFromConfig(defaultConfig, {meta: initialMetadata})};
 
 const configMutation: any = {
-    resource: `dataStore/${config.dataStoreNamespace}/${defaultConfig.id}`,
+    resource: `dataStore/${DATASTORE_NAMESPACE}/${defaultConfig.id}`,
     type: "create",
     data: defaultConfig
 }
 
-const metadataMutation: any = {
+export const metadataMutation: any = {
     resource: `metadata`,
     type: "create",
-    data: metadata
+    data: ({metadata}: any) => metadata,
+    params: {
+        importStrategy: "CREATE_AND_UPDATE",
+        atomicMode: 'NONE',
+        mergeMode: "MERGE"
+    }
 }
 
 export function Welcome() {
     const navigate = useNavigate();
     const [sendConfig, {loading: uploadingConfig}] = useDataMutation(configMutation, {
         onError: (error) => {
-            logger.error(`${error.message}`, {
-                error: error,
-            })
+            // logger.error(`${error.message}`, {
+            //     error: error,
+            // })
         }
     });
     const [sendMetadata, {loading: uploadingMetadata}] = useDataMutation(metadataMutation, {
         onError: (error) => {
-            logger.error(`${error.message}`, {
-                error: error,
-            })
+            // logger.error(`${error.message}`, {
+            //     error: error,
+            // })
         }
     });
 
@@ -46,6 +50,8 @@ export function Welcome() {
             await sendMetadata();
             navigate("/");
         }
+
+        setup();
     }, [])
 
     return (

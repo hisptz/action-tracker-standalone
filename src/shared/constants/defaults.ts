@@ -14,11 +14,11 @@ export interface InitialMetadata {
 export const initialMetadata: InitialMetadata = {
     trackedEntityTypes: [
         {
-            id: uid(),
+            id: "iteW21Ngr9c",
             name: EntityTypes.CATEGORIZATION,
         },
         {
-            id: uid(),
+            id: "pK995DXvyET",
             name: EntityTypes.ACTION
         }
     ]

@@ -61,8 +61,9 @@ function generateProgramFromConfig(config: CategoryConfig | ActionConfig, tracke
     }
 }
 
-function generateProgramStageFromConfig(config: CategoryConfig | ActionStatusConfig, {programId}: {
-    programId: string
+function generateProgramStageFromConfig(config: CategoryConfig | ActionStatusConfig, {programId, index}: {
+    programId: string;
+    index: number;
 }): ProgramStage {
 
     const dataElements = config.fields.map(generateDataItemsFromConfig) as DataElement[]
@@ -75,6 +76,7 @@ function generateProgramStageFromConfig(config: CategoryConfig | ActionStatusCon
         name: config.name,
         id: config.id,
         programStageDataElements,
+        sortOrder: index + 1,
         program: {
             id: programId
         },
@@ -94,7 +96,10 @@ function generateCategoriesMetadata(categories: CategoryConfig[], meta: InitialM
 
     const [firstCategory, ...restCategories] = categories;
     const program = generateProgramFromConfig(firstCategory, trackedEntityType as TrackedEntityType);
-    const programStages = restCategories?.map(category => generateProgramStageFromConfig(category, {programId: program.id}));
+    const programStages = restCategories?.map((category, index) => generateProgramStageFromConfig(category, {
+        programId: program.id,
+        index
+    }));
 
     return {
         program,
@@ -105,7 +110,7 @@ function generateCategoriesMetadata(categories: CategoryConfig[], meta: InitialM
 function generateActionsMetadata(actionConfig: ActionConfig, meta: InitialMetadata) {
     const trackedEntityType = find(meta.trackedEntityTypes, ['name', EntityTypes.ACTION])
     const program = generateProgramFromConfig(actionConfig, trackedEntityType as TrackedEntityType);
-    const programStage = generateProgramStageFromConfig(actionConfig.statusConfig, {programId: program.id});
+    const programStage = generateProgramStageFromConfig(actionConfig.statusConfig, {programId: program.id, index: 0});
     return {
         program,
         programStages: [programStage],
