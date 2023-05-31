@@ -2690,6 +2690,15 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
+"@hisptz/dhis2-utils@^1.0.42":
+  version "1.0.42"
+  resolved "https://registry.yarnpkg.com/@hisptz/dhis2-utils/-/dhis2-utils-1.0.42.tgz#19fd9a32844d06d108cc225b4b16c2725bfd0144"
+  integrity sha512-iS7NLYUhqjYamvn/b92b20/nE2oBsEF576X+ZzZeDNlQwMmmOxPdWWlUV8qubTxGWVgfERzMstGoFwoRBbnqIA==
+  dependencies:
+    lodash "^4.17.21"
+    luxon "^3.0.1"
+    typescript "^4.6.3"
+
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.8.tgz#03595ac2075a4dc0f191cc2131de14fbd7d410b9"
@@ -10766,7 +10775,7 @@ luxon@3.2.1:
   resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.2.1.tgz#14f1af209188ad61212578ea7e3d518d18cee45f"
   integrity sha512-QrwPArQCNLAKGO/C+ZIilgIuDnEnKx5QYODdDtbFaxzsbZcc/a7WFq7MhsVYgRlwawLtvOUESTlfJ+hc/USqPg==
 
-luxon@^3.3.0:
+luxon@^3.0.1, luxon@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.3.0.tgz#d73ab5b5d2b49a461c47cedbc7e73309b4805b48"
   integrity sha512-An0UCfG/rSiqtAIiBPO0Y9/zAnHUZxAMiCpTd5h2smgsj7GGmcenvrvww2cqNA8/4A5ZrD1gJpHN2mIHZQF+Mg==
@@ -14669,6 +14678,11 @@ typescript@^3.6.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.10.tgz#70f3910ac7a51ed6bef79da7800690b19bf778b8"
   integrity sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==
 
+typescript@^4.6.3:
+  version "4.9.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
+  integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
+
 uglify-js@^3.1.4:
   version "3.17.4"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.17.4.tgz#61678cf5fa3f5b7eb789bb345df29afb8257c22c"
@@ -15691,3 +15705,8 @@ zip-stream@^2.1.2:
     archiver-utils "^2.1.0"
     compress-commons "^2.1.1"
     readable-stream "^3.4.0"
+
+zod@^3.21.4:
+  version "3.21.4"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.21.4.tgz#10882231d992519f0a10b5dd58a38c9dabbb64db"
+  integrity sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==

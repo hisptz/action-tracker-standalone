@@ -54,6 +54,7 @@
     "@dhis2/app-runtime": "^3.9.3",
     "@dhis2/app-service-datastore": "^1.0.0-alpha.2",
     "@dhis2/ui": "8.13.6",
+    "@hisptz/dhis2-utils": "^1.0.42",
     "async": "^3.2.2",
     "classnames": "^2.3.2",
     "file-saver": "^2.0.5",
@@ -65,7 +66,8 @@
     "react-to-print": "^2.14.1",
     "recoil": "^0.7.7",
     "uuid": "^9.0.0",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "zod": "^3.21.4"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true,
