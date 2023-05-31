@@ -5,8 +5,20 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-05-31T04:42:29.186Z\n"
-"PO-Revision-Date: 2023-05-31T04:42:29.186Z\n"
+"POT-Creation-Date: 2023-05-31T09:52:56.683Z\n"
+"PO-Revision-Date: 2023-05-31T09:52:56.683Z\n"
+
+msgid "General"
+msgstr "General"
+
+msgid "Categories"
+msgstr "Categories"
+
+msgid "Action"
+msgstr "Action"
 
 msgid "Welcome to the standalone action tracker"
 msgstr "Welcome to the standalone action tracker"
+
+msgid "Get started"
+msgstr "Get started"

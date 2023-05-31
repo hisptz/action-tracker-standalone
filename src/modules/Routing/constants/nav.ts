@@ -2,6 +2,10 @@ import type React from "react"
 import {Welcome} from "../../Welcome"
 import {Main} from "../../Main"
 import {Config} from "../../Config"
+import i18n from '@dhis2/d2-i18n';
+import {General} from "../../Config/components/General";
+import {Categories} from "../../Config/components/Categories/Categories";
+import {Actions} from "../../Config/components/Actions/Actions";
 
 export interface NavItem {
     label?: string | ((data: any) => any)
@@ -41,48 +45,25 @@ export const ROUTES: NavItem[] = [
     {
         path: "config",
         id: "config",
+        element: Config,
         subItems: [
             {
-                path: "",
-                element: Config,
-                id: "config"
-            },
-            {
-                path: ":id",
-                element: Config,
-                id: "config-edit",
-                subItems: [
-                    {
-                        path: "categorization",
-                        element: Config,
-                        id: "config-edit-categorization"
-                    },
-                    {
-                        path: "action",
-                        element: Config,
-                        id: "config-edit-action"
-                    },
-                    {
-                        path: "general",
-                        element: Config,
-                        id: "config-edit-general"
-                    }
-                ]
+                path: "general",
+                label: i18n.t("General"),
+                element: General,
+                id: "config-edit-general"
             },
             {
                 path: "categorization",
-                element: Config,
-                id: "config-categorization"
+                label: i18n.t("Categories"),
+                element: Categories,
+                id: "config-edit-categorization"
             },
             {
                 path: "action",
-                element: Config,
-                id: "config-action"
-            },
-            {
-                path: "general",
-                element: Config,
-                id: "config-general"
+                label: i18n.t("Action"),
+                element: Actions,
+                id: "config-edit-action"
             }
         ]
     }

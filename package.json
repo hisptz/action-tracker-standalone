@@ -55,6 +55,7 @@
     "@dhis2/app-service-datastore": "^1.0.0-alpha.2",
     "@dhis2/ui": "8.13.6",
     "async": "^3.2.2",
+    "classnames": "^2.3.2",
     "file-saver": "^2.0.5",
     "lodash": "^4.17.21",
     "luxon": "^3.3.0",
