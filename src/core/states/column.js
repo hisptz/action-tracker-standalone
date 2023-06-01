@@ -27,7 +27,7 @@ export const TableState = atom({
                     columns: [
                         {
                             name: 'gap',
-                            displayName: i18n.t('Bottleneck'),
+                            displayName: i18n.t('Strategy'),
                             mandatory: false,
                             visible: true,
                             width: 0,
@@ -49,21 +49,7 @@ export const TableState = atom({
                                     </CustomTableCellWithActions>
                                 )
                             }
-                        },
-                        {
-                            name: 'orgUnit',
-                            displayName: i18n.t('Org Unit'),
-                            mandatory: false,
-                            visible: true,
-                            width: 0,
-                            render: (object) => {
-                                return (
-                                    <CustomTableCell key={`${object.id}-custom-table-cell-orgunit`}>
-                                        {object?.orgUnitName}
-                                    </CustomTableCell>
-                                )
-                            }
-                        },
+                        }
                     ],
                     visibleColumnsCount: 2,
                     visible: true
@@ -73,7 +59,7 @@ export const TableState = atom({
                     columns: [
                         {
                             name: 'possibleSolution',
-                            displayName: i18n.t('Possible Solutions'),
+                            displayName: i18n.t('Activities'),
                             mandatory: false,
                             visible: true,
                             width: 0,
@@ -105,7 +91,7 @@ export const TableState = atom({
                     columns: [
                         {
                             name: 'action',
-                            displayName: i18n.t('Action Items'),
+                            displayName: i18n.t('Sub-Activities'),
                             mandatory: true,
                             visible: true,
                             width: 0,

@@ -148,7 +148,7 @@ export default function GapTable({challenge = new Bottleneck()}) {
             <Grid container direction='row' justify='space-between' style={{padding: 5}}>
                 <Grid item>
                     <Visibility visible={gapRoles?.create}>
-                        <Button dataTest='add-bottleneck-button' onClick={onAdd}>{i18n.t('Add Bottleneck')}</Button>
+                        <Button dataTest='add-bottleneck-button' onClick={onAdd}>{i18n.t('Add Strategy')}</Button>
                     </Visibility>
                 </Grid>
                 <Grid item>
@@ -160,10 +160,10 @@ export default function GapTable({challenge = new Bottleneck()}) {
                     {
                         openDelete && <DeleteConfirmation
                             type='event'
-                            message={i18n.t('Are you sure you want to delete this bottleneck and all related solutions and actions?')}
+                            message={i18n.t('Are you sure you want to delete this strategy and all related activities?')}
                             onClose={_ => onModalClose(_ => setOpenDelete(false))}
                             id={selectedGap?.id}
-                            deletionSuccessMessage={i18n.t('Bottleneck Deleted Successfully')}
+                            deletionSuccessMessage={i18n.t('Strategy Deleted Successfully')}
                             onUpdate={refetch}
                         />
                     }</Grid>

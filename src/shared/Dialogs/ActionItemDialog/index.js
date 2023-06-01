@@ -81,7 +81,7 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
         variables: {data: {}, id: action?.id},
         onComplete: (importSummary) => {
             setDownloadDataRequestId(prevState=>prevState + 1)
-            onCompleteHandler(importSummary, show, {message: i18n.t('Action saved successfully'), onClose, onUpdate})
+            onCompleteHandler(importSummary, show, {message: i18n.t('Sub activity saved successfully'), onClose, onUpdate})
         },
         onError: error => {
             onErrorHandler(error, show);
@@ -106,16 +106,16 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
-            <ModalTitle>{action ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Action Item')}</ModalTitle>
+            <ModalTitle>{action ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Sub Activity')}</ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control}/>
             </ModalContent>
             <ModalActions>
                 <ButtonStrip end>
                     <Button secondary onClick={_ => confirmModalClose(onClose)}>{i18n.t('Hide')}</Button>
-                    <Button disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
+                    <Button loading={saving} disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
                         {
-                            saving ? i18n.t('Saving...') : i18n.t('Save Action')
+                            saving ? i18n.t('Saving...') : i18n.t('Save')
                         }
                     </Button>
                 </ButtonStrip>

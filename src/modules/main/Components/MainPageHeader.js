@@ -108,7 +108,7 @@ export default function MainPageHeader({onAddIndicatorClick, onDownloadPDF, onDo
                         <div className={classes['main-settings']}>
 
                             <Button dataTest='add-intervention-button' onClick={onAddIndicatorClick}
-                                    icon={<AddIcon/>}>{i18n.t('Add Intervention')}</Button>
+                                    icon={<AddIcon/>}>{i18n.t('Add result area')}</Button>
 
                         </div>
                     </Visibility>

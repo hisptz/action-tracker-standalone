@@ -80,37 +80,19 @@ function ChallengeDialog({onClose, onUpdate, challenge}) {
     return (
         <Modal position='middle' dataTest='add-challenge-modal' className="dialog-container"
                onClose={_ => confirmModalClose(onClose)} large>
-            <ModalTitle>{challenge ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Intervention')}</ModalTitle>
+            <ModalTitle>{challenge ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Result Area')}</ModalTitle>
             <ModalContent>
                 <FormField
                     field={interventionField}
                     key={interventionField.id}
                     control={control}
                 />
-                <Controller
-                    control={control}
-                    name={indicatorField.id}
-                    rules={indicatorField.validations}
-                    render={({field: {onChange, value}}) => (
-                        <Field required={Boolean(indicatorField?.validations?.required)}
-                               error={Boolean(errors[indicatorField.id])}
-                               validationText={errors[indicatorField.id]?.message}
-                               label={i18n.t('{{message}}', {message: indicatorField.formName})}>
-                            <DataFilter
-                                initiallySelected={value?.value}
-                                getSelected={(v) => {
-                                    onChange({name: indicatorField.id, value: v})
-                                }}
-                            />
-                        </Field>
-                    )}
-                />
             </ModalContent>
             <ModalActions>
                 <ButtonStrip>
                     <Button onClick={_ => confirmModalClose(onClose)}>{i18n.t('Hide')}</Button>
-                    <Button disabled={saving} primary
-                            onClick={handleSubmit(onSubmit)}>{saving ? i18n.t('Saving...') : i18n.t('Save Intervention')}</Button>
+                    <Button loading={saving} disabled={saving} primary
+                            onClick={handleSubmit(onSubmit)}>{saving ? i18n.t('Saving...') : i18n.t('Save')}</Button>
                 </ButtonStrip>
             </ModalActions>
         </Modal>

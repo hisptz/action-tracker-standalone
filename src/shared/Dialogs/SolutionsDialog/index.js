@@ -52,7 +52,7 @@ function SolutionsDialog({onClose, gap, onUpdate, solution}) {
         variables: {data: {}, id: solution?.id},
         onComplete: (importSummary) => {
             setDownloadDataRequestId(prevState=>prevState + 1)
-            onCompleteHandler(importSummary, show, {message: i18n.t('Solution saved successfully'), onClose, onUpdate})
+            onCompleteHandler(importSummary, show, {message: i18n.t('Activity saved successfully'), onClose, onUpdate})
         },
         onError: error => {
             onErrorHandler(error, show);
@@ -76,7 +76,7 @@ function SolutionsDialog({onClose, gap, onUpdate, solution}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
-            <ModalTitle> {solution ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Possible Solution')} </ModalTitle>
+            <ModalTitle> {solution ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Activity')} </ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control} errors={errors}/>
             </ModalContent>
@@ -88,7 +88,7 @@ function SolutionsDialog({onClose, gap, onUpdate, solution}) {
                     <Button disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
                         {
                             saving ?
-                                i18n.t('Saving...') : i18n.t('Save Solution')
+                                i18n.t('Saving...') : i18n.t('Save')
                         }
                     </Button>
                 </ButtonStrip>

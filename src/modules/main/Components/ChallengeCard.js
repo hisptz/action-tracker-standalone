@@ -65,12 +65,8 @@ export default function ChallengeCard({
                                         <Grid item container spacing={4} xs={7}>
                                             <Grid item>
                                                 <Typography
-                                                    variant='h6'> {indicator.intervention} - {name}
+                                                    variant='h6'> {indicator.intervention}
                                                 </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                                <Button onClick={() => setOpenProgressDialog(true)}
-                                                        icon={<ProgressIcon/>}>{i18n.t('View Indicator Progress')}</Button>
                                             </Grid>
                                         </Grid>
                                         <Grid item container justify='flex-end' xs={1}>
@@ -110,10 +106,10 @@ export default function ChallengeCard({
                             openDelete && <DeleteConfirmation
                                 hasRelationships
                                 type='trackedEntityInstance'
-                                message={i18n.t('Are you sure you want to delete this intervention and all related solutions and actions?')}
+                                message={i18n.t('Are you sure you want to delete this result area and all related solutions and actions?')}
                                 onClose={_ => setOpenDelete(false)}
                                 id={indicator?.id}
-                                deletionSuccessMessage={i18n.t('Intervention Deleted Successfully')}
+                                deletionSuccessMessage={i18n.t('Result Area Deleted Successfully')}
                                 onUpdate={refresh}
                             />
                         }

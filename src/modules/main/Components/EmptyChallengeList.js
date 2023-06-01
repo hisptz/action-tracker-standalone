@@ -21,9 +21,9 @@ export default function EmptyChallengeList({onAddIndicatorClick}) {
     return (
         <CenteredContent>
             <div style={styles.container}>
-                <h2 id='empty-challenge-list' style={styles.text}>{i18n.t('There are no interventions documented for selected organisation unit and period.')}</h2>
+                <h2 id='empty-challenge-list' style={styles.text}>{i18n.t('There are no result areas documented for selected organisation unit and period.')}</h2>
                 <Visibility visible={bottleneck?.create}>
-                    <Button onClick={onAddIndicatorClick} icon={<AddIcon/>} primary>{i18n.t('Add Intervention')}</Button>
+                    <Button onClick={onAddIndicatorClick} icon={<AddIcon/>} primary>{i18n.t('Add result area')}</Button>
                 </Visibility>
             </div>
         </CenteredContent>
