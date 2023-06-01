@@ -1,7 +1,4 @@
-import {
-    CustomNestedTable,
-    CustomNestingTableCell,
-} from "./CustomTable";
+import {CustomNestedTable, CustomNestingTableCell,} from "./CustomTable";
 import {TableBody, TableRow} from "@material-ui/core";
 import * as _ from "lodash";
 import React, {useEffect, useState} from "react";
@@ -31,7 +28,8 @@ const gapQuery = {
             trackedEntityInstance,
             programStage: GapConstants.PROGRAM_STAGE_ID,
             totalPages: true,
-            fields: GapConstants.FIELDS
+            fields: GapConstants.FIELDS,
+            order: 'created:asc',
         })
     }
 }

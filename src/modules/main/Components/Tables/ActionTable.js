@@ -35,7 +35,8 @@ const actionsQuery = {
                 `${ActionConstants.ACTION_TO_SOLUTION_LINKAGE}:eq:${solutionToActionLinkage}`,
                 `${ActionConstants.START_DATE_ATTRIBUTE}:ge:${startDate}`,
                 `${ActionConstants.END_DATE_ATTRIBUTE}:le:${endDate}`
-            ]
+            ],
+            order: 'created:asc',
         })
     }
 }

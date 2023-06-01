@@ -33,7 +33,8 @@ const possibleSolutionQuery = {
             filter: [
                 `${PossibleSolutionConstants.GAP_TO_SOLUTION_LINKAGE_DATA_ELEMENT}:eq:${linkage}`
             ],
-            fields: PossibleSolutionConstants.FIELDS
+            fields: PossibleSolutionConstants.FIELDS,
+            order: 'created:asc',
         })
     }
 }
