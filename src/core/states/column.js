@@ -59,7 +59,7 @@ export const TableState = atom({
                     columns: [
                         {
                             name: 'possibleSolution',
-                            displayName: i18n.t('Activities'),
+                            displayName: i18n.t('Activity Categories'),
                             mandatory: false,
                             visible: true,
                             width: 0,
@@ -91,7 +91,7 @@ export const TableState = atom({
                     columns: [
                         {
                             name: 'action',
-                            displayName: i18n.t('Sub-Activities'),
+                            displayName: i18n.t('Activities'),
                             mandatory: true,
                             visible: true,
                             width: 0,

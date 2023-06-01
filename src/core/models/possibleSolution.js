@@ -40,7 +40,7 @@ export default class PossibleSolution {
         this.indicatorId = this.indicatorId || data['indicatorId'];
         this.actionLinkage = this.actionLinkage || uid();
         this.id = this.id || uid();
-        this.eventDate = this.eventDate || new Date()
+        this.eventDate = this.eventDate.replace(" ", 'T') || new Date()
     }
 
     getFormValues() {

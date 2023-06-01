@@ -15,6 +15,7 @@ import {useSetting} from "@dhis2/app-service-datastore";
 import DataStoreConstants from "../../../core/constants/datastore";
 import i18n from '@dhis2/d2-i18n'
 import classes from '../main.module.css'
+import {PeriodTypeCategory, PeriodUtility} from "@hisptz/dhis2-utils";
 
 const PageSelector = () => {
     const [activePage, setActivePage] = useRecoilState(PageState);
@@ -37,9 +38,9 @@ const PageSelector = () => {
     };
     const onClick = (page) => {
         if (page === 'Tracking') {
-
-            console.log(period)
-            if (period.type === trackingPeriod || _.has(period, trackingPeriod.toLowerCase())) {
+            const periodUtility = new PeriodUtility().setCategory(PeriodTypeCategory.FIXED);
+            const periodType = periodUtility.getPeriodType(trackingPeriod.toUpperCase());
+            if (period.type?.id === trackingPeriod || period.type.rank >= periodType.config.rank) {
                 setActivePage(page);
             } else {
                 show({message: i18n.t('The selected period has no quarters')});

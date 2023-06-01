@@ -1,12 +1,5 @@
 import PropTypes from 'prop-types';
-import {
-    Modal,
-    ModalTitle,
-    ModalContent,
-    ModalActions,
-    Button,
-    ButtonStrip,
-} from '@dhis2/ui';
+import {Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle,} from '@dhis2/ui';
 import CustomForm from '../../Components/CustomForm';
 import {getFormattedFormMetadata} from '../../../core/helpers/utils/form.utils';
 import {useForm} from 'react-hook-form';
@@ -19,6 +12,7 @@ import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import {ActionStatusConstants} from "../../../core/constants";
 import i18n from '@dhis2/d2-i18n'
 import {DownloadRequestId} from "../../../modules/main/Components/Download/state/download";
+
 const actionStatusEditMutation = {
     type: 'update',
     resource: 'events',
@@ -66,8 +60,12 @@ export function ActionStatusDialog({onClose, action, onUpdate, actionStatus, sta
     const [mutate, {loading: saving}] = useDataMutation(actionStatus ? actionStatusEditMutation : actionStatusCreateMutation, {
         variables: {data: {}, id: actionStatus?.id},
         onComplete: (importSummary) => {
-            setDownloadDataRequestId(prevState=>prevState + 1)
-            onCompleteHandler(importSummary, show, {message: i18n.t('Action status saved successfully'), onClose, onUpdate})
+            setDownloadDataRequestId(prevState => prevState + 1)
+            onCompleteHandler(importSummary, show, {
+                message: i18n.t('Activity status saved successfully'),
+                onClose,
+                onUpdate
+            })
         },
         onError: error => {
             onErrorHandler(error, show);
@@ -87,16 +85,16 @@ export function ActionStatusDialog({onClose, action, onUpdate, actionStatus, sta
     }
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
-            <ModalTitle> {actionStatus ? i18n.t('Edit'): i18n.t('Add')} {i18n.t('Action Status')}</ModalTitle>
+            <ModalTitle> {actionStatus ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Activity Status')}</ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control} errors={errors}/>
             </ModalContent>
             <ModalActions>
                 <ButtonStrip end>
                     <Button secondary onClick={_ => confirmModalClose(onClose)}>{i18n.t('Hide')}</Button>
-                    <Button disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
+                    <Button loading={saving} disabled={saving} type="submit" onClick={handleSubmit(onSubmit)} primary>
                         {
-                            saving ? i18n.t('Saving...') : i18n.t('Save Action Status')
+                            saving ? i18n.t('Saving...') : i18n.t('Save')
                         }
                     </Button>
                 </ButtonStrip>

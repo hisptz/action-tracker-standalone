@@ -151,7 +151,7 @@ export default function SolutionsTable({gap = new Gap()}) {
                         <Grid item>
                             <Visibility visible={solutionRoles?.create}>
                                 <Button dataTest='add-solution-button'
-                                        onClick={_ => setAddSolutionOpen(true)}>{i18n.t('Add Activity')}</Button>
+                                        onClick={_ => setAddSolutionOpen(true)}>{i18n.t('Add Activity Category ')}</Button>
                             </Visibility>
                         </Grid>
                         <Grid item>
@@ -178,7 +178,7 @@ export default function SolutionsTable({gap = new Gap()}) {
                     message={i18n.t('Are you sure you want to delete this activity and all related sub activities?')}
                     onClose={_ => onModalClose(_ => setOpenDelete(false))}
                     id={selectedSolution?.id}
-                    deletionSuccessMessage={i18n.t('Activity Deleted Successfully')}
+                    deletionSuccessMessage={i18n.t('Activity Category Deleted Successfully')}
                     onUpdate={refetch}
                 />
             }

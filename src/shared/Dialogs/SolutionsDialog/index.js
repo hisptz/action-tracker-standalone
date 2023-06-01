@@ -1,11 +1,4 @@
-import {
-    Modal,
-    ModalTitle,
-    ModalContent,
-    ModalActions,
-    Button,
-    ButtonStrip,
-} from '@dhis2/ui';
+import {Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle,} from '@dhis2/ui';
 import CustomForm from '../../Components/CustomForm';
 import {useForm} from 'react-hook-form';
 import {useRecoilValue, useSetRecoilState} from "recoil";
@@ -14,12 +7,10 @@ import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import PossibleSolution from "../../../core/models/possibleSolution";
 import {getFormattedFormMetadata} from "../../../core/helpers/utils/form.utils";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {
-    onCompleteHandler,
-    onErrorHandler
-} from "../../../core/services/errorHandling.service";
+import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling.service";
 import i18n from '@dhis2/d2-i18n'
 import {DownloadRequestId} from "../../../modules/main/Components/Download/state/download";
+
 const solutionEditMutation = {
     type: 'update',
     resource: 'events',
@@ -51,8 +42,12 @@ function SolutionsDialog({onClose, gap, onUpdate, solution}) {
     const [mutate, {loading: saving}] = useDataMutation(solution ? solutionEditMutation : solutionCreateMutation, {
         variables: {data: {}, id: solution?.id},
         onComplete: (importSummary) => {
-            setDownloadDataRequestId(prevState=>prevState + 1)
-            onCompleteHandler(importSummary, show, {message: i18n.t('Activity saved successfully'), onClose, onUpdate})
+            setDownloadDataRequestId(prevState => prevState + 1)
+            onCompleteHandler(importSummary, show, {
+                message: i18n.t('Activity Category saved successfully'),
+                onClose,
+                onUpdate
+            })
         },
         onError: error => {
             onErrorHandler(error, show);
@@ -76,7 +71,7 @@ function SolutionsDialog({onClose, gap, onUpdate, solution}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
-            <ModalTitle> {solution ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Activity')} </ModalTitle>
+            <ModalTitle> {solution ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Activity Category')} </ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control} errors={errors}/>
             </ModalContent>

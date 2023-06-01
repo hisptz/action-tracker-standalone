@@ -288,7 +288,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                     <Grid item>
                         <Visibility visible={actionRoles?.create}>
                             <Button dataTest='add-action-button'
-                                    onClick={_ => setAddActionOpen(true)}>{i18n.t('Add Sub Activity')}</Button>
+                                    onClick={_ => setAddActionOpen(true)}>{i18n.t('Add Activity')}</Button>
                         </Visibility>
 
                     </Grid>
@@ -315,7 +315,7 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                 openDelete &&
                 <DeleteConfirmation
                     type={selectedAction ? 'trackedEntityInstance' : 'event'}
-                    message={selectedAction ? i18n.t('Are you sure you want to delete this sub activity and all related actions status?') : i18n.t('Are you sure you want to delete this sub activity status?')}
+                    message={selectedAction ? i18n.t('Are you sure you want to delete this activity and all related actions status?') : i18n.t('Are you sure you want to delete this activity status?')}
                     onClose={_ => {
                         if (selectedAction) onActionModalClose(_ => setOpenDelete(false));
                         else onActionStatusModalClose(_ => setOpenDelete(false))

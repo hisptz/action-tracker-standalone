@@ -1,12 +1,5 @@
 import PropTypes from 'prop-types';
-import {
-    Modal,
-    ModalTitle,
-    ModalContent,
-    ModalActions,
-    Button,
-    ButtonStrip,
-} from '@dhis2/ui';
+import {Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle,} from '@dhis2/ui';
 import CustomForm from '../../Components/CustomForm';
 import './styles/ActionItemFormDialog.css'
 import {getFormattedFormMetadata} from '../../../core/helpers/utils/form.utils';
@@ -15,13 +8,13 @@ import {useRecoilValue, useSetRecoilState} from "recoil";
 import {ConfigState, DimensionsState} from "../../../core/states";
 import Action from "../../../core/models/action";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {getFormattedDateFromPeriod} from "../../../core/helpers/utils/date.utils";
+import {getFormattedDateFromPeriod, getJSDate} from "../../../core/helpers/utils/date.utils";
 import {ActionConstants} from "../../../core/constants";
 import {onCompleteHandler, onErrorHandler} from "../../../core/services/errorHandling.service";
-import {getJSDate} from "../../../core/helpers/utils/date.utils";
 import {confirmModalClose} from "../../../core/helpers/utils/utils";
 import i18n from '@dhis2/d2-i18n'
 import {DownloadRequestId} from "../../../modules/main/Components/Download/state/download";
+
 const actionEditMutation = {
     type: 'update',
     resource: 'trackedEntityInstances',
@@ -80,8 +73,8 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
     const [mutate, {loading: saving}] = useDataMutation(action ? actionEditMutation : actionCreateMutation, {
         variables: {data: {}, id: action?.id},
         onComplete: (importSummary) => {
-            setDownloadDataRequestId(prevState=>prevState + 1)
-            onCompleteHandler(importSummary, show, {message: i18n.t('Sub activity saved successfully'), onClose, onUpdate})
+            setDownloadDataRequestId(prevState => prevState + 1)
+            onCompleteHandler(importSummary, show, {message: i18n.t('Activity saved successfully'), onClose, onUpdate})
         },
         onError: error => {
             onErrorHandler(error, show);
@@ -106,7 +99,7 @@ export function ActionItemDialog({onClose, onUpdate, solution, action}) {
 
     return (
         <Modal className="dialog-container" onClose={_ => confirmModalClose(onClose)}>
-            <ModalTitle>{action ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Sub Activity')}</ModalTitle>
+            <ModalTitle>{action ? i18n.t('Edit') : i18n.t('Add')} {i18n.t('Activity')}</ModalTitle>
             <ModalContent>
                 <CustomForm formFields={formFields} control={control}/>
             </ModalContent>

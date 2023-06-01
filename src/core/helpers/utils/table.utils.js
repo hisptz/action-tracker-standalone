@@ -1,8 +1,10 @@
 import * as _ from "lodash"
 import {ActionStatusTableCell, CustomTableCellWithActions} from "../../../modules/main/Components/Tables/CustomTable";
 import React from "react";
-import {getJSDate, getPeriodDates, isValidTrackingPeriod} from "./date.utils";
+import {getJSDate, isValidTrackingPeriod} from "./date.utils";
 import i18n from '@dhis2/d2-i18n'
+import {PeriodTypeCategory, PeriodUtility} from "@hisptz/dhis2-utils";
+
 export function updateTablesVisibleColumnsCount(tables) {
     _.set(tables, 'gapsTable.visibleColumnsCount', _.filter(tables.gapsTable.columns, 'visible').length || 0)
     _.set(tables, 'solutionsTable.visibleColumnsCount', _.filter(tables.solutionsTable.columns, 'visible').length || 0)
@@ -66,15 +68,16 @@ function getColumn(period) {
         id: period.id,
         render: (object, refetch, actions) => {
             const {ref, roles} = actions;
-            const {startDate, endDate} = getPeriodDates(period);
+
+            const startDate = period.start.toJSDate();
+            const endDate = period.end.toJSDate();
             const actionEndDate = getJSDate(object.endDate);
-             const actionStartDate = getJSDate(object.startDate);
+            const actionStartDate = getJSDate(object.startDate);
             const actionStatusList = object.actionStatusList || [];
             const actionStatus = _.filter(actionStatusList, (as => {
                 const eventDate = new Date(as.eventDate);
                 return startDate <= eventDate && endDate >= eventDate;
             }))[0]
-
 
 
             return (
@@ -108,9 +111,10 @@ export function getTableTrackingColumns(period, trackingPeriod) {
     if (period && trackingPeriod) {
         if (period instanceof Object) {
             if (typeof trackingPeriod === 'string') {
-                const trackingPeriods = period[trackingPeriod.toLowerCase()] ? [...period[trackingPeriod.toLowerCase()]] : [];
+                const periodType = new PeriodUtility().setCategory(PeriodTypeCategory.FIXED).setYear(period.year).getPeriodType(trackingPeriod.toUpperCase());
+                const trackingPeriods = periodType.periods.filter((pe) => period.interval.contains(pe.start) && period.interval.contains(pe.end)).toReversed();
                 if (!_.isEmpty(trackingPeriods)) {
-                    if (period.type === trackingPeriod) {
+                    if (period.type.id.toLowerCase() === trackingPeriod.toLowerCase()) {
                         return [getColumn(period)]
                     } else {
                         return _.map(_.reverse(trackingPeriods), (p) => {
