@@ -1,20 +1,7 @@
-import {
-    Button as MaterialButton,
-    ButtonGroup,
-} from '@material-ui/core';
+import {Button as MaterialButton, ButtonGroup,} from '@material-ui/core';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {
-    ActionStatusState,
-    DimensionsState,
-    PageState,
-    StatusFilterState,
-} from '../../../core/states';
-import {
-    Button,
-    ButtonStrip,
-    SingleSelect,
-    SingleSelectOption,
-} from '@dhis2/ui';
+import {ActionStatusState, DimensionsState, PageState, StatusFilterState,} from '../../../core/states';
+import {Button, ButtonStrip, SingleSelect, SingleSelectOption,} from '@dhis2/ui';
 import React, {useState} from "react";
 import AddIcon from '@material-ui/icons/Add';
 import DownloadIcon from '@material-ui/icons/GetApp';
@@ -50,6 +37,8 @@ const PageSelector = () => {
     };
     const onClick = (page) => {
         if (page === 'Tracking') {
+
+            console.log(period)
             if (period.type === trackingPeriod || _.has(period, trackingPeriod.toLowerCase())) {
                 setActivePage(page);
             } else {

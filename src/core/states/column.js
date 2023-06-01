@@ -104,21 +104,6 @@ export const TableState = atom({
                             }
                         },
                         {
-                            name: 'responsiblePerson',
-                            displayName: i18n.t('Responsible Person'),
-                            mandatory: true,
-                            visible: true,
-                            width: 0,
-                            render: (object, _, __, width) => {
-                                return (
-                                    <CustomTableCell style={{maxWidth: width}}
-                                                     key={`${object.id}-responsible-designation`}>
-                                        {object?.responsiblePerson}, {object?.designation}
-                                    </CustomTableCell>
-                                )
-                            }
-                        },
-                        {
                             name: 'startDate',
                             displayName: i18n.t('Start Date'),
                             mandatory: true,
@@ -167,7 +152,7 @@ export const TableState = atom({
                             }
                         },
                     ],
-                    visibleColumnsCount: 5,
+                    visibleColumnsCount: 4,
                     visible: true
                 },
                 actionStatusTable: {

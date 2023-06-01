@@ -1,7 +1,4 @@
-import {
-    CustomNestedTable,
-    CustomTableCell,
-} from "./CustomTable";
+import {CustomNestedTable, CustomTableCell,} from "./CustomTable";
 import {Container, TableBody, TableRow} from "@material-ui/core";
 import * as _ from "lodash";
 import React, {useEffect, useState} from "react";
@@ -21,7 +18,6 @@ import ActionStatus from "../../../../core/models/actionStatus";
 import ActionStatusDialog from "../../../../shared/Dialogs/ActionStatusDialog";
 import {UserRolesState} from "../../../../core/states/user";
 import Visibility from "../../../../shared/Components/Visibility";
-import {getDHIS2DateFromPeriodLibDate} from "../../../../core/helpers/utils/date.utils";
 import i18n from '@dhis2/d2-i18n'
 
 const actionsQuery = {
@@ -51,16 +47,17 @@ export default function ActionTable({solution = new PossibleSolution()}) {
     const {orgUnit, period} = useRecoilValue(DimensionsState);
     const {actionsTable, actionStatusTable, visibleColumnsCount} = useRecoilValue(TableStateSelector);
     const {action: actionRoles, actionStatus: actionStatusRoles} = useRecoilValue(UserRolesState);
-    const [addActionOpen, setAddActionOpen] = useState(false)
-    const {startDate, endDate} = period;
+    const [addActionOpen, setAddActionOpen] = useState(false);
+
+    const {start: startDate, end: endDate} = period;
     const {loading, data, error, refetch} = useDataQuery(actionsQuery, {
         variables: {
             ou: orgUnit?.id,
             solutionToActionLinkage: solution.actionLinkage,
             page,
             pageSize,
-            startDate: getDHIS2DateFromPeriodLibDate(startDate),
-            endDate: getDHIS2DateFromPeriodLibDate(endDate)
+            startDate: startDate.toFormat(`yyyy-MM-dd`),
+            endDate: endDate.toFormat(`yyyy-MM-dd`)
         },
         lazy: true
     });
@@ -72,8 +69,8 @@ export default function ActionTable({solution = new PossibleSolution()}) {
                 pageSize,
                 ou: orgUnit?.id,
                 solutionToActionLinkage: solution.actionLinkage,
-                startDate: getDHIS2DateFromPeriodLibDate(startDate),
-                endDate: getDHIS2DateFromPeriodLibDate(endDate)
+                startDate: startDate.toFormat(`yyyy-MM-dd`),
+                endDate: endDate.toFormat(`yyyy-MM-dd`)
             })
         }
 
