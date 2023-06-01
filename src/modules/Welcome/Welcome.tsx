@@ -23,7 +23,6 @@ export const metadataMutation: any = {
     params: {
         importStrategy: "CREATE_AND_UPDATE",
         atomicMode: 'NONE',
-        mergeMode: "MERGE"
     }
 }
 

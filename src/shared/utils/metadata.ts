@@ -17,7 +17,8 @@ import {EntityTypes, InitialMetadata} from "../constants/defaults";
 
 function generateDataItemsFromConfig(field: DataField): TrackedEntityAttribute | DataElement {
     const dataItem = {
-        name: field.name,
+        name: `[SAT] ${field.name}`,
+        formName: field.name,
         id: field.id,
         code: field.name,
         shortName: field.name,
@@ -30,7 +31,7 @@ function generateDataItemsFromConfig(field: DataField): TrackedEntityAttribute |
         const optionSetId = uid();
         set(dataItem, 'optionSet', {
             id: optionSetId,
-            name: `${field.name} options`,
+            name: `[SAT] ${field.name} options`,
             options: field.options?.map((option, index) => ({
                 ...option,
                 id: uid(),
@@ -46,41 +47,54 @@ function generateDataItemsFromConfig(field: DataField): TrackedEntityAttribute |
 
 function generateProgramFromConfig(config: CategoryConfig | ActionConfig, trackedEntityType: TrackedEntityType): Program {
 
-    const programTrackedEntityAttributes: ProgramTrackedEntityAttribute[] = config.fields.map(generateDataItemsFromConfig).map(trackedEntityAttribute => ({
-        trackedEntityAttribute,
-        id: uid()
-    })) as ProgramTrackedEntityAttribute[];
+    const programTrackedEntityAttributes: ProgramTrackedEntityAttribute[] = config.fields.map(generateDataItemsFromConfig).map(trackedEntityAttribute => {
+        const teiConfig = find(config.fields, ['id', trackedEntityAttribute.id]);
+        return {
+            trackedEntityAttribute,
+            id: uid(),
+            mandatory: teiConfig?.mandatory
+        } as any
+
+    }) as ProgramTrackedEntityAttribute[];
 
     return {
         id: config.id,
         programType: "WITH_REGISTRATION",
         programTrackedEntityAttributes,
-        name: config.name,
+        name: `[SAT] ${config.name}`,
         shortName: config.name,
         trackedEntityType
     }
 }
 
-function generateProgramStageFromConfig(config: CategoryConfig | ActionStatusConfig, {programId, index}: {
+function generateProgramStageFromConfig(config: CategoryConfig | ActionStatusConfig, {programId, index, options}: {
     programId: string;
     index: number;
+    options?: {
+        repeatable: boolean
+    }
 }): ProgramStage {
 
     const dataElements = config.fields.map(generateDataItemsFromConfig) as DataElement[]
-    const programStageDataElements = dataElements.map(dataElement => ({
+    const programStageDataElements = dataElements.map(dataElement => {
+        const dEConfig = find(config.fields, ['id', dataElement.id]);
+
+        return {
             dataElement,
+            compulsory: dEConfig?.mandatory,
             id: uid()
         }
-    )) as any
+    }) as any
     return {
-        name: config.name,
+        name: `[SAT] ${config.name}`,
         id: config.id,
         programStageDataElements,
         sortOrder: index + 1,
         program: {
             id: programId
         },
-        programStageSections: []
+        programStageSections: [],
+        ...(options ?? {})
     }
 }
 
@@ -98,7 +112,7 @@ function generateCategoriesMetadata(categories: CategoryConfig[], meta: InitialM
     const program = generateProgramFromConfig(firstCategory, trackedEntityType as TrackedEntityType);
     const programStages = restCategories?.map((category, index) => generateProgramStageFromConfig(category, {
         programId: program.id,
-        index
+        index,
     }));
 
     return {
@@ -110,7 +124,11 @@ function generateCategoriesMetadata(categories: CategoryConfig[], meta: InitialM
 function generateActionsMetadata(actionConfig: ActionConfig, meta: InitialMetadata) {
     const trackedEntityType = find(meta.trackedEntityTypes, ['name', EntityTypes.ACTION])
     const program = generateProgramFromConfig(actionConfig, trackedEntityType as TrackedEntityType);
-    const programStage = generateProgramStageFromConfig(actionConfig.statusConfig, {programId: program.id, index: 0});
+    const programStage = generateProgramStageFromConfig(actionConfig.statusConfig, {
+        programId: program.id,
+        index: 0,
+        options: {repeatable: true}
+    });
     return {
         program,
         programStages: [programStage],
