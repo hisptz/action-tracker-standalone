@@ -4,8 +4,9 @@ import {useNavigate} from "react-router-dom"
 import {CircularLoader} from "@dhis2/ui"
 import {generateBasicTemplate, initialMetadata} from "../../shared/constants/defaults";
 import {generateMetadataFromConfig} from "../../shared/utils/metadata";
-import {useDataMutation} from "@dhis2/app-runtime";
+import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {DATASTORE_NAMESPACE} from "../../shared/constants/meta";
+import {useLog} from "../../shared/hooks/log";
 
 const defaultConfig = generateBasicTemplate({orgUnitLevel: "1"});
 const metadata = {...initialMetadata, ...generateMetadataFromConfig(defaultConfig, {meta: initialMetadata})};
@@ -13,45 +14,66 @@ const metadata = {...initialMetadata, ...generateMetadataFromConfig(defaultConfi
 const configMutation: any = {
     resource: `dataStore/${DATASTORE_NAMESPACE}/${defaultConfig.id}`,
     type: "create",
-    data: defaultConfig
+    data: ({data}: any) => data
 }
-
 export const metadataMutation: any = {
     resource: `metadata`,
     type: "create",
     data: ({metadata}: any) => metadata,
     params: {
         importStrategy: "CREATE_AND_UPDATE",
-        atomicMode: 'NONE',
+        atomicMode: 'ALL',
     }
 }
 
 export function Welcome() {
     const navigate = useNavigate();
-    const [sendConfig, {loading: uploadingConfig}] = useDataMutation(configMutation, {
+    const log = useLog();
+    const {show} = useAlert(({message}) => message, ({type}) => ({...type, duration: 3000}));
+    const [sendConfig, {loading: uploadingConfig, error: configError}] = useDataMutation(configMutation, {
         onError: (error) => {
-            // logger.error(`${error.message}`, {
-            //     error: error,
-            // })
+            show({message: `Error setting up default configuration: ${error.message}`, type: {critical: true}});
+            log.error({
+                message: `Error setting up default configuration: ${error.message}`,
+                details: error.details,
+                stack: error.stack
+            });
         }
     });
-    const [sendMetadata, {loading: uploadingMetadata}] = useDataMutation(metadataMutation, {
+    const [sendMetadata, {loading: uploadingMetadata, error: metadataError}] = useDataMutation(metadataMutation, {
         onError: (error) => {
-            // logger.error(`${error.message}`, {
-            //     error: error,
-            // })
+            show({message: `Error setting up required metadata: ${error.message}`, type: {critical: true}});
+            log.error({
+                message: `Error setting up required metadata: ${error.message}`,
+                details: error.details,
+                stack: error.stack,
+            })
         }
     });
 
     useEffect(() => {
         async function setup() {
-            await sendConfig();
-            await sendMetadata();
+            await sendConfig({
+                data: defaultConfig
+            });
+            await sendMetadata({
+                metadata
+            });
             navigate("/");
         }
 
         setup();
     }, [])
+
+
+    if (configError || metadataError) {
+        return (
+            <div className="w-100 h-100 column center align-center">
+                <h1>{i18n.t("Error setting up default configuration")}</h1>
+                <p>{i18n.t("Please take a look at the logs for more details")}</p>
+            </div>
+        )
+    }
 
     return (
         <div className="w-100 h-100 column center align-center">

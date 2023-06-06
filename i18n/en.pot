@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-05-31T19:39:07.119Z\n"
-"PO-Revision-Date: 2023-05-31T19:39:07.119Z\n"
+"POT-Creation-Date: 2023-06-06T13:11:52.366Z\n"
+"PO-Revision-Date: 2023-06-06T13:11:52.366Z\n"
 
 msgid "General"
 msgstr "General"
@@ -16,6 +16,12 @@ msgstr "Categories"
 
 msgid "Action"
 msgstr "Action"
+
+msgid "Error setting up default configuration"
+msgstr "Error setting up default configuration"
+
+msgid "Please take a look at the logs for more details"
+msgstr "Please take a look at the logs for more details"
 
 msgid "Welcome to the standalone action tracker"
 msgstr "Welcome to the standalone action tracker"

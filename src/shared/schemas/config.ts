@@ -22,13 +22,9 @@ export const dataFieldSchema = z.object({
         'DATE',
     ]),
     mandatory: z.boolean().optional(),
-    options: z.array(z.object({
-        name: z.string(),
-        code: z.string(),
-        id: z.string(),
-        color: z.string().optional(),
-        icon: z.string().optional()
-    })).optional()
+    optionSet: z.object({
+        id: z.string()
+    }).optional()
 })
 
 export const categoryConfigSchema = z.object({

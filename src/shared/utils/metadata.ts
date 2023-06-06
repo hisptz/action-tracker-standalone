@@ -2,8 +2,6 @@ import {ActionConfig, ActionStatusConfig, CategoryConfig, Config, DataField} fro
 import {
     DataElement,
     DHIS2ValueType,
-    Option,
-    OptionSet,
     Program,
     ProgramStage,
     ProgramTrackedEntityAttribute,
@@ -11,9 +9,8 @@ import {
     TrackedEntityType,
     uid
 } from "@hisptz/dhis2-utils";
-import {compact, find, isEmpty, set, uniqBy} from "lodash";
+import {compact, filter, find} from "lodash";
 import {EntityTypes, InitialMetadata} from "../constants/defaults";
-
 
 function generateDataItemsFromConfig(field: DataField): TrackedEntityAttribute | DataElement {
     const dataItem = {
@@ -24,22 +21,8 @@ function generateDataItemsFromConfig(field: DataField): TrackedEntityAttribute |
         shortName: field.name,
         valueType: field.type as DHIS2ValueType,
         aggregationType: "NONE",
-        domainType: "TRACKER"
-    }
-
-    if (!isEmpty(field.options)) {
-        const optionSetId = uid();
-        set(dataItem, 'optionSet', {
-            id: optionSetId,
-            name: `[SAT] ${field.name} options`,
-            options: field.options?.map((option, index) => ({
-                ...option,
-                id: uid(),
-                sortOrder: index + 1,
-                optionSet: {id: optionSetId}
-            })),
-            valueType: field.type as DHIS2ValueType
-        })
+        domainType: "TRACKER",
+        optionSet: field.optionSet
     }
     return dataItem;
 
@@ -98,7 +81,6 @@ function generateProgramStageFromConfig(config: CategoryConfig | ActionStatusCon
     }
 }
 
-
 function generateCategoriesMetadata(categories: CategoryConfig[], meta: InitialMetadata) {
     const trackedEntityType = find(meta.trackedEntityTypes, ['name', EntityTypes.CATEGORIZATION])
     if (categories.length === 1) {
@@ -143,17 +125,42 @@ function extractDataElements(programStages: ProgramStage[]) {
     return programStages.flatMap(programStage => programStage.programStageDataElements?.map(programStageDataElement => programStageDataElement.dataElement))
 }
 
-function extractOptionSets({dataElements, trackedEntityAttributes}: {
-    dataElements: DataElement[],
-    trackedEntityAttributes: TrackedEntityAttribute[]
-}): OptionSet[] {
-    const dataElementOptionSets = dataElements.flatMap(dataElement => dataElement.optionSet as OptionSet)
-    const trackedEntityAttributeOptionSets = trackedEntityAttributes.flatMap(trackedEntityAttribute => trackedEntityAttribute.optionSet as OptionSet)
-    return uniqBy([...dataElementOptionSets, ...trackedEntityAttributeOptionSets], 'id')
+function cleanProgramDeps(programs: Program[], stages: ProgramStage[]) {
+    return programs.map(program => {
+        return {
+            ...program,
+            programTrackedEntityAttributes: program.programTrackedEntityAttributes?.map((ptea) => {
+                return {
+                    ...ptea,
+                    trackedEntityAttribute: {
+                        id: ptea.trackedEntityAttribute.id
+                    }
+                }
+            }),
+            programStages: filter(stages, (stage) => stage.program?.id === program.id)?.map((programStage) => {
+                return {
+                    id: programStage.id,
+                    sortOrder: programStage.sortOrder
+                }
+            })
+        }
+    })
 }
 
-function extractOptions(optionSets: OptionSet[]): (Option | undefined)[] {
-    return optionSets.flatMap(optionSet => optionSet.options) ?? [] as Option[]
+function cleanProgramStagesDeps(programStages: ProgramStage[]) {
+    return programStages.map(programStage => {
+        return {
+            ...programStage,
+            programStageDataElements: programStage.programStageDataElements?.map((pstd) => {
+                return {
+                    ...pstd,
+                    dataElement: {
+                        id: pstd.dataElement.id
+                    }
+                }
+            })
+        }
+    })
 }
 
 export function generateMetadataFromConfig(config: Config, {meta}: { meta: InitialMetadata }) {
@@ -171,16 +178,15 @@ export function generateMetadataFromConfig(config: Config, {meta}: { meta: Initi
 
     const trackedEntityAttributes = compact(extractTrackedEntityAttributes(programs)) ?? [];
     const dataElements = compact(extractDataElements(programStages)) ?? [];
-    const optionSets = compact(extractOptionSets({dataElements, trackedEntityAttributes}));
-    const options = compact(extractOptions(optionSets))
+
+    const cleanedProgram = cleanProgramDeps(programs, programStages);
+    const cleanedProgramStages = cleanProgramStagesDeps(programStages);
 
     return {
         dataElements,
         trackedEntityAttributes,
-        options,
-        optionSets,
-        programs,
-        programStages,
+        programs: cleanedProgram,
+        programStages: cleanedProgramStages,
     }
 
 }

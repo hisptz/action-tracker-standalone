@@ -97,32 +97,6 @@ export function generateBasicTemplate({orgUnitLevel}: {
                         type: "TEXT",
                         mandatory: true,
                         id: uid(),
-                        options: [
-                            {
-                                name: "Not Started",
-                                code: "Not Started",
-                                color: "#bdbaba",
-                                id: uid()
-                            },
-                            {
-                                name: "In Progress",
-                                code: "In Progress",
-                                color: "#eca00d",
-                                id: uid()
-                            },
-                            {
-                                name: "Completed",
-                                code: "Completed",
-                                color: "#49c50c",
-                                id: uid()
-                            },
-                            {
-                                name: "Cancelled",
-                                code: "Cancelled",
-                                color: "#ea0823",
-                                id: uid()
-                            }
-                        ]
                     }
                 ],
             }
