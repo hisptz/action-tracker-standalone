@@ -1,0 +1,41 @@
+.selection-card {
+    width: 100%;
+    z-index: 4;
+}
+
+.selection-box {
+    cursor: pointer;
+    margin: 8px;
+    display: flex;
+    flex-direction: column;
+    background: #E8EDF2;
+    height: 5em;
+    width: 25em;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.selection-box-header {
+    margin-top: 16px;
+    margin-left: 16px;
+    margin-bottom: 0;
+}
+
+.selection-text-box {
+    margin: auto 16px;
+    border-left: 4px solid #28468B;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: start;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.selection-text-box > p {
+    padding-left: 16px;
+    font-size: 16px;
+    color: #4A5768;
+    overflow-x: auto;
+}
