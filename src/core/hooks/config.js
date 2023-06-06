@@ -12,7 +12,7 @@ import {EngineState, GlobalSettingsState} from "../states/config";
 
 const programFields = [
     'id',
-    'programTrackedEntityAttributes[displayInList,mandatory,searchable, trackedEntityAttribute[id,name,formName,valueType]]',
+    'programTrackedEntityAttributes[displayInList,mandatory,searchable, trackedEntityAttribute[id,name,formName,valueType,optionSet[options[code, name,style[color, icon]]]]',
     'programStages[id, programStageDataElements[compulsory,displayInReports,dataElement[name,id,formName,valueType,optionSet[options[code, name,style[color, icon]]]',
 ];
 
