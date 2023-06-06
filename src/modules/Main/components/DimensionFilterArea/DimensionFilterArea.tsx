@@ -14,12 +14,6 @@ export function DimensionFilterArea() {
     const {value: orgUnitHidden, setTrue: hideOrgUnit, setFalse: showOrgUnit} = useBoolean(true);
     const {value: periodHidden, setTrue: hidePeriod, setFalse: showPeriod} = useBoolean(true);
 
-
-    console.log({
-        orgUnit,
-        period
-    })
-
     return (
         <div className={classes['selection-card']}>
             <Card>

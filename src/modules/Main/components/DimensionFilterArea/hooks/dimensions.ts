@@ -26,7 +26,7 @@ export function useDimensions() {
     const period = useMemo(() => {
         if (!params.get('pe')) return undefined;
         return PeriodUtility.getPeriodById(params.get('pe') as string)
-    }, [params]);
+    }, [params.get('pe')]);
 
     const orgUnit = useMemo(() => {
         if (!data?.ou) return undefined;
