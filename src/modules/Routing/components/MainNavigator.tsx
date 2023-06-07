@@ -21,9 +21,8 @@ export function MainNavigator() {
         if (data?.config) {
             const keys = data.config.filter(key => !keysToExclude.includes(key));
 
-            console.log(keys)
             if (keys.length > 0) {
-                navigate(`/${head(keys)}`)
+                navigate(`/${head(keys)}?type=planning`)
             } else {
                 navigate(`/welcome`)
             }
