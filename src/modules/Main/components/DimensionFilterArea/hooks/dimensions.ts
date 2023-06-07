@@ -31,7 +31,7 @@ export function useDimensions() {
     const orgUnit = useMemo(() => {
         if (!data?.ou) return undefined;
         return data?.ou;
-    }, [data]);
+    }, [data, params.get("ou")]);
 
     const setParam = useCallback((key: string) => (value: string) => {
         const updatedParams = new URLSearchParams(params);
