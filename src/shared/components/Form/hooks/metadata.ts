@@ -1,25 +1,31 @@
 import {useMetadata} from "../../../hooks/metadata";
 import {useMemo} from "react";
-import {DHIS2FormFieldProps} from "@hisptz/dhis2-ui";
+import {RHFDHIS2FormFieldProps} from "@hisptz/dhis2-ui";
 import {DataElement, TrackedEntityAttribute} from "@hisptz/dhis2-utils";
+import i18n from '@dhis2/d2-i18n';
 
-
-function getFieldProps(mandatory: boolean, attribute: TrackedEntityAttribute | DataElement): DHIS2FormFieldProps {
+function getFieldProps(mandatory: boolean, attribute: TrackedEntityAttribute | DataElement): RHFDHIS2FormFieldProps {
     return {
-        label: attribute.displayName,
+        label: attribute.formName ?? attribute.shortName,
         name: attribute.id,
-        type: attribute.valueType,
+        valueType: attribute.valueType as any,
         required: mandatory,
-        options: attribute.optionSet?.options
-    } as unknown as DHIS2FormFieldProps
+        optionSet: attribute.optionSet,
+        validations: {
+            required: {
+                value: mandatory,
+                message: i18n.t("This field is required")
+            }
+        }
+    }
 }
 
 export function useFormFields({id, type}: { id: string; type: 'program' | 'programStage' }) {
     const {loading, programs} = useMetadata();
     const programStages = useMemo(() => programs?.map(program => program.programStages).flat(), [programs]);
 
-    const fields: DHIS2FormFieldProps[] = useMemo(() => {
-        if (loading) return [] as DHIS2FormFieldProps[];
+    const fields: RHFDHIS2FormFieldProps[] = useMemo(() => {
+        if (loading) return [] as RHFDHIS2FormFieldProps[];
         if (type === "program") {
             const program = programs?.find(program => program.id === id);
             return program?.programTrackedEntityAttributes?.map(({mandatory, trackedEntityAttribute}) => {

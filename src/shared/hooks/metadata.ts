@@ -1,5 +1,5 @@
 import {useConfiguration} from "./config";
-import {useMemo} from "react";
+import {useEffect, useMemo} from "react";
 import {head} from "lodash";
 import {useDataQuery} from "@dhis2/app-runtime";
 import {Program} from "@hisptz/dhis2-utils";
@@ -15,8 +15,8 @@ const programQuery: any = {
                 fields: [
                     'id',
                     'displayName',
-                    'programTrackedEntityAttributes[mandatory,trackedEntityAttribute[id,displayName,valueType,optionSet[id,options[code,name]]]]',
-                    'programStages[id,displayName,programStageDataElements[mandatory,dataElement[id,displayName,valueType,optionSet[id,options[code,name]]]]]',
+                    'programTrackedEntityAttributes[mandatory,trackedEntityAttribute[id,displayName,valueType,shortName,formName,optionSet[id,options[code,name]]]]',
+                    'programStages[id,displayName,programStageDataElements[mandatory,dataElement[id,displayName,shortName,valueType,formName,optionSet[id,options[code,name]]]]]',
                 ]
             }
         )
@@ -27,6 +27,7 @@ const programQuery: any = {
 export function useMetadata() {
     const {config} = useConfiguration();
     const programs = useMemo(() => {
+        if (!config) return;
         const categoryProgram = head(config?.categories)?.id;
         const actionProgram = config?.action.id;
 
@@ -35,11 +36,18 @@ export function useMetadata() {
             actionProgram
         ]
     }, [config])
-    const {data, loading} = useDataQuery<{ programs: { programs: Program[] } }>(programQuery, {
+    const {data, refetch, loading} = useDataQuery<{ programs: { programs: Program[] } }>(programQuery, {
         variables: {
             ids: programs
+        },
+        lazy: true
+    });
+    useEffect(() => {
+        if (programs) {
+
+            refetch({ids: programs})
         }
-    })
+    }, [programs])
 
     return {
         loading,
