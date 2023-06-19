@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-06-07T04:19:11.543Z\n"
-"PO-Revision-Date: 2023-06-07T04:19:11.543Z\n"
+"POT-Creation-Date: 2023-06-19T07:30:42.656Z\n"
+"PO-Revision-Date: 2023-06-19T07:30:42.656Z\n"
 
 msgid "Select organisation unit"
 msgstr "Select organisation unit"
@@ -25,6 +25,9 @@ msgstr "Planning"
 
 msgid "Tracking"
 msgstr "Tracking"
+
+msgid "Select organisation unit and period to start"
+msgstr "Select organisation unit and period to start"
 
 msgid "General"
 msgstr "General"

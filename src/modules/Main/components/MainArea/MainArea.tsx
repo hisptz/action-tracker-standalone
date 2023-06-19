@@ -1,6 +1,6 @@
-import {useDimensions} from "../DimensionFilterArea/hooks/dimensions";
+import {useDimensions} from "../../../../shared/hooks/dimensions";
 import React from "react";
-import {DimensionsNotSelected} from "../DimensionsNotSelected";
+import {DimensionsNotSelected} from "./components/DimensionsNotSelected";
 
 export function MainArea() {
     const {orgUnit, period} = useDimensions();

@@ -3,7 +3,7 @@ import {Card} from "@dhis2/ui"
 import {DimensionSelection} from "./components/DimensionSelection";
 import i18n from '@dhis2/d2-i18n';
 import classes from "./DimensionFilterArea.module.css";
-import {useDimensions} from "./hooks/dimensions";
+import {useDimensions} from "../../../../shared/hooks/dimensions";
 import {useBoolean} from "usehooks-ts";
 import {compact, head} from "lodash";
 import {OrgUnitSelectorModal, PeriodSelectorModal} from "@hisptz/dhis2-ui";
