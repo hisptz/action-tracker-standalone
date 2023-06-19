@@ -41,7 +41,7 @@ export function DimensionSelection({
                     <p className={classes['selection-box-header']}>{title}</p>
                     <Box className={classes['selection-text-box']} width="90%" height="40%">
                         {
-                            loading ? <CircularLoader tiny/> : <>
+                            loading ? <CircularLoader extrasmall/> : <>
                                 {itemsToDisplay?.map(({name, displayName, id}) => (
                                     <Chip key={id}>{name ?? displayName}</Chip>
                                 ))}
