@@ -13,7 +13,7 @@ import {compact, filter, find} from "lodash";
 import {EntityTypes, InitialMetadata} from "../constants/defaults";
 
 function generateDataItemsFromConfig(field: DataField): TrackedEntityAttribute | DataElement {
-    const dataItem = {
+    return {
         name: `[SAT] ${field.name}`,
         formName: field.name,
         id: field.id,
@@ -23,8 +23,7 @@ function generateDataItemsFromConfig(field: DataField): TrackedEntityAttribute |
         aggregationType: "NONE",
         domainType: "TRACKER",
         optionSet: field.optionSet
-    }
-    return dataItem;
+    };
 
 }
 
@@ -121,6 +120,56 @@ function extractTrackedEntityAttributes(programs: Program[]) {
     return programs.flatMap(program => program.programTrackedEntityAttributes?.map(programTrackedEntityAttribute => programTrackedEntityAttribute.trackedEntityAttribute))
 }
 
+
+function generateRelationshipTypes(config: Config) {
+    const categoriesWithParents = config.categories.filter(({parent}) => !!parent);
+    const relationshipTypes = categoriesWithParents.map(({parent, name, id,}) => {
+        if (!parent) return;
+        return {
+            id: parent?.id,
+            name: `[SAT] ${parent.name} to ${name} relationship`,
+            fromToName: `[SAT] ${parent.from} children`,
+            fromConstraint: {
+                relationshipEntity: parent?.type === "program" ? "PROGRAM_INSTANCE" : "PROGRAM_STAGE_INSTANCE",
+                [parent.type]: {
+                    id: parent?.from
+                }
+            },
+            toFromName: `[SAT] Parent`,
+            toConstraint: {
+                relationshipEntity: "PROGRAM_STAGE_INSTANCE",
+                programStage: {
+                    id
+                }
+            }
+        }
+    });
+
+    const actionConfig = config.action;
+
+    const actionRelationType = {
+        id: actionConfig.parent?.id,
+        name: `[SAT] ${actionConfig.parent?.name} to ${actionConfig.name} relationship`,
+        fromToName: `[SAT] ${actionConfig.parent?.from} children`,
+        fromConstraint: {
+            relationshipEntity: actionConfig.parent?.type === "program" ? "PROGRAM_INSTANCE" : "PROGRAM_STAGE_INSTANCE",
+            [actionConfig.parent?.type as string]: {
+                id: actionConfig.parent?.from
+            }
+        },
+        toFromName: `[SAT] Parent`,
+        toConstraint: {
+            relationshipEntity: "PROGRAM_INSTANCE",
+            program: {
+                id: actionConfig.id
+            }
+        }
+
+    }
+
+    return [...relationshipTypes, actionRelationType];
+}
+
 function extractDataElements(programStages: ProgramStage[]) {
     return programStages.flatMap(programStage => programStage.programStageDataElements?.map(programStageDataElement => programStageDataElement.dataElement))
 }
@@ -182,11 +231,14 @@ export function generateMetadataFromConfig(config: Config, {meta}: { meta: Initi
     const cleanedProgram = cleanProgramDeps(programs, programStages);
     const cleanedProgramStages = cleanProgramStagesDeps(programStages);
 
+    const relationshipTypes = generateRelationshipTypes(config);
+
     return {
         dataElements,
         trackedEntityAttributes,
         programs: cleanedProgram,
         programStages: cleanedProgramStages,
+        relationshipTypes
     }
 
 }

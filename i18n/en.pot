@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-06-20T06:39:05.248Z\n"
-"PO-Revision-Date: 2023-06-20T06:39:05.248Z\n"
+"POT-Creation-Date: 2023-06-20T08:23:11.384Z\n"
+"PO-Revision-Date: 2023-06-20T08:23:11.384Z\n"
 
 msgid "Select organisation unit"
 msgstr "Select organisation unit"
@@ -73,3 +73,30 @@ msgstr "Save"
 
 msgid "This field is required"
 msgstr "This field is required"
+
+msgid "Basic Activity Template"
+msgstr "Basic Activity Template"
+
+msgid "Category"
+msgstr "Category"
+
+msgid "Title"
+msgstr "Title"
+
+msgid "About"
+msgstr "About"
+
+msgid "Activity"
+msgstr "Activity"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Start Date"
+msgstr "Start Date"
+
+msgid "End Date"
+msgstr "End Date"

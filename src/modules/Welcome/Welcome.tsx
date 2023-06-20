@@ -56,11 +56,11 @@ export function Welcome() {
 
     useEffect(() => {
         async function setup() {
-            await sendConfig({
-                data: defaultConfig
-            });
             await sendMetadata({
                 metadata
+            });
+            await sendConfig({
+                data: defaultConfig
             });
             navigate("/", {replace: true});
         }
@@ -71,7 +71,6 @@ export function Welcome() {
             navigate("/", {replace: true});
         }
     }, [])
-
 
     if (configError || metadataError) {
         return (

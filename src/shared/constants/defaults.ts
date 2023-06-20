@@ -1,6 +1,6 @@
 import {Config} from "../schemas/config";
 import {PeriodTypeEnum, TrackedEntityType, uid} from "@hisptz/dhis2-utils";
-
+import i18n from '@dhis2/d2-i18n';
 
 export enum EntityTypes {
     CATEGORIZATION = "Categorization",
@@ -27,9 +27,11 @@ export const initialMetadata: InitialMetadata = {
 export function generateBasicTemplate({orgUnitLevel}: {
     orgUnitLevel: string,
 }): Config {
+
+    const categoryId = uid();
     return {
         id: uid(),
-        name: "Basic Activity Template",
+        name: i18n.t("Basic Activity Template"),
         general: {
             orgUnit: {
                 planning: orgUnitLevel
@@ -41,17 +43,17 @@ export function generateBasicTemplate({orgUnitLevel}: {
         },
         categories: [
             {
-                id: uid(),
-                name: "Category",
+                id: categoryId,
+                name: i18n.t("Category"),
                 fields: [
                     {
-                        name: "Title",
+                        name: i18n.t("Title"),
                         id: uid(),
                         type: "TEXT",
                         mandatory: true,
                     },
                     {
-                        name: "About",
+                        name: i18n.t("About"),
                         id: uid(),
                         type: "LONG_TEXT",
                         mandatory: false,
@@ -61,28 +63,34 @@ export function generateBasicTemplate({orgUnitLevel}: {
         ],
         action: {
             id: uid(),
-            name: "Activity",
+            name: i18n.t("Activity"),
+            parent: {
+                from: categoryId,
+                id: uid(),
+                type: 'program',
+                name: i18n.t("Category")
+            },
             fields: [
                 {
-                    name: "Name",
+                    name: i18n.t("Name"),
                     type: "TEXT",
                     mandatory: true,
                     id: uid(),
                 },
                 {
-                    name: "Description",
+                    name: i18n.t("Description"),
                     type: "LONG_TEXT",
                     mandatory: true,
                     id: uid(),
                 },
                 {
-                    name: "Start Date",
+                    name: i18n.t("Start Date"),
                     type: "DATE",
                     mandatory: true,
                     id: uid(),
                 },
                 {
-                    name: "End Date",
+                    name: i18n.t("End Date"),
                     type: "DATE",
                     mandatory: true,
                     id: uid(),

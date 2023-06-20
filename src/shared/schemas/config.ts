@@ -27,17 +27,25 @@ export const dataFieldSchema = z.object({
     }).optional()
 })
 
+const parentSchema = z.object({
+    id: z.string(),
+    from: z.string(),
+    type: z.enum(['program', 'programStage']),
+    name: z.string()
+})
+
 export const categoryConfigSchema = z.object({
     id: z.string(),
     name: z.string(),
-    fields: z.array(dataFieldSchema)
+    fields: z.array(dataFieldSchema),
+    parent: parentSchema.optional()
 })
 export const actionStatusState = z.object({
     id: z.string(),
     name: z.string(),
     color: z.string(),
     completes: z.boolean().optional(),
-    cancels: z.boolean().optional()
+    cancels: z.boolean().optional(),
 })
 
 export const actionStatusConfigSchema = z.object({
@@ -49,7 +57,8 @@ export const actionConfigSchema = z.object({
     id: z.string(),
     name: z.string(),
     fields: z.array(dataFieldSchema),
-    statusConfig: actionStatusConfigSchema
+    statusConfig: actionStatusConfigSchema,
+    parent: parentSchema.optional()
 })
 
 export const configSchema = z.object({
@@ -57,7 +66,7 @@ export const configSchema = z.object({
     name: z.string({description: "Name of the configuration (useful for multiple configurations)"}),
     general: generalConfigSchema,
     categories: z.array(categoryConfigSchema),
-    action: actionConfigSchema
+    action: actionConfigSchema,
 })
 
 export type GeneralConfig = z.infer<typeof generalConfigSchema>;
