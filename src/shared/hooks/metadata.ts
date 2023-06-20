@@ -15,8 +15,9 @@ const programQuery: any = {
                 fields: [
                     'id',
                     'displayName',
+                    'trackedEntityType',
                     'programTrackedEntityAttributes[mandatory,trackedEntityAttribute[id,displayName,valueType,shortName,formName,optionSet[id,options[code,name]]]]',
-                    'programStages[id,displayName,programStageDataElements[mandatory,dataElement[id,displayName,shortName,valueType,formName,optionSet[id,options[code,name]]]]]',
+                    'programStages[id,displayName,program[id],programStageDataElements[mandatory,dataElement[id,displayName,shortName,valueType,formName,optionSet[id,options[code,name]]]]]',
                 ]
             }
         )

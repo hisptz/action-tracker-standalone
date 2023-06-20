@@ -20,9 +20,17 @@ function getFieldProps(mandatory: boolean, attribute: TrackedEntityAttribute | D
     }
 }
 
-export function useFormFields({id, type}: { id: string; type: 'program' | 'programStage' }) {
+export function useFormMeta({id, type}: { id: string; type: 'program' | 'programStage' }) {
     const {loading, programs} = useMetadata();
     const programStages = useMemo(() => programs?.map(program => program.programStages).flat(), [programs]);
+
+    const instanceMeta = useMemo(() => {
+        if (type === "program") {
+            return programs?.find(program => program.id === id);
+        } else {
+            return programStages?.find(programStage => programStage?.id === id);
+        }
+    }, [programs, programStages, id, type])
 
     const fields: RHFDHIS2FormFieldProps[] = useMemo(() => {
         if (loading) return [] as RHFDHIS2FormFieldProps[];
@@ -41,7 +49,8 @@ export function useFormFields({id, type}: { id: string; type: 'program' | 'progr
 
     return {
         fields,
-        loading
+        loading,
+        instanceMeta
     }
 
 }

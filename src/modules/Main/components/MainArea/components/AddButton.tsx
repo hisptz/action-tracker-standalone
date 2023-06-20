@@ -7,7 +7,6 @@ import {useSearchParams} from "react-router-dom";
 import {useBoolean} from "usehooks-ts";
 import {Form} from "../../../../../shared/components/Form";
 
-
 export function AddButton() {
     const {loading, config} = useConfiguration();
     const {value: hide, setTrue: onClose, setFalse: onOpen} = useBoolean(true)
@@ -26,7 +25,7 @@ export function AddButton() {
 
     return (
         <>
-            <Form title={`${i18n.t("Add")} ${initialCategory?.name?.toLowerCase()}`} id={initialCategory?.id as string}
+            <Form instanceName={`${initialCategory?.name?.toLowerCase()}`} id={initialCategory?.id as string}
                   type="program" hide={hide} onClose={onClose}/>
             <Button
                 onClick={onOpen}
