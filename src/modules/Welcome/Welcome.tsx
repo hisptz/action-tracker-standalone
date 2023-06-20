@@ -6,7 +6,9 @@ import {generateBasicTemplate, initialMetadata} from "../../shared/constants/def
 import {generateMetadataFromConfig} from "../../shared/utils/metadata";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {DATASTORE_NAMESPACE} from "../../shared/constants/meta";
-import {useLog} from "../../shared/hooks/log";
+import {useLog} from "../../shared/hooks";
+import {useConfigurations} from "../../shared/hooks/config";
+import {isEmpty} from "lodash";
 
 const defaultConfig = generateBasicTemplate({orgUnitLevel: "1"});
 const metadata = {...initialMetadata, ...generateMetadataFromConfig(defaultConfig, {meta: initialMetadata})};
@@ -28,6 +30,7 @@ export const metadataMutation: any = {
 
 export function Welcome() {
     const navigate = useNavigate();
+    const {configs} = useConfigurations()
     const log = useLog();
     const {show} = useAlert(({message}) => message, ({type}) => ({...type, duration: 3000}));
     const [sendConfig, {loading: uploadingConfig, error: configError}] = useDataMutation(configMutation, {
@@ -59,10 +62,14 @@ export function Welcome() {
             await sendMetadata({
                 metadata
             });
-            navigate("/");
+            navigate("/", {replace: true});
         }
 
-        setup();
+        if (!configs || isEmpty(configs)) {
+            setup();
+        } else {
+            navigate("/", {replace: true});
+        }
     }, [])
 
 

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-06-19T07:30:42.656Z\n"
-"PO-Revision-Date: 2023-06-19T07:30:42.656Z\n"
+"POT-Creation-Date: 2023-06-20T06:39:05.248Z\n"
+"PO-Revision-Date: 2023-06-20T06:39:05.248Z\n"
 
 msgid "Select organisation unit"
 msgstr "Select organisation unit"
@@ -26,8 +26,20 @@ msgstr "Planning"
 msgid "Tracking"
 msgstr "Tracking"
 
+msgid "Add"
+msgstr "Add"
+
+msgid "Please wait..."
+msgstr "Please wait..."
+
 msgid "Select organisation unit and period to start"
 msgstr "Select organisation unit and period to start"
+
+msgid "Download"
+msgstr "Download"
+
+msgid "Manage columns"
+msgstr "Manage columns"
 
 msgid "General"
 msgstr "General"
@@ -52,3 +64,12 @@ msgstr "Setting up default configuration..."
 
 msgid "Setting up required metadata..."
 msgstr "Setting up required metadata..."
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "This field is required"
+msgstr "This field is required"

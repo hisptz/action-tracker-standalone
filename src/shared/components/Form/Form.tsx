@@ -5,6 +5,7 @@ import {useFormFields} from "./hooks/metadata";
 import {FormProvider, useForm} from "react-hook-form";
 import {isEmpty} from "lodash";
 import {RHFDHIS2FormField} from "@hisptz/dhis2-ui";
+import {TrackedEntityInstance} from "@hisptz/dhis2-utils";
 
 export interface FormProps {
     title: string;
@@ -16,6 +17,7 @@ export interface FormProps {
     },
     hide: boolean;
     onClose: () => void;
+    defaultValues?: TrackedEntityInstance | Event;
 }
 
 
