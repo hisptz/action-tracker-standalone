@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-06-20T08:23:11.384Z\n"
-"PO-Revision-Date: 2023-06-20T08:23:11.384Z\n"
+"POT-Creation-Date: 2023-06-28T08:40:51.178Z\n"
+"PO-Revision-Date: 2023-06-28T08:40:51.178Z\n"
 
 msgid "Select organisation unit"
 msgstr "Select organisation unit"
@@ -26,11 +26,21 @@ msgstr "Planning"
 msgid "Tracking"
 msgstr "Tracking"
 
+msgid "Please wait..."
+msgstr "Please wait..."
+
 msgid "Add"
 msgstr "Add"
 
-msgid "Please wait..."
-msgstr "Please wait..."
+msgid ""
+"There are no recorded {{ instanceType }}. Click on the button below to "
+"create one"
+msgstr ""
+"There are no recorded {{ instanceType }}. Click on the button below to "
+"create one"
+
+msgid "Add {{ instanceType }}"
+msgstr "Add {{ instanceType }}"
 
 msgid "Select organisation unit and period to start"
 msgstr "Select organisation unit and period to start"
@@ -65,14 +75,29 @@ msgstr "Setting up default configuration..."
 msgid "Setting up required metadata..."
 msgstr "Setting up required metadata..."
 
+msgid "Update"
+msgstr "Update"
+
 msgid "Cancel"
 msgstr "Cancel"
+
+msgid "Updating..."
+msgstr "Updating..."
+
+msgid "Creating..."
+msgstr "Creating..."
 
 msgid "Save"
 msgstr "Save"
 
 msgid "This field is required"
 msgstr "This field is required"
+
+msgid "Successfully created {{name}}"
+msgstr "Successfully created {{name}}"
+
+msgid "Failed to create {{name}}"
+msgstr "Failed to create {{name}}"
 
 msgid "Basic Activity Template"
 msgstr "Basic Activity Template"

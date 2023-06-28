@@ -14,7 +14,7 @@ export function MainArea() {
     }
 
     return (
-        <div className="column p-16 gap-16">
+        <div className="column p-16 gap-16 h-100">
             <div className="row space-between">
                 <div>
                     <AddButton/>
@@ -24,7 +24,9 @@ export function MainArea() {
                     <Download/>
                 </div>
             </div>
-            <DataArea/>
+            <div style={{flexGrow: 1, height: "100%"}}>
+                <DataArea/>
+            </div>
         </div>
     )
 

@@ -29,12 +29,14 @@ export function generateBasicTemplate({orgUnitLevel}: {
 }): Config {
 
     const categoryId = uid();
+    const actionId = uid();
+    const categoryToActivityId = uid();
     return {
         id: uid(),
         name: i18n.t("Basic Activity Template"),
         general: {
             orgUnit: {
-                planning: orgUnitLevel
+                planning: orgUnitLevel,
             },
             period: {
                 planning: PeriodTypeEnum.MONTHLY,
@@ -45,12 +47,19 @@ export function generateBasicTemplate({orgUnitLevel}: {
             {
                 id: categoryId,
                 name: i18n.t("Category"),
+                columns: [],
+                child: {
+                    id: categoryToActivityId,
+                    to: actionId,
+                    type: "programStage"
+                },
                 fields: [
                     {
                         name: i18n.t("Title"),
                         id: uid(),
                         type: "TEXT",
                         mandatory: true,
+                        header: true
                     },
                     {
                         name: i18n.t("About"),
@@ -64,6 +73,12 @@ export function generateBasicTemplate({orgUnitLevel}: {
         action: {
             id: uid(),
             name: i18n.t("Activity"),
+            columns: [
+                {
+                    label: i18n.t("Activity"),
+                    id: actionId
+                }
+            ],
             parent: {
                 from: categoryId,
                 id: uid(),

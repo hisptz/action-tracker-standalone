@@ -5,6 +5,7 @@ import "./main.css"
 import {DataStoreProvider} from "@dhis2/app-service-datastore";
 import {FullPageLoader} from "./shared/components/Loaders";
 import {DATASTORE_NAMESPACE} from "./shared/constants/meta";
+import {RecoilRoot} from "recoil";
 
 export default function App(): React.JSX.Element {
 
@@ -13,7 +14,9 @@ export default function App(): React.JSX.Element {
             namespace={DATASTORE_NAMESPACE}
             loadingComponent={<FullPageLoader/>}
         >
-            <Routing/>
+            <RecoilRoot>
+                <Routing/>
+            </RecoilRoot>
         </DataStoreProvider>
     )
 }

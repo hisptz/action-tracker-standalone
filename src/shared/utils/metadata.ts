@@ -242,3 +242,11 @@ export function generateMetadataFromConfig(config: Config, {meta}: { meta: Initi
     }
 
 }
+
+
+export function getAttributeValueFromList(attributeId: string, attributes: {
+    attribute: string;
+    value: string
+}[]): string {
+    return find(attributes, ['attribute', attributeId])?.value ?? '';
+}

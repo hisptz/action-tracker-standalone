@@ -1,34 +1,23 @@
-import {useCallback, useMemo} from "react";
-import {Event, TrackedEntityInstance, uid} from "@hisptz/dhis2-utils";
+import {useCallback} from "react";
+import {uid} from "@hisptz/dhis2-utils";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {useFormMeta} from "./metadata";
 import {useDimensions} from "../../../hooks";
 import i18n from '@dhis2/d2-i18n';
+import {ParentConfig} from "../../../schemas/config";
+import {set} from "lodash";
 
-const teiCreateMutation: any = {
+
+const mutation: any = {
     resource: "tracker",
     type: "create",
-    data: ({data}: { data: TrackedEntityInstance }) => data,
-}
-
-const teiUpdateMutation: any = {
-    resource: "tracker",
-    type: "update",
-    id: ({data}: { data: TrackedEntityInstance }) => data.trackedEntityInstance,
-    data: ({data}: { data: TrackedEntityInstance }) => data,
-}
-
-const eventCreateMutation: any = {
-    resource: "tracker/events",
-    type: "create",
-    data: ({data}: { data: Event }) => data,
-}
-
-const eventUpdateMutation: any = {
-    resource: "tracker/events",
-    type: "update",
-    id: ({data}: { data: Event }) => data.event,
-    data: ({data}: { data: Event }) => data,
+    data: ({data}: { data: any }) => data,
+    params: {
+        importStrategy: 'CREATE_AND_UPDATE',
+        importMode: 'COMMIT',
+        async: false,
+        validationMode: 'FAIL_FAST'
+    }
 }
 
 
@@ -50,21 +39,48 @@ function generateTei(data: Record<string, any>, {orgUnit, program, trackedEntity
         trackedEntity: teiId,
         trackedEntityType,
         orgUnit,
-        attributes,
         enrollments: [
             {
                 enrollment: uid(),
-                enrollmentDate: new Date().toISOString(),
+                enrolledAt: new Date().toISOString(),
+                occurredAt: new Date().toISOString(),
                 trackedEntity: teiId,
+                trackedEntityType,
                 program,
                 orgUnit,
                 status: "ACTIVE",
-                events: []
+                events: [],
+                attributes,
             }
         ]
     }
 }
 
+function generateRelationship({parentConfig, parent, instance, instanceType}: {
+    parentConfig: ParentConfig,
+    parent: { id: string },
+    instance: string,
+    instanceType: string;
+}) {
+
+    const parentType = parentConfig.type === "program" ? "enrollment" : "event";
+    const childType = instanceType === "program" ? "enrollment" : "event";
+
+    return {
+        relationship: uid(),
+        relationshipType: parentConfig.id,
+        from: {
+            [parentType]: {
+                [parentType]: parent.id
+            }
+        },
+        to: {
+            [childType]: {
+                [childType]: instance
+            }
+        }
+    }
+}
 
 function generateEvent(data: Record<string, any>, {orgUnit, program, programStage, enrollment, trackedEntity}: {
     orgUnit: string;
@@ -93,17 +109,18 @@ function generateEvent(data: Record<string, any>, {orgUnit, program, programStag
 }
 
 
-export function useFormActions({instanceMetaId, type, instanceName, onComplete}: {
+export function useFormActions({instanceMetaId, type, instanceName, onComplete, parent, parentConfig}: {
     instanceName: string;
     instanceMetaId: string;
     type: "program" | "programStage",
-    parent?: { type: "program" | "programStage", id: string },
+    parentConfig?: ParentConfig,
+    parent?: { id: string }
     onComplete: () => void;
 }) {
     const {orgUnit} = useDimensions();
     const {instanceMeta} = useFormMeta({id: instanceMetaId, type});
     const {show} = useAlert(({message}) => message, ({type}) => ({...type, duration: 3000}));
-    const [createTei, {loading: createTeiLoading}] = useDataMutation(teiCreateMutation, {
+    const [uploadPayload, {loading: createTeiLoading}] = useDataMutation(mutation, {
         onComplete: () => {
             show({
                 message: i18n.t("Successfully created {{name}}", {
@@ -120,62 +137,6 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete}:
             })
         }
     });
-    const [createEvent, {loading: createEventLoading}] = useDataMutation(eventCreateMutation, {
-        onComplete: () => {
-            show({
-                message: i18n.t("Successfully created {{name}}", {
-                    name: instanceName
-                }), type: {success: true}
-            })
-            onComplete();
-
-        },
-        onError: () => {
-            show({
-                message: i18n.t("Failed to create {{name}}", {
-                    name: instanceName
-                }), type: {critical: true}
-            })
-        }
-    });
-    const [updateTei, {loading: updateTeiLoading}] = useDataMutation(teiUpdateMutation, {
-        onComplete: () => {
-            show({
-                message: i18n.t("Successfully updated {{name}}", {
-                    name: instanceName
-                }), type: {success: true}
-            })
-            onComplete();
-
-        },
-        onError: () => {
-            show({
-                message: i18n.t("Failed to updated {{name}}", {
-                    name: instanceName
-                }), type: {critical: true}
-            })
-        }
-    });
-    const [updateEvent, {loading: updateEventLoading}] = useDataMutation(eventUpdateMutation, {
-        onComplete: () => {
-            show({
-                message: i18n.t("Successfully updated {{name}}", {
-                    name: instanceName
-                }), type: {success: true}
-            })
-            onComplete();
-        },
-        onError: () => {
-            show({
-                message: i18n.t("Failed to updated {{name}}", {
-                    name: instanceName
-                }), type: {critical: true}
-            })
-        }
-    });
-
-    const updating = useMemo(() => updateTeiLoading || updateEventLoading, [updateTeiLoading, updateEventLoading])
-    const creating = useMemo(() => createTeiLoading || createEventLoading, [createTeiLoading, createEventLoading])
 
     const create = useCallback(async (data: Record<string, any>) => {
         if (type === "program") {
@@ -185,20 +146,31 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete}:
                 trackedEntityType: instanceMeta?.trackedEntityType?.id,
                 program: instanceMeta?.id as string
             });
-            await createTei({
-                data: tei
-            });
+
+            const payload = {
+                trackedEntities: [tei]
+            }
+
+            if (parent && parentConfig) {
+                const relationship = generateRelationship({
+                    parentConfig,
+                    parent,
+                    instance: tei?.enrollments[0]?.enrollment,
+                    instanceType: type
+                });
+                set(payload, ['relationships'], [relationship])
+            }
+            await uploadPayload({data: payload});
         } else {
 
         }
-    }, []);
+    }, [instanceMeta, orgUnit, uploadPayload, type]);
     const update = useCallback((data: Record<string, any>) => {
     }, []);
 
     return {
         create,
-        creating,
+        creating: createTeiLoading,
         update,
-        updating
     }
 }

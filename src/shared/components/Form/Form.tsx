@@ -7,34 +7,49 @@ import {isEmpty} from "lodash";
 import {RHFDHIS2FormField} from "@hisptz/dhis2-ui";
 import {TrackedEntityInstance} from "@hisptz/dhis2-utils";
 import {useFormActions} from "./hooks/save";
+import {ParentConfig} from "../../schemas/config";
 
 export interface FormProps {
     instanceName: string;
     id: string;
     type: 'program' | 'programStage',
+    parentConfig?: ParentConfig,
     parent?: {
-        id: string;
-        type: 'program' | 'programStage',
-    },
+        id: string,
+    }
     hide: boolean;
     onClose: () => void;
+    onSaveComplete?: () => void;
     defaultValues?: TrackedEntityInstance | Event;
 }
 
 
-export function Form({id, type, parent, instanceName, hide, onClose, defaultValues}: FormProps) {
+export function Form({
+                         id,
+                         type,
+                         parent,
+                         parentConfig,
+                         instanceName,
+                         hide,
+                         onClose,
+                         defaultValues,
+                         onSaveComplete
+                     }: FormProps) {
     const {fields, loading} = useFormMeta({id, type});
     const form = useForm();
 
-
     const onComplete = useCallback(() => {
         form.reset({});
+        if (onSaveComplete) {
+            onSaveComplete();
+        }
         onClose();
     }, [])
     const {create, creating, updating, update} = useFormActions({
         instanceMetaId: id,
         type,
         parent,
+        parentConfig,
         onComplete,
         instanceName
     });

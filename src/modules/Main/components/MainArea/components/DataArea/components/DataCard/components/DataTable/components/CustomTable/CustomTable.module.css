@@ -1,0 +1,34 @@
+.row-head {
+    padding: 4px;
+    background-color: #F8F9FA;
+
+}
+
+.cell-head {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 16px;
+    color: #212934;
+    font-weight: normal;
+    min-width: 150px;
+}
+
+.cell {
+    vertical-align: top;
+    padding: 8px;
+    font-size: 16px;
+
+}
+
+.table {
+    overflow: auto;
+    max-height: 600px;
+}
+
+.table.nested {
+    max-height: 100%;
+    padding: 0;
+    margin: 0;
+    scroll-margin: 1rem;
+}
+
