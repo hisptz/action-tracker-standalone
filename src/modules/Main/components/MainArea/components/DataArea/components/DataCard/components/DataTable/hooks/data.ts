@@ -15,6 +15,7 @@ const teiQuery: any = {
             orgUnit: ou,
             ouMode: 'DESCENDANTS',
             totalPages: true,
+            order: `createdAt:asc`,
             fields: [
                 `relationship`,
                 `from[enrollment[enrollment,trackedEntity,attributes[attribute,value]]]`,
@@ -49,6 +50,8 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
         variables: {
             id: type === "program" ? get(parentInstance, ['enrollments', 0, 'enrollment']) : parentInstance?.event,
             ou: orgUnit?.id,
+            page: 1,
+            pageSize: 10
         }
     });
 
@@ -61,7 +64,6 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
             return to?.[type === "program" ? "enrollment" : "event"];
         })
     }, [rawData]);
-
 
     const columns = useMemo(() => {
         return allColumns.filter((column) => {
@@ -76,7 +78,27 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
         })
     }, [instances])
 
-    const noData = useMemo(() => isEmpty(rawData), [rawData])
+    const noData = useMemo(() => isEmpty(rawData), [rawData]);
+
+    const pagination = useMemo(() => {
+        return {
+            page: data?.data?.page ?? 1,
+            pageSize: data?.data?.pageSize ?? 10,
+            total: data?.data?.total ?? 1,
+            pageCount: Math.ceil(data?.data?.total ?? 1 / data?.data?.pageSize ?? 1),
+            onPageChange: (page: number) => {
+                refetch({
+                    page
+                })
+            },
+            onPageSizeChange: (pageSize: number) => {
+                refetch({
+                    pageSize,
+                    page: 1
+                })
+            }
+        }
+    }, [data, refetch])
 
     return {
         loading,
@@ -84,6 +106,7 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
         refetch,
         error,
         rows,
-        columns
+        columns,
+        pagination
     }
 }

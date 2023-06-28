@@ -2,7 +2,7 @@ import {ActionConfig, CategoryConfig} from "../../../../../../../../../../shared
 import React, {useMemo} from "react";
 import {useConfiguration} from "../../../../../../../../../../shared/hooks/config";
 import {useTableData} from "./hooks/data";
-import {Button, CircularLoader, IconAdd24, TableBody, TableCell, TableFoot, TableRow} from "@dhis2/ui"
+import {Button, CircularLoader, IconAdd24, Pagination, TableBody, TableCell, TableFoot, TableRow} from "@dhis2/ui"
 import i18n from '@dhis2/d2-i18n';
 import {Form} from "../../../../../../../../../../shared/components/Form";
 import {useBoolean} from "usehooks-ts";
@@ -29,7 +29,7 @@ export function DataTable({config: parentConfig, instance: parentInstance, paren
         }
     }, [child]);
 
-    const {loading, noData, refetch, rows, columns} = useTableData(child.type, {parentInstance, config});
+    const {loading, noData, refetch, rows, columns, pagination} = useTableData(child.type, {parentInstance, config});
 
     const instanceType = useMemo(() => config?.name?.toLowerCase() ?? "", [config]);
     const {value: hide, setTrue: onHide, setFalse: onShow} = useBoolean(true);
@@ -98,7 +98,7 @@ export function DataTable({config: parentConfig, instance: parentInstance, paren
                   instanceName={instanceType} parent={parent} parentConfig={config?.parent}/>
             <TableBody>
                 {
-                    rows.map((row, index) => (
+                    rows?.map((row, index) => (
                         <TableRow key={`${row.id}-${index}`}>
                             {
                                 columns.map((column, columnIndex) => (
@@ -114,8 +114,11 @@ export function DataTable({config: parentConfig, instance: parentInstance, paren
             <TableFoot>
                 <tr>
                     <td style={{padding: 8}} colSpan={columns?.length}>
-                        <Button onClick={onShow}
-                                icon={<IconAdd24/>}>{i18n.t("Add {{instanceType}}", {instanceType})}</Button>
+                        <div className="row gap-16 space-between">
+                            <Button onClick={onShow}
+                                    icon={<IconAdd24/>}>{i18n.t("Add {{instanceType}}", {instanceType})}</Button>
+                            <Pagination {...pagination}/>
+                        </div>
                     </td>
                 </tr>
             </TableFoot>
