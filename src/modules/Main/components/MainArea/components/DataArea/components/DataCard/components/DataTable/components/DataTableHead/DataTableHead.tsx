@@ -10,15 +10,23 @@ export function DataTableHead() {
     const columns = useRecoilValue(ColumnState(config?.id as string))
 
     return (
-        <TableHead>
-            <TableRow className={classes['header-row']}>
+        <>
+            <colgroup>
                 {
                     columns?.map((header, index) => (
-                        <TableCellHead className={classes['header-cell']}
-                                       key={`${header.id}-table-head`}>{header.name}</TableCellHead>
-                    ))
+                        <col width={`${100 / columns.length}%`} key={`${header.id}-colgroup`}/>))
                 }
-            </TableRow>
-        </TableHead>
+            </colgroup>
+            <TableHead>
+                <TableRow className={classes['header-row']}>
+                    {
+                        columns?.map((header, index) => (
+                            <TableCellHead className={classes['header-cell']}
+                                           key={`${header.id}-table-head`}>{header.name}</TableCellHead>
+                        ))
+                    }
+                </TableRow>
+            </TableHead>
+        </>
     )
 }

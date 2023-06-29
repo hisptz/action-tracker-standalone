@@ -5,7 +5,7 @@ import {find} from "lodash";
 import {DataTable} from "./components/DataTable";
 import {DataTableHead} from "./components/DataTable/components/DataTableHead";
 import classes from "./DataCard.module.css"
-import {useSetColumnState} from "./hooks/columns";
+import {useColumns, useSetColumnState} from "./hooks/columns";
 
 export interface DataCardProps {
     data: any;
@@ -18,6 +18,8 @@ export function DataCard({data, instanceConfig}: DataCardProps) {
         const headerId = find(instanceConfig.fields, (field: any) => field.header)?.id;
         return getAttributeValueFromList(headerId, data.attributes);
     }, [data]);
+
+    const columns = useColumns()
 
     return (
         <Box height="600px" width="100%">
@@ -32,7 +34,13 @@ export function DataCard({data, instanceConfig}: DataCardProps) {
                     <div style={{flex: 1}}>
                         <Table className={classes.table}>
                             <DataTableHead/>
-                            <DataTable instance={data} parentType="program" parentConfig={instanceConfig}/>
+                            <tbody>
+                            <tr>
+                                <td colSpan={columns.length}>
+                                    <DataTable instance={data} parentType="program" parentConfig={instanceConfig}/>
+                                </td>
+                            </tr>
+                            </tbody>
                         </Table>
                     </div>
                 </div>

@@ -2,11 +2,13 @@ import {ActionConfig, CategoryConfig} from "../../../../../../../../../../shared
 import React, {useMemo} from "react";
 import {useConfiguration} from "../../../../../../../../../../shared/hooks/config";
 import {useTableData} from "./hooks/data";
-import {Button, CircularLoader, IconAdd24, Pagination, TableBody, TableCell, TableFoot, TableRow} from "@dhis2/ui"
+import {Button, CircularLoader, IconAdd24, Pagination, TableBody, TableCell, TableRow} from "@dhis2/ui"
 import i18n from '@dhis2/d2-i18n';
 import {Form} from "../../../../../../../../../../shared/components/Form";
 import {useBoolean} from "usehooks-ts";
 import {get} from "lodash";
+import {useTableColumns} from "./hooks/columns";
+import classes from "./DataTable.module.css"
 
 export interface DataTableProps {
     parentConfig: ActionConfig | CategoryConfig;
@@ -29,9 +31,8 @@ export function DataTable({parentConfig, instance: parentInstance, parentType}: 
         }
     }, [child, allConfig]);
 
-    const {loading, noData, refetch, rows, columns, pagination} = useTableData(child.type, {
+    const {loading, noData, refetch, rows, pagination} = useTableData(child.type, {
         parentInstance,
-        config,
         parentType
     });
 
@@ -51,27 +52,37 @@ export function DataTable({parentConfig, instance: parentInstance, parentType}: 
             }
         }
     }, []);
+
+    const {columns, allColumns, childTableColSpan} = useTableColumns(config as any);
+
+    console.log({
+        childTableColSpan,
+        name: config?.name
+    })
+
     const onComplete = () => {
         refetch();
     }
 
     if (loading) {
         return (
-            <tbody>
-            <tr>
-                <td colSpan={columns?.length}>
-                    <div style={{minHeight: "100px"}} className="column center align-center w-100 h-100">
-                        <CircularLoader small/>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
+            <table>
+                <tbody>
+                <tr>
+                    <td colSpan={columns?.length}>
+                        <div style={{minHeight: "100px"}} className="column center align-center w-100 h-100">
+                            <CircularLoader small/>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         )
     }
 
     if (noData) {
         return (
-            <>
+            <table>
                 <Form onSaveComplete={onComplete}
                       id={config?.id as string} hide={hide} type={child?.type}
                       onClose={onHide}
@@ -92,50 +103,53 @@ export function DataTable({parentConfig, instance: parentInstance, parentType}: 
                     </td>
                 </tr>
                 </tbody>
-            </>
+            </table>
         )
     }
 
     return (
-        <>
-            <Form onSaveComplete={onComplete}
-                  id={config?.id as string} hide={hide} type={child?.type}
-                  onClose={onHide}
-                  instanceName={instanceType} parent={parent} parentConfig={config?.parent}/>
-            <TableBody>
-                {
-                    rows?.map((row, index) => (
-                        <TableRow key={`${row.id}-${index}`}>
-                            {
-                                columns.map((column, columnIndex) => (
-                                    <TableCell key={`${row.id}-${column.id}-${columnIndex}`}>
-                                        {get(row, [column.id], '')}
-                                    </TableCell>
-                                ))
-                            }
-                            {
-                                config?.child && (
-                                    <TableCell key={`${row.id}-child`}>
-                                        <DataTable key={`${row.id}-child-table`} parentConfig={config}
-                                                   instance={row.instance} parentType={child?.type}/>
-                                    </TableCell>
-                                )
-                            }
-                        </TableRow>
-                    ))
-                }
-            </TableBody>
-            <TableFoot>
-                <tr>
-                    <td style={{padding: 8}} colSpan={columns?.length}>
-                        <div className="row gap-16 space-between">
-                            <Button onClick={onShow}
-                                    icon={<IconAdd24/>}>{i18n.t("Add {{instanceType}}", {instanceType})}</Button>
-                            <Pagination {...pagination}/>
-                        </div>
-                    </td>
-                </tr>
-            </TableFoot>
-        </>
+        <div className="column">
+            <table>
+                <colgroup>
+                    {
+                        columns?.map((header,) => (
+                            <col width={`${100 / allColumns.length}%`} key={`${header.id}-colgroup`}/>))
+                    }
+                </colgroup>
+                <Form onSaveComplete={onComplete}
+                      id={config?.id as string} hide={hide} type={child?.type}
+                      onClose={onHide}
+                      instanceName={instanceType} parent={parent} parentConfig={config?.parent}/>
+                <TableBody>
+                    {
+                        rows?.map((row, index) => (
+                            <TableRow key={`${row.id}-${index}`}>
+                                {
+                                    columns.map((column, columnIndex) => (
+                                        <TableCell key={`${row.id}-${column.id}-${columnIndex}`}>
+                                            {get(row, [column.id], '')}
+                                        </TableCell>
+                                    ))
+                                }
+                                {
+                                    config?.child && (
+                                        <TableCell className={classes['nesting-cell']} colSpan={`${childTableColSpan}`}
+                                                   key={`${row.id}-child`}>
+                                            <DataTable key={`${row.id}-child-table`} parentConfig={config}
+                                                       instance={row.instance} parentType={child?.type}/>
+                                        </TableCell>
+                                    )
+                                }
+                            </TableRow>
+                        ))
+                    }
+                </TableBody>
+            </table>
+            <div style={{padding: 8}} className="row gap-16 space-between">
+                <Button onClick={onShow}
+                        icon={<IconAdd24/>}>{i18n.t("Add {{instanceType}}", {instanceType})}</Button>
+                <Pagination {...pagination}/>
+            </div>
+        </div>
     )
 }

@@ -2,8 +2,6 @@ import {useDataQuery} from "@dhis2/app-runtime";
 import {useDimensions} from "../../../../../../../../../../../shared/hooks";
 import {useMemo} from "react";
 import {fromPairs, get, isEmpty} from "lodash";
-import {useColumns} from "../../../hooks/columns";
-import {ActionConfig, CategoryConfig} from "../../../../../../../../../../../shared/schemas/config";
 
 const relationshipQuery: any = {
     data: {
@@ -26,13 +24,11 @@ const relationshipQuery: any = {
     }
 }
 
-export function useTableData(type: "program" | "programStage", {parentInstance, config, parentType}: {
+export function useTableData(type: "program" | "programStage", {parentInstance, parentType}: {
     parentInstance: any,
-    config: CategoryConfig | ActionConfig,
     parentType: "program" | "programStage"
 }) {
     const {orgUnit} = useDimensions();
-    const allColumns = useColumns();
     const {data, refetch, loading, error} = useDataQuery<{
         data: { instances: { to: any, from: any }[], page: number, pageSize: number, total: number }
     }>(relationshipQuery, {
@@ -62,11 +58,6 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
         })
     }, [rawData]);
 
-    const columns = useMemo(() => {
-        return allColumns.filter((column) => {
-            return !!config.fields.find((field) => field.id === column.id)
-        })
-    }, [allColumns, config])
 
     const rows = useMemo(() => {
         return instances?.map((instance) => {
@@ -106,7 +97,6 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
         refetch,
         error,
         rows,
-        columns,
         pagination
     }
 }

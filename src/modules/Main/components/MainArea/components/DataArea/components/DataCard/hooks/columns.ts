@@ -16,17 +16,23 @@ export function useSetColumnState() {
         const [, ...rest] = config.categories;
 
         const categoriesHeaders = rest.map(category => {
-            return category.fields.filter(({showAsColumn}) => showAsColumn)
+            return category.fields.filter(({showAsColumn}) => showAsColumn).map((field) => ({
+                ...field,
+                from: category.id
+            }))
         }).flat();
 
-        const actionsHeaders = config.action.fields.filter(({showAsColumn}) => showAsColumn);
+        const actionsHeaders = config.action.fields.filter(({showAsColumn}) => showAsColumn).map((field) => ({
+            ...field,
+            from: config.action.id
+        }));
         return [...categoriesHeaders, ...actionsHeaders].map((header) => {
             return {
                 id: header.id,
                 visible: true,
                 width: 0,
                 name: header.name,
-
+                from: header.from,
             } as ColumnStateConfig
         });
     }, [config]);
