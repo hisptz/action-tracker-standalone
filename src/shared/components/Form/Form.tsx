@@ -16,6 +16,7 @@ export interface FormProps {
     parentConfig?: ParentConfig,
     parent?: {
         id: string,
+        instance: any;
     }
     hide: boolean;
     onClose: () => void;

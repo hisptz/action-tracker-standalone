@@ -22,7 +22,8 @@ function generateDataItemsFromConfig(field: DataField): TrackedEntityAttribute |
         valueType: field.type as DHIS2ValueType,
         aggregationType: "NONE",
         domainType: "TRACKER",
-        optionSet: field.optionSet
+        optionSet: field.optionSet,
+        publicAccess: 'rw------'
     };
 
 }
@@ -163,7 +164,8 @@ function generateRelationshipTypes(config: Config) {
             program: {
                 id: actionConfig.id
             }
-        }
+        },
+        publicAccess: 'rw------'
 
     }
 

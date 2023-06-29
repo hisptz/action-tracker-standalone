@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-06-28T08:40:51.178Z\n"
-"PO-Revision-Date: 2023-06-28T08:40:51.178Z\n"
+"POT-Creation-Date: 2023-06-29T05:59:52.551Z\n"
+"PO-Revision-Date: 2023-06-29T05:59:52.551Z\n"
 
 msgid "Select organisation unit"
 msgstr "Select organisation unit"
@@ -41,6 +41,9 @@ msgstr ""
 
 msgid "Add {{ instanceType }}"
 msgstr "Add {{ instanceType }}"
+
+msgid "Add {{instanceType}}"
+msgstr "Add {{instanceType}}"
 
 msgid "Select organisation unit and period to start"
 msgstr "Select organisation unit and period to start"
@@ -125,3 +128,45 @@ msgstr "Start Date"
 
 msgid "End Date"
 msgstr "End Date"
+
+msgid "Legacy  Activity Template"
+msgstr "Legacy  Activity Template"
+
+msgid "Bottleneck"
+msgstr "Bottleneck"
+
+msgid "Intervention"
+msgstr "Intervention"
+
+msgid "Coverage Indicator"
+msgstr "Coverage Indicator"
+
+msgid "Indicator"
+msgstr "Indicator"
+
+msgid "Gap"
+msgstr "Gap"
+
+msgid "Method"
+msgstr "Method"
+
+msgid "Possible Solutions"
+msgstr "Possible Solutions"
+
+msgid "Solution"
+msgstr "Solution"
+
+msgid "Responsible Person"
+msgstr "Responsible Person"
+
+msgid "Designation"
+msgstr "Designation"
+
+msgid "Action Status"
+msgstr "Action Status"
+
+msgid "Review Date"
+msgstr "Review Date"
+
+msgid "Remarks / Comment"
+msgstr "Remarks / Comment"

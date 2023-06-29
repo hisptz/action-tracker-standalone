@@ -2,7 +2,7 @@ import React, {useEffect} from "react"
 import i18n from '@dhis2/d2-i18n'
 import {useNavigate} from "react-router-dom"
 import {CircularLoader} from "@dhis2/ui"
-import {generateBasicTemplate, initialMetadata} from "../../shared/constants/defaults";
+import {generateLegacyTemplate, initialMetadata} from "../../shared/constants/defaults";
 import {generateMetadataFromConfig} from "../../shared/utils/metadata";
 import {useAlert, useDataMutation} from "@dhis2/app-runtime";
 import {DATASTORE_NAMESPACE} from "../../shared/constants/meta";
@@ -10,7 +10,7 @@ import {useLog} from "../../shared/hooks";
 import {useConfigurations} from "../../shared/hooks/config";
 import {isEmpty} from "lodash";
 
-const defaultConfig = generateBasicTemplate({orgUnitLevel: "1"});
+const defaultConfig = generateLegacyTemplate();
 const metadata = {...initialMetadata, ...generateMetadataFromConfig(defaultConfig, {meta: initialMetadata})};
 
 const configMutation: any = {

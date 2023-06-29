@@ -5,11 +5,12 @@ import {fromPairs, get, isEmpty} from "lodash";
 import {useColumns} from "../../../hooks/columns";
 import {ActionConfig, CategoryConfig} from "../../../../../../../../../../../shared/schemas/config";
 
-const teiQuery: any = {
+const relationshipQuery: any = {
     data: {
         resource: "tracker/relationships",
-        params: ({id, page, pageSize, ou}: any) => ({
-            enrollment: id,
+        params: ({enrollment, event, page, pageSize, ou}: any) => ({
+            enrollment,
+            event,
             page,
             pageSize,
             orgUnit: ou,
@@ -18,37 +19,26 @@ const teiQuery: any = {
             order: `createdAt:asc`,
             fields: [
                 `relationship`,
-                `from[enrollment[enrollment,trackedEntity,attributes[attribute,value]]]`,
-                `to[enrollment[enrollment,trackedEntity,attributes[attribute,value]]]`
+                `from[enrollment[enrollment,trackedEntity,attributes[attribute,value]],event[event,trackedEntity,enrollment,occurredAt,dataValues[dataElement,value]]]`,
+                `to[enrollment[enrollment,trackedEntity,attributes[attribute,value]],event[event,trackedEntity,enrollment,occurredAt,dataValues[dataElement,value]]]`
             ],
         })
     }
 }
-const eventQuery: any = {
-    data: {
-        resource: "tracker/events",
-        params: ({id, page, pageSize, ou, parent}: any) => ({
-            programStage: id,
-            page,
-            pageSize,
-            orgUnit: ou,
-            ouMode: 'DESCENDANTS',
-            totalPages: true,
-        })
-    }
-}
 
-export function useTableData(type: "program" | "programStage", {parentInstance, config}: {
+export function useTableData(type: "program" | "programStage", {parentInstance, config, parentType}: {
     parentInstance: any,
-    config: CategoryConfig | ActionConfig
+    config: CategoryConfig | ActionConfig,
+    parentType: "program" | "programStage"
 }) {
     const {orgUnit} = useDimensions();
     const allColumns = useColumns();
     const {data, refetch, loading, error} = useDataQuery<{
         data: { instances: { to: any, from: any }[], page: number, pageSize: number, total: number }
-    }>(type === "program" ? teiQuery : eventQuery, {
+    }>(relationshipQuery, {
         variables: {
-            id: type === "program" ? get(parentInstance, ['enrollments', 0, 'enrollment']) : parentInstance?.event,
+            enrollment: parentType === "program" ? get(parentInstance, ['enrollments', 0, 'enrollment']) : undefined,
+            event: parentType === "programStage" ? get(parentInstance, ['event']) : undefined,
             ou: orgUnit?.id,
             page: 1,
             pageSize: 10
@@ -60,7 +50,14 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
     }, [data]);
 
     const instances = useMemo(() => {
-        return rawData.map(({to}) => {
+        return rawData.filter((item) => {
+            console.log(item)
+            if (parentType === "program") {
+                return item?.to?.enrollment?.enrollment !== get(parentInstance, ['enrollments', 0, 'enrollment'])
+            } else {
+                return item?.to?.event?.event !== get(parentInstance, ['event'])
+            }
+        }).map(({to}) => {
             return to?.[type === "program" ? "enrollment" : "event"];
         })
     }, [rawData]);
@@ -74,7 +71,10 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
     const rows = useMemo(() => {
         return instances?.map((instance) => {
             const data = type === "program" ? instance.attributes : instance.dataValues;
-            return fromPairs(data?.map((item: any) => [item.attribute ?? item.dataElement, item.value]))
+            return {
+                ...fromPairs(data?.map((item: any) => [item.attribute ?? item.dataElement, item.value])),
+                instance
+            } as Record<string, any>
         })
     }, [instances])
 

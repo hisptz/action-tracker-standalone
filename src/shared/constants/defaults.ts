@@ -16,10 +16,12 @@ export const initialMetadata: InitialMetadata = {
         {
             id: "iteW21Ngr9c",
             name: EntityTypes.CATEGORIZATION,
+            publicAccess: 'rw------'
         },
         {
             id: "pK995DXvyET",
-            name: EntityTypes.ACTION
+            name: EntityTypes.ACTION,
+            publicAccess: 'rw------'
         }
     ]
 }
@@ -47,7 +49,6 @@ export function generateBasicTemplate({orgUnitLevel}: {
             {
                 id: categoryId,
                 name: i18n.t("Category"),
-                columns: [],
                 child: {
                     id: categoryToActivityId,
                     to: actionId,
@@ -73,12 +74,6 @@ export function generateBasicTemplate({orgUnitLevel}: {
         action: {
             id: uid(),
             name: i18n.t("Activity"),
-            columns: [
-                {
-                    label: i18n.t("Activity"),
-                    id: actionId
-                }
-            ],
             parent: {
                 from: categoryId,
                 id: uid(),
@@ -126,3 +121,183 @@ export function generateBasicTemplate({orgUnitLevel}: {
         }
     }
 }
+
+export function generateLegacyTemplate(): Config {
+
+    const bottleneckToGap = uid();
+    const gapToSolution = uid();
+    const solutionToAction = uid();
+
+    return {
+        id: uid(),
+        name: i18n.t("Legacy  Activity Template"),
+        general: {
+            orgUnit: {
+                planning: "1",
+            },
+            period: {
+                planning: PeriodTypeEnum.MONTHLY,
+                tracking: PeriodTypeEnum.DAILY
+            }
+        },
+        categories: [
+            {
+                id: "Uvz0nfKVMQJ",
+                name: i18n.t("Bottleneck"),
+                fields: [
+                    {
+                        name: i18n.t("Intervention"),
+                        id: "jZ6WL4NQtp5",
+                        type: "TEXT",
+                    },
+                    {
+                        name: i18n.t("Bottleneck"),
+                        id: "WLFrBgfl7lU",
+                        type: "TEXT"
+                    },
+                    {
+                        name: i18n.t("Coverage Indicator"),
+                        id: "imiLbaQKYnA",
+                        type: "TEXT"
+                    },
+                    {
+                        name: i18n.t("Indicator"),
+                        id: "tVlKbtVfNjc",
+                        type: "TEXT"
+                    }
+                ],
+                child: {
+                    to: "zXB8tWKuwcl",
+                    type: "programStage",
+                    id: bottleneckToGap
+                }
+            },
+            {
+                id: "zXB8tWKuwcl",
+                name: i18n.t("Gap"),
+                fields: [
+                    {
+                        id: "JbMaVyglSit",
+                        name: i18n.t("Title"),
+                        mandatory: true,
+                        type: "TEXT"
+                    },
+                    {
+                        id: "GsbZkewUna5",
+                        name: i18n.t("Description"),
+                        mandatory: true,
+                        type: "TEXT",
+                    },
+                    {
+                        id: "W50aguV39tU",
+                        name: i18n.t("Method"),
+                        mandatory: true,
+                        type: "TEXT"
+                    },
+
+                ],
+                parent: {
+                    name: "Bottleneck to Gap",
+                    from: "Uvz0nfKVMQJ",
+                    type: "program",
+                    id: bottleneckToGap
+                },
+                child: {
+                    to: "JJaKjcOBapi",
+                    type: "programStage",
+                    id: gapToSolution
+                }
+            },
+            {
+                id: "JJaKjcOBapi",
+                name: i18n.t("Possible Solutions"),
+                fields: [
+                    {
+                        id: "upT2cOT6UfJ",
+                        name: i18n.t("Solution"),
+                        mandatory: true,
+                        type: "LONG_TEXT"
+                    },
+                ],
+                parent: {
+                    name: "Gap to Solution",
+                    from: "zXB8tWKuwcl",
+                    type: "program",
+                    id: gapToSolution
+                },
+                child: {
+                    to: "unD7wro3qPm",
+                    type: "program",
+                    id: solutionToAction
+                }
+            },
+        ],
+        action: {
+            id: "unD7wro3qPm",
+            name: i18n.t("Action"),
+            fields: [
+                {
+                    id: "HQxzVwKedKu",
+                    name: i18n.t("Title"),
+                    type: "TEXT"
+                },
+                {
+                    id: "GlvCtGIytIz",
+                    name: i18n.t("Description"),
+                    type: "LONG_TEXT"
+                },
+                {
+                    id: "jFjnkx49Lg3",
+                    name: i18n.t("Start Date"),
+                    type: "DATE"
+                },
+                {
+                    id: "BYCbHJ46BOr",
+                    name: i18n.t("End Date"),
+                    type: "DATE"
+                },
+                {
+                    id: "G3aWsZW2MpV",
+                    name: i18n.t("Responsible Person"),
+                    type: "TEXT"
+                },
+                {
+                    id: "Ax6bWbKn46e",
+                    name: i18n.t("Designation"),
+                    type: "TEXT"
+                },
+            ],
+            parent: {
+                from: "JJaKjcOBapi",
+                type: "programStage",
+                name: "Solution to Action",
+                id: solutionToAction
+            },
+            statusConfig: {
+                name: i18n.t("Action Status"),
+                fields: [
+                    {
+                        name: i18n.t("Action Status"),
+                        type: "DATE",
+                        id: "f8JYVWLC7rE"
+                    },
+                    {
+                        name: i18n.t("Review Date"),
+                        type: "DATE",
+                        id: "nodiP54ocf5"
+                    },
+                    {
+                        name: i18n.t("Remarks / Comment"),
+                        type: "LONG_TEXT",
+                        id: "FnengvwgsQv"
+                    },
+                ],
+                id: "cBiAEANcXAj"
+            },
+
+        }
+    }
+}
+
+
+

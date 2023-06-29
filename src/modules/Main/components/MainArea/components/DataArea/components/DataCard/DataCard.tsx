@@ -32,7 +32,7 @@ export function DataCard({data, instanceConfig}: DataCardProps) {
                     <div style={{flex: 1}}>
                         <Table className={classes.table}>
                             <DataTableHead/>
-                            <DataTable instance={data} parentType="program" config={instanceConfig}/>
+                            <DataTable instance={data} parentType="program" parentConfig={instanceConfig}/>
                         </Table>
                     </div>
                 </div>

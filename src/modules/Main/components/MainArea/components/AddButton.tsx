@@ -7,7 +7,7 @@ import {useSearchParams} from "react-router-dom";
 import {useBoolean} from "usehooks-ts";
 import {Form} from "../../../../../shared/components/Form";
 
-export function AddButton() {
+export function AddButton({primary}: { primary?: boolean }) {
     const {loading, config} = useConfiguration();
     const {value: hide, setTrue: onClose, setFalse: onOpen} = useBoolean(true)
     const [searchParams] = useSearchParams();
@@ -28,6 +28,7 @@ export function AddButton() {
             <Form instanceName={`${initialCategory?.name?.toLowerCase()}`} id={initialCategory?.id as string}
                   type="program" hide={hide} onClose={onClose}/>
             <Button
+                primary={primary}
                 onClick={onOpen}
                 disabled={loading}
                 loading={loading}

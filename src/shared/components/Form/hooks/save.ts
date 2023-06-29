@@ -5,7 +5,7 @@ import {useFormMeta} from "./metadata";
 import {useDimensions} from "../../../hooks";
 import i18n from '@dhis2/d2-i18n';
 import {ParentConfig} from "../../../schemas/config";
-import {set} from "lodash";
+import {get, set} from "lodash";
 
 
 const mutation: any = {
@@ -114,7 +114,7 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete, 
     instanceMetaId: string;
     type: "program" | "programStage",
     parentConfig?: ParentConfig,
-    parent?: { id: string }
+    parent?: { id: string, instance: any },
     onComplete: () => void;
 }) {
     const {orgUnit} = useDimensions();
@@ -146,11 +146,9 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete, 
                 trackedEntityType: instanceMeta?.trackedEntityType?.id,
                 program: instanceMeta?.id as string
             });
-
             const payload = {
                 trackedEntities: [tei]
             }
-
             if (parent && parentConfig) {
                 const relationship = generateRelationship({
                     parentConfig,
@@ -162,6 +160,42 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete, 
             }
             await uploadPayload({data: payload});
         } else {
+            if (!parent || !parentConfig) {
+                throw new Error("Parent instance is required for events");
+            }
+            let trackedEntity;
+            let enrollment;
+
+            if (parentConfig?.type === "program") {
+                //Parent instance is a tracked entity
+                trackedEntity = parent.instance.trackedEntity;
+                enrollment = get(parent.instance, ['enrollments', 0, 'enrollment'], '');
+            } else {
+                //Parent instance is an event
+                console.log(parent.instance)
+                enrollment = parent.instance.enrollment;
+                trackedEntity = parent.instance.trackedEntity;
+            }
+
+            const event = generateEvent(data, {
+                orgUnit: orgUnit?.id as string,
+                program: instanceMeta?.program?.id as string,
+                programStage: instanceMeta?.id as string,
+                trackedEntity,
+                enrollment
+            });
+            const relationship = generateRelationship({
+                parentConfig,
+                parent,
+                instance: event.event,
+                instanceType: type
+            })
+
+            const payload = {
+                events: [event],
+                relationships: [relationship]
+            }
+            await uploadPayload({data: payload});
 
         }
     }, [instanceMeta, orgUnit, uploadPayload, type]);

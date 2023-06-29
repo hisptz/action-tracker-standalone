@@ -50,10 +50,6 @@ export const categoryConfigSchema = z.object({
     child: childSchema,
     fields: z.array(dataFieldSchema),
     parent: parentSchema.optional(),
-    columns: z.array(z.object({
-        id: z.string(),
-        label: z.string(),
-    }))
 })
 export const actionStatusState = z.object({
     id: z.string(),
@@ -74,10 +70,6 @@ export const actionConfigSchema = z.object({
     fields: z.array(dataFieldSchema),
     statusConfig: actionStatusConfigSchema,
     parent: parentSchema.optional(),
-    columns: z.array(z.object({
-        id: z.string(),
-        label: z.string(),
-    }))
 })
 
 export const configSchema = z.object({

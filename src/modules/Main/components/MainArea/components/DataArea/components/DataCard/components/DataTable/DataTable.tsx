@@ -9,14 +9,14 @@ import {useBoolean} from "usehooks-ts";
 import {get} from "lodash";
 
 export interface DataTableProps {
-    config: ActionConfig | CategoryConfig;
+    parentConfig: ActionConfig | CategoryConfig;
     instance: any;
     parentType: "program" | "programStage"
 }
 
 
-export function DataTable({config: parentConfig, instance: parentInstance, parentType}: DataTableProps) {
-    const {child} = parentConfig
+export function DataTable({parentConfig, instance: parentInstance, parentType}: DataTableProps) {
+    const {child} = parentConfig as any
     const {config: allConfig} = useConfiguration();
     const config = useMemo(() => {
         if (child.type === "program") {
@@ -27,9 +27,13 @@ export function DataTable({config: parentConfig, instance: parentInstance, paren
         if (categoryConfig) {
             return categoryConfig as CategoryConfig;
         }
-    }, [child]);
+    }, [child, allConfig]);
 
-    const {loading, noData, refetch, rows, columns, pagination} = useTableData(child.type, {parentInstance, config});
+    const {loading, noData, refetch, rows, columns, pagination} = useTableData(child.type, {
+        parentInstance,
+        config,
+        parentType
+    });
 
     const instanceType = useMemo(() => config?.name?.toLowerCase() ?? "", [config]);
     const {value: hide, setTrue: onHide, setFalse: onShow} = useBoolean(true);
@@ -37,11 +41,13 @@ export function DataTable({config: parentConfig, instance: parentInstance, paren
     const parent = useMemo(() => {
         if (parentType === "programStage") {
             return {
-                id: parentInstance?.event
+                id: parentInstance?.event,
+                instance: parentInstance
             }
         } else {
             return {
-                id: get(parentInstance, ['enrollments', 0, 'enrollment'])
+                id: get(parentInstance, ['enrollments', 0, 'enrollment']),
+                instance: parentInstance
             }
         }
     }, []);
@@ -67,7 +73,7 @@ export function DataTable({config: parentConfig, instance: parentInstance, paren
         return (
             <>
                 <Form onSaveComplete={onComplete}
-                      id={config?.id as string} hide={hide} type={child.type}
+                      id={config?.id as string} hide={hide} type={child?.type}
                       onClose={onHide}
                       instanceName={instanceType} parent={parent} parentConfig={config?.parent}/>
                 <tbody>
@@ -93,7 +99,7 @@ export function DataTable({config: parentConfig, instance: parentInstance, paren
     return (
         <>
             <Form onSaveComplete={onComplete}
-                  id={config?.id as string} hide={hide} type={child.type}
+                  id={config?.id as string} hide={hide} type={child?.type}
                   onClose={onHide}
                   instanceName={instanceType} parent={parent} parentConfig={config?.parent}/>
             <TableBody>
@@ -106,6 +112,14 @@ export function DataTable({config: parentConfig, instance: parentInstance, paren
                                         {get(row, [column.id], '')}
                                     </TableCell>
                                 ))
+                            }
+                            {
+                                config?.child && (
+                                    <TableCell key={`${row.id}-child`}>
+                                        <DataTable key={`${row.id}-child-table`} parentConfig={config}
+                                                   instance={row.instance} parentType={child?.type}/>
+                                    </TableCell>
+                                )
                             }
                         </TableRow>
                     ))
