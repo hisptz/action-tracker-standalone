@@ -5,8 +5,7 @@ import {find} from "lodash";
 import {DataTable} from "./components/DataTable";
 import {DataTableHead} from "./components/DataTable/components/DataTableHead";
 import classes from "./DataCard.module.css"
-import {useColumns, useSetColumnState} from "./hooks/columns";
-import {useElementSize} from "usehooks-ts";
+import {useColumns} from "./hooks/columns";
 
 export interface DataCardProps {
     data: any;
@@ -14,8 +13,6 @@ export interface DataCardProps {
 }
 
 export function DataCard({data, instanceConfig}: DataCardProps) {
-    const [ref, {width}] = useElementSize();
-    useSetColumnState({width});
     const title = useMemo(() => {
         const headerId = find(instanceConfig.fields, (field: any) => field.header)?.id;
         return getAttributeValueFromList(headerId, data.attributes);
@@ -24,14 +21,14 @@ export function DataCard({data, instanceConfig}: DataCardProps) {
 
     return (
         <Card>
-            <div ref={ref} className="p-16 column gap-16 h-100 w-100">
+            <div className="p-16 column gap-16 h-100 w-100">
                 <div className="row space-between align-center">
                     <h2 style={{margin: 0}}>{title}</h2>
                     <ButtonStrip>
                         <Button icon={<IconMore24/>}/>
                     </ButtonStrip>
                 </div>
-                <div style={{flex: 1}}>
+                <div className="column" style={{flex: 1}}>
                     <Table className={classes.table}>
                         <DataTableHead/>
                         <tbody>

@@ -63,7 +63,7 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
 
     if (loading) {
         return (
-            <table>
+            <table key={`loading`}>
                 <tbody>
                 <tr>
                     <td colSpan={columns?.length}>
@@ -79,7 +79,7 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
 
     if (noData) {
         return (
-            <table>
+            <table key={`no-data`}>
                 <Form onSaveComplete={onComplete}
                       id={config?.id as string} hide={hide} type={child?.type}
                       onClose={onHide}
@@ -105,7 +105,7 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
     }
 
     return (
-        <div className="column">
+        <div className="column w-100">
             <div style={{
                 maxHeight: nested ? 500 : 800,
                 overflowY: "auto"
@@ -115,13 +115,11 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
                     margin: 0,
                     borderSpacing: 0,
                     borderCollapse: "collapse",
-                    maxHeight: 500,
-                    overflowY: "auto"
                 }}>
                     <colgroup>
                         {
                             columns?.map((header,) => (
-                                <col width={`${header.width}px`} key={`${header.id}-colgroup`}/>))
+                                <col width={header.width} key={`${header.id}-colgroup`}/>))
                         }
                     </colgroup>
                     <Form onSaveComplete={onComplete}
@@ -134,7 +132,8 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
                                 <TableRow key={`${row.id}-${index}`}>
                                     {
                                         columns.map((column, columnIndex) => (
-                                            <TableCell key={`${row.id}-${column.id}-${columnIndex}`}>
+                                            <TableCell className={classes['value-cell']}
+                                                       key={`${row.id}-${column.id}-${columnIndex}`}>
                                                 {get(row, [column.id], '')}
                                             </TableCell>
                                         ))

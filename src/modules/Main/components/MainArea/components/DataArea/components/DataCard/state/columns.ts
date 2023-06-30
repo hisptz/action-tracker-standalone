@@ -1,4 +1,4 @@
-import {atomFamily} from "recoil";
+import {atomFamily, selectorFamily} from "recoil";
 
 export interface ColumnStateConfig {
     id: string;
@@ -10,4 +10,12 @@ export interface ColumnStateConfig {
 export const ColumnState = atomFamily<ColumnStateConfig[], string>({
     key: 'column-state',
     default: []
+})
+
+export const VisibleColumnState = selectorFamily<ColumnStateConfig[], string>({
+    key: 'visible-column-state',
+    get: (id: string) => ({get}) => {
+        const columns = get(ColumnState(id));
+        return columns.filter(column => column.visible);
+    }
 })

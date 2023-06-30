@@ -1,20 +1,17 @@
 import {TableCellHead, TableHead, TableRow} from "@dhis2/ui";
 import React from "react";
-import {useConfiguration} from "../../../../../../../../../../../../shared/hooks/config";
 import classes from "./DataTableHead.module.css"
-import {useRecoilValue} from "recoil";
-import {ColumnState} from "../../../../state/columns";
+import {useColumns} from "../../../../hooks/columns";
 
 export function DataTableHead() {
-    const {config} = useConfiguration()
-    const columns = useRecoilValue(ColumnState(config?.id as string))
+    const columns = useColumns();
 
     return (
         <>
             <colgroup>
                 {
                     columns?.map((header, index) => (
-                        <col id={header.id} width={header.width} key={`${header.id}-colgroup-table-head`}/>))
+                        <col id={header.id} width={`${header.width}px`} key={`${header.id}-colgroup-table-head`}/>))
                 }
             </colgroup>
             <TableHead>

@@ -3,7 +3,7 @@ import React from "react";
 import {DimensionsNotSelected} from "./components/DimensionsNotSelected";
 import {DataArea} from "./components/DataArea";
 import {AddButton} from "./components/AddButton";
-import {ManageColumns} from "./components/ManageColumns";
+import {ManageColumns} from "./components/ManageColumns/ManageColumns";
 import {Download} from "./components/Download";
 
 export function MainArea() {
