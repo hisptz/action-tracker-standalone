@@ -172,7 +172,6 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete, 
                 enrollment = get(parent.instance, ['enrollments', 0, 'enrollment'], '');
             } else {
                 //Parent instance is an event
-                console.log(parent.instance)
                 enrollment = parent.instance.enrollment;
                 trackedEntity = parent.instance.trackedEntity;
             }

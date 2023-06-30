@@ -36,7 +36,6 @@ export function useSetColumnState() {
             } as ColumnStateConfig
         });
         const averageWidth = Math.ceil((width - 64) / (columns.length ?? 1));
-        console.log(averageWidth)
         return columns.map((column) => {
             return {
                 ...column,

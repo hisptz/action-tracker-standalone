@@ -47,7 +47,6 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
 
     const instances = useMemo(() => {
         return rawData.filter((item) => {
-            console.log(item)
             if (parentType === "program") {
                 return item?.to?.enrollment?.enrollment !== get(parentInstance, ['enrollments', 0, 'enrollment'])
             } else {
