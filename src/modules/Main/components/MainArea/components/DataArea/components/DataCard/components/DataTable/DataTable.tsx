@@ -13,11 +13,12 @@ import classes from "./DataTable.module.css"
 export interface DataTableProps {
     parentConfig: ActionConfig | CategoryConfig;
     instance: any;
-    parentType: "program" | "programStage"
+    parentType: "program" | "programStage",
+    nested?: boolean
 }
 
 
-export function DataTable({parentConfig, instance: parentInstance, parentType}: DataTableProps) {
+export function DataTable({parentConfig, instance: parentInstance, parentType, nested}: DataTableProps) {
     const {child} = parentConfig as any
     const {config: allConfig} = useConfiguration();
     const config = useMemo(() => {
@@ -105,47 +106,54 @@ export function DataTable({parentConfig, instance: parentInstance, parentType}: 
 
     return (
         <div className="column">
-            <table style={{
-                padding: 0,
-                margin: 0,
-                borderSpacing: 0,
-                borderCollapse: "collapse"
+            <div style={{
+                maxHeight: nested ? 500 : 800,
+                overflowY: "auto"
             }}>
-                <colgroup>
-                    {
-                        columns?.map((header,) => (
-                            <col width={`${header.width}px`} key={`${header.id}-colgroup`}/>))
-                    }
-                </colgroup>
-                <Form onSaveComplete={onComplete}
-                      id={config?.id as string} hide={hide} type={child?.type}
-                      onClose={onHide}
-                      instanceName={instanceType} parent={parent} parentConfig={config?.parent}/>
-                <TableBody className={classes['table-body']}>
-                    {
-                        rows?.map((row, index) => (
-                            <TableRow key={`${row.id}-${index}`}>
-                                {
-                                    columns.map((column, columnIndex) => (
-                                        <TableCell key={`${row.id}-${column.id}-${columnIndex}`}>
-                                            {get(row, [column.id], '')}
-                                        </TableCell>
-                                    ))
-                                }
-                                {
-                                    config?.child && (
-                                        <TableCell className={classes['nesting-cell']} colSpan={`${childTableColSpan}`}
-                                                   key={`${row.id}-child`}>
-                                            <DataTable key={`${row.id}-child-table`} parentConfig={config}
-                                                       instance={row.instance} parentType={child?.type}/>
-                                        </TableCell>
-                                    )
-                                }
-                            </TableRow>
-                        ))
-                    }
-                </TableBody>
-            </table>
+                <table style={{
+                    padding: 0,
+                    margin: 0,
+                    borderSpacing: 0,
+                    borderCollapse: "collapse",
+                    maxHeight: 500,
+                    overflowY: "auto"
+                }}>
+                    <colgroup>
+                        {
+                            columns?.map((header,) => (
+                                <col width={`${header.width}px`} key={`${header.id}-colgroup`}/>))
+                        }
+                    </colgroup>
+                    <Form onSaveComplete={onComplete}
+                          id={config?.id as string} hide={hide} type={child?.type}
+                          onClose={onHide}
+                          instanceName={instanceType} parent={parent} parentConfig={config?.parent}/>
+                    <TableBody className={classes['table-body']}>
+                        {
+                            rows?.map((row, index) => (
+                                <TableRow key={`${row.id}-${index}`}>
+                                    {
+                                        columns.map((column, columnIndex) => (
+                                            <TableCell key={`${row.id}-${column.id}-${columnIndex}`}>
+                                                {get(row, [column.id], '')}
+                                            </TableCell>
+                                        ))
+                                    }
+                                    {
+                                        config?.child && (
+                                            <TableCell className={classes['nesting-cell']} colSpan={`${childTableColSpan}`}
+                                                       key={`${row.id}-child`}>
+                                                <DataTable nested key={`${row.id}-child-table`} parentConfig={config}
+                                                           instance={row.instance} parentType={child?.type}/>
+                                            </TableCell>
+                                        )
+                                    }
+                                </TableRow>
+                            ))
+                        }
+                    </TableBody>
+                </table>
+            </div>
             <div style={{padding: 8}} className="row gap-16 space-between">
                 <Button onClick={onShow}
                         icon={<IconAdd24/>}>{i18n.t("Add {{instanceType}}", {instanceType})}</Button>
