@@ -66,7 +66,7 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
             <table key={`loading`}>
                 <tbody>
                 <tr>
-                    <td colSpan={columns?.length}>
+                    <td colSpan={columns?.length + childTableColSpan}>
                         <div style={{minHeight: "100px"}} className="column center align-center w-100 h-100">
                             <CircularLoader small/>
                         </div>
@@ -79,14 +79,14 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
 
     if (noData) {
         return (
-            <table key={`no-data`}>
+            <table className='w-100' key={`no-data`}>
                 <Form onSaveComplete={onComplete}
                       id={config?.id as string} hide={hide} type={child?.type}
                       onClose={onHide}
                       instanceName={instanceType} parent={parent} parentConfig={config?.parent}/>
                 <tbody>
                 <tr>
-                    <td colSpan={columns?.length}>
+                    <td colSpan={columns?.length + childTableColSpan}>
                         <div style={{minHeight: "100px"}} className="column center align-center w-100 h-100 gap-16">
                             {i18n.t("There are no recorded {{ instanceType }}. Click on the button below to create one", {
                                 instanceType
