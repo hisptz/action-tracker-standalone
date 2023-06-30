@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-06-29T05:59:52.551Z\n"
-"PO-Revision-Date: 2023-06-29T05:59:52.551Z\n"
+"POT-Creation-Date: 2023-06-30T06:19:57.956Z\n"
+"PO-Revision-Date: 2023-06-30T06:19:57.956Z\n"
 
 msgid "Select organisation unit"
 msgstr "Select organisation unit"
@@ -31,6 +31,9 @@ msgstr "Please wait..."
 
 msgid "Add"
 msgstr "Add"
+
+msgid "There are is no data for the the selected dimensions."
+msgstr "There are is no data for the the selected dimensions."
 
 msgid ""
 "There are no recorded {{ instanceType }}. Click on the button below to "

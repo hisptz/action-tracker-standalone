@@ -73,6 +73,7 @@ function generateProgramStageFromConfig(config: CategoryConfig | ActionStatusCon
         id: config.id,
         programStageDataElements,
         sortOrder: index + 1,
+        repeatable: true,
         program: {
             id: programId
         },

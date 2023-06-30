@@ -2,7 +2,7 @@ import {ActionConfig, CategoryConfig} from "../../../../../../../../../../shared
 import React, {useMemo} from "react";
 import {useConfiguration} from "../../../../../../../../../../shared/hooks/config";
 import {useTableData} from "./hooks/data";
-import {Button, CircularLoader, IconAdd24, Pagination, TableBody, TableCell, TableRow} from "@dhis2/ui"
+import {Button, CircularLoader, IconAdd24, TableBody, TableCell, TableRow} from "@dhis2/ui"
 import i18n from '@dhis2/d2-i18n';
 import {Form} from "../../../../../../../../../../shared/components/Form";
 import {useBoolean} from "usehooks-ts";
@@ -55,10 +55,6 @@ export function DataTable({parentConfig, instance: parentInstance, parentType}: 
 
     const {columns, allColumns, childTableColSpan} = useTableColumns(config as any);
 
-    console.log({
-        childTableColSpan,
-        name: config?.name
-    })
 
     const onComplete = () => {
         refetch();
@@ -109,18 +105,23 @@ export function DataTable({parentConfig, instance: parentInstance, parentType}: 
 
     return (
         <div className="column">
-            <table>
+            <table style={{
+                padding: 0,
+                margin: 0,
+                borderSpacing: 0,
+                borderCollapse: "collapse"
+            }}>
                 <colgroup>
                     {
                         columns?.map((header,) => (
-                            <col width={`${100 / allColumns.length}%`} key={`${header.id}-colgroup`}/>))
+                            <col width={`${header.width}px`} key={`${header.id}-colgroup`}/>))
                     }
                 </colgroup>
                 <Form onSaveComplete={onComplete}
                       id={config?.id as string} hide={hide} type={child?.type}
                       onClose={onHide}
                       instanceName={instanceType} parent={parent} parentConfig={config?.parent}/>
-                <TableBody>
+                <TableBody className={classes['table-body']}>
                     {
                         rows?.map((row, index) => (
                             <TableRow key={`${row.id}-${index}`}>
@@ -148,7 +149,8 @@ export function DataTable({parentConfig, instance: parentInstance, parentType}: 
             <div style={{padding: 8}} className="row gap-16 space-between">
                 <Button onClick={onShow}
                         icon={<IconAdd24/>}>{i18n.t("Add {{instanceType}}", {instanceType})}</Button>
-                <Pagination {...pagination}/>
+                {/*{//TODO: Allow pagination when total issues is fixed for relationships query}*/}
+                {/*<Pagination {...pagination}/>*/}
             </div>
         </div>
     )

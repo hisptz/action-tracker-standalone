@@ -14,7 +14,7 @@ export function DataTableHead() {
             <colgroup>
                 {
                     columns?.map((header, index) => (
-                        <col width={`${100 / columns.length}%`} key={`${header.id}-colgroup`}/>))
+                        <col id={header.id} width={header.width} key={`${header.id}-colgroup-table-head`}/>))
                 }
             </colgroup>
             <TableHead>
