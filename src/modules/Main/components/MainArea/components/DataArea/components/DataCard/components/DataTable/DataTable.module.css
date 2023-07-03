@@ -1,0 +1,17 @@
+.nesting-cell {
+    padding: 0 !important;;
+    margin: 0 !important;
+    height: auto !important;
+}
+
+.table-body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.value-cell {
+}
+
+.tracking-value-cell {
+    border-bottom: none !important;
+}

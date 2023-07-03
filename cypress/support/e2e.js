@@ -10,12 +10,6 @@ function enableAutoLogin() {
     const username = Cypress.env('dhis2Username')
     const password = Cypress.env('dhis2Password')
 
-    console.log({
-        baseUrl,
-        username,
-        password
-    })
-
     before(() => {
         localStorage.setItem('DHIS2_BASE_URL', baseUrl);
         Cypress.Cookies.debug(true)
