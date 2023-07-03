@@ -11,3 +11,7 @@
 
 .value-cell {
 }
+
+.tracking-value-cell {
+    border-bottom: none !important;
+}

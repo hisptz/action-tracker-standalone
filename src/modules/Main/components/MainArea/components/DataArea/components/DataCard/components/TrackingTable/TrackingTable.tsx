@@ -62,7 +62,7 @@ export function TrackingTable({actionConfig, instance}: TrackingTableProps) {
                             {
                                 columns.map((column, columnIndex) => (
                                     <TableCell key={`${column.id}-${instance.trackedEntity}-action-status`}
-                                               className={classes['value-cell']}>
+                                               className={classes['tracking-value-cell']}>
                                         {
                                             column.id === "latest-status" ? <LatestStatus events={events}/> :
                                                 <ActionStatus refetch={refetch} events={events} instance={instance}
