@@ -3,11 +3,58 @@ import {useCallback, useEffect, useMemo} from "react";
 import {ColumnState, ColumnStateConfig, VisibleColumnState} from "../state/columns";
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {useWindowSize} from "usehooks-ts";
+import {useDimensions, usePageType} from "../../../../../../../../../shared/hooks";
+import {PeriodTypeCategory, PeriodUtility} from "@hisptz/dhis2-utils";
+import i18n from '@dhis2/d2-i18n';
+import {clamp, compact, round} from "lodash";
 
+export function useTrackingColumns() {
+    const {config} = useConfiguration();
+    const type = usePageType();
+
+    const {period} = useDimensions();
+    const trackingPeriods = useMemo(() => {
+        const {general} = config ?? {};
+        const periodTypeId = general?.period.tracking;
+        if (!periodTypeId) return [];
+
+        const periodType = new PeriodUtility().setCategory(PeriodTypeCategory.FIXED).setYear(period?.get()?.endDate.getFullYear() ?? new Date().getFullYear()).getPeriodType(periodTypeId);
+        return periodType?.periods ?? []
+
+    }, []);
+
+    const columns: ColumnStateConfig[] = useMemo(() => {
+        if (type === "planning") {
+            return [{
+                id: `latest-status`,
+                width: 150,
+                name: i18n.t("Latest status"),
+                visible: true,
+                from: "tracking"
+            }]
+        } else {
+            return compact(trackingPeriods.map((period) => {
+                const periodObject = period.get();
+                if (!periodObject) {
+                    return;
+                }
+                return {
+                    id: periodObject.id,
+                    name: periodObject.name,
+                    visible: true,
+                    width: 0,
+                    from: "tracking"
+                } as ColumnStateConfig
+            }))
+        }
+    }, [type, trackingPeriods])
+
+    return columns;
+}
 
 export function useSetColumnState() {
     const {width} = useWindowSize();
-
+    const trackingColumns = useTrackingColumns();
     //This sets the initial state of the columns;
     const {config} = useConfiguration();
     const setDefaultColumnState = useSetRecoilState(ColumnState(config?.id as string))
@@ -26,28 +73,32 @@ export function useSetColumnState() {
             ...field,
             from: config.action.id
         }));
-        const columns = [...categoriesHeaders, ...actionsHeaders].map((header) => {
+        const planningColumns = [...categoriesHeaders, ...actionsHeaders].map((header) => {
             return {
                 id: header.id,
                 visible: true,
-                width: 0,
+                width: 150,
                 name: header.name,
                 from: header.from,
             } as ColumnStateConfig
         });
-        const averageWidth = Math.ceil((width - 64) / (columns.length ?? 1));
+
+        const columns = [
+            ...planningColumns,
+            ...trackingColumns
+        ];
+
+        const columnWidth = clamp(round(((width - 64) / columns.length), -1), 150, 500);
+        console.log(columnWidth)
+
         return columns.map((column) => {
             return {
                 ...column,
-                width: averageWidth
+                width: columnWidth
             }
         });
-    }, [config, width]);
-    useEffect(() => setDefaultColumnState(tableHeaders), [width])
-}
-
-export function useResizeColumns() {
-
+    }, [config, width, trackingColumns]);
+    useEffect(() => setDefaultColumnState(tableHeaders), [width, trackingColumns])
 }
 
 export function useColumns() {
@@ -61,16 +112,7 @@ export function useManageColumns() {
     const [columns, setColumns] = useRecoilState(ColumnState(config?.id as string));
 
     const manageColumns = useCallback((columns: ColumnStateConfig[]) => {
-        const visibleColumnsCount = columns.filter(({visible}) => visible).length;
-        const averageWidth = Math.ceil((width - 64) / (visibleColumnsCount ?? 1));
-        setColumns((prevColumns) => {
-            return columns.map((column) => {
-                return {
-                    ...column,
-                    width: averageWidth
-                }
-            })
-        });
+        setColumns(columns);
     }, [setColumns, width])
 
     return {

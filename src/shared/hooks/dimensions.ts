@@ -59,3 +59,9 @@ export function useDimensions() {
     }
 
 }
+
+
+export function usePageType() {
+    const [searchParams] = useSearchParams();
+    return useMemo(() => searchParams.get('type'), [searchParams])
+}

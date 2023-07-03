@@ -30,7 +30,7 @@ export const metadataMutation: any = {
 
 export function Welcome() {
     const navigate = useNavigate();
-    const {configs} = useConfigurations()
+    const {configs, refetch} = useConfigurations()
     const log = useLog();
     const {show} = useAlert(({message}) => message, ({type}) => ({...type, duration: 3000}));
     const [sendConfig, {loading: uploadingConfig, error: configError}] = useDataMutation(configMutation, {
@@ -62,6 +62,7 @@ export function Welcome() {
             await sendConfig({
                 data: defaultConfig
             });
+            await refetch();
             navigate("/", {replace: true});
         }
 

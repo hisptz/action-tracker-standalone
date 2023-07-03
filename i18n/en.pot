@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-06-30T06:19:57.956Z\n"
-"PO-Revision-Date: 2023-06-30T06:19:57.956Z\n"
+"POT-Creation-Date: 2023-07-01T05:05:33.010Z\n"
+"PO-Revision-Date: 2023-07-01T05:05:33.010Z\n"
 
 msgid "Select organisation unit"
 msgstr "Select organisation unit"
@@ -48,6 +48,9 @@ msgstr "Add {{ instanceType }}"
 msgid "Add {{instanceType}}"
 msgstr "Add {{instanceType}}"
 
+msgid "Latest status"
+msgstr "Latest status"
+
 msgid "Select organisation unit and period to start"
 msgstr "Select organisation unit and period to start"
 
@@ -56,6 +59,12 @@ msgstr "Download"
 
 msgid "Manage columns"
 msgstr "Manage columns"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Update"
+msgstr "Update"
 
 msgid "General"
 msgstr "General"
@@ -80,12 +89,6 @@ msgstr "Setting up default configuration..."
 
 msgid "Setting up required metadata..."
 msgstr "Setting up required metadata..."
-
-msgid "Update"
-msgstr "Update"
-
-msgid "Cancel"
-msgstr "Cancel"
 
 msgid "Updating..."
 msgstr "Updating..."

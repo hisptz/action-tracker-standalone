@@ -136,8 +136,8 @@ export function generateLegacyTemplate(): Config {
                 planning: "1",
             },
             period: {
-                planning: PeriodTypeEnum.MONTHLY,
-                tracking: PeriodTypeEnum.DAILY
+                planning: PeriodTypeEnum.YEARLY,
+                tracking: PeriodTypeEnum.QUARTERLY
             }
         },
         categories: [
@@ -149,6 +149,7 @@ export function generateLegacyTemplate(): Config {
                         name: i18n.t("Intervention"),
                         id: "jZ6WL4NQtp5",
                         type: "TEXT",
+                        header: true
                     },
                     {
                         name: i18n.t("Bottleneck"),
@@ -180,7 +181,8 @@ export function generateLegacyTemplate(): Config {
                         id: "JbMaVyglSit",
                         name: i18n.t("Title"),
                         mandatory: true,
-                        type: "TEXT"
+                        type: "TEXT",
+                        showAsColumn: true
                     },
                     {
                         id: "GsbZkewUna5",
@@ -216,13 +218,14 @@ export function generateLegacyTemplate(): Config {
                         id: "upT2cOT6UfJ",
                         name: i18n.t("Solution"),
                         mandatory: true,
-                        type: "LONG_TEXT"
+                        type: "LONG_TEXT",
+                        showAsColumn: true
                     },
                 ],
                 parent: {
                     name: "Gap to Solution",
                     from: "zXB8tWKuwcl",
-                    type: "program",
+                    type: "programStage",
                     id: gapToSolution
                 },
                 child: {
@@ -239,7 +242,8 @@ export function generateLegacyTemplate(): Config {
                 {
                     id: "HQxzVwKedKu",
                     name: i18n.t("Title"),
-                    type: "TEXT"
+                    type: "TEXT",
+                    showAsColumn: true
                 },
                 {
                     id: "GlvCtGIytIz",
@@ -249,17 +253,21 @@ export function generateLegacyTemplate(): Config {
                 {
                     id: "jFjnkx49Lg3",
                     name: i18n.t("Start Date"),
-                    type: "DATE"
+                    type: "DATE",
+                    showAsColumn: true
+
                 },
                 {
                     id: "BYCbHJ46BOr",
                     name: i18n.t("End Date"),
-                    type: "DATE"
+                    type: "DATE",
+                    showAsColumn: true
                 },
                 {
                     id: "G3aWsZW2MpV",
                     name: i18n.t("Responsible Person"),
-                    type: "TEXT"
+                    type: "TEXT",
+                    showAsColumn: true
                 },
                 {
                     id: "Ax6bWbKn46e",

@@ -94,6 +94,7 @@ export function useCategoryData() {
 
     return {
         loading,
+        refetch,
         categoryData,
         category: initialCategory,
         onPageChange,

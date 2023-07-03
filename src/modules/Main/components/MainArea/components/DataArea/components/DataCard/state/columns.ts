@@ -5,6 +5,7 @@ export interface ColumnStateConfig {
     visible: boolean;
     width: number;
     name: string;
+    from: string;
 }
 
 export const ColumnState = atomFamily<ColumnStateConfig[], string>({
@@ -17,5 +18,13 @@ export const VisibleColumnState = selectorFamily<ColumnStateConfig[], string>({
     get: (id: string) => ({get}) => {
         const columns = get(ColumnState(id));
         return columns.filter(column => column.visible);
+    }
+})
+
+export const TrackingColumnsState = selectorFamily<ColumnStateConfig[], string>({
+    key: 'tracking-columns-state',
+    get: (id: string) => ({get}) => {
+        const columns = get(ColumnState(id));
+        return columns.filter(column => column.from === 'tracking');
     }
 })

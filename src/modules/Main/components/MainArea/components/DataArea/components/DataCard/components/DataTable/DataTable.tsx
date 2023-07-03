@@ -9,6 +9,8 @@ import {useBoolean} from "usehooks-ts";
 import {get} from "lodash";
 import {useTableColumns} from "./hooks/columns";
 import classes from "./DataTable.module.css"
+import {TrackingTable} from "../TrackingTable";
+import {useTrackingColumns} from "../../hooks/columns";
 
 export interface DataTableProps {
     parentConfig: ActionConfig | CategoryConfig;
@@ -55,6 +57,8 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
     }, []);
 
     const {columns, allColumns, childTableColSpan} = useTableColumns(config as any);
+
+    const trackingColumns = useTrackingColumns();
 
 
     const onComplete = () => {
@@ -119,7 +123,7 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
                     <colgroup>
                         {
                             columns?.map((header,) => (
-                                <col width={header.width} key={`${header.id}-colgroup`}/>))
+                                <col width={`${header.width}`} key={`${header.id}-colgroup`}/>))
                         }
                     </colgroup>
                     <Form onSaveComplete={onComplete}
@@ -139,11 +143,21 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
                                         ))
                                     }
                                     {
-                                        config?.child && (
+                                        (config as any)?.child && (
                                             <TableCell className={classes['nesting-cell']} colSpan={`${childTableColSpan}`}
                                                        key={`${row.id}-child`}>
-                                                <DataTable nested key={`${row.id}-child-table`} parentConfig={config}
+                                                <DataTable nested key={`${row.id}-child-table`} parentConfig={config as any}
                                                            instance={row.instance} parentType={child?.type}/>
+                                            </TableCell>
+                                        )
+                                    }
+                                    {
+                                        child.type === "program" && (
+                                            <TableCell colSpan={`${trackingColumns.length}`}
+                                                       className={classes['nesting-cell']}
+                                                       key={`${row.id}-tracking-cell`}>
+                                                <TrackingTable key={`${row.id}-tracking`} action={config as ActionConfig}
+                                                               instance={row.instance}/>
                                             </TableCell>
                                         )
                                     }

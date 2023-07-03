@@ -17,8 +17,8 @@ const relationshipQuery: any = {
             order: `createdAt:asc`,
             fields: [
                 `relationship`,
-                `from[enrollment[enrollment,trackedEntity,attributes[attribute,value]],event[event,trackedEntity,enrollment,occurredAt,dataValues[dataElement,value]]]`,
-                `to[enrollment[enrollment,trackedEntity,attributes[attribute,value]],event[event,trackedEntity,enrollment,occurredAt,dataValues[dataElement,value]]]`
+                `from[enrollment[enrollment],event[event]]`,
+                `to[enrollment[enrollment,events[event,dataValues[dataElement,value],occurredAt],trackedEntity,attributes[attribute,value]],event[event,trackedEntity,enrollment,occurredAt,dataValues[dataElement,value]]]`
             ],
         })
     }

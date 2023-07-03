@@ -28,7 +28,7 @@ export function DataCard({data, instanceConfig}: DataCardProps) {
                         <Button icon={<IconMore24/>}/>
                     </ButtonStrip>
                 </div>
-                <div className="column" style={{flex: 1}}>
+                <div className="column w-100" style={{flex: 1, maxWidth: "100%", overflowX: "auto"}}>
                     <Table className={classes.table}>
                         <DataTableHead/>
                         <tbody>

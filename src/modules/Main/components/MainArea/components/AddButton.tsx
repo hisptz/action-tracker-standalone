@@ -6,11 +6,13 @@ import {head} from "lodash";
 import {useSearchParams} from "react-router-dom";
 import {useBoolean} from "usehooks-ts";
 import {Form} from "../../../../../shared/components/Form";
+import {useCategoryData} from "./DataArea/hooks/data";
 
 export function AddButton({primary}: { primary?: boolean }) {
     const {loading, config} = useConfiguration();
     const {value: hide, setTrue: onClose, setFalse: onOpen} = useBoolean(true)
     const [searchParams] = useSearchParams();
+    const {refetch} = useCategoryData()
 
     const initialCategory = useMemo(() => {
         if (config) {
@@ -25,7 +27,8 @@ export function AddButton({primary}: { primary?: boolean }) {
 
     return (
         <>
-            <Form instanceName={`${initialCategory?.name?.toLowerCase()}`} id={initialCategory?.id as string}
+            <Form onSaveComplete={() => refetch()} instanceName={`${initialCategory?.name?.toLowerCase()}`}
+                  id={initialCategory?.id as string}
                   type="program" hide={hide} onClose={onClose}/>
             <Button
                 primary={primary}
