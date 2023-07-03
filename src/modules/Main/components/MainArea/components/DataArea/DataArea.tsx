@@ -8,7 +8,7 @@ import i18n from '@dhis2/d2-i18n';
 import {AddButton} from "../AddButton";
 
 export function DataArea() {
-    const {loading, categoryData, category, ...pagination} = useCategoryData()
+    const {loading, categoryData, category, refetch, ...pagination} = useCategoryData()
     if (loading) {
         return (
             <FullPageLoader/>
@@ -29,7 +29,8 @@ export function DataArea() {
         <div className="column gap-32">
             {
                 categoryData?.map((data) => (
-                    <DataCard instanceConfig={category} key={`${data.trackedEntity}-card`} data={data}/>))
+                    <DataCard refetch={refetch} instanceConfig={category} key={`${data.trackedEntity}-card`}
+                              data={data}/>))
             }
             <Pagination {...pagination} />
         </div>
