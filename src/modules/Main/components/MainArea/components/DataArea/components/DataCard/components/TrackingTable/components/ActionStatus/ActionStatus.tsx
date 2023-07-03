@@ -8,6 +8,9 @@ import {useBoolean} from "usehooks-ts";
 import {ActionStatusForm} from "./components/ActionStatusForm";
 import {useConfiguration} from "../../../../../../../../../../../../shared/hooks/config";
 import i18n from '@dhis2/d2-i18n';
+import {ActionButton} from "../../../../../../../../../../../../shared/components/ActionButton";
+import {useConfirmDialog} from "@hisptz/dhis2-ui";
+import {useManageActionStatus} from "./components/ActionStatusForm/hooks/save";
 
 export interface ActionStatusProps {
     refetch: () => void;
@@ -19,10 +22,10 @@ export interface ActionStatusProps {
 
 export function ActionStatus({instance, columnConfig, events, refetch}: ActionStatusProps) {
     const {value: hide, setTrue: onHide, setFalse: onShow} = useBoolean(true);
+    const {confirm} = useConfirmDialog();
     const {period: selectedPeriod} = useDimensions();
     const {config} = useConfiguration();
     const {period} = columnConfig;
-
     const statusEvent = useMemo(() => {
         if (!events) return null;
         return find(events, (event) => {
@@ -30,6 +33,14 @@ export function ActionStatus({instance, columnConfig, events, refetch}: ActionSt
             return period.interval.contains(DateTime.fromJSDate(date));
         }) as any ?? null;
     }, [instance, period, events]);
+    const onActionManageComplete = () => {
+        refetch()
+    }
+    const {onDelete: onDeleteConfirm} = useManageActionStatus({
+        instance,
+        onComplete: onActionManageComplete,
+        defaultValue: statusEvent
+    })
 
     //TODO: Discuss if this is how it should be...
     if (!selectedPeriod?.interval.engulfs(period.interval)) {
@@ -39,7 +50,6 @@ export function ActionStatus({instance, columnConfig, events, refetch}: ActionSt
     const tableData = useMemo(() => {
         if (!statusEvent) return null;
         const dataValues = get(statusEvent, ['dataValues'], null);
-
         const data = dataValues.map((dataValue: { dataElement: string; value: string }) => {
             const dataElement = find(config?.action.statusConfig.fields, {id: dataValue.dataElement});
             return {
@@ -58,10 +68,19 @@ export function ActionStatus({instance, columnConfig, events, refetch}: ActionSt
 
     }, [statusEvent,])
 
-    const onActionManageComplete = () => {
-        refetch()
-    }
 
+    const onDelete = () => {
+        confirm({
+            title: i18n.t("Confirm delete"),
+            onConfirm: async () => {
+                await onDeleteConfirm();
+                refetch();
+            },
+            message: i18n.t("Are you sure you want to delete this status?"),
+            onCancel: () => {
+            }
+        })
+    }
 
     if (!statusEvent) {
         return (
@@ -77,15 +96,26 @@ export function ActionStatus({instance, columnConfig, events, refetch}: ActionSt
 
     return (
         <>
-            <div className="w-100 h-100 column gap-8 pv-8">
-                {
-                    tableData?.map((dataValue: any) => (
-                        <>
-                            <b className="m-0">{dataValue.name}</b>
-                            <span className="m-0">{dataValue.value}</span>
-                        </>
-                    ))
-                }
+            <ActionStatusForm defaultValue={statusEvent} onComplete={onActionManageComplete} columnConfig={columnConfig}
+                              onClose={onHide}
+                              hide={hide} instance={instance}/>
+            <div className="w-100 h-100 row gap-8">
+                <div className="flex-1 column gap-8">
+                    {
+                        tableData?.map((dataValue: any) => (
+                            <>
+                                <b className="m-0">{dataValue.name}</b>
+                                <span className="m-0">{dataValue.value}</span>
+                            </>
+                        ))
+                    }
+                </div>
+                <div>
+                    <ActionButton
+                        onEdit={onShow}
+                        onDelete={onDelete}
+                    />
+                </div>
             </div>
         </>
     )

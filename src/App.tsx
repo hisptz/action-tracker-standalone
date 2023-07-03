@@ -6,6 +6,7 @@ import {DataStoreProvider} from "@dhis2/app-service-datastore";
 import {FullPageLoader} from "./shared/components/Loaders";
 import {DATASTORE_NAMESPACE} from "./shared/constants/meta";
 import {RecoilRoot} from "recoil";
+import {ConfirmDialogProvider} from "@hisptz/dhis2-ui";
 
 export default function App(): React.JSX.Element {
 
@@ -15,7 +16,9 @@ export default function App(): React.JSX.Element {
             loadingComponent={<FullPageLoader/>}
         >
             <RecoilRoot>
-                <Routing/>
+                <ConfirmDialogProvider>
+                    <Routing/>
+                </ConfirmDialogProvider>
             </RecoilRoot>
         </DataStoreProvider>
     )

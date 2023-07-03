@@ -1,5 +1,5 @@
 import {ActionConfig} from "../../../../../../../../../../shared/schemas/config";
-import {CircularLoader, TableBody, TableRow} from "@dhis2/ui";
+import {CircularLoader, TableBody, TableCell, TableRow} from "@dhis2/ui";
 import classes from "../DataTable/DataTable.module.css";
 import React from "react";
 import {useRecoilValue} from "recoil";
@@ -61,14 +61,14 @@ export function TrackingTable({actionConfig, instance}: TrackingTableProps) {
                         <TableRow>
                             {
                                 columns.map((column, columnIndex) => (
-                                    <td key={`${column.id}-${instance.trackedEntity}-action-status`}
-                                        className={classes['value-cell']}>
+                                    <TableCell key={`${column.id}-${instance.trackedEntity}-action-status`}
+                                               className={classes['value-cell']}>
                                         {
                                             column.id === "latest-status" ? <LatestStatus events={events}/> :
                                                 <ActionStatus refetch={refetch} events={events} instance={instance}
                                                               columnConfig={column}/>
                                         }
-                                    </td>
+                                    </TableCell>
                                 ))
                             }
                         </TableRow>
