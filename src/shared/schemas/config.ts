@@ -63,6 +63,12 @@ export const actionStatusConfigSchema = z.object({
     id: z.string(),
     name: z.string(),
     fields: z.array(dataFieldSchema),
+    stateConfig: z.object({
+        dataElement: z.string(),
+    }),
+    dateConfig: z.object({
+        name: z.string()
+    })
 })
 export const actionConfigSchema = z.object({
     id: z.string(),

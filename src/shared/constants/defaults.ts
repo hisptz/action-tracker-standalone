@@ -282,6 +282,12 @@ export function generateLegacyTemplate(): Config {
                 id: solutionToAction
             },
             statusConfig: {
+                stateConfig: {
+                    dataElement: "f8JYVWLC7rE",
+                },
+                dateConfig: {
+                    name: i18n.t("Review Date")
+                },
                 name: i18n.t("Action Status"),
                 fields: [
                     {
