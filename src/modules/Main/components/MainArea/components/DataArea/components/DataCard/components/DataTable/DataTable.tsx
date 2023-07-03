@@ -111,7 +111,7 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
     return (
         <div className="column w-100">
             <div style={{
-                maxHeight: nested ? 500 : 800,
+                maxHeight: nested ? 520 : 800,
                 overflowY: "auto"
             }}>
                 <table style={{

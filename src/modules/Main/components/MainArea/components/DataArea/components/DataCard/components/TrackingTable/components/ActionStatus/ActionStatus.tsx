@@ -10,25 +10,26 @@ import {useConfiguration} from "../../../../../../../../../../../../shared/hooks
 import i18n from '@dhis2/d2-i18n';
 
 export interface ActionStatusProps {
+    refetch: () => void;
     instance: any,
+    events: any[]
     columnConfig: ActionTrackingColumnStateConfig
 }
 
 
-export function ActionStatus({instance, columnConfig}: ActionStatusProps) {
+export function ActionStatus({instance, columnConfig, events, refetch}: ActionStatusProps) {
     const {value: hide, setTrue: onHide, setFalse: onShow} = useBoolean(true);
     const {period: selectedPeriod} = useDimensions();
     const {config} = useConfiguration();
     const {period} = columnConfig;
 
     const statusEvent = useMemo(() => {
-        const events = get(instance, ['events'], null);
         if (!events) return null;
         return find(events, (event) => {
             const date = new Date(event.occurredAt);
             return period.interval.contains(DateTime.fromJSDate(date));
         }) as any ?? null;
-    }, [instance, period]);
+    }, [instance, period, events]);
 
     //TODO: Discuss if this is how it should be...
     if (!selectedPeriod?.interval.engulfs(period.interval)) {
@@ -57,11 +58,16 @@ export function ActionStatus({instance, columnConfig}: ActionStatusProps) {
 
     }, [statusEvent,])
 
+    const onActionManageComplete = () => {
+        refetch()
+    }
+
 
     if (!statusEvent) {
         return (
             <>
-                <ActionStatusForm columnConfig={columnConfig} onClose={onHide} hide={hide} instance={instance}/>
+                <ActionStatusForm onComplete={onActionManageComplete} columnConfig={columnConfig} onClose={onHide}
+                                  hide={hide} instance={instance}/>
                 <div className="w-100 h-100 column center align-center">
                     <Button onClick={onShow} icon={<IconAdd24/>}/>
                 </div>

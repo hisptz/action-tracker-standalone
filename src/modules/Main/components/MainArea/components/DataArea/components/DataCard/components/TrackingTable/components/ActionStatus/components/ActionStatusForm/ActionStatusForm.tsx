@@ -11,17 +11,19 @@ import {useManageActionStatus} from "./hooks/data";
 export interface ActionStatusFormProps {
     columnConfig: ActionTrackingColumnStateConfig
     onClose: () => void;
+    onComplete: () => void;
     hide: boolean;
     instance: any
 }
 
-export function ActionStatusForm({onClose, hide, instance, columnConfig}: ActionStatusFormProps) {
+export function ActionStatusForm({onClose, onComplete, hide, instance, columnConfig}: ActionStatusFormProps) {
     const form = useForm();
     const {fields} = useFormMeta({columnConfig});
     const {saving, onSave} = useManageActionStatus({
         instance,
         onComplete: () => {
-
+            onComplete();
+            onClose();
         }
     });
 
