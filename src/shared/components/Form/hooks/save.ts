@@ -56,6 +56,20 @@ function generateTei(data: Record<string, any>, {orgUnit, program, trackedEntity
     }
 }
 
+
+function updateTei(data: Record<string, any>, tei: any) {
+    const attributes = Object.entries(data).map(([key, value]) => {
+        return {
+            attribute: key,
+            value
+        }
+    });
+    return {
+        ...tei,
+        attributes
+    };
+}
+
 function generateRelationship({parentConfig, parent, instance, instanceType}: {
     parentConfig: ParentConfig,
     parent: { id: string },
@@ -108,102 +122,156 @@ export function generateEvent(data: Record<string, any>, {orgUnit, program, prog
     }
 }
 
+export function updateEvent(data: Record<string, any>, event: any) {
+    const dataValues = Object.entries(data).map(([key, value]) => {
+        return {
+            dataElement: key,
+            value
+        }
+    });
 
-export function useFormActions({instanceMetaId, type, instanceName, onComplete, parent, parentConfig}: {
+    return {
+        ...event,
+        dataValues,
+    }
+}
+
+
+export function useFormActions({instanceMetaId, type, instanceName, onComplete, parent, parentConfig, defaultValue}: {
     instanceName: string;
     instanceMetaId: string;
     type: "program" | "programStage",
     parentConfig?: ParentConfig,
     parent?: { id: string, instance: any },
     onComplete: () => void;
+    defaultValue: any
 }) {
     const {orgUnit} = useDimensions();
     const {instanceMeta} = useFormMeta({id: instanceMetaId, type});
     const {show} = useAlert(({message}) => message, ({type}) => ({...type, duration: 3000}));
-    const [uploadPayload, {loading: createTeiLoading}] = useDataMutation(mutation, {
+    const [uploadPayload, {loading: saving}] = useDataMutation(mutation, {
         onComplete: () => {
-            show({
-                message: i18n.t("Successfully created {{name}}", {
-                    name: instanceName
-                }), type: {success: true}
-            });
             onComplete();
         },
         onError: () => {
             show({
-                message: i18n.t("Failed to create {{name}}", {
-                    name: instanceName
+                message: i18n.t("Failed to {{action}} {{name}}", {
+                    name: instanceName,
+                    action: defaultValue ? i18n.t("update") : i18n.t("create")
                 }), type: {critical: true}
             })
         }
     });
 
-    const create = useCallback(async (data: Record<string, any>) => {
+    const onSave = useCallback(async (data: Record<string, any>) => {
         if (type === "program") {
             //Create a tei and enrollment
-            const tei = generateTei(data, {
-                orgUnit: orgUnit?.id as string,
-                trackedEntityType: instanceMeta?.trackedEntityType?.id,
-                program: instanceMeta?.id as string
-            });
-            const payload = {
-                trackedEntities: [tei]
+            if (defaultValue) {
+                const enrollment = updateTei(data, defaultValue);
+                delete enrollment['events']
+                await uploadPayload({
+                    data: {
+                        enrollments: [
+                            enrollment
+                        ]
+                    }
+                })
+                show({
+                    message: i18n.t("Successfully updated {{name}}", {
+                        name: instanceName
+                    }), type: {success: true}
+                });
+
+            } else {
+                const tei = generateTei(data, {
+                    orgUnit: orgUnit?.id as string,
+                    trackedEntityType: instanceMeta?.trackedEntityType?.id,
+                    program: instanceMeta?.id as string
+                });
+                const payload = {
+                    trackedEntities: [tei]
+                }
+                if (parent && parentConfig) {
+                    const relationship = generateRelationship({
+                        parentConfig,
+                        parent,
+                        instance: tei?.enrollments[0]?.enrollment,
+                        instanceType: type
+                    });
+                    set(payload, ['relationships'], [relationship])
+                }
+                await uploadPayload({data: payload});
+                show({
+                    message: i18n.t("Successfully created {{name}}", {
+                        name: instanceName
+                    }), type: {success: true}
+                });
             }
-            if (parent && parentConfig) {
+        } else {
+            if (defaultValue) {
+                const updatedEvent = updateEvent(data, defaultValue);
+                await uploadPayload({
+                    data: {
+                        events: [
+                            updatedEvent
+                        ]
+                    }
+                })
+                show({
+                    message: i18n.t("Successfully updated {{name}}", {
+                        name: instanceName
+                    }), type: {success: true}
+                });
+            } else {
+                if (!parent || !parentConfig) {
+                    throw new Error("Parent instance is required for events");
+                }
+                let trackedEntity;
+                let enrollment;
+
+                if (parentConfig?.type === "program") {
+                    //Parent instance is a tracked entity
+                    trackedEntity = parent.instance.trackedEntity;
+                    enrollment = get(parent.instance, ['enrollments', 0, 'enrollment'], '');
+                } else {
+                    //Parent instance is an event
+                    enrollment = parent.instance.enrollment;
+                    trackedEntity = parent.instance.trackedEntity;
+                }
+
+                const event = generateEvent(data, {
+                    orgUnit: orgUnit?.id as string,
+                    program: instanceMeta?.program?.id as string,
+                    programStage: instanceMeta?.id as string,
+                    trackedEntity,
+                    enrollment
+                });
                 const relationship = generateRelationship({
                     parentConfig,
                     parent,
-                    instance: tei?.enrollments[0]?.enrollment,
+                    instance: event.event,
                     instanceType: type
+                })
+
+                const payload = {
+                    events: [event],
+                    relationships: [relationship]
+                }
+                await uploadPayload({data: payload});
+                show({
+                    message: i18n.t("Successfully created {{name}}", {
+                        name: instanceName
+                    }), type: {success: true}
                 });
-                set(payload, ['relationships'], [relationship])
             }
-            await uploadPayload({data: payload});
-        } else {
-            if (!parent || !parentConfig) {
-                throw new Error("Parent instance is required for events");
-            }
-            let trackedEntity;
-            let enrollment;
-
-            if (parentConfig?.type === "program") {
-                //Parent instance is a tracked entity
-                trackedEntity = parent.instance.trackedEntity;
-                enrollment = get(parent.instance, ['enrollments', 0, 'enrollment'], '');
-            } else {
-                //Parent instance is an event
-                enrollment = parent.instance.enrollment;
-                trackedEntity = parent.instance.trackedEntity;
-            }
-
-            const event = generateEvent(data, {
-                orgUnit: orgUnit?.id as string,
-                program: instanceMeta?.program?.id as string,
-                programStage: instanceMeta?.id as string,
-                trackedEntity,
-                enrollment
-            });
-            const relationship = generateRelationship({
-                parentConfig,
-                parent,
-                instance: event.event,
-                instanceType: type
-            })
-
-            const payload = {
-                events: [event],
-                relationships: [relationship]
-            }
-            await uploadPayload({data: payload});
-
         }
     }, [instanceMeta, orgUnit, uploadPayload, type]);
     const update = useCallback((data: Record<string, any>) => {
     }, []);
 
     return {
-        create,
-        creating: createTeiLoading,
+        onSave,
+        saving,
         update,
     }
 }

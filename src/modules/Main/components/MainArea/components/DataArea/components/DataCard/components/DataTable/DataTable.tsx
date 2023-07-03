@@ -1,5 +1,5 @@
 import {ActionConfig, CategoryConfig} from "../../../../../../../../../../shared/schemas/config";
-import React, {useMemo} from "react";
+import React, {useMemo, useState} from "react";
 import {useConfiguration} from "../../../../../../../../../../shared/hooks/config";
 import {useTableData} from "./hooks/data";
 import {Button, CircularLoader, IconAdd24, TableBody, TableCell, TableRow} from "@dhis2/ui"
@@ -11,6 +11,7 @@ import {useTableColumns} from "./hooks/columns";
 import classes from "./DataTable.module.css"
 import {TrackingTable} from "../TrackingTable";
 import {useTrackingColumns} from "../../hooks/columns";
+import {ActionButton} from "../../../../../../../../../../shared/components/ActionButton";
 
 export interface DataTableProps {
     parentConfig: ActionConfig | CategoryConfig;
@@ -33,12 +34,10 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
             return categoryConfig as CategoryConfig;
         }
     }, [child, allConfig]);
-
     const {loading, noData, refetch, rows, pagination} = useTableData(child.type, {
         parentInstance,
         parentType
     });
-
     const instanceType = useMemo(() => config?.name?.toLowerCase() ?? "", [config]);
     const {value: hide, setTrue: onHide, setFalse: onShow} = useBoolean(true);
 
@@ -60,7 +59,7 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
 
     const trackingColumns = useTrackingColumns();
 
-
+    const [editedInstance, setEditInstance] = useState();
     const onComplete = () => {
         refetch();
     }
@@ -126,20 +125,41 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
                                 <col width={`${header.width}`} key={`${header.id}-colgroup`}/>))
                         }
                     </colgroup>
-                    <Form onSaveComplete={onComplete}
-                          id={config?.id as string} hide={hide} type={child?.type}
-                          onClose={onHide}
-                          instanceName={instanceType} parent={parent} parentConfig={config?.parent}/>
+                    {
+                        !hide && (
+                            <Form
+                                defaultValue={editedInstance}
+                                onSaveComplete={onComplete}
+                                id={config?.id as string} hide={hide} type={child?.type}
+                                onClose={onHide}
+                                instanceName={instanceType} parent={parent} parentConfig={config?.parent}
+                            />
+                        )
+                    }
                     <TableBody className={classes['table-body']}>
                         {
                             rows?.map((row, index) => (
                                 <TableRow key={`${row.id}-${index}`}>
                                     {
                                         columns.map((column, columnIndex) => (
-                                            <TableCell className={classes['value-cell']}
-                                                       key={`${row.id}-${column.id}-${columnIndex}`}>
-                                                {get(row, [column.id], '')}
-                                            </TableCell>
+                                            columnIndex === columns.length - 1 ?
+                                                <TableCell className={classes['value-cell']}
+                                                           key={`${row.id}-${column.id}-${columnIndex}`}>
+                                                    <div className="w-100 h-100 row gap-8 space-between">
+                                                        <div className="flex-1 w-100 h-100 column center align-center">
+                                                            {get(row, [column.id], '')}
+                                                        </div>
+                                                        <div>
+                                                            <ActionButton onEdit={() => {
+                                                                setEditInstance(row.instance);
+                                                                onShow();
+                                                            }}/>
+                                                        </div>
+                                                    </div>
+                                                </TableCell> : <TableCell className={classes['value-cell']}
+                                                                          key={`${row.id}-${column.id}-${columnIndex}`}>
+                                                    {get(row, [column.id], '')}
+                                                </TableCell>
                                         ))
                                     }
                                     {

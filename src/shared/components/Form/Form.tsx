@@ -5,7 +5,7 @@ import {useFormMeta} from "./hooks/metadata";
 import {FormProvider, useForm} from "react-hook-form";
 import {isEmpty} from "lodash";
 import {RHFDHIS2FormField} from "@hisptz/dhis2-ui";
-import {TrackedEntityInstance} from "@hisptz/dhis2-utils";
+import {Event, TrackedEntityInstance} from "@hisptz/dhis2-utils";
 import {useFormActions} from "./hooks/save";
 import {ParentConfig} from "../../schemas/config";
 
@@ -21,7 +21,24 @@ export interface FormProps {
     hide: boolean;
     onClose: () => void;
     onSaveComplete?: () => void;
-    defaultValues?: TrackedEntityInstance | Event;
+    defaultValue?: TrackedEntityInstance | Event;
+}
+
+
+function getDefaultValues(defaultValue: any, type: "program" | "programStage") {
+    if (!defaultValue) return;
+
+    if (type === "program") {
+        return defaultValue?.attributes.reduce((acc: any, curr: any) => {
+            acc[curr.attribute] = curr.value;
+            return acc;
+        }, {})
+    } else {
+        return defaultValue?.dataValues.reduce((acc: any, curr: any) => {
+            acc[curr.dataElement] = curr.value;
+            return acc;
+        }, {});
+    }
 }
 
 
@@ -33,11 +50,14 @@ export function Form({
                          instanceName,
                          hide,
                          onClose,
-                         defaultValues,
+                         defaultValue,
                          onSaveComplete
                      }: FormProps) {
     const {fields, loading} = useFormMeta({id, type});
-    const form = useForm();
+    const defaultValues = getDefaultValues(defaultValue, type);
+    const form = useForm({
+        defaultValues
+    });
 
     const onComplete = useCallback(() => {
         form.reset({});
@@ -46,7 +66,8 @@ export function Form({
         }
         onClose();
     }, [])
-    const {create, creating, updating, update} = useFormActions({
+    const {onSave, saving} = useFormActions({
+        defaultValue,
         instanceMetaId: id,
         type,
         parent,
@@ -55,18 +76,10 @@ export function Form({
         instanceName
     });
 
-    const onSubmit = useCallback(async (data: Record<string, any>) => {
-        if (defaultValues) {
-            await update(data);
-        } else {
-            await create(data);
-        }
-    }, [create])
-
     return (
         <Modal position="middle" hide={hide} onClose={onClose}>
             <ModalTitle>
-                {defaultValues ? i18n.t("Update") : i18n.t("Add")} {instanceName}
+                {defaultValue ? i18n.t("Update") : i18n.t("Add")} {instanceName}
             </ModalTitle>
             <ModalContent>
                 {
@@ -87,8 +100,8 @@ export function Form({
             <ModalActions>
                 <ButtonStrip>
                     <Button onClick={onClose}>{i18n.t("Cancel")}</Button>
-                    <Button loading={creating || updating} onClick={form.handleSubmit(onSubmit)}
-                            primary>{defaultValues ? updating ? i18n.t("Updating...") : i18n.t("Update") : creating ? i18n.t("Creating...") : i18n.t("Save")}</Button>
+                    <Button loading={saving} onClick={form.handleSubmit(onSave)}
+                            primary>{defaultValue ? saving ? i18n.t("Updating...") : i18n.t("Update") : saving ? i18n.t("Creating...") : i18n.t("Save")}</Button>
                 </ButtonStrip>
             </ModalActions>
         </Modal>
