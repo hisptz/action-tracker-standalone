@@ -12,6 +12,8 @@ import classes from "./DataTable.module.css"
 import {TrackingTable} from "../TrackingTable";
 import {useTrackingColumns} from "../../hooks/columns";
 import {ActionButton} from "../../../../../../../../../../shared/components/ActionButton";
+import {useDeleteInstance} from "../../../../../../../../../../shared/components/Form/hooks/save";
+import {useConfirmDialog} from "@hisptz/dhis2-ui";
 
 export interface DataTableProps {
     parentConfig: ActionConfig | CategoryConfig;
@@ -23,6 +25,8 @@ export interface DataTableProps {
 
 export function DataTable({parentConfig, instance: parentInstance, parentType, nested}: DataTableProps) {
     const {child} = parentConfig as any
+    const {confirm} = useConfirmDialog()
+
     const {config: allConfig} = useConfiguration();
     const config = useMemo(() => {
         if (child.type === "program") {
@@ -60,8 +64,25 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
     const trackingColumns = useTrackingColumns();
 
     const [editedInstance, setEditInstance] = useState();
+
+    const {onDelete} = useDeleteInstance(child.type, {instanceName: config?.name as string})
     const onComplete = () => {
         refetch();
+    }
+
+    const onDeleteClick = (instance: any) => {
+        confirm({
+            title: i18n.t("Confirm Delete"),
+            message: i18n.t("Are you sure you want this {{title}} and all related data?", {
+                title: config?.name
+            }),
+            onConfirm: async () => {
+                await onDelete(instance)
+                refetch()
+            },
+            onCancel: () => {
+            },
+        })
     }
 
     if (loading) {
@@ -85,7 +106,10 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
             <table className='w-100' key={`no-data`}>
                 <Form onSaveComplete={onComplete}
                       id={config?.id as string} hide={hide} type={child?.type}
-                      onClose={onHide}
+                      onClose={() => {
+                          onHide()
+                          setEditInstance(undefined)
+                      }}
                       instanceName={instanceType} parent={parent} parentConfig={config?.parent}/>
                 <tbody>
                 <tr>
@@ -131,7 +155,10 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
                                 defaultValue={editedInstance}
                                 onSaveComplete={onComplete}
                                 id={config?.id as string} hide={hide} type={child?.type}
-                                onClose={onHide}
+                                onClose={() => {
+                                    onHide()
+                                    setEditInstance(undefined)
+                                }}
                                 instanceName={instanceType} parent={parent} parentConfig={config?.parent}
                             />
                         )
@@ -150,10 +177,13 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
                                                             {get(row, [column.id], '')}
                                                         </div>
                                                         <div>
-                                                            <ActionButton onEdit={() => {
-                                                                setEditInstance(row.instance);
-                                                                onShow();
-                                                            }}/>
+                                                            <ActionButton
+                                                                onEdit={() => {
+                                                                    setEditInstance(row.instance);
+                                                                    onShow();
+                                                                }}
+                                                                onDelete={() => onDeleteClick(row.instance)}
+                                                            />
                                                         </div>
                                                     </div>
                                                 </TableCell> : <TableCell className={classes['value-cell']}

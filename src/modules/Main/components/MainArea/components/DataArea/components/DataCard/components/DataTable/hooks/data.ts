@@ -18,7 +18,7 @@ const relationshipQuery: any = {
             fields: [
                 `relationship`,
                 `from[enrollment[enrollment],event[event]]`,
-                `to[enrollment[enrollment,enrolledAt,occurredAt,orgUnit,program,trackedEntity,attributes[attribute,value]],event[event,orgUnit,program,programStage,trackedEntity,enrollment,occurredAt,dataValues[dataElement,value]]]`
+                `to[enrollment[enrollment,deleted,enrolledAt,occurredAt,orgUnit,program,trackedEntity,attributes[attribute,value]],event[event,orgUnit,program,programStage,trackedEntity,enrollment,occurredAt,deleted,dataValues[dataElement,value]]]`
             ],
         })
     }
@@ -50,11 +50,14 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
             if (parentType === "program") {
                 return item?.to?.enrollment?.enrollment !== get(parentInstance, ['enrollments', 0, 'enrollment'])
             } else {
+                if (item?.to?.event?.deleted) {
+                    return false;
+                }
                 return item?.to?.event?.event !== get(parentInstance, ['event'])
             }
         }).map(({to}) => {
             return to?.[type === "program" ? "enrollment" : "event"];
-        })
+        }).filter((instance) => !instance.deleted)
     }, [rawData]);
 
 

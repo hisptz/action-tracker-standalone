@@ -12,12 +12,12 @@ const mutation: any = {
     resource: "tracker",
     type: "create",
     data: ({data}: { data: any }) => data,
-    params: {
-        importStrategy: 'CREATE_AND_UPDATE',
+    params: ({strategy}: { strategy?: string }) => ({
+        importStrategy: strategy ?? 'CREATE_AND_UPDATE',
         importMode: 'COMMIT',
         async: false,
         validationMode: 'FAIL_FAST'
-    }
+    })
 }
 
 
@@ -273,5 +273,44 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete, 
         onSave,
         saving,
         update,
+    }
+}
+
+export function useDeleteInstance(type: "program" | "programStage", {instanceName}: {
+    instanceName: string
+}) {
+    const {show} = useAlert(({message}) => message, ({type}) => ({...type, duration: 3000}));
+    const [uploadPayload, {loading: deleting}] = useDataMutation(mutation, {
+        onComplete: () => {
+            show({
+                message: i18n.t("Successfully deleted {{instanceName}}", {
+                    instanceName
+                }), type: {success: true}
+            })
+        },
+        onError: (error) => {
+            show({message: `${i18n.t("Failed to delete")}: ${error.message}`, type: {critical: true}}
+            )
+        }
+    })
+    const onDelete = useCallback(async (defaultValue: any) => {
+        const payload = type === "program" ? {
+            enrollments: [{
+                enrollment: defaultValue.enrollment
+            }]
+        } : {
+            events: [{
+                event: defaultValue.event
+            }]
+        }
+        await uploadPayload({
+            data: payload,
+            strategy: "DELETE"
+        })
+    }, [])
+
+    return {
+        deleting,
+        onDelete
     }
 }

@@ -41,12 +41,6 @@ export function ActionStatus({instance, columnConfig, events, refetch}: ActionSt
         onComplete: onActionManageComplete,
         defaultValue: statusEvent
     })
-
-    //TODO: Discuss if this is how it should be...
-    if (!selectedPeriod?.interval.engulfs(period.interval)) {
-        return null;
-    }
-
     const tableData = useMemo(() => {
         if (!statusEvent) return null;
         const dataValues = get(statusEvent, ['dataValues'], null);
@@ -68,6 +62,11 @@ export function ActionStatus({instance, columnConfig, events, refetch}: ActionSt
 
     }, [statusEvent,])
 
+
+    //TODO: Discuss if this is how it should be...
+    if (!selectedPeriod?.interval.engulfs(period.interval)) {
+        return null;
+    }
 
     const onDelete = () => {
         confirm({
