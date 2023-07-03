@@ -1,6 +1,6 @@
 import {useConfiguration} from "../../../../../../../../../shared/hooks/config";
 import {useCallback, useEffect, useMemo} from "react";
-import {ColumnState, ColumnStateConfig, VisibleColumnState} from "../state/columns";
+import {ActionTrackingColumnStateConfig, ColumnState, ColumnStateConfig, VisibleColumnState} from "../state/columns";
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {useWindowSize} from "usehooks-ts";
 import {useDimensions, usePageType} from "../../../../../../../../../shared/hooks";
@@ -23,15 +23,16 @@ export function useTrackingColumns() {
 
     }, []);
 
-    const columns: ColumnStateConfig[] = useMemo(() => {
+    return useMemo(() => {
         if (type === "planning") {
             return [{
                 id: `latest-status`,
                 width: 150,
                 name: i18n.t("Latest status"),
                 visible: true,
-                from: "tracking"
-            }]
+                from: "tracking",
+                period
+            }] as ActionTrackingColumnStateConfig[];
         } else {
             return compact(trackingPeriods.map((period) => {
                 const periodObject = period.get();
@@ -43,13 +44,12 @@ export function useTrackingColumns() {
                     name: periodObject.name,
                     visible: true,
                     width: 0,
-                    from: "tracking"
-                } as ColumnStateConfig
+                    from: "tracking",
+                    period
+                } as ActionTrackingColumnStateConfig
             }))
         }
-    }, [type, trackingPeriods])
-
-    return columns;
+    }, [type, trackingPeriods]);
 }
 
 export function useSetColumnState() {

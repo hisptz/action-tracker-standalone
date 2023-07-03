@@ -18,7 +18,7 @@ const relationshipQuery: any = {
             fields: [
                 `relationship`,
                 `from[enrollment[enrollment],event[event]]`,
-                `to[enrollment[enrollment,events[event,dataValues[dataElement,value],occurredAt],trackedEntity,attributes[attribute,value]],event[event,trackedEntity,enrollment,occurredAt,dataValues[dataElement,value]]]`
+                `to[enrollment[enrollment,orgUnit,program,events[event,dataValues[dataElement,value],occurredAt],trackedEntity,attributes[attribute,value]],event[event,orgUnit,program,programStage,trackedEntity,enrollment,occurredAt,dataValues[dataElement,formName,value]]]`
             ],
         })
     }

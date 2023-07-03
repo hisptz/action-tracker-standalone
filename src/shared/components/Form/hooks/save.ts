@@ -82,7 +82,7 @@ function generateRelationship({parentConfig, parent, instance, instanceType}: {
     }
 }
 
-function generateEvent(data: Record<string, any>, {orgUnit, program, programStage, enrollment, trackedEntity}: {
+export function generateEvent(data: Record<string, any>, {orgUnit, program, programStage, enrollment, trackedEntity}: {
     orgUnit: string;
     program: string;
     programStage: string;

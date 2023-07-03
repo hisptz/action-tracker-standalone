@@ -33,6 +33,7 @@
     "@dhis2/cli-utils-cypress": "^10.0.3",
     "@dhis2/cypress-commands": "^10.0.3",
     "@dhis2/cypress-plugins": "^10.0.3",
+    "@types/luxon": "^3.3.0",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "concurrently": "^8.0.1",
     "cross-var": "^1.1.0",

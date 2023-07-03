@@ -286,13 +286,8 @@ export function generateLegacyTemplate(): Config {
                 fields: [
                     {
                         name: i18n.t("Action Status"),
-                        type: "DATE",
+                        type: "TEXT",
                         id: "f8JYVWLC7rE"
-                    },
-                    {
-                        name: i18n.t("Review Date"),
-                        type: "DATE",
-                        id: "nodiP54ocf5"
                     },
                     {
                         name: i18n.t("Remarks / Comment"),

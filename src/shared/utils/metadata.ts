@@ -122,7 +122,6 @@ function extractTrackedEntityAttributes(programs: Program[]) {
     return programs.flatMap(program => program.programTrackedEntityAttributes?.map(programTrackedEntityAttribute => programTrackedEntityAttribute.trackedEntityAttribute))
 }
 
-
 function generateRelationshipTypes(config: Config) {
     const categoriesWithParents = config.categories.filter(({parent}) => !!parent);
     const relationshipTypes = categoriesWithParents.map(({parent, name, id,}) => {

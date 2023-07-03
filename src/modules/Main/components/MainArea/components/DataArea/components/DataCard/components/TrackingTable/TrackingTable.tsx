@@ -2,21 +2,21 @@ import {ActionConfig} from "../../../../../../../../../../shared/schemas/config"
 import {TableBody, TableRow} from "@dhis2/ui";
 import classes from "../DataTable/DataTable.module.css";
 import React from "react";
-import {usePageType} from "../../../../../../../../../../shared/hooks";
 import {useRecoilValue} from "recoil";
 import {TrackingColumnsState} from "../../state/columns";
 import {useConfiguration} from "../../../../../../../../../../shared/hooks/config";
+import {LatestStatus} from "./components/LatestStatus";
+import {ActionStatus} from "./components/ActionStatus";
 
 
 export interface TrackingTableProps {
-    action: ActionConfig,
+    actionConfig: ActionConfig,
     instance: any
 }
 
 
-export function TrackingTable({action, instance}: TrackingTableProps) {
+export function TrackingTable({actionConfig, instance}: TrackingTableProps) {
     const {config: mainConfig} = useConfiguration();
-    const pageType = usePageType();
     const columns = useRecoilValue(TrackingColumnsState(mainConfig?.id as string));
 
     return (
@@ -41,8 +41,12 @@ export function TrackingTable({action, instance}: TrackingTableProps) {
                         <TableRow>
                             {
                                 columns.map((column, columnIndex) => (
-                                    <td className={classes['value-cell']}>
-                                        N/A
+                                    <td key={`${column.id}-${instance.trackedEntity}-action-status`}
+                                        className={classes['value-cell']}>
+                                        {
+                                            column.id === "latest-status" ? <LatestStatus events={instance.events}/> :
+                                                <ActionStatus instance={instance} columnConfig={column}/>
+                                        }
                                     </td>
                                 ))
                             }

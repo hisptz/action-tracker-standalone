@@ -156,7 +156,8 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
                                             <TableCell colSpan={`${trackingColumns.length}`}
                                                        className={classes['nesting-cell']}
                                                        key={`${row.id}-tracking-cell`}>
-                                                <TrackingTable key={`${row.id}-tracking`} action={config as ActionConfig}
+                                                <TrackingTable key={`${row.id}-tracking`}
+                                                               actionConfig={config as ActionConfig}
                                                                instance={row.instance}/>
                                             </TableCell>
                                         )
