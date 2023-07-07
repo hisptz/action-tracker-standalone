@@ -80,6 +80,10 @@ label > span:nth-child(2) {
     padding: 16px;
 }
 
+.p-32 {
+    padding: 32px;
+}
+
 .pv-8 {
     padding-bottom: 8px;
     padding-top: 8px;
