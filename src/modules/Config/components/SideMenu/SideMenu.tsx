@@ -17,7 +17,7 @@ export function SideMenu() {
                 {
                     configurationPages?.map((item) => (
                         <MenuItem
-                            onClick={() => navigate(`/config/${item.path}`)}
+                            onClick={() => navigate(`${item.path}`)}
                             className={classNames(classes['menu-item'], {
                                 [classes['selected']]: matches.some(match => match.pathname.match(item.path))
                             })} label={item.label} key={`${item.id}-menu-item`}/>))

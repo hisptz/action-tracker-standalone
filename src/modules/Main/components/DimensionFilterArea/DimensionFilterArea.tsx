@@ -3,11 +3,12 @@ import {Card} from "@dhis2/ui"
 import {DimensionSelection} from "./components/DimensionSelection";
 import i18n from '@dhis2/d2-i18n';
 import classes from "./DimensionFilterArea.module.css";
-import {useDimensions} from "../../../../shared/hooks/dimensions";
+import {useDimensions} from "../../../../shared/hooks";
 import {useBoolean} from "usehooks-ts";
 import {compact, head} from "lodash";
 import {OrgUnitSelectorModal, PeriodSelectorModal} from "@hisptz/dhis2-ui";
 import {OrgUnitSelection} from "@hisptz/dhis2-utils";
+import {ConfigureButton} from "../ConfigureButton";
 
 export function DimensionFilterArea() {
     const {orgUnit, setOrgUnit, period, setPeriod, loading} = useDimensions();
@@ -17,7 +18,7 @@ export function DimensionFilterArea() {
     return (
         <div className={classes['selection-card']}>
             <Card>
-                <div className="row space-between align-items-center pl-16 pr-16">
+                <div className="row space-between align-center ph-16">
                     <div className="row align-items-center">
                         <OrgUnitSelectorModal
                             position="middle"
@@ -68,6 +69,7 @@ export function DimensionFilterArea() {
                             title={i18n.t("Select period")}
                         />
                     </div>
+                    <ConfigureButton/>
                 </div>
             </Card>
         </div>

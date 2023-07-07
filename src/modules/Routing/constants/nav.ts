@@ -1,7 +1,7 @@
 import type React from "react"
 import {Welcome} from "../../Welcome"
 import {Main} from "../../Main"
-import {Config} from "../../Config"
+import {ConfigPage} from "../../Config"
 import i18n from '@dhis2/d2-i18n';
 import {General} from "../../Config/components/General";
 import {Categories} from "../../Config/components/Categories/Categories";
@@ -43,9 +43,9 @@ export const ROUTES: NavItem[] = [
         ]
     },
     {
-        path: "config",
+        path: ":id/config",
         id: "config",
-        element: Config,
+        element: ConfigPage,
         subItems: [
             {
                 path: "general",
