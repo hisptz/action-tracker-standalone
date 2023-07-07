@@ -8,6 +8,7 @@ export const generalConfigSchema = z.object({
     }),
     orgUnit: z.object({
         planning: z.string(),
+        accessAll: z.boolean().optional(),
         defaultOrgUnit: z.string().optional(),
     })
 })
