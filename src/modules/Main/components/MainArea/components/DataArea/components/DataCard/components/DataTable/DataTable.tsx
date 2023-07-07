@@ -70,11 +70,13 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
         refetch();
     }
 
+    const title = config?.name
+
     const onDeleteClick = (instance: any) => {
         confirm({
             title: i18n.t("Confirm Delete"),
-            message: i18n.t("Are you sure you want this {{title}} and all related data?", {
-                title: config?.name
+            message: i18n.t("Are you sure you want to delete this {{title}} and all related data?", {
+                title
             }),
             onConfirm: async () => {
                 await onDelete(instance)

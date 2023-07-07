@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-01T05:05:33.010Z\n"
-"PO-Revision-Date: 2023-07-01T05:05:33.010Z\n"
+"POT-Creation-Date: 2023-07-07T07:07:03.025Z\n"
+"PO-Revision-Date: 2023-07-07T07:07:03.025Z\n"
 
 msgid "Select organisation unit"
 msgstr "Select organisation unit"
@@ -35,6 +35,15 @@ msgstr "Add"
 msgid "There are is no data for the the selected dimensions."
 msgstr "There are is no data for the the selected dimensions."
 
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you sure you want to delete {{title}} and all related data?"
+msgstr "Are you sure you want to delete {{title}} and all related data?"
+
+msgid "Are you sure you want to delete this {{title}} and all related data?"
+msgstr "Are you sure you want to delete this {{title}} and all related data?"
+
 msgid ""
 "There are no recorded {{ instanceType }}. Click on the button below to "
 "create one"
@@ -48,6 +57,51 @@ msgstr "Add {{ instanceType }}"
 msgid "Add {{instanceType}}"
 msgstr "Add {{instanceType}}"
 
+msgid "Review Date"
+msgstr "Review Date"
+
+msgid "Confirm delete"
+msgstr "Confirm delete"
+
+msgid "Are you sure you want to delete this status?"
+msgstr "Are you sure you want to delete this status?"
+
+msgid "{{action}} status"
+msgstr "{{action}} status"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Updating"
+msgstr "Updating"
+
+msgid "Update"
+msgstr "Update"
+
+msgid "Saving"
+msgstr "Saving"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "This field is required"
+msgstr "This field is required"
+
+msgid "Failed to create status"
+msgstr "Failed to create status"
+
+msgid "Successfully updated status"
+msgstr "Successfully updated status"
+
+msgid "Successfully created status"
+msgstr "Successfully created status"
+
+msgid "Successfully deleted status"
+msgstr "Successfully deleted status"
+
+msgid "N/A"
+msgstr "N/A"
+
 msgid "Latest status"
 msgstr "Latest status"
 
@@ -59,12 +113,6 @@ msgstr "Download"
 
 msgid "Manage columns"
 msgstr "Manage columns"
-
-msgid "Cancel"
-msgstr "Cancel"
-
-msgid "Update"
-msgstr "Update"
 
 msgid "General"
 msgstr "General"
@@ -90,23 +138,38 @@ msgstr "Setting up default configuration..."
 msgid "Setting up required metadata..."
 msgstr "Setting up required metadata..."
 
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Delete"
+msgstr "Delete"
+
 msgid "Updating..."
 msgstr "Updating..."
 
 msgid "Creating..."
 msgstr "Creating..."
 
-msgid "Save"
-msgstr "Save"
+msgid "Failed to {{action}} {{name}}"
+msgstr "Failed to {{action}} {{name}}"
 
-msgid "This field is required"
-msgstr "This field is required"
+msgid "update"
+msgstr "update"
+
+msgid "create"
+msgstr "create"
+
+msgid "Successfully updated {{name}}"
+msgstr "Successfully updated {{name}}"
 
 msgid "Successfully created {{name}}"
 msgstr "Successfully created {{name}}"
 
-msgid "Failed to create {{name}}"
-msgstr "Failed to create {{name}}"
+msgid "Successfully deleted {{instanceName}}"
+msgstr "Successfully deleted {{instanceName}}"
+
+msgid "Failed to delete"
+msgstr "Failed to delete"
 
 msgid "Basic Activity Template"
 msgstr "Basic Activity Template"
@@ -170,9 +233,6 @@ msgstr "Designation"
 
 msgid "Action Status"
 msgstr "Action Status"
-
-msgid "Review Date"
-msgstr "Review Date"
 
 msgid "Remarks / Comment"
 msgstr "Remarks / Comment"
