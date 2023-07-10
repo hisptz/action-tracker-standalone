@@ -7,12 +7,12 @@ import {PeriodConfig} from "./components/PeriodConfig";
 export function General() {
 
     return (
-        <div style={{maxWidth: 800}} className="column gap-32">
+        <div className="column gap-32">
             <div>
                 <h2 className="m-0">{i18n.t("General configuration")}</h2>
                 <Divider margin="0"/>
             </div>
-            <div className="column gap-32">
+            <div style={{maxWidth: 800}} className="column gap-32">
                 <div className="gap-16 column">
                     <h3 className="m-0">{i18n.t("Organisation Units")}</h3>
                     <OrganisationUnitConfig/>

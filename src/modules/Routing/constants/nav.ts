@@ -4,7 +4,7 @@ import {Main} from "../../Main"
 import {ConfigPage} from "../../Config"
 import i18n from '@dhis2/d2-i18n';
 import {General} from "../../Config/components/General";
-import {Categories} from "../../Config/components/Categories/Categories";
+import {Categories} from "../../Config/components/Categories";
 import {Actions} from "../../Config/components/Actions/Actions";
 
 export interface NavItem {

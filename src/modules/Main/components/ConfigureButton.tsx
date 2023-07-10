@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 export function ConfigureButton() {
     const navigate = useNavigate()
     const onSettingsClick = () => {
-        navigate('config')
+        navigate('config/general')
     }
 
     return (

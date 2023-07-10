@@ -5,8 +5,98 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-07T07:07:03.025Z\n"
-"PO-Revision-Date: 2023-07-07T07:07:03.025Z\n"
+"POT-Creation-Date: 2023-07-09T14:12:14.285Z\n"
+"PO-Revision-Date: 2023-07-09T14:12:14.285Z\n"
+
+msgid "Categories"
+msgstr "Categories"
+
+msgid "Name is required"
+msgstr "Name is required"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Fields"
+msgstr "Fields"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Required"
+msgstr "Required"
+
+msgid "Show as column"
+msgstr "Show as column"
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "No"
+msgstr "No"
+
+msgid "General configuration"
+msgstr "General configuration"
+
+msgid "Organisation Units"
+msgstr "Organisation Units"
+
+msgid "Period"
+msgstr "Period"
+
+msgid "Limit planning of actions to specific organisation unit levels"
+msgstr "Limit planning of actions to specific organisation unit levels"
+
+msgid "Planning organisation unit level"
+msgstr "Planning organisation unit level"
+
+msgid "Access"
+msgstr "Access"
+
+msgid "Allow access to all organisation units"
+msgstr "Allow access to all organisation units"
+
+msgid "Planning"
+msgstr "Planning"
+
+msgid "Default organisation unit"
+msgstr "Default organisation unit"
+
+msgid "Tracking frequency is required"
+msgstr "Tracking frequency is required"
+
+msgid "Tracking frequency"
+msgstr "Tracking frequency"
+
+msgid "Default period"
+msgstr "Default period"
+
+msgid "Year"
+msgstr "Year"
+
+msgid "Planning frequency is required"
+msgstr "Planning frequency is required"
+
+msgid "Planning frequency"
+msgstr "Planning frequency"
+
+msgid "Error saving changes"
+msgstr "Error saving changes"
+
+msgid "Changes saved successfully"
+msgstr "Changes saved successfully"
+
+msgid "Reset"
+msgstr "Reset"
+
+msgid "Saving"
+msgstr "Saving"
+
+msgid "Save changes"
+msgstr "Save changes"
+
+msgid "Configure"
+msgstr "Configure"
 
 msgid "Select organisation unit"
 msgstr "Select organisation unit"
@@ -19,9 +109,6 @@ msgstr "and {{number}} more"
 
 msgid "Action {{type}}"
 msgstr "Action {{type}}"
-
-msgid "Planning"
-msgstr "Planning"
 
 msgid "Tracking"
 msgstr "Tracking"
@@ -78,9 +165,6 @@ msgstr "Updating"
 msgid "Update"
 msgstr "Update"
 
-msgid "Saving"
-msgstr "Saving"
-
 msgid "Save"
 msgstr "Save"
 
@@ -116,9 +200,6 @@ msgstr "Manage columns"
 
 msgid "General"
 msgstr "General"
-
-msgid "Categories"
-msgstr "Categories"
 
 msgid "Action"
 msgstr "Action"
@@ -185,9 +266,6 @@ msgstr "About"
 
 msgid "Activity"
 msgstr "Activity"
-
-msgid "Name"
-msgstr "Name"
 
 msgid "Description"
 msgstr "Description"
