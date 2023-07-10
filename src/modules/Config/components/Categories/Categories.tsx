@@ -19,7 +19,8 @@ export function Categories() {
             <div style={{maxWidth: 800}} className="column gap-32">
                 <div className="gap-32 column">
                     {
-                        categories?.map((_: any, index: number) => (<CategoryArea index={index}/>))
+                        categories?.map((_: any, index: number) => (
+                            <CategoryArea key={`${index}-category`} index={index}/>))
                     }
                 </div>
             </div>

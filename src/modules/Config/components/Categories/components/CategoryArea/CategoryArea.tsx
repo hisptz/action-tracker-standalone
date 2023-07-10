@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import {useWatch} from "react-hook-form";
 import {RHFTextInputField} from "@hisptz/dhis2-ui";
 import i18n from '@dhis2/d2-i18n';
@@ -10,10 +10,12 @@ export interface CategoryAreaProps {
 
 export function CategoryArea({index}: CategoryAreaProps) {
     const namespace = `categories.${index}`
-
     const title = useWatch({
         name: `${namespace}.name`
     });
+
+    //It is expected that the first category will be a program, the corresponding fields are trackedEntityAttributes
+    const type = useMemo(() => index === 0 ? 'attribute' : 'dataElement', [index]);
 
     return (
         <div className="column gap-16">
@@ -25,7 +27,7 @@ export function CategoryArea({index}: CategoryAreaProps) {
                                    name={`${namespace}.name`} label={i18n.t("Name")}/>
                 <div className="column gap-8">
                     <span>{i18n.t("Fields")}</span>
-                    <CategoryFields namespace={namespace}/>
+                    <CategoryFields type={type} namespace={namespace}/>
                 </div>
             </div>
         </div>

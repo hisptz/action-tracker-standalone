@@ -34,9 +34,10 @@ export function ConfigPage() {
     }
 
     return (
-        <main className="w-100 h-100 row">
+        <main className="w-100 row">
             <SideMenu/>
-            <div className="w-100 h-100 p-32" style={{flexGrow: 1}}>
+            <div className="w-100 p-32"
+                 style={{flexGrow: 1, height: "calc(100vh - 48px)", overflowY: "auto", scrollbarGutter: "stable"}}>
                 <ConfigForm/>
             </div>
         </main>

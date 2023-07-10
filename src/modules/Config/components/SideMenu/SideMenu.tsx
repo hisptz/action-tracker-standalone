@@ -12,7 +12,7 @@ export function SideMenu() {
     const navigate = useNavigate()
 
     return (
-        <aside style={{width: "30vw", maxWidth: 300, flexGrow: 0}}>
+        <aside style={{width: "30vw", maxWidth: 300, flexGrow: 0,}}>
             <Menu className={classes['menu-area']}>
                 {
                     configurationPages?.map((item) => (
