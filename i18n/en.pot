@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-09T14:12:14.285Z\n"
-"PO-Revision-Date: 2023-07-09T14:12:14.285Z\n"
+"POT-Creation-Date: 2023-07-11T07:10:10.058Z\n"
+"PO-Revision-Date: 2023-07-11T07:10:10.058Z\n"
 
 msgid "Categories"
 msgstr "Categories"
@@ -26,14 +26,95 @@ msgstr "Type"
 msgid "Required"
 msgstr "Required"
 
-msgid "Show as column"
-msgstr "Show as column"
+msgid "Show as {{ type }}"
+msgstr "Show as {{ type }}"
 
 msgid "Yes"
 msgstr "Yes"
 
 msgid "No"
 msgstr "No"
+
+msgid "Add field from existing metadata"
+msgstr "Add field from existing metadata"
+
+msgid "Add new field"
+msgstr "Add new field"
+
+msgid "Add field"
+msgstr "Add field"
+
+msgid "Add Data Item"
+msgstr "Add Data Item"
+
+msgid "Display name"
+msgstr "Display name"
+
+msgid "Short name is required"
+msgstr "Short name is required"
+
+msgid "Short name"
+msgstr "Short name"
+
+msgid "Type is required"
+msgstr "Type is required"
+
+msgid "Option set"
+msgstr "Option set"
+
+msgid "Field should be mandatory"
+msgstr "Field should be mandatory"
+
+msgid "Show field as header"
+msgstr "Show field as header"
+
+msgid "Show field as column"
+msgstr "Show field as column"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Add"
+msgstr "Add"
+
+msgid "Add new"
+msgstr "Add new"
+
+msgid "Add option"
+msgstr "Add option"
+
+msgid "Code is required"
+msgstr "Code is required"
+
+msgid "This code already exists"
+msgstr "This code already exists"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "At least two options are required"
+msgstr "At least two options are required"
+
+msgid "Options"
+msgstr "Options"
+
+msgid "Add option set"
+msgstr "Add option set"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Could not add the new data item. Please refresh the page and try again"
+msgstr "Could not add the new data item. Please refresh the page and try again"
+
+msgid "Select Data Item"
+msgstr "Select Data Item"
+
+msgid "Data item is required"
+msgstr "Data item is required"
+
+msgid "Data item"
+msgstr "Data item"
 
 msgid "General configuration"
 msgstr "General configuration"
@@ -116,9 +197,6 @@ msgstr "Tracking"
 msgid "Please wait..."
 msgstr "Please wait..."
 
-msgid "Add"
-msgstr "Add"
-
 msgid "There are is no data for the the selected dimensions."
 msgstr "There are is no data for the the selected dimensions."
 
@@ -156,17 +234,11 @@ msgstr "Are you sure you want to delete this status?"
 msgid "{{action}} status"
 msgstr "{{action}} status"
 
-msgid "Cancel"
-msgstr "Cancel"
-
 msgid "Updating"
 msgstr "Updating"
 
 msgid "Update"
 msgstr "Update"
-
-msgid "Save"
-msgstr "Save"
 
 msgid "This field is required"
 msgstr "This field is required"

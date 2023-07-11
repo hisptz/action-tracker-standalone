@@ -17,6 +17,7 @@ import i18n from '@dhis2/d2-i18n';
 import {useBoolean} from "usehooks-ts";
 import {DataItemSelect} from "./components/DataItemSelect";
 import {capitalize} from "lodash";
+import {DataItemManageForm} from "./components/DataItemManageForm";
 
 export interface CategoryFieldsProps {
     namespace: string;
@@ -24,7 +25,7 @@ export interface CategoryFieldsProps {
 }
 
 export function CategoryFields({namespace, type}: CategoryFieldsProps) {
-    const {value: menuOpen, setTrue: openMenu, setFalse: closeMenu, toggle: toggleMenu} = useBoolean(false);
+    const {value: menuOpen, setFalse: closeMenu, toggle: toggleMenu} = useBoolean(false);
     const {value: hideSelect, setTrue: onHideSelect, setFalse: onShowSelect} = useBoolean(true);
     const {value: hideCreate, setTrue: onHideCreate, setFalse: onShowCreate} = useBoolean(true);
     const {field} = useController({
@@ -47,6 +48,7 @@ export function CategoryFields({namespace, type}: CategoryFieldsProps) {
 
     return (
         <>
+            <DataItemManageForm hide={hideCreate} type={type} onClose={onHideCreate} onAdd={onFieldAdd}/>
             <DataItemSelect onAdd={onFieldAdd} key={`${namespace}-select-field`} filtered={fieldIds} type={type}
                             hide={hideSelect}
                             onClose={onHideSelect}/>

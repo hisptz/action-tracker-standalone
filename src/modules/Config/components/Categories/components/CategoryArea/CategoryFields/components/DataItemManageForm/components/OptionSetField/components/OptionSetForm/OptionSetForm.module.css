@@ -1,0 +1,10 @@
+
+.table-body {
+    max-height: 300px !important;
+    overflow: auto !important;
+    width: 100%;
+}
+
+.table {
+    scrollbar-gutter: stable !important;
+}
