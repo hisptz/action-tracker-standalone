@@ -25,7 +25,7 @@ import classes from "./OptionSetForm.module.css";
 import {z} from "zod";
 import {useManageOptionSet} from "./hooks/save";
 import {uid} from "@hisptz/dhis2-utils";
-import {SUPPORTED_VALUE_TYPES} from "../../../../../../../../../../../../../shared/constants/meta";
+import {SUPPORTED_VALUE_TYPES} from "../../../../../../constants/meta";
 
 
 function getFieldTypeByValueType(valueType: string) {

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-11T07:10:10.058Z\n"
-"PO-Revision-Date: 2023-07-11T07:10:10.058Z\n"
+"POT-Creation-Date: 2023-07-15T08:40:09.400Z\n"
+"PO-Revision-Date: 2023-07-15T08:40:09.400Z\n"
 
 msgid "Categories"
 msgstr "Categories"
@@ -101,8 +101,17 @@ msgstr "Options"
 msgid "Add option set"
 msgstr "Add option set"
 
+msgid "Saving"
+msgstr "Saving"
+
 msgid "Save"
 msgstr "Save"
+
+msgid "Option set saved successfully"
+msgstr "Option set saved successfully"
+
+msgid "Error saving option set"
+msgstr "Error saving option set"
 
 msgid "Could not add the new data item. Please refresh the page and try again"
 msgstr "Could not add the new data item. Please refresh the page and try again"
@@ -169,9 +178,6 @@ msgstr "Changes saved successfully"
 
 msgid "Reset"
 msgstr "Reset"
-
-msgid "Saving"
-msgstr "Saving"
 
 msgid "Save changes"
 msgstr "Save changes"

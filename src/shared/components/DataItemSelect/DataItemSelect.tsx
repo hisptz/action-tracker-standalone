@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle} from "@dhis2/ui";
 import i18n from '@dhis2/d2-i18n';
-import {DataField} from "../../../../../../../../../shared/schemas/config";
+import {DataField} from "../../schemas/config";
 import {FormProvider, useForm} from "react-hook-form";
 import {useDataItems} from "./hooks/data";
 import {RHFCheckboxField, RHFSingleSelectField} from "@hisptz/dhis2-ui";

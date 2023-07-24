@@ -2,7 +2,7 @@ import React, {useMemo} from "react";
 import {useWatch} from "react-hook-form";
 import {RHFTextInputField} from "@hisptz/dhis2-ui";
 import i18n from '@dhis2/d2-i18n';
-import {CategoryFields} from "./CategoryFields";
+import {FieldTable} from "../../../../../../shared/components/FieldTable";
 
 export interface CategoryAreaProps {
     index: number;
@@ -26,8 +26,8 @@ export function CategoryArea({index}: CategoryAreaProps) {
                 <RHFTextInputField required validations={{required: i18n.t("Name is required")}}
                                    name={`${namespace}.name`} label={i18n.t("Name")}/>
                 <div className="column gap-8">
-                    <span>{i18n.t("Fields")}</span>
-                    <CategoryFields type={type} namespace={namespace}/>
+										<span>{i18n.t("Fields")}</span>
+										<FieldTable type={type} namespace={namespace}/>
                 </div>
             </div>
         </div>

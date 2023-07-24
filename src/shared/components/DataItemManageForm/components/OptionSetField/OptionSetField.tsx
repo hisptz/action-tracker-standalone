@@ -6,7 +6,7 @@ import i18n from '@dhis2/d2-i18n';
 import {useBoolean} from "usehooks-ts";
 import {OptionSetData, OptionSetForm} from "./components/OptionSetForm";
 import {useFormContext, useWatch} from "react-hook-form";
-import {OPTION_SET_SUPPORTED_FIELDS} from "../../../../../../../../../../../shared/constants/meta";
+import {OPTION_SET_SUPPORTED_FIELDS} from "../../../../constants/meta";
 
 export interface OptionSetFieldProps {
     label: string;

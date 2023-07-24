@@ -1,40 +1,40 @@
 import React, {useMemo} from "react";
 import {useController} from "react-hook-form";
 import {
-    DropdownButton,
-    FlyoutMenu,
-    MenuItem,
-    Table,
-    TableBody,
-    TableCell,
-    TableCellHead,
-    TableHead,
-    TableRow,
-    TableRowHead
+		DropdownButton,
+		FlyoutMenu,
+		MenuItem,
+		Table,
+		TableBody,
+		TableCell,
+		TableCellHead,
+		TableHead,
+		TableRow,
+		TableRowHead
 } from "@dhis2/ui"
-import {DataField} from "../../../../../../../shared/schemas/config";
 import i18n from '@dhis2/d2-i18n';
 import {useBoolean} from "usehooks-ts";
-import {DataItemSelect} from "./components/DataItemSelect";
 import {capitalize} from "lodash";
-import {DataItemManageForm} from "./components/DataItemManageForm";
+import {DataItemManageForm} from "./DataItemManageForm";
+import {DataItemSelect} from "./DataItemSelect";
+import {DataField} from "../schemas/config";
 
-export interface CategoryFieldsProps {
-    namespace: string;
-    type: "dataElement" | "attribute"
+export interface FieldTableProps {
+		namespace: string;
+		type: "dataElement" | "attribute"
 }
 
-export function CategoryFields({namespace, type}: CategoryFieldsProps) {
-    const {value: menuOpen, setFalse: closeMenu, toggle: toggleMenu} = useBoolean(false);
-    const {value: hideSelect, setTrue: onHideSelect, setFalse: onShowSelect} = useBoolean(true);
-    const {value: hideCreate, setTrue: onHideCreate, setFalse: onShowCreate} = useBoolean(true);
-    const {field} = useController({
-        name: `${namespace}.fields`
-    });
-    const fields = useMemo(() => field.value as DataField[] ?? [], [field])
-    const fieldIds = useMemo(() => fields.map(({id}) => id), [fields])
-    const onMenuSelect = (type: "new" | "existing") => () => {
-        closeMenu();
+export function FieldTable({namespace, type}: FieldTableProps) {
+		const {value: menuOpen, setFalse: closeMenu, toggle: toggleMenu} = useBoolean(false);
+		const {value: hideSelect, setTrue: onHideSelect, setFalse: onShowSelect} = useBoolean(true);
+		const {value: hideCreate, setTrue: onHideCreate, setFalse: onShowCreate} = useBoolean(true);
+		const {field} = useController({
+				name: `${namespace}.fields`
+		});
+		const fields = useMemo(() => field.value as DataField[] ?? [], [field])
+		const fieldIds = useMemo(() => fields.map(({id}) => id), [fields])
+		const onMenuSelect = (type: "new" | "existing") => () => {
+				closeMenu();
         if (type === "existing") {
             onShowSelect();
         } else {
