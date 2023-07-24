@@ -64,8 +64,8 @@ export default class Gap {
         function getDataValues({title, description, method, solutionLinkage}) {
             const dataValues = [];
             dataValues.push({'dataElement': GapConstants.TITLE_DATA_ELEMENT, value: title})
-            dataValues.push({'dataElement': GapConstants.DESCRIPTION_DATA_ELEMENT, value: description})
-            dataValues.push({'dataElement': GapConstants.METHOD_DATA_ELEMENT, value: method})
+            // dataValues.push({'dataElement': GapConstants.DESCRIPTION_DATA_ELEMENT, value: description})
+            // dataValues.push({'dataElement': GapConstants.METHOD_DATA_ELEMENT, value: method})
             dataValues.push({'dataElement': GapConstants.SOLUTION_LINK_DATA_ELEMENT, value: solutionLinkage})
             return dataValues;
         }
