@@ -80,6 +80,7 @@ export default class PossibleSolution {
 
     static getFormFields(programConfig) {
         const {programStages} = programConfig;
+
         const gapProgramStage = _.find(programStages, ['id', PossibleSolutionConstants.PROGRAM_STAGE_ID]);
         const {programStageDataElements} = gapProgramStage;
         const formFields = [];
