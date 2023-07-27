@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-27T13:21:04.675Z\n"
-"PO-Revision-Date: 2023-07-27T13:21:04.675Z\n"
+"POT-Creation-Date: 2023-07-27T13:43:47.377Z\n"
+"PO-Revision-Date: 2023-07-27T13:43:47.377Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -47,6 +47,18 @@ msgstr "Organisation Units"
 msgid "Period"
 msgstr "Period"
 
+msgid "Access"
+msgstr "Access"
+
+msgid "Allow access to all organisation units"
+msgstr "Allow access to all organisation units"
+
+msgid "Planning"
+msgstr "Planning"
+
+msgid "Default organisation unit"
+msgstr "Default organisation unit"
+
 msgid "Limit planning of actions to specific organisation unit levels"
 msgstr "Limit planning of actions to specific organisation unit levels"
 
@@ -62,23 +74,14 @@ msgstr "Select"
 msgid "Deselect"
 msgstr "Deselect"
 
+msgid "Organisation unit group"
+msgstr "Organisation unit group"
+
 msgid "{{count}} organisation unit selected"
 msgstr "{{count}} organisation unit selected"
 
 msgid "Organisation units"
 msgstr "Organisation units"
-
-msgid "Access"
-msgstr "Access"
-
-msgid "Allow access to all organisation units"
-msgstr "Allow access to all organisation units"
-
-msgid "Planning"
-msgstr "Planning"
-
-msgid "Default organisation unit"
-msgstr "Default organisation unit"
 
 msgid "Tracking frequency is required"
 msgstr "Tracking frequency is required"

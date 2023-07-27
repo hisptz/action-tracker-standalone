@@ -1,11 +1,10 @@
-import React from "react";
-import i18n from '@dhis2/d2-i18n';
-import {Divider} from "@dhis2/ui"
-import {OrganisationUnitConfig} from "./components/OrganisationUnitConfig";
-import {PeriodConfig} from "./components/PeriodConfig";
+import React from 'react'
+import i18n from '@dhis2/d2-i18n'
+import { Divider } from '@dhis2/ui'
+import { OrganisationUnitConfig } from './components/OrganisationUnitConfig/OrganisationUnitConfig'
+import { PeriodConfig } from './components/PeriodConfig'
 
 export function General() {
-
     return (
         <div className="column gap-32">
             <div>
