@@ -1,6 +1,6 @@
-import {type Config} from "../schemas/config";
-import {PeriodTypeEnum, type TrackedEntityType, uid} from "@hisptz/dhis2-utils";
-import i18n from '@dhis2/d2-i18n';
+import { type Config } from '../schemas/config'
+import { PeriodTypeEnum, type TrackedEntityType, uid } from '@hisptz/dhis2-utils'
+import i18n from '@dhis2/d2-i18n'
 
 export enum EntityTypes {
     CATEGORIZATION = "Categorization",

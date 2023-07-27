@@ -18,7 +18,7 @@ import {
 import { compact, filter, find } from 'lodash'
 import { EntityTypes, type InitialMetadata } from '../constants/defaults'
 
-function generateDataItemsFromConfig(field: DataField): TrackedEntityAttribute | DataElement {
+function generateDataItemsFromConfig (field: DataField): TrackedEntityAttribute | DataElement {
     return {
         name: `[SAT] ${field.name}`,
         formName: field.name,
@@ -26,26 +26,26 @@ function generateDataItemsFromConfig(field: DataField): TrackedEntityAttribute |
         code: field.name,
         shortName: field.name,
         valueType: field.type as DHIS2ValueType,
-        aggregationType: "NONE",
-        domainType: "TRACKER",
+        aggregationType: 'NONE',
+        domainType: 'TRACKER',
         optionSet: field.optionSet?.id !== undefined ? field.optionSet : undefined,
         publicAccess: 'rw------'
-    };
+    }
 }
 
-function generateProgramFromConfig(config: CategoryConfig | ActionConfig, trackedEntityType: TrackedEntityType): Program {
+function generateProgramFromConfig (config: CategoryConfig | ActionConfig, trackedEntityType: TrackedEntityType): Program {
     const programTrackedEntityAttributes: ProgramTrackedEntityAttribute[] = config.fields.map(generateDataItemsFromConfig).map(trackedEntityAttribute => {
-        const teiConfig = find(config.fields, ['id', trackedEntityAttribute.id]);
+        const teiConfig = find(config.fields, ['id', trackedEntityAttribute.id])
         return {
             trackedEntityAttribute,
             id: uid(),
             mandatory: teiConfig?.mandatory
         } as any
-    }) as ProgramTrackedEntityAttribute[];
+    }) as ProgramTrackedEntityAttribute[]
 
     return {
         id: config.id,
-        programType: "WITH_REGISTRATION",
+        programType: 'WITH_REGISTRATION',
         programTrackedEntityAttributes,
         name: `[SAT] ${config.name}`,
         shortName: config.name,
@@ -53,7 +53,11 @@ function generateProgramFromConfig(config: CategoryConfig | ActionConfig, tracke
     }
 }
 
-function generateProgramStageFromConfig(config: CategoryConfig | ActionStatusConfig, {programId, index, options}: {
+function generateProgramStageFromConfig (config: CategoryConfig | ActionStatusConfig, {
+    programId,
+    index,
+    options
+}: {
     programId: string
     index: number
     options?: {
@@ -62,7 +66,7 @@ function generateProgramStageFromConfig(config: CategoryConfig | ActionStatusCon
 }): ProgramStage {
     const dataElements = config.fields.map(generateDataItemsFromConfig) as DataElement[]
     const programStageDataElements = dataElements.map(dataElement => {
-        const dEConfig = find(config.fields, ['id', dataElement.id]);
+        const dEConfig = find(config.fields, ['id', dataElement.id])
 
         return {
             dataElement,
@@ -84,21 +88,29 @@ function generateProgramStageFromConfig(config: CategoryConfig | ActionStatusCon
     }
 }
 
-function generateCategoriesMetadata(categories: CategoryConfig[], meta: InitialMetadata) {
+function generateCategoriesMetadata (categories: CategoryConfig[], meta: InitialMetadata & {
+    orgUnits: Array<{ id: string, path: string }>
+}) {
     const trackedEntityType = find(meta.trackedEntityTypes, ['name', EntityTypes.CATEGORIZATION])
     if (categories.length === 1) {
         return {
-            program: generateProgramFromConfig(categories[0], trackedEntityType as TrackedEntityType),
+            program: {
+                ...generateProgramFromConfig(categories[0], trackedEntityType as TrackedEntityType),
+                organisationUnits: meta.orgUnits
+            },
             programStages: []
         }
     }
 
-    const [firstCategory, ...restCategories] = categories;
-    const program = generateProgramFromConfig(firstCategory, trackedEntityType as TrackedEntityType);
+    const [firstCategory, ...restCategories] = categories
+    const program = {
+        ...generateProgramFromConfig(firstCategory, trackedEntityType as TrackedEntityType),
+        organisationUnits: meta.orgUnits
+    }
     const programStages = restCategories?.map((category, index) => generateProgramStageFromConfig(category, {
         programId: program.id,
         index
-    }));
+    }))
 
     return {
         program,
@@ -106,63 +118,72 @@ function generateCategoriesMetadata(categories: CategoryConfig[], meta: InitialM
     }
 }
 
-function generateActionsMetadata(actionConfig: ActionConfig, meta: InitialMetadata) {
+function generateActionsMetadata (actionConfig: ActionConfig, meta: InitialMetadata & {
+    orgUnits: Array<{ id: string, path: string }>
+}) {
     const trackedEntityType = find(meta.trackedEntityTypes, ['name', EntityTypes.ACTION])
-    const program = generateProgramFromConfig(actionConfig, trackedEntityType as TrackedEntityType);
+    const program = generateProgramFromConfig(actionConfig, trackedEntityType as TrackedEntityType)
     const programStage = generateProgramStageFromConfig(actionConfig.statusConfig, {
         programId: program.id,
         index: 0,
-        options: {repeatable: true}
-    });
+        options: { repeatable: true }
+    })
     return {
-        program,
+        program: {
+            ...program,
+            organisationUnits: meta.orgUnits
+        },
         programStages: [programStage]
     }
 }
 
-function extractTrackedEntityAttributes(programs: Program[]) {
+function extractTrackedEntityAttributes (programs: Program[]) {
     return programs.flatMap(program => program.programTrackedEntityAttributes?.map(programTrackedEntityAttribute => programTrackedEntityAttribute.trackedEntityAttribute))
 }
 
-function generateRelationshipTypes(config: Config) {
-    const categoriesWithParents = config.categories.filter(({parent}) => !(parent == null));
-    const relationshipTypes = categoriesWithParents.map(({parent, name, id}) => {
-        if (parent == null) return;
+function generateRelationshipTypes (config: Config) {
+    const categoriesWithParents = config.categories.filter(({ parent }) => !(parent == null))
+    const relationshipTypes = categoriesWithParents.map(({
+                                                             parent,
+                                                             name,
+                                                             id
+                                                         }) => {
+        if (parent == null) return
         return {
             id: parent?.id,
             name: `[SAT] ${parent.name} to ${name} relationship`,
             fromToName: `[SAT] ${parent.from} children`,
             fromConstraint: {
-                relationshipEntity: parent?.type === "program" ? "PROGRAM_INSTANCE" : "PROGRAM_STAGE_INSTANCE",
+                relationshipEntity: parent?.type === 'program' ? 'PROGRAM_INSTANCE' : 'PROGRAM_STAGE_INSTANCE',
                 [parent.type]: {
                     id: parent?.from
                 }
             },
             toFromName: `[SAT] Parent`,
             toConstraint: {
-                relationshipEntity: "PROGRAM_STAGE_INSTANCE",
+                relationshipEntity: 'PROGRAM_STAGE_INSTANCE',
                 programStage: {
                     id
                 }
             }
         }
-    });
+    })
 
-    const actionConfig = config.action;
+    const actionConfig = config.action
 
     const actionRelationType = {
         id: actionConfig.parent?.id,
         name: `[SAT] ${actionConfig.parent?.name} to ${actionConfig.name} relationship`,
         fromToName: `[SAT] ${actionConfig.parent?.from} children`,
         fromConstraint: {
-            relationshipEntity: actionConfig.parent?.type === "program" ? "PROGRAM_INSTANCE" : "PROGRAM_STAGE_INSTANCE",
+            relationshipEntity: actionConfig.parent?.type === 'program' ? 'PROGRAM_INSTANCE' : 'PROGRAM_STAGE_INSTANCE',
             [actionConfig.parent?.type as string]: {
                 id: actionConfig.parent?.from
             }
         },
         toFromName: `[SAT] Parent`,
         toConstraint: {
-            relationshipEntity: "PROGRAM_INSTANCE",
+            relationshipEntity: 'PROGRAM_INSTANCE',
             program: {
                 id: actionConfig.id
             }
@@ -171,14 +192,14 @@ function generateRelationshipTypes(config: Config) {
 
     }
 
-    return [...relationshipTypes, actionRelationType];
+    return [...relationshipTypes, actionRelationType]
 }
 
-function extractDataElements(programStages: ProgramStage[]) {
+function extractDataElements (programStages: ProgramStage[]) {
     return programStages.flatMap(programStage => programStage.programStageDataElements?.map(programStageDataElement => programStageDataElement.dataElement))
 }
 
-function cleanProgramDeps(programs: Program[], stages: ProgramStage[]) {
+function cleanProgramDeps (programs: Program[], stages: ProgramStage[]) {
     return programs.map(program => {
         return {
             ...program,
@@ -200,7 +221,7 @@ function cleanProgramDeps(programs: Program[], stages: ProgramStage[]) {
     })
 }
 
-function cleanProgramStagesDeps(programStages: ProgramStage[]) {
+function cleanProgramStagesDeps (programStages: ProgramStage[]) {
     return programStages.map(programStage => {
         return {
             ...programStage,
@@ -216,26 +237,32 @@ function cleanProgramStagesDeps(programStages: ProgramStage[]) {
     })
 }
 
-export function generateMetadataFromConfig(config: Config, {meta}: { meta: InitialMetadata }) {
+export function generateMetadataFromConfig (config: Config, { meta }: { meta: InitialMetadata }) {
     const {
         program: categoryProgram,
         programStages: categoriesProgramStage
-    } = generateCategoriesMetadata(config.categories, meta) ?? {};
+    } = generateCategoriesMetadata(config.categories, {
+        ...meta,
+        orgUnits: config.general.orgUnit.orgUnits ?? []
+    }) ?? {}
     const {
         program: actionProgram,
         programStages: actionProgramStages
-    } = generateActionsMetadata(config.action, meta) ?? {};
+    } = generateActionsMetadata(config.action, {
+        ...meta,
+        orgUnits: config.general.orgUnit.orgUnits ?? []
+    }) ?? {}
 
-    const programs = [categoryProgram, actionProgram];
-    const programStages = [...categoriesProgramStage, ...actionProgramStages];
+    const programs = [categoryProgram, actionProgram]
+    const programStages = [...categoriesProgramStage, ...actionProgramStages]
 
-    const trackedEntityAttributes = compact(extractTrackedEntityAttributes(programs)) ?? [];
-    const dataElements = compact(extractDataElements(programStages)) ?? [];
+    const trackedEntityAttributes = compact(extractTrackedEntityAttributes(programs)) ?? []
+    const dataElements = compact(extractDataElements(programStages)) ?? []
 
-    const cleanedProgram = cleanProgramDeps(programs, programStages);
-    const cleanedProgramStages = cleanProgramStagesDeps(programStages);
+    const cleanedProgram = cleanProgramDeps(programs, programStages)
+    const cleanedProgramStages = cleanProgramStagesDeps(programStages)
 
-    const relationshipTypes = generateRelationshipTypes(config);
+    const relationshipTypes = generateRelationshipTypes(config)
 
     return {
         dataElements,
@@ -246,9 +273,9 @@ export function generateMetadataFromConfig(config: Config, {meta}: { meta: Initi
     }
 }
 
-export function getAttributeValueFromList(attributeId: string, attributes: Array<{
+export function getAttributeValueFromList (attributeId: string, attributes: Array<{
     attribute: string
     value: string
 }>): string {
-    return find(attributes, ['attribute', attributeId])?.value ?? '';
+    return find(attributes, ['attribute', attributeId])?.value ?? ''
 }

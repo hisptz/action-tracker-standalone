@@ -1,4 +1,4 @@
-import {z} from "zod";
+import { z } from 'zod'
 
 export const generalConfigSchema = z.object({
     period: z.object({
@@ -7,6 +7,10 @@ export const generalConfigSchema = z.object({
         defaultPeriod: z.string().optional()
     }),
     orgUnit: z.object({
+        orgUnits: z.array(z.object({
+            id: z.string(),
+            path: z.string()
+        })).optional(),
         planning: z.string(),
         accessAll: z.boolean().optional(),
         defaultOrgUnit: z.string().optional()
@@ -30,7 +34,7 @@ export const dataFieldSchema = z.object({
         id: z.string()
     }).optional(),
     header: z.boolean().optional(),
-    native: z.boolean({description: "This field should be in every configuration"}).optional()
+    native: z.boolean({ description: 'This field should be in every configuration' }).optional()
 })
 
 const parentSchema = z.object({
@@ -82,7 +86,7 @@ export const actionConfigSchema = z.object({
 
 export const configSchema = z.object({
     id: z.string(),
-    name: z.string({description: "Name of the configuration (useful for multiple configurations)"}),
+    name: z.string({ description: 'Name of the configuration (useful for multiple configurations)' }),
     general: generalConfigSchema,
     categories: z.array(categoryConfigSchema),
     action: actionConfigSchema

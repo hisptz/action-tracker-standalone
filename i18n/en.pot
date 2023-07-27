@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-27T09:43:06.779Z\n"
-"PO-Revision-Date: 2023-07-27T09:43:06.779Z\n"
+"POT-Creation-Date: 2023-07-27T13:21:04.675Z\n"
+"PO-Revision-Date: 2023-07-27T13:21:04.675Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -52,6 +52,21 @@ msgstr "Limit planning of actions to specific organisation unit levels"
 
 msgid "Planning organisation unit level"
 msgstr "Planning organisation unit level"
+
+msgid "Organisation unit level"
+msgstr "Organisation unit level"
+
+msgid "Select"
+msgstr "Select"
+
+msgid "Deselect"
+msgstr "Deselect"
+
+msgid "{{count}} organisation unit selected"
+msgstr "{{count}} organisation unit selected"
+
+msgid "Organisation units"
+msgstr "Organisation units"
 
 msgid "Access"
 msgstr "Access"
