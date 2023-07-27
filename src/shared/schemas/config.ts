@@ -4,12 +4,12 @@ export const generalConfigSchema = z.object({
     period: z.object({
         planning: z.string(),
         tracking: z.string(),
-        defaultPeriod: z.string().optional(),
+        defaultPeriod: z.string().optional()
     }),
     orgUnit: z.object({
         planning: z.string(),
         accessAll: z.boolean().optional(),
-        defaultOrgUnit: z.string().optional(),
+        defaultOrgUnit: z.string().optional()
     })
 })
 
@@ -22,7 +22,7 @@ export const dataFieldSchema = z.object({
         'NUMBER',
         'INTEGER',
         'FILE_RESOURCE',
-        'DATE',
+        'DATE'
     ]),
     showAsColumn: z.boolean().optional(),
     mandatory: z.boolean().optional(),
@@ -30,6 +30,7 @@ export const dataFieldSchema = z.object({
         id: z.string()
     }).optional(),
     header: z.boolean().optional(),
+    native: z.boolean({description: "This field should be in every configuration"}).optional()
 })
 
 const parentSchema = z.object({
@@ -42,7 +43,7 @@ const parentSchema = z.object({
 const childSchema = z.object({
     id: z.string(),
     to: z.string(),
-    type: z.enum(['program', 'programStage']),
+    type: z.enum(['program', 'programStage'])
 })
 
 export const categoryConfigSchema = z.object({
@@ -50,14 +51,14 @@ export const categoryConfigSchema = z.object({
     name: z.string(),
     child: childSchema,
     fields: z.array(dataFieldSchema),
-    parent: parentSchema.optional(),
+    parent: parentSchema.optional()
 })
 export const actionStatusState = z.object({
     id: z.string(),
     name: z.string(),
     color: z.string(),
     completes: z.boolean().optional(),
-    cancels: z.boolean().optional(),
+    cancels: z.boolean().optional()
 })
 
 export const actionStatusConfigSchema = z.object({
@@ -65,7 +66,7 @@ export const actionStatusConfigSchema = z.object({
     name: z.string(),
     fields: z.array(dataFieldSchema),
     stateConfig: z.object({
-        dataElement: z.string(),
+        dataElement: z.string()
     }),
     dateConfig: z.object({
         name: z.string()
@@ -76,7 +77,7 @@ export const actionConfigSchema = z.object({
     name: z.string(),
     fields: z.array(dataFieldSchema),
     statusConfig: actionStatusConfigSchema,
-    parent: parentSchema.optional(),
+    parent: parentSchema.optional()
 })
 
 export const configSchema = z.object({
@@ -84,7 +85,7 @@ export const configSchema = z.object({
     name: z.string({description: "Name of the configuration (useful for multiple configurations)"}),
     general: generalConfigSchema,
     categories: z.array(categoryConfigSchema),
-    action: actionConfigSchema,
+    action: actionConfigSchema
 })
 
 export type GeneralConfig = z.infer<typeof generalConfigSchema>;
