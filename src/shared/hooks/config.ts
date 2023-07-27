@@ -1,14 +1,13 @@
-import {useParams} from "react-router-dom";
-import {useDataQuery} from "@dhis2/app-runtime";
-import {DATASTORE_NAMESPACE} from "../constants/meta";
-import {Config} from "../schemas/config";
-import {useMemo} from "react";
-
+import { useParams } from 'react-router-dom'
+import { useDataQuery } from '@dhis2/app-runtime'
+import { DATASTORE_NAMESPACE } from '../constants/meta'
+import { type Config } from '../schemas/config'
+import { useMemo } from 'react'
 
 const query: any = {
     config: {
         resource: `dataStore/${DATASTORE_NAMESPACE}`,
-        id: ({id}: { id: string }) => id,
+        id: ({id}: { id: string }) => id
     }
 }
 
@@ -25,7 +24,6 @@ export function useConfiguration() {
     }
 }
 
-
 const configQuery: any = {
     config: {
         resource: `dataStore/${DATASTORE_NAMESPACE}`
@@ -36,7 +34,6 @@ const keysToExclude = ["settings", "savedObjects", "logs"]
 export function useConfigurations() {
     const {data, loading, refetch} = useDataQuery<{ config: string[] }>(configQuery);
     const configs = useMemo(() => data?.config.filter(key => !keysToExclude.includes(key)), [data?.config]);
-
 
     return {
         configs,

@@ -1,15 +1,17 @@
-import {useDimensions} from "../../../../shared/hooks";
-import React from "react";
-import {DimensionsNotSelected} from "./components/DimensionsNotSelected";
-import {DataArea} from "./components/DataArea";
-import {AddButton} from "./components/AddButton";
-import {ManageColumns} from "./components/ManageColumns/ManageColumns";
-import {Download} from "./components/Download";
+import { useDimensions } from '../../../../shared/hooks'
+import React from 'react'
+import { DimensionsNotSelected } from './components/DimensionsNotSelected'
+import { DataArea } from './components/DataArea'
+import { AddButton } from './components/AddButton'
+import { ManageColumns } from './components/ManageColumns'
+import { Download } from './components/Download'
 
 export function MainArea() {
     const {orgUnit, period} = useDimensions();
 
-    if (!orgUnit || !period) {
+    console.log(orgUnit, "mainArea")
+
+    if ((orgUnit === undefined) || (period === undefined)) {
         return <DimensionsNotSelected/>
     }
 
@@ -29,5 +31,4 @@ export function MainArea() {
             </div>
         </div>
     )
-
 }

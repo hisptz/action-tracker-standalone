@@ -1,23 +1,19 @@
-import React, {useEffect} from "react"
-import {useNavigate} from "react-router-dom"
-import {FullPageLoader} from "../../../shared/components/Loaders";
-import {head, isEmpty} from "lodash";
-import {useConfigurations} from "../../../shared/hooks/config";
-
+import React from 'react'
+import { Navigate } from 'react-router-dom'
+import { FullPageLoader } from '../../../shared/components/Loaders'
+import { head, isEmpty } from 'lodash'
+import { useConfigurations } from '../../../shared/hooks/config'
 
 export function MainNavigator() {
-    const navigate = useNavigate();
-    const {loading, configs} = useConfigurations()
+    const { configs, loading} = useConfigurations()
 
-    useEffect(() => {
-        if (configs) {
-            if (!isEmpty(configs)) {
-                navigate(`/${head(configs)}?type=planning`)
-            } else {
-                navigate(`/welcome`)
-            }
+    if (!loading) {
+        if (!isEmpty(configs)) {
+            return <Navigate to={`/${head(configs) as string}?type=planning`}/>
+        } else {
+           return <Navigate to={`/welcome`}/>
         }
-    }, [configs])
+    }
 
     return <FullPageLoader/>
 }

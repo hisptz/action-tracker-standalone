@@ -1,35 +1,39 @@
-import {ActionConfig, ActionStatusConfig, CategoryConfig, Config, DataField} from "../schemas/config";
 import {
-    DataElement,
-    DHIS2ValueType,
-    Program,
-    ProgramStage,
-    ProgramTrackedEntityAttribute,
-    TrackedEntityAttribute,
-    TrackedEntityType,
+    type ActionConfig,
+    type ActionStatusConfig,
+    type CategoryConfig,
+    type Config,
+    type DataField
+} from '../schemas/config'
+import {
+    type DataElement,
+    type DHIS2ValueType,
+    type Program,
+    type ProgramStage,
+    type ProgramTrackedEntityAttribute,
+    type TrackedEntityAttribute,
+    type TrackedEntityType,
     uid
-} from "@hisptz/dhis2-utils";
-import {compact, filter, find} from "lodash";
-import {EntityTypes, InitialMetadata} from "../constants/defaults";
+} from '@hisptz/dhis2-utils'
+import { compact, filter, find } from 'lodash'
+import { EntityTypes, type InitialMetadata } from '../constants/defaults'
 
 function generateDataItemsFromConfig(field: DataField): TrackedEntityAttribute | DataElement {
     return {
         name: `[SAT] ${field.name}`,
         formName: field.name,
-        id: field.id,
+        id: field.id ?? uid(),
         code: field.name,
         shortName: field.name,
         valueType: field.type as DHIS2ValueType,
         aggregationType: "NONE",
         domainType: "TRACKER",
-        optionSet: field.optionSet,
+        optionSet: field.optionSet?.id !== undefined ? field.optionSet : undefined,
         publicAccess: 'rw------'
     };
-
 }
 
 function generateProgramFromConfig(config: CategoryConfig | ActionConfig, trackedEntityType: TrackedEntityType): Program {
-
     const programTrackedEntityAttributes: ProgramTrackedEntityAttribute[] = config.fields.map(generateDataItemsFromConfig).map(trackedEntityAttribute => {
         const teiConfig = find(config.fields, ['id', trackedEntityAttribute.id]);
         return {
@@ -37,7 +41,6 @@ function generateProgramFromConfig(config: CategoryConfig | ActionConfig, tracke
             id: uid(),
             mandatory: teiConfig?.mandatory
         } as any
-
     }) as ProgramTrackedEntityAttribute[];
 
     return {
@@ -51,13 +54,12 @@ function generateProgramFromConfig(config: CategoryConfig | ActionConfig, tracke
 }
 
 function generateProgramStageFromConfig(config: CategoryConfig | ActionStatusConfig, {programId, index, options}: {
-    programId: string;
-    index: number;
+    programId: string
+    index: number
     options?: {
         repeatable: boolean
     }
 }): ProgramStage {
-
     const dataElements = config.fields.map(generateDataItemsFromConfig) as DataElement[]
     const programStageDataElements = dataElements.map(dataElement => {
         const dEConfig = find(config.fields, ['id', dataElement.id]);
@@ -95,12 +97,12 @@ function generateCategoriesMetadata(categories: CategoryConfig[], meta: InitialM
     const program = generateProgramFromConfig(firstCategory, trackedEntityType as TrackedEntityType);
     const programStages = restCategories?.map((category, index) => generateProgramStageFromConfig(category, {
         programId: program.id,
-        index,
+        index
     }));
 
     return {
         program,
-        programStages,
+        programStages
     }
 }
 
@@ -114,7 +116,7 @@ function generateActionsMetadata(actionConfig: ActionConfig, meta: InitialMetada
     });
     return {
         program,
-        programStages: [programStage],
+        programStages: [programStage]
     }
 }
 
@@ -123,9 +125,9 @@ function extractTrackedEntityAttributes(programs: Program[]) {
 }
 
 function generateRelationshipTypes(config: Config) {
-    const categoriesWithParents = config.categories.filter(({parent}) => !!parent);
-    const relationshipTypes = categoriesWithParents.map(({parent, name, id,}) => {
-        if (!parent) return;
+    const categoriesWithParents = config.categories.filter(({parent}) => !(parent == null));
+    const relationshipTypes = categoriesWithParents.map(({parent, name, id}) => {
+        if (parent == null) return;
         return {
             id: parent?.id,
             name: `[SAT] ${parent.name} to ${name} relationship`,
@@ -242,13 +244,11 @@ export function generateMetadataFromConfig(config: Config, {meta}: { meta: Initi
         programStages: cleanedProgramStages,
         relationshipTypes
     }
-
 }
 
-
-export function getAttributeValueFromList(attributeId: string, attributes: {
-    attribute: string;
+export function getAttributeValueFromList(attributeId: string, attributes: Array<{
+    attribute: string
     value: string
-}[]): string {
+}>): string {
     return find(attributes, ['attribute', attributeId])?.value ?? '';
 }

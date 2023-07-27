@@ -1,20 +1,21 @@
-import React, {useCallback, useMemo} from "react";
-import {colors, SegmentedControl} from "@dhis2/ui"
-import i18n from '@dhis2/d2-i18n';
-import {useSearchParams} from "react-router-dom";
-import {capitalize} from "lodash";
+import React, { useCallback, useMemo } from 'react'
+import { colors, SegmentedControl } from '@dhis2/ui'
+import i18n from '@dhis2/d2-i18n'
+import { useSearchParams } from 'react-router-dom'
+import { capitalize } from 'lodash'
 
 export function Title() {
     const [params, setSearchParams] = useSearchParams();
 
     const handleSegmentChange = useCallback(({value}: { value: "planning" | "tracking" }) => {
         setSearchParams((prev) => {
-            prev.set("type", value);
-            return prev;
-        }, {replace: true});
-    }, []);
+            const updatedParams = new URLSearchParams(params);
+            updatedParams.set("type", value);
+            return updatedParams;
+        });
+    }, [setSearchParams]);
 
-    const type = useMemo(() => params.get("type") ?? "planning", [params])
+    const type = useMemo(() => params.get("type") ?? "planning", [params.get("type")])
 
     return (
         <div style={{justifyContent: "left"}} className="row gap-16 align-center">
@@ -26,7 +27,7 @@ export function Title() {
                 onChange={handleSegmentChange}
                 options={[
                     {label: i18n.t("Planning"), value: "planning"},
-                    {label: i18n.t("Tracking"), value: "tracking"},
+                    {label: i18n.t("Tracking"), value: "tracking"}
                 ]}
             />
         </div>

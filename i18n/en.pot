@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-27T03:48:00.347Z\n"
-"PO-Revision-Date: 2023-07-27T03:48:00.347Z\n"
+"POT-Creation-Date: 2023-07-27T09:43:06.779Z\n"
+"PO-Revision-Date: 2023-07-27T09:43:06.779Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -23,11 +23,20 @@ msgstr "This will appear on headings and button labels"
 msgid "Name"
 msgstr "Name"
 
-msgid "Categories"
-msgstr "Categories"
+msgid "Action Status"
+msgstr "Action Status"
+
+msgid "Date label is required"
+msgstr "Date label is required"
+
+msgid "Date of review label"
+msgstr "Date of review label"
 
 msgid "Fields"
 msgstr "Fields"
+
+msgid "Categories"
+msgstr "Categories"
 
 msgid "General configuration"
 msgstr "General configuration"
@@ -88,6 +97,9 @@ msgstr "Saving"
 
 msgid "Save changes"
 msgstr "Save changes"
+
+msgid "Back"
+msgstr "Back"
 
 msgid "Configure"
 msgstr "Configure"
@@ -392,9 +404,6 @@ msgstr "Responsible Person"
 
 msgid "Designation"
 msgstr "Designation"
-
-msgid "Action Status"
-msgstr "Action Status"
 
 msgid "Remarks / Comment"
 msgstr "Remarks / Comment"

@@ -1,28 +1,39 @@
-import React from "react"
-import {DimensionFilterArea} from "./components/DimensionFilterArea";
-import {Header} from "./components/Header/Header";
-import {MainArea} from "./components/MainArea";
-import {useConfiguration} from "../../shared/hooks/config";
-import {FullPageLoader} from "../../shared/components/Loaders";
-import {useMetadata} from "../../shared/hooks/metadata";
+import React from 'react'
+import { DimensionFilterArea } from './components/DimensionFilterArea'
+import { Header } from './components/Header/Header'
+import { MainArea } from './components/MainArea'
+import { FullPageLoader } from '../../shared/components/Loaders'
+import { useMetadata } from '../../shared/hooks/metadata'
+import { useConfiguration } from '../../shared/hooks/config'
 
-export function Main() {
-    const {loading} = useConfiguration();
-    const {loading: loadingMetadata} = useMetadata();
+export function MainConfigLoader ({ children }: { children: React.ReactNode | React.ReactNode[] | null | undefined }) {
+    const { loading } = useConfiguration()
+    if (loading) {
+        return <FullPageLoader/>
+    }
+    return <>
+        {children}
+    </>
+}
 
-    if (loading && loadingMetadata) {
+export function Main () {
+    const { loading: loadingMetadata } = useMetadata();
+
+    if (loadingMetadata) {
         return <FullPageLoader/>
     }
 
     return (
-        <div className="column w-100 h-100 gap-16">
-            <DimensionFilterArea/>
-            <div className="ph-16">
-                <Header/>
+        <MainConfigLoader>
+            <div className="column w-100 h-100 gap-16">
+                <DimensionFilterArea/>
+                <div className="ph-16">
+                    <Header/>
+                </div>
+                <div style={{ flexGrow: 1 }}>
+                    <MainArea/>
+                </div>
             </div>
-            <div style={{flexGrow: 1}}>
-                <MainArea/>
-            </div>
-        </div>
+        </MainConfigLoader>
     )
 }

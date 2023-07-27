@@ -1,67 +1,35 @@
-import {useSearchParams} from "react-router-dom";
-import {useCallback, useEffect, useMemo} from "react";
-import {OrganisationUnit, PeriodUtility} from "@hisptz/dhis2-utils";
-import {useDataQuery} from "@dhis2/app-runtime";
+import { useSearchParams } from 'react-router-dom'
+import { useCallback, useMemo } from 'react'
+import { PeriodUtility } from '@hisptz/dhis2-utils'
 
-
-const orgUnitQuery = {
-    ou: {
-        resource: `organisationUnits`,
-        id: ({id}: any) => id,
-        params: {
-            fields: ['id', 'displayName', 'path', 'level']
-        }
-    }
-}
-
-export function useDimensions() {
-    const [params, setParams] = useSearchParams();
-    const {loading, data, refetch} = useDataQuery<{ ou: OrganisationUnit }>(orgUnitQuery, {
-        variables: {
-            id: params.get('ou')
-        },
-        lazy: true
-    })
+export function useDimensions () {
+    const [params, setParams] = useSearchParams()
 
     const period = useMemo(() => {
-        if (!params.get('pe')) return undefined;
+        if (params.get('pe') == null) return undefined
         return PeriodUtility.getPeriodById(params.get('pe') as string)
-    }, [params.get('pe')]);
-
-    const orgUnit = useMemo(() => {
-        if (!data?.ou) return undefined;
-        return data?.ou;
-    }, [data, params.get("ou")]);
+    }, [params.get('pe')])
 
     const setParam = useCallback((key: string) => (value: string) => {
-        const updatedParams = new URLSearchParams(params);
-        updatedParams.set(key, value);
-        setParams(updatedParams);
-    }, [setParams, params]);
+        setParams((prev) => {
+            const updatedParams = new URLSearchParams(prev)
+            updatedParams.set(key, value)
+            return updatedParams
+        })
+    }, [setParams])
 
-    const setPeriod = useCallback(setParam('pe'), [setParam]);
-    const setOrgUnit = useCallback(setParam('ou'), [setParam]);
-
-    useEffect(() => {
-        if (params.get('ou')) {
-            refetch({
-                id: params.get('ou')
-            })
-        }
-    }, [params.get('ou')])
+    const setPeriod = useCallback(setParam('pe'), [setParam])
+    const setOrgUnit = useCallback(setParam('ou'), [setParam])
 
     return {
         period,
-        orgUnit,
+        orgUnit: {id: params.get("ou")},
         setPeriod,
-        setOrgUnit,
-        loading
+        setOrgUnit
     }
-
 }
 
-
-export function usePageType() {
-    const [searchParams] = useSearchParams();
+export function usePageType () {
+    const [searchParams] = useSearchParams()
     return useMemo(() => searchParams.get('type'), [searchParams])
 }
