@@ -1,21 +1,20 @@
-import React from "react"
-import {Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle} from "@dhis2/ui";
-import i18n from '@dhis2/d2-i18n';
-import {FormProvider, useForm} from "react-hook-form";
-import {DataField} from "../../schemas/config";
-import {RHFCheckboxField, RHFSingleSelectField, RHFTextInputField} from "@hisptz/dhis2-ui";
-import {capitalize} from "lodash";
-import {SUPPORTED_VALUE_TYPES} from "../../constants/meta";
-import {OptionSetField} from "./components/OptionSetField";
-
+import React from 'react'
+import { Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle } from '@dhis2/ui'
+import i18n from '@dhis2/d2-i18n'
+import { FormProvider, useForm } from 'react-hook-form'
+import { type DataField } from '../../schemas/config'
+import { RHFCheckboxField, RHFSingleSelectField, RHFTextInputField } from '@hisptz/dhis2-ui'
+import { capitalize } from 'lodash'
+import { SUPPORTED_VALUE_TYPES } from '../../constants/meta'
+import { OptionSetField } from './components/OptionSetField'
+import { uid } from '@hisptz/dhis2-utils'
 
 export interface DataItemManageFormProps {
-    hide: boolean;
+    hide: boolean
     type: "dataElement" | "attribute"
-    onClose: () => void;
-    onAdd: (data: DataField) => void;
+    onClose: () => void
+    onAdd: (data: DataField) => void
 }
-
 
 export function DataItemManageForm({onClose, onAdd, hide, type}: DataItemManageFormProps) {
     const form = useForm<DataField>({})
@@ -25,7 +24,7 @@ export function DataItemManageForm({onClose, onAdd, hide, type}: DataItemManageF
         onClose();
     }
     const onSubmit = (data: DataField) => {
-        onAdd(data);
+        onAdd({ ...data, id: data.id ?? uid()});
         onCloseClick();
     }
 
@@ -51,9 +50,11 @@ export function DataItemManageForm({onClose, onAdd, hide, type}: DataItemManageF
                         <OptionSetField name={`optionSet.id`} label={i18n.t("Option set")}/>
                         <RHFCheckboxField name={`mandatory`} label={i18n.t("Field should be mandatory")}/>
                         {
-                            type === "attribute" ? (
+                            type === "attribute"
+? (
                                 <RHFCheckboxField name={`header`} label={i18n.t("Show field as header")}/>
-                            ) : (
+                            )
+: (
                                 <RHFCheckboxField name={`showAsColumn`} label={i18n.t("Show field as column")}/>
                             )
                         }
