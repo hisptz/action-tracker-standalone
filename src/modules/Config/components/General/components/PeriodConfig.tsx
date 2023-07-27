@@ -1,18 +1,18 @@
-import React, {useMemo, useState} from "react";
-import {RHFSingleSelectField} from "@hisptz/dhis2-ui";
-import i18n from '@dhis2/d2-i18n';
-import {useFormContext, useWatch} from "react-hook-form";
-import {PeriodTypeCategory, PeriodUtility} from "@hisptz/dhis2-utils";
-import {useUpdateEffect} from "usehooks-ts";
-import {Config} from "../../../../../shared/schemas/config";
-import {InputField} from "@dhis2/ui"
+import React, { useMemo, useState } from 'react'
+import { RHFSingleSelectField } from '@hisptz/dhis2-ui'
+import i18n from '@dhis2/d2-i18n'
+import { useFormContext, useWatch } from 'react-hook-form'
+import { PeriodTypeCategory, PeriodUtility } from '@hisptz/dhis2-utils'
+import { useUpdateEffect } from 'usehooks-ts'
+import { type Config } from '../../../../../shared/schemas/config'
+import { InputField } from '@dhis2/ui'
 
 const namespace = `general.period`;
 
 export function TrackingConfig() {
     const {setValue} = useFormContext()
     const [planning, tracking] = useWatch({
-        name: [`${namespace}.planning`, `${namespace}.tracking`],
+        name: [`${namespace}.planning`, `${namespace}.tracking`]
     });
 
     const trackingPeriods = useMemo(() => {
@@ -61,7 +61,7 @@ export function DefaultPeriod() {
     const {setValue} = useFormContext<Config>()
 
     const [planning, defaultPeriod] = useWatch({
-        name: [`${namespace}.planning`, `${namespace}.defaultPeriod`],
+        name: [`${namespace}.planning`, `${namespace}.defaultPeriod`]
     })
 
     const periods = useMemo(() => {
@@ -92,7 +92,7 @@ export function DefaultPeriod() {
                 <RHFSingleSelectField
                     label={i18n.t("Default period")}
                     options={periods}
-                    name={`${namespace}.default`}
+                    name={`${namespace}.defaultPeriod`}
                 />
             </div>
             <InputField
@@ -101,11 +101,10 @@ export function DefaultPeriod() {
                 max={(new Date().getFullYear() + 1).toString()}
                 label={i18n.t("Year")}
                 value={year.toString()}
-                onChange={({value}: { value: string }) => setYear(parseInt(value))} type="number"
+                onChange={({value}: { value: string }) => { setYear(parseInt(value)); }} type="number"
             />
         </div>
     )
-
 }
 
 export function PeriodConfig() {
@@ -132,5 +131,4 @@ export function PeriodConfig() {
             <DefaultPeriod/>
         </div>
     )
-
 }

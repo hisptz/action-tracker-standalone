@@ -41,8 +41,6 @@ export function useCategoryData() {
         }
     }, [config]);
 
-    console.log(orgUnit, "dataArea")
-
     const {
         data, refetch, loading
     } =
@@ -94,7 +92,6 @@ export function useCategoryData() {
         }
     }, [data]);
     useUpdateEffect(() => {
-        console.log(orgUnit);
         if (orgUnit) {
             refetch({
                 orgUnit: orgUnit?.id

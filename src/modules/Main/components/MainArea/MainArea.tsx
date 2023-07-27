@@ -9,8 +9,6 @@ import { Download } from './components/Download'
 export function MainArea() {
     const {orgUnit, period} = useDimensions();
 
-    console.log(orgUnit, "mainArea")
-
     if ((orgUnit === undefined) || (period === undefined)) {
         return <DimensionsNotSelected/>
     }
