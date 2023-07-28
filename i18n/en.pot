@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-28T07:28:01.245Z\n"
-"PO-Revision-Date: 2023-07-28T07:28:01.245Z\n"
+"POT-Creation-Date: 2023-07-28T12:38:40.147Z\n"
+"PO-Revision-Date: 2023-07-28T12:38:40.147Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -104,6 +104,9 @@ msgstr "Planning frequency is required"
 msgid "Planning frequency"
 msgstr "Planning frequency"
 
+msgid "Configure who can access this configuration and metadata associated"
+msgstr "Configure who can access this configuration and metadata associated"
+
 msgid "Configure sharing"
 msgstr "Configure sharing"
 
@@ -143,14 +146,11 @@ msgstr "Action {{type}}"
 msgid "Tracking"
 msgstr "Tracking"
 
-msgid "Please wait..."
-msgstr "Please wait..."
-
 msgid "Add"
 msgstr "Add"
 
-msgid "There are is no data for the the selected dimensions."
-msgstr "There are is no data for the the selected dimensions."
+msgid "There was an error loading the data."
+msgstr "There was an error loading the data."
 
 msgid "Confirm Delete"
 msgstr "Confirm Delete"
