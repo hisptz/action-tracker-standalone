@@ -1,24 +1,23 @@
-import {useCallback} from "react";
-import {uid} from "@hisptz/dhis2-utils";
-import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import {useFormMeta} from "./metadata";
-import {useDimensions} from "../../../hooks";
-import i18n from '@dhis2/d2-i18n';
-import {ParentConfig} from "../../../schemas/config";
-import {get, set} from "lodash";
-
+import { useCallback } from "react";
+import { uid } from "@hisptz/dhis2-utils";
+import { useAlert, useDataMutation } from "@dhis2/app-runtime";
+import { useFormMeta } from "./metadata";
+import { useDimensions } from "../../../hooks";
+import i18n from "@dhis2/d2-i18n";
+import { ParentConfig } from "../../../schemas/config";
+import { get, set } from "lodash";
 
 const mutation: any = {
     resource: "tracker",
     type: "create",
     data: ({data}: { data: any }) => data,
     params: ({strategy}: { strategy?: string }) => ({
-        importStrategy: strategy ?? 'CREATE_AND_UPDATE',
-        importMode: 'COMMIT',
+        importStrategy: strategy ?? "CREATE_AND_UPDATE",
+        importMode: "COMMIT",
         async: false,
-        validationMode: 'FAIL_FAST'
+        validationMode: "FAIL_FAST"
     })
-}
+};
 
 
 function generateTei(data: Record<string, any>, {orgUnit, program, trackedEntityType}: {
@@ -30,7 +29,7 @@ function generateTei(data: Record<string, any>, {orgUnit, program, trackedEntity
         return {
             attribute: key,
             value
-        }
+        };
     });
 
     const teiId = uid();
@@ -53,7 +52,7 @@ function generateTei(data: Record<string, any>, {orgUnit, program, trackedEntity
                 attributes,
             }
         ]
-    }
+    };
 }
 
 
@@ -62,7 +61,7 @@ function updateTei(data: Record<string, any>, tei: any) {
         return {
             attribute: key,
             value
-        }
+        };
     });
     return {
         ...tei,
@@ -93,7 +92,7 @@ function generateRelationship({parentConfig, parent, instance, instanceType}: {
                 [childType]: instance
             }
         }
-    }
+    };
 }
 
 export function generateEvent(data: Record<string, any>, {orgUnit, program, programStage, enrollment, trackedEntity}: {
@@ -116,10 +115,10 @@ export function generateEvent(data: Record<string, any>, {orgUnit, program, prog
             return {
                 dataElement: key,
                 value
-            }
+            };
         }),
         occurredAt: new Date().toISOString()
-    }
+    };
 }
 
 export function updateEvent(data: Record<string, any>, event: any) {
@@ -127,13 +126,13 @@ export function updateEvent(data: Record<string, any>, event: any) {
         return {
             dataElement: key,
             value
-        }
+        };
     });
 
     return {
         ...event,
         dataValues,
-    }
+    };
 }
 
 
@@ -159,7 +158,7 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete, 
                     name: instanceName,
                     action: defaultValue ? i18n.t("update") : i18n.t("create")
                 }), type: {critical: true}
-            })
+            });
         }
     });
 
@@ -168,14 +167,14 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete, 
             //Create a tei and enrollment
             if (defaultValue) {
                 const enrollment = updateTei(data, defaultValue);
-                delete enrollment['events']
+                delete enrollment["events"];
                 await uploadPayload({
                     data: {
                         enrollments: [
                             enrollment
                         ]
                     }
-                })
+                });
                 show({
                     message: i18n.t("Successfully updated {{name}}", {
                         name: instanceName
@@ -190,7 +189,7 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete, 
                 });
                 const payload = {
                     trackedEntities: [tei]
-                }
+                };
                 if (parent && parentConfig) {
                     const relationship = generateRelationship({
                         parentConfig,
@@ -198,7 +197,7 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete, 
                         instance: tei?.enrollments[0]?.enrollment,
                         instanceType: type
                     });
-                    set(payload, ['relationships'], [relationship])
+                    set(payload, ["relationships"], [relationship]);
                 }
                 await uploadPayload({data: payload});
                 show({
@@ -216,7 +215,7 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete, 
                             updatedEvent
                         ]
                     }
-                })
+                });
                 show({
                     message: i18n.t("Successfully updated {{name}}", {
                         name: instanceName
@@ -232,7 +231,7 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete, 
                 if (parentConfig?.type === "program") {
                     //Parent instance is a tracked entity
                     trackedEntity = parent.instance.trackedEntity;
-                    enrollment = get(parent.instance, ['enrollments', 0, 'enrollment'], '');
+                    enrollment = get(parent.instance, ["enrollments", 0, "enrollment"], "");
                 } else {
                     //Parent instance is an event
                     enrollment = parent.instance.enrollment;
@@ -251,12 +250,12 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete, 
                     parent,
                     instance: event.event,
                     instanceType: type
-                })
+                });
 
                 const payload = {
                     events: [event],
                     relationships: [relationship]
-                }
+                };
                 await uploadPayload({data: payload});
                 show({
                     message: i18n.t("Successfully created {{name}}", {
@@ -273,7 +272,7 @@ export function useFormActions({instanceMetaId, type, instanceName, onComplete, 
         onSave,
         saving,
         update,
-    }
+    };
 }
 
 export function useDeleteInstance(type: "program" | "programStage", {instanceName}: {
@@ -286,13 +285,13 @@ export function useDeleteInstance(type: "program" | "programStage", {instanceNam
                 message: i18n.t("Successfully deleted {{instanceName}}", {
                     instanceName
                 }), type: {success: true}
-            })
+            });
         },
         onError: (error) => {
             show({message: `${i18n.t("Failed to delete")}: ${error.message}`, type: {critical: true}}
-            )
+            );
         }
-    })
+    });
     const onDelete = useCallback(async (defaultValue: any) => {
         const payload = type === "program" ? {
             enrollments: [{
@@ -302,15 +301,15 @@ export function useDeleteInstance(type: "program" | "programStage", {instanceNam
             events: [{
                 event: defaultValue.event
             }]
-        }
+        };
         await uploadPayload({
             data: payload,
             strategy: "DELETE"
-        })
-    }, [])
+        });
+    }, []);
 
     return {
         deleting,
         onDelete
-    }
+    };
 }

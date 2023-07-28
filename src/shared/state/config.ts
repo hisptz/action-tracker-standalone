@@ -27,8 +27,8 @@ export const ConfigState = selectorFamily<Config | null, string | undefined>({
     }
 });
 
-const programQuery: any = {
-    programs: {
+const metadataQuery: any = {
+    metadata: {
         resource: "programs",
         params: ({ ids }: { ids: string [] }) => (
             {
@@ -46,7 +46,7 @@ const programQuery: any = {
         )
     }
 };
-export const MetadataState = selectorFamily<{ programs: { programs: Program[] } } | null, string | undefined>({
+export const MetadataState = selectorFamily<{ programs: Program[] } | null, string | undefined>({
     key: "metadata-state",
     get: (id?: string) => async ({ get }) => {
         if (!id) {
@@ -67,7 +67,7 @@ export const MetadataState = selectorFamily<{ programs: { programs: Program[] } 
         ];
 
         try {
-            const { metadata } = engine.query(programQuery, { variables: { ids: programs } });
+            const { metadata } = await engine.query(metadataQuery, { variables: { ids: programs } });
             return metadata;
         } catch (e) {
             return null;

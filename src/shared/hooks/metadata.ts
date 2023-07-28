@@ -11,8 +11,12 @@ export function useMetadata () {
     const { id } = useConfiguration();
     const metadata = useRecoilValue(MetadataState(id));
 
+    if (!metadata) {
+        return {};
+    }
+
     return {
-        programs: metadata?.programs?.programs
+        programs: metadata.programs
     };
 }
 

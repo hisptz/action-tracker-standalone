@@ -112,7 +112,6 @@ export function useCategoryData () {
     }, [data]);
 
     useEffect(() => {
-        console.log("Are you the culprit");
         if (orgUnit) {
             refetch({
                 orgUnit: orgUnit?.id

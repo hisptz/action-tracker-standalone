@@ -1,4 +1,4 @@
-const {defineConfig} = require('cypress');
+const { defineConfig } = require("cypress");
 const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
 const addCucumberPreprocessorPlugin =
     require("@badeball/cypress-cucumber-preprocessor").addCucumberPreprocessorPlugin;
@@ -9,28 +9,28 @@ const createEsbuildPlugin =
 const {
     networkShim,
     chromeAllowXSiteCookies,
-} = require('@dhis2/cypress-plugins');
+} = require("@dhis2/cypress-plugins");
 
 const networkShimOptions = {
     staticResources: [
-        '/system/info'
+        "/system/info"
     ]
-}
+};
 
 
 module.exports = defineConfig({
     chromeWebSecurity: false,
-    reporter: 'cypress-multi-reporters',
+    reporter: "cypress-multi-reporters",
     video: false,
-    projectId: 'demzvf',
+    projectId: "demzvf",
     experimentalStudio: true,
     viewportWidth: 1366,
     viewportHeight: 768,
     defaultCommandTimeout: 30000,
     env: {
-        dhis2DataTestPrefix: 'dhis2-actiontrackerstandalone',
-        networkMode: 'live',
-        dhis2ApiVersion: '36',
+        dhis2DataTestPrefix: "dhis2-actiontrackerstandalone",
+        networkMode: "live",
+        dhis2ApiVersion: "36",
         dhis2BaseUrl: "http://localhost:8081",
         dhis2Username: "admin",
         dhis2Password: "district"
@@ -38,9 +38,9 @@ module.exports = defineConfig({
     experimentalInteractiveRunEvents: true,
     e2e: {
         env: {
-            dhis2DataTestPrefix: 'dhis2-actiontrackerstandalone',
-            networkMode: 'live',
-            dhis2ApiVersion: '36',
+            dhis2DataTestPrefix: "dhis2-actiontrackerstandalone",
+            networkMode: "live",
+            dhis2ApiVersion: "36",
             dhis2BaseUrl: "http://localhost:8081",
             dhis2Username: "admin",
             dhis2Password: "district"
@@ -54,12 +54,12 @@ module.exports = defineConfig({
                 plugins: [
                     createEsbuildPlugin(config)
                 ]
-            })
-            on('file:preprocessor', bundler);
-            await addCucumberPreprocessorPlugin(on, config)
+            });
+            on("file:preprocessor", bundler);
+            await addCucumberPreprocessorPlugin(on, config);
             return config;
         },
-        baseUrl: 'http://localhost:3000',
-        specPattern: 'cypress/e2e/**/*.feature',
+        baseUrl: "http://localhost:3000",
+        specPattern: "cypress/e2e/**/*.feature",
     },
-})
+});

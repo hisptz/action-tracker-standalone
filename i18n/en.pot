@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-28T12:38:40.147Z\n"
-"PO-Revision-Date: 2023-07-28T12:38:40.147Z\n"
+"POT-Creation-Date: 2023-07-28T13:10:32.924Z\n"
+"PO-Revision-Date: 2023-07-28T13:10:32.924Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -151,6 +151,9 @@ msgstr "Add"
 
 msgid "There was an error loading the data."
 msgstr "There was an error loading the data."
+
+msgid "There are is no data for the the selected dimensions."
+msgstr "There are is no data for the the selected dimensions."
 
 msgid "Confirm Delete"
 msgstr "Confirm Delete"
