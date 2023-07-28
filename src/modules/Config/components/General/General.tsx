@@ -1,8 +1,9 @@
 import React from 'react'
 import i18n from '@dhis2/d2-i18n'
 import { Divider } from '@dhis2/ui'
-import { OrganisationUnitConfig } from './components/OrganisationUnitConfig/OrganisationUnitConfig'
+import { OrganisationUnitConfig } from './components/OrganisationUnitConfig'
 import { PeriodConfig } from './components/PeriodConfig'
+import { Sharing } from './components/Sharing'
 
 export function General() {
     return (
@@ -17,6 +18,8 @@ export function General() {
                     <OrganisationUnitConfig/>
                     <h3 className="m-0">{i18n.t("Period")}</h3>
                     <PeriodConfig/>
+                    <h3 className="m-0" >{i18n.t("Sharing")}</h3>
+                    <Sharing/>
                 </div>
             </div>
         </div>

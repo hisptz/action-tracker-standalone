@@ -1,5 +1,11 @@
 import { z } from 'zod'
 
+export const sharingConfigSchema = z.object({
+    owner: z.string(),
+    public: z.string(),
+    users: z.object({}),
+    userGroups: z.object({})
+})
 export const generalConfigSchema = z.object({
     period: z.object({
         planning: z.string(),
@@ -14,7 +20,8 @@ export const generalConfigSchema = z.object({
         planning: z.string(),
         accessAll: z.boolean().optional(),
         defaultOrgUnit: z.string().optional()
-    })
+    }),
+    sharing: sharingConfigSchema
 })
 
 export const dataFieldSchema = z.object({
@@ -93,6 +100,7 @@ export const configSchema = z.object({
 })
 
 export type GeneralConfig = z.infer<typeof generalConfigSchema>;
+export type SharingConfig = z.infer<typeof sharingConfigSchema>
 export type ChildConfig = z.infer<typeof childSchema>;
 export type ParentConfig = z.infer<typeof parentSchema>;
 export type CategoryConfig = z.infer<typeof categoryConfigSchema>;

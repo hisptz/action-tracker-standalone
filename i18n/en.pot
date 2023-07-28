@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-27T13:43:47.377Z\n"
-"PO-Revision-Date: 2023-07-27T13:43:47.377Z\n"
+"POT-Creation-Date: 2023-07-28T07:28:01.245Z\n"
+"PO-Revision-Date: 2023-07-28T07:28:01.245Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -47,17 +47,23 @@ msgstr "Organisation Units"
 msgid "Period"
 msgstr "Period"
 
+msgid "Sharing"
+msgstr "Sharing"
+
 msgid "Access"
 msgstr "Access"
-
-msgid "Allow access to all organisation units"
-msgstr "Allow access to all organisation units"
 
 msgid "Planning"
 msgstr "Planning"
 
 msgid "Default organisation unit"
 msgstr "Default organisation unit"
+
+msgid "Select all"
+msgstr "Select all"
+
+msgid "Deselect all"
+msgstr "Deselect all"
 
 msgid "Limit planning of actions to specific organisation unit levels"
 msgstr "Limit planning of actions to specific organisation unit levels"
@@ -77,11 +83,8 @@ msgstr "Deselect"
 msgid "Organisation unit group"
 msgstr "Organisation unit group"
 
-msgid "{{count}} organisation unit selected"
-msgstr "{{count}} organisation unit selected"
-
-msgid "Organisation units"
-msgstr "Organisation units"
+msgid "Allow planning and tracking for these organisation units"
+msgstr "Allow planning and tracking for these organisation units"
 
 msgid "Tracking frequency is required"
 msgstr "Tracking frequency is required"
@@ -100,6 +103,9 @@ msgstr "Planning frequency is required"
 
 msgid "Planning frequency"
 msgstr "Planning frequency"
+
+msgid "Configure sharing"
+msgstr "Configure sharing"
 
 msgid "Error saving changes"
 msgstr "Error saving changes"

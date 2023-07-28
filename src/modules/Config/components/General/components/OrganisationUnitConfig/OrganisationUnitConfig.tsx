@@ -1,6 +1,6 @@
 import React from 'react'
 import i18n from '@dhis2/d2-i18n'
-import { RHFCheckboxField, RHFDHIS2FormField } from '@hisptz/dhis2-ui'
+import { RHFDHIS2FormField } from '@hisptz/dhis2-ui'
 import { OrgUnitPlanning } from './components/OrgUnitPlanning'
 import { OrganisationUnitSelection } from './components/OrganisationUnitSelection'
 
@@ -10,10 +10,6 @@ export function OrganisationUnitConfig () {
     return (
         <div className="column gap-8">
             <span>{i18n.t('Access')}</span>
-            <RHFCheckboxField
-                label={i18n.t('Allow access to all organisation units')}
-                name={`${namespace}.accessAll`}
-            />
             <OrganisationUnitSelection/>
             <span>{i18n.t('Planning')}</span>
             <OrgUnitPlanning/>

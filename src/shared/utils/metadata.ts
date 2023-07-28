@@ -3,7 +3,8 @@ import {
     type ActionStatusConfig,
     type CategoryConfig,
     type Config,
-    type DataField
+    type DataField,
+    type SharingConfig
 } from '../schemas/config'
 import {
     type DataElement,
@@ -18,6 +19,11 @@ import {
 import { compact, filter, find } from 'lodash'
 import { EntityTypes, type InitialMetadata } from '../constants/defaults'
 
+export interface MetaMeta extends InitialMetadata {
+    orgUnits: Array<{ id: string, path: string }>
+    sharing: SharingConfig
+}
+
 function generateDataItemsFromConfig (field: DataField): TrackedEntityAttribute | DataElement {
     return {
         name: `[SAT] ${field.name}`,
@@ -28,16 +34,21 @@ function generateDataItemsFromConfig (field: DataField): TrackedEntityAttribute 
         valueType: field.type as DHIS2ValueType,
         aggregationType: 'NONE',
         domainType: 'TRACKER',
-        optionSet: field.optionSet?.id !== undefined ? field.optionSet : undefined,
-        publicAccess: 'rw------'
+        optionSet: field.optionSet?.id !== undefined ? field.optionSet : undefined
     }
 }
 
-function generateProgramFromConfig (config: CategoryConfig | ActionConfig, trackedEntityType: TrackedEntityType): Program {
+function generateProgramFromConfig (config: CategoryConfig | ActionConfig, trackedEntityType: TrackedEntityType, { meta }: {
+    meta: MetaMeta
+}): Program {
     const programTrackedEntityAttributes: ProgramTrackedEntityAttribute[] = config.fields.map(generateDataItemsFromConfig).map(trackedEntityAttribute => {
         const teiConfig = find(config.fields, ['id', trackedEntityAttribute.id])
         return {
-            trackedEntityAttribute,
+            trackedEntityAttribute: {
+                ...trackedEntityAttribute,
+                sharing: meta.sharing
+            },
+            sharing: meta.sharing,
             id: uid(),
             mandatory: teiConfig?.mandatory
         } as any
@@ -49,16 +60,19 @@ function generateProgramFromConfig (config: CategoryConfig | ActionConfig, track
         programTrackedEntityAttributes,
         name: `[SAT] ${config.name}`,
         shortName: config.name,
-        trackedEntityType
+        trackedEntityType,
+        sharing: meta.sharing as any
     }
 }
 
 function generateProgramStageFromConfig (config: CategoryConfig | ActionStatusConfig, {
+    meta,
     programId,
     index,
     options
 }: {
     programId: string
+    meta: MetaMeta
     index: number
     options?: {
         repeatable: boolean
@@ -67,15 +81,19 @@ function generateProgramStageFromConfig (config: CategoryConfig | ActionStatusCo
     const dataElements = config.fields.map(generateDataItemsFromConfig) as DataElement[]
     const programStageDataElements = dataElements.map(dataElement => {
         const dEConfig = find(config.fields, ['id', dataElement.id])
-
         return {
-            dataElement,
+            dataElement: {
+                ...dataElement,
+                sharing: meta.sharing
+            },
+            sharing: meta.sharing,
             compulsory: dEConfig?.mandatory,
             id: uid()
         }
     }) as any
     return {
         name: `[SAT] ${config.name}`,
+        sharing: meta.sharing as any,
         id: config.id,
         programStageDataElements,
         sortOrder: index + 1,
@@ -88,14 +106,12 @@ function generateProgramStageFromConfig (config: CategoryConfig | ActionStatusCo
     }
 }
 
-function generateCategoriesMetadata (categories: CategoryConfig[], meta: InitialMetadata & {
-    orgUnits: Array<{ id: string, path: string }>
-}) {
+function generateCategoriesMetadata (categories: CategoryConfig[], meta: MetaMeta) {
     const trackedEntityType = find(meta.trackedEntityTypes, ['name', EntityTypes.CATEGORIZATION])
     if (categories.length === 1) {
         return {
             program: {
-                ...generateProgramFromConfig(categories[0], trackedEntityType as TrackedEntityType),
+                ...generateProgramFromConfig(categories[0], trackedEntityType as TrackedEntityType, { meta }),
                 organisationUnits: meta.orgUnits
             },
             programStages: []
@@ -104,11 +120,12 @@ function generateCategoriesMetadata (categories: CategoryConfig[], meta: Initial
 
     const [firstCategory, ...restCategories] = categories
     const program = {
-        ...generateProgramFromConfig(firstCategory, trackedEntityType as TrackedEntityType),
+        ...generateProgramFromConfig(firstCategory, trackedEntityType as TrackedEntityType, { meta }),
         organisationUnits: meta.orgUnits
     }
     const programStages = restCategories?.map((category, index) => generateProgramStageFromConfig(category, {
         programId: program.id,
+        meta,
         index
     }))
 
@@ -118,13 +135,12 @@ function generateCategoriesMetadata (categories: CategoryConfig[], meta: Initial
     }
 }
 
-function generateActionsMetadata (actionConfig: ActionConfig, meta: InitialMetadata & {
-    orgUnits: Array<{ id: string, path: string }>
-}) {
+function generateActionsMetadata (actionConfig: ActionConfig, meta: MetaMeta) {
     const trackedEntityType = find(meta.trackedEntityTypes, ['name', EntityTypes.ACTION])
-    const program = generateProgramFromConfig(actionConfig, trackedEntityType as TrackedEntityType)
+    const program = generateProgramFromConfig(actionConfig, trackedEntityType as TrackedEntityType, { meta })
     const programStage = generateProgramStageFromConfig(actionConfig.statusConfig, {
         programId: program.id,
+        meta,
         index: 0,
         options: { repeatable: true }
     })
@@ -143,6 +159,7 @@ function extractTrackedEntityAttributes (programs: Program[]) {
 
 function generateRelationshipTypes (config: Config) {
     const categoriesWithParents = config.categories.filter(({ parent }) => !(parent == null))
+    const sharing = config.general.sharing
     const relationshipTypes = categoriesWithParents.map(({
                                                              parent,
                                                              name,
@@ -160,6 +177,7 @@ function generateRelationshipTypes (config: Config) {
                 }
             },
             toFromName: `[SAT] Parent`,
+            sharing,
             toConstraint: {
                 relationshipEntity: 'PROGRAM_STAGE_INSTANCE',
                 programStage: {
@@ -173,8 +191,8 @@ function generateRelationshipTypes (config: Config) {
 
     const actionRelationType = {
         id: actionConfig.parent?.id,
-        name: `[SAT] ${actionConfig.parent?.name} to ${actionConfig.name} relationship`,
-        fromToName: `[SAT] ${actionConfig.parent?.from} children`,
+        name: `[SAT] ${actionConfig.parent?.name as string} to ${actionConfig.name} relationship`,
+        fromToName: `[SAT] ${actionConfig.parent?.from as string} children`,
         fromConstraint: {
             relationshipEntity: actionConfig.parent?.type === 'program' ? 'PROGRAM_INSTANCE' : 'PROGRAM_STAGE_INSTANCE',
             [actionConfig.parent?.type as string]: {
@@ -188,8 +206,7 @@ function generateRelationshipTypes (config: Config) {
                 id: actionConfig.id
             }
         },
-        publicAccess: 'rw------'
-
+        sharing
     }
 
     return [...relationshipTypes, actionRelationType]
@@ -243,14 +260,16 @@ export function generateMetadataFromConfig (config: Config, { meta }: { meta: In
         programStages: categoriesProgramStage
     } = generateCategoriesMetadata(config.categories, {
         ...meta,
-        orgUnits: config.general.orgUnit.orgUnits ?? []
+        orgUnits: config.general.orgUnit.orgUnits ?? [],
+        sharing: config.general.sharing
     }) ?? {}
     const {
         program: actionProgram,
         programStages: actionProgramStages
     } = generateActionsMetadata(config.action, {
         ...meta,
-        orgUnits: config.general.orgUnit.orgUnits ?? []
+        orgUnits: config.general.orgUnit.orgUnits ?? [],
+        sharing: config.general.sharing
     }) ?? {}
 
     const programs = [categoryProgram, actionProgram]
