@@ -6,6 +6,7 @@ import React from 'react'
 import { DATASTORE_NAMESPACE } from '../../../shared/constants/meta'
 import { useAlert, useDataMutation } from '@dhis2/app-runtime'
 import { useUpdateMetadata } from '../../../shared/hooks/metadata'
+import { useConfiguration } from '../../../shared/hooks/config'
 
 const mutation = {
     resource: `dataStore/${DATASTORE_NAMESPACE}`,
@@ -15,6 +16,7 @@ const mutation = {
 }
 
 export function SaveArea() {
+    const { reset } = useConfiguration()
     const {updateMetadataFromConfig, uploadingMetadata} = useUpdateMetadata();
     const {show, hide} = useAlert(({message}) => message, ({type}) => ({...type, duration: 3000}))
     const form = useFormContext<Config>();
@@ -30,7 +32,11 @@ export function SaveArea() {
             return;
         }
         await update({data});
-        show({message: i18n.t("Changes saved successfully"), type: {success: true}})
+        show({
+            message: i18n.t('Changes saved successfully'),
+            type: { success: true }
+        })
+        reset()
     }
     return (
         <div style={{display: "flex", justifyContent: "flex-end"}} className="row gap-16">
