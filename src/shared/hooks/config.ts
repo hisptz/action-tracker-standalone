@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
-import { useDataQuery } from "@dhis2/app-runtime";
-import { DATASTORE_NAMESPACE } from "../constants/meta";
-import { useMemo } from "react";
-import { useRecoilValue } from "recoil";
-import { ConfigState } from "../state/config";
+import { useParams } from 'react-router-dom'
+import { useDataQuery } from '@dhis2/app-runtime'
+import { DATASTORE_NAMESPACE } from '../constants/meta'
+import { useMemo } from 'react'
+import { useRecoilValue } from 'recoil'
+import { ConfigState } from '../state/config'
 
 export function useConfiguration () {
     const { id } = useParams<{ id: string }>();
@@ -15,7 +15,7 @@ export function useConfiguration () {
     };
 }
 
-const configQuery: never = {
+const configQuery: any = {
     config: {
         resource: `dataStore/${DATASTORE_NAMESPACE}`
     }

@@ -1,7 +1,7 @@
-import {useDataQuery} from "@dhis2/app-runtime";
-import {useDimensions} from "../../../../../../../../../../../shared/hooks";
-import {useMemo} from "react";
-import {fromPairs, get, isEmpty} from "lodash";
+import { useDataQuery } from '@dhis2/app-runtime'
+import { useDimensions } from '../../../../../../../../../../../shared/hooks'
+import { useMemo } from 'react'
+import { fromPairs, get, isEmpty } from 'lodash'
 
 const relationshipQuery: any = {
     data: {
@@ -14,15 +14,15 @@ const relationshipQuery: any = {
             orgUnit: ou,
             ouMode: 'DESCENDANTS',
             totalPages: true,
-            order: `createdAt:asc`,
+            order: 'createdAt:asc',
             fields: [
-                `relationship`,
-                `from[enrollment[enrollment],event[event]]`,
-                `to[enrollment[enrollment,deleted,enrolledAt,occurredAt,orgUnit,program,trackedEntity,attributes[attribute,value]],event[event,orgUnit,program,programStage,trackedEntity,enrollment,occurredAt,deleted,dataValues[dataElement,value]]]`
+                'relationship',
+                'from[enrollment[enrollment],event[event]]',
+                'to[enrollment[enrollment,deleted,enrolledAt,occurredAt,orgUnit,program,trackedEntity,attributes[attribute,value]],event[event,orgUnit,program,programStage,trackedEntity,enrollment,occurredAt,deleted,dataValues[dataElement,value]]]'
             ],
         })
     }
-}
+};
 
 export function useTableData(type: "program" | "programStage", {parentInstance, parentType}: {
     parentInstance: any,
@@ -33,8 +33,8 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
         data: { instances: { to: any, from: any }[], page: number, pageSize: number, total: number }
     }>(relationshipQuery, {
         variables: {
-            enrollment: parentType === "program" ? get(parentInstance, ['enrollments', 0, 'enrollment']) : undefined,
-            event: parentType === "programStage" ? get(parentInstance, ['event']) : undefined,
+            enrollment: parentType === 'program' ? get(parentInstance, ['enrollments', 0, 'enrollment']) : undefined,
+            event: parentType === 'programStage' ? get(parentInstance, ['event']) : undefined,
             ou: orgUnit?.id,
             page: 1,
             pageSize: 10
@@ -57,7 +57,7 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
             }
         }).map(({to}) => {
             return to?.[type === "program" ? "enrollment" : "event"];
-        }).filter((instance) => !instance.deleted)
+        }).filter((instance) => !instance.deleted);
     }, [rawData]);
 
 
@@ -67,9 +67,9 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
             return {
                 ...fromPairs(data?.map((item: any) => [item.attribute ?? item.dataElement, item.value])),
                 instance
-            } as Record<string, any>
-        })
-    }, [instances])
+            } as Record<string, any>;
+        });
+    }, [instances]);
 
     const noData = useMemo(() => isEmpty(rawData), [rawData]);
 
@@ -78,20 +78,20 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
             page: data?.data?.page ?? 1,
             pageSize: data?.data?.pageSize ?? 10,
             total: data?.data?.total ?? 1,
-            pageCount: Math.ceil(data?.data?.total ?? 1 / data?.data?.pageSize ?? 1),
+            pageCount: Math.ceil(data?.data?.total ?? 1 / (data?.data?.pageSize ?? 1)),
             onPageChange: (page: number) => {
                 refetch({
                     page
-                })
+                });
             },
             onPageSizeChange: (pageSize: number) => {
                 refetch({
                     pageSize,
                     page: 1
-                })
+                });
             }
-        }
-    }, [data, refetch])
+        };
+    }, [data, refetch]);
 
     return {
         loading,
@@ -100,5 +100,5 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
         error,
         rows,
         pagination
-    }
+    };
 }
