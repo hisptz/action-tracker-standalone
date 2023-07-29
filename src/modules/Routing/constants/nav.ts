@@ -1,11 +1,12 @@
-import type React from "react"
-import {Welcome} from "../../Welcome"
-import {Main} from "../../Main"
-import {ConfigPage} from "../../Config"
-import i18n from '@dhis2/d2-i18n';
-import {General} from "../../Config/components/General";
-import {Categories} from "../../Config/components/Categories";
-import {Actions} from "../../Config/components/Actions/Actions";
+import type React from 'react'
+import { Welcome } from '../../Welcome'
+import { Main } from '../../Main'
+import { ConfigPage } from '../../Config'
+import i18n from '@dhis2/d2-i18n'
+import { General } from '../../Config/components/General'
+import { Categories } from '../../Config/components/Categories'
+import { Actions } from '../../Config/components/Actions/Actions'
+import { GetStarted } from '../../GetStarted'
 
 export interface NavItem {
     label?: string | ((data: any) => any)
@@ -20,6 +21,11 @@ export const ROUTES: NavItem[] = [
         path: "welcome",
         element: Welcome,
         id: "welcome"
+    },
+    {
+        path: 'getting-started',
+        element: GetStarted,
+        id: 'getting-started'
     },
     {
         path: ":id",
