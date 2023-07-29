@@ -8,7 +8,7 @@ import {
     SharingConfig
 } from '../schemas/config'
 import { Program, ProgramStage, uid } from '@hisptz/dhis2-utils'
-import { head, last, reduce, set, sortBy } from 'lodash'
+import { head, last, reduce, set, snakeCase, sortBy } from 'lodash'
 import i18n from '@dhis2/d2-i18n'
 //This process will only be done for the bottleneck setup that was in v1 of the app. That is why the IDs are hard coded.
 export const BOTTLENECK_PROGRAM_ID = 'Uvz0nfKVMQJ'
@@ -171,10 +171,11 @@ function getGeneral (programs: Program[], defaultSettings: {
     return {
         sharing: program.sharing as unknown as SharingConfig,
         period: {
-            planning: defaultSettings.planningPeriod,
-            tracking: defaultSettings.trackingPeriod
+            planning: snakeCase(defaultSettings.planningPeriod).toUpperCase(),
+            tracking: snakeCase(defaultSettings.trackingPeriod).toUpperCase()
         },
         orgUnit: {
+
             planning: defaultSettings.planningOrgUnitLevel,
             orgUnits: program.organisationUnits
         }
