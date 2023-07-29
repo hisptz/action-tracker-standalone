@@ -11,9 +11,11 @@ import { Program, ProgramStage, uid } from '@hisptz/dhis2-utils'
 import { head, last, reduce, set, sortBy } from 'lodash'
 import i18n from '@dhis2/d2-i18n'
 //This process will only be done for the bottleneck setup that was in v1 of the app. That is why the IDs are hard coded.
-const BOTTLENECK_PROGRAM_ID = 'Uvz0nfKVMQJ'
-const ACTION_PROGRAM_ID = 'unD7wro3qPm'
-const ACTION_STATUS_DATA_ELEMENT = 'f8JYVWLC7rE'
+export const BOTTLENECK_PROGRAM_ID = 'Uvz0nfKVMQJ'
+
+export const OLD_DATASTORE_NAMESPACE = 'Standalone_Action_Tracker'
+export const ACTION_PROGRAM_ID = 'unD7wro3qPm'
+export const ACTION_STATUS_DATA_ELEMENT = 'f8JYVWLC7rE'
 
 function getCategories (programs: Program[]): CategoryConfig[] {
     const program = programs.find(p => p.id === BOTTLENECK_PROGRAM_ID)

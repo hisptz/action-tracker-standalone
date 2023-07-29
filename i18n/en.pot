@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-28T13:10:32.924Z\n"
-"PO-Revision-Date: 2023-07-28T13:10:32.924Z\n"
+"POT-Creation-Date: 2023-07-29T11:30:37.819Z\n"
+"PO-Revision-Date: 2023-07-29T11:30:37.819Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -234,20 +234,23 @@ msgstr "Manage columns"
 msgid "General"
 msgstr "General"
 
-msgid "Error setting up default configuration"
-msgstr "Error setting up default configuration"
-
-msgid "Please take a look at the logs for more details"
-msgstr "Please take a look at the logs for more details"
+msgid "app logo"
+msgstr "app logo"
 
 msgid "Welcome to the standalone action tracker"
 msgstr "Welcome to the standalone action tracker"
 
-msgid "Setting up default configuration..."
-msgstr "Setting up default configuration..."
+msgid "There were issues with setting up configuration."
+msgstr "There were issues with setting up configuration."
 
-msgid "Setting up required metadata..."
-msgstr "Setting up required metadata..."
+msgid "Retry"
+msgstr "Retry"
+
+msgid "Setting up configuration"
+msgstr "Setting up configuration"
+
+msgid "Error setting up configuration"
+msgstr "Error setting up configuration"
 
 msgid "Edit"
 msgstr "Edit"
