@@ -62,6 +62,17 @@ const metadataQuery: any = {
                 ]
             }
         )
+    },
+    status: {
+        resource: 'optionSets',
+        id: ({ statusOptionSetId }: { statusOptionSetId: string }) => statusOptionSetId,
+        params: {
+            fields: [
+                'id',
+                'name',
+                'options[code,name,style[color,icon]]'
+            ]
+        }
     }
 }
 export const MetadataState = selectorFamily<{ programs: Program[] } | null, string | undefined>({
@@ -85,7 +96,12 @@ export const MetadataState = selectorFamily<{ programs: Program[] } | null, stri
         ]
 
         try {
-            const { metadata } = await engine.query(metadataQuery, { variables: { ids: programs } })
+            const { metadata } = await engine.query(metadataQuery, {
+                variables: {
+                    ids: programs,
+                    statusOptionSetId: config.action.statusConfig.stateConfig.optionSetId
+                }
+            })
             return metadata
         } catch (e) {
             return null
