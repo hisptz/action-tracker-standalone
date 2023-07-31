@@ -1,12 +1,12 @@
-import {useConfiguration} from "../../../../../../../../../shared/hooks/config";
-import {useCallback, useEffect, useMemo} from "react";
-import {ActionTrackingColumnStateConfig, ColumnState, ColumnStateConfig, VisibleColumnState} from "../state/columns";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
-import {useWindowSize} from "usehooks-ts";
-import {useDimensions, usePageType} from "../../../../../../../../../shared/hooks";
-import {PeriodTypeCategory, PeriodUtility} from "@hisptz/dhis2-utils";
-import i18n from '@dhis2/d2-i18n';
-import {clamp, compact, round} from "lodash";
+import { useConfiguration } from '../../../../../../../../../shared/hooks/config'
+import { useCallback, useEffect, useMemo } from 'react'
+import { type ActionTrackingColumnStateConfig, ColumnState, type ColumnStateConfig, VisibleColumnState } from '../state/columns'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useWindowSize } from 'usehooks-ts'
+import { useDimensions, usePageType } from '../../../../../../../../../shared/hooks'
+import { PeriodTypeCategory, PeriodUtility } from '@hisptz/dhis2-utils'
+import i18n from '@dhis2/d2-i18n'
+import { clamp, compact, round } from 'lodash'
 
 export function useTrackingColumns() {
     const {config} = useConfiguration();
@@ -20,7 +20,6 @@ export function useTrackingColumns() {
 
         const periodType = new PeriodUtility().setCategory(PeriodTypeCategory.FIXED).setYear(period?.get()?.endDate.getFullYear() ?? new Date().getFullYear()).getPeriodType(periodTypeId);
         return periodType?.periods ?? []
-
     }, []);
 
     return useMemo(() => {
@@ -55,7 +54,7 @@ export function useTrackingColumns() {
 export function useSetColumnState() {
     const {width} = useWindowSize();
     const trackingColumns = useTrackingColumns();
-    //This sets the initial state of the columns;
+    // This sets the initial state of the columns;
     const {config} = useConfiguration();
     const setDefaultColumnState = useSetRecoilState(ColumnState(config?.id as string))
     const tableHeaders = useMemo(() => {
@@ -79,7 +78,7 @@ export function useSetColumnState() {
                 visible: true,
                 width: 150,
                 name: header.name,
-                from: header.from,
+                from: header.from
             } as ColumnStateConfig
         });
 
@@ -89,7 +88,6 @@ export function useSetColumnState() {
         ];
 
         const columnWidth = clamp(round(((width - 64) / columns.length), -1), 150, 500);
-        console.log(columnWidth)
 
         return columns.map((column) => {
             return {
@@ -98,7 +96,7 @@ export function useSetColumnState() {
             }
         });
     }, [config, width, trackingColumns]);
-    useEffect(() => setDefaultColumnState(tableHeaders), [width, trackingColumns])
+    useEffect(() => { setDefaultColumnState(tableHeaders); }, [width, trackingColumns])
 }
 
 export function useColumns() {

@@ -1,11 +1,20 @@
-import {Config} from "../schemas/config";
-import {PeriodTypeEnum, TrackedEntityType, uid} from "@hisptz/dhis2-utils";
-import i18n from '@dhis2/d2-i18n';
+import { type Config } from '../schemas/config'
+import { PeriodTypeEnum, type TrackedEntityType, uid } from '@hisptz/dhis2-utils'
+import i18n from '@dhis2/d2-i18n'
 
 export enum EntityTypes {
     CATEGORIZATION = "Categorization",
     ACTION = "Action"
 }
+
+export const SUPPORTED_FIELD_TYPES = [
+    'TEXT',
+    'LONG_TEXT',
+    'NUMBER',
+    'INTEGER',
+    'FILE_RESOURCE',
+    'DATE'
+]
 
 export interface InitialMetadata {
     trackedEntityTypes: TrackedEntityType[]
@@ -27,18 +36,18 @@ export const initialMetadata: InitialMetadata = {
 }
 
 export function generateBasicTemplate({orgUnitLevel}: {
-    orgUnitLevel: string,
+    orgUnitLevel: string
 }): Config {
-
     const categoryId = uid();
     const actionId = uid();
     const categoryToActivityId = uid();
+    const statusFieldId = uid();
     return {
         id: uid(),
         name: i18n.t("Basic Activity Template"),
         general: {
             orgUnit: {
-                planning: orgUnitLevel,
+                planning: orgUnitLevel
             },
             period: {
                 planning: PeriodTypeEnum.MONTHLY,
@@ -66,8 +75,8 @@ export function generateBasicTemplate({orgUnitLevel}: {
                         name: i18n.t("About"),
                         id: uid(),
                         type: "LONG_TEXT",
-                        mandatory: false,
-                    },
+                        mandatory: false
+                    }
                 ]
             }
         ],
@@ -85,45 +94,51 @@ export function generateBasicTemplate({orgUnitLevel}: {
                     name: i18n.t("Name"),
                     type: "TEXT",
                     mandatory: true,
-                    id: uid(),
+                    id: uid()
                 },
                 {
                     name: i18n.t("Description"),
                     type: "LONG_TEXT",
                     mandatory: true,
-                    id: uid(),
+                    id: uid()
                 },
                 {
                     name: i18n.t("Start Date"),
                     type: "DATE",
                     mandatory: true,
-                    id: uid(),
+                    id: uid()
                 },
                 {
                     name: i18n.t("End Date"),
                     type: "DATE",
                     mandatory: true,
-                    id: uid(),
-                },
+                    id: uid()
+                }
             ],
             statusConfig: {
                 name: "Status",
                 id: uid(),
+                stateConfig: {
+                    dataElement: statusFieldId
+                },
+                dateConfig: {
+                    name: i18n.t("Review Date")
+                },
                 fields: [
                     {
                         name: "Status",
                         type: "TEXT",
                         mandatory: true,
-                        id: uid(),
+                        id: statusFieldId,
+                        native: true
                     }
-                ],
+                ]
             }
         }
     }
 }
 
 export function generateLegacyTemplate(): Config {
-
     const bottleneckToGap = uid();
     const gapToSolution = uid();
     const solutionToAction = uid();
@@ -133,7 +148,7 @@ export function generateLegacyTemplate(): Config {
         name: i18n.t("Legacy  Activity Template"),
         general: {
             orgUnit: {
-                planning: "1",
+                planning: "1"
             },
             period: {
                 planning: PeriodTypeEnum.YEARLY,
@@ -188,14 +203,14 @@ export function generateLegacyTemplate(): Config {
                         id: "GsbZkewUna5",
                         name: i18n.t("Description"),
                         mandatory: true,
-                        type: "TEXT",
+                        type: "TEXT"
                     },
                     {
                         id: "W50aguV39tU",
                         name: i18n.t("Method"),
                         mandatory: true,
                         type: "TEXT"
-                    },
+                    }
 
                 ],
                 parent: {
@@ -220,7 +235,7 @@ export function generateLegacyTemplate(): Config {
                         mandatory: true,
                         type: "LONG_TEXT",
                         showAsColumn: true
-                    },
+                    }
                 ],
                 parent: {
                     name: "Gap to Solution",
@@ -233,7 +248,7 @@ export function generateLegacyTemplate(): Config {
                     type: "program",
                     id: solutionToAction
                 }
-            },
+            }
         ],
         action: {
             id: "unD7wro3qPm",
@@ -243,7 +258,8 @@ export function generateLegacyTemplate(): Config {
                     id: "HQxzVwKedKu",
                     name: i18n.t("Title"),
                     type: "TEXT",
-                    showAsColumn: true
+                    showAsColumn: true,
+                    native: true
                 },
                 {
                     id: "GlvCtGIytIz",
@@ -254,14 +270,16 @@ export function generateLegacyTemplate(): Config {
                     id: "jFjnkx49Lg3",
                     name: i18n.t("Start Date"),
                     type: "DATE",
-                    showAsColumn: true
+                    showAsColumn: true,
+                    native: true
 
                 },
                 {
                     id: "BYCbHJ46BOr",
                     name: i18n.t("End Date"),
                     type: "DATE",
-                    showAsColumn: true
+                    showAsColumn: true,
+                    native: true
                 },
                 {
                     id: "G3aWsZW2MpV",
@@ -273,7 +291,7 @@ export function generateLegacyTemplate(): Config {
                     id: "Ax6bWbKn46e",
                     name: i18n.t("Designation"),
                     type: "TEXT"
-                },
+                }
             ],
             parent: {
                 from: "JJaKjcOBapi",
@@ -283,7 +301,7 @@ export function generateLegacyTemplate(): Config {
             },
             statusConfig: {
                 stateConfig: {
-                    dataElement: "f8JYVWLC7rE",
+                    dataElement: "f8JYVWLC7rE"
                 },
                 dateConfig: {
                     name: i18n.t("Review Date")
@@ -293,20 +311,18 @@ export function generateLegacyTemplate(): Config {
                     {
                         name: i18n.t("Action Status"),
                         type: "TEXT",
-                        id: "f8JYVWLC7rE"
+                        id: "f8JYVWLC7rE",
+                        native: true
                     },
                     {
                         name: i18n.t("Remarks / Comment"),
                         type: "LONG_TEXT",
                         id: "FnengvwgsQv"
-                    },
+                    }
                 ],
                 id: "cBiAEANcXAj"
-            },
+            }
 
         }
     }
 }
-
-
-

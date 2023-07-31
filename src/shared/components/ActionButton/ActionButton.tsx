@@ -1,7 +1,7 @@
-import React from "react";
-import {Button, IconDelete24, IconEdit24, IconMore24, Menu, MenuItem, Popover} from "@dhis2/ui"
-import {compact} from "lodash";
-import i18n from '@dhis2/d2-i18n';
+import React from 'react'
+import { Button, IconDelete24, IconEdit24, IconMore24, Menu, MenuItem, Popover } from '@dhis2/ui'
+import { compact } from 'lodash'
+import i18n from '@dhis2/d2-i18n'
 
 export interface ActionButtonProps {
     onEdit?: () => void;
@@ -34,7 +34,7 @@ export function ActionButton({onEdit, onDelete}: ActionButtonProps) {
                     </Menu>
                 </Popover>)
             }
-            <Button onClick={(_: any, event: React.MouseEvent<HTMLButtonElement>) => {
+            <Button small onClick={(_: any, event: React.MouseEvent<HTMLButtonElement>) => {
                 setRef(event.currentTarget)
             }} icon={<IconMore24/>}/>
         </>

@@ -1,69 +1,101 @@
-import {useDataQuery} from "@dhis2/app-runtime";
-import {useDimensions} from "../../../../../../../../../../../shared/hooks";
-import {useMemo} from "react";
-import {fromPairs, get, isEmpty} from "lodash";
+import { useDataQuery } from '@dhis2/app-runtime'
+import { useDimensions } from '../../../../../../../../../../../shared/hooks'
+import { useMemo } from 'react'
+import { fromPairs, isEmpty } from 'lodash'
+import { useConfiguration } from '../../../../../../../../../../../shared/hooks/config'
+import { Event, TrackedEntity } from '../../../../../../../../../../../shared/types/dhis2'
 
-const relationshipQuery: any = {
+const trackedEntitiesQuery: any = {
     data: {
-        resource: "tracker/relationships",
-        params: ({enrollment, event, page, pageSize, ou}: any) => ({
-            enrollment,
-            event,
+        resource: 'tracker/trackedEntities',
+        params: ({
+
+                     page,
+                     pageSize,
+                     ou,
+                     filter,
+                     program
+                 }: any) => ({
             page,
+            program,
+            filter: [filter],
             pageSize,
             orgUnit: ou,
             ouMode: 'DESCENDANTS',
             totalPages: true,
-            order: `createdAt:asc`,
+            order: 'createdAt:asc',
             fields: [
-                `relationship`,
-                `from[enrollment[enrollment],event[event]]`,
-                `to[enrollment[enrollment,deleted,enrolledAt,occurredAt,orgUnit,program,trackedEntity,attributes[attribute,value]],event[event,orgUnit,program,programStage,trackedEntity,enrollment,occurredAt,deleted,dataValues[dataElement,value]]]`
+                'trackedEntity',
+                'attributes',
+                'enrollments[enrollment,orgUnit,program]'
+            ],
+        })
+    }
+}
+const eventsQuery: any = {
+    data: {
+        resource: 'tracker/events',
+        params: ({
+                     page,
+                     pageSize,
+                     ou,
+                     filter
+                 }: any) => ({
+            page,
+            pageSize,
+            filter: [
+                filter
+            ],
+            orgUnit: ou,
+            ouMode: 'DESCENDANTS',
+            totalPages: true,
+            order: 'createdAt:asc',
+            fields: [
+                'event',
+                'enrollment',
+                'dataValues[dataElement,value]',
             ],
         })
     }
 }
 
-export function useTableData(type: "program" | "programStage", {parentInstance, parentType}: {
+export function useTableData (type: 'program' | 'programStage', {
+    parentInstance,
+    parentType
+}: {
     parentInstance: any,
-    parentType: "program" | "programStage"
+    parentType: 'program' | 'programStage'
 }) {
-    const {orgUnit} = useDimensions();
-    const {data, refetch, loading, error} = useDataQuery<{
-        data: { instances: { to: any, from: any }[], page: number, pageSize: number, total: number }
-    }>(relationshipQuery, {
+    const { config } = useConfiguration()
+    const { orgUnit } = useDimensions()
+    const {
+        data,
+        refetch,
+        loading,
+        error
+    } = useDataQuery<{
+        data: { instances: Array<Event> | Array<TrackedEntity>, page: number, pageSize: number, total: number }
+    }>(type === 'program' ? trackedEntitiesQuery : eventsQuery, {
         variables: {
-            enrollment: parentType === "program" ? get(parentInstance, ['enrollments', 0, 'enrollment']) : undefined,
-            event: parentType === "programStage" ? get(parentInstance, ['event']) : undefined,
+            program: type === 'program' ? config?.action.id : undefined,
             ou: orgUnit?.id,
             page: 1,
-            pageSize: 10
+            pageSize: 10,
+            filter: `${type === 'program' ? config?.meta.linkageConfig.trackedEntityAttribute : config?.meta.linkageConfig.dataElement}:eq:${parentType === 'program' ? parentInstance?.trackedEntity : parentInstance?.event}`
         }
-    });
+    })
 
     const rawData = useMemo(() => {
         return data?.data?.instances || []
-    }, [data]);
+    }, [data])
 
     const instances = useMemo(() => {
-        return rawData.filter((item) => {
-            if (parentType === "program") {
-                return item?.to?.enrollment?.enrollment !== get(parentInstance, ['enrollments', 0, 'enrollment'])
-            } else {
-                if (item?.to?.event?.deleted) {
-                    return false;
-                }
-                return item?.to?.event?.event !== get(parentInstance, ['event'])
-            }
-        }).map(({to}) => {
-            return to?.[type === "program" ? "enrollment" : "event"];
-        }).filter((instance) => !instance.deleted)
-    }, [rawData]);
-
+        return rawData
+    }, [rawData])
 
     const rows = useMemo(() => {
         return instances?.map((instance) => {
-            const data = type === "program" ? instance.attributes : instance.dataValues;
+            const data = type === 'program' ? (instance as TrackedEntity).attributes : (instance as Event).dataValues
             return {
                 ...fromPairs(data?.map((item: any) => [item.attribute ?? item.dataElement, item.value])),
                 instance
@@ -71,14 +103,14 @@ export function useTableData(type: "program" | "programStage", {parentInstance, 
         })
     }, [instances])
 
-    const noData = useMemo(() => isEmpty(rawData), [rawData]);
+    const noData = useMemo(() => isEmpty(rawData), [rawData])
 
     const pagination = useMemo(() => {
         return {
             page: data?.data?.page ?? 1,
             pageSize: data?.data?.pageSize ?? 10,
             total: data?.data?.total ?? 1,
-            pageCount: Math.ceil(data?.data?.total ?? 1 / data?.data?.pageSize ?? 1),
+            pageCount: Math.ceil(data?.data?.total ?? 1 / (data?.data?.pageSize ?? 1)),
             onPageChange: (page: number) => {
                 refetch({
                     page

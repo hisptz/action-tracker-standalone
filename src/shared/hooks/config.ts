@@ -1,46 +1,28 @@
-import {useParams} from "react-router-dom";
-import {useDataQuery} from "@dhis2/app-runtime";
-import {DATASTORE_NAMESPACE} from "../constants/meta";
-import {Config} from "../schemas/config";
-import {useMemo} from "react";
+import { useParams } from 'react-router-dom'
+import { DATASTORE_NAMESPACE } from '../constants/meta'
+import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil'
+import { ConfigIdsState, ConfigState } from '../state/config'
 
-
-const query: any = {
-    config: {
-        resource: `dataStore/${DATASTORE_NAMESPACE}`,
-        id: ({id}: { id: string }) => id,
-    }
-}
-
-export function useConfiguration() {
-    const {id} = useParams<{ id: string }>();
-    const {data, loading} = useDataQuery<{ config: Config }>(query, {
-        variables: {
-            id
-        }
-    })
+export function useConfiguration () {
+    const { id } = useParams<{ id: string }>()
+    const config = useRecoilValue(ConfigState(id))
+    const resetConfig = useRecoilRefresher_UNSTABLE(ConfigState(id))
     return {
-        config: data?.config,
-        loading
+        config,
+        id,
+        reset: resetConfig
     }
 }
-
 
 const configQuery: any = {
     config: {
         resource: `dataStore/${DATASTORE_NAMESPACE}`
     }
 }
-const keysToExclude = ["settings", "savedObjects", "logs"]
 
-export function useConfigurations() {
-    const {data, loading, refetch} = useDataQuery<{ config: string[] }>(configQuery);
-    const configs = useMemo(() => data?.config.filter(key => !keysToExclude.includes(key)), [data?.config]);
-
-
+export function useConfigurations () {
+    const configs = useRecoilValue(ConfigIdsState)
     return {
-        configs,
-        loading,
-        refetch
+        configs
     }
 }
