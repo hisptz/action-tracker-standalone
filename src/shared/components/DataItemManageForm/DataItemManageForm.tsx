@@ -15,6 +15,7 @@ export interface DataItemManageFormProps {
     onClose: () => void
     onAdd: (data: DataField) => void;
     defaultValue?: DataField | null;
+    actionTable?: boolean
 }
 
 export function DataItemManageForm ({
@@ -22,10 +23,12 @@ export function DataItemManageForm ({
                                         onAdd,
                                         hide,
                                         type,
-                                        defaultValue
+                                        defaultValue,
+                                        actionTable
                                     }: DataItemManageFormProps) {
     const form = useForm<DataField>({
-        defaultValues: defaultValue ?? {}
+        defaultValues: defaultValue ?? {},
+        shouldFocusError: false
     })
 
     const onCloseClick = () => {
@@ -62,7 +65,7 @@ export function DataItemManageForm ({
                         <OptionSetField name={`optionSet.id`} label={i18n.t('Option set')}/>
                         <RHFCheckboxField name={`mandatory`} label={i18n.t('Field should be mandatory')}/>
                         {
-                            type === 'attribute'
+                            type === 'attribute' && !actionTable
                                 ? (
                                     <RHFCheckboxField name={`header`} label={i18n.t('Show field as header')}/>
                                 )
@@ -76,7 +79,8 @@ export function DataItemManageForm ({
             <ModalActions>
                 <ButtonStrip>
                     <Button onClick={onCloseClick}>{i18n.t('Cancel')}</Button>
-                    <Button primary onClick={form.handleSubmit(onSubmit)}>{i18n.t('Add')}</Button>
+                    <Button primary
+                            onClick={form.handleSubmit(onSubmit)}>{defaultValue ? i18n.t('Update') : i18n.t('Add')}</Button>
                 </ButtonStrip>
             </ModalActions>
         </Modal>

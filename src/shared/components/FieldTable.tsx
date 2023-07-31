@@ -19,17 +19,20 @@ import { DataItemManageForm } from './DataItemManageForm'
 import { DataItemSelect } from './DataItemSelect'
 import { DataField } from '../schemas/config'
 import { ActionButton } from './ActionButton'
+import { useConfirmDialog } from '@hisptz/dhis2-ui'
 
 export interface FieldTableProps {
     namespace: string;
     type: 'dataElement' | 'attribute',
-    rules?: Record<string, any>
+    rules?: Record<string, any>;
+    actionTable?: boolean
 }
 
 export function FieldTable ({
                                 namespace,
                                 type,
-                                rules
+                                rules,
+                                actionTable
                             }: FieldTableProps) {
     const {
         value: menuOpen,
@@ -49,12 +52,14 @@ export function FieldTable ({
     const {
         fields,
         update,
-        append
+        append,
+        remove
     } = useFieldArray({
         name: `${namespace}.fields`,
         keyName: 'key',
         rules
     })
+    const { confirm } = useConfirmDialog()
     const [updatingField, setUpdatingField] = useState<DataField | null>(null)
     const fieldIds = useMemo(() => fields.map(({ id }: any) => id), [fields])
     const onMenuSelect = (type: 'new' | 'existing') => () => {
@@ -85,7 +90,8 @@ export function FieldTable ({
         <>
             {
                 !hideCreate && (
-                    <DataItemManageForm defaultValue={updatingField} hide={hideCreate} type={type} onClose={onCloseClick}
+                    <DataItemManageForm actionTable={actionTable} defaultValue={updatingField} hide={hideCreate} type={type}
+                                        onClose={onCloseClick}
                                         onAdd={onFieldAdd}/>)
             }
             <DataItemSelect onAdd={onFieldAdd} key={`${namespace}-select-field`} filtered={fieldIds} type={type}
@@ -104,12 +110,12 @@ export function FieldTable ({
                         </TableRowHead>
                     </TableHead>
                     <TableBody>
-                        {fields.map((field: any, index) => (
+                        {fields.filter(({ hidden }: any) => !hidden).map((field: any, index) => (
                             <TableRow key={field.key}>
                                 <TableCell>{field.name}</TableCell>
                                 <TableCell>{capitalize(field.type.replaceAll(/_/g, ' '))}</TableCell>
                                 <TableCell>{field.mandatory ? i18n.t('Yes') : i18n.t('No')}</TableCell>
-                                <TableCell>{field.showAsColumn ? i18n.t('Yes') : i18n.t('No')}</TableCell>
+                                <TableCell>{type === 'attribute' && !actionTable ? field.header ? i18n.t('Yes') : i18n.t('No') : field.showAsColumn ? i18n.t('Yes') : i18n.t('No')}</TableCell>
                                 <TableCell>
                                     <ActionButton
                                         onEdit={() => {
@@ -117,7 +123,15 @@ export function FieldTable ({
                                             onShowCreate()
                                         }}
                                         onDelete={() => {
-
+                                            confirm({
+                                                title: i18n.t('Delete field'),
+                                                message: i18n.t('Are you sure you want to delete this field?. This may cause some data inconsistencies if there are already records using this field.'),
+                                                onCancel: () => {
+                                                },
+                                                onConfirm: () => {
+                                                    remove(index)
+                                                }
+                                            })
                                         }}
                                     />
                                 </TableCell>
