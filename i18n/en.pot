@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-31T08:49:53.581Z\n"
-"PO-Revision-Date: 2023-07-31T08:49:53.581Z\n"
+"POT-Creation-Date: 2023-07-31T11:02:08.735Z\n"
+"PO-Revision-Date: 2023-07-31T11:02:08.735Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -344,6 +344,16 @@ msgstr "Yes"
 
 msgid "No"
 msgstr "No"
+
+msgid "Delete field"
+msgstr "Delete field"
+
+msgid ""
+"Are you sure you want to delete this field?. This may cause some data "
+"inconsistencies if there are already records using this field."
+msgstr ""
+"Are you sure you want to delete this field?. This may cause some data "
+"inconsistencies if there are already records using this field."
 
 msgid "Add field from existing metadata"
 msgstr "Add field from existing metadata"

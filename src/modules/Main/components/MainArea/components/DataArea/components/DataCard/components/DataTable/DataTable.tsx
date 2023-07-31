@@ -162,11 +162,12 @@ export function DataTable ({
                     margin: 0,
                     borderSpacing: 0,
                     borderCollapse: 'collapse',
+                    width: '100%'
                 }}>
                     <colgroup>
                         {
                             columns?.map((header,) => (
-                                <col width={`${header.width}`} key={`${header.id}-colgroup`}/>))
+                                <col width={`${header.width}px`} key={`${header.id}-colgroup`}/>))
                         }
                     </colgroup>
                     {
@@ -193,7 +194,7 @@ export function DataTable ({
                                                 <TableCell className={classes['value-cell']}
                                                            key={`${row.id}-${column.id}-${columnIndex}`}>
                                                     <div className="w-100 h-100 row gap-8 space-between">
-                                                        <div className="flex-1 w-100 h-100 column center align-center">
+                                                        <div className="flex-1 w-100 h-100 column center">
                                                             {get(row, [column.id], '')}
                                                         </div>
                                                         <div>

@@ -1,6 +1,11 @@
 import { useConfiguration } from '../../../../../../../../../shared/hooks/config'
 import { useCallback, useEffect, useMemo } from 'react'
-import { type ActionTrackingColumnStateConfig, ColumnState, type ColumnStateConfig, VisibleColumnState } from '../state/columns'
+import {
+    type ActionTrackingColumnStateConfig,
+    ColumnState,
+    type ColumnStateConfig,
+    VisibleColumnState
+} from '../state/columns'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { useWindowSize } from 'usehooks-ts'
 import { useDimensions, usePageType } from '../../../../../../../../../shared/hooks'
@@ -87,7 +92,7 @@ export function useSetColumnState() {
             ...trackingColumns
         ];
 
-        const columnWidth = clamp(round(((width - 64) / columns.length), -1), 150, 500);
+        const columnWidth = clamp(round(((width - 64) / columns.length), -1), 150, 800)
 
         return columns.map((column) => {
             return {
