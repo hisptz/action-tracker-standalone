@@ -3,14 +3,15 @@
     font-size: 14px !important;
     padding-top: 4px !important;
     padding-left: 13px;
-    padding-right: 16px;
+    padding-right: 12px;
+    margin-right: 2px;
     padding-bottom: 4px !important;
     min-width: 150px;
     line-height: 1.5rem !important;
     height: auto !important;
     color: #212934;
-    width: 270px !important;
     border-bottom: 1px solid rgb(232, 237, 242);
+    border-right: 1px solid red;
 }
 
 

@@ -151,6 +151,19 @@ export function DataTable ({
         )
     }
 
+    const calculateColumnWidth = (width: number) => {
+        //A sad but beautiful piece of engineering. Just to make sure the table aligns well.
+        /*
+        * How is it done you ask?
+        *
+        * By default each column has a pre-defined width. Since the tables are nested, however, the table calculates the percentage of the column based on its width not the overall table. This formula calculates the width of the column relative to its table instead of the bigger table
+        *
+        * The formula is:
+        * We get percentage of the table in relation to the overall table and use that to factor the width
+        *  */
+        return ((allColumns.length - (allColumns.length / (allColumns.length - (columns.length + childTableColSpan))))) * width
+    }
+
     return (
         <div className="column w-100">
             <div style={{
@@ -158,18 +171,19 @@ export function DataTable ({
                 overflowY: 'auto'
             }}>
                 <table style={{
+                    tableLayout: 'fixed',
                     padding: 0,
                     margin: 0,
                     borderSpacing: 0,
                     borderCollapse: 'collapse',
                     width: '100%'
                 }}>
-                    <colgroup>
-                        {
-                            columns?.map((header,) => (
-                                <col width={`${header.width}px`} key={`${header.id}-colgroup`}/>))
-                        }
-                    </colgroup>
+                    {
+                        columns?.map((header,) => (
+                            <col id={header.id}
+                                 width={`${calculateColumnWidth(header.width)}%`}
+                                 key={`${header.id}-colgroup`}/>))
+                    }
                     {
                         !hide && (
                             <Form
@@ -191,8 +205,9 @@ export function DataTable ({
                                     {
                                         columns.map((column, columnIndex) => (
                                             columnIndex === columns.length - 1 ?
-                                                <TableCell className={classes['value-cell']}
-                                                           key={`${row.id}-${column.id}-${columnIndex}`}>
+                                                <td
+                                                    className={classes['value-cell']}
+                                                    key={`${row.id}-${column.id}-${columnIndex}`}>
                                                     <div className="w-100 h-100 row gap-8 space-between">
                                                         <div className="flex-1 w-100 h-100 column center">
                                                             {get(row, [column.id], '')}
@@ -207,8 +222,8 @@ export function DataTable ({
                                                             />
                                                         </div>
                                                     </div>
-                                                </TableCell> : <TableCell className={classes['value-cell']}
-                                                                          key={`${row.id}-${column.id}-${columnIndex}`}>
+                                                </td> : <TableCell className={classes['value-cell']}
+                                                                   key={`${row.id}-${column.id}-${columnIndex}`}>
                                                     {get(row, [column.id], '')}
                                                 </TableCell>
                                         ))

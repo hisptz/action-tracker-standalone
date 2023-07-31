@@ -2,6 +2,7 @@
     padding: 0 !important;;
     margin: 0 !important;
     height: auto !important;
+
 }
 
 .table-body {
@@ -10,6 +11,12 @@
 }
 
 .value-cell {
+    border-right: 1px solid red;
+    border-bottom: 1px solid rgb(232, 237, 242);
+    font-size: 14px;
+    line-height: 18px;
+    padding: 13px 12px;
+    height: 45px;
 }
 
 .tracking-value-cell {
