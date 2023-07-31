@@ -1,14 +1,13 @@
-import {ActionConfig} from "../../../../../../../../../../shared/schemas/config";
-import {CircularLoader, TableBody, TableCell, TableRow} from "@dhis2/ui";
-import classes from "../DataTable/DataTable.module.css";
-import React from "react";
-import {useRecoilValue} from "recoil";
-import {TrackingColumnsState} from "../../state/columns";
-import {useConfiguration} from "../../../../../../../../../../shared/hooks/config";
-import {LatestStatus} from "./components/LatestStatus";
-import {ActionStatus} from "./components/ActionStatus";
-import {useTrackingTableData} from "./hooks/data";
-
+import { ActionConfig } from '../../../../../../../../../../shared/schemas/config'
+import { CircularLoader, TableBody, TableCell, TableRow } from '@dhis2/ui'
+import classes from '../DataTable/DataTable.module.css'
+import React from 'react'
+import { useRecoilValue } from 'recoil'
+import { TrackingColumnsState } from '../../state/columns'
+import { useConfiguration } from '../../../../../../../../../../shared/hooks/config'
+import { LatestStatus } from './components/LatestStatus'
+import { ActionStatus } from './components/ActionStatus'
+import { useTrackingTableData } from './hooks/data'
 
 export interface TrackingTableProps {
     actionConfig: ActionConfig,
@@ -54,7 +53,7 @@ export function TrackingTable({actionConfig, instance}: TrackingTableProps) {
                     <colgroup>
                         {
                             columns?.map((header,) => (
-                                <col width={`${header.width}`} key={`${header.id}-colgroup`}/>))
+                                <col width={`${header.width}px`} key={`${header.id}-colgroup`}/>))
                         }
                     </colgroup>
                     <TableBody className={classes['table-body']}>
