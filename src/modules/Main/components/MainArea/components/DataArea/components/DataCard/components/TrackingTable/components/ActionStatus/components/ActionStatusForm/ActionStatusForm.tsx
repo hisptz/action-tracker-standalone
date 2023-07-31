@@ -1,13 +1,13 @@
-import React, {useMemo} from "react";
-import i18n from '@dhis2/d2-i18n';
-import {Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle} from "@dhis2/ui"
-import {FormProvider, useForm} from "react-hook-form";
-import {useFormMeta} from "./hooks/metadata";
-import {isEmpty} from "lodash";
-import {RHFDHIS2FormField} from "@hisptz/dhis2-ui";
-import {ActionTrackingColumnStateConfig} from "../../../../../../state/columns";
-import {useManageActionStatus} from "./hooks/save";
-import {DateTime} from "luxon";
+import React, { useMemo } from 'react'
+import i18n from '@dhis2/d2-i18n'
+import { Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle } from '@dhis2/ui'
+import { FormProvider, useForm } from 'react-hook-form'
+import { useFormMeta } from './hooks/metadata'
+import { isEmpty } from 'lodash'
+import { RHFDHIS2FormField } from '@hisptz/dhis2-ui'
+import { ActionTrackingColumnStateConfig } from '../../../../../../state/columns'
+import { useManageActionStatus } from './hooks/save'
+import { DateTime } from 'luxon'
 
 export interface ActionStatusFormProps {
     columnConfig: ActionTrackingColumnStateConfig;
@@ -55,6 +55,8 @@ export function ActionStatusForm({
         },
         defaultValue,
     });
+
+    console.log(fields)
 
     return (
         <Modal position="middle" onClose={onClose} hide={hide}>

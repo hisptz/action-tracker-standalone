@@ -203,6 +203,12 @@ export function generateConfigFromMetadata (metadata: {
         type: 'programStage',
         from: last(categories)?.id
     })
+    set(categories, `${categories.length - 1}.child`, {
+        id: uid(),
+        type: 'program',
+        to: actionConfig.id
+    })
+
     const generalConfig = getGeneral(metadata.programs, metadata.defaultSettings)
 
     return {

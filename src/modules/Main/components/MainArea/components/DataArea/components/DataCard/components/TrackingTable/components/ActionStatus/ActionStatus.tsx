@@ -1,16 +1,16 @@
-import {ActionTrackingColumnStateConfig} from "../../../../state/columns";
-import React, {useMemo} from "react";
-import {useDimensions} from "../../../../../../../../../../../../shared/hooks";
-import {find, get} from "lodash";
-import {DateTime} from "luxon";
-import {Button, IconAdd24} from "@dhis2/ui"
-import {useBoolean} from "usehooks-ts";
-import {ActionStatusForm} from "./components/ActionStatusForm";
-import {useConfiguration} from "../../../../../../../../../../../../shared/hooks/config";
-import i18n from '@dhis2/d2-i18n';
-import {ActionButton} from "../../../../../../../../../../../../shared/components/ActionButton";
-import {useConfirmDialog} from "@hisptz/dhis2-ui";
-import {useManageActionStatus} from "./components/ActionStatusForm/hooks/save";
+import { ActionTrackingColumnStateConfig } from '../../../../state/columns'
+import React, { Fragment, useMemo } from 'react'
+import { useDimensions } from '../../../../../../../../../../../../shared/hooks'
+import { find, get } from 'lodash'
+import { DateTime } from 'luxon'
+import { Button, IconAdd24 } from '@dhis2/ui'
+import { useBoolean } from 'usehooks-ts'
+import { ActionStatusForm } from './components/ActionStatusForm'
+import { useConfiguration } from '../../../../../../../../../../../../shared/hooks/config'
+import i18n from '@dhis2/d2-i18n'
+import { ActionButton } from '../../../../../../../../../../../../shared/components/ActionButton'
+import { useConfirmDialog } from '@hisptz/dhis2-ui'
+import { useManageActionStatus } from './components/ActionStatusForm/hooks/save'
 
 export interface ActionStatusProps {
     refetch: () => void;
@@ -102,10 +102,10 @@ export function ActionStatus({instance, columnConfig, events, refetch}: ActionSt
                 <div className="flex-1 column gap-8">
                     {
                         tableData?.map((dataValue: any) => (
-                            <>
+                            <Fragment key={dataValue.name}>
                                 <b className="m-0">{dataValue.name}</b>
                                 <span className="m-0">{dataValue.value}</span>
-                            </>
+                            </Fragment>
                         ))
                     }
                 </div>

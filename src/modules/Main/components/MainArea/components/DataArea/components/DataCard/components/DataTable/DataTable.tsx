@@ -1,81 +1,99 @@
-import {ActionConfig, CategoryConfig} from "../../../../../../../../../../shared/schemas/config";
-import React, {useMemo, useState} from "react";
-import {useConfiguration} from "../../../../../../../../../../shared/hooks/config";
-import {useTableData} from "./hooks/data";
-import {Button, CircularLoader, IconAdd24, TableBody, TableCell, TableRow} from "@dhis2/ui"
-import i18n from '@dhis2/d2-i18n';
-import {Form} from "../../../../../../../../../../shared/components/Form";
-import {useBoolean} from "usehooks-ts";
-import {get} from "lodash";
-import {useTableColumns} from "./hooks/columns";
-import classes from "./DataTable.module.css"
-import {TrackingTable} from "../TrackingTable";
-import {useTrackingColumns} from "../../hooks/columns";
-import {ActionButton} from "../../../../../../../../../../shared/components/ActionButton";
-import {useDeleteInstance} from "../../../../../../../../../../shared/components/Form/hooks/save";
-import {useConfirmDialog} from "@hisptz/dhis2-ui";
+import { ActionConfig, CategoryConfig } from '../../../../../../../../../../shared/schemas/config'
+import React, { useMemo, useState } from 'react'
+import { useConfiguration } from '../../../../../../../../../../shared/hooks/config'
+import { useTableData } from './hooks/data'
+import { Button, CircularLoader, IconAdd24, TableBody, TableCell, TableRow } from '@dhis2/ui'
+import i18n from '@dhis2/d2-i18n'
+import { Form } from '../../../../../../../../../../shared/components/Form'
+import { useBoolean } from 'usehooks-ts'
+import { get } from 'lodash'
+import { useTableColumns } from './hooks/columns'
+import classes from './DataTable.module.css'
+import { TrackingTable } from '../TrackingTable'
+import { useTrackingColumns } from '../../hooks/columns'
+import { ActionButton } from '../../../../../../../../../../shared/components/ActionButton'
+import { useDeleteInstance } from '../../../../../../../../../../shared/components/Form/hooks/save'
+import { useConfirmDialog } from '@hisptz/dhis2-ui'
 
 export interface DataTableProps {
     parentConfig: ActionConfig | CategoryConfig;
     instance: any;
-    parentType: "program" | "programStage",
+    parentType: 'program' | 'programStage',
     nested?: boolean
 }
 
+export function DataTable ({
+                               parentConfig,
+                               instance: parentInstance,
+                               parentType,
+                               nested
+                           }: DataTableProps) {
+    const { child } = parentConfig as any
+    const { confirm } = useConfirmDialog()
 
-export function DataTable({parentConfig, instance: parentInstance, parentType, nested}: DataTableProps) {
-    const {child} = parentConfig as any
-    const {confirm} = useConfirmDialog()
-
-    const {config: allConfig} = useConfiguration();
+    const { config: allConfig } = useConfiguration()
     const config = useMemo(() => {
-        if (child.type === "program") {
+        if (child.type === 'program') {
             //Only the action program can be a child
-            return allConfig?.action as ActionConfig;
+            return allConfig?.action as ActionConfig
         }
-        const categoryConfig = allConfig?.categories?.find((category) => category.id === child.to);
+        const categoryConfig = allConfig?.categories?.find((category) => category.id === child.to)
         if (categoryConfig) {
-            return categoryConfig as CategoryConfig;
+            return categoryConfig as CategoryConfig
         }
-    }, [child, allConfig]);
-    const {loading, noData, refetch, rows, pagination} = useTableData(child.type, {
+    }, [child, allConfig])
+    const {
+        loading,
+        noData,
+        refetch,
+        rows,
+        pagination
+    } = useTableData(child.type, {
         parentInstance,
         parentType
-    });
-    const instanceType = useMemo(() => config?.name?.toLowerCase() ?? "", [config]);
-    const {value: hide, setTrue: onHide, setFalse: onShow} = useBoolean(true);
+    })
+    const instanceType = useMemo(() => config?.name?.toLowerCase() ?? '', [config])
+    const {
+        value: hide,
+        setTrue: onHide,
+        setFalse: onShow
+    } = useBoolean(true)
 
     const parent = useMemo(() => {
-        if (parentType === "programStage") {
+        if (parentType === 'programStage') {
             return {
                 id: parentInstance?.event,
                 instance: parentInstance
             }
         } else {
             return {
-                id: get(parentInstance, ['enrollments', 0, 'enrollment']),
+                id: get(parentInstance, ['trackedEntity']),
                 instance: parentInstance
             }
         }
-    }, []);
+    }, [])
 
-    const {columns, allColumns, childTableColSpan} = useTableColumns(config as any);
+    const {
+        columns,
+        allColumns,
+        childTableColSpan
+    } = useTableColumns(config as any)
 
-    const trackingColumns = useTrackingColumns();
+    const trackingColumns = useTrackingColumns()
 
-    const [editedInstance, setEditInstance] = useState();
+    const [editedInstance, setEditInstance] = useState()
 
-    const {onDelete} = useDeleteInstance(child.type, {instanceName: config?.name as string})
+    const { onDelete } = useDeleteInstance(child.type, { instanceName: config?.name as string })
     const onComplete = () => {
-        refetch();
+        refetch()
     }
 
     const title = config?.name
 
     const onDeleteClick = (instance: any) => {
         confirm({
-            title: i18n.t("Confirm Delete"),
-            message: i18n.t("Are you sure you want to delete this {{title}} and all related data?", {
+            title: i18n.t('Confirm Delete'),
+            message: i18n.t('Are you sure you want to delete this {{title}} and all related data?', {
                 title
             }),
             onConfirm: async () => {
@@ -93,7 +111,7 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
                 <tbody>
                 <tr>
                     <td colSpan={columns?.length + childTableColSpan}>
-                        <div style={{minHeight: "100px"}} className="column center align-center w-100 h-100">
+                        <div style={{ minHeight: '100px' }} className="column center align-center w-100 h-100">
                             <CircularLoader small/>
                         </div>
                     </td>
@@ -105,7 +123,7 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
 
     if (noData) {
         return (
-            <table className='w-100' key={`no-data`}>
+            <table className="w-100" key={`no-data`}>
                 <Form onSaveComplete={onComplete}
                       id={config?.id as string} hide={hide} type={child?.type}
                       onClose={() => {
@@ -116,12 +134,12 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
                 <tbody>
                 <tr>
                     <td colSpan={columns?.length + childTableColSpan}>
-                        <div style={{minHeight: "100px"}} className="column center align-center w-100 h-100 gap-16">
-                            {i18n.t("There are no recorded {{ instanceType }}. Click on the button below to create one", {
+                        <div style={{ minHeight: '100px' }} className="column center align-center w-100 h-100 gap-16">
+                            {i18n.t('There are no recorded {{ instanceType }}. Click on the button below to create one', {
                                 instanceType
                             })}
                             <Button onClick={onShow} icon={<IconAdd24/>}>
-                                {i18n.t("Add {{ instanceType }}", {
+                                {i18n.t('Add {{ instanceType }}', {
                                     instanceType
                                 })}
                             </Button>
@@ -137,13 +155,13 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
         <div className="column w-100">
             <div style={{
                 maxHeight: nested ? 520 : 800,
-                overflowY: "auto"
+                overflowY: 'auto'
             }}>
                 <table style={{
                     padding: 0,
                     margin: 0,
                     borderSpacing: 0,
-                    borderCollapse: "collapse",
+                    borderCollapse: 'collapse',
                 }}>
                     <colgroup>
                         {
@@ -181,8 +199,8 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
                                                         <div>
                                                             <ActionButton
                                                                 onEdit={() => {
-                                                                    setEditInstance(row.instance);
-                                                                    onShow();
+                                                                    setEditInstance(row.instance)
+                                                                    onShow()
                                                                 }}
                                                                 onDelete={() => onDeleteClick(row.instance)}
                                                             />
@@ -204,7 +222,7 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
                                         )
                                     }
                                     {
-                                        child.type === "program" && (
+                                        child.type === 'program' && (
                                             <TableCell colSpan={`${trackingColumns.length}`}
                                                        className={classes['nesting-cell']}
                                                        key={`${row.id}-tracking-cell`}>
@@ -220,9 +238,9 @@ export function DataTable({parentConfig, instance: parentInstance, parentType, n
                     </TableBody>
                 </table>
             </div>
-            <div style={{padding: 8}} className="row gap-16 space-between">
+            <div style={{ padding: 8 }} className="row gap-16 space-between">
                 <Button onClick={onShow}
-                        icon={<IconAdd24/>}>{i18n.t("Add {{instanceType}}", {instanceType})}</Button>
+                        icon={<IconAdd24/>}>{i18n.t('Add {{instanceType}}', { instanceType })}</Button>
                 {/*{//TODO: Allow pagination when total issues is fixed for relationships query}*/}
                 {/*<Pagination {...pagination}/>*/}
             </div>

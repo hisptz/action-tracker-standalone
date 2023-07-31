@@ -1,15 +1,16 @@
-import {useAlert, useDataMutation} from "@dhis2/app-runtime";
-import i18n from "@dhis2/d2-i18n";
-import {useCallback} from "react";
-import {get} from "lodash";
-import {uid} from "@hisptz/dhis2-utils";
-import {useConfiguration} from "../../../../../../../../../../../../../../../shared/hooks/config";
+import { useAlert, useDataMutation } from '@dhis2/app-runtime'
+import i18n from '@dhis2/d2-i18n'
+import { useCallback } from 'react'
+import { get, head } from 'lodash'
+import { uid } from '@hisptz/dhis2-utils'
+import { useConfiguration } from '../../../../../../../../../../../../../../../shared/hooks/config'
+import { Enrollment } from '../../../../../../../../../../../../../../../shared/types/dhis2'
 
 const actionStatusMutation: any = {
-    resource: "tracker",
-    type: "create",
-    data: ({data}: { data: any, }) => data,
-    params: ({strategy}: { strategy?: string }) => (
+    resource: 'tracker',
+    type: 'create',
+    data: ({ data }: { data: any, }) => data,
+    params: ({ strategy }: { strategy?: string }) => (
         {
             importStrategy: strategy ?? 'CREATE_AND_UPDATE',
             importMode: 'COMMIT',
@@ -19,7 +20,13 @@ const actionStatusMutation: any = {
     )
 }
 
-export function generateEvent(data: Record<string, any>, {orgUnit, program, programStage, enrollment, trackedEntity}: {
+export function generateEvent (data: Record<string, any>, {
+    orgUnit,
+    program,
+    programStage,
+    enrollment,
+    trackedEntity
+}: {
     orgUnit: string;
     program: string;
     programStage: string;
@@ -27,7 +34,7 @@ export function generateEvent(data: Record<string, any>, {orgUnit, program, prog
     trackedEntity: string;
 }) {
 
-    const occurredAt = get(data, ['occurredAt']);
+    const occurredAt = get(data, ['occurredAt'])
 
     delete data['occurredAt']
 
@@ -38,7 +45,7 @@ export function generateEvent(data: Record<string, any>, {orgUnit, program, prog
         orgUnit,
         trackedEntity,
         enrollment,
-        status: "ACTIVE",
+        status: 'ACTIVE',
         dataValues: Object.entries(data).map(([key, value]) => {
             return {
                 dataElement: key,
@@ -49,15 +56,15 @@ export function generateEvent(data: Record<string, any>, {orgUnit, program, prog
     }
 }
 
-export function updateEvent(data: Record<string, any>, event: any) {
-    const occurredAt = get(data, ['occurredAt']);
+export function updateEvent (data: Record<string, any>, event: any) {
+    const occurredAt = get(data, ['occurredAt'])
     delete data['occurredAt']
     const dataValues = Object.entries(data).map(([key, value]) => {
         return {
             dataElement: key,
             value
         }
-    });
+    })
 
     return {
         ...event,
@@ -66,23 +73,31 @@ export function updateEvent(data: Record<string, any>, event: any) {
     }
 }
 
-export function useManageActionStatus({instance, onComplete, defaultValue}: {
+export function useManageActionStatus ({
+                                           instance,
+                                           onComplete,
+                                           defaultValue
+                                       }: {
     instance: any, onComplete: () => void, defaultValue?: any
 }) {
-    const {show} = useAlert(({message}) => message, ({type}) => ({...type, duration: 3000}))
-    const [uploadPayload, {loading,}] = useDataMutation(actionStatusMutation, {
+    const { show } = useAlert(({ message }) => message, ({ type }) => ({
+        ...type,
+        duration: 3000
+    }))
+    const [uploadPayload, { loading, }] = useDataMutation(actionStatusMutation, {
         onComplete: () => {
-            onComplete();
+            onComplete()
         },
         onError: () => {
             show({
-                message: i18n.t("Failed to create status", {}), type: {critical: true}
+                message: i18n.t('Failed to create status', {}),
+                type: { critical: true }
             })
         }
-    });
-    const {config} = useConfiguration();
+    })
+    const { config } = useConfiguration()
 
-    const actionStatusProgramStage = config?.action?.statusConfig?.id as string;
+    const actionStatusProgramStage = config?.action?.statusConfig?.id as string
 
     const onSave = useCallback(async (data: Record<string, any>,) => {
         if (defaultValue) {
@@ -92,19 +107,22 @@ export function useManageActionStatus({instance, onComplete, defaultValue}: {
                         updateEvent(data, defaultValue)
                     ]
                 }
-            });
+            })
             show({
-                message: i18n.t("Successfully updated status", {}), type: {success: true}
-            });
+                message: i18n.t('Successfully updated status', {}),
+                type: { success: true }
+            })
 
         } else {
+
+            const enrollment = head(instance.enrollments) as Enrollment
             const event = generateEvent(data, {
-                orgUnit: instance.orgUnit,
-                program: instance.program,
+                orgUnit: enrollment.orgUnit,
+                program: enrollment.program,
                 programStage: actionStatusProgramStage,
-                enrollment: instance.enrollment,
+                enrollment: enrollment.enrollment,
                 trackedEntity: instance.trackedEntity
-            });
+            })
             await uploadPayload({
                 data: {
                     events: [
@@ -113,13 +131,14 @@ export function useManageActionStatus({instance, onComplete, defaultValue}: {
                 }
             })
             show({
-                message: i18n.t("Successfully created status", {}), type: {success: true}
-            });
+                message: i18n.t('Successfully created status', {}),
+                type: { success: true }
+            })
         }
-    }, [defaultValue]);
+    }, [defaultValue])
 
     const onDelete = useCallback(async () => {
-        if (!defaultValue) return;
+        if (!defaultValue) return
         await uploadPayload({
             data: {
                 events: [
@@ -129,12 +148,12 @@ export function useManageActionStatus({instance, onComplete, defaultValue}: {
                 ]
             },
             strategy: 'DELETE'
-        });
+        })
         show({
-            message: i18n.t("Successfully deleted status", {}), type: {success: true}
-        });
+            message: i18n.t('Successfully deleted status', {}),
+            type: { success: true }
+        })
     }, [defaultValue])
-
 
     return {
         onSave,
