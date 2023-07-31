@@ -84,7 +84,7 @@ export function FieldTable ({
         onHideCreate()
     }
 
-    const fieldShowType = type === 'dataElement' ? 'column' : 'header'
+    const fieldShowType = type === 'dataElement' || actionTable ? 'column' : 'header'
 
     return (
         <>

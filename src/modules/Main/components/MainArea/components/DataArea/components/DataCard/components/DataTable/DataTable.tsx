@@ -152,16 +152,10 @@ export function DataTable ({
     }
 
     const calculateColumnWidth = (width: number) => {
-        //A sad but beautiful piece of engineering. Just to make sure the table aligns well.
         /*
-        * How is it done you ask?
-        *
-        * By default each column has a pre-defined width. Since the tables are nested, however, the table calculates the percentage of the column based on its width not the overall table. This formula calculates the width of the column relative to its table instead of the bigger table
-        *
-        * The formula is:
-        * We get percentage of the table in relation to the overall table and use that to factor the width
+        * I honestly wished you had seen the code I had written here. It was a masterpiece util it didn't work. But somehow a zero solves all problems. I wish someday I will know why
         *  */
-        return ((allColumns.length - (allColumns.length / (allColumns.length - (columns.length + childTableColSpan))))) * width
+        return 0
     }
 
     return (

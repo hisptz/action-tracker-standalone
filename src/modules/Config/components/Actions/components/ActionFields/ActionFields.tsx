@@ -4,11 +4,11 @@ import i18n from '@dhis2/d2-i18n'
 
 const namespace = `action`
 
-export function ActionFields() {
+export function ActionFields () {
     return (
-      <div className="column gap-8" >
-        <b>{i18n.t("Fields")}</b>
-        <FieldTable namespace={namespace} type={'attribute'}/>
-      </div>
+        <div className="column gap-8">
+            <b>{i18n.t('Fields')}</b>
+            <FieldTable actionTable namespace={namespace} type={'attribute'}/>
+        </div>
     )
 }
