@@ -4,9 +4,13 @@ import { useSetupMetadata } from './hooks/metadata'
 import { useNavigate } from 'react-router-dom'
 import appLogo from '../../shared/assets/images/app-logo.png'
 import { Button, ButtonStrip, CircularLoader } from '@dhis2/ui'
+import { useRecoilRefresher_UNSTABLE } from 'recoil'
+import { ConfigIdsState } from '../../shared/state/config'
 
 export function Welcome () {
     const [error, setError] = useState<any>(null)
+    const resetConfig = useRecoilRefresher_UNSTABLE(ConfigIdsState)
+
     const navigate = useNavigate()
     const { setupConfiguration } = useSetupMetadata()
 
@@ -19,6 +23,7 @@ export function Welcome () {
                     navigate('/getting-started')
                 }
                 if (response?.httpStatusCode === 201) {
+                    resetConfig()
                     navigate('/')
                 }
             } catch (e: any) {

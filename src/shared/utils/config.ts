@@ -34,6 +34,7 @@ function getCategories (programs: Program[]): CategoryConfig[] {
             type: trackedEntityAttribute.valueType as string,
             optionSet: trackedEntityAttribute.optionSet,
             showAsColumn: index === 0,
+            header: index === 0,
             mandatory
         }) as DataField) ?? []
     } as CategoryConfig
