@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-29T11:30:37.819Z\n"
-"PO-Revision-Date: 2023-07-29T11:30:37.819Z\n"
+"POT-Creation-Date: 2023-07-31T08:49:53.581Z\n"
+"PO-Revision-Date: 2023-07-31T08:49:53.581Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -335,6 +335,9 @@ msgstr "Required"
 
 msgid "Show as {{ type }}"
 msgstr "Show as {{ type }}"
+
+msgid "Actions"
+msgstr "Actions"
 
 msgid "Yes"
 msgstr "Yes"

@@ -11,60 +11,72 @@ import { uid } from '@hisptz/dhis2-utils'
 
 export interface DataItemManageFormProps {
     hide: boolean
-    type: "dataElement" | "attribute"
+    type: 'dataElement' | 'attribute'
     onClose: () => void
-    onAdd: (data: DataField) => void
+    onAdd: (data: DataField) => void;
+    defaultValue?: DataField | null;
 }
 
-export function DataItemManageForm({onClose, onAdd, hide, type}: DataItemManageFormProps) {
-    const form = useForm<DataField>({})
+export function DataItemManageForm ({
+                                        onClose,
+                                        onAdd,
+                                        hide,
+                                        type,
+                                        defaultValue
+                                    }: DataItemManageFormProps) {
+    const form = useForm<DataField>({
+        defaultValues: defaultValue ?? {}
+    })
 
     const onCloseClick = () => {
-        form.reset();
-        onClose();
+        form.reset({})
+        onClose()
     }
     const onSubmit = (data: DataField) => {
-        onAdd({ ...data, id: data.id ?? uid()});
-        onCloseClick();
+        onAdd({
+            ...data,
+            id: data.id ?? uid()
+        })
+        onCloseClick()
     }
 
     const valueTypes = SUPPORTED_VALUE_TYPES.map((type: string) => ({
         label: capitalize(type.replaceAll(/_/g, ' ')),
         value: type
-    }));
+    }))
 
     return (
         <Modal position="middle" onClose={onCloseClick} hide={hide}>
-            <ModalTitle>{i18n.t("Add Data Item")}</ModalTitle>
+            <ModalTitle>{i18n.t('Add Data Item')}</ModalTitle>
             <ModalContent>
                 <FormProvider {...form} >
                     <form className="column gap-16">
-                        <RHFTextInputField required validations={{required: i18n.t("Name is required")}} name={'name'}
-                                           label={i18n.t("Display name")}/>
-                        <RHFTextInputField required validations={{required: i18n.t("Short name is required")}}
+                        <RHFTextInputField required validations={{ required: i18n.t('Name is required') }} name={'name'}
+                                           label={i18n.t('Display name')}/>
+                        <RHFTextInputField required validations={{ required: i18n.t('Short name is required') }}
                                            name={'shortName'}
-                                           label={i18n.t("Short name")}/>
-                        <RHFSingleSelectField required validations={{required: i18n.t("Type is required")}}
+                                           label={i18n.t('Short name')}/>
+                        <RHFSingleSelectField required validations={{ required: i18n.t('Type is required') }}
                                               options={valueTypes}
-                                              name={'type'} label={i18n.t("Type")}/>
-                        <OptionSetField name={`optionSet.id`} label={i18n.t("Option set")}/>
-                        <RHFCheckboxField name={`mandatory`} label={i18n.t("Field should be mandatory")}/>
+                                              name={'type'} label={i18n.t('Type')}/>
+                        <OptionSetField name={`optionSet.id`} label={i18n.t('Option set')}/>
+                        <RHFCheckboxField name={`mandatory`} label={i18n.t('Field should be mandatory')}/>
                         {
-                            type === "attribute"
-? (
-                                <RHFCheckboxField name={`header`} label={i18n.t("Show field as header")}/>
-                            )
-: (
-                                <RHFCheckboxField name={`showAsColumn`} label={i18n.t("Show field as column")}/>
-                            )
+                            type === 'attribute'
+                                ? (
+                                    <RHFCheckboxField name={`header`} label={i18n.t('Show field as header')}/>
+                                )
+                                : (
+                                    <RHFCheckboxField name={`showAsColumn`} label={i18n.t('Show field as column')}/>
+                                )
                         }
                     </form>
                 </FormProvider>
             </ModalContent>
             <ModalActions>
                 <ButtonStrip>
-                    <Button onClick={onCloseClick}>{i18n.t("Cancel")}</Button>
-                    <Button primary onClick={form.handleSubmit(onSubmit)}>{i18n.t("Add")}</Button>
+                    <Button onClick={onCloseClick}>{i18n.t('Cancel')}</Button>
+                    <Button primary onClick={form.handleSubmit(onSubmit)}>{i18n.t('Add')}</Button>
                 </ButtonStrip>
             </ModalActions>
         </Modal>
