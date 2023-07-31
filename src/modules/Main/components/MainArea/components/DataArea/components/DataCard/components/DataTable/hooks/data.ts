@@ -3,7 +3,7 @@ import { useDimensions } from '../../../../../../../../../../../shared/hooks'
 import { useMemo } from 'react'
 import { fromPairs, isEmpty } from 'lodash'
 import { useConfiguration } from '../../../../../../../../../../../shared/hooks/config'
-import { TrackedEntity } from '../../../../../../../../../../../shared/types/dhis2'
+import { Event, TrackedEntity } from '../../../../../../../../../../../shared/types/dhis2'
 
 const trackedEntitiesQuery: any = {
     data: {
@@ -95,7 +95,7 @@ export function useTableData (type: 'program' | 'programStage', {
 
     const rows = useMemo(() => {
         return instances?.map((instance) => {
-            const data = type === 'program' ? instance.attributes : instance.dataValues
+            const data = type === 'program' ? (instance as TrackedEntity).attributes : (instance as Event).dataValues
             return {
                 ...fromPairs(data?.map((item: any) => [item.attribute ?? item.dataElement, item.value])),
                 instance
