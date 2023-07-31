@@ -12,7 +12,6 @@ import { head, last, reduce, set, snakeCase, sortBy } from 'lodash'
 import i18n from '@dhis2/d2-i18n'
 //This process will only be done for the bottleneck setup that was in v1 of the app. That is why the IDs are hard coded.
 export const BOTTLENECK_PROGRAM_ID = 'Uvz0nfKVMQJ'
-
 export const OLD_DATASTORE_NAMESPACE = 'Standalone_Action_Tracker'
 export const ACTION_PROGRAM_ID = 'unD7wro3qPm'
 export const ACTION_STATUS_DATA_ELEMENT = 'f8JYVWLC7rE'
@@ -56,6 +55,7 @@ function getCategories (programs: Program[]): CategoryConfig[] {
                 optionSet: dataElement.optionSet,
                 mandatory: compulsory,
                 showAsColumn: index === 0,
+                hidden: dataElement.name?.includes('Linkage')
             }))
         }
     }) as CategoryConfig[]
@@ -124,6 +124,7 @@ function getAction (programs: Program[]): ActionConfig {
             type: trackedEntityAttribute.valueType as string,
             optionSet: trackedEntityAttribute.optionSet,
             showAsColumn: index === 0,
+            hidden: trackedEntityAttribute.name?.includes('Linkage'),
             mandatory
         }) as DataField) ?? []
     } as ActionConfig
@@ -138,12 +139,14 @@ function getAction (programs: Program[]): ActionConfig {
                                                 dataElement,
                                                 compulsory
                                             }) => {
+                const hidden = dataElement.name?.includes('Linkage')
                 return {
                     id: dataElement.id,
                     name: dataElement.name as string,
                     type: dataElement.valueType as string,
                     optionSet: dataElement.optionSet,
                     mandatory: compulsory,
+                    hidden
                 }
             }) as DataField[],
         dateConfig: {
@@ -189,7 +192,6 @@ export function generateConfigFromMetadata (metadata: {
         trackingPeriod: string
     }
 }): Config {
-
     const categories = getCategories(metadata.programs)
     const actionConfig = getAction(metadata.programs)
     set(actionConfig, 'parent', {

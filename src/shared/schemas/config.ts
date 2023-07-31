@@ -1,4 +1,6 @@
 import { z } from 'zod'
+import { Attribute } from '../types/dhis2'
+import valueType = Attribute.valueType
 
 export const sharingConfigSchema = z.object({
     owner: z.string(),
@@ -27,21 +29,15 @@ export const generalConfigSchema = z.object({
 export const dataFieldSchema = z.object({
     id: z.string(),
     name: z.string(),
-    type: z.enum([
-        'TEXT',
-        'LONG_TEXT',
-        'NUMBER',
-        'INTEGER',
-        'FILE_RESOURCE',
-        'DATE'
-    ]),
+    type: z.nativeEnum(valueType),
     showAsColumn: z.boolean().optional(),
     mandatory: z.boolean().optional(),
     optionSet: z.object({
         id: z.string()
     }).optional(),
     header: z.boolean().optional(),
-    native: z.boolean({ description: 'This field should be in every configuration' }).optional()
+    native: z.boolean({ description: 'This field should be in every configuration' }).optional(),
+    hidden: z.boolean({ description: 'Hidden from normal user operations. Normally linkages' }).optional()
 })
 
 const parentSchema = z.object({

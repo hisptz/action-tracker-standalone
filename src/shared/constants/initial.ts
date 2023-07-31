@@ -1,4 +1,4 @@
-import { DataElement, Option, OptionSet, Sharing, TrackedEntityAttribute } from '../types/types'
+import { DataElement, Option, OptionSet, Sharing, TrackedEntityAttribute } from '../types/dhis2'
 import { uid } from '@hisptz/dhis2-utils'
 import valueType = DataElement.valueType
 import aggregationType = TrackedEntityAttribute.aggregationType
@@ -79,16 +79,20 @@ const generateDefaultStatusOptionSet = (name: string): OptionSet => <OptionSet>(
     valueType: valueType.TEXT
 })
 const generateLinkageDataElement = (): Partial<DataElement> => ({
-    id: uid(),
+    id: 'kBkyDytdOmC',
     name: '[SAT] Linkage',
     valueType: valueType.TEXT,
-    domainType: domainType.TRACKER
+    domainType: domainType.TRACKER,
+    shortName: '[SAT] Linkage - Data Element',
+    aggregationType: aggregationType.NONE,
+    code: '[SAT] Linkage',
+    formName: 'Linkage'
 })
 const generateLinkageTrackedEntityAttribute = (): Partial<TrackedEntityAttribute> => ({
-    id: uid(),
+    id: 'Hi3IjyMXzeW',
     name: '[SAT] Linkage',
     valueType: valueType.TEXT,
-    shortName: '[SAT] Linkage',
+    shortName: '[SAT] Linkage - Attribute',
     aggregationType: aggregationType.NONE,
     code: '[SAT] Linkage',
     formName: 'Linkage'

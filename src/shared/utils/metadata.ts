@@ -186,7 +186,6 @@ function generateRelationshipTypes (config: Config) {
             }
         }
     })
-
     const actionConfig = config.action
 
     const actionRelationType = {

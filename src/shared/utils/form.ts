@@ -1,18 +1,24 @@
-import {DataElement, TrackedEntityAttribute} from "@hisptz/dhis2-utils";
-import {RHFDHIS2FormFieldProps} from "@hisptz/dhis2-ui";
-import i18n from "@dhis2/d2-i18n";
+import { RHFDHIS2FormFieldProps } from '@hisptz/dhis2-ui'
+import i18n from '@dhis2/d2-i18n'
+import { DataField } from '../schemas/config'
 
-export function getFieldProps(mandatory: boolean, attribute: TrackedEntityAttribute | DataElement): RHFDHIS2FormFieldProps {
+export function getFieldProps ({
+                                   name,
+                                   mandatory,
+                                   id,
+                                   type,
+                                   optionSet
+                               }: DataField): RHFDHIS2FormFieldProps {
     return {
-        label: attribute.formName ?? attribute.shortName,
-        name: attribute.id,
-        valueType: attribute.valueType as any,
+        label: name,
+        name: id,
+        valueType: type as any,
         required: mandatory,
-        optionSet: attribute.optionSet,
+        optionSet,
         validations: {
             required: {
                 value: mandatory,
-                message: i18n.t("This field is required")
+                message: i18n.t('This field is required')
             }
         }
     }
