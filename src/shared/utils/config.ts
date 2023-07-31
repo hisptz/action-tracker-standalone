@@ -16,6 +16,9 @@ export const OLD_DATASTORE_NAMESPACE = 'Standalone_Action_Tracker'
 export const ACTION_PROGRAM_ID = 'unD7wro3qPm'
 export const ACTION_STATUS_DATA_ELEMENT = 'f8JYVWLC7rE'
 
+export const DATA_ELEMENT_LINKAGE = 'kBkyDytdOmC'
+export const TRACKED_ENTITY_ATTRIBUTE_LINKAGE = 'Hi3IjyMXzeW'
+
 function getCategories (programs: Program[]): CategoryConfig[] {
     const program = programs.find(p => p.id === BOTTLENECK_PROGRAM_ID)
     if (!program) throw new Error('Could not find bottleneck program')
@@ -206,7 +209,13 @@ export function generateConfigFromMetadata (metadata: {
         name: 'Bottleneck',
         categories,
         action: actionConfig,
-        general: generalConfig
+        general: generalConfig,
+        meta: {
+            linkageConfig: {
+                trackedEntityAttribute: TRACKED_ENTITY_ATTRIBUTE_LINKAGE,
+                dataElement: DATA_ELEMENT_LINKAGE
+            }
+        }
     }
 
 }

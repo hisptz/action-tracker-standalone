@@ -87,12 +87,20 @@ export const actionConfigSchema = z.object({
     parent: parentSchema.optional()
 })
 
+export const metaSchema = z.object({
+    linkageConfig: z.object({
+        trackedEntityAttribute: z.string(),
+        dataElement: z.string()
+    })
+})
+
 export const configSchema = z.object({
     id: z.string(),
     name: z.string({ description: 'Name of the configuration (useful for multiple configurations)' }),
     general: generalConfigSchema,
     categories: z.array(categoryConfigSchema),
-    action: actionConfigSchema
+    action: actionConfigSchema,
+    meta: metaSchema
 })
 
 export type GeneralConfig = z.infer<typeof generalConfigSchema>;
