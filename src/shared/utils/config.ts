@@ -31,7 +31,7 @@ function getCategories (programs: Program[]): CategoryConfig[] {
                                                                  mandatory
                                                              }, index) => ({
             id: trackedEntityAttribute.id,
-            name: trackedEntityAttribute.name as string,
+            name: trackedEntityAttribute.formName ?? trackedEntityAttribute.shortName ?? trackedEntityAttribute.name as string,
             type: trackedEntityAttribute.valueType as string,
             optionSet: trackedEntityAttribute.optionSet,
             showAsColumn: index === 0,
@@ -55,7 +55,7 @@ function getCategories (programs: Program[]): CategoryConfig[] {
                                                        compulsory
                                                    }, index) => ({
                 id: dataElement.id,
-                name: dataElement.name as string,
+                name: dataElement.name?.includes('Linkage') ? 'Linkage' : dataElement.formName ?? dataElement.shortName ?? dataElement.name as string,
                 type: dataElement.valueType as string,
                 optionSet: dataElement.optionSet,
                 mandatory: compulsory,
@@ -125,7 +125,7 @@ function getAction (programs: Program[]): ActionConfig {
                                                                  mandatory
                                                              }, index) => ({
             id: trackedEntityAttribute.id,
-            name: trackedEntityAttribute.name as string,
+            name: trackedEntityAttribute.name?.includes('Linkage') ? 'Linkage' : trackedEntityAttribute.formName ?? trackedEntityAttribute.shortName ?? trackedEntityAttribute.name as string,
             type: trackedEntityAttribute.valueType as string,
             optionSet: trackedEntityAttribute.optionSet,
             showAsColumn: index === 0,
@@ -138,7 +138,7 @@ function getAction (programs: Program[]): ActionConfig {
 
     const actionStatusConfig: ActionStatusConfig = {
         id: actionStatusProgramStage.id,
-        name: actionStatusProgramStage.name as string,
+        name: actionStatusProgramStage.formName as string,
         fields: actionStatusProgramStage
             .programStageDataElements?.map(({
                                                 dataElement,
@@ -147,7 +147,7 @@ function getAction (programs: Program[]): ActionConfig {
                 const hidden = dataElement.name?.includes('Linkage')
                 return {
                     id: dataElement.id,
-                    name: dataElement.name as string,
+                    name: hidden ? 'Linkage' : dataElement.formName ?? dataElement.shortName ?? dataElement.name as string,
                     type: dataElement.valueType as string,
                     optionSet: dataElement.optionSet,
                     mandatory: compulsory,

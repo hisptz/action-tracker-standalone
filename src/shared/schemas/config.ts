@@ -67,7 +67,6 @@ export const actionStatusState = z.object({
     completes: z.boolean().optional(),
     cancels: z.boolean().optional()
 })
-
 export const actionStatusConfigSchema = z.object({
     id: z.string(),
     name: z.string(),
@@ -87,7 +86,6 @@ export const actionConfigSchema = z.object({
     statusConfig: actionStatusConfigSchema,
     parent: parentSchema.optional()
 })
-
 export const metaSchema = z.object({
     linkageConfig: z.object({
         trackedEntityAttribute: z.string(),
