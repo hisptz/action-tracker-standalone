@@ -4,6 +4,7 @@ import { DataEngineState } from './engine'
 import { DATASTORE_NAMESPACE } from '../constants/meta'
 import { type Program } from '@hisptz/dhis2-utils'
 import { head } from 'lodash'
+import { OptionSet } from '../types/dhis2'
 
 const query: any = {
     config: {
@@ -38,7 +39,7 @@ export const ConfigState = selectorFamily<Config | null, string | undefined>({
         const engine = get(DataEngineState)
         try {
             const { config } = await engine.query(query, { variables: { id } })
-            return config
+            return config as Config
         } catch (e) {
             return null
         }
@@ -46,7 +47,7 @@ export const ConfigState = selectorFamily<Config | null, string | undefined>({
 })
 
 const metadataQuery: any = {
-    metadata: {
+    programs: {
         resource: 'programs',
         params: ({ ids }: { ids: string [] }) => (
             {
@@ -75,7 +76,10 @@ const metadataQuery: any = {
         }
     }
 }
-export const MetadataState = selectorFamily<{ programs: Program[] } | null, string | undefined>({
+export const MetadataState = selectorFamily<{
+    programs: { programs: Program[] },
+    status: OptionSet
+} | null, string | undefined>({
     key: 'metadata-state',
     get: (id?: string) => async ({ get }) => {
         if (!id) {
@@ -96,13 +100,12 @@ export const MetadataState = selectorFamily<{ programs: Program[] } | null, stri
         ]
 
         try {
-            const { metadata } = await engine.query(metadataQuery, {
+            return await engine.query(metadataQuery, {
                 variables: {
                     ids: programs,
                     statusOptionSetId: config.action.statusConfig.stateConfig.optionSetId
                 }
-            })
-            return metadata
+            }) as { programs: { programs: Program[] }, status: OptionSet }
         } catch (e) {
             return null
         }

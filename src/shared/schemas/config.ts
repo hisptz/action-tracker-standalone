@@ -73,7 +73,8 @@ export const actionStatusConfigSchema = z.object({
     name: z.string(),
     fields: z.array(dataFieldSchema),
     stateConfig: z.object({
-        dataElement: z.string()
+        dataElement: z.string(),
+        optionSetId: z.string(),
     }),
     dateConfig: z.object({
         name: z.string()

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-31T11:02:08.735Z\n"
-"PO-Revision-Date: 2023-07-31T11:02:08.735Z\n"
+"POT-Creation-Date: 2023-08-01T03:54:09.457Z\n"
+"PO-Revision-Date: 2023-08-01T03:54:09.457Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -370,6 +370,12 @@ msgstr "Updating..."
 msgid "Creating..."
 msgstr "Creating..."
 
+msgid "Successfully updated {{name}}"
+msgstr "Successfully updated {{name}}"
+
+msgid "Successfully created {{name}}"
+msgstr "Successfully created {{name}}"
+
 msgid "Failed to {{action}} {{name}}"
 msgstr "Failed to {{action}} {{name}}"
 
@@ -378,12 +384,6 @@ msgstr "update"
 
 msgid "create"
 msgstr "create"
-
-msgid "Successfully updated {{name}}"
-msgstr "Successfully updated {{name}}"
-
-msgid "Successfully created {{name}}"
-msgstr "Successfully created {{name}}"
 
 msgid "Successfully deleted {{instanceName}}"
 msgstr "Successfully deleted {{instanceName}}"

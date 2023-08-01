@@ -3,7 +3,7 @@ import React, { Fragment, useMemo } from 'react'
 import { useDimensions } from '../../../../../../../../../../../../shared/hooks'
 import { find, get } from 'lodash'
 import { DateTime } from 'luxon'
-import { Button, IconAdd24 } from '@dhis2/ui'
+import { Button, IconAdd24, TableCell } from '@dhis2/ui'
 import { useBoolean } from 'usehooks-ts'
 import { ActionStatusForm } from './components/ActionStatusForm'
 import { useConfiguration } from '../../../../../../../../../../../../shared/hooks/config'
@@ -11,6 +11,7 @@ import i18n from '@dhis2/d2-i18n'
 import { ActionButton } from '../../../../../../../../../../../../shared/components/ActionButton'
 import { useConfirmDialog } from '@hisptz/dhis2-ui'
 import { useManageActionStatus } from './components/ActionStatusForm/hooks/save'
+import classes from '../../../DataTable/DataTable.module.css'
 
 export interface ActionStatusProps {
     refetch: () => void;
@@ -19,33 +20,41 @@ export interface ActionStatusProps {
     columnConfig: ActionTrackingColumnStateConfig
 }
 
-
-export function ActionStatus({instance, columnConfig, events, refetch}: ActionStatusProps) {
-    const {value: hide, setTrue: onHide, setFalse: onShow} = useBoolean(true);
-    const {confirm} = useConfirmDialog();
-    const {period: selectedPeriod} = useDimensions();
-    const {config} = useConfiguration();
-    const {period} = columnConfig;
+export function ActionStatus ({
+                                  instance,
+                                  columnConfig,
+                                  events,
+                                  refetch
+                              }: ActionStatusProps) {
+    const {
+        value: hide,
+        setTrue: onHide,
+        setFalse: onShow
+    } = useBoolean(true)
+    const { confirm } = useConfirmDialog()
+    const { period: selectedPeriod } = useDimensions()
+    const { config } = useConfiguration()
+    const { period } = columnConfig
     const statusEvent = useMemo(() => {
-        if (!events) return null;
+        if (!events) return null
         return find(events, (event) => {
-            const date = new Date(event.occurredAt);
-            return period.interval.contains(DateTime.fromJSDate(date));
-        }) as any ?? null;
-    }, [instance, period, events]);
+            const date = new Date(event.occurredAt)
+            return period.interval.contains(DateTime.fromJSDate(date))
+        }) as any ?? null
+    }, [instance, period, events])
     const onActionManageComplete = () => {
         refetch()
     }
-    const {onDelete: onDeleteConfirm} = useManageActionStatus({
+    const { onDelete: onDeleteConfirm } = useManageActionStatus({
         instance,
         onComplete: onActionManageComplete,
         defaultValue: statusEvent
     })
     const tableData = useMemo(() => {
-        if (!statusEvent) return null;
-        const dataValues = get(statusEvent, ['dataValues'], null);
+        if (!statusEvent) return null
+        const dataValues = get(statusEvent, ['dataValues'], null)
         const data = dataValues.map((dataValue: { dataElement: string; value: string }) => {
-            const dataElement = find(config?.action.statusConfig.fields, {id: dataValue.dataElement});
+            const dataElement = find(config?.action.statusConfig.fields, { id: dataValue.dataElement })
             return {
                 name: dataElement?.name,
                 value: dataValue.value
@@ -54,28 +63,27 @@ export function ActionStatus({instance, columnConfig, events, refetch}: ActionSt
 
         return [
             {
-                name: i18n.t("Review Date"),
-                value: DateTime.fromISO(statusEvent.occurredAt).toFormat("dd-MM-yyyy")
+                name: i18n.t('Review Date'),
+                value: DateTime.fromISO(statusEvent.occurredAt).toFormat('dd-MM-yyyy')
             },
             ...data
         ]
 
     }, [statusEvent,])
 
-
     //TODO: Discuss if this is how it should be...
     if (!selectedPeriod?.interval.engulfs(period.interval)) {
-        return null;
+        return null
     }
 
     const onDelete = () => {
         confirm({
-            title: i18n.t("Confirm delete"),
+            title: i18n.t('Confirm delete'),
             onConfirm: async () => {
-                await onDeleteConfirm();
-                refetch();
+                await onDeleteConfirm()
+                refetch()
             },
-            message: i18n.t("Are you sure you want to delete this status?"),
+            message: i18n.t('Are you sure you want to delete this status?'),
             onCancel: () => {
             }
         })
@@ -83,18 +91,18 @@ export function ActionStatus({instance, columnConfig, events, refetch}: ActionSt
 
     if (!statusEvent) {
         return (
-            <>
+            <TableCell className={classes['tracking-value-cell']}>
                 <ActionStatusForm onComplete={onActionManageComplete} columnConfig={columnConfig} onClose={onHide}
                                   hide={hide} instance={instance}/>
                 <div className="w-100 h-100 column center align-center">
                     <Button onClick={onShow} icon={<IconAdd24/>}/>
                 </div>
-            </>
+            </TableCell>
         )
     }
 
     return (
-        <>
+        <TableCell className={classes['tracking-value-cell']}>
             <ActionStatusForm defaultValue={statusEvent} onComplete={onActionManageComplete} columnConfig={columnConfig}
                               onClose={onHide}
                               hide={hide} instance={instance}/>
@@ -116,6 +124,6 @@ export function ActionStatus({instance, columnConfig, events, refetch}: ActionSt
                     />
                 </div>
             </div>
-        </>
+        </TableCell>
     )
 }

@@ -15,9 +15,10 @@ export const BOTTLENECK_PROGRAM_ID = 'Uvz0nfKVMQJ'
 export const OLD_DATASTORE_NAMESPACE = 'Standalone_Action_Tracker'
 export const ACTION_PROGRAM_ID = 'unD7wro3qPm'
 export const ACTION_STATUS_DATA_ELEMENT = 'f8JYVWLC7rE'
-
 export const DATA_ELEMENT_LINKAGE = 'kBkyDytdOmC'
 export const TRACKED_ENTITY_ATTRIBUTE_LINKAGE = 'Hi3IjyMXzeW'
+
+export const STATUS_OPTION_SET = 'Y3FLpktyYMC'
 
 function getCategories (programs: Program[]): CategoryConfig[] {
     const program = programs.find(p => p.id === BOTTLENECK_PROGRAM_ID)
@@ -158,7 +159,8 @@ function getAction (programs: Program[]): ActionConfig {
         },
 
         stateConfig: {
-            dataElement: ACTION_STATUS_DATA_ELEMENT
+            dataElement: ACTION_STATUS_DATA_ELEMENT,
+            optionSetId: STATUS_OPTION_SET
         }
     }
 

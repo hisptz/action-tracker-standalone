@@ -56,8 +56,6 @@ export function ActionStatusForm({
         defaultValue,
     });
 
-    console.log(fields)
-
     return (
         <Modal position="middle" onClose={onClose} hide={hide}>
             <ModalTitle>
