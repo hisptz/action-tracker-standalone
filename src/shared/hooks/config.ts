@@ -7,6 +7,7 @@ export function useConfiguration () {
     const { id } = useParams<{ id: string }>()
     const config = useRecoilValue(ConfigState(id))
     const resetConfig = useRecoilRefresher_UNSTABLE(ConfigState(id))
+
     return {
         config,
         id,

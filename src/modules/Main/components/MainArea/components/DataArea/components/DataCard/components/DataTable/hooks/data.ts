@@ -53,6 +53,9 @@ const eventsQuery: any = {
             fields: [
                 'event',
                 'enrollment',
+                'occurredAt',
+                'orgUnit',
+                'program', 'programStage',
                 'dataValues[dataElement,value]',
             ],
         })

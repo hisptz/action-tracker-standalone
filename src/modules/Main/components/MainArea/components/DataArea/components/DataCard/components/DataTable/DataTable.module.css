@@ -1,8 +1,7 @@
 .nesting-cell {
-    padding: 0 !important;;
+    padding: 0 !important;
     margin: 0 !important;
-    height: auto !important;
-
+    height: 100% !important;
 }
 
 .table-body {
@@ -20,4 +19,9 @@
 
 .tracking-value-cell {
     border-bottom: none !important;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 13px 12px;
+    height: 57px;
+    min-height: 57px;
 }

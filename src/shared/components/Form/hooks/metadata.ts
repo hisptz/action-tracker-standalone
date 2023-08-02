@@ -25,8 +25,6 @@ export function useFormMeta ({
         return fieldsConfig.filter(({ hidden }) => !hidden).map(field => getFieldProps(field))
     }, [instanceConfig])
 
-    console.log(fields)
-
     return {
         fields,
         instanceMeta

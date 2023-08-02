@@ -7,6 +7,7 @@ import i18n from '@dhis2/d2-i18n'
 import { ParentConfig } from '../../../schemas/config'
 import { get } from 'lodash'
 import { useConfiguration } from '../../../hooks/config'
+import { DataElement, TrackedEntityAttribute } from '../../../types/dhis2'
 
 const mutation: any = {
     resource: 'tracker',
@@ -74,11 +75,11 @@ function generateTei (data: Record<string, any>, {
     }
 }
 
-function updateTei (data: Record<string, any>, tei: any) {
-    const attributes = Object.entries(data).map(([key, value]) => {
+function updateTei (data: Record<string, any>, tei: any, fields: TrackedEntityAttribute[]) {
+    const attributes = fields.map(({ id }) => {
         return {
-            attribute: key,
-            value
+            attribute: id,
+            value: data[id]
         }
     })
     return {
@@ -166,11 +167,11 @@ export function generateEvent (data: Record<string, any>, {
     }
 }
 
-export function updateEvent (data: Record<string, any>, event: any) {
-    const dataValues = Object.entries(data).map(([key, value]) => {
+export function updateEvent (data: Record<string, any>, event: any, fields: DataElement[]) {
+    const dataValues = fields.map(({ id }) => {
         return {
-            dataElement: key,
-            value
+            dataElement: id,
+            value: data[id]
         }
     })
 
@@ -209,7 +210,24 @@ export function useFormActions ({
     }))
     const [uploadPayload, { loading: saving }] = useDataMutation(mutation, {
         onComplete: () => {
-            onComplete()
+            if (defaultValue) {
+                show({
+                    message: i18n.t('Successfully updated {{name}}', {
+                        name: instanceName
+                    }),
+                    type: { success: true }
+                })
+            } else {
+                show({
+                    message: i18n.t('Successfully created {{name}}', {
+                        name: instanceName
+                    }),
+                    type: { success: true }
+                })
+            }
+            if (onComplete) {
+                onComplete()
+            }
         },
         onError: () => {
             show({
@@ -226,7 +244,9 @@ export function useFormActions ({
         if (type === 'program') {
             //Create a tei and enrollment
             if (defaultValue) {
-                const enrollment = updateTei(data, defaultValue)
+                const enrollment = updateTei(data, defaultValue, instanceMeta?.programTrackedEntityAttributes.map(({ trackedEntityAttribute }: {
+                    trackedEntityAttribute: TrackedEntityAttribute
+                }) => trackedEntityAttribute))
                 delete enrollment['events']
                 await uploadPayload({
                     data: {
@@ -263,19 +283,15 @@ export function useFormActions ({
             }
         } else {
             if (defaultValue) {
-                const updatedEvent = updateEvent(data, defaultValue)
+                const updatedEvent = updateEvent(data, defaultValue, instanceMeta?.programStageDataElements.map(({ dataElement }: {
+                    dataElement: DataElement
+                }) => dataElement))
                 await uploadPayload({
                     data: {
                         events: [
                             updatedEvent
                         ]
                     }
-                })
-                show({
-                    message: i18n.t('Successfully updated {{name}}', {
-                        name: instanceName
-                    }),
-                    type: { success: true }
                 })
             } else {
                 if (!parent || !parentConfig) {
@@ -308,12 +324,6 @@ export function useFormActions ({
                     events: [event],
                 }
                 await uploadPayload({ data: payload })
-                show({
-                    message: i18n.t('Successfully created {{name}}', {
-                        name: instanceName
-                    }),
-                    type: { success: true }
-                })
             }
         }
     }, [instanceMeta, orgUnit, uploadPayload, type])

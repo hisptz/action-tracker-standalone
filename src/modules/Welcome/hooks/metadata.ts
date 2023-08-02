@@ -22,8 +22,8 @@ const programsQuery = {
                 'id',
                 'name',
                 'organisationUnits[id,path]',
-                'programTrackedEntityAttributes[trackedEntityAttribute[id,name,valueType,optionSet[id,name,options[id,name,code]]],mandatory]',
-                'programStages[id,name,programStageDataElements[dataElement[id,name,valueType,optionSet[id,name,options[id,name,code]]]]]',
+                'programTrackedEntityAttributes[trackedEntityAttribute[id,name,shortName,formName,valueType,optionSet[id,name,options[id,name,code]]],mandatory]',
+                'programStages[id,name,programStageDataElements[dataElement[id,name,valueType,formName,shortName,optionSet[id,name,options[id,name,code]]]]]',
             ]
         }
     },

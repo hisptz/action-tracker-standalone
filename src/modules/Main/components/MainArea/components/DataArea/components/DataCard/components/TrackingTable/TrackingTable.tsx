@@ -1,5 +1,5 @@
 import { ActionConfig } from '../../../../../../../../../../shared/schemas/config'
-import { CircularLoader, TableBody, TableCell, TableRow } from '@dhis2/ui'
+import { CircularLoader, TableBody, TableRow } from '@dhis2/ui'
 import classes from '../DataTable/DataTable.module.css'
 import React from 'react'
 import { useRecoilValue } from 'recoil'
@@ -14,11 +14,17 @@ export interface TrackingTableProps {
     instance: any
 }
 
-
-export function TrackingTable({actionConfig, instance}: TrackingTableProps) {
-    const {config: mainConfig} = useConfiguration();
-    const columns = useRecoilValue(TrackingColumnsState(mainConfig?.id as string));
-    const {loading, events, refetch} = useTrackingTableData({instance})
+export function TrackingTable ({
+                                   actionConfig,
+                                   instance
+                               }: TrackingTableProps) {
+    const { config: mainConfig } = useConfiguration()
+    const columns = useRecoilValue(TrackingColumnsState(mainConfig?.id as string))
+    const {
+        loading,
+        events,
+        refetch
+    } = useTrackingTableData({ instance })
 
     if (loading) {
         return (
@@ -27,7 +33,7 @@ export function TrackingTable({actionConfig, instance}: TrackingTableProps) {
                     <tbody>
                     <tr>
                         <td colSpan={columns?.length}>
-                            <div style={{minHeight: "100px"}} className="column center align-center w-100 h-100">
+                            <div style={{ minHeight: '100px' }} className="column center align-center w-100 h-100">
                                 <CircularLoader small/>
                             </div>
                         </td>
@@ -38,36 +44,42 @@ export function TrackingTable({actionConfig, instance}: TrackingTableProps) {
         )
     }
 
+    const calculateColumnWidth = (width: number) => {
+        /*
+        * Here is another amazing implementation. I honestly don't have any idea how this works
+        *  */
+        return width
+    }
+
     return (
-        <div className="column w-100">
+        <div className="column w-100 h-100 m-0">
             <div style={{
                 maxHeight: 500,
-                overflowY: "auto"
+                overflowY: 'auto'
             }}>
                 <table style={{
                     padding: 0,
                     margin: 0,
                     borderSpacing: 0,
-                    borderCollapse: "collapse",
+                    borderCollapse: 'collapse',
+                    width: '100%',
+                    height: '100%'
                 }}>
-                    <colgroup>
-                        {
-                            columns?.map((header,) => (
-                                <col width={`${header.width}px`} key={`${header.id}-colgroup`}/>))
-                        }
-                    </colgroup>
+                    {
+                        columns?.map((header,) => (
+                            <col width={`${calculateColumnWidth(header.width)}%`}
+                                 id={header.id} key={`${header.id}-colgroup`}/>))
+                    }
                     <TableBody className={classes['table-body']}>
                         <TableRow>
                             {
                                 columns.map((column, columnIndex) => (
-                                    <TableCell key={`${column.id}-${instance.trackedEntity}-action-status`}
-                                               className={classes['tracking-value-cell']}>
-                                        {
-                                            column.id === "latest-status" ? <LatestStatus events={events}/> :
-                                                <ActionStatus refetch={refetch} events={events} instance={instance}
-                                                              columnConfig={column}/>
-                                        }
-                                    </TableCell>
+                                    column.id === 'latest-status' ?
+                                        <LatestStatus key={`${column.id}-${instance.trackedEntity}-action-status`}
+                                                      events={events}/> :
+                                        <ActionStatus key={`${column.id}-${instance.trackedEntity}-action-status`}
+                                                      refetch={refetch} events={events} instance={instance}
+                                                      columnConfig={column}/>
                                 ))
                             }
                         </TableRow>

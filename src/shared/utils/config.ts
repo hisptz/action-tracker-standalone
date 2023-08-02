@@ -15,9 +15,10 @@ export const BOTTLENECK_PROGRAM_ID = 'Uvz0nfKVMQJ'
 export const OLD_DATASTORE_NAMESPACE = 'Standalone_Action_Tracker'
 export const ACTION_PROGRAM_ID = 'unD7wro3qPm'
 export const ACTION_STATUS_DATA_ELEMENT = 'f8JYVWLC7rE'
-
 export const DATA_ELEMENT_LINKAGE = 'kBkyDytdOmC'
 export const TRACKED_ENTITY_ATTRIBUTE_LINKAGE = 'Hi3IjyMXzeW'
+
+export const STATUS_OPTION_SET = 'Y3FLpktyYMC'
 
 function getCategories (programs: Program[]): CategoryConfig[] {
     const program = programs.find(p => p.id === BOTTLENECK_PROGRAM_ID)
@@ -30,7 +31,7 @@ function getCategories (programs: Program[]): CategoryConfig[] {
                                                                  mandatory
                                                              }, index) => ({
             id: trackedEntityAttribute.id,
-            name: trackedEntityAttribute.name as string,
+            name: trackedEntityAttribute.formName ?? trackedEntityAttribute.shortName ?? trackedEntityAttribute.name as string,
             type: trackedEntityAttribute.valueType as string,
             optionSet: trackedEntityAttribute.optionSet,
             showAsColumn: index === 0,
@@ -54,7 +55,7 @@ function getCategories (programs: Program[]): CategoryConfig[] {
                                                        compulsory
                                                    }, index) => ({
                 id: dataElement.id,
-                name: dataElement.name as string,
+                name: dataElement.name?.includes('Linkage') ? 'Linkage' : dataElement.formName ?? dataElement.shortName ?? dataElement.name as string,
                 type: dataElement.valueType as string,
                 optionSet: dataElement.optionSet,
                 mandatory: compulsory,
@@ -124,7 +125,7 @@ function getAction (programs: Program[]): ActionConfig {
                                                                  mandatory
                                                              }, index) => ({
             id: trackedEntityAttribute.id,
-            name: trackedEntityAttribute.name as string,
+            name: trackedEntityAttribute.name?.includes('Linkage') ? 'Linkage' : trackedEntityAttribute.formName ?? trackedEntityAttribute.shortName ?? trackedEntityAttribute.name as string,
             type: trackedEntityAttribute.valueType as string,
             optionSet: trackedEntityAttribute.optionSet,
             showAsColumn: index === 0,
@@ -137,7 +138,7 @@ function getAction (programs: Program[]): ActionConfig {
 
     const actionStatusConfig: ActionStatusConfig = {
         id: actionStatusProgramStage.id,
-        name: actionStatusProgramStage.name as string,
+        name: actionStatusProgramStage.formName as string,
         fields: actionStatusProgramStage
             .programStageDataElements?.map(({
                                                 dataElement,
@@ -146,7 +147,7 @@ function getAction (programs: Program[]): ActionConfig {
                 const hidden = dataElement.name?.includes('Linkage')
                 return {
                     id: dataElement.id,
-                    name: dataElement.name as string,
+                    name: hidden ? 'Linkage' : dataElement.formName ?? dataElement.shortName ?? dataElement.name as string,
                     type: dataElement.valueType as string,
                     optionSet: dataElement.optionSet,
                     mandatory: compulsory,
@@ -158,7 +159,8 @@ function getAction (programs: Program[]): ActionConfig {
         },
 
         stateConfig: {
-            dataElement: ACTION_STATUS_DATA_ELEMENT
+            dataElement: ACTION_STATUS_DATA_ELEMENT,
+            optionSetId: STATUS_OPTION_SET
         }
     }
 
