@@ -4,12 +4,13 @@ import {
     generateConfigFromMetadata,
     OLD_DATASTORE_NAMESPACE
 } from '../../../shared/utils/config'
-import { useAlert, useDataQuery } from '@dhis2/app-runtime'
+import { FetchError, useAlert, useDataQuery } from '@dhis2/app-runtime'
 import { useCallback } from 'react'
 import { DATASTORE_NAMESPACE } from '../../../shared/constants/meta'
 import { Config } from '../../../shared/schemas/config'
 import i18n from '@dhis2/d2-i18n'
 import { isEmpty } from 'lodash'
+import { useUpdateMetadata } from '../../../shared/hooks/metadata'
 
 const programsQuery = {
     meta: {
@@ -41,6 +42,10 @@ const generateConfigCreateMutation = (id: string): any => {
 }
 
 export function useSetupMetadata () {
+    const {
+        uploadingMetadata,
+        updateMetadataFromConfig
+    } = useUpdateMetadata()
     const { show } = useAlert(({ message }) => message, ({ type }) => ({
         ...type,
         duration: 3000
@@ -64,6 +69,13 @@ export function useSetupMetadata () {
                 programs: meta.programs,
                 defaultSettings: settings
             })
+
+            const response = await updateMetadataFromConfig(generatedConfig)
+
+            if ((response as FetchError)?.message) {
+                return
+            }
+
             return await engine.mutate(generateConfigCreateMutation(generatedConfig.id), {
                 variables: {
                     data: generatedConfig
