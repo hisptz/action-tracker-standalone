@@ -12,6 +12,8 @@ import { ActionButton } from '../../../../../../../../../../../../shared/compone
 import { useConfirmDialog } from '@hisptz/dhis2-ui'
 import { useManageActionStatus } from './components/ActionStatusForm/hooks/save'
 import classes from '../../../DataTable/DataTable.module.css'
+import { hexToRgba } from '../LatestStatus'
+import { useMetadata } from '../../../../../../../../../../../../shared/hooks/metadata'
 
 export interface ActionStatusProps {
     refetch: () => void;
@@ -50,6 +52,11 @@ export function ActionStatus ({
         onComplete: onActionManageComplete,
         defaultValue: statusEvent
     })
+
+    const { status: statusOptionSet } = useMetadata()
+    const actionStatusConfig = config?.action.statusConfig
+
+    const options = statusOptionSet?.options || []
     const tableData = useMemo(() => {
         if (!statusEvent) return null
         const dataValues = get(statusEvent, ['dataValues'], null)
@@ -100,9 +107,14 @@ export function ActionStatus ({
             </TableCell>
         )
     }
+    const status = find(statusEvent.dataValues, ['dataElement', actionStatusConfig?.stateConfig?.dataElement])?.value
+
+    const selectedOption = find(options, ['code', status])
+
+    const color = selectedOption?.style.color ?? '#FFFFFF'
 
     return (
-        <TableCell className={classes['tracking-value-cell']}>
+        <td style={{ background: hexToRgba(color, .4) ?? '#FFFFFF' }} className={classes['tracking-value-cell']}>
             <ActionStatusForm defaultValue={statusEvent} onComplete={onActionManageComplete} columnConfig={columnConfig}
                               onClose={onHide}
                               hide={hide} instance={instance}/>
@@ -124,6 +136,6 @@ export function ActionStatus ({
                     />
                 </div>
             </div>
-        </TableCell>
+        </td>
     )
 }

@@ -10,7 +10,7 @@ export interface LatestStatusProps {
     events: any[];
 }
 
-function hexToRgba (hex: string, alpha: number): string | null {
+export function hexToRgba (hex: string, alpha: number): string | null {
     // Check if the input is a valid hexadecimal color
     const validHexPattern = /^#([A-Fa-f0-9]{3}){1,2}$/
     if (!validHexPattern.test(hex)) {
@@ -92,10 +92,10 @@ export function LatestStatus ({ events }: LatestStatusProps) {
 
     const color = selectedOption?.style.color ?? '#FFFFFF'
 
-    const textColor = getTextColorForBackground(color as string)
+    const textColor = '#000'
 
     return (
-        <td style={{ background: hexToRgba(color, .8) ?? color }} className={classes['tracking-value-cell']}>
+        <td style={{ background: hexToRgba(color, .5) ?? color }} className={classes['tracking-value-cell']}>
             <div className="w-100 h-100 row align-center center gap-8">
                 <DHIS2Icon iconName={selectedOption?.style.icon as string} size={24} color={textColor}/>
                 <b style={{ color: textColor }}>{selectedOption?.name}</b>
