@@ -1,11 +1,12 @@
 import { useConfiguration } from './config'
-import { useAlert, useDataMutation } from '@dhis2/app-runtime'
+import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import { useLog } from './log'
 import { type Config } from '../schemas/config'
 import { initialMetadata } from '../constants/defaults'
 import { generateMetadataFromConfig } from '../utils/metadata'
 import { useRecoilValue } from 'recoil'
 import { MetadataState } from '../state/config'
+import { useMutation } from '@tanstack/react-query'
 
 export function useMetadata () {
     const { id } = useConfiguration()
@@ -39,36 +40,31 @@ export const metadataMutation: any = {
 
 export function useUpdateMetadata () {
     const log = useLog()
+    const engine = useDataEngine()
     const { show } = useAlert(({ message }) => message, ({ type }) => ({
         ...type,
         duration: 3000
     }))
-    const [sendMetadata, {
-        loading: uploadingMetadata,
+
+    const send = async (options: { mode: string; metadata: any }) => {
+        return engine.mutate(metadataMutation, {
+            variables: options
+        })
+    }
+    const {
+        mutateAsync: sendMetadata,
+        isLoading: uploadingMetadata,
         error: metadataError
-    }] = useDataMutation(metadataMutation, {
-        onError: (error) => {
-            show({
-                message: `Error setting up required metadata: ${error.message}`,
-                type: { critical: true }
-            })
-            log.error({
-                message: `Error setting up required metadata: ${error.message}`,
-                details: error.details,
-                stack: error.stack
-            })
-        }
-    })
+    } = useMutation(['metadata'], send)
 
     const uploadMetadata = async (metadata: any) => {
+        //If there are any errors expect this to throw them
         const response = await sendMetadata({
             metadata,
             mode: 'VALIDATE'
         })
-        if (response === undefined) {
-            return metadataError
-        }
-        return await sendMetadata({
+        console.log(response)
+        return sendMetadata({
             metadata,
             mode: 'COMMIT'
         })
@@ -76,7 +72,7 @@ export function useUpdateMetadata () {
 
     const updateMetadataFromConfig = async (config: Config) => {
         const metadata = { ...initialMetadata, ...generateMetadataFromConfig(config, { meta: initialMetadata }) }
-        return await uploadMetadata(metadata)
+        return uploadMetadata(metadata)
     }
 
     return {

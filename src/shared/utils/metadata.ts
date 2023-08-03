@@ -18,7 +18,7 @@ import {
     uid
 } from '@hisptz/dhis2-utils'
 import { compact, filter, find } from 'lodash'
-import { EntityTypes, type InitialMetadata } from '../constants/defaults'
+import { EntityTypesIds, type InitialMetadata } from '../constants/defaults'
 
 export interface MetaMeta extends InitialMetadata {
     orgUnits: Array<{ id: string, path: string }>
@@ -32,7 +32,7 @@ function generateDataItemsFromConfig (field: DataField): TrackedEntityAttribute 
         formName: field.name,
         id: field.id ?? uid(),
         code: field.name,
-        shortName: field.name,
+        shortName: field.shortName,
         valueType: field.type as DHIS2ValueType,
         aggregationType: 'NONE',
         domainType: 'TRACKER',
@@ -92,7 +92,8 @@ function generateProgramStageFromConfig (config: CategoryConfig | ActionStatusCo
             type: 'TEXT' as any,
             name: 'Linkage',
             native: true,
-            hidden: true
+            hidden: true,
+            shortName: 'Linkage'
         })
     }
 
@@ -126,7 +127,7 @@ function generateProgramStageFromConfig (config: CategoryConfig | ActionStatusCo
 }
 
 function generateCategoriesMetadata (categories: CategoryConfig[], meta: MetaMeta) {
-    const trackedEntityType = find(meta.trackedEntityTypes, ['name', EntityTypes.CATEGORIZATION])
+    const trackedEntityType = find(meta.trackedEntityTypes, ['id', EntityTypesIds.CATEGORIZATION])
     if (categories.length === 1) {
         return {
             program: {
@@ -155,7 +156,7 @@ function generateCategoriesMetadata (categories: CategoryConfig[], meta: MetaMet
 }
 
 function generateActionsMetadata (actionConfig: ActionConfig, meta: MetaMeta) {
-    const trackedEntityType = find(meta.trackedEntityTypes, ['name', EntityTypes.ACTION])
+    const trackedEntityType = find(meta.trackedEntityTypes, ['id', EntityTypesIds.ACTION])
     const program = generateProgramFromConfig(actionConfig, trackedEntityType as TrackedEntityType, { meta })
     const programStage = generateProgramStageFromConfig(actionConfig.statusConfig, {
         programId: program.id,
@@ -177,7 +178,7 @@ function extractTrackedEntityAttributes (programs: Program[]) {
 }
 
 function generateRelationshipTypes (config: Config) {
-    const categoriesWithParents = config.categories.filter(({ parent }) => !(parent == null))
+    const categoriesWithParents = config.categories.filter(({ parent }) => !parent)
     const sharing = config.general.sharing
     const relationshipTypes = categoriesWithParents.map(({
                                                              parent,
@@ -227,7 +228,7 @@ function generateRelationshipTypes (config: Config) {
         sharing
     }
 
-    return [...relationshipTypes, actionRelationType]
+    return compact([...relationshipTypes, actionRelationType])
 }
 
 function extractDataElements (programStages: ProgramStage[]) {

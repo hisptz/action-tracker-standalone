@@ -29,6 +29,7 @@ export const generalConfigSchema = z.object({
 export const dataFieldSchema = z.object({
     id: z.string(),
     name: z.string(),
+    shortName: z.string(),
     type: z.nativeEnum(valueType),
     showAsColumn: z.boolean().optional(),
     mandatory: z.boolean().optional(),

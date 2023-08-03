@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react'
 import { Config } from '../../../shared/schemas/config'
-import { useDataMutation, useDataQuery } from '@dhis2/app-runtime'
+import { useDataEngine, useDataQuery } from '@dhis2/app-runtime'
 import { find, flattenDeep, get, head, last, tail } from 'lodash'
 import { Event, TrackedEntity } from '../../../shared/types/dhis2'
 import { migrateData } from '../../../shared/utils/data-migrate'
 import { asyncify, mapSeries } from 'async'
-import { TrackedEntityInstance } from '@hisptz/dhis2-utils'
+import { useMutation } from '@tanstack/react-query'
 
 const query: any = {
     data: {
@@ -25,7 +25,7 @@ const query: any = {
                     'orgUnit',
                     'trackedEntity',
                     'attributes[attribute,value]',
-                    'enrollments[enrollment,enrolledAt,occurredAt,orgUnit,program,events[event,occurredAt,orgUnit,program,programStage,dataValues[dataElement,value]]]'
+                    'enrollments[enrollment,enrolledAt,occurredAt,orgUnit,program,events[event,enrollment,occurredAt,orgUnit,program,programStage,dataValues[dataElement,value]]]'
                 ]
             }
         }
@@ -34,7 +34,7 @@ const query: any = {
 
 const relationshipQuery: any = {
     data: {
-        resource: 'relationships',
+        resource: 'tracker/relationships',
         params: ({ trackedEntity }: { trackedEntity: string }) => ({
             trackedEntity,
             tei: trackedEntity,
@@ -54,12 +54,14 @@ const mutation: any = {
         importMode: 'COMMIT',
         async: false,
         validationMode: 'FAIL_FAST',
-        atomicMode: 'ALL'
+        atomicMode: 'ALL',
+        reportMode: 'FULL'
     }
 }
 
 export function useMigrateData () {
     const [progress, setProgress] = useState(0)
+    const engine = useDataEngine()
     const {
         refetch,
         loading: gettingBottlenecks
@@ -68,73 +70,70 @@ export function useMigrateData () {
         refetch: getActions,
         loading: gettingActions
     } = useDataQuery(relationshipQuery, { lazy: true })
-    const [upload, { loading: uploading }] = useDataMutation(mutation)
+    const {
+        mutateAsync: upload,
+        isLoading: uploading
+    } = useMutation<any, any, any>(['data-migrate'], async (variables) => engine.mutate(mutation, { variables }))
 
     const onEachBottleneckMigrate = async (trackedEntity: TrackedEntity, { config }: { config: Config }) => {
-        try {
-            const childCategories = tail(config.categories)
-            const events = get(trackedEntity, ['enrollments', 0, 'events'])
-            const gapEvents = events.filter(({ programStage }) => programStage === head(childCategories)?.id)
-            const solutionEvents = events.filter(({ programStage }) => programStage === last(childCategories)?.id)
-            const updatedGapEvents = migrateData({
-                parent: trackedEntity,
-                children: gapEvents as unknown as Event[],
+        const childCategories = tail(config.categories)
+        const events = get(trackedEntity, ['enrollments', 0, 'events'])
+        const gapEvents = events.filter(({ programStage }) => programStage === head(childCategories)?.id)
+        const solutionEvents = events.filter(({ programStage }) => programStage === last(childCategories)?.id)
+        const updatedGapEvents = migrateData({
+            parent: trackedEntity,
+            children: gapEvents as unknown as Event[],
+            childrenAreEvents: true,
+            linkageConfig: config.meta.linkageConfig
+        })
+
+        const updatedSolutionEvents = gapEvents.map((event) => {
+            const children = solutionEvents.filter((solutionEvent) => {
+                const linkageId = 'kBkyDytdOmC'
+                const gapValue = find(event.dataValues, { dataElement: linkageId })?.value
+                const solutionValue = find(solutionEvent.dataValues, { dataElement: linkageId })?.value
+                return gapValue === solutionValue
+            })
+            return migrateData({
+                parent: event as unknown as Event,
                 childrenAreEvents: true,
+                children: children as unknown as Event[],
                 linkageConfig: config.meta.linkageConfig
             })
+        })
+        const updatedEvents = [...updatedGapEvents, ...updatedSolutionEvents] as Event[]
 
-            const updatedSolutionEvents = gapEvents.map((event) => {
-                const children = solutionEvents.filter((solutionEvent) => {
-                    const linkageId = 'kBkyDytdOmC'
-                    const gapValue = find(event.dataValues, { dataElement: linkageId })?.value
-                    const solutionValue = find(solutionEvent.dataValues, { dataElement: linkageId })?.value
-                    return gapValue === solutionValue
-                })
-                return migrateData({
-                    parent: event as unknown as Event,
-                    childrenAreEvents: true,
-                    children: children as unknown as Event[],
-                    linkageConfig: config.meta.linkageConfig
-                })
-            })
-            const updatedEvents = [...updatedGapEvents, ...updatedSolutionEvents] as Event[]
+        const actionsResponse: {
+            data: { instances: { to: { trackedEntity: TrackedEntity } }[] }
+        } = await getActions({
+            trackedEntity: get(trackedEntity, ['trackedEntity'])
+        }) as any
 
-            const actionsResponse: {
-                data: { to: { trackedEntityInstance: TrackedEntityInstance } }[]
-            } = await getActions({
-                trackedEntity: get(trackedEntity, ['trackedEntity'])
-            }) as any
+        const actions = actionsResponse.data?.instances?.map(({ to }) => to.trackedEntity)
 
-            const actions = actionsResponse.data?.map(({ to }) => to.trackedEntityInstance)
-
-            const updatedActions = solutionEvents.map((solutionEvent) => {
-                const solutionActions = actions?.filter((action) => {
-                    const actionLinkageValue = find(action.attributes, { attribute: 'Y4CIGFwWYJD' })?.value
-                    const solutionLinkageValue = find(solutionEvent.dataValues, { dataElement: 'prX0q7amAni' })?.value
-                    return actionLinkageValue === solutionLinkageValue
-                })
-
-                return migrateData({
-                    parent: solutionEvent as unknown as Event,
-                    childrenAreEvents: false,
-                    children: solutionActions,
-                    linkageConfig: config.meta.linkageConfig
-
-                })
+        const updatedActions = solutionEvents.map((solutionEvent) => {
+            const solutionActions = actions?.filter((action) => {
+                const actionLinkageValue = find(action.attributes, { attribute: 'Y4CIGFwWYJD' })?.value
+                const solutionLinkageValue = find(solutionEvent.dataValues, { dataElement: 'prX0q7amAni' })?.value
+                return actionLinkageValue === solutionLinkageValue
             })
 
-            const payload = {
-                events: flattenDeep(updatedEvents),
-                trackedEntities: flattenDeep(updatedActions)
-            }
-
-            return await upload({
-                payload
+            return migrateData({
+                parent: solutionEvent as unknown as Event,
+                childrenAreEvents: false,
+                children: solutionActions,
+                linkageConfig: config.meta.linkageConfig
             })
-        } catch (e) {
-            console.error(e)
-            return false
+        })
+
+        const payload = {
+            events: flattenDeep(updatedEvents),
+            trackedEntities: flattenDeep(updatedActions)
         }
+
+        return await upload({
+            payload
+        })
 
     }
 
@@ -142,16 +141,12 @@ export function useMigrateData () {
         program,
         config
     }: { config: Config, program: string }) => {
-        try {
-            const data: { data: { instances: TrackedEntity[] } } = await refetch({
-                page,
-                program
-            }) as any
-            return await mapSeries(data.data.instances, asyncify(async (instance: TrackedEntity) => await onEachBottleneckMigrate(instance, { config })))
-        } catch (e) {
-            console.error(e)
-            return false
-        }
+        const data: { data: { instances: TrackedEntity[] } } = await refetch({
+            page,
+            program
+        }) as any
+        return await mapSeries(data.data.instances, asyncify(async (instance: TrackedEntity) => await onEachBottleneckMigrate(instance, { config })))
+
     }
 
     const migrate = useCallback(async (config: Config) => {
@@ -175,7 +170,9 @@ export function useMigrateData () {
         }).then((res) => {
             setProgress((page / pages.length) * 100)
             return res
-        })))
+        }))).catch((e) => {
+            throw e
+        })
 
     }, [refetch])
 

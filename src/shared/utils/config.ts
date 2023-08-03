@@ -34,6 +34,7 @@ function getCategories (programs: Program[]): CategoryConfig[] {
             return {
                 id: trackedEntityAttribute.id,
                 name: (trackedEntityAttribute.formName ?? trackedEntityAttribute.shortName ?? trackedEntityAttribute.name).replaceAll('[SAT]', '') as string,
+                shortName: trackedEntityAttribute.shortName,
                 type: trackedEntityAttribute.valueType as string,
                 optionSet: trackedEntityAttribute.optionSet,
                 showAsColumn: index === 0,
@@ -44,7 +45,7 @@ function getCategories (programs: Program[]): CategoryConfig[] {
     } as CategoryConfig
 
     const subCategories: CategoryConfig[] = sortBy(program
-        .programStages, 'sortOder')?.map(({
+        .programStages, 'sortOrder')?.map(({
                                               id,
                                               programStageDataElements,
                                               name
@@ -64,6 +65,7 @@ function getCategories (programs: Program[]): CategoryConfig[] {
                 return {
                     id: dataElement.id,
                     name: (dataElement.formName ?? dataElement.shortName ?? dataElement.name).replaceAll('[SAT]', '') as string,
+                    shortName: dataElement.shortName,
                     type: dataElement.valueType as string,
                     optionSet: dataElement.optionSet,
                     mandatory: compulsory,
@@ -140,6 +142,7 @@ function getAction (programs: Program[]): ActionConfig {
             return {
                 id: trackedEntityAttribute.id,
                 name: (trackedEntityAttribute.formName ?? trackedEntityAttribute.shortName ?? trackedEntityAttribute.name).replaceAll('[SAT]', '') as string,
+                shortName: trackedEntityAttribute.shortName,
                 type: trackedEntityAttribute.valueType as string,
                 optionSet: trackedEntityAttribute.optionSet,
                 showAsColumn: index === 0,
@@ -161,6 +164,7 @@ function getAction (programs: Program[]): ActionConfig {
                 return {
                     id: dataElement.id,
                     name: dataElement.formName ?? dataElement.shortName ?? dataElement.name as string,
+                    shortName: dataElement.shortName,
                     type: dataElement.valueType as string,
                     optionSet: dataElement.optionSet,
                     mandatory: compulsory,

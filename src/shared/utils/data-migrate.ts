@@ -37,7 +37,7 @@ export function migrateData ({
         value: ((parent as TrackedEntity).trackedEntity) ?? (parent as Event).event
     }
     return (children as TrackedEntityInstance[]).map((child: any) => {
-        const attributes = [...child.attributes].filter((dv) => oldLinkages.includes(dv.attribute))
+        const attributes = [...child.attributes].filter((dv) => !oldLinkages.includes(dv.attribute))
         attributes.push(linkingTeiAttribute as any)
         return {
             ...child,

@@ -15,6 +15,10 @@ label > span:nth-child(2) {
     color: red;
 }
 
+.text-center {
+    text-align: center;
+}
+
 .row {
     display: flex;
 }
