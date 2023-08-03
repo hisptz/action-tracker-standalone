@@ -3,7 +3,7 @@ import i18n from '@dhis2/d2-i18n'
 import { useSetupMetadata } from './hooks/metadata'
 import { useNavigate } from 'react-router-dom'
 import appLogo from '../../shared/assets/images/app-logo.png'
-import { Button, ButtonStrip, CircularLoader } from '@dhis2/ui'
+import { Button, ButtonStrip, CircularLoader, LinearLoader } from '@dhis2/ui'
 import { useRecoilRefresher_UNSTABLE } from 'recoil'
 import { ConfigIdsState } from '../../shared/state/config'
 
@@ -12,7 +12,11 @@ export function Welcome () {
     const resetConfig = useRecoilRefresher_UNSTABLE(ConfigIdsState)
 
     const navigate = useNavigate()
-    const { setupConfiguration } = useSetupMetadata()
+    const {
+        setupConfiguration,
+        uploadingMetadata,
+        progress
+    } = useSetupMetadata()
 
     useEffect(() => {
         async function config () {
@@ -32,7 +36,6 @@ export function Welcome () {
         }
 
         config()
-
     }, [])
 
     return (
@@ -53,6 +56,13 @@ export function Welcome () {
                 </div>) : (<div className="column gap-8 align-center">
                     <CircularLoader small/>
                     <span>{i18n.t('Setting up configuration')}</span>
+                    {
+                        uploadingMetadata || progress !== 0 ? (
+                            <>
+                                <LinearLoader amount={progress}/>
+                            </>
+                        ) : null
+                    }
                 </div>)
             }
         </div>

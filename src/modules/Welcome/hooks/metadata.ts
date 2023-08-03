@@ -11,6 +11,7 @@ import { Config } from '../../../shared/schemas/config'
 import i18n from '@dhis2/d2-i18n'
 import { isEmpty } from 'lodash'
 import { useUpdateMetadata } from '../../../shared/hooks/metadata'
+import { useMigrateData } from './migrate'
 
 const programsQuery = {
     meta: {
@@ -42,6 +43,10 @@ const generateConfigCreateMutation = (id: string): any => {
 }
 
 export function useSetupMetadata () {
+    const {
+        migrate,
+        progress
+    } = useMigrateData()
     const {
         uploadingMetadata,
         updateMetadataFromConfig
@@ -76,6 +81,8 @@ export function useSetupMetadata () {
                 return
             }
 
+            await migrate(generatedConfig)
+
             return await engine.mutate(generateConfigCreateMutation(generatedConfig.id), {
                 variables: {
                     data: generatedConfig
@@ -94,7 +101,9 @@ export function useSetupMetadata () {
     }, [refetch])
 
     return {
-        setupConfiguration
+        setupConfiguration,
+        uploadingMetadata,
+        progress
     }
 
 }
