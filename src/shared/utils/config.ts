@@ -8,7 +8,7 @@ import {
     SharingConfig
 } from '../schemas/config'
 import { Program, ProgramStage, uid } from '@hisptz/dhis2-utils'
-import { head, last, reduce, set, snakeCase, sortBy } from 'lodash'
+import { compact, head, last, reduce, set, snakeCase, sortBy } from 'lodash'
 import i18n from '@dhis2/d2-i18n'
 //This process will only be done for the bottleneck setup that was in v1 of the app. That is why the IDs are hard coded.
 export const BOTTLENECK_PROGRAM_ID = 'Uvz0nfKVMQJ'
@@ -25,19 +25,22 @@ function getCategories (programs: Program[]): CategoryConfig[] {
     if (!program) throw new Error('Could not find bottleneck program')
     const mainCategory: CategoryConfig = {
         id: program.id,
-        name: program.name as string,
+        name: program.name?.replaceAll('[SAT]', '') as string,
         fields: program.programTrackedEntityAttributes?.map(({
                                                                  trackedEntityAttribute,
                                                                  mandatory
-                                                             }, index) => ({
-            id: trackedEntityAttribute.id,
-            name: trackedEntityAttribute.formName ?? trackedEntityAttribute.shortName ?? trackedEntityAttribute.name as string,
-            type: trackedEntityAttribute.valueType as string,
-            optionSet: trackedEntityAttribute.optionSet,
-            showAsColumn: index === 0,
-            header: index === 0,
-            mandatory
-        }) as DataField) ?? []
+                                                             }, index) => {
+
+            return {
+                id: trackedEntityAttribute.id,
+                name: (trackedEntityAttribute.formName ?? trackedEntityAttribute.shortName ?? trackedEntityAttribute.name).replaceAll('[SAT]', '') as string,
+                type: trackedEntityAttribute.valueType as string,
+                optionSet: trackedEntityAttribute.optionSet,
+                showAsColumn: index === 0,
+                header: index === 0,
+                mandatory
+            }
+        }) ?? []
     } as CategoryConfig
 
     const subCategories: CategoryConfig[] = sortBy(program
@@ -49,18 +52,23 @@ function getCategories (programs: Program[]): CategoryConfig[] {
 
         return {
             id,
-            name,
-            fields: programStageDataElements?.map(({
-                                                       dataElement,
-                                                       compulsory
-                                                   }, index) => ({
-                id: dataElement.id,
-                name: dataElement.name?.includes('Linkage') ? 'Linkage' : dataElement.formName ?? dataElement.shortName ?? dataElement.name as string,
-                type: dataElement.valueType as string,
-                optionSet: dataElement.optionSet,
-                mandatory: compulsory,
-                showAsColumn: index === 0,
-                hidden: dataElement.name?.includes('Linkage')
+            name: name?.replaceAll('[SAT]', ''),
+            fields: compact(programStageDataElements?.map(({
+                                                               dataElement,
+                                                               compulsory
+                                                           }, index) => {
+
+                if (dataElement.name?.includes('Linkage')) {
+                    return
+                }
+                return {
+                    id: dataElement.id,
+                    name: (dataElement.formName ?? dataElement.shortName ?? dataElement.name).replaceAll('[SAT]', '') as string,
+                    type: dataElement.valueType as string,
+                    optionSet: dataElement.optionSet,
+                    mandatory: compulsory,
+                    showAsColumn: index === 0,
+                }
             }))
         }
     }) as CategoryConfig[]
@@ -119,39 +127,43 @@ function getAction (programs: Program[]): ActionConfig {
     if (!program) throw new Error('Could not find action program')
     const actionConfig = {
         id: program.id,
-        name: program.name as string,
-        fields: program.programTrackedEntityAttributes?.map(({
-                                                                 trackedEntityAttribute,
-                                                                 mandatory
-                                                             }, index) => ({
-            id: trackedEntityAttribute.id,
-            name: trackedEntityAttribute.name?.includes('Linkage') ? 'Linkage' : trackedEntityAttribute.formName ?? trackedEntityAttribute.shortName ?? trackedEntityAttribute.name as string,
-            type: trackedEntityAttribute.valueType as string,
-            optionSet: trackedEntityAttribute.optionSet,
-            showAsColumn: index === 0,
-            hidden: trackedEntityAttribute.name?.includes('Linkage'),
-            mandatory
-        }) as DataField) ?? []
+        name: program.name?.replaceAll('[SAT]', '') as string,
+        fields: compact(program.programTrackedEntityAttributes?.map(({
+                                                                         trackedEntityAttribute,
+                                                                         mandatory
+                                                                     }, index) => {
+
+            if (trackedEntityAttribute.name?.includes('Linkage')) {
+                return
+            }
+
+            return {
+                id: trackedEntityAttribute.id,
+                name: (trackedEntityAttribute.formName ?? trackedEntityAttribute.shortName ?? trackedEntityAttribute.name).replaceAll('[SAT]', '') as string,
+                type: trackedEntityAttribute.valueType as string,
+                optionSet: trackedEntityAttribute.optionSet,
+                showAsColumn: index === 0,
+                mandatory
+            }
+        })) ?? []
     } as ActionConfig
 
     const actionStatusProgramStage = head(program?.programStages) as ProgramStage
 
     const actionStatusConfig: ActionStatusConfig = {
         id: actionStatusProgramStage.id,
-        name: actionStatusProgramStage.formName as string,
+        name: (actionStatusProgramStage.formName ?? actionStatusProgramStage.shortName ?? actionStatusProgramStage.name).replaceAll('[SAT]', '') as string,
         fields: actionStatusProgramStage
             .programStageDataElements?.map(({
                                                 dataElement,
                                                 compulsory
                                             }) => {
-                const hidden = dataElement.name?.includes('Linkage')
                 return {
                     id: dataElement.id,
-                    name: hidden ? 'Linkage' : dataElement.formName ?? dataElement.shortName ?? dataElement.name as string,
+                    name: dataElement.formName ?? dataElement.shortName ?? dataElement.name as string,
                     type: dataElement.valueType as string,
                     optionSet: dataElement.optionSet,
                     mandatory: compulsory,
-                    hidden
                 }
             }) as DataField[],
         dateConfig: {

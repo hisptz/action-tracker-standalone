@@ -1,9 +1,10 @@
 import {
     type ActionConfig,
-    type ActionStatusConfig,
+    ActionStatusConfig,
     type CategoryConfig,
     type Config,
     type DataField,
+    LinkageConfig,
     type SharingConfig
 } from '../schemas/config'
 import {
@@ -21,7 +22,8 @@ import { EntityTypes, type InitialMetadata } from '../constants/defaults'
 
 export interface MetaMeta extends InitialMetadata {
     orgUnits: Array<{ id: string, path: string }>
-    sharing: SharingConfig
+    sharing: SharingConfig;
+    linkageConfig: LinkageConfig
 }
 
 function generateDataItemsFromConfig (field: DataField): TrackedEntityAttribute | DataElement {
@@ -78,7 +80,24 @@ function generateProgramStageFromConfig (config: CategoryConfig | ActionStatusCo
         repeatable: boolean
     }
 }): ProgramStage {
-    const dataElements = config.fields.map(generateDataItemsFromConfig) as DataElement[]
+
+    const fields = [
+        ...config.fields
+    ]
+
+    if ('parent' in config && config.parent) {
+        const linkageId = meta.linkageConfig.dataElement
+        fields.push({
+            id: linkageId,
+            type: 'TEXT' as any,
+            name: 'Linkage',
+            native: true,
+            hidden: true
+        })
+    }
+
+    const dataElements = fields.map(generateDataItemsFromConfig) as DataElement[]
+
     const programStageDataElements = dataElements.map(dataElement => {
         const dEConfig = find(config.fields, ['id', dataElement.id])
         return {
@@ -258,6 +277,7 @@ export function generateMetadataFromConfig (config: Config, { meta }: { meta: In
         program: categoryProgram,
         programStages: categoriesProgramStage
     } = generateCategoriesMetadata(config.categories, {
+        linkageConfig: config.meta.linkageConfig,
         ...meta,
         orgUnits: config.general.orgUnit.orgUnits ?? [],
         sharing: config.general.sharing
@@ -267,6 +287,7 @@ export function generateMetadataFromConfig (config: Config, { meta }: { meta: In
         programStages: actionProgramStages
     } = generateActionsMetadata(config.action, {
         ...meta,
+        linkageConfig: config.meta.linkageConfig,
         orgUnits: config.general.orgUnit.orgUnits ?? [],
         sharing: config.general.sharing
     }) ?? {}

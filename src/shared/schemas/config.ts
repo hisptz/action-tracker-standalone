@@ -58,6 +58,7 @@ export const categoryConfigSchema = z.object({
     name: z.string(),
     child: childSchema,
     fields: z.array(dataFieldSchema),
+    type: z.enum(['program', 'programStage']),
     parent: parentSchema.optional()
 })
 export const actionStatusState = z.object({
@@ -83,14 +84,17 @@ export const actionConfigSchema = z.object({
     id: z.string(),
     name: z.string(),
     fields: z.array(dataFieldSchema),
+    type: z.literal('program'),
     statusConfig: actionStatusConfigSchema,
     parent: parentSchema.optional()
 })
+
+export const linkageConfigSchema = z.object({
+    trackedEntityAttribute: z.string(),
+    dataElement: z.string()
+})
 export const metaSchema = z.object({
-    linkageConfig: z.object({
-        trackedEntityAttribute: z.string(),
-        dataElement: z.string()
-    })
+    linkageConfig: linkageConfigSchema
 })
 
 export const configSchema = z.object({
@@ -111,5 +115,6 @@ export type DataField = z.infer<typeof dataFieldSchema>;
 export type ActionStatusState = z.infer<typeof actionStatusState>;
 export type ActionStatusConfig = z.infer<typeof actionStatusConfigSchema>;
 export type ActionConfig = z.infer<typeof actionConfigSchema>;
+export type LinkageConfig = z.infer<typeof linkageConfigSchema>;
 
 export type Config = z.infer<typeof configSchema>;
