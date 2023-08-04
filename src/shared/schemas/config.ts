@@ -3,10 +3,10 @@ import { Attribute } from '../types/dhis2'
 import valueType = Attribute.valueType
 
 export const sharingConfigSchema = z.object({
-    owner: z.string(),
-    public: z.string(),
-    users: z.object({}),
-    userGroups: z.object({})
+    owner: z.string().optional(),
+    public: z.string().optional(),
+    users: z.object({}).optional(),
+    userGroups: z.object({}).optional()
 })
 export const generalConfigSchema = z.object({
     period: z.object({
@@ -19,7 +19,7 @@ export const generalConfigSchema = z.object({
             id: z.string(),
             path: z.string()
         })).optional(),
-        planning: z.string(),
+        planning: z.string().optional(),
         accessAll: z.boolean().optional(),
         defaultOrgUnit: z.string().optional()
     }),

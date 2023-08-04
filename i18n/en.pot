@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-03T11:38:24.931Z\n"
-"PO-Revision-Date: 2023-08-03T11:38:24.931Z\n"
+"POT-Creation-Date: 2023-08-04T13:54:55.293Z\n"
+"PO-Revision-Date: 2023-08-04T13:54:55.293Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -128,6 +128,33 @@ msgstr "Save changes"
 msgid "Back"
 msgstr "Back"
 
+msgid "app logo"
+msgstr "app logo"
+
+msgid "Welcome to the Standalone Action Tracker"
+msgstr "Welcome to the Standalone Action Tracker"
+
+msgid "How would you like to use your action tracker?"
+msgstr "How would you like to use your action tracker?"
+
+msgid "Custom"
+msgstr "Custom"
+
+msgid "Create a custom configuration"
+msgstr "Create a custom configuration"
+
+msgid "Error setting up selected configuration"
+msgstr "Error setting up selected configuration"
+
+msgid "Initial configuration setup complete."
+msgstr "Initial configuration setup complete."
+
+msgid "Setting up {{title }} configuration"
+msgstr "Setting up {{title }} configuration"
+
+msgid "Error setting up configuration"
+msgstr "Error setting up configuration"
+
 msgid "Configure"
 msgstr "Configure"
 
@@ -234,12 +261,6 @@ msgstr "Manage columns"
 msgid "General"
 msgstr "General"
 
-msgid "app logo"
-msgstr "app logo"
-
-msgid "Welcome to the Standalone Action Tracker"
-msgstr "Welcome to the Standalone Action Tracker"
-
 msgid "There were issues with setting up configuration."
 msgstr "There were issues with setting up configuration."
 
@@ -263,9 +284,6 @@ msgstr "Use  previous configuration"
 
 msgid "Setup new configuration"
 msgstr "Setup new configuration"
-
-msgid "Error setting up configuration"
-msgstr "Error setting up configuration"
 
 msgid "Edit"
 msgstr "Edit"
@@ -412,9 +430,6 @@ msgstr "Basic Activity Template"
 msgid "Category"
 msgstr "Category"
 
-msgid "Title"
-msgstr "Title"
-
 msgid "About"
 msgstr "About"
 
@@ -430,8 +445,11 @@ msgstr "Start Date"
 msgid "End Date"
 msgstr "End Date"
 
-msgid "Legacy  Activity Template"
-msgstr "Legacy  Activity Template"
+msgid "Status"
+msgstr "Status"
+
+msgid "Bottleneck Analysis Structure"
+msgstr "Bottleneck Analysis Structure"
 
 msgid "Bottleneck"
 msgstr "Bottleneck"
@@ -457,6 +475,9 @@ msgstr "Possible Solutions"
 msgid "Solution"
 msgstr "Solution"
 
+msgid "Title"
+msgstr "Title"
+
 msgid "Responsible Person"
 msgstr "Responsible Person"
 
@@ -465,3 +486,15 @@ msgstr "Designation"
 
 msgid "Remarks / Comment"
 msgstr "Remarks / Comment"
+
+msgid "Basic activity tracking"
+msgstr "Basic activity tracking"
+
+msgid "A simple implementation with one level of categorization"
+msgstr "A simple implementation with one level of categorization"
+
+msgid "BNA linked action tracking"
+msgstr "BNA linked action tracking"
+
+msgid "Track actions from root causes defined in your BNA app"
+msgstr "Track actions from root causes defined in your BNA app"

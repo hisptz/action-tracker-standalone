@@ -2,6 +2,10 @@ import { type Config } from '../schemas/config'
 import { PeriodTypeEnum, type TrackedEntityType, uid } from '@hisptz/dhis2-utils'
 import i18n from '@dhis2/d2-i18n'
 
+import { Attribute } from '../types/dhis2'
+import { DATA_ELEMENT_LINKAGE, TRACKED_ENTITY_ATTRIBUTE_LINKAGE } from '../utils/config'
+import valueType = Attribute.valueType
+
 export enum EntityTypes {
     CATEGORIZATION = 'Categorization',
     ACTION = 'Action'
@@ -12,15 +16,6 @@ export enum EntityTypesIds {
     ACTION = 'TFYpX5EXmYp'
 }
 
-export const SUPPORTED_FIELD_TYPES = [
-    'TEXT',
-    'LONG_TEXT',
-    'NUMBER',
-    'INTEGER',
-    'FILE_RESOURCE',
-    'DATE'
-]
-
 export interface InitialMetadata {
     trackedEntityTypes: TrackedEntityType[]
 }
@@ -28,39 +23,42 @@ export interface InitialMetadata {
 export const initialMetadata: InitialMetadata = {
     trackedEntityTypes: [
         {
-            id: 'jLaBp1GaZQ9',
+            id: EntityTypesIds.CATEGORIZATION,
             name: `[SAT] ${EntityTypes.CATEGORIZATION}`,
             publicAccess: 'rw------'
         },
         {
-            id: 'TFYpX5EXmYp',
+            id: EntityTypesIds.ACTION,
             name: `[SAT] ${EntityTypes.ACTION}`,
             publicAccess: 'rw------'
         }
     ]
 }
 
-export function generateBasicTemplate ({ orgUnitLevel }: {
-    orgUnitLevel: string
-}): Config {
+function slug (name: string) {
+    return name.replaceAll(/ +/g, '-').toLowerCase()
+}
+
+export function generateBasicTemplate (): Config {
+    const name = i18n.t('Basic Activity Template') as string
     const categoryId = uid()
     const actionId = uid()
     const categoryToActivityId = uid()
     const statusFieldId = uid()
     return {
-        id: uid(),
-        name: i18n.t('Basic Activity Template'),
+        id: slug(name),
+        name,
         general: {
-            orgUnit: {
-                planning: orgUnitLevel
-            },
             period: {
-                planning: PeriodTypeEnum.MONTHLY,
-                tracking: PeriodTypeEnum.DAILY
-            }
+                planning: PeriodTypeEnum.YEARLY,
+                tracking: PeriodTypeEnum.MONTHLY
+            },
+            orgUnit: {},
+            sharing: {}
         },
         categories: [
             {
+                type: 'program',
                 id: categoryId,
                 name: i18n.t('Category'),
                 child: {
@@ -70,22 +68,25 @@ export function generateBasicTemplate ({ orgUnitLevel }: {
                 },
                 fields: [
                     {
-                        name: i18n.t('Title'),
+                        name: i18n.t('Category'),
+                        shortName: 'Category',
                         id: uid(),
-                        type: 'TEXT',
+                        type: valueType.TEXT,
                         mandatory: true,
                         header: true
                     },
                     {
                         name: i18n.t('About'),
+                        shortName: 'About',
                         id: uid(),
-                        type: 'LONG_TEXT',
+                        type: valueType.LONG_TEXT,
                         mandatory: false
                     }
                 ]
             }
         ],
         action: {
+            type: 'program',
             id: uid(),
             name: i18n.t('Activity'),
             parent: {
@@ -96,26 +97,30 @@ export function generateBasicTemplate ({ orgUnitLevel }: {
             },
             fields: [
                 {
-                    name: i18n.t('Name'),
-                    type: 'TEXT',
+                    name: i18n.t('Activity'),
+                    shortName: 'Activity',
+                    type: valueType.TEXT,
                     mandatory: true,
                     id: uid()
                 },
                 {
                     name: i18n.t('Description'),
-                    type: 'LONG_TEXT',
+                    type: valueType.LONG_TEXT,
                     mandatory: true,
-                    id: uid()
+                    id: uid(),
+                    shortName: 'Description'
                 },
                 {
                     name: i18n.t('Start Date'),
-                    type: 'DATE',
+                    shortName: 'Start Date',
+                    type: valueType.DATE,
                     mandatory: true,
                     id: uid()
                 },
                 {
                     name: i18n.t('End Date'),
-                    type: 'DATE',
+                    type: valueType.DATE,
+                    shortName: 'End Date',
                     mandatory: true,
                     id: uid()
                 }
@@ -124,67 +129,80 @@ export function generateBasicTemplate ({ orgUnitLevel }: {
                 name: 'Status',
                 id: uid(),
                 stateConfig: {
-                    dataElement: statusFieldId
+                    dataElement: statusFieldId,
+                    optionSetId: ''
                 },
                 dateConfig: {
                     name: i18n.t('Review Date')
                 },
                 fields: [
                     {
-                        name: 'Status',
-                        type: 'TEXT',
+                        name: i18n.t('Status'),
+                        type: valueType.TEXT,
+                        shortName: 'Status',
                         mandatory: true,
                         id: statusFieldId,
                         native: true
                     }
                 ]
             }
+        },
+        meta: {
+            linkageConfig: {
+                trackedEntityAttribute: TRACKED_ENTITY_ATTRIBUTE_LINKAGE,
+                dataElement: DATA_ELEMENT_LINKAGE
+            }
         }
     }
 }
 
 export function generateLegacyTemplate (): Config {
+    const name = i18n.t('Bottleneck Analysis Structure')
     const bottleneckToGap = uid()
     const gapToSolution = uid()
     const solutionToAction = uid()
 
     return {
-        id: uid(),
-        name: i18n.t('Legacy  Activity Template'),
+        id: slug(name),
+        name,
         general: {
-            orgUnit: {
-                planning: '1'
-            },
+            orgUnit: {},
             period: {
                 planning: PeriodTypeEnum.YEARLY,
                 tracking: PeriodTypeEnum.QUARTERLY
-            }
+            },
+            sharing: {}
         },
         categories: [
             {
+                type: 'program',
                 id: 'Uvz0nfKVMQJ',
                 name: i18n.t('Bottleneck'),
                 fields: [
                     {
                         name: i18n.t('Intervention'),
+                        shortName: 'Intervention',
                         id: 'jZ6WL4NQtp5',
-                        type: 'TEXT',
+                        type: valueType.TEXT,
                         header: true
                     },
                     {
                         name: i18n.t('Bottleneck'),
+                        shortName: 'Bottleneck',
                         id: 'WLFrBgfl7lU',
-                        type: 'TEXT'
+                        type: valueType.TEXT
                     },
                     {
                         name: i18n.t('Coverage Indicator'),
+                        shortName: 'Coverage Indicator',
                         id: 'imiLbaQKYnA',
-                        type: 'TEXT'
+                        type: valueType.TEXT
                     },
                     {
                         name: i18n.t('Indicator'),
+                        shortName: 'Indicator',
                         id: 'tVlKbtVfNjc',
-                        type: 'TEXT'
+                        type: valueType.TEXT
                     }
                 ],
                 child: {
@@ -195,26 +213,30 @@ export function generateLegacyTemplate (): Config {
             },
             {
                 id: 'zXB8tWKuwcl',
+                type: 'programStage',
                 name: i18n.t('Gap'),
                 fields: [
                     {
                         id: 'JbMaVyglSit',
-                        name: i18n.t('Title'),
+                        name: i18n.t('Gap'),
                         mandatory: true,
-                        type: 'TEXT',
-                        showAsColumn: true
+                        type: valueType.TEXT,
+                        showAsColumn: true,
+                        shortName: 'Gap'
                     },
                     {
                         id: 'GsbZkewUna5',
                         name: i18n.t('Description'),
                         mandatory: true,
-                        type: 'TEXT'
+                        type: valueType.TEXT,
+                        shortName: 'Description'
                     },
                     {
                         id: 'W50aguV39tU',
                         name: i18n.t('Method'),
                         mandatory: true,
-                        type: 'TEXT'
+                        type: valueType.TEXT,
+                        shortName: 'Method'
                     }
 
                 ],
@@ -231,14 +253,16 @@ export function generateLegacyTemplate (): Config {
                 }
             },
             {
+                type: 'programStage',
                 id: 'JJaKjcOBapi',
                 name: i18n.t('Possible Solutions'),
                 fields: [
                     {
                         id: 'upT2cOT6UfJ',
                         name: i18n.t('Solution'),
+                        shortName: 'Solution',
                         mandatory: true,
-                        type: 'LONG_TEXT',
+                        type: valueType.LONG_TEXT,
                         showAsColumn: true
                     }
                 ],
@@ -256,46 +280,53 @@ export function generateLegacyTemplate (): Config {
             }
         ],
         action: {
+            type: 'program',
             id: 'unD7wro3qPm',
             name: i18n.t('Action'),
             fields: [
                 {
                     id: 'HQxzVwKedKu',
                     name: i18n.t('Title'),
-                    type: 'TEXT',
+                    shortName: 'Title',
+                    type: valueType.TEXT,
                     showAsColumn: true,
                     native: true
                 },
                 {
                     id: 'GlvCtGIytIz',
                     name: i18n.t('Description'),
-                    type: 'LONG_TEXT'
+                    type: valueType.LONG_TEXT,
+                    shortName: 'Description'
                 },
                 {
                     id: 'jFjnkx49Lg3',
                     name: i18n.t('Start Date'),
-                    type: 'DATE',
+                    type: valueType.DATE,
                     showAsColumn: true,
-                    native: true
+                    native: true,
+                    shortName: 'Start Date'
 
                 },
                 {
                     id: 'BYCbHJ46BOr',
                     name: i18n.t('End Date'),
-                    type: 'DATE',
+                    type: valueType.DATE,
                     showAsColumn: true,
-                    native: true
+                    native: true,
+                    shortName: 'End Date'
                 },
                 {
                     id: 'G3aWsZW2MpV',
                     name: i18n.t('Responsible Person'),
-                    type: 'TEXT',
-                    showAsColumn: true
+                    type: valueType.TEXT,
+                    showAsColumn: true,
+                    shortName: 'Responsible Person'
                 },
                 {
                     id: 'Ax6bWbKn46e',
                     name: i18n.t('Designation'),
-                    type: 'TEXT'
+                    type: valueType.TEXT,
+                    shortName: 'Designation'
                 }
             ],
             parent: {
@@ -306,7 +337,8 @@ export function generateLegacyTemplate (): Config {
             },
             statusConfig: {
                 stateConfig: {
-                    dataElement: 'f8JYVWLC7rE'
+                    dataElement: 'f8JYVWLC7rE',
+                    optionSetId: ''
                 },
                 dateConfig: {
                     name: i18n.t('Review Date')
@@ -315,19 +347,27 @@ export function generateLegacyTemplate (): Config {
                 fields: [
                     {
                         name: i18n.t('Action Status'),
-                        type: 'TEXT',
+                        shortName: 'Action status',
+                        type: valueType.TEXT,
                         id: 'f8JYVWLC7rE',
                         native: true
                     },
                     {
                         name: i18n.t('Remarks / Comment'),
-                        type: 'LONG_TEXT',
-                        id: 'FnengvwgsQv'
+                        type: valueType.LONG_TEXT,
+                        id: 'FnengvwgsQv',
+                        shortName: 'Remarks / Comment'
                     }
                 ],
                 id: 'cBiAEANcXAj'
             }
 
+        },
+        meta: {
+            linkageConfig: {
+                dataElement: DATA_ELEMENT_LINKAGE,
+                trackedEntityAttribute: TRACKED_ENTITY_ATTRIBUTE_LINKAGE
+            }
         }
     }
 }
