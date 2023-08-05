@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { Config } from '../../../../shared/schemas/config'
 import { Attribute } from '../../../../shared/types/dhis2'
 import { RHFDHIS2FormFieldProps } from '@hisptz/dhis2-ui'
+import { DataEngine } from '../../../../shared/types/engine'
+import { z } from 'zod'
 import valueType = Attribute.valueType
 
 export interface TemplateVariableConfig {
@@ -20,7 +22,8 @@ export interface Template {
     title: string;
     variables?: RHFDHIS2FormFieldProps[],
     defaultVariables?: Record<string, any>;
-    configGenerator: (variables?: any) => Config
+    configGenerator: (variables?: any) => Config,
+    validationGenerator?: (deps: { engine: DataEngine }) => z.ZodObject<any>
 }
 
 export interface TemplateCardProps {

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-05T12:51:42.377Z\n"
-"PO-Revision-Date: 2023-08-05T12:51:42.377Z\n"
+"POT-Creation-Date: 2023-08-05T14:17:17.917Z\n"
+"PO-Revision-Date: 2023-08-05T14:17:17.917Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -136,12 +136,6 @@ msgstr "Welcome to the Standalone Action Tracker"
 
 msgid "How would you like to use your action tracker?"
 msgstr "How would you like to use your action tracker?"
-
-msgid "Custom"
-msgstr "Custom"
-
-msgid "Create a custom configuration"
-msgstr "Create a custom configuration"
 
 msgid "Error setting up selected configuration"
 msgstr "Error setting up selected configuration"
@@ -502,14 +496,26 @@ msgstr "Completed"
 msgid "Cancelled"
 msgstr "Cancelled"
 
+msgid "Should be at most 10 characters"
+msgstr "Should be at most 10 characters"
+
+msgid "Name should not exceed 50 characters"
+msgstr "Name should not exceed 50 characters"
+
+msgid "A configuration with the name {{name}} already exists"
+msgstr "A configuration with the name {{name}} already exists"
+
+msgid "Code should not exceed 10 characters"
+msgstr "Code should not exceed 10 characters"
+
+msgid "A configuration with the code {{code}} already exists"
+msgstr "A configuration with the code {{code}} already exists"
+
 msgid "Basic activity tracking"
 msgstr "Basic activity tracking"
 
 msgid "Activity tracking model with one level of categorization"
 msgstr "Activity tracking model with one level of categorization"
-
-msgid "Should be at most 10 characters"
-msgstr "Should be at most 10 characters"
 
 msgid "Secondary activity tracking"
 msgstr "Secondary activity tracking"
@@ -526,5 +532,5 @@ msgstr "Activity tracking model with three levels of categorization"
 msgid "BNA linked action tracking"
 msgstr "BNA linked action tracking"
 
-msgid "Track actions from root causes defined in your BNA app"
-msgstr "Track actions from root causes defined in your BNA app"
+msgid "Use the BNA like categorization to track activities"
+msgstr "Use the BNA like categorization to track activities"

@@ -5,21 +5,24 @@ import { RHFDHIS2FormField } from '@hisptz/dhis2-ui'
 import { Button, ButtonStrip } from '@dhis2/ui'
 import i18n from '@dhis2/d2-i18n'
 import { useSaveConfigFromTemplate } from '../../hooks/save'
-import { useAlert } from '@dhis2/app-runtime'
+import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import { useNavigate } from 'react-router-dom'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export interface InitialConfigProps {
     template: Template
 }
 
 export function InitialConfig ({ template }: InitialConfigProps) {
+    const engine = useDataEngine()
     const { show } = useAlert(({ message }) => message, ({ type }) => ({
         ...type,
         duration: 3000
     }))
     const navigate = useNavigate()
     const form = useForm({
-        defaultValues: template.defaultVariables
+        defaultValues: template.defaultVariables,
+        resolver: template.validationGenerator ? zodResolver(template.validationGenerator({ engine })) : undefined
     })
     const fields = template.variables
 
@@ -44,6 +47,26 @@ export function InitialConfig ({ template }: InitialConfigProps) {
 
     const title = template?.title
 
+    if (error) {
+        return (
+            <div className="column align-center center h-100 w-100">
+                <h3>{i18n.t('Setting up {{title }} configuration', {
+                    title
+                })}</h3>
+                {
+                    error && (
+                        <div className="column gap-16 center align-center">
+                            <span>{i18n.t('Error setting up configuration')}</span>
+                            <code>
+                                {error.message || error.toString()}
+                            </code>
+                        </div>
+                    )
+                }
+            </div>
+        )
+    }
+
     return (
         <div className="column gap-16 align-center center h-100">
             <h3>{i18n.t('Setting up {{title }} configuration', {
@@ -62,7 +85,7 @@ export function InitialConfig ({ template }: InitialConfigProps) {
             </div>
             <ButtonStrip>
                 <Button onClick={() => navigate(-1)}>{i18n.t('Go back')}</Button>
-                <Button onClick={form.handleSubmit(onSubmit)} loading={saving}
+                <Button onClick={form.handleSubmit(onSubmit)} loading={saving || form.formState.isValidating}
                         primary>{saving ? i18n.t('Please wait...') : i18n.t('Save')}</Button>
             </ButtonStrip>
         </div>

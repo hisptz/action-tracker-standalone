@@ -7,8 +7,72 @@ import { ReactComponent as TertiaryTracking } from '../../shared/assets/images/b
 import { ReactComponent as BNAIcon } from '../../shared/assets/images/bna.svg'
 import { generateBasicTemplate, generateLegacyTemplate } from './defaults'
 import { Attribute } from '../types/dhis2'
+import { DataEngine } from '../types/engine'
+import { z } from 'zod'
+import { DATASTORE_NAMESPACE } from './meta'
+import { isEmpty } from 'lodash'
+import { RHFDHIS2FormFieldProps } from '@hisptz/dhis2-ui'
 import valueType = Attribute.valueType
 
+const commonVariables: RHFDHIS2FormFieldProps[] = [
+    {
+        label: i18n.t('Name'),
+        valueType: valueType.TEXT,
+        name: 'name',
+        required: true
+    },
+    {
+        label: i18n.t('Code'),
+        valueType: valueType.TEXT,
+        name: 'code',
+        required: true,
+        helpText: i18n.t('Should be at most 10 characters')
+    }
+]
+
+const query: any = {
+    config: {
+        resource: `dataStore/${DATASTORE_NAMESPACE}`,
+        params: ({
+                     name,
+                     code
+                 }: { name: string; code: string }) => {
+            return {
+                fields: ['name'],
+                filter: [
+                    `name:eq:${name}`,
+                    `code:eq:${code}`
+                ],
+                rootJunction: 'or'
+            }
+        }
+    }
+}
+const commonValidatorsGenerator = ({ engine }: { engine: DataEngine }) => {
+
+    return z.object({
+        name: z.string().max(50, i18n.t('Name should not exceed 50 characters')).refine(async (value) => {
+            const configs = (await engine.query(query, {
+                variables: {
+                    name: value
+                }
+            })) as unknown as {
+                config: { entries: Array<{ key: string; code: string; name: string }> }
+            }
+            return isEmpty(configs.config.entries)
+        }, i18n.t('A configuration with this name already exists')),
+        code: z.string().max(10, i18n.t('Code should not exceed 10 characters')).refine(async (value) => {
+            const configs = (await engine.query(query, {
+                variables: {
+                    code: value
+                }
+            })) as unknown as {
+                config: { entries: Array<{ key: string; code: string; name: string }> }
+            }
+            return isEmpty(configs.config.entries)
+        }, i18n.t('A configuration with this code already exists'))
+    })
+}
 export const configTemplates: Template[] = [
     {
         id: 'basic-tracking',
@@ -20,19 +84,10 @@ export const configTemplates: Template[] = [
             code: 'BAT'
         },
         variables: [
-            {
-                label: i18n.t('Name'),
-                valueType: valueType.TEXT,
-                name: 'name'
-            },
-            {
-                label: i18n.t('Code'),
-                valueType: valueType.TEXT,
-                name: 'code',
-                helpText: i18n.t('Should be at most 10 characters')
-            }
+            ...commonVariables
         ],
-        configGenerator: generateBasicTemplate(1)
+        configGenerator: generateBasicTemplate(1),
+        validationGenerator: commonValidatorsGenerator
     },
     {
         id: 'two-level-tracking',
@@ -44,19 +99,10 @@ export const configTemplates: Template[] = [
             code: 'SAT'
         },
         variables: [
-            {
-                label: i18n.t('Name'),
-                valueType: valueType.TEXT,
-                name: 'name'
-            },
-            {
-                label: i18n.t('Code'),
-                valueType: valueType.TEXT,
-                name: 'code',
-                helpText: i18n.t('Should be at most 10 characters')
-            }
+            ...commonVariables
         ],
-        configGenerator: generateBasicTemplate(2)
+        configGenerator: generateBasicTemplate(2),
+        validationGenerator: commonValidatorsGenerator
     },
     {
         id: 'three-level-tracking',
@@ -68,19 +114,10 @@ export const configTemplates: Template[] = [
             code: 'TAT'
         },
         variables: [
-            {
-                label: i18n.t('Name'),
-                valueType: valueType.TEXT,
-                name: 'name'
-            },
-            {
-                label: i18n.t('Code'),
-                valueType: valueType.TEXT,
-                name: 'code',
-                helpText: i18n.t('Should be at most 10 characters')
-            }
+            ...commonVariables
         ],
-        configGenerator: generateBasicTemplate(3)
+        configGenerator: generateBasicTemplate(3),
+        validationGenerator: commonValidatorsGenerator
     },
     {
         id: 'bna-actions-tracking',
@@ -88,22 +125,13 @@ export const configTemplates: Template[] = [
         description: i18n.t('Use the BNA like categorization to track activities'),
         icon: <BNAIcon/>,
         variables: [
-            {
-                label: i18n.t('Name'),
-                valueType: valueType.TEXT,
-                name: 'name'
-            },
-            {
-                label: i18n.t('Code'),
-                valueType: valueType.TEXT,
-                name: 'code',
-                helpText: i18n.t('Should be at most 10 characters')
-            }
+            ...commonVariables
         ],
         defaultVariables: {
             name: 'BNA action tracking',
             code: 'BNA'
         },
-        configGenerator: generateLegacyTemplate
+        configGenerator: generateLegacyTemplate,
+        validationGenerator: commonValidatorsGenerator
     }
 ]
