@@ -5,7 +5,10 @@
 /coverage
 cypress.env.json
 /cypress/screenshots
-/cypress/videos
+/cypress/videos/
+/cypress/downloads/
+/cypress/screenshots/
+
 
 # build folders
 /build

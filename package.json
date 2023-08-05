@@ -12,13 +12,15 @@
     "e2e": "concurrently 'yarn cy:start' 'wait-on 'http-get://localhost:3000' && cypress run' --kill-others --success first",
     "e2e:interactive": "npx cypress open",
     "deploy": "d2-app-scripts deploy",
-    "cy:start": "BROWSER=none yarn start",
-    "cy:run": "wait-on 'http-get://localhost:3000' && cypress run",
-    "cy:capture": "concurrently 'yarn cy:start' 'yarn cy:run --env networkMode=capture ' --kill-others --success first",
-    "cy:stub": "concurrently 'yarn cy:start' 'yarn cy:run --env networkMode=stub' --kill-others --success first",
-    "cy:open": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3000' && cypress open' --kill-others --success first ",
-    "cy:open:capture": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3000' && cypress open --env networkMode=capture' --kill-others --success first ",
-    "cy:open:stub": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3000' && cypress open --env networkMode=stub' --kill-others --success first "
+    "cy:start": "REACT_APP_NODE_ENV=test BROWSER=none yarn start",
+    "cy:prepare": "start-server-and-test 'yarn cy:start' http://localhost:3000",
+    "test:open": "yarn cy:prepare 'yarn cypress open --env networkMode=live'",
+    "_cy:live": "dotenv -- cross-var yarn cypress run --env networkMode=live --key %CYPRESS_RECORD_KEY%",
+    "test:live": "yarn cy:prepare 'yarn _cy:live'",
+    "_cy:capture": "yarn cypress run --env networkMode=capture",
+    "test:capture": "yarn cy:prepare 'yarn _cy:capture'",
+    "_cy:stub": "dotenv -- cross-var yarn cypress run --env networkMode=stub --record --key %CYPRESS_RECORD_KEY%",
+    "test:stub": "yarn cy:prepare 'yarn _cy:stub'"
   },
   "author": {
     "email": "info@hisptanzania.org",
@@ -26,7 +28,9 @@
     "url": "https://hisptanzania.org/"
   },
   "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "16.0.3",
     "@cypress/react": "^7.0.3",
+    "@cypress/webpack-preprocessor": "^5.17.1",
     "@dhis2/cli-app-scripts": "^10.3.9",
     "@dhis2/cli-utils-cypress": "^10.0.3",
     "@dhis2/cypress-commands": "^10.0.3",
@@ -40,7 +44,7 @@
     "concurrently": "^8.2.0",
     "cross-var": "^1.1.0",
     "cucumber": "^7.0.0-rc.0",
-    "cypress": "^12.17.2",
+    "cypress": "^12.17.3",
     "cypress-multi-reporters": "^1.6.3",
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.2.1",
@@ -50,6 +54,7 @@
     "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.33.0",
+    "start-server-and-test": "^2.0.0",
     "typescript": "5.1.6",
     "wait-on": "^7.0.1"
   },
