@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-05T07:22:45.337Z\n"
-"PO-Revision-Date: 2023-08-05T07:22:45.337Z\n"
+"POT-Creation-Date: 2023-08-05T12:51:42.377Z\n"
+"PO-Revision-Date: 2023-08-05T12:51:42.377Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -436,8 +436,8 @@ msgstr "Failed to delete"
 msgid "Category"
 msgstr "Category"
 
-msgid "About"
-msgstr "About"
+msgid "Category level {{level}}"
+msgstr "Category level {{level}}"
 
 msgid "Activity"
 msgstr "Activity"
@@ -505,11 +505,23 @@ msgstr "Cancelled"
 msgid "Basic activity tracking"
 msgstr "Basic activity tracking"
 
-msgid "A simple implementation with one level of categorization"
-msgstr "A simple implementation with one level of categorization"
+msgid "Activity tracking model with one level of categorization"
+msgstr "Activity tracking model with one level of categorization"
 
 msgid "Should be at most 10 characters"
 msgstr "Should be at most 10 characters"
+
+msgid "Secondary activity tracking"
+msgstr "Secondary activity tracking"
+
+msgid "Activity tracking model with two levels of categorization"
+msgstr "Activity tracking model with two levels of categorization"
+
+msgid "Tertiary activity tracking"
+msgstr "Tertiary activity tracking"
+
+msgid "Activity tracking model with three levels of categorization"
+msgstr "Activity tracking model with three levels of categorization"
 
 msgid "BNA linked action tracking"
 msgstr "BNA linked action tracking"

@@ -1,9 +1,10 @@
-import { type Config } from '../schemas/config'
+import { CategoryConfig, type Config } from '../schemas/config'
 import { PeriodTypeEnum, type TrackedEntityType, uid } from '@hisptz/dhis2-utils'
 import i18n from '@dhis2/d2-i18n'
 
 import { Attribute } from '../types/dhis2'
 import { DATA_ELEMENT_LINKAGE, TRACKED_ENTITY_ATTRIBUTE_LINKAGE } from '../utils/config'
+import { last, reduce } from 'lodash'
 import valueType = Attribute.valueType
 
 export enum EntityTypes {
@@ -39,129 +40,178 @@ function slug (name: string) {
     return name.replaceAll(/ +/g, '-').toLowerCase()
 }
 
-export function generateBasicTemplate ({
-                                           name,
-                                           code
-                                       }: { name: string; code: string }): Config {
-    const categoryId = uid()
-    const actionId = uid()
-    const categoryToActivityId = uid()
-    const statusFieldId = uid()
-    const statusOptionSetId = uid()
-
-    return {
-        id: slug(name),
-        code,
-        name,
-        general: {
-            period: {
-                planning: PeriodTypeEnum.YEARLY,
-                tracking: PeriodTypeEnum.MONTHLY
-            },
-            orgUnit: {},
-            sharing: {}
-        },
-        categories: [
-            {
-                type: 'program',
-                id: categoryId,
-                name: i18n.t('Category'),
-                child: {
-                    id: categoryToActivityId,
-                    to: actionId,
-                    type: 'program'
-                },
-                fields: [
-                    {
-                        name: i18n.t('Category'),
-                        shortName: 'Category',
-                        id: uid(),
-                        type: valueType.TEXT,
-                        mandatory: true,
-                        header: true
-                    },
-                    {
-                        name: i18n.t('About'),
-                        shortName: 'About',
-                        id: uid(),
-                        type: valueType.LONG_TEXT,
-                        mandatory: false
-                    }
-                ]
-            }
-        ],
-        action: {
-            type: 'program',
-            id: uid(),
-            name: i18n.t('Activity'),
-            parent: {
-                from: categoryId,
-                id: categoryToActivityId,
-                type: 'program',
-                name: i18n.t('Category')
-            },
+function generateCategories (count: number, { activityLinkageId }: { activityLinkageId: string }): CategoryConfig[] {
+    const levels = Array.from(Array(count).keys()).map((level) => level + 1)
+    const categories = levels.map((level, index) => {
+        const id = uid()
+        return {
+            type: index === 0 ? 'program' : 'programStage',
+            id: id,
+            name: `${i18n.t('Category')} level ${level}`,
             fields: [
                 {
-                    name: i18n.t('Activity'),
-                    shortName: 'Activity',
+                    name: i18n.t('Category level {{level}}', { level }),
+                    shortName: `Category level ${level}`,
+                    id: uid(),
                     type: valueType.TEXT,
                     mandatory: true,
-                    showAsColumn: true,
-                    id: uid()
-                },
-                {
-                    name: i18n.t('Description'),
-                    type: valueType.LONG_TEXT,
-                    mandatory: true,
-                    id: uid(),
-                    shortName: 'Description'
-                },
-                {
-                    name: i18n.t('Start Date'),
-                    shortName: 'Start Date',
-                    type: valueType.DATE,
-                    showAsColumn: true,
-                    mandatory: true,
-                    id: uid()
-                },
-                {
-                    name: i18n.t('End Date'),
-                    type: valueType.DATE,
-                    shortName: 'End Date',
-                    showAsColumn: true,
-                    mandatory: true,
-                    id: uid()
+                    header: true
                 }
-            ],
-            statusConfig: {
-                name: 'Status',
-                id: uid(),
-                stateConfig: {
-                    dataElement: statusFieldId,
-                    optionSetId: statusOptionSetId
+            ]
+        } as CategoryConfig
+    })
+
+    return reduce(categories, (acc, category, index) => {
+        if (index === 0) {
+            acc.push({
+                ...category,
+                child: {
+                    type: 'programStage',
+                    id: uid(),
+                    to: categories[index + 1]?.id
+                }
+            })
+            return acc
+        }
+        if (index === categories.length - 1) {
+            const parentCategory = last(acc) as CategoryConfig
+            acc.push({
+                ...category,
+                parent: {
+                    type: index - 1 === 0 ? 'program' : 'programStage',
+                    id: uid(),
+                    from: parentCategory?.id,
+                    name: `${parentCategory.name} to ${category.name}`
                 },
-                dateConfig: {
-                    name: i18n.t('Review Date')
+                child: {
+                    type: 'program',
+                    id: uid(),
+                    to: activityLinkageId
+                }
+            })
+            return acc
+        }
+        const parentCategory = last(acc) as CategoryConfig
+        const childCategory = categories[index + 1] as CategoryConfig
+        acc.push({
+            ...category,
+            parent: {
+                type: index - 1 === 0 ? 'program' : 'programStage',
+                id: uid(),
+                from: parentCategory?.id,
+                name: `${parentCategory.name} to ${category.name}`
+            },
+            child: {
+                type: 'programStage',
+                id: uid(),
+                to: childCategory?.id
+            }
+        })
+        return acc
+
+    }, [] as CategoryConfig[])
+}
+
+export function generateBasicTemplate (levels: number) {
+
+    return ({
+                name,
+                code
+            }: { name: string; code: string }): Config => {
+        const categoryId = uid()
+        const actionId = uid()
+        const categoryToActivityId = uid()
+        const statusFieldId = uid()
+        const statusOptionSetId = uid()
+
+        const categories = generateCategories(levels, { activityLinkageId: actionId })
+
+        return {
+            id: slug(name),
+            code,
+            name,
+            general: {
+                period: {
+                    planning: PeriodTypeEnum.YEARLY,
+                    tracking: PeriodTypeEnum.MONTHLY
+                },
+                orgUnit: {},
+                sharing: {}
+            },
+            categories,
+            action: {
+                type: 'program',
+                id: actionId,
+                name: i18n.t('Activity'),
+                parent: {
+                    from: categoryId,
+                    id: categoryToActivityId,
+                    type: 'program',
+                    name: i18n.t('Category')
                 },
                 fields: [
                     {
-                        name: i18n.t('Status'),
+                        name: i18n.t('Activity'),
+                        shortName: 'Activity',
                         type: valueType.TEXT,
-                        shortName: 'Status',
                         mandatory: true,
-                        id: statusFieldId,
-                        optionSet: {
-                            id: statusOptionSetId
-                        },
-                        native: true
+                        showAsColumn: true,
+                        id: uid()
+                    },
+                    {
+                        name: i18n.t('Description'),
+                        type: valueType.LONG_TEXT,
+                        mandatory: true,
+                        id: uid(),
+                        shortName: 'Description'
+                    },
+                    {
+                        name: i18n.t('Start Date'),
+                        shortName: 'Start Date',
+                        type: valueType.DATE,
+                        showAsColumn: true,
+                        mandatory: true,
+                        id: uid()
+                    },
+                    {
+                        name: i18n.t('End Date'),
+                        type: valueType.DATE,
+                        shortName: 'End Date',
+                        showAsColumn: true,
+                        mandatory: true,
+                        id: uid()
                     }
-                ]
-            }
-        },
-        meta: {
-            linkageConfig: {
-                trackedEntityAttribute: TRACKED_ENTITY_ATTRIBUTE_LINKAGE,
-                dataElement: DATA_ELEMENT_LINKAGE
+                ],
+                statusConfig: {
+                    name: 'Status',
+                    id: uid(),
+                    stateConfig: {
+                        dataElement: statusFieldId,
+                        optionSetId: statusOptionSetId
+                    },
+                    dateConfig: {
+                        name: i18n.t('Review Date')
+                    },
+                    fields: [
+                        {
+                            name: i18n.t('Status'),
+                            type: valueType.TEXT,
+                            shortName: 'Status',
+                            mandatory: true,
+                            id: statusFieldId,
+                            optionSet: {
+                                id: statusOptionSetId
+                            },
+                            native: true
+                        }
+                    ]
+                }
+            },
+            meta: {
+                linkageConfig: {
+                    trackedEntityAttribute: TRACKED_ENTITY_ATTRIBUTE_LINKAGE,
+                    dataElement: DATA_ELEMENT_LINKAGE
+                }
             }
         }
     }
@@ -174,6 +224,8 @@ export function generateLegacyTemplate ({
     const bottleneckToGap = uid()
     const gapToSolution = uid()
     const solutionToAction = uid()
+
+    const statusOptionSetId = uid()
 
     return {
         id: slug(name),
@@ -352,7 +404,7 @@ export function generateLegacyTemplate ({
             statusConfig: {
                 stateConfig: {
                     dataElement: 'f8JYVWLC7rE',
-                    optionSetId: ''
+                    optionSetId: statusOptionSetId
                 },
                 dateConfig: {
                     name: i18n.t('Review Date')

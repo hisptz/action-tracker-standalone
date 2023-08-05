@@ -17,7 +17,7 @@ import {
     type TrackedEntityType,
     uid
 } from '@hisptz/dhis2-utils'
-import { compact, filter, find } from 'lodash'
+import { compact, filter, find, uniqBy } from 'lodash'
 import { EntityTypesIds, type InitialMetadata } from '../constants/defaults'
 
 export interface MetaMeta extends InitialMetadata {
@@ -251,7 +251,7 @@ function generateRelationshipTypes (config: Config, meta: MetaMeta) {
 }
 
 function extractDataElements (programStages: ProgramStage[]) {
-    return programStages.flatMap(programStage => programStage.programStageDataElements?.map(programStageDataElement => programStageDataElement.dataElement))
+    return uniqBy(programStages.flatMap(programStage => programStage.programStageDataElements?.map(programStageDataElement => programStageDataElement.dataElement)), 'id')
 }
 
 function cleanProgramDeps (programs: Program[], stages: ProgramStage[]) {
