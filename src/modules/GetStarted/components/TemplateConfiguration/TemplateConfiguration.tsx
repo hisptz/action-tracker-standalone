@@ -4,8 +4,9 @@ import { configTemplates } from '../../../../shared/constants/templates'
 import { useSaveConfigFromTemplate } from './hooks/save'
 import { isEmpty } from 'lodash'
 import i18n from '@dhis2/d2-i18n'
-import { CircularLoader } from '@dhis2/ui'
+import { Button, CircularLoader } from '@dhis2/ui'
 import { useAlert } from '@dhis2/app-runtime'
+import { InitialConfig } from './components/InitialConfig'
 
 export function TemplateConfiguration () {
     const { show } = useAlert(({ message }) => message, ({ type }) => ({
@@ -23,7 +24,7 @@ export function TemplateConfiguration () {
 
     useEffect(() => {
         async function get () {
-            if (isEmpty(selectedTemplate?.configs)) {
+            if (isEmpty(selectedTemplate?.variables)) {
                 const config = selectedTemplate?.configGenerator()
                 if (!config) {
                     throw Error(i18n.t('Error setting up selected configuration'))
@@ -40,7 +41,25 @@ export function TemplateConfiguration () {
         get()
     }, [])
 
+    if (!selectedTemplate) {
+
+        return (
+            <div className="w-100 h-100 center column align-center">
+                <span>{i18n.t('Invalid configuration selected')}</span>
+                <Button onClick={() => navigate('/getting-started')}>{i18n.t('Go back')}</Button>
+            </div>
+        )
+    }
+
     const title = selectedTemplate?.title
+    const configs = selectedTemplate?.variables
+
+    if (!isEmpty(configs)) {
+
+        return (
+            <InitialConfig template={selectedTemplate}/>
+        )
+    }
 
     return (
         <div className="column align-center center h-100 w-100">

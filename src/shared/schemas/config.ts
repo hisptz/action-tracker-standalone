@@ -100,6 +100,7 @@ export const metaSchema = z.object({
 
 export const configSchema = z.object({
     id: z.string(),
+    code: z.string(),
     name: z.string({ description: 'Name of the configuration (useful for multiple configurations)' }),
     general: generalConfigSchema,
     categories: z.array(categoryConfigSchema),

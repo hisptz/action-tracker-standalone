@@ -31,6 +31,8 @@ export function DataTable ({
     const { child } = parentConfig as any
     const { confirm } = useConfirmDialog()
 
+    console.log({ child })
+
     const { config: allConfig } = useConfiguration()
     const config = useMemo(() => {
         if (child.type === 'program') {
@@ -71,7 +73,9 @@ export function DataTable ({
                 instance: parentInstance
             }
         }
-    }, [])
+    }, []);
+
+    console.log(config)
 
     const {
         columns,

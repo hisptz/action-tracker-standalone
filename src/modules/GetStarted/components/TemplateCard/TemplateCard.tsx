@@ -3,18 +3,24 @@ import classes from '../../GetStarted.module.css'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Config } from '../../../../shared/schemas/config'
+import { Attribute } from '../../../../shared/types/dhis2'
+import { RHFDHIS2FormFieldProps } from '@hisptz/dhis2-ui'
+import valueType = Attribute.valueType
+
+export interface TemplateVariableConfig {
+    label: string;
+    type: valueType;
+    name: string;
+}
 
 export interface Template {
     id: string;
     icon: React.ReactNode,
     description: string;
     title: string;
-    configs?: {
-        label: string;
-        key: string | string [],
-
-    }[],
-    configGenerator: (variables?: Record<string, any>) => Config
+    variables?: RHFDHIS2FormFieldProps[],
+    defaultVariables?: Record<string, any>;
+    configGenerator: (variables?: any) => Config
 }
 
 export interface TemplateCardProps {

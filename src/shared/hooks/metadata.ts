@@ -34,7 +34,8 @@ export const metadataMutation: any = {
     params: ({ mode }: any) => ({
         importStrategy: 'CREATE_AND_UPDATE',
         atomicMode: 'ALL',
-        importMode: mode
+        importMode: mode,
+        reportMode: 'FULL'
     })
 }
 
@@ -75,8 +76,14 @@ export function useUpdateMetadata () {
         return uploadMetadata(metadata)
     }
 
+    const createMetadataFromConfig = async (config: Config, extraMetadata: Record<string, any>) => {
+        const metadata = { ...(extraMetadata ?? {}), ...initialMetadata, ...generateMetadataFromConfig(config, { meta: initialMetadata }) }
+        return uploadMetadata(metadata)
+    }
+
     return {
         updateMetadataFromConfig,
+        createMetadataFromConfig,
         uploadMetadata,
         uploadingMetadata,
         metadataError

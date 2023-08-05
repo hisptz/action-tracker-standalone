@@ -1,14 +1,13 @@
-import {ActionConfig, CategoryConfig} from "../../../../../../../../../../../shared/schemas/config";
-import {useMemo} from "react";
-import {useColumns} from "../../../hooks/columns";
-import {findLastIndex} from "lodash";
-
+import { ActionConfig, CategoryConfig } from '../../../../../../../../../../../shared/schemas/config'
+import { useMemo } from 'react'
+import { useColumns } from '../../../hooks/columns'
+import { findLastIndex } from 'lodash'
 
 export function useTableColumns(config: CategoryConfig | ActionConfig) {
     const allColumns = useColumns();
     const columns = useMemo(() => {
         return allColumns.filter((column) => {
-            return !!config.fields.find((field) => field.id === column.id)
+            return !!config?.fields.find((field) => field.id === column.id)
         })
     }, [allColumns, config]);
     const childTableColSpan = useMemo(() => {

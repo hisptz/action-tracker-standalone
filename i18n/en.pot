@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-04T13:54:55.293Z\n"
-"PO-Revision-Date: 2023-08-04T13:54:55.293Z\n"
+"POT-Creation-Date: 2023-08-05T07:22:45.337Z\n"
+"PO-Revision-Date: 2023-08-05T07:22:45.337Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -149,11 +149,23 @@ msgstr "Error setting up selected configuration"
 msgid "Initial configuration setup complete."
 msgstr "Initial configuration setup complete."
 
+msgid "Invalid configuration selected"
+msgstr "Invalid configuration selected"
+
+msgid "Go back"
+msgstr "Go back"
+
 msgid "Setting up {{title }} configuration"
 msgstr "Setting up {{title }} configuration"
 
 msgid "Error setting up configuration"
 msgstr "Error setting up configuration"
+
+msgid "Please wait..."
+msgstr "Please wait..."
+
+msgid "Save"
+msgstr "Save"
 
 msgid "Configure"
 msgstr "Configure"
@@ -224,9 +236,6 @@ msgstr "Updating"
 
 msgid "Update"
 msgstr "Update"
-
-msgid "Save"
-msgstr "Save"
 
 msgid "This field is required"
 msgstr "This field is required"
@@ -424,9 +433,6 @@ msgstr "Successfully deleted {{instanceName}}"
 msgid "Failed to delete"
 msgstr "Failed to delete"
 
-msgid "Basic Activity Template"
-msgstr "Basic Activity Template"
-
 msgid "Category"
 msgstr "Category"
 
@@ -447,9 +453,6 @@ msgstr "End Date"
 
 msgid "Status"
 msgstr "Status"
-
-msgid "Bottleneck Analysis Structure"
-msgstr "Bottleneck Analysis Structure"
 
 msgid "Bottleneck"
 msgstr "Bottleneck"
@@ -487,11 +490,26 @@ msgstr "Designation"
 msgid "Remarks / Comment"
 msgstr "Remarks / Comment"
 
+msgid "Not started"
+msgstr "Not started"
+
+msgid "In progress"
+msgstr "In progress"
+
+msgid "Completed"
+msgstr "Completed"
+
+msgid "Cancelled"
+msgstr "Cancelled"
+
 msgid "Basic activity tracking"
 msgstr "Basic activity tracking"
 
 msgid "A simple implementation with one level of categorization"
 msgstr "A simple implementation with one level of categorization"
+
+msgid "Should be at most 10 characters"
+msgstr "Should be at most 10 characters"
 
 msgid "BNA linked action tracking"
 msgstr "BNA linked action tracking"

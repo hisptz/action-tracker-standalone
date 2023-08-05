@@ -4,6 +4,7 @@ import { Config } from '../../../../../shared/schemas/config'
 import { useUpdateMetadata } from '../../../../../shared/hooks/metadata'
 import { useDataEngine } from '@dhis2/app-runtime'
 import { useMutation } from '@tanstack/react-query'
+import { generateDefaultStatusOptionSetMetadata } from '../../../../../shared/constants/initial'
 
 const generateConfigCreateMutation = (id: string): any => {
     return {
@@ -16,11 +17,12 @@ const generateConfigCreateMutation = (id: string): any => {
 export function useSaveConfigFromTemplate () {
     const engine = useDataEngine()
     const {
-        updateMetadataFromConfig
+        createMetadataFromConfig
     } = useUpdateMetadata()
 
     const save = useCallback(async (config: Config) => {
-        await updateMetadataFromConfig(config)
+        const extraMetadata = generateDefaultStatusOptionSetMetadata(config.action.statusConfig.stateConfig.optionSetId, config.code)
+        await createMetadataFromConfig(config, extraMetadata)
         await engine.mutate(generateConfigCreateMutation(config.id), {
             variables: {
                 data: config

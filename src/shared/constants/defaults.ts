@@ -39,14 +39,19 @@ function slug (name: string) {
     return name.replaceAll(/ +/g, '-').toLowerCase()
 }
 
-export function generateBasicTemplate (): Config {
-    const name = i18n.t('Basic Activity Template') as string
+export function generateBasicTemplate ({
+                                           name,
+                                           code
+                                       }: { name: string; code: string }): Config {
     const categoryId = uid()
     const actionId = uid()
     const categoryToActivityId = uid()
     const statusFieldId = uid()
+    const statusOptionSetId = uid()
+
     return {
         id: slug(name),
+        code,
         name,
         general: {
             period: {
@@ -64,7 +69,7 @@ export function generateBasicTemplate (): Config {
                 child: {
                     id: categoryToActivityId,
                     to: actionId,
-                    type: 'programStage'
+                    type: 'program'
                 },
                 fields: [
                     {
@@ -91,7 +96,7 @@ export function generateBasicTemplate (): Config {
             name: i18n.t('Activity'),
             parent: {
                 from: categoryId,
-                id: uid(),
+                id: categoryToActivityId,
                 type: 'program',
                 name: i18n.t('Category')
             },
@@ -101,6 +106,7 @@ export function generateBasicTemplate (): Config {
                     shortName: 'Activity',
                     type: valueType.TEXT,
                     mandatory: true,
+                    showAsColumn: true,
                     id: uid()
                 },
                 {
@@ -114,6 +120,7 @@ export function generateBasicTemplate (): Config {
                     name: i18n.t('Start Date'),
                     shortName: 'Start Date',
                     type: valueType.DATE,
+                    showAsColumn: true,
                     mandatory: true,
                     id: uid()
                 },
@@ -121,6 +128,7 @@ export function generateBasicTemplate (): Config {
                     name: i18n.t('End Date'),
                     type: valueType.DATE,
                     shortName: 'End Date',
+                    showAsColumn: true,
                     mandatory: true,
                     id: uid()
                 }
@@ -130,7 +138,7 @@ export function generateBasicTemplate (): Config {
                 id: uid(),
                 stateConfig: {
                     dataElement: statusFieldId,
-                    optionSetId: ''
+                    optionSetId: statusOptionSetId
                 },
                 dateConfig: {
                     name: i18n.t('Review Date')
@@ -142,6 +150,9 @@ export function generateBasicTemplate (): Config {
                         shortName: 'Status',
                         mandatory: true,
                         id: statusFieldId,
+                        optionSet: {
+                            id: statusOptionSetId
+                        },
                         native: true
                     }
                 ]
@@ -156,14 +167,17 @@ export function generateBasicTemplate (): Config {
     }
 }
 
-export function generateLegacyTemplate (): Config {
-    const name = i18n.t('Bottleneck Analysis Structure')
+export function generateLegacyTemplate ({
+                                            name,
+                                            code
+                                        }: { name: string; code: string }): Config {
     const bottleneckToGap = uid()
     const gapToSolution = uid()
     const solutionToAction = uid()
 
     return {
         id: slug(name),
+        code,
         name,
         general: {
             orgUnit: {},
