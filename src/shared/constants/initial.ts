@@ -1,5 +1,6 @@
 import { DataElement, Option, OptionSet, Sharing, TrackedEntityAttribute } from '../types/dhis2'
 import { uid } from '@hisptz/dhis2-utils'
+import i18n from '@dhis2/d2-i18n'
 import valueType = DataElement.valueType
 import aggregationType = TrackedEntityAttribute.aggregationType
 import domainType = DataElement.domainType
@@ -11,45 +12,26 @@ const generateDefaultSharing = (owner: string): Sharing => ({
     public: 'rwrw----',
     owner
 })
-const generateDefaultStatusOptions = (optionSet: OptionSet): Partial<Option>[] => ([
+const generateDefaultStatusOptions = (optionSetId: string, code: string): Partial<Option>[] => ([
     {
-        code: 'Cancelled',
-        created: '2021-04-22T12:50:22.498',
-        lastUpdated: '2021-04-22T12:50:22.585',
-        name: 'Cancelled',
-        id: 'FEz7OK0NVRW',
-        sortOrder: 6,
-        optionSet: optionSet,
+        code: `${code} - Not started`,
+        name: i18n.t('Not started'),
+        id: uid(),
+        sortOrder: 1,
+        optionSet: { id: optionSetId } as OptionSet,
         style: {
-            color: '#d0021b',
-            icon: 'no_outline'
+            color: '#4a90e2',
+            icon: 'alert_positive'
         },
         attributeValues: [],
         translations: []
     },
     {
-        code: 'Completed',
-        created: '2021-04-22T13:06:06.292',
-        lastUpdated: '2021-04-22T13:06:06.325',
-        name: 'Completed',
-        id: 'JzKswnTlxSn',
-        sortOrder: 5,
-        optionSet: optionSet,
-        style: {
-            color: '#7ed321',
-            icon: 'yes_positive'
-        },
-        attributeValues: [],
-        translations: []
-    },
-    {
-        code: ' In progress',
-        created: '2021-04-22T13:07:26.200',
-        lastUpdated: '2021-04-22T13:07:26.241',
-        name: 'In progress',
-        id: 'CI07xeRxsZU',
-        sortOrder: 4,
-        optionSet: optionSet,
+        code: `${code} - In progress`,
+        name: i18n.t('In progress'),
+        id: uid(),
+        sortOrder: 2,
+        optionSet: { id: optionSetId } as OptionSet,
         style: {
             color: '#f5a623',
             icon: 'high_level_positive'
@@ -58,26 +40,51 @@ const generateDefaultStatusOptions = (optionSet: OptionSet): Partial<Option>[] =
         translations: []
     },
     {
-        code: 'Not started',
-        created: '2021-04-22T13:08:26.117',
-        lastUpdated: '2021-04-22T13:08:26.148',
-        name: 'Not started',
-        id: 'fLUmGT0p0Sh',
+        code: `${code} - Completed`,
+        name: i18n.t('Completed'),
+        id: uid(),
         sortOrder: 3,
-        optionSet: optionSet,
+        optionSet: { id: optionSetId } as OptionSet,
         style: {
-            color: '#4a90e2',
-            icon: 'alert_positive'
+            color: '#7ed321',
+            icon: 'yes_positive'
+        },
+        attributeValues: [],
+        translations: []
+    },
+    {
+        code: `${code} - Cancelled`,
+        name: i18n.t('Cancelled'),
+        id: uid(),
+        sortOrder: 4,
+        optionSet: { id: optionSetId } as OptionSet,
+        style: {
+            color: '#d0021b',
+            icon: 'no_outline'
         },
         attributeValues: [],
         translations: []
     }
+
 ])
-const generateDefaultStatusOptionSet = (name: string): OptionSet => <OptionSet>({
-    name,
-    id: uid(),
-    valueType: valueType.TEXT
-})
+export const generateDefaultStatusOptionSetMetadata = (optionSetId: string, code: string): {
+    optionSets: Array<Partial<OptionSet>>,
+    options: Partial<Option>[]
+} => {
+    const options = generateDefaultStatusOptions(optionSetId, code)
+
+    const optionSet = {
+        id: optionSetId,
+        name: `${code} - Status`,
+        valueType: valueType.TEXT,
+        options: options.map(({ id }) => ({ id })) as Option[]
+    } satisfies Partial<OptionSet>
+
+    return {
+        optionSets: [optionSet],
+        options
+    }
+}
 const generateLinkageDataElement = (): Partial<DataElement> => ({
     id: 'kBkyDytdOmC',
     name: '[SAT] Linkage',

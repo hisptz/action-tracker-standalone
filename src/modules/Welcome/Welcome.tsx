@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import i18n from '@dhis2/d2-i18n'
 import { useSetupMetadata } from './hooks/metadata'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import appLogo from '../../shared/assets/images/app-logo.png'
 import { Button, ButtonStrip, CircularLoader, LinearLoader } from '@dhis2/ui'
 import { useRecoilRefresher_UNSTABLE } from 'recoil'
 import { ConfigIdsState } from '../../shared/state/config'
+import { isEmpty } from 'lodash'
 
 export function Welcome () {
     const [error, setError] = useState<any>(null)
@@ -13,37 +14,47 @@ export function Welcome () {
 
     const navigate = useNavigate()
     const {
+        programs,
+        loading,
         setupConfiguration,
-        uploadingMetadata,
+        settingUpConfiguration,
         progress
     } = useSetupMetadata()
 
-    useEffect(() => {
-        async function config () {
-            try {
-                const response = await setupConfiguration() as any
-                if (!response) {
-                    //No default programs
-                    navigate('/getting-started')
-                }
-                if (response?.httpStatusCode === 201) {
-                    resetConfig()
-                    navigate('/')
-                }
-            } catch (e: any) {
-                setError(e)
+    async function config () {
+        try {
+            const response = await setupConfiguration() as any
+            if (!response) {
+                //No default programs
+                navigate('/getting-started')
             }
+            if (response?.httpStatusCode === 201) {
+                resetConfig()
+                navigate('/')
+            } else {
+                setError(response)
+            }
+        } catch (e: any) {
+            setError(e)
         }
+    }
 
-        config()
-    }, [])
+    if (loading) {
+        return (
+            <div className="w-100 h-100 column center align-center">
+                <img alt={i18n.t('app logo')} width={150} src={appLogo}/>
+                <h1>{i18n.t('Welcome to the Standalone Action Tracker')}</h1>
+                <CircularLoader small/>
+            </div>
+        )
+    }
 
-    return (
-        <div className="w-100 h-100 column center align-center">
-            <img alt={i18n.t('app logo')} width={150} src={appLogo}/>
-            <h1>{i18n.t('Welcome to the standalone action tracker')}</h1>
-            {
-                error ? (<div className="column gap-8 align-center">
+    if (error) {
+        return (
+            <div className="w-100 h-100 column center align-center">
+                <img alt={i18n.t('app logo')} width={150} src={appLogo}/>
+                <h1>{i18n.t('Welcome to the Standalone Action Tracker')}</h1>
+                <div className="column gap-8 align-center">
                     <span>{i18n.t('There were issues with setting up configuration.')}</span>
                     <code>
                         {error.message ?? error.toString()}
@@ -53,16 +64,40 @@ export function Welcome () {
                             {i18n.t('Retry')}
                         </Button>
                     </ButtonStrip>
-                </div>) : (<div className="column gap-8 align-center">
-                    <CircularLoader small/>
-                    <span>{i18n.t('Setting up configuration')}</span>
-                    {
-                        uploadingMetadata || progress !== 0 ? (
-                            <>
-                                <LinearLoader amount={progress}/>
-                            </>
-                        ) : null
-                    }
+                </div>
+            </div>
+        )
+    }
+
+    if (!loading && isEmpty(programs)) {
+        return (
+            <Navigate to={'/getting-started'}/>
+        )
+    }
+
+    return (
+        <div className="w-100 h-100 column center align-center">
+            <img alt={i18n.t('app logo')} width={150} src={appLogo}/>
+            <h1>{i18n.t('Welcome to the Standalone Action Tracker')}</h1>
+            {
+                settingUpConfiguration ? (
+                    <div className="column gap-8 align-center text-center">
+                        <CircularLoader small/>
+                        <span>{i18n.t('Setting up configuration. Please wait...')}</span>
+                        <LinearLoader amount={progress}/>
+                    </div>
+                ) : (<div style={{ maxWidth: 800 }} className="column gap-8 align-center text-center">
+                    <span>{i18n.t('Previous version configuration have been detected in your system. You can decide to ignore them and start a new configuration or you can continue with the previous configuration.')}</span>
+                    <ButtonStrip>
+                        <Button onClick={config}>
+                            {i18n.t('Use  previous configuration')}
+                        </Button>
+                        <Button onClick={() => {
+                            navigate('/getting-started')
+                        }}>
+                            {i18n.t('Setup new configuration')}
+                        </Button>
+                    </ButtonStrip>
                 </div>)
             }
         </div>

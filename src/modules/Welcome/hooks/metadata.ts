@@ -8,10 +8,11 @@ import { FetchError, useAlert, useDataQuery } from '@dhis2/app-runtime'
 import { useCallback } from 'react'
 import { DATASTORE_NAMESPACE } from '../../../shared/constants/meta'
 import { Config } from '../../../shared/schemas/config'
-import i18n from '@dhis2/d2-i18n'
 import { isEmpty } from 'lodash'
 import { useUpdateMetadata } from '../../../shared/hooks/metadata'
 import { useMigrateData } from './migrate'
+import { Program } from '@hisptz/dhis2-utils'
+import { useMutation } from '@tanstack/react-query'
 
 const programsQuery = {
     meta: {
@@ -48,7 +49,6 @@ export function useSetupMetadata () {
         progress
     } = useMigrateData()
     const {
-        uploadingMetadata,
         updateMetadataFromConfig
     } = useUpdateMetadata()
     const { show } = useAlert(({ message }) => message, ({ type }) => ({
@@ -56,54 +56,60 @@ export function useSetupMetadata () {
         duration: 3000
     }))
     const {
+        data,
+        loading,
         refetch,
         engine
-    } = useDataQuery(programsQuery)
+    } = useDataQuery<{ meta: { programs: Program[], }, settings: any }>(programsQuery)
 
     const setupConfiguration = useCallback(async () => {
-        try {
-            const {
-                meta,
-                settings
-            } = (await refetch()) as any ?? {}
+        if (!data) {
+            throw Error('Something went wrong. Could not find existing metadata')
+        }
+        const {
+            meta,
+            settings
+        } = data
 
-            if (isEmpty(meta?.programs)) {
-                return
-            }
-            const generatedConfig = generateConfigFromMetadata({
-                programs: meta.programs,
-                defaultSettings: settings
-            })
+        if (isEmpty(meta?.programs)) {
+            return
+        }
+        const generatedConfig = generateConfigFromMetadata({
+            programs: meta.programs,
+            defaultSettings: settings
+        })
 
-            const response = await updateMetadataFromConfig(generatedConfig)
+        console.log(generatedConfig)
 
-            if ((response as FetchError)?.message) {
-                return
-            }
+        const response = await updateMetadataFromConfig(generatedConfig)
 
-            await migrate(generatedConfig)
-
-            return await engine.mutate(generateConfigCreateMutation(generatedConfig.id), {
-                variables: {
-                    data: generatedConfig
-                }
-            })
-
-        } catch (e: any) {
-            show({
-                message: `${i18n.t('Error setting up configuration')}:  ${e.message || e.toString()}`,
-                type: { critical: true }
-            })
-            console.error(e)
-            throw e
+        if ((response as FetchError)?.message) {
+            throw response
         }
 
-    }, [refetch])
+        await migrate(generatedConfig)
+
+        return await engine.mutate(generateConfigCreateMutation(generatedConfig.id), {
+            variables: {
+                data: generatedConfig
+            }
+        })
+
+    }, [refetch, data])
+
+    const {
+        mutateAsync: setup,
+        isLoading
+    } = useMutation(['metadata'], setupConfiguration, {
+        retry: false
+    })
 
     return {
-        setupConfiguration,
-        uploadingMetadata,
-        progress
+        setupConfiguration: setup,
+        settingUpConfiguration: isLoading,
+        progress,
+        loading,
+        programs: data?.meta.programs
     }
 
 }

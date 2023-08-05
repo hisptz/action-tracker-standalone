@@ -7,6 +7,7 @@ import { General } from '../../Config/components/General'
 import { Categories } from '../../Config/components/Categories'
 import { Actions } from '../../Config/components/Actions/Actions'
 import { GetStarted } from '../../GetStarted'
+import { TemplateConfiguration } from '../../GetStarted/components/TemplateConfiguration'
 
 export interface NavItem {
     label?: string | ((data: any) => any)
@@ -18,58 +19,69 @@ export interface NavItem {
 
 export const ROUTES: NavItem[] = [
     {
-        path: "welcome",
+        path: 'welcome',
         element: Welcome,
-        id: "welcome"
+        id: 'welcome'
     },
     {
         path: 'getting-started',
-        element: GetStarted,
-        id: 'getting-started'
-    },
-    {
-        path: ":id",
-        id: "main",
+        id: 'getting-started',
         subItems: [
             {
-                path: "",
-                element: Main,
-                id: "main"
+                path: '',
+                element: GetStarted,
+                id: 'main'
             },
             {
-                path: "planning",
-                element: Main,
-                id: "main-planning"
-            },
-            {
-                path: "tracking",
-                element: Main,
-                id: "main-tracking"
+                path: ':id',
+                element: TemplateConfiguration,
+                id: 'template-config'
             }
         ]
     },
     {
-        path: ":id/config",
-        id: "config",
+        path: ':id',
+        id: 'main',
+        subItems: [
+            {
+                path: '',
+                element: Main,
+                id: 'main'
+            },
+            {
+                path: 'planning',
+                element: Main,
+                id: 'main-planning'
+            },
+            {
+                path: 'tracking',
+                element: Main,
+                id: 'main-tracking'
+            }
+        ]
+    },
+    {
+        path: ':id/config',
+        id: 'config',
         element: ConfigPage,
         subItems: [
             {
-                path: "general",
-                label: i18n.t("General"),
+                path: 'general',
+                label: i18n.t('General'),
                 element: General,
-                id: "config-edit-general"
+                id: 'config-edit-general'
             },
             {
-                path: "categorization",
-                label: i18n.t("Categories"),
+                path: 'categorization',
+                label: i18n.t('Categories'),
                 element: Categories,
-                id: "config-edit-categorization"
+                id: 'config-edit-categorization'
             },
             {
-                path: "action",
-                label: i18n.t("Action"),
+                path: 'action',
+                label: i18n.t('Action'),
                 element: Actions,
-                id: "config-edit-action"
+                id: 'config-edit-action'
             }
         ]
     }

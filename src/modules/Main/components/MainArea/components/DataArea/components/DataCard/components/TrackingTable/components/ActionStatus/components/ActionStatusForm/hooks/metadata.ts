@@ -14,7 +14,15 @@ export function useFormMeta ({ columnConfig }: { columnConfig: ActionTrackingCol
     const actionStatusProgramStageConfig = find(find(programs, ['id', config?.action.id])?.programStages, ['id', actionStatusConfig?.id])
 
     const fields = useMemo(() => {
-        const fields = config?.action.statusConfig.fields.map(getFieldProps) ?? []
+        const dataElements = actionStatusProgramStageConfig?.programStageDataElements?.map(({ dataElement }) => dataElement)
+
+        const fields = config?.action.statusConfig.fields.map((fieldConfig) => {
+            const dataElement = find(dataElements, { id: fieldConfig.id })
+            return getFieldProps({
+                ...fieldConfig,
+                ...(dataElement ?? {})
+            })
+        }) ?? []
 
         const period = columnConfig.period
         const eventDateField = {
