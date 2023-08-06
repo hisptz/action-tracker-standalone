@@ -4,6 +4,7 @@ import { Divider } from '@dhis2/ui'
 import { RHFTextInputField } from '@hisptz/dhis2-ui'
 import { ActionFields } from './components/ActionFields'
 import { ActionStatusFields } from './components/ActionStatusFields'
+import { ActionStatusOptionsConfig } from './components/ActionStatusOptionsConfig'
 
 const namespace = `action`
 
@@ -37,6 +38,8 @@ export function Actions () {
                         name={`${namespace}.statusConfig.dateConfig.name`} label={i18n.t('Date of review label')}
                     />
                     <ActionStatusFields/>
+                    <h4>{i18n.t('Action status options')}</h4>
+                    <ActionStatusOptionsConfig/>
                 </div>
             </div>
         </div>
