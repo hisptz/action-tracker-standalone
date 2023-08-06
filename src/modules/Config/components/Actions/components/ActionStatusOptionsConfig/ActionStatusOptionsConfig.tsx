@@ -9,10 +9,13 @@ import {
     TableCellHead,
     TableHead,
     TableRow,
-    TableRowHead
+    TableRowHead,
+    Tooltip
 } from '@dhis2/ui'
 import i18n from '@dhis2/d2-i18n'
 import { ActionButton } from '../../../../../../shared/components/ActionButton'
+import { ColorView } from './components/ColorView'
+import { DHIS2Icon } from '../../../../../../shared/components/DHIS2Icon/DHIS2Icon'
 
 export function ActionStatusOptionsConfig () {
     const {
@@ -76,17 +79,20 @@ export function ActionStatusOptionsConfig () {
                                     {code}
                                 </TableCell>
                                 <TableCell>
-                                    {style.color}
+                                    <Tooltip content={style.color}>
+                                        <ColorView color={style.color}/>
+                                    </Tooltip>
                                 </TableCell>
                                 <TableCell>
-                                    {style.icon}
+                                    <Tooltip content={style.icon}>
+                                        <DHIS2Icon iconName={style.icon} size={24} color={'#000'}/>
+                                    </Tooltip>
                                 </TableCell>
                                 <TableCell>
                                     <ActionButton
                                         onEdit={() => {
                                         }}
-                                        onDelete={() => {
-                                        }}/>
+                                    />
                                 </TableCell>
                             </TableRow>
                         )
