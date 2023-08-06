@@ -59,9 +59,18 @@ export function ActionStatus ({
     const options = statusOptionSet?.options || []
     const tableData = useMemo(() => {
         if (!statusEvent) return null
-        const dataValues = get(statusEvent, ['dataValues'], null)
+        const dataValues = get(statusEvent, ['dataValues'], [])
         const data = dataValues.map((dataValue: { dataElement: string; value: string }) => {
             const dataElement = find(config?.action.statusConfig.fields, { id: dataValue.dataElement })
+
+            if (dataValue.dataElement === actionStatusConfig?.stateConfig?.dataElement) {
+
+                return {
+                    name: dataElement?.name,
+                    value: find(options, ['code', dataValue?.value])?.name
+                }
+            }
+
             return {
                 name: dataElement?.name,
                 value: dataValue.value
