@@ -6,8 +6,8 @@ import { ActionConfig, ActionStatusConfig, CategoryConfig } from '../../schemas/
 
 export interface ViewModalContextConfig {
     instance: TrackedEntity | Event,
-    instanceConfig: CategoryConfig | ActionConfig | ActionStatusConfig
-
+    instanceConfig: CategoryConfig | ActionConfig | ActionStatusConfig,
+    content?: React.ReactNode
 }
 
 export interface ViewModalContextType {
