@@ -15,6 +15,7 @@ import { ActionButton } from '../../../../../../../../../../shared/components/Ac
 import { useDeleteInstance } from '../../../../../../../../../../shared/components/Form/hooks/save'
 import { useConfirmDialog } from '@hisptz/dhis2-ui'
 import { useViewModal } from '../../../../../../../../../../shared/components/ViewModal'
+import { DataView } from '../../../../../../../../../../shared/components/DataView/DataView'
 
 export interface DataTableProps {
     parentConfig: ActionConfig | CategoryConfig;
@@ -159,6 +160,8 @@ export function DataTable ({
         return 0
     }
 
+    console.log(rows)
+
     return (
         <div className="column w-100">
             <div style={{
@@ -205,7 +208,11 @@ export function DataTable ({
                                                     key={`${row.id}-${column.id}-${columnIndex}`}>
                                                     <div className="w-100 h-100 row gap-8 space-between">
                                                         <div className="flex-1 w-100 h-100 column center">
-                                                            {get(row, [column.id], '')}
+                                                            <DataView
+                                                                fieldId={column.id}
+                                                                instanceConfig={config as any}
+                                                                value={get(row, [column.id], '')}
+                                                            />
                                                         </div>
                                                         <div>
                                                             <ActionButton

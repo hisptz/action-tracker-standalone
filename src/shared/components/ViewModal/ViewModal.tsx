@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react'
 import { Button, Modal, ModalActions, ModalContent, ModalTitle } from '@dhis2/ui'
 import { Event, TrackedEntity } from '../../types/dhis2'
-import { ActionConfig, ActionStatusConfig, CategoryConfig, DataField } from '../../schemas/config'
+import { ActionConfig, ActionStatusConfig, CategoryConfig } from '../../schemas/config'
 import { compact, fromPairs } from 'lodash'
 import i18n from '@dhis2/d2-i18n'
-import { OptionView } from './components/OptionSetView'
+import { DataView } from '../DataView/DataView'
 
 export interface ViewModalProps {
     hide: boolean;
@@ -47,20 +47,6 @@ export function ViewModal ({
         }
     }))
 
-    const getViewType = (field: DataField & { value: string }) => {
-        if (field.optionSet?.id) {
-            return <OptionView field={field} value={field.value} instanceConfig={instanceConfig}/>
-        }
-
-        switch (field.type) {
-            case 'TEXT':
-            case 'LONG_TEXT':
-                return field.value
-            default:
-                return field.value
-        }
-    }
-
     return (
         <Modal position="middle" hide={hide} onClose={onClose}>
             <ModalTitle>
@@ -77,7 +63,8 @@ export function ViewModal ({
                                         gridTemplateColumns: '1fr 2fr'
                                     }}>
                                         <b>{data.name}</b>
-                                        <span>{getViewType(data)}</span>
+                                        <span><DataView fieldId={data.id} instanceConfig={instanceConfig}
+                                                        value={data.value}/></span>
                                     </div>
                                 )
                             })
