@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useStatusOptions } from './hooks/data'
 import {
+    Button,
     CircularLoader,
     IconError24,
     Table,
@@ -18,9 +19,15 @@ import { ColorView } from './components/ColorView'
 import { DHIS2Icon } from '../../../../../../shared/components/DHIS2Icon/DHIS2Icon'
 import { Option, OptionSet } from '../../../../../../shared/types/dhis2'
 import { OptionForm } from './components/OptionForm/OptionForm'
+import { useBoolean } from 'usehooks-ts'
 
 export function ActionStatusOptionsConfig () {
     const [selectedOption, setSelectedOption] = useState<Option | null>(null)
+    const {
+        value: hide,
+        setTrue: onHide,
+        setFalse: onShow
+    } = useBoolean(true)
     const {
         options,
         optionSet,
@@ -56,15 +63,18 @@ export function ActionStatusOptionsConfig () {
     }
 
     return (
-        <>
+        <div className="column gap-16">
             {
-                selectedOption && (
+                !hide && (
                     <OptionForm
                         optionSet={optionSet as OptionSet}
                         refetch={refetch}
                         defaultValue={selectedOption}
-                        hide={!selectedOption}
-                        onClose={() => setSelectedOption(null)}
+                        hide={hide}
+                        onClose={() => {
+                            setSelectedOption(null)
+                            onHide()
+                        }}
                     />)
             }
             <Table>
@@ -108,6 +118,7 @@ export function ActionStatusOptionsConfig () {
                                         <ActionButton
                                             onEdit={() => {
                                                 setSelectedOption(option)
+                                                onShow()
                                             }}
                                         />
                                     </TableCell>
@@ -117,6 +128,9 @@ export function ActionStatusOptionsConfig () {
                     }
                 </TableBody>
             </Table>
-        </>
+            <div className="row end">
+                <Button onClick={onShow}>{i18n.t('Add option')}</Button>
+            </div>
+        </div>
     )
 }

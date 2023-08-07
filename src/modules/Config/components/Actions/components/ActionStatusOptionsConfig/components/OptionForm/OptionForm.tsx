@@ -22,7 +22,7 @@ const optionSchema = z.object({
 export interface OptionFormProps {
     refetch: () => void;
     optionSet: OptionSet;
-    defaultValue: Partial<Option>,
+    defaultValue?: Partial<Option> | null,
     hide: boolean;
     onClose: () => void
 }
@@ -35,7 +35,7 @@ export function OptionForm ({
                                 refetch,
                             }: OptionFormProps) {
     const form = useForm<Partial<Option>>({
-        defaultValues: defaultValue,
+        defaultValues: defaultValue ?? {},
         resolver: zodResolver(optionSchema)
     })
 
@@ -64,10 +64,10 @@ export function OptionForm ({
             <ModalContent>
                 <FormProvider {...form} >
                     <div className="column gap-16">
-                        <RHFTextInputField name={'name'} label={i18n.t('Name')}/>
-                        <RHFTextInputField disabled name={'code'} label={i18n.t('Code')}/>
-                        <RHFIconField name={'style.icon'} label={i18n.t('Icon')}/>
-                        <RHFColorField name={'style.color'} label={i18n.t('Color')}/>
+                        <RHFTextInputField required name={'name'} label={i18n.t('Name')}/>
+                        <RHFTextInputField required disabled={!!defaultValue} name={'code'} label={i18n.t('Code')}/>
+                        <RHFIconField required name={'style.icon'} label={i18n.t('Icon')}/>
+                        <RHFColorField required name={'style.color'} label={i18n.t('Color')}/>
                     </div>
                 </FormProvider>
             </ModalContent>

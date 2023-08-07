@@ -9,7 +9,7 @@ const query: any = {
         params: {
             fields: [
                 'id',
-                'displayName',
+                'name',
                 'valueType',
                 'options[id,code,name,style[color,icon],sortOrder,optionSet[id]]'
             ]
