@@ -10,7 +10,8 @@ const query: any = {
             fields: [
                 'id',
                 'displayName',
-                'options[id,code,name,style[color,icon]]'
+                'valueType',
+                'options[id,code,name,style[color,icon],sortOrder,optionSet[id]]'
             ]
         }
     }
@@ -35,6 +36,8 @@ export function useStatusOptions () {
 
     return {
         options,
+        optionSet: data?.statusOptions,
+        refetch,
         loading,
         error
     }

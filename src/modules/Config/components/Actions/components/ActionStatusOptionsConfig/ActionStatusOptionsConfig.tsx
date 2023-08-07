@@ -16,13 +16,15 @@ import i18n from '@dhis2/d2-i18n'
 import { ActionButton } from '../../../../../../shared/components/ActionButton'
 import { ColorView } from './components/ColorView'
 import { DHIS2Icon } from '../../../../../../shared/components/DHIS2Icon/DHIS2Icon'
-import { Option } from '../../../../../../shared/types/dhis2'
+import { Option, OptionSet } from '../../../../../../shared/types/dhis2'
 import { OptionForm } from './components/OptionForm/OptionForm'
 
 export function ActionStatusOptionsConfig () {
     const [selectedOption, setSelectedOption] = useState<Option | null>(null)
     const {
         options,
+        optionSet,
+        refetch,
         loading,
         error
     } = useStatusOptions()
@@ -57,8 +59,13 @@ export function ActionStatusOptionsConfig () {
         <>
             {
                 selectedOption && (
-                    <OptionForm defaultValue={selectedOption} hide={!selectedOption}
-                                onClose={() => setSelectedOption(null)}/>)
+                    <OptionForm
+                        optionSet={optionSet as OptionSet}
+                        refetch={refetch}
+                        defaultValue={selectedOption}
+                        hide={!selectedOption}
+                        onClose={() => setSelectedOption(null)}
+                    />)
             }
             <Table>
                 <TableHead>

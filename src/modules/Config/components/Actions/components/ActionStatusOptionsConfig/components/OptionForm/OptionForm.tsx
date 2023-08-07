@@ -2,12 +2,13 @@ import React from 'react'
 import { Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle } from '@dhis2/ui'
 import i18n from '@dhis2/d2-i18n'
 import { FormProvider, useForm } from 'react-hook-form'
-import { Option } from '../../../../../../../../shared/types/dhis2'
+import { Option, OptionSet } from '../../../../../../../../shared/types/dhis2'
 import { RHFTextInputField } from '@hisptz/dhis2-ui'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RHFColorField } from './components/ColorField'
 import { RHFIconField } from './components/IconField'
+import { useManageOptions } from '../../hooks/save'
 
 const optionSchema = z.object({
     name: z.string().max(50, i18n.t('Name should not exceed 50 characters')),
@@ -19,6 +20,8 @@ const optionSchema = z.object({
 })
 
 export interface OptionFormProps {
+    refetch: () => void;
+    optionSet: OptionSet;
     defaultValue: Partial<Option>,
     hide: boolean;
     onClose: () => void
@@ -27,7 +30,9 @@ export interface OptionFormProps {
 export function OptionForm ({
                                 defaultValue,
                                 hide,
-                                onClose
+                                onClose,
+                                optionSet,
+                                refetch,
                             }: OptionFormProps) {
     const form = useForm<Partial<Option>>({
         defaultValues: defaultValue,
@@ -39,9 +44,17 @@ export function OptionForm ({
         onClose()
     }
 
-    const onSubmit = (data: Partial<Option>) => {
-
+    const onSaveComplete = () => {
+        onCloseClick()
+        refetch()
     }
+
+    const {
+        onSave,
+        saving
+    } = useManageOptions(optionSet, onSaveComplete, defaultValue)
+
+    const onSubmit = (data: Partial<Option>) => onSave(data)
 
     return (
         <Modal position="middle" hide={hide} onClose={onCloseClick}>
@@ -61,7 +74,8 @@ export function OptionForm ({
             <ModalActions>
                 <ButtonStrip>
                     <Button onClick={onCloseClick}>{i18n.t('Cancel')}</Button>
-                    <Button primary onClick={form.handleSubmit(onSubmit)}>{i18n.t('Save')}</Button>
+                    <Button loading={saving} primary
+                            onClick={form.handleSubmit(onSubmit)}>{saving ? i18n.t('Saving...') : i18n.t('Save')}</Button>
                 </ButtonStrip>
             </ModalActions>
         </Modal>
