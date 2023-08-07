@@ -29,13 +29,6 @@ export function useManageOptions (optionSet: OptionSet, onComplete: () => void, 
                 type: { critical: true }
             })
         },
-        onComplete: () => {
-            show({
-                message: i18n.t('Option updated successfully'),
-                type: { success: true }
-            })
-            onComplete()
-        }
     })
 
     const onSave = async (data: Partial<Option>) => {
@@ -48,9 +41,15 @@ export function useManageOptions (optionSet: OptionSet, onComplete: () => void, 
                     }
                 ]
             }
-            return await upload({
+            await upload({
                 data: payload
             })
+            show({
+                message: i18n.t('Option updated successfully'),
+                type: { success: true }
+            })
+            onComplete()
+
         } else {
 
             const newOption = {
@@ -76,9 +75,15 @@ export function useManageOptions (optionSet: OptionSet, onComplete: () => void, 
                     }
                 ]
             }
-            return await upload({
+            await upload({
                 data: payload
             })
+            show({
+                message: i18n.t('Option added successfully'),
+                type: { success: true }
+            })
+            onComplete()
+
         }
     }
 
@@ -90,10 +95,16 @@ export function useManageOptions (optionSet: OptionSet, onComplete: () => void, 
                 }
             ]
         }
-        return await upload({
+        await upload({
             data: payload,
             strategy: 'DELETE'
         })
+        show({
+            message: i18n.t('Option deleted successfully'),
+            type: { success: true }
+        })
+        onComplete()
+
     }
 
     return {
