@@ -1,7 +1,7 @@
 import { ActionTrackingColumnStateConfig } from '../../../../state/columns'
 import React, { Fragment, useMemo } from 'react'
 import { useDimensions } from '../../../../../../../../../../../../shared/hooks'
-import { find, get } from 'lodash'
+import { compact, find, get } from 'lodash'
 import { DateTime } from 'luxon'
 import { Button, IconAdd24, TableCell } from '@dhis2/ui'
 import { useBoolean } from 'usehooks-ts'
@@ -60,11 +60,13 @@ export function ActionStatus ({
     const tableData = useMemo(() => {
         if (!statusEvent) return null
         const dataValues = get(statusEvent, ['dataValues'], [])
-        const data = dataValues.map((dataValue: { dataElement: string; value: string }) => {
+        const data = compact(dataValues.map((dataValue: { dataElement: string; value: string }) => {
             const dataElement = find(config?.action.statusConfig.fields, { id: dataValue.dataElement })
+            if (!dataElement?.showAsColumn) {
+                return
+            }
 
             if (dataValue.dataElement === actionStatusConfig?.stateConfig?.dataElement) {
-
                 return {
                     name: dataElement?.name,
                     value: find(options, ['code', dataValue?.value])?.name
@@ -75,7 +77,7 @@ export function ActionStatus ({
                 name: dataElement?.name,
                 value: dataValue.value
             }
-        })
+        }))
 
         return [
             {

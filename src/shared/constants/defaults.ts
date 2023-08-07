@@ -202,7 +202,15 @@ export function generateBasicTemplate (levels: number) {
                             optionSet: {
                                 id: statusOptionSetId
                             },
-                            native: true
+                            native: true,
+                            showAsColumn: true
+                        },
+                        {
+                            name: i18n.t('Comments'),
+                            type: valueType.LONG_TEXT,
+                            id: uid(),
+                            showAsColumn: true,
+                            shortName: 'Comments'
                         }
                     ]
                 }
