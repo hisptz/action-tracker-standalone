@@ -29,7 +29,7 @@ export function DataView ({
     const getViewType = () => {
         if (fieldMetadata?.optionSet?.id) {
             const options = fieldMetadata?.optionSet?.options
-            return find(options, { code: value })?.name
+            return find(options, { code: value })?.name ?? null
         }
 
         switch (fieldMetadata?.valueType) {
@@ -41,5 +41,5 @@ export function DataView ({
         }
     }
 
-    return getViewType()
+    return getViewType() ?? null
 }
