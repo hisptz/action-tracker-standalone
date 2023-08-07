@@ -7,6 +7,7 @@ import { RHFTextInputField } from '@hisptz/dhis2-ui'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RHFColorField } from './components/ColorField'
+import { RHFIconField } from './components/IconField'
 
 const optionSchema = z.object({
     name: z.string().max(50, i18n.t('Name should not exceed 50 characters')),
@@ -52,7 +53,7 @@ export function OptionForm ({
                     <div className="column gap-16">
                         <RHFTextInputField name={'name'} label={i18n.t('Name')}/>
                         <RHFTextInputField disabled name={'code'} label={i18n.t('Code')}/>
-                        <RHFTextInputField name={'style.icon'} label={i18n.t('Icon')}/>
+                        <RHFIconField name={'style.icon'} label={i18n.t('Icon')}/>
                         <RHFColorField name={'style.color'} label={i18n.t('Color')}/>
                     </div>
                 </FormProvider>
