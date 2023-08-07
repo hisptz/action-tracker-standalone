@@ -2,7 +2,7 @@ import { ActionConfig, CategoryConfig } from '../../../../../../../../../../shar
 import React, { useMemo, useState } from 'react'
 import { useConfiguration } from '../../../../../../../../../../shared/hooks/config'
 import { useTableData } from './hooks/data'
-import { Button, CircularLoader, IconAdd24, TableBody, TableCell, TableRow } from '@dhis2/ui'
+import { Button, CircularLoader, IconAdd24, Pagination, TableBody, TableCell, TableRow } from '@dhis2/ui'
 import i18n from '@dhis2/d2-i18n'
 import { Form } from '../../../../../../../../../../shared/components/Form'
 import { useBoolean } from 'usehooks-ts'
@@ -14,6 +14,8 @@ import { useTrackingColumns } from '../../hooks/columns'
 import { ActionButton } from '../../../../../../../../../../shared/components/ActionButton'
 import { useDeleteInstance } from '../../../../../../../../../../shared/components/Form/hooks/save'
 import { useConfirmDialog } from '@hisptz/dhis2-ui'
+import { useViewModal } from '../../../../../../../../../../shared/components/ViewModal'
+import { DataView } from '../../../../../../../../../../shared/components/DataView/DataView'
 
 export interface DataTableProps {
     parentConfig: ActionConfig | CategoryConfig;
@@ -30,8 +32,7 @@ export function DataTable ({
                            }: DataTableProps) {
     const { child } = parentConfig as any
     const { confirm } = useConfirmDialog()
-
-    console.log({ child })
+    const { show } = useViewModal()
 
     const { config: allConfig } = useConfiguration()
     const config = useMemo(() => {
@@ -73,13 +74,10 @@ export function DataTable ({
                 instance: parentInstance
             }
         }
-    }, []);
-
-    console.log(config)
+    }, [])
 
     const {
         columns,
-        allColumns,
         childTableColSpan
     } = useTableColumns(config as any)
 
@@ -162,6 +160,8 @@ export function DataTable ({
         return 0
     }
 
+    console.log(rows)
+
     return (
         <div className="column w-100">
             <div style={{
@@ -208,10 +208,20 @@ export function DataTable ({
                                                     key={`${row.id}-${column.id}-${columnIndex}`}>
                                                     <div className="w-100 h-100 row gap-8 space-between">
                                                         <div className="flex-1 w-100 h-100 column center">
-                                                            {get(row, [column.id], '')}
+                                                            <DataView
+                                                                fieldId={column.id}
+                                                                instanceConfig={config as any}
+                                                                value={get(row, [column.id], '')}
+                                                            />
                                                         </div>
                                                         <div>
                                                             <ActionButton
+                                                                onView={() => {
+                                                                    show({
+                                                                        instance: row.instance,
+                                                                        instanceConfig: config as any
+                                                                    })
+                                                                }}
                                                                 onEdit={() => {
                                                                     setEditInstance(row.instance)
                                                                     onShow()
@@ -255,8 +265,9 @@ export function DataTable ({
             <div style={{ padding: 8 }} className="row gap-16 space-between">
                 <Button onClick={onShow}
                         icon={<IconAdd24/>}>{i18n.t('Add {{instanceType}}', { instanceType })}</Button>
-                {/*{//TODO: Allow pagination when total issues is fixed for relationships query}*/}
-                {/*<Pagination {...pagination}/>*/}
+                {
+                    pagination.pageCount > 1 && (<Pagination {...pagination}/>)
+                }
             </div>
         </div>
     )

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-06T16:38:13.184Z\n"
-"PO-Revision-Date: 2023-08-06T16:38:13.184Z\n"
+"POT-Creation-Date: 2023-08-07T17:53:33.022Z\n"
+"PO-Revision-Date: 2023-08-07T17:53:33.022Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -53,6 +53,22 @@ msgstr "Icon"
 msgid "Actions"
 msgstr "Actions"
 
+msgid "Confirm option deletion"
+msgstr "Confirm option deletion"
+
+msgid "Are you sure you want to delete the option "
+msgstr "Are you sure you want to delete the option "
+
+msgid ""
+"Deleting this option may cause some issues if it was used in tracking "
+"actions."
+msgstr ""
+"Deleting this option may cause some issues if it was used in tracking "
+"actions."
+
+msgid "Add option"
+msgstr "Add option"
+
 msgid "Name should not exceed 50 characters"
 msgstr "Name should not exceed 50 characters"
 
@@ -68,8 +84,23 @@ msgstr "Update option"
 msgid "Cancel"
 msgstr "Cancel"
 
+msgid "Saving..."
+msgstr "Saving..."
+
 msgid "Save"
 msgstr "Save"
+
+msgid "Could not update option"
+msgstr "Could not update option"
+
+msgid "Option updated successfully"
+msgstr "Option updated successfully"
+
+msgid "Option added successfully"
+msgstr "Option added successfully"
+
+msgid "Option deleted successfully"
+msgstr "Option deleted successfully"
 
 msgid "Categories"
 msgstr "Categories"
@@ -318,6 +349,9 @@ msgstr "Use  previous configuration"
 msgid "Setup new configuration"
 msgstr "Setup new configuration"
 
+msgid "View"
+msgstr "View"
+
 msgid "Edit"
 msgstr "Edit"
 
@@ -356,9 +390,6 @@ msgstr "Show field as column"
 
 msgid "Add new"
 msgstr "Add new"
-
-msgid "Add option"
-msgstr "Add option"
 
 msgid "Code is required"
 msgstr "Code is required"
@@ -451,6 +482,18 @@ msgstr "Successfully deleted {{instanceName}}"
 msgid "Failed to delete"
 msgstr "Failed to delete"
 
+msgid "Select Icon"
+msgstr "Select Icon"
+
+msgid "Search icons"
+msgstr "Search icons"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Close"
+msgstr "Close"
+
 msgid "Category"
 msgstr "Category"
 
@@ -471,6 +514,9 @@ msgstr "End Date"
 
 msgid "Status"
 msgstr "Status"
+
+msgid "Comments"
+msgstr "Comments"
 
 msgid "Bottleneck"
 msgstr "Bottleneck"

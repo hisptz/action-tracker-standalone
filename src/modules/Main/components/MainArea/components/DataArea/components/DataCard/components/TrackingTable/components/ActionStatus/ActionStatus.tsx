@@ -14,6 +14,8 @@ import { useManageActionStatus } from './components/ActionStatusForm/hooks/save'
 import classes from '../../../DataTable/DataTable.module.css'
 import { hexToRgba } from '../LatestStatus'
 import { useMetadata } from '../../../../../../../../../../../../shared/hooks/metadata'
+import { useViewModal } from '../../../../../../../../../../../../shared/components/ViewModal'
+import { ActionStatusConfig } from '../../../../../../../../../../../../shared/schemas/config'
 
 export interface ActionStatusProps {
     refetch: () => void;
@@ -34,6 +36,7 @@ export function ActionStatus ({
         setFalse: onShow
     } = useBoolean(true)
     const { confirm } = useConfirmDialog()
+    const { show } = useViewModal()
     const { period: selectedPeriod } = useDimensions()
     const { config } = useConfiguration()
     const { period } = columnConfig
@@ -124,6 +127,10 @@ export function ActionStatus ({
 
     const color = selectedOption?.style.color ?? '#FFFFFF'
 
+    console.log({
+        statusEvent
+    })
+
     return (
         <td style={{ background: hexToRgba(color, .4) ?? '#FFFFFF' }} className={classes['tracking-value-cell']}>
             <ActionStatusForm defaultValue={statusEvent} onComplete={onActionManageComplete} columnConfig={columnConfig}
@@ -142,6 +149,12 @@ export function ActionStatus ({
                 </div>
                 <div>
                     <ActionButton
+                        onView={() => {
+                            show({
+                                instance: statusEvent,
+                                instanceConfig: actionStatusConfig as ActionStatusConfig
+                            })
+                        }}
                         onEdit={onShow}
                         onDelete={onDelete}
                     />
