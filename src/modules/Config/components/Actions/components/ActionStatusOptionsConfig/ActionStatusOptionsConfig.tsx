@@ -20,8 +20,11 @@ import { DHIS2Icon } from '../../../../../../shared/components/DHIS2Icon/DHIS2Ic
 import { Option, OptionSet } from '../../../../../../shared/types/dhis2'
 import { OptionForm } from './components/OptionForm/OptionForm'
 import { useBoolean } from 'usehooks-ts'
+import { useConfirmDialog } from '@hisptz/dhis2-ui'
+import { useManageOptions } from './hooks/save'
 
 export function ActionStatusOptionsConfig () {
+    const { confirm } = useConfirmDialog()
     const [selectedOption, setSelectedOption] = useState<Option | null>(null)
     const {
         value: hide,
@@ -35,6 +38,8 @@ export function ActionStatusOptionsConfig () {
         loading,
         error
     } = useStatusOptions()
+
+    const { onDelete } = useManageOptions(optionSet as OptionSet, refetch)
 
     if (loading) {
         return (
@@ -120,6 +125,21 @@ export function ActionStatusOptionsConfig () {
                                                 setSelectedOption(option)
                                                 onShow()
                                             }}
+
+                                            onDelete={() => {
+                                                confirm({
+                                                    title: i18n.t('Confirm option deletion'),
+                                                    onCancel: () => {
+                                                    },
+                                                    onConfirm: async () => {
+                                                        await onDelete(option.id)
+                                                    },
+                                                    message: <>
+                                                        {`${i18n.t('Are you sure you want to delete the option ')}`}<b>{option.name}</b>? {i18n.t('Deleting this option may cause some issues if it was used in tracking actions.')}
+                                                    </>
+                                                })
+                                            }}
+
                                         />
                                     </TableCell>
                                 </TableRow>

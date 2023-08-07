@@ -8,10 +8,10 @@ const optionMutate: any = {
     type: 'create',
     resource: 'metadata',
     data: ({ data }: { data: Option }) => data,
-    params: {
-        importStrategy: 'CREATE_AND_UPDATE',
+    params: ({ strategy }: { strategy?: string }) => ({
+        importStrategy: strategy ?? 'CREATE_AND_UPDATE',
         importMode: 'COMMIT'
-    }
+    })
 }
 
 export function useManageOptions (optionSet: OptionSet, onComplete: () => void, defaultValue?: Partial<Option> | null) {
@@ -82,8 +82,23 @@ export function useManageOptions (optionSet: OptionSet, onComplete: () => void, 
         }
     }
 
+    const onDelete = async (id: string) => {
+        const payload = {
+            options: [
+                {
+                    id
+                }
+            ]
+        }
+        return await upload({
+            data: payload,
+            strategy: 'DELETE'
+        })
+    }
+
     return {
         onSave,
+        onDelete,
         saving: loading,
     }
 
