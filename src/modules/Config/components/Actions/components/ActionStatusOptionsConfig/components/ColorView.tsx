@@ -2,7 +2,6 @@ import React from 'react'
 import { colors } from '@dhis2/ui'
 
 export function ColorView ({ color }: { color: string }) {
-
     return (
         <div style={{
             width: 24,
