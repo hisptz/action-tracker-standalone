@@ -106,7 +106,6 @@ export function FieldTable ({
                             <TableCellHead>{i18n.t('Required')}</TableCellHead>
                             <TableCellHead>{i18n.t('Show as {{ type }}', { type: fieldShowType })}</TableCellHead>
                             <TableCellHead>{i18n.t('Actions')}</TableCellHead>
-
                         </TableRowHead>
                     </TableHead>
                     <TableBody>

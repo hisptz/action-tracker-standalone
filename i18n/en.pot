@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-05T14:33:39.697Z\n"
-"PO-Revision-Date: 2023-08-05T14:33:39.697Z\n"
+"POT-Creation-Date: 2023-08-06T16:38:13.184Z\n"
+"PO-Revision-Date: 2023-08-06T16:38:13.184Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -32,8 +32,44 @@ msgstr "Date label is required"
 msgid "Date of review label"
 msgstr "Date of review label"
 
+msgid "Action status options"
+msgstr "Action status options"
+
 msgid "Fields"
 msgstr "Fields"
+
+msgid "Error obtaining action status options"
+msgstr "Error obtaining action status options"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Color"
+msgstr "Color"
+
+msgid "Icon"
+msgstr "Icon"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Name should not exceed 50 characters"
+msgstr "Name should not exceed 50 characters"
+
+msgid "Code should not exceed 50 characters"
+msgstr "Code should not exceed 50 characters"
+
+msgid "Color should be in hex"
+msgstr "Color should be in hex"
+
+msgid "Update option"
+msgstr "Update option"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Save"
+msgstr "Save"
 
 msgid "Categories"
 msgstr "Categories"
@@ -158,9 +194,6 @@ msgstr "Error setting up configuration"
 msgid "Please wait..."
 msgstr "Please wait..."
 
-msgid "Save"
-msgstr "Save"
-
 msgid "Configure"
 msgstr "Configure"
 
@@ -221,9 +254,6 @@ msgstr "Are you sure you want to delete this status?"
 
 msgid "{{action}} status"
 msgstr "{{action}} status"
-
-msgid "Cancel"
-msgstr "Cancel"
 
 msgid "Updating"
 msgstr "Updating"
@@ -336,9 +366,6 @@ msgstr "Code is required"
 msgid "This code already exists"
 msgstr "This code already exists"
 
-msgid "Code"
-msgstr "Code"
-
 msgid "At least two options are required"
 msgstr "At least two options are required"
 
@@ -371,9 +398,6 @@ msgstr "Required"
 
 msgid "Show as {{ type }}"
 msgstr "Show as {{ type }}"
-
-msgid "Actions"
-msgstr "Actions"
 
 msgid "Yes"
 msgstr "Yes"
@@ -498,9 +522,6 @@ msgstr "Cancelled"
 
 msgid "Should be at most 10 characters"
 msgstr "Should be at most 10 characters"
-
-msgid "Name should not exceed 50 characters"
-msgstr "Name should not exceed 50 characters"
 
 msgid "A configuration with this name already exists"
 msgstr "A configuration with this name already exists"
