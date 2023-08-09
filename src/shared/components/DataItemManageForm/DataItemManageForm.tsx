@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle } from '@dhis2/ui'
 import i18n from '@dhis2/d2-i18n'
 import { FormProvider, useForm } from 'react-hook-form'
 import { type DataField } from '../../schemas/config'
 import { RHFCheckboxField, RHFSingleSelectField, RHFTextInputField } from '@hisptz/dhis2-ui'
-import { capitalize } from 'lodash'
+import { capitalize, isEmpty } from 'lodash'
 import { SUPPORTED_VALUE_TYPES } from '../../constants/meta'
 import { OptionSetField } from './components/OptionSetField'
 import { uid } from '@hisptz/dhis2-utils'
@@ -15,7 +15,8 @@ export interface DataItemManageFormProps {
     onClose: () => void
     onAdd: (data: DataField) => void;
     defaultValue?: DataField | null;
-    actionTable?: boolean
+    actionTable?: boolean,
+    excludeFieldTypes?: string[]
 }
 
 export function DataItemManageForm ({
@@ -24,12 +25,14 @@ export function DataItemManageForm ({
                                         hide,
                                         type,
                                         defaultValue,
-                                        actionTable
+                                        actionTable,
+                                        excludeFieldTypes
                                     }: DataItemManageFormProps) {
     const form = useForm<DataField>({
         defaultValues: defaultValue ?? {},
         shouldFocusError: false
     })
+
 
     const onCloseClick = () => {
         form.reset({})
@@ -43,10 +46,20 @@ export function DataItemManageForm ({
         onCloseClick()
     }
 
-    const valueTypes = SUPPORTED_VALUE_TYPES.map((type: string) => ({
-        label: capitalize(type.replaceAll(/_/g, ' ')),
-        value: type
-    }))
+    const valueTypes = useMemo(() => {
+        if (isEmpty(excludeFieldTypes)) {
+            return SUPPORTED_VALUE_TYPES.map((type: string) => ({
+                label: capitalize(type.replaceAll(/_/g, ' ')),
+                value: type
+            }))
+        } else {
+            const filteredValueTypes = SUPPORTED_VALUE_TYPES.filter((type) => !excludeFieldTypes?.includes(type))
+            return filteredValueTypes.map((type: string) => ({
+                label: capitalize(type.replaceAll(/_/g, ' ')),
+                value: type
+            }))
+        }
+    }, [excludeFieldTypes])
 
     return (
         <Modal position="middle" onClose={onCloseClick} hide={hide}>

@@ -1,18 +1,24 @@
 import { ActionConfig, ActionStatusConfig, CategoryConfig } from '../../schemas/config'
 import { useMetadata } from '../../hooks/metadata'
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { compact, find } from 'lodash'
+import { FileView } from './compoents/FileView/FileView'
+import { Event, TrackedEntity } from '../../types/dhis2'
 
 export interface DataViewProps {
+    instance: TrackedEntity | Event
     fieldId: string;
     instanceConfig: CategoryConfig | ActionConfig | ActionStatusConfig,
     value: string;
+    small?: boolean
 }
 
 export function DataView ({
                               instanceConfig,
+                              instance,
                               fieldId,
-                              value
+                              value,
+                              small
                           }: DataViewProps) {
     const { programs } = useMetadata()
     const programStages = useMemo(() => compact(programs?.map(({ programStages }) => programStages).flat()) ?? [], [])
@@ -20,6 +26,7 @@ export function DataView ({
         if (!(instanceConfig as CategoryConfig).type || (instanceConfig as CategoryConfig).type === 'programStage') {
             //Action status
             const stage = find(programStages, { id: instanceConfig.id })
+
             return find(stage?.programStageDataElements, ({ dataElement }) => dataElement.id === fieldId)?.dataElement
         }
         const program = find(programs, { id: instanceConfig.id })
@@ -29,17 +36,22 @@ export function DataView ({
     const getViewType = () => {
         if (fieldMetadata?.optionSet?.id) {
             const options = fieldMetadata?.optionSet?.options
-            return find(options, { code: value })?.name
+            return find(options, { code: value })?.name ?? null
         }
 
         switch (fieldMetadata?.valueType) {
+
             case 'TEXT':
             case 'LONG_TEXT':
                 return value
+            case 'FILE_RESOURCE':
+                return <FileView small={small}
+                                 type={(instanceConfig as CategoryConfig | ActionConfig).type ?? 'programStage'}
+                                 instance={instance} field={fieldMetadata}/>
             default:
                 return value
         }
     }
 
-    return getViewType()
+    return getViewType() ?? null
 }

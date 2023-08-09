@@ -54,6 +54,7 @@ export function ActionStatusForm({
             onClose();
         },
         defaultValue,
+        columnConfig
     });
 
     return (

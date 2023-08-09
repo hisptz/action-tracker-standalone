@@ -60,11 +60,10 @@ export function useUpdateMetadata () {
 
     const uploadMetadata = async (metadata: any) => {
         //If there are any errors expect this to throw them
-        const response = await sendMetadata({
+        await sendMetadata({
             metadata,
             mode: 'VALIDATE'
         })
-        console.log(response)
         return sendMetadata({
             metadata,
             mode: 'COMMIT'

@@ -79,8 +79,6 @@ export function useSetupMetadata () {
             defaultSettings: settings
         })
 
-        console.log(generatedConfig)
-
         const response = await updateMetadataFromConfig(generatedConfig)
 
         if ((response as FetchError)?.message) {
