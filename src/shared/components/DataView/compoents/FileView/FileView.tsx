@@ -8,13 +8,15 @@ import { DataField } from '../../../../schemas/config'
 export interface FileViewProps {
     type: 'program' | 'programStage',
     instance: TrackedEntity | Event,
-    field: DataField
+    field: DataField,
+    small?: boolean;
 }
 
 export function FileView ({
                               type,
                               instance,
-                              field
+                              field,
+                              small
                           }: FileViewProps) {
     const {
         downloading,
@@ -30,7 +32,7 @@ export function FileView ({
     }
 
     return (
-        <Button onClick={onDownload} icon={<IconDownload24/>} loading={downloading}>
+        <Button small={small} onClick={onDownload} icon={<IconDownload24/>} loading={downloading}>
             {downloading ? i18n.t('Downloading...') : i18n.t('Download')}
         </Button>
 

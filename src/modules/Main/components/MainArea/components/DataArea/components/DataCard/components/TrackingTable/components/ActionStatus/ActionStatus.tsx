@@ -143,6 +143,7 @@ export function ActionStatus ({
                                 <b className="m-0">{dataValue.name}</b>
                                 <span className="m-0">
                                     <DataView
+                                        small
                                         instance={statusEvent} value={dataValue.value}
                                         instanceConfig={actionStatusConfig as ActionStatusConfig}
                                         fieldId={dataValue.id}

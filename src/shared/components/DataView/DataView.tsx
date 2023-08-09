@@ -10,13 +10,15 @@ export interface DataViewProps {
     fieldId: string;
     instanceConfig: CategoryConfig | ActionConfig | ActionStatusConfig,
     value: string;
+    small?: boolean
 }
 
 export function DataView ({
                               instanceConfig,
                               instance,
                               fieldId,
-                              value
+                              value,
+                              small
                           }: DataViewProps) {
     const { programs } = useMetadata()
     const programStages = useMemo(() => compact(programs?.map(({ programStages }) => programStages).flat()) ?? [], [])
@@ -25,7 +27,6 @@ export function DataView ({
             //Action status
             const stage = find(programStages, { id: instanceConfig.id })
 
-            console.log({ fieldId })
             return find(stage?.programStageDataElements, ({ dataElement }) => dataElement.id === fieldId)?.dataElement
         }
         const program = find(programs, { id: instanceConfig.id })
@@ -44,7 +45,8 @@ export function DataView ({
             case 'LONG_TEXT':
                 return value
             case 'FILE_RESOURCE':
-                return <FileView type={(instanceConfig as CategoryConfig | ActionConfig).type ?? 'programStage'}
+                return <FileView small={small}
+                                 type={(instanceConfig as CategoryConfig | ActionConfig).type ?? 'programStage'}
                                  instance={instance} field={fieldMetadata}/>
             default:
                 return value

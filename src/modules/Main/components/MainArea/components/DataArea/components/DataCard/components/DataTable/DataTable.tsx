@@ -160,7 +160,6 @@ export function DataTable ({
         return 0
     }
 
-    console.log(rows)
 
     return (
         <div className="column w-100">

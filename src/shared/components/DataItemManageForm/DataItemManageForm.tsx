@@ -33,10 +33,6 @@ export function DataItemManageForm ({
         shouldFocusError: false
     })
 
-    console.log({
-        excludeFieldTypes,
-        type
-    })
 
     const onCloseClick = () => {
         form.reset({})
