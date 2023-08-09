@@ -31,7 +31,7 @@ export function useFormMeta ({
     }, [instanceConfig])
 
     const schema = useMemo(() => {
-        return z.object(fromPairs(instanceConfig?.fields?.map((field) => [field.id, getFieldSchema(field, { period: period?.get() as PeriodInterface })]),))
+        return z.object(fromPairs(instanceConfig?.fields.filter(({ hidden }) => !hidden)?.map((field) => [field.id, getFieldSchema(field, { period: period?.get() as PeriodInterface })]),))
     }, [instanceConfig?.fields])
 
     return {

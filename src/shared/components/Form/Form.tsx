@@ -73,6 +73,13 @@ export function Form ({
         onClose()
     }, [])
 
+    const onCloseClick = () => {
+        form.reset()
+        onClose()
+    }
+
+    console.log(form.formState.errors)
+
     const {
         onSave,
         saving
@@ -87,7 +94,7 @@ export function Form ({
     })
 
     return (
-        <Modal position="middle" hide={hide} onClose={onClose}>
+        <Modal position="middle" hide={hide} onClose={onCloseClick}>
             <ModalTitle>
                 {defaultValue ? i18n.t('Update') : i18n.t('Add')} {instanceName}
             </ModalTitle>
@@ -106,7 +113,7 @@ export function Form ({
             </ModalContent>
             <ModalActions>
                 <ButtonStrip>
-                    <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
+                    <Button onClick={onCloseClick}>{i18n.t('Cancel')}</Button>
                     <Button loading={saving} onClick={form.handleSubmit(onSave)}
                             primary>{defaultValue ? saving ? i18n.t('Updating...') : i18n.t('Update') : saving ? i18n.t('Creating...') : i18n.t('Save')}</Button>
                 </ButtonStrip>

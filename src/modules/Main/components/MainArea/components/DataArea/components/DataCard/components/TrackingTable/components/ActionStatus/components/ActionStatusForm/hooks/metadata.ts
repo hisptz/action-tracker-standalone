@@ -1,13 +1,16 @@
 import { useConfiguration } from '../../../../../../../../../../../../../../../shared/hooks/config'
 import { useMetadata } from '../../../../../../../../../../../../../../../shared/hooks/metadata'
-import { find } from 'lodash'
-import { getFieldProps } from '../../../../../../../../../../../../../../../shared/utils/form'
+import { find, fromPairs } from 'lodash'
+import { getFieldProps, getFieldSchema } from '../../../../../../../../../../../../../../../shared/utils/form'
 import { ActionTrackingColumnStateConfig } from '../../../../../../../state/columns'
 import { useMemo } from 'react'
-import i18n from '@dhis2/d2-i18n'
 import { RHFDHIS2FormFieldProps } from '@hisptz/dhis2-ui'
+import { z } from 'zod'
+import { PeriodInterface } from '@hisptz/dhis2-utils'
+import { useDimensions } from '../../../../../../../../../../../../../../../shared/hooks'
 
 export function useFormMeta ({ columnConfig }: { columnConfig: ActionTrackingColumnStateConfig }) {
+    const { period } = useDimensions()
     const { config } = useConfiguration()
     const actionStatusConfig = config?.action.statusConfig
     const { programs } = useMetadata()
@@ -29,12 +32,6 @@ export function useFormMeta ({ columnConfig }: { columnConfig: ActionTrackingCol
             name: 'occurredAt',
             valueType: 'DATE',
             required: true,
-            validations: {
-                required: {
-                    value: true,
-                    message: i18n.t('This field is required')
-                }
-            },
             label: config?.action.statusConfig.dateConfig.name,
             min: period.start.toFormat('yyyy-MM-dd'),
             max: period.end.toFormat('yyyy-MM-dd'),
@@ -47,7 +44,16 @@ export function useFormMeta ({ columnConfig }: { columnConfig: ActionTrackingCol
 
     }, [actionStatusProgramStageConfig])
 
+    const schema = useMemo(() => {
+        const schema = z.object(fromPairs(config?.action.statusConfig?.fields?.filter(({ hidden }) => !hidden)?.map((field) => [field.id, getFieldSchema(field, { period: period?.get() as PeriodInterface })]),))
+
+        return schema.extend({
+            occurredAt: z.string()
+        })
+    }, [config])
+
     return {
-        fields
+        fields,
+        schema
     }
 }

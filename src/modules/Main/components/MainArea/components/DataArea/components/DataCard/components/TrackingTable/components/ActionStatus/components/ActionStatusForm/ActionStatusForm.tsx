@@ -8,6 +8,7 @@ import { RHFDHIS2FormField } from '@hisptz/dhis2-ui'
 import { ActionTrackingColumnStateConfig } from '../../../../../../state/columns'
 import { useManageActionStatus } from './hooks/save'
 import { DateTime } from 'luxon'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export interface ActionStatusFormProps {
     columnConfig: ActionTrackingColumnStateConfig;
@@ -18,24 +19,24 @@ export interface ActionStatusFormProps {
     instance: any
 }
 
-export function ActionStatusForm({
-                                     onClose,
-                                     onComplete,
-                                     hide,
-                                     instance,
-                                     columnConfig,
-                                     defaultValue
-                                 }: ActionStatusFormProps) {
+export function ActionStatusForm ({
+                                      onClose,
+                                      onComplete,
+                                      hide,
+                                      instance,
+                                      columnConfig,
+                                      defaultValue
+                                  }: ActionStatusFormProps) {
 
     const defaultValues = useMemo(() => {
         if (!defaultValue) return {}
-        const occurredAt = DateTime.fromJSDate(new Date(defaultValue.occurredAt)).toFormat('yyyy-MM-dd');
+        const occurredAt = DateTime.fromJSDate(new Date(defaultValue.occurredAt)).toFormat('yyyy-MM-dd')
         const dataValues = defaultValue.dataValues.reduce((acc: Record<string, any>, dataValue: {
             dataElement: string;
             value: string
         }) => {
-            acc[dataValue.dataElement] = dataValue.value;
-            return acc;
+            acc[dataValue.dataElement] = dataValue.value
+            return acc
         }, {})
 
         return {
@@ -43,24 +44,32 @@ export function ActionStatusForm({
             ...dataValues
         }
     }, [defaultValue])
+    const {
+        fields,
+        schema
+    } = useFormMeta({ columnConfig })
+
     const form = useForm({
-        defaultValues
-    });
-    const {fields} = useFormMeta({columnConfig});
-    const {saving, onSave} = useManageActionStatus({
+        defaultValues,
+        resolver: zodResolver(schema)
+    })
+    const {
+        saving,
+        onSave
+    } = useManageActionStatus({
         instance,
         onComplete: () => {
-            onComplete();
-            onClose();
+            onComplete()
+            onClose()
         },
         defaultValue,
         columnConfig
-    });
+    })
 
     return (
         <Modal position="middle" onClose={onClose} hide={hide}>
             <ModalTitle>
-                {i18n.t("{{action}} status", {action: i18n.t("Add")})}
+                {i18n.t('{{action}} status', { action: i18n.t('Add') })}
             </ModalTitle>
             <ModalContent>
                 {
@@ -78,10 +87,10 @@ export function ActionStatusForm({
             <ModalActions>
                 <ButtonStrip>
                     <Button onClick={onClose}>
-                        {i18n.t("Cancel")}
+                        {i18n.t('Cancel')}
                     </Button>
                     <Button loading={saving} primary onClick={form.handleSubmit(onSave)}>
-                        {!!defaultValue ? saving ? i18n.t("Updating") : i18n.t("Update") : saving ? i18n.t("Saving") : i18n.t("Save")}
+                        {!!defaultValue ? saving ? i18n.t('Updating') : i18n.t('Update') : saving ? i18n.t('Saving') : i18n.t('Save')}
                     </Button>
                 </ButtonStrip>
             </ModalActions>
