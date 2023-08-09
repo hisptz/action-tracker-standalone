@@ -23,7 +23,9 @@ const configQuery: any = {
 
 export function useConfigurations () {
     const configs = useRecoilValue(ConfigIdsState)
+    const reset = useRecoilRefresher_UNSTABLE(ConfigIdsState)
     return {
-        configs
+        configs,
+        reset
     }
 }
