@@ -16,6 +16,7 @@ import { hexToRgba } from '../LatestStatus'
 import { useMetadata } from '../../../../../../../../../../../../shared/hooks/metadata'
 import { useViewModal } from '../../../../../../../../../../../../shared/components/ViewModal'
 import { ActionStatusConfig } from '../../../../../../../../../../../../shared/schemas/config'
+import { DataView } from '../../../../../../../../../../../../shared/components/DataView/DataView'
 
 export interface ActionStatusProps {
     refetch: () => void;
@@ -53,7 +54,8 @@ export function ActionStatus ({
     const { onDelete: onDeleteConfirm } = useManageActionStatus({
         instance,
         onComplete: onActionManageComplete,
-        defaultValue: statusEvent
+        defaultValue: statusEvent,
+        columnConfig
     })
 
     const { status: statusOptionSet } = useMetadata()
@@ -77,6 +79,7 @@ export function ActionStatus ({
             }
 
             return {
+                id: dataElement.id,
                 name: dataElement?.name,
                 value: dataValue.value
             }
@@ -127,10 +130,6 @@ export function ActionStatus ({
 
     const color = selectedOption?.style.color ?? '#FFFFFF'
 
-    console.log({
-        statusEvent
-    })
-
     return (
         <td style={{ background: hexToRgba(color, .4) ?? '#FFFFFF' }} className={classes['tracking-value-cell']}>
             <ActionStatusForm defaultValue={statusEvent} onComplete={onActionManageComplete} columnConfig={columnConfig}
@@ -142,7 +141,13 @@ export function ActionStatus ({
                         tableData?.map((dataValue: any) => (
                             <Fragment key={dataValue.name}>
                                 <b className="m-0">{dataValue.name}</b>
-                                <span className="m-0">{dataValue.value}</span>
+                                <span className="m-0">
+                                    <DataView
+                                        instance={statusEvent} value={dataValue.value}
+                                        instanceConfig={actionStatusConfig as ActionStatusConfig}
+                                        fieldId={dataValue.id}
+                                    />
+                                </span>
                             </Fragment>
                         ))
                     }

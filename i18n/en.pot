@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-07T17:53:33.022Z\n"
-"PO-Revision-Date: 2023-08-07T17:53:33.022Z\n"
+"POT-Creation-Date: 2023-08-09T04:42:36.216Z\n"
+"PO-Revision-Date: 2023-08-09T04:42:36.216Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -424,6 +424,9 @@ msgstr "Data item is required"
 msgid "Data item"
 msgstr "Data item"
 
+msgid "Downloading..."
+msgstr "Downloading..."
+
 msgid "Required"
 msgstr "Required"
 
@@ -601,3 +604,6 @@ msgstr "BNA linked action tracking"
 
 msgid "Use the BNA like categorization to track activities"
 msgstr "Use the BNA like categorization to track activities"
+
+msgid "Could not upload file {{ errorMessage }}"
+msgstr "Could not upload file {{ errorMessage }}"
