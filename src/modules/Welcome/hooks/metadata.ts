@@ -81,7 +81,7 @@ export function useSetupMetadata () {
 
         const response = await updateMetadataFromConfig(generatedConfig)
 
-        if ((response as FetchError)?.message) {
+        if ((response as unknown as FetchError)?.message) {
             throw response
         }
 

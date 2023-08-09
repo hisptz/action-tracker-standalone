@@ -39,7 +39,7 @@ export function DataView ({
             return find(options, { code: value })?.name ?? null
         }
 
-        switch (fieldMetadata?.valueType) {
+        switch (fieldMetadata?.valueType as any) {
 
             case 'TEXT':
             case 'LONG_TEXT':
@@ -47,7 +47,7 @@ export function DataView ({
             case 'FILE_RESOURCE':
                 return <FileView small={small}
                                  type={(instanceConfig as CategoryConfig | ActionConfig).type ?? 'programStage'}
-                                 instance={instance} field={fieldMetadata}/>
+                                 instance={instance} field={fieldMetadata as any}/>
             default:
                 return value
         }
