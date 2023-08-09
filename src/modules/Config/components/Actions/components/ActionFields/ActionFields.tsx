@@ -8,7 +8,7 @@ export function ActionFields () {
     return (
         <div className="column gap-8">
             <b>{i18n.t('Fields')}</b>
-            <FieldTable actionTable namespace={namespace} type={'attribute'}/>
+            <FieldTable excludeFieldTypes={['FILE_RESOURCE']} actionTable namespace={namespace} type={'attribute'}/>
         </div>
     )
 }

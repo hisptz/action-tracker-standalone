@@ -160,7 +160,6 @@ export function DataTable ({
         return 0
     }
 
-    console.log(rows)
 
     return (
         <div className="column w-100">
@@ -209,6 +208,7 @@ export function DataTable ({
                                                     <div className="w-100 h-100 row gap-8 space-between">
                                                         <div className="flex-1 w-100 h-100 column center">
                                                             <DataView
+                                                                instance={row.instance}
                                                                 fieldId={column.id}
                                                                 instanceConfig={config as any}
                                                                 value={get(row, [column.id], '')}

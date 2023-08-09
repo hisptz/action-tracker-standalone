@@ -1,10 +1,14 @@
 import { useAlert, useDataMutation } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { useCallback } from 'react'
-import { get, head } from 'lodash'
+import { fromPairs, get, head, isEmpty } from 'lodash'
 import { uid } from '@hisptz/dhis2-utils'
 import { useConfiguration } from '../../../../../../../../../../../../../../../shared/hooks/config'
 import { Enrollment } from '../../../../../../../../../../../../../../../shared/types/dhis2'
+import { asyncify, mapSeries } from 'async'
+import { useUploadFile } from '../../../../../../../../../../../../../../../shared/hooks/files'
+import { useFormMeta } from './metadata'
+import { ActionTrackingColumnStateConfig } from '../../../../../../../state/columns'
 
 const actionStatusMutation: any = {
     resource: 'tracker',
@@ -76,10 +80,16 @@ export function updateEvent (data: Record<string, any>, event: any) {
 export function useManageActionStatus ({
                                            instance,
                                            onComplete,
-                                           defaultValue
+                                           defaultValue,
+                                           columnConfig
                                        }: {
-    instance: any, onComplete: () => void, defaultValue?: any
+    instance: any, onComplete: () => void, defaultValue?: any,
+    columnConfig: ActionTrackingColumnStateConfig
 }) {
+    const {
+        uploadFile,
+        uploading
+    } = useUploadFile()
     const { show } = useAlert(({ message }) => message, ({ type }) => ({
         ...type,
         duration: 3000
@@ -95,11 +105,31 @@ export function useManageActionStatus ({
             })
         }
     })
+    const { fields } = useFormMeta({ columnConfig })
     const { config } = useConfiguration()
 
     const actionStatusProgramStage = config?.action?.statusConfig?.id as string
+    const uploadFiles = async (data: Record<string, any>) => {
+        const fileFields = fields.filter(({ valueType }) => valueType === 'FILE_RESOURCE')
+        if (isEmpty(fileFields)) return data
+        const fileData = fromPairs(await mapSeries(fileFields, asyncify(async (field: { name: string }) => {
+            const value = await uploadFile({
+                file: data[field.name]
+            })
+            return [
+                field.name,
+                value
+            ]
+        })) as Array<[string, string]>)
 
-    const onSave = useCallback(async (data: Record<string, any>,) => {
+        return {
+            ...data,
+            ...fileData
+        }
+    }
+
+    const onSave = useCallback(async (rawData: Record<string, any>,) => {
+        const data = await uploadFiles(rawData)
         if (defaultValue) {
             await uploadPayload({
                 data: {
@@ -158,6 +188,6 @@ export function useManageActionStatus ({
     return {
         onSave,
         onDelete,
-        saving: loading
+        saving: loading || uploading
     }
 }

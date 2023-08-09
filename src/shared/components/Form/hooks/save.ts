@@ -5,9 +5,11 @@ import { useFormMeta } from './metadata'
 import { useDimensions } from '../../../hooks'
 import i18n from '@dhis2/d2-i18n'
 import { ParentConfig } from '../../../schemas/config'
-import { get } from 'lodash'
+import { fromPairs, get, isEmpty } from 'lodash'
 import { useConfiguration } from '../../../hooks/config'
 import { DataElement, TrackedEntityAttribute } from '../../../types/dhis2'
+import { useUploadFile } from '../../../hooks/files'
+import { asyncify, mapSeries } from 'async'
 
 const mutation: any = {
     resource: 'tracker',
@@ -200,7 +202,14 @@ export function useFormActions ({
 }) {
     const { config } = useConfiguration()
     const { orgUnit } = useDimensions()
-    const { instanceMeta } = useFormMeta({
+    const {
+        uploadFile,
+        uploading
+    } = useUploadFile()
+    const {
+        instanceMeta,
+        fields
+    } = useFormMeta({
         id: instanceMetaId,
         type
     })
@@ -240,7 +249,27 @@ export function useFormActions ({
         }
     })
 
-    const onSave = useCallback(async (data: Record<string, any>) => {
+    const uploadFiles = async (data: Record<string, any>) => {
+        const fileFields = fields.filter(({ valueType }) => valueType === 'FILE_RESOURCE')
+        if (isEmpty(fileFields)) return data
+        const fileData = fromPairs(await mapSeries(fileFields, asyncify(async (field: { name: string }) => {
+            const value = await uploadFile({
+                file: data[field.name]
+            })
+            return [
+                field.name,
+                value
+            ]
+        })) as Array<[string, string]>)
+
+        return {
+            ...data,
+            ...fileData
+        }
+    }
+
+    const onSave = useCallback(async (rawData: Record<string, any>) => {
+        const data = await uploadFiles(rawData)
         if (type === 'program') {
             //Create a tei and enrollment
             if (defaultValue) {
@@ -261,7 +290,6 @@ export function useFormActions ({
                     }),
                     type: { success: true }
                 })
-
             } else {
                 const tei = generateTei(data, {
                     orgUnit: orgUnit?.id as string,
@@ -330,7 +358,7 @@ export function useFormActions ({
 
     return {
         onSave,
-        saving,
+        saving: saving || uploading,
     }
 }
 

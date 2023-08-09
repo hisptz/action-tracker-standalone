@@ -63,7 +63,8 @@ export function ViewModal ({
                                         gridTemplateColumns: '1fr 2fr'
                                     }}>
                                         <b>{data.name}</b>
-                                        <span><DataView fieldId={data.id} instanceConfig={instanceConfig}
+                                        <span><DataView instance={instance} fieldId={data.id}
+                                                        instanceConfig={instanceConfig}
                                                         value={data.value}/></span>
                                     </div>
                                 )

@@ -25,14 +25,16 @@ export interface FieldTableProps {
     namespace: string;
     type: 'dataElement' | 'attribute',
     rules?: Record<string, any>;
-    actionTable?: boolean
+    actionTable?: boolean;
+    excludeFieldTypes?: string[]
 }
 
 export function FieldTable ({
                                 namespace,
                                 type,
                                 rules,
-                                actionTable
+                                actionTable,
+                                excludeFieldTypes
                             }: FieldTableProps) {
     const {
         value: menuOpen,
@@ -86,15 +88,18 @@ export function FieldTable ({
 
     const fieldShowType = type === 'dataElement' || actionTable ? 'column' : 'header'
 
+
     return (
         <>
             {
                 !hideCreate && (
-                    <DataItemManageForm actionTable={actionTable} defaultValue={updatingField} hide={hideCreate} type={type}
+                    <DataItemManageForm excludeFieldTypes={excludeFieldTypes} actionTable={actionTable}
+                                        defaultValue={updatingField} hide={hideCreate} type={type}
                                         onClose={onCloseClick}
                                         onAdd={onFieldAdd}/>)
             }
-            <DataItemSelect onAdd={onFieldAdd} key={`${namespace}-select-field`} filtered={fieldIds} type={type}
+            <DataItemSelect excludeFieldTypes={excludeFieldTypes} onAdd={onFieldAdd} key={`${namespace}-select-field`}
+                            filtered={fieldIds} type={type}
                             hide={hideSelect}
                             onClose={onHideSelect}/>
             <div className="column gap-16">
@@ -146,7 +151,6 @@ export function FieldTable ({
                                 <MenuItem onClick={onMenuSelect('existing')}
                                           label={i18n.t('Add field from existing metadata')}/>
                                 <MenuItem onClick={onMenuSelect('new')} label={i18n.t('Add new field')}/>
-
                             </FlyoutMenu>
                         }
                     >{i18n.t('Add field')}
