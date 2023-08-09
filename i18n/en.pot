@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-09T04:42:36.216Z\n"
-"PO-Revision-Date: 2023-08-09T04:42:36.216Z\n"
+"POT-Creation-Date: 2023-08-09T09:47:43.270Z\n"
+"PO-Revision-Date: 2023-08-09T09:47:43.270Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -186,8 +186,8 @@ msgstr "Changes saved successfully"
 msgid "Reset"
 msgstr "Reset"
 
-msgid "Saving"
-msgstr "Saving"
+msgid "Updating metadata..."
+msgstr "Updating metadata..."
 
 msgid "Save changes"
 msgstr "Save changes"
@@ -292,8 +292,8 @@ msgstr "Updating"
 msgid "Update"
 msgstr "Update"
 
-msgid "This field is required"
-msgstr "This field is required"
+msgid "Saving"
+msgstr "Saving"
 
 msgid "Failed to create status"
 msgstr "Failed to create status"
@@ -607,3 +607,12 @@ msgstr "Use the BNA like categorization to track activities"
 
 msgid "Could not upload file {{ errorMessage }}"
 msgstr "Could not upload file {{ errorMessage }}"
+
+msgid "This field is required"
+msgstr "This field is required"
+
+msgid "The start date should not be before the selected planned date"
+msgstr "The start date should not be before the selected planned date"
+
+msgid "The start date should not be after the selected planned date"
+msgstr "The start date should not be after the selected planned date"

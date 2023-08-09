@@ -7,8 +7,10 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, CircularLoader } from '@dhis2/ui'
 import { useAlert } from '@dhis2/app-runtime'
 import { InitialConfig } from './components/InitialConfig'
+import { useConfigurations } from '../../../../shared/hooks/config'
 
 export function TemplateConfiguration () {
+    const { reset } = useConfigurations()
     const { show } = useAlert(({ message }) => message, ({ type }) => ({
         ...type,
         duration: 3000
@@ -34,6 +36,7 @@ export function TemplateConfiguration () {
                     message: i18n.t('Initial configuration setup complete.'),
                     type: { success: true }
                 })
+                reset()
                 navigate(`/${config.id}/config/general?initial=true`)
             }
         }

@@ -1,9 +1,11 @@
 import { useDataQuery } from '@dhis2/app-runtime'
 import { useDimensions } from '../../../../../../../../../../../shared/hooks'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { fromPairs, isEmpty } from 'lodash'
 import { useConfiguration } from '../../../../../../../../../../../shared/hooks/config'
 import { Event, TrackedEntity } from '../../../../../../../../../../../shared/types/dhis2'
+import { Config } from '../../../../../../../../../../../shared/schemas/config'
+import { BasePeriod } from '@hisptz/dhis2-utils'
 
 const trackedEntitiesQuery: any = {
     data: {
@@ -62,6 +64,20 @@ const eventsQuery: any = {
     }
 }
 
+function getPeriodQuery (config: Config, period: BasePeriod) {
+    const startDateId = config.action.fields.find(({ isStartDate }) => isStartDate)?.id
+    const endDateId = config.action.fields.find(({ isEndDate }) => isEndDate)?.id
+
+    const {
+        start,
+        end
+    } = period
+    return [
+        `${startDateId}:GE:${start.toFormat('yyyy-MM-dd')}`,
+        `${endDateId}:LE:${end.toFormat('yyyy-MM-dd')}`,
+    ]
+}
+
 export function useTableData (type: 'program' | 'programStage', {
     parentInstance,
     parentType
@@ -70,7 +86,10 @@ export function useTableData (type: 'program' | 'programStage', {
     parentType: 'program' | 'programStage'
 }) {
     const { config } = useConfiguration()
-    const { orgUnit } = useDimensions()
+    const {
+        orgUnit,
+        period
+    } = useDimensions()
     const {
         data,
         refetch,
@@ -84,7 +103,11 @@ export function useTableData (type: 'program' | 'programStage', {
             ou: orgUnit?.id,
             page: 1,
             pageSize: 10,
-            filter: `${type === 'program' ? config?.meta.linkageConfig.trackedEntityAttribute : config?.meta.linkageConfig.dataElement}:eq:${parentType === 'program' ? parentInstance?.trackedEntity : parentInstance?.event}`
+            filter: [
+                `${type === 'program' ? config?.meta.linkageConfig.trackedEntityAttribute : config?.meta.linkageConfig.dataElement}:eq:${parentType === 'program' ? parentInstance?.trackedEntity : parentInstance?.event}`,
+                ...(type === 'program' ? getPeriodQuery(config as Config, period as BasePeriod) : [])
+            ],
+
         }
     })
 
@@ -127,6 +150,17 @@ export function useTableData (type: 'program' | 'programStage', {
             }
         }
     }, [data, refetch])
+
+    useEffect(() => {
+        if (type === 'program') {
+            refetch({
+                filter: [
+                    `${type === 'program' ? config?.meta.linkageConfig.trackedEntityAttribute : config?.meta.linkageConfig.dataElement}:eq:${parentType === 'program' ? parentInstance?.trackedEntity : parentInstance?.event}`,
+                    ...(type === 'program' ? getPeriodQuery(config as Config, period as BasePeriod) : [])
+                ]
+            })
+        }
+    }, [period])
 
     return {
         loading,

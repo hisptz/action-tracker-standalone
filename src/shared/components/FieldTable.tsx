@@ -126,7 +126,7 @@ export function FieldTable ({
                                             setUpdatingField(field)
                                             onShowCreate()
                                         }}
-                                        onDelete={() => {
+                                        onDelete={!field.native ? () => {
                                             confirm({
                                                 title: i18n.t('Delete field'),
                                                 message: i18n.t('Are you sure you want to delete this field?. This may cause some data inconsistencies if there are already records using this field.'),
@@ -136,7 +136,7 @@ export function FieldTable ({
                                                     remove(index)
                                                 }
                                             })
-                                        }}
+                                        } : undefined}
                                     />
                                 </TableCell>
                             </TableRow>

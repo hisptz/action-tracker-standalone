@@ -8,12 +8,14 @@ import { useSaveConfigFromTemplate } from '../../hooks/save'
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useConfigurations } from '../../../../../../shared/hooks/config'
 
 export interface InitialConfigProps {
     template: Template
 }
 
 export function InitialConfig ({ template }: InitialConfigProps) {
+    const { reset } = useConfigurations()
     const engine = useDataEngine()
     const { show } = useAlert(({ message }) => message, ({ type }) => ({
         ...type,
@@ -42,10 +44,13 @@ export function InitialConfig ({ template }: InitialConfigProps) {
             message: i18n.t('Initial configuration setup complete.'),
             type: { success: true }
         })
+        reset()
         navigate(`/${config.id}/config/general?initial=true`)
     }
 
     const title = template?.title
+
+    const loading = saving || form.formState.isValidating || form.formState.isLoading || form.formState.isSubmitting
 
     if (error) {
         return (
@@ -85,8 +90,9 @@ export function InitialConfig ({ template }: InitialConfigProps) {
             </div>
             <ButtonStrip>
                 <Button onClick={() => navigate(-1)}>{i18n.t('Go back')}</Button>
-                <Button onClick={form.handleSubmit(onSubmit)} loading={saving || form.formState.isValidating}
-                        primary>{saving ? i18n.t('Please wait...') : i18n.t('Save')}</Button>
+                <Button onClick={form.handleSubmit(onSubmit)}
+                        loading={loading}
+                        primary>{loading ? i18n.t('Please wait...') : i18n.t('Save')}</Button>
             </ButtonStrip>
         </div>
     )

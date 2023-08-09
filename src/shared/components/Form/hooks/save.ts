@@ -208,7 +208,7 @@ export function useFormActions ({
     } = useUploadFile()
     const {
         instanceMeta,
-        fields
+        fields,
     } = useFormMeta({
         id: instanceMetaId,
         type
