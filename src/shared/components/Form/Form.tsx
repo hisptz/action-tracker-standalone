@@ -1,18 +1,19 @@
-import React, { useCallback } from "react";
-import { Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle } from "@dhis2/ui";
-import i18n from "@dhis2/d2-i18n";
-import { useFormMeta } from "./hooks/metadata";
-import { FormProvider, useForm } from "react-hook-form";
-import { isEmpty } from "lodash";
-import { RHFDHIS2FormField } from "@hisptz/dhis2-ui";
-import { Event, TrackedEntityInstance } from "@hisptz/dhis2-utils";
-import { useFormActions } from "./hooks/save";
-import { ParentConfig } from "../../schemas/config";
+import React, { useCallback } from 'react'
+import { Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle } from '@dhis2/ui'
+import i18n from '@dhis2/d2-i18n'
+import { useFormMeta } from './hooks/metadata'
+import { FormProvider, useForm } from 'react-hook-form'
+import { isEmpty } from 'lodash'
+import { RHFDHIS2FormField } from '@hisptz/dhis2-ui'
+import { Event, TrackedEntityInstance } from '@hisptz/dhis2-utils'
+import { useFormActions } from './hooks/save'
+import { ParentConfig } from '../../schemas/config'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export interface FormProps {
     instanceName: string;
     id: string;
-    type: "program" | "programStage",
+    type: 'program' | 'programStage',
     parentConfig?: ParentConfig,
     parent?: {
         id: string,
@@ -24,53 +25,58 @@ export interface FormProps {
     defaultValue?: TrackedEntityInstance | Event;
 }
 
+function getDefaultValues (defaultValue: any, type: 'program' | 'programStage') {
+    if (!defaultValue) return
 
-function getDefaultValues(defaultValue: any, type: "program" | "programStage") {
-    if (!defaultValue) return;
-
-    if (type === "program") {
+    if (type === 'program') {
         return defaultValue?.attributes.reduce((acc: any, curr: any) => {
-            acc[curr.attribute] = curr.value;
-            return acc;
-        }, {});
+            acc[curr.attribute] = curr.value
+            return acc
+        }, {})
     } else {
         return defaultValue?.dataValues.reduce((acc: any, curr: any) => {
-            acc[curr.dataElement] = curr.value;
-            return acc;
-        }, {});
+            acc[curr.dataElement] = curr.value
+            return acc
+        }, {})
     }
 }
 
-
-export function Form({
-    id,
-    type,
-    parent,
-    parentConfig,
-    instanceName,
-    hide,
-    onClose,
-    defaultValue,
-    onSaveComplete
-}: FormProps) {
-    const { fields } = useFormMeta({
+export function Form ({
+                          id,
+                          type,
+                          parent,
+                          parentConfig,
+                          instanceName,
+                          hide,
+                          onClose,
+                          defaultValue,
+                          onSaveComplete
+                      }: FormProps) {
+    const {
+        fields,
+        schema
+    } = useFormMeta({
         id,
         type
-    });
-    const defaultValues = getDefaultValues(defaultValue, type);
+    })
+    const defaultValues = getDefaultValues(defaultValue, type)
     const form = useForm({
-        defaultValues
-    });
+        defaultValues,
+        resolver: zodResolver(schema)
+    })
 
     const onComplete = useCallback(() => {
-        form.reset({});
+        form.reset({})
         if (onSaveComplete) {
-            onSaveComplete();
+            onSaveComplete()
         }
-        onClose();
-    }, []);
+        onClose()
+    }, [])
 
-    const {onSave, saving} = useFormActions({
+    const {
+        onSave,
+        saving
+    } = useFormActions({
         defaultValue,
         instanceMetaId: id,
         type,
@@ -78,12 +84,12 @@ export function Form({
         parentConfig,
         onComplete,
         instanceName
-    });
+    })
 
     return (
         <Modal position="middle" hide={hide} onClose={onClose}>
             <ModalTitle>
-                {defaultValue ? i18n.t("Update") : i18n.t("Add")} {instanceName}
+                {defaultValue ? i18n.t('Update') : i18n.t('Add')} {instanceName}
             </ModalTitle>
             <ModalContent>
                 {
@@ -100,11 +106,11 @@ export function Form({
             </ModalContent>
             <ModalActions>
                 <ButtonStrip>
-                    <Button onClick={onClose}>{i18n.t("Cancel")}</Button>
+                    <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
                     <Button loading={saving} onClick={form.handleSubmit(onSave)}
-                        primary>{defaultValue ? saving ? i18n.t("Updating...") : i18n.t("Update") : saving ? i18n.t("Creating...") : i18n.t("Save")}</Button>
+                            primary>{defaultValue ? saving ? i18n.t('Updating...') : i18n.t('Update') : saving ? i18n.t('Creating...') : i18n.t('Save')}</Button>
                 </ButtonStrip>
             </ModalActions>
         </Modal>
-    );
+    )
 }

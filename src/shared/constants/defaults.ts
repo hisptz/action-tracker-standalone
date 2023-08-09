@@ -55,6 +55,7 @@ function generateCategories (count: number, { activityLinkageId }: { activityLin
                     id: uid(),
                     type: valueType.TEXT,
                     mandatory: true,
+                    showAsColumn: true,
                     header: true
                 }
             ]
