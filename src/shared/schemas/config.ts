@@ -38,7 +38,9 @@ export const dataFieldSchema = z.object({
     }).optional(),
     header: z.boolean().optional(),
     native: z.boolean({ description: 'This field should be in every configuration' }).optional(),
-    hidden: z.boolean({ description: 'Hidden from normal user operations. Normally linkages' }).optional()
+    hidden: z.boolean({ description: 'Hidden from normal user operations. Normally linkages' }).optional(),
+    isStartDate: z.boolean({ description: 'Field should be flagged as start date (Works for action only for now)' }).optional(),
+    isEndDate: z.boolean({ description: 'Field should be flagged as end date (Works for action only for now)' }).optional()
 })
 
 const parentSchema = z.object({

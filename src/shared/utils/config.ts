@@ -20,6 +20,9 @@ export const TRACKED_ENTITY_ATTRIBUTE_LINKAGE = 'Hi3IjyMXzeW'
 
 export const STATUS_OPTION_SET = 'Y3FLpktyYMC'
 
+export const START_DATE_ATTR = 'jFjnkx49Lg3'
+export const END_DATE_ATTR = 'BYCbHJ46BOr'
+
 function getCategories (programs: Program[]): CategoryConfig[] {
     const program = programs.find(p => p.id === BOTTLENECK_PROGRAM_ID)
     if (!program) throw new Error('Could not find bottleneck program')
@@ -46,10 +49,10 @@ function getCategories (programs: Program[]): CategoryConfig[] {
 
     const subCategories: CategoryConfig[] = sortBy(program
         .programStages, 'sortOrder')?.map(({
-                                              id,
-                                              programStageDataElements,
-                                              name
-                                          }) => {
+                                                                                           id,
+                                                                                           programStageDataElements,
+                                                                                           name
+                                                                                       }) => {
 
         return {
             id,
@@ -146,6 +149,9 @@ function getAction (programs: Program[]): ActionConfig {
                 type: trackedEntityAttribute.valueType as string,
                 optionSet: trackedEntityAttribute.optionSet,
                 showAsColumn: index === 0,
+                isStartDate: trackedEntityAttribute.id === START_DATE_ATTR,
+                isEndDate: trackedEntityAttribute.id === END_DATE_ATTR,
+                native: [START_DATE_ATTR, END_DATE_ATTR].includes(trackedEntityAttribute.id),
                 mandatory
             }
         })) ?? []
@@ -167,6 +173,7 @@ function getAction (programs: Program[]): ActionConfig {
                     shortName: dataElement.shortName,
                     type: dataElement.valueType as string,
                     optionSet: dataElement.optionSet,
+                    native: dataElement.id === ACTION_STATUS_DATA_ELEMENT,
                     mandatory: compulsory,
                 }
             }) as DataField[],
@@ -232,6 +239,7 @@ export function generateConfigFromMetadata (metadata: {
     return {
         id: uid(),
         name: 'Bottleneck',
+        code: 'BNA',
         categories,
         action: actionConfig,
         general: generalConfig,

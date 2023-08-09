@@ -125,7 +125,6 @@ export function generateBasicTemplate (levels: number) {
         const statusOptionSetId = uid()
 
         const categories = generateCategories(levels, { activityLinkageId: actionId })
-
         return {
             id: slug(name),
             code,
@@ -171,6 +170,8 @@ export function generateBasicTemplate (levels: number) {
                         type: valueType.DATE,
                         showAsColumn: true,
                         mandatory: true,
+                        native: true,
+                        isStartDate: true,
                         id: uid()
                     },
                     {
@@ -179,6 +180,8 @@ export function generateBasicTemplate (levels: number) {
                         shortName: 'End Date',
                         showAsColumn: true,
                         mandatory: true,
+                        native: true,
+                        isEndDate: true,
                         id: uid()
                     }
                 ],
@@ -378,7 +381,8 @@ export function generateLegacyTemplate ({
                     type: valueType.DATE,
                     showAsColumn: true,
                     native: true,
-                    shortName: 'Start Date'
+                    shortName: 'Start Date',
+                    isStartDate: true
 
                 },
                 {
@@ -387,7 +391,8 @@ export function generateLegacyTemplate ({
                     type: valueType.DATE,
                     showAsColumn: true,
                     native: true,
-                    shortName: 'End Date'
+                    shortName: 'End Date',
+                    isEndDate: true
                 },
                 {
                     id: 'G3aWsZW2MpV',
