@@ -1,11 +1,11 @@
-import { useDimensions } from "../../../../shared/hooks";
-import React from "react";
-import { DimensionsNotSelected } from "./components/DimensionsNotSelected";
-import { DataArea } from "./components/DataArea";
-import { AddButton } from "./components/AddButton";
-import { ManageColumns } from "./components/ManageColumns";
-import { Download } from "./components/Download";
-import { DataProvider } from "./components/DataProvider";
+import { useDimensions } from '../../../../shared/hooks'
+import React from 'react'
+import { DimensionsNotSelected } from './components/DimensionsNotSelected'
+import { DataArea } from './components/DataArea'
+import { AddButton } from './components/AddButton'
+import { ManageColumns } from './components/ManageColumns'
+import { Download } from './components/Download/Download'
+import { DataProvider } from './components/DataProvider'
 
 export function MainArea () {
     const {

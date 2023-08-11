@@ -64,7 +64,7 @@ const eventsQuery: any = {
     }
 }
 
-function getPeriodQuery (config: Config, period: BasePeriod) {
+export function getPeriodQuery (config: Config, period: BasePeriod) {
     const startDateId = config.action.fields.find(({ isStartDate }) => isStartDate)?.id
     const endDateId = config.action.fields.find(({ isEndDate }) => isEndDate)?.id
 
