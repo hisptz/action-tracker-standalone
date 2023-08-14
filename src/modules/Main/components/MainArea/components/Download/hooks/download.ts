@@ -286,22 +286,17 @@ export function useDownload () {
         }))
     }
 
-    const justAFunction = (instance: any) => {
-        if (instance.children) {
-            return [
-                ...instance.values,
-                ...(instance.children.map((instance: any) => justAFunction(instance)))
-            ].flat()
-        }
-        return [
-            ...instance.values
-        ].flat()
+    const sanitizeData = (instance: {
+        values: Record<string, any>[],
+        children?: Array<{ values: Record<string, any>[], children?: any[] }>
+    }) => {
+
     }
 
     const mapper = async (data: TrackedEntity) => {
         const instanceConfig = head(config?.categories) as CategoryConfig
         const events = head(data.enrollments)?.events as unknown as Event[]
-        return {
+        const payload = {
             ...(getInstanceData({
                 instance: data,
                 config: instanceConfig
@@ -312,7 +307,7 @@ export function useDownload () {
                 parentConfig: head(config?.categories) as CategoryConfig
             })
         }
-
+        return payload
     }
 
     const {
