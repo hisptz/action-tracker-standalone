@@ -26,6 +26,7 @@ export interface FormProps {
 }
 
 function getDefaultValues (defaultValue: any, type: 'program' | 'programStage') {
+    console.log(defaultValue)
     if (!defaultValue) return
 
     if (type === 'program') {

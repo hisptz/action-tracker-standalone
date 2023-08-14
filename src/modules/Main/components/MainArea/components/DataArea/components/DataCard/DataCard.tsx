@@ -56,7 +56,7 @@ export function DataCard ({
         <>
             <Form
                 onSaveComplete={refetch}
-                defaultValue={head(data.enrollments)}
+                defaultValue={data}
                 instanceName={instanceConfig.name}
                 id={instanceConfig.id}
                 type="program"

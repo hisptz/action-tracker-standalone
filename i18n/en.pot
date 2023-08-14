@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-09T09:47:43.270Z\n"
-"PO-Revision-Date: 2023-08-09T09:47:43.270Z\n"
+"POT-Creation-Date: 2023-08-11T08:18:07.099Z\n"
+"PO-Revision-Date: 2023-08-11T08:18:07.099Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -316,6 +316,18 @@ msgstr "Latest status"
 msgid "Select organisation unit and period to start"
 msgstr "Select organisation unit and period to start"
 
+msgid "Excel"
+msgstr "Excel"
+
+msgid "CSV"
+msgstr "CSV"
+
+msgid "JSON"
+msgstr "JSON"
+
+msgid "Downloading..."
+msgstr "Downloading..."
+
 msgid "Download"
 msgstr "Download"
 
@@ -423,9 +435,6 @@ msgstr "Data item is required"
 
 msgid "Data item"
 msgstr "Data item"
-
-msgid "Downloading..."
-msgstr "Downloading..."
 
 msgid "Required"
 msgstr "Required"

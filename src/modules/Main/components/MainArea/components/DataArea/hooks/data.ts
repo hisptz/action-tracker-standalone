@@ -28,7 +28,7 @@ const dataQuery: any = {
                 fields: [
                     'trackedEntity',
                     'attributes[attribute,value]',
-                    'enrollments[*]'
+                    'enrollments[enrollment]'
                 ]
             }
         }
