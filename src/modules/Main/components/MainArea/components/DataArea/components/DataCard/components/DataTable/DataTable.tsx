@@ -16,6 +16,8 @@ import { useDeleteInstance } from '../../../../../../../../../../shared/componen
 import { useConfirmDialog } from '@hisptz/dhis2-ui'
 import { useViewModal } from '../../../../../../../../../../shared/components/ViewModal'
 import { DataView } from '../../../../../../../../../../shared/components/DataView/DataView'
+import { useMode } from '../../../../../../../../../../shared/hooks/mode'
+import { AccessProvider } from '../../../../../../../../../../shared/components/AccessProvider'
 
 export interface DataTableProps {
     parentConfig: ActionConfig | CategoryConfig;
@@ -33,6 +35,7 @@ export function DataTable ({
     const { child } = parentConfig as any
     const { confirm } = useConfirmDialog()
     const { show } = useViewModal()
+    const mode = useMode()
 
     const { config: allConfig } = useConfiguration()
     const config = useMemo(() => {
@@ -140,11 +143,16 @@ export function DataTable ({
                             {i18n.t('There are no recorded {{ instanceType }}. Click on the button below to create one', {
                                 instanceType
                             })}
-                            <Button onClick={onShow} icon={<IconAdd24/>}>
-                                {i18n.t('Add {{ instanceType }}', {
-                                    instanceType
-                                })}
-                            </Button>
+                            <AccessProvider
+                                shouldHide={mode === 'tracking'}
+                                override={mode === 'tracking'}
+                                access="Standalone Action Tracker - Planning">
+                                <Button onClick={onShow} icon={<IconAdd24/>}>
+                                    {i18n.t('Add {{ instanceType }}', {
+                                        instanceType
+                                    })}
+                                </Button>
+                            </AccessProvider>
                         </div>
                     </td>
                 </tr>
@@ -160,6 +168,7 @@ export function DataTable ({
         return 0
     }
 
+    console.log(pagination)
 
     return (
         <div className="column w-100">
@@ -263,8 +272,16 @@ export function DataTable ({
                 </table>
             </div>
             <div style={{ padding: 8 }} className="row gap-16 space-between">
-                <Button onClick={onShow}
-                        icon={<IconAdd24/>}>{i18n.t('Add {{instanceType}}', { instanceType })}</Button>
+                <div>
+                    <AccessProvider
+                        access="Standalone Action Tracker - Planning"
+                        override={mode === 'tracking'}
+                        shouldHide={mode === 'tracking'}
+                    >
+                        <Button onClick={onShow}
+                                icon={<IconAdd24/>}>{i18n.t('Add {{instanceType}}', { instanceType })}</Button>
+                    </AccessProvider>
+                </div>
                 {
                     pagination.pageCount > 1 && (<Pagination {...pagination}/>)
                 }

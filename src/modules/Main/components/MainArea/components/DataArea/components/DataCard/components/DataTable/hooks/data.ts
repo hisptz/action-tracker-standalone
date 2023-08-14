@@ -136,7 +136,7 @@ export function useTableData (type: 'program' | 'programStage', {
             page: data?.data?.page ?? 1,
             pageSize: data?.data?.pageSize ?? 10,
             total: data?.data?.total ?? 1,
-            pageCount: Math.ceil(data?.data?.total ?? 1 / (data?.data?.pageSize ?? 1)),
+            pageCount: Math.ceil((data?.data?.total ?? 1) / (data?.data?.pageSize ?? 1)),
             onPageChange: (page: number) => {
                 refetch({
                     page

@@ -17,6 +17,7 @@ import { useMetadata } from '../../../../../../../../../../../../shared/hooks/me
 import { useViewModal } from '../../../../../../../../../../../../shared/components/ViewModal'
 import { ActionStatusConfig } from '../../../../../../../../../../../../shared/schemas/config'
 import { DataView } from '../../../../../../../../../../../../shared/components/DataView/DataView'
+import { AccessProvider } from '../../../../../../../../../../../../shared/components/AccessProvider'
 
 export interface ActionStatusProps {
     refetch: () => void;
@@ -119,7 +120,9 @@ export function ActionStatus ({
                 <ActionStatusForm onComplete={onActionManageComplete} columnConfig={columnConfig} onClose={onHide}
                                   hide={hide} instance={instance}/>
                 <div className="w-100 h-100 column center align-center">
-                    <Button onClick={onShow} icon={<IconAdd24/>}/>
+                    <AccessProvider access="Standalone Action Tracker - Tracking">
+                        <Button onClick={onShow} icon={<IconAdd24/>}/>
+                    </AccessProvider>
                 </div>
             </TableCell>
         )

@@ -21,7 +21,7 @@ export function AccessProvider ({
                                 }: AccessProviderProps) {
     const allowed = useAccess(access)
 
-    if (!allowed && shouldHide) {
+    if ((!allowed || override) && shouldHide) {
         return null
     }
     return React.cloneElement(children as React.ReactElement, {
