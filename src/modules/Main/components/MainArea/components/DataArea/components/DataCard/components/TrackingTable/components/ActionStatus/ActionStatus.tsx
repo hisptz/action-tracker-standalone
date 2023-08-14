@@ -18,6 +18,7 @@ import { useViewModal } from '../../../../../../../../../../../../shared/compone
 import { ActionStatusConfig } from '../../../../../../../../../../../../shared/schemas/config'
 import { DataView } from '../../../../../../../../../../../../shared/components/DataView/DataView'
 import { AccessProvider } from '../../../../../../../../../../../../shared/components/AccessProvider'
+import { useAccess } from '../../../../../../../../../../../../shared/components/AccessProvider/hooks/access'
 
 export interface ActionStatusProps {
     refetch: () => void;
@@ -38,6 +39,8 @@ export function ActionStatus ({
         setFalse: onShow
     } = useBoolean(true)
     const { confirm } = useConfirmDialog()
+    const allowed = useAccess('Standalone Action Tracker - Tracking')
+
     const { show } = useViewModal()
     const { period: selectedPeriod } = useDimensions()
     const { config } = useConfiguration()
@@ -164,8 +167,8 @@ export function ActionStatus ({
                                 instanceConfig: actionStatusConfig as ActionStatusConfig
                             })
                         }}
-                        onEdit={onShow}
-                        onDelete={onDelete}
+                        onEdit={allowed ? onShow : undefined}
+                        onDelete={allowed ? onDelete : undefined}
                     />
                 </div>
             </div>

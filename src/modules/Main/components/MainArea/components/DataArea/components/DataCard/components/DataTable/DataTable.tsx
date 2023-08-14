@@ -18,6 +18,7 @@ import { useViewModal } from '../../../../../../../../../../shared/components/Vi
 import { DataView } from '../../../../../../../../../../shared/components/DataView/DataView'
 import { useMode } from '../../../../../../../../../../shared/hooks/mode'
 import { AccessProvider } from '../../../../../../../../../../shared/components/AccessProvider'
+import { useAccess } from '../../../../../../../../../../shared/components/AccessProvider/hooks/access'
 
 export interface DataTableProps {
     parentConfig: ActionConfig | CategoryConfig;
@@ -36,6 +37,7 @@ export function DataTable ({
     const { confirm } = useConfirmDialog()
     const { show } = useViewModal()
     const mode = useMode()
+    const allowed = useAccess('Standalone Action Tracker - Planning')
 
     const { config: allConfig } = useConfiguration()
     const config = useMemo(() => {
@@ -168,8 +170,6 @@ export function DataTable ({
         return 0
     }
 
-    console.log(pagination)
-
     return (
         <div className="column w-100">
             <div style={{
@@ -231,11 +231,11 @@ export function DataTable ({
                                                                         instanceConfig: config as any
                                                                     })
                                                                 }}
-                                                                onEdit={() => {
+                                                                onEdit={allowed ? () => {
                                                                     setEditInstance(row.instance)
                                                                     onShow()
-                                                                }}
-                                                                onDelete={() => onDeleteClick(row.instance)}
+                                                                } : undefined}
+                                                                onDelete={allowed ? () => onDeleteClick(row.instance) : undefined}
                                                             />
                                                         </div>
                                                     </div>
