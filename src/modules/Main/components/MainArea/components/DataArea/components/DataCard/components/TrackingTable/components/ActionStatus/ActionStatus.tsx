@@ -17,6 +17,8 @@ import { useMetadata } from '../../../../../../../../../../../../shared/hooks/me
 import { useViewModal } from '../../../../../../../../../../../../shared/components/ViewModal'
 import { ActionStatusConfig } from '../../../../../../../../../../../../shared/schemas/config'
 import { DataView } from '../../../../../../../../../../../../shared/components/DataView/DataView'
+import { AccessProvider } from '../../../../../../../../../../../../shared/components/AccessProvider'
+import { useAccess } from '../../../../../../../../../../../../shared/components/AccessProvider/hooks/access'
 
 export interface ActionStatusProps {
     refetch: () => void;
@@ -37,6 +39,8 @@ export function ActionStatus ({
         setFalse: onShow
     } = useBoolean(true)
     const { confirm } = useConfirmDialog()
+    const allowed = useAccess('Standalone Action Tracker - Tracking')
+
     const { show } = useViewModal()
     const { period: selectedPeriod } = useDimensions()
     const { config } = useConfiguration()
@@ -119,7 +123,9 @@ export function ActionStatus ({
                 <ActionStatusForm onComplete={onActionManageComplete} columnConfig={columnConfig} onClose={onHide}
                                   hide={hide} instance={instance}/>
                 <div className="w-100 h-100 column center align-center">
-                    <Button onClick={onShow} icon={<IconAdd24/>}/>
+                    <AccessProvider access="Standalone Action Tracker - Tracking">
+                        <Button onClick={onShow} icon={<IconAdd24/>}/>
+                    </AccessProvider>
                 </div>
             </TableCell>
         )
@@ -161,8 +167,8 @@ export function ActionStatus ({
                                 instanceConfig: actionStatusConfig as ActionStatusConfig
                             })
                         }}
-                        onEdit={onShow}
-                        onDelete={onDelete}
+                        onEdit={allowed ? onShow : undefined}
+                        onDelete={allowed ? onDelete : undefined}
                     />
                 </div>
             </div>

@@ -12,6 +12,8 @@ import { useBoolean, useElementSize } from 'usehooks-ts'
 import { useDeleteInstance } from '../../../../../../../../shared/components/Form/hooks/save'
 import { useConfirmDialog } from '@hisptz/dhis2-ui'
 import i18n from '@dhis2/d2-i18n'
+import { useAccess } from '../../../../../../../../shared/components/AccessProvider/hooks/access'
+import { useViewModal } from '../../../../../../../../shared/components/ViewModal'
 
 export interface DataCardProps {
     data: any;
@@ -25,7 +27,10 @@ export function DataCard ({
                               refetch
                           }: DataCardProps) {
     const [ref, { width }] = useElementSize()
+    const { show } = useViewModal()
+
     const { confirm } = useConfirmDialog()
+    const allowed = useAccess('Standalone Action Tracker - Planning')
     const title = useMemo(() => {
         const headerId = find(instanceConfig.fields, (field: any) => field.header)?.id
         return getAttributeValueFromList(headerId, data.attributes)
@@ -51,7 +56,6 @@ export function DataCard ({
             },
         })
     }
-
     return (
         <>
             <Form
@@ -68,7 +72,16 @@ export function DataCard ({
                     <div className="row space-between align-center">
                         <h2 style={{ margin: 0 }}>{title}</h2>
                         <ButtonStrip>
-                            <ActionButton onDelete={onDeleteInstance} onEdit={onShow}/>
+                            <ActionButton
+                                onDelete={allowed ? onDeleteInstance : undefined}
+                                onEdit={allowed ? onShow : undefined}
+                                onView={() => {
+                                    show({
+                                        instance: data,
+                                        instanceConfig: instanceConfig as any
+                                    })
+                                }}
+                            />
                         </ButtonStrip>
                     </div>
                     <div ref={ref} className="column w-100" style={{
