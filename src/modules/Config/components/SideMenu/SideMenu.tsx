@@ -13,7 +13,12 @@ export function SideMenu() {
     const navigate = useNavigate()
 
     return (
-        <aside style={{width: "30vw", maxWidth: 300, flexGrow: 0}}>
+        <aside style={{
+            width: '30vw',
+            maxWidth: 300,
+            flexGrow: 0,
+            minWidth: 100
+        }}>
             <Menu className={classes['menu-area']}>
                 <MenuItem className={classes['menu-item']} icon={<IconArrowLeft24/>} label={i18n.t("Back")} onClick={() => { navigate('/'); }}/>
                 {

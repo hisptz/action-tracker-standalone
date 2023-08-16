@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-11T08:18:07.099Z\n"
-"PO-Revision-Date: 2023-08-11T08:18:07.099Z\n"
+"POT-Creation-Date: 2023-08-16T04:44:10.566Z\n"
+"PO-Revision-Date: 2023-08-16T04:44:10.566Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -113,9 +113,6 @@ msgstr "Organisation Units"
 
 msgid "Period"
 msgstr "Period"
-
-msgid "Sharing"
-msgstr "Sharing"
 
 msgid "Access"
 msgstr "Access"

@@ -17,11 +17,14 @@ function ConfigForm () {
     }, [config])
 
     return (
-        <div className="column gap-16">
+        <div className="column gap-16 h-100">
             <FormProvider {...form} >
-                <SaveArea/>
-                <Outlet/>
-                <SaveArea/>
+                <div className="flex-1">
+                    <Outlet/>
+                </div>
+                <div style={{ paddingBottom: 32 }}>
+                    <SaveArea/>
+                </div>
             </FormProvider>
         </div>
     )
