@@ -26,9 +26,18 @@ export function useFormMeta ({
     }, [programs, programStages, id, type])
 
     const fields: RHFDHIS2FormFieldProps[] = useMemo(() => {
+
         const fieldsConfig = instanceConfig?.fields ?? []
-        return fieldsConfig.filter(({ hidden }) => !hidden).map(field => getFieldProps(field))
-    }, [instanceConfig])
+        const fieldsMetadata = !!instanceMeta?.programTrackedEntityAttributes ? instanceMeta?.programTrackedEntityAttributes?.map(({ trackedEntityAttribute }: any) => trackedEntityAttribute) : instanceMeta?.programStageDataElements?.map(({ dataElement }: any) => dataElement) ?? []
+
+        return fieldsConfig.filter(({ hidden }) => !hidden)?.map(field => {
+            const fieldMeta = fieldsMetadata.find(({ id }: any) => id === field.id)
+            return getFieldProps({
+                ...field,
+                ...fieldMeta
+            })
+        })
+    }, [instanceConfig, instanceMeta])
 
     const schema = useMemo(() => {
         return z.object(fromPairs(instanceConfig?.fields.filter(({ hidden }) => !hidden)?.map((field) => [field.id, getFieldSchema(field, { period: period?.get() as PeriodInterface })]),))

@@ -46,7 +46,6 @@ async function getData (
     })
     const rawData = get(data, [queryKey, resource])
     if (!isEmpty(rawData)) {
-        console.log({ rawData })
         return await mapSeries(rawData, asyncify(mapping))
     }
     return []

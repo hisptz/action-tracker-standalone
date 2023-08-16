@@ -112,12 +112,6 @@ export function DataCard ({
         setFalse: onClose,
         toggle
     } = useBoolean(index === 0)
-
-    console.log({
-        index,
-        open
-    })
-
     const columns = useColumns()
 
     return (

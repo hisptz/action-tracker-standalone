@@ -29,6 +29,7 @@ function getCategories (programs: Program[]): CategoryConfig[] {
     const mainCategory: CategoryConfig = {
         id: program.id,
         name: program.name?.replaceAll('[SAT]', '') as string,
+        type: 'program',
         fields: program.programTrackedEntityAttributes?.map(({
                                                                  trackedEntityAttribute,
                                                                  mandatory
@@ -57,6 +58,7 @@ function getCategories (programs: Program[]): CategoryConfig[] {
         return {
             id,
             name: name?.replaceAll('[SAT]', ''),
+            type: 'programStage',
             fields: compact(programStageDataElements?.map(({
                                                                dataElement,
                                                                compulsory
@@ -133,6 +135,7 @@ function getAction (programs: Program[]): ActionConfig {
     const actionConfig = {
         id: program.id,
         name: program.name?.replaceAll('[SAT]', '') as string,
+        type: 'program',
         fields: compact(program.programTrackedEntityAttributes?.map(({
                                                                          trackedEntityAttribute,
                                                                          mandatory
