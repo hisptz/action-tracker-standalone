@@ -79,12 +79,13 @@ export function DataTable ({
                 instance: parentInstance
             }
         }
-    }, [])
+    }, [parentType, parentInstance])
+
 
     const {
         columns,
         childTableColSpan
-    } = useTableColumns(config as any)
+    } = useTableColumns(config)
 
     const trackingColumns = useTrackingColumns()
 

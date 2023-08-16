@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "build": "d2-app-scripts build --no-verify",
-    "start": "dotenv -- cross-var d2-app-scripts start --proxy %DHIS2_PROXY%",
+    "start": "dotenv -- cross-var d2-app-scripts start",
     "test": "d2-app-scripts test",
     "e2e": "concurrently 'yarn cy:start' 'wait-on 'http-get://localhost:3000' && cypress run' --kill-others --success first",
     "e2e:interactive": "npx cypress open",

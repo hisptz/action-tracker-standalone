@@ -4,7 +4,8 @@ import i18n from '@dhis2/d2-i18n'
 
 import { Attribute } from '../types/dhis2'
 import { DATA_ELEMENT_LINKAGE, TRACKED_ENTITY_ATTRIBUTE_LINKAGE } from '../utils/config'
-import { last, reduce } from 'lodash'
+import { head, last, reduce } from 'lodash'
+import { generateDefaultSharing } from './initial'
 import valueType = Attribute.valueType
 
 export enum EntityTypes {
@@ -26,12 +27,12 @@ export const initialMetadata: InitialMetadata = {
         {
             id: EntityTypesIds.CATEGORIZATION,
             name: `[SAT] ${EntityTypes.CATEGORIZATION}`,
-            publicAccess: 'rw------'
+            publicAccess: 'rwrw----'
         },
         {
             id: EntityTypesIds.ACTION,
             name: `[SAT] ${EntityTypes.ACTION}`,
-            publicAccess: 'rw------'
+            publicAccess: 'rwrw----'
         }
     ]
 }
@@ -62,6 +63,19 @@ function generateCategories (count: number, { activityLinkageId }: { activityLin
         } as CategoryConfig
     })
 
+    if (categories.length === 1) {
+        return [
+            {
+                ...(head(categories) as CategoryConfig),
+                child: {
+                    type: 'program',
+                    id: uid(),
+                    to: activityLinkageId
+                }
+            }
+        ]
+    }
+
     return reduce(categories, (acc, category, index) => {
         if (index === 0) {
             acc.push({
@@ -74,6 +88,7 @@ function generateCategories (count: number, { activityLinkageId }: { activityLin
             })
             return acc
         }
+
         if (index === categories.length - 1) {
             const parentCategory = last(acc) as CategoryConfig
             acc.push({
@@ -92,6 +107,7 @@ function generateCategories (count: number, { activityLinkageId }: { activityLin
             })
             return acc
         }
+
         const parentCategory = last(acc) as CategoryConfig
         const childCategory = categories[index + 1] as CategoryConfig
         acc.push({
@@ -124,7 +140,6 @@ export function generateBasicTemplate (levels: number) {
         const categoryToActivityId = uid()
         const statusFieldId = uid()
         const statusOptionSetId = uid()
-
         const categories = generateCategories(levels, { activityLinkageId: actionId })
         return {
             id: slug(name),
@@ -136,7 +151,7 @@ export function generateBasicTemplate (levels: number) {
                     tracking: PeriodTypeEnum.MONTHLY
                 },
                 orgUnit: {},
-                sharing: {}
+                sharing: generateDefaultSharing()
             },
             categories,
             action: {
@@ -249,7 +264,7 @@ export function generateLegacyTemplate ({
                 planning: PeriodTypeEnum.YEARLY,
                 tracking: PeriodTypeEnum.QUARTERLY
             },
-            sharing: {}
+            sharing: generateDefaultSharing()
         },
         categories: [
             {

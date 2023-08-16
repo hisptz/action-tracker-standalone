@@ -11,7 +11,7 @@ export function useTableColumns(config: CategoryConfig | ActionConfig) {
         })
     }, [allColumns, config]);
     const childTableColSpan = useMemo(() => {
-        const lastIndexOfTable = findLastIndex(allColumns, ['from', config.id]);
+        const lastIndexOfTable = findLastIndex(allColumns, ['from', config?.id])
 
         if (lastIndexOfTable === -1) {
             return 0;
@@ -22,7 +22,7 @@ export function useTableColumns(config: CategoryConfig | ActionConfig) {
 
         return allColumns.length - lastIndexOfTable - 1;
 
-    }, [allColumns, config.id]);
+    }, [allColumns, config?.id]);
 
     return {
         columns,

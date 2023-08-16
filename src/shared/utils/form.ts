@@ -4,6 +4,8 @@ import { DataField } from '../schemas/config'
 import { isEmpty } from 'lodash'
 import { z } from 'zod'
 import { PeriodInterface } from '@hisptz/dhis2-utils'
+import { Attribute } from '../types/dhis2'
+import valueType = Attribute.valueType
 
 export function getFieldProps ({
                                    name,
@@ -26,6 +28,10 @@ export function getFieldSchema (field: DataField, { period }: { period: PeriodIn
     const schema = z.string({ required_error: i18n.t('This field is required') })
     if (!field.mandatory) {
         schema.optional()
+    }
+
+    if (field.type === valueType.FILE_RESOURCE) {
+        return z.any()
     }
 
     if (field.isStartDate) {

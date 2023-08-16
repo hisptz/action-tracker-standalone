@@ -5,12 +5,11 @@ import valueType = DataElement.valueType
 import aggregationType = TrackedEntityAttribute.aggregationType
 import domainType = DataElement.domainType
 
-const generateDefaultSharing = (owner: string): Sharing => ({
+export const generateDefaultSharing = (): Partial<Sharing> => ({
     external: false,
     users: {},
     userGroups: {},
-    public: 'rwrw----',
-    owner
+    public: 'rwrw----'
 })
 const generateDefaultStatusOptions = (optionSetId: string, code: string): Partial<Option>[] => ([
     {

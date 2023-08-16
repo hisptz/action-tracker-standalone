@@ -51,9 +51,7 @@ function generateProgramFromConfig (config: CategoryConfig | ActionConfig, track
         return {
             trackedEntityAttribute: {
                 ...trackedEntityAttribute,
-                // sharing: meta.sharing
             },
-            // sharing: meta.sharing,
             id: uid(),
             mandatory: teiConfig?.mandatory
         } as any
@@ -66,7 +64,7 @@ function generateProgramFromConfig (config: CategoryConfig | ActionConfig, track
         name: `[SAT] - ${meta.code ?? ''} - ${config.name}`,
         shortName: config.name,
         trackedEntityType,
-        // sharing: meta.sharing as any
+        sharing: meta.sharing as any
     }
 }
 
@@ -107,16 +105,14 @@ function generateProgramStageFromConfig (config: CategoryConfig | ActionStatusCo
         return {
             dataElement: {
                 ...dataElement,
-                // sharing: meta.sharing
             },
-            sharing: meta.sharing,
             compulsory: dEConfig?.mandatory,
             id: uid()
         }
     }) as any
     return {
         name: `[SAT] - ${meta.code ?? ''} - ${config.name}`,
-        // sharing: meta.sharing as any,
+        sharing: meta.sharing as any,
         id: config.id,
         programStageDataElements,
         sortOrder: index + 1,
@@ -216,7 +212,7 @@ function generateRelationshipTypes (config: Config, meta: MetaMeta) {
                 }
             },
             toFromName: `[SAT] Parent`,
-            // sharing,
+            sharing,
             toConstraint: {
                 relationshipEntity: 'PROGRAM_STAGE_INSTANCE',
                 programStage: {
@@ -244,7 +240,7 @@ function generateRelationshipTypes (config: Config, meta: MetaMeta) {
                 id: actionConfig.id
             }
         },
-        // sharing
+        sharing
     }
 
     return compact([...relationshipTypes, actionRelationType])
@@ -330,7 +326,6 @@ export function generateMetadataFromConfig (config: Config, { meta }: { meta: In
         sharing: config.general.sharing,
         code: config.code
     })
-
 
     return {
         dataElements,

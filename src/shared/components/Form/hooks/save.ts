@@ -327,9 +327,7 @@ export function useFormActions ({
                 }
                 let trackedEntity
                 let enrollment
-
-                console.log(parent.instance)
-
+                
                 if (parentConfig?.type === 'program') {
                     //Parent instance is a tracked entity
                     trackedEntity = parent.instance.trackedEntity

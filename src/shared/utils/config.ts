@@ -226,7 +226,8 @@ export function generateConfigFromMetadata (metadata: {
     set(actionConfig, 'parent', {
         id: uid(),
         type: 'programStage',
-        from: last(categories)?.id
+        from: last(categories)?.id,
+        name: last(categories)?.name
     })
     set(categories, `${categories.length - 1}.child`, {
         id: uid(),

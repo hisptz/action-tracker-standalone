@@ -79,8 +79,6 @@ export function Form ({
         onClose()
     }
 
-    console.log(form.formState.errors)
-
     const {
         onSave,
         saving
