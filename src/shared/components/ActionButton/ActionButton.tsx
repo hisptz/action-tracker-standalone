@@ -57,6 +57,7 @@ export function ActionButton ({
                 </Popover>)
             }
             <Button small onClick={(_: any, event: React.MouseEvent<HTMLButtonElement>) => {
+                event.stopPropagation()
                 setRef(event.currentTarget)
             }} icon={<IconMore24/>}/>
         </>

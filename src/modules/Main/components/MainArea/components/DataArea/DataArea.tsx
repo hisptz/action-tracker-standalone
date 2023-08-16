@@ -44,8 +44,9 @@ export function DataArea () {
         <div className="column gap-32">
             <ViewModalProvider>
                 {
-                    categoryData?.map((data) => (
-                        <DataCard refetch={refetch} instanceConfig={category} key={`${data.trackedEntity}-card`}
+                    categoryData?.map((data, index) => (
+                        <DataCard index={index} refetch={refetch} instanceConfig={category}
+                                  key={`${data.trackedEntity}-card`}
                                   data={data}/>))
                 }
             </ViewModalProvider>

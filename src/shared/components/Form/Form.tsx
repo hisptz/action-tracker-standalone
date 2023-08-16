@@ -5,10 +5,11 @@ import { useFormMeta } from './hooks/metadata'
 import { FormProvider, useForm } from 'react-hook-form'
 import { isEmpty } from 'lodash'
 import { RHFDHIS2FormField } from '@hisptz/dhis2-ui'
-import { Event, TrackedEntityInstance } from '@hisptz/dhis2-utils'
+import { Event } from '@hisptz/dhis2-utils'
 import { useFormActions } from './hooks/save'
 import { ParentConfig } from '../../schemas/config'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { TrackedEntity } from '../../types/dhis2'
 
 export interface FormProps {
     instanceName: string;
@@ -22,7 +23,7 @@ export interface FormProps {
     hide: boolean;
     onClose: () => void;
     onSaveComplete?: () => void;
-    defaultValue?: TrackedEntityInstance | Event;
+    defaultValue?: TrackedEntity | Event;
 }
 
 function getDefaultValues (defaultValue: any, type: 'program' | 'programStage') {
