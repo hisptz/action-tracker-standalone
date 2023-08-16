@@ -101,7 +101,7 @@ export function ActionStatus ({
 
     //TODO: Discuss if this is how it should be...
     if (!selectedPeriod?.interval.engulfs(period.interval)) {
-        return null
+        return <TableCell className={classes['tracking-value-cell']}/>
     }
 
     const onDelete = () => {
@@ -138,9 +138,13 @@ export function ActionStatus ({
 
     return (
         <td style={{ background: hexToRgba(color, .4) ?? '#FFFFFF' }} className={classes['tracking-value-cell']}>
-            <ActionStatusForm defaultValue={statusEvent} onComplete={onActionManageComplete} columnConfig={columnConfig}
-                              onClose={onHide}
-                              hide={hide} instance={instance}/>
+            <ActionStatusForm
+                defaultValue={statusEvent}
+                onComplete={onActionManageComplete}
+                columnConfig={columnConfig}
+                onClose={onHide}
+                hide={hide} instance={instance}
+            />
             <div className="w-100 h-100 row gap-8">
                 <div className="flex-1 column gap-8">
                     {

@@ -44,7 +44,7 @@ function CardHeader ({
     const { confirm } = useConfirmDialog()
     const allowed = useAccess('Standalone Action Tracker - Planning')
     const title = useMemo(() => {
-        const headerId = find(instanceConfig.fields as DataField[], (field: DataField) => field.header)?.id
+        const headerId = (find(instanceConfig.fields as DataField[], (field: DataField) => field.header) as DataField)?.id
         return getAttributeValueFromList(headerId, data.attributes)
     }, [data])
     const { onDelete } = useDeleteInstance('program', { instanceName: instanceConfig.name })
