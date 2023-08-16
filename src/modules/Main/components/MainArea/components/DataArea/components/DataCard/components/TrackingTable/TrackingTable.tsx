@@ -48,7 +48,8 @@ export function TrackingTable ({
         /*
         * Here is another amazing implementation. I honestly don't have any idea how this works
         *  */
-        return width
+
+        return 0
     }
 
     return (
@@ -65,11 +66,6 @@ export function TrackingTable ({
                     width: '100%',
                     height: '100%'
                 }}>
-                    {
-                        columns?.map((header,) => (
-                            <col width={`${calculateColumnWidth(header.width)}%`}
-                                 id={header.id} key={`${header.id}-colgroup`}/>))
-                    }
                     <TableBody className={classes['table-body']}>
                         <TableRow>
                             {
@@ -77,9 +73,14 @@ export function TrackingTable ({
                                     column.id === 'latest-status' ?
                                         <LatestStatus key={`${column.id}-${instance.trackedEntity}-action-status`}
                                                       events={events}/> :
-                                        <ActionStatus key={`${column.id}-${instance.trackedEntity}-action-status`}
-                                                      refetch={refetch} events={events} instance={instance}
-                                                      columnConfig={column}/>
+                                        <ActionStatus
+                                            columnCount={columns.length}
+                                            key={`${column.id}-${instance.trackedEntity}-action-status`}
+                                            refetch={refetch}
+                                            events={events}
+                                            instance={instance}
+                                            columnConfig={column}
+                                        />
                                 ))
                             }
                         </TableRow>

@@ -24,14 +24,16 @@ export interface ActionStatusProps {
     refetch: () => void;
     instance: any,
     events: any[]
-    columnConfig: ActionTrackingColumnStateConfig
+    columnConfig: ActionTrackingColumnStateConfig,
+    columnCount: number
 }
 
 export function ActionStatus ({
                                   instance,
                                   columnConfig,
                                   events,
-                                  refetch
+                                  refetch,
+                                  columnCount
                               }: ActionStatusProps) {
     const {
         value: hide,
@@ -97,7 +99,7 @@ export function ActionStatus ({
             ...data
         ]
 
-    }, [statusEvent,])
+    }, [statusEvent])
 
     //TODO: Discuss if this is how it should be...
     if (!selectedPeriod?.interval.engulfs(period.interval)) {
@@ -119,7 +121,7 @@ export function ActionStatus ({
 
     if (!statusEvent) {
         return (
-            <TableCell className={classes['tracking-value-cell']}>
+            <td style={{ width: `${(100 / columnCount)}%` }} className={classes['tracking-value-cell']}>
                 <ActionStatusForm onComplete={onActionManageComplete} columnConfig={columnConfig} onClose={onHide}
                                   hide={hide} instance={instance}/>
                 <div className="w-100 h-100 column center align-center">
@@ -127,7 +129,7 @@ export function ActionStatus ({
                         <Button onClick={onShow} icon={<IconAdd24/>}/>
                     </AccessProvider>
                 </div>
-            </TableCell>
+            </td>
         )
     }
     const status = find(statusEvent.dataValues, ['dataElement', actionStatusConfig?.stateConfig?.dataElement])?.value
@@ -137,7 +139,8 @@ export function ActionStatus ({
     const color = selectedOption?.style.color ?? '#FFFFFF'
 
     return (
-        <td style={{ background: hexToRgba(color, .4) ?? '#FFFFFF' }} className={classes['tracking-value-cell']}>
+        <td style={{ background: hexToRgba(color, .4) ?? 'transparent', width: `${(100 / columnCount)}%` }}
+            className={classes['tracking-value-cell']}>
             <ActionStatusForm
                 defaultValue={statusEvent}
                 onComplete={onActionManageComplete}

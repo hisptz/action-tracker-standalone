@@ -43,13 +43,14 @@ export function DataTable ({
     const config = useMemo(() => {
         if (child.type === 'program') {
             //Only the action program can be a child
-            return allConfig?.action as ActionConfig
+            return allConfig?.action
         }
         const categoryConfig = allConfig?.categories?.find((category) => category.id === child.to)
         if (categoryConfig) {
-            return categoryConfig as CategoryConfig
+            return categoryConfig
         }
     }, [child, allConfig])
+
     const {
         loading,
         noData,
@@ -80,7 +81,6 @@ export function DataTable ({
             }
         }
     }, [parentType, parentInstance])
-
 
     const {
         columns,
