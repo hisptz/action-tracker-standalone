@@ -8,7 +8,6 @@ import { useDataMutation, useDataQuery } from '@dhis2/app-runtime'
 import { useController } from 'react-hook-form'
 import { type SharingConfig } from '../../../../../shared/schemas/config'
 import { head } from 'lodash'
-import { CustomSharingDialog } from './CustomSharingDialog'
 
 const metaQuery: any = {
     meta: {
@@ -81,16 +80,6 @@ export function Sharing () {
 
     return (
         <>
-            {
-                (metaId && !hideSharing)
-                    ? (
-                        <CustomSharingDialog
-                            onClose={onClose}
-                            hide={hideSharing}
-                        />
-                    )
-                    : null
-            }
             <div className="column gap-8">
                 <span>{i18n.t('Configure who can access this configuration and metadata associated')}</span>
                 <div>
