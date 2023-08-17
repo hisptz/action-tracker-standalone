@@ -46,7 +46,7 @@ export function OrgUnitPlanning () {
                         disabled={!enabled}
                         label={i18n.t('Planning organisation unit level')}
                         options={options}
-                        name={`${namespace}.levels`}
+                        name={`${namespace}.levels.0`}
                     />
                 )
             }

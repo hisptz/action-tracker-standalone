@@ -19,7 +19,10 @@ export const generalConfigSchema = z.object({
             id: z.string(),
             path: z.string()
         })).optional(),
-        planning: z.string().optional(),
+        planning: z.object({
+            levels: z.array(z.string()),
+            enabled: z.boolean()
+        }),
         accessAll: z.boolean().optional(),
         defaultOrgUnit: z.string().optional()
     }),

@@ -150,7 +150,12 @@ export function generateBasicTemplate (levels: number) {
                     planning: PeriodTypeEnum.YEARLY,
                     tracking: PeriodTypeEnum.MONTHLY
                 },
-                orgUnit: {},
+                orgUnit: {
+                    planning: {
+                        enabled: false,
+                        levels: []
+                    }
+                },
                 sharing: generateDefaultSharing()
             },
             categories,
@@ -259,7 +264,12 @@ export function generateLegacyTemplate ({
         code,
         name,
         general: {
-            orgUnit: {},
+            orgUnit: {
+                planning: {
+                    enabled: false,
+                    levels: []
+                }
+            },
             period: {
                 planning: PeriodTypeEnum.YEARLY,
                 tracking: PeriodTypeEnum.QUARTERLY
