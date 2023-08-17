@@ -2,6 +2,13 @@ import { Step } from 'intro.js-react'
 import i18n from '@dhis2/d2-i18n'
 import React from 'react'
 
+export const GeneralInitialStep: Step = {
+    title: i18n.t('General configuration'),
+    intro: <div>
+        <p>{i18n.t('This page allows you to configure basic details of the application. Settings like default dimensions, planning and tracking configuration, and access can be configured here.')}</p>
+    </div>
+}
+
 export const OrgUnitAccessSteps: Step[] = [
     {
         element: 'div[data-test=\'org-unit-access\']',
@@ -108,6 +115,7 @@ export const SaveChanges: Step[] = [
 ]
 
 export const GeneralSteps = [
+    GeneralInitialStep,
     ...OrgUnitAccessSteps,
     ...OrgUnitPlanningSteps,
     ...OrgUnitDefaultSteps,
