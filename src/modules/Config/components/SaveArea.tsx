@@ -59,10 +59,11 @@ export function SaveArea () {
             justifyContent: 'flex-end'
         }} className="row gap-16">
             <ButtonStrip>
-                <Button disabled={!form.formState.isDirty}>
+                <Button dataTest="reset-config-button" disabled={!form.formState.isDirty}>
                     {i18n.t('Reset')}
                 </Button>
-                <Button loading={loading || uploadingMetadata} onClick={form.handleSubmit(onSave)} primary
+                <Button dataTest="save-config-button" loading={loading || uploadingMetadata}
+                        onClick={form.handleSubmit(onSave)} primary
                         disabled={!form.formState.isDirty || loading || uploadingMetadata}>
                     {uploadingMetadata ? i18n.t('Updating metadata...') : loading ? i18n.t('Saving...') : i18n.t('Save changes')}
                 </Button>

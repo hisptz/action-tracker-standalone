@@ -92,11 +92,25 @@ export const PeriodSteps: Step[] = [
 
 ]
 
-export const SaveChanges: Step[] = []
+export const SaveChanges: Step[] = [
+    {
+        element: 'button[data-test=\'reset-config-button\']',
+        title: i18n.t('Reset changes'),
+        intro:
+            <p>{i18n.t('Click here if you want to redo all changes on all configuration. This will be disabled when there are no changes to redo.')}</p>
+    },
+    {
+        element: 'button[data-test=\'save-config-button\']',
+        title: i18n.t('Save changes'),
+        intro:
+            <p>{i18n.t('Click here to save all changes done. This will be disabled when there are no changes to save')}</p>
+    },
+]
 
 export const GeneralSteps = [
     ...OrgUnitAccessSteps,
     ...OrgUnitPlanningSteps,
     ...OrgUnitDefaultSteps,
-    ...PeriodSteps
+    ...PeriodSteps,
+    ...SaveChanges
 ]
