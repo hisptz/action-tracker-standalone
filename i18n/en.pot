@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-17T13:05:10.512Z\n"
-"PO-Revision-Date: 2023-08-17T13:05:10.512Z\n"
+"POT-Creation-Date: 2023-08-17T17:46:36.918Z\n"
+"PO-Revision-Date: 2023-08-17T17:46:36.918Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -104,6 +104,27 @@ msgstr "Option deleted successfully"
 
 msgid "Categories"
 msgstr "Categories"
+
+msgid ""
+"Categories are a way to group activities/actions. The action tracker allows "
+"you to group or categorize activities in up to 3 levels."
+msgstr ""
+"Categories are a way to group activities/actions. The action tracker allows "
+"you to group or categorize activities in up to 3 levels."
+
+msgid ""
+"With each category level you can define what data to be collected by "
+"managing the fields for the category."
+msgstr ""
+"With each category level you can define what data to be collected by "
+"managing the fields for the category."
+
+msgid ""
+"You can modify the category name by editing this field. This name will "
+"appear on the button to add values for this specific categories"
+msgstr ""
+"You can modify the category name by editing this field. This name will "
+"appear on the button to add values for this specific categories"
 
 msgid "General configuration"
 msgstr "General configuration"
@@ -649,6 +670,9 @@ msgstr "Exit"
 
 msgid "Help"
 msgstr "Help"
+
+msgid "View help"
+msgstr "View help"
 
 msgid "Select Icon"
 msgstr "Select Icon"

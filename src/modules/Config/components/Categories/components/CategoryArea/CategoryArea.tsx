@@ -23,9 +23,11 @@ export function CategoryArea ({ index }: CategoryAreaProps) {
                 <h3 className="m-0">{title}</h3>
             </div>
             <div className="column gap-16">
-                <RHFTextInputField required validations={{ required: i18n.t('Name is required') }}
-                                   name={`${namespace}.name`} label={i18n.t('Name')}/>
-                <div className="column gap-8">
+                <div className="category-name-field-container">
+                    <RHFTextInputField required validations={{ required: i18n.t('Name is required') }}
+                                       name={`${namespace}.name`} label={i18n.t('Name')}/>
+                </div>
+                <div className="column gap-8 category-field-table-container">
                     <span>{i18n.t('Fields')}</span>
                     <FieldTable excludeFieldTypes={['FILE_RESOURCE']} type={type} namespace={namespace}/>
                 </div>

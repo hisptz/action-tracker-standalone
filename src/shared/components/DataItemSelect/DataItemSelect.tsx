@@ -7,6 +7,8 @@ import { useDataItems } from './hooks/data'
 import { RHFCheckboxField, RHFSingleSelectField } from '@hisptz/dhis2-ui'
 import { find } from 'lodash'
 import { useAlert } from '@dhis2/app-runtime'
+import { HelpIcon } from '../HelpButton'
+import { ExistingMetadataSteps } from '../../../modules/Config/components/Categories/docs/steps'
 
 export interface DataItemSelectProps {
     type: 'dataElement' | 'attribute',
@@ -70,31 +72,41 @@ export function DataItemSelect ({
     return (
         <Modal position="middle" hide={hide} onClose={onClose}>
             <ModalTitle>
-                {i18n.t('Select Data Item')}
+                <div className="row gap-8">
+                    {i18n.t('Select Data Item')}
+                    <HelpIcon steps={ExistingMetadataSteps} key="existing-meta-field-steps"/>
+                </div>
             </ModalTitle>
             <ModalContent>
                 <FormProvider {...form} >
                     <form className="column gap-16">
-                        <RHFSingleSelectField
-                            required
-                            validations={{ required: i18n.t('Data item is required') }}
-                            loading={loading} label={i18n.t('Data item')} options={options}
-                            name={`id`}/>
-                        <RHFCheckboxField name={`mandatory`} label={i18n.t('Field should be mandatory')}/>
-                        {
-                            type === 'attribute' ? (
-                                <RHFCheckboxField name={`header`} label={i18n.t('Show field as header')}/>
-                            ) : (
-                                <RHFCheckboxField name={`showAsColumn`} label={i18n.t('Show field as column')}/>
-                            )
-                        }
+                        <div data-test="data-item-select-container">
+                            <RHFSingleSelectField
+                                required
+                                validations={{ required: i18n.t('Data item is required') }}
+                                loading={loading} label={i18n.t('Data item')} options={options}
+                                name={`id`}/>
+                        </div>
+                        <div data-test="mandatory-check-container">
+                            <RHFCheckboxField name={`mandatory`} label={i18n.t('Field should be mandatory')}/>
+                        </div>
+                        <div data-test="show-in-table-container">
+                            {
+                                type === 'attribute' ? (
+                                    <RHFCheckboxField name={`header`} label={i18n.t('Show field as header')}/>
+                                ) : (
+                                    <RHFCheckboxField name={`showAsColumn`} label={i18n.t('Show field as column')}/>
+                                )
+                            }
+                        </div>
                     </form>
                 </FormProvider>
             </ModalContent>
             <ModalActions>
                 <ButtonStrip>
-                    <Button onClick={onCloseClick}>{i18n.t('Cancel')}</Button>
-                    <Button onClick={form.handleSubmit(onSubmit)} primary>{i18n.t('Add')}</Button>
+                    <Button dataTest="cancel-data-item-select-btn" onClick={onCloseClick}>{i18n.t('Cancel')}</Button>
+                    <Button dataTest="add-data-item-select-btn" onClick={form.handleSubmit(onSubmit)}
+                            primary>{i18n.t('Add')}</Button>
                 </ButtonStrip>
             </ModalActions>
         </Modal>
