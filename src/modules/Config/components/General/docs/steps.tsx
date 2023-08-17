@@ -35,8 +35,29 @@ export const OrgUnitAccessSteps: Step[] = [
 
 ]
 
-export const OrgUnitPlanningSteps: Step[] = []
+export const OrgUnitPlanningSteps: Step[] = [
+    {
+        element: 'div[data-test=\'org-unit-planning-config-container\']',
+        title: i18n.t('Planning organisation unit level configuration'),
+        intro: <div>
+            <p>{i18n.t('Here you can configure planning and tracking to be limited to only some of the organisation unit levels. This means the organisation unit selectors will be limited to only organisation units in this level')}</p>
+            <p>{i18n.t('To enable, click on the checkbox and then select an organisation unit level in the select field')}</p>
+            <p>{i18n.t('To disable this feature. uncheck the checkbox. With the checkbox unchecked, organisation unit selectors will allow selection for all organisation units')}</p>
+        </div>
+    }
+]
+
+export const OrgUnitDefaultSteps: Step[] = [
+    {
+        element: '#org-unit-default-config-field-container',
+        title: i18n.t('Default organisation unit'),
+        intro:
+            <p>{i18n.t('Here you can set the default organisation unit. This will be the pre-selected organisation unit whenever the application starts')}</p>
+    },
+]
 
 export const GeneralSteps = [
-    ...OrgUnitAccessSteps
+    ...OrgUnitAccessSteps,
+    ...OrgUnitPlanningSteps,
+    ...OrgUnitDefaultSteps
 ]
