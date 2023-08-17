@@ -1,5 +1,5 @@
-import {atomFamily, selectorFamily} from "recoil";
-import {BasePeriod} from "@hisptz/dhis2-utils";
+import { atomFamily, selectorFamily } from 'recoil'
+import { BasePeriod } from '@hisptz/dhis2-utils'
 
 export interface ColumnStateConfig {
     id: string;
@@ -30,7 +30,7 @@ export const VisibleColumnState = selectorFamily<ColumnStateConfig[], string>({
 export const TrackingColumnsState = selectorFamily<ActionTrackingColumnStateConfig[], string>({
     key: 'tracking-columns-state',
     get: (id: string) => ({get}) => {
-        const columns = get(ColumnState(id));
+        const columns = get(VisibleColumnState(id))
         return columns.filter(column => column.from === 'tracking') as ActionTrackingColumnStateConfig[];
     }
 })

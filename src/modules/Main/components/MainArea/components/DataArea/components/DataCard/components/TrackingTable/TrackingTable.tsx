@@ -28,7 +28,7 @@ export function TrackingTable ({
 
     if (loading) {
         return (
-            <div className="w-100">
+            <div className="w-100 h-100">
                 <table key={`loading`}>
                     <tbody>
                     <tr>
