@@ -210,8 +210,10 @@ function getGeneral (programs: Program[], defaultSettings: {
             tracking: snakeCase(defaultSettings.trackingPeriod).toUpperCase()
         },
         orgUnit: {
-
-            planning: defaultSettings.planningOrgUnitLevel,
+            planning: {
+                enabled: true,
+                levels: [defaultSettings.planningOrgUnitLevel]
+            },
             orgUnits: program.organisationUnits
         }
     }

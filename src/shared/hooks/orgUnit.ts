@@ -1,6 +1,8 @@
 import { useDataQuery } from '@dhis2/app-runtime'
-import { type OrganisationUnit } from '@hisptz/dhis2-utils'
+import { type OrganisationUnit, OrganisationUnitLevel } from '@hisptz/dhis2-utils'
 import { useUpdateEffect } from 'usehooks-ts'
+import { useEffect } from 'react'
+import { isEmpty } from 'lodash'
 
 const orgUnitQuery = {
     ou: {
@@ -33,6 +35,52 @@ export function useOrgUnit (initialId?: string | null) {
     return {
         loading,
         orgUnit: data?.ou,
+        refetch
+    }
+}
+
+const orgUnitLevelQuery = {
+    level: {
+        resource: 'organisationUnitLevels',
+        params: ({ ids }: any) => {
+            return {
+                fields: [
+                    'id',
+                    'displayName',
+                    'level'
+                ],
+                filter: [
+                    `id:in:[${ids.join(',')}]`
+                ]
+            }
+        }
+    }
+}
+
+export function useOrgUnitLevels (initialIds?: string[] | null) {
+    console.log({
+        initialIds
+    })
+    const {
+        refetch,
+        data,
+        loading
+    } = useDataQuery<{ level: { organisationUnitLevels: OrganisationUnitLevel[] } }>(orgUnitLevelQuery, {
+        variables: {
+            id: initialIds
+        },
+        lazy: true
+    })
+
+    useEffect(() => {
+        if (!isEmpty(initialIds)) {
+            refetch({ ids: initialIds }).catch(console.error)
+        }
+    }, [refetch, initialIds])
+
+    return {
+        loading,
+        levels: data?.level?.organisationUnitLevels,
         refetch
     }
 }

@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { DimensionFilterArea } from "./components/DimensionFilterArea";
-import { Header } from "./components/Header/Header";
-import { MainArea } from "./components/MainArea";
-import { useConfiguration } from "../../shared/hooks/config";
-import { useSearchParams } from "react-router-dom";
+import React, { useEffect } from 'react'
+import { DimensionFilterArea } from './components/DimensionFilterArea'
+import { Header } from './components/Header/Header'
+import { MainArea } from './components/MainArea'
+import { useConfiguration } from '../../shared/hooks/config'
+import { useSearchParams } from 'react-router-dom'
 
 export function MainConfigLoader ({ children }: { children: React.ReactNode | React.ReactNode[] | null | undefined }) {
     const [, setParams] = useSearchParams();
