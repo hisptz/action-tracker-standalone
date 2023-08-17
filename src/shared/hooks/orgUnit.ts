@@ -58,9 +58,6 @@ const orgUnitLevelQuery = {
 }
 
 export function useOrgUnitLevels (initialIds?: string[] | null) {
-    console.log({
-        initialIds
-    })
     const {
         refetch,
         data,
