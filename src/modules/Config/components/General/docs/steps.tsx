@@ -56,8 +56,47 @@ export const OrgUnitDefaultSteps: Step[] = [
     },
 ]
 
+export const PeriodSteps: Step[] = [
+    {
+        element: '#planning-frequency-field-container',
+        title: i18n.t('Planning frequency'),
+        intro: <div>
+            <p>{i18n.t('Planning frequency is the frequency at which you expect to plan your activities. When selected period selection will only be limited to periods of the frequency. When creating actions/activities, their start and end dates should be within the selected planning period.')}</p>
+            <p>
+                <b>{i18n.t('Note')}:</b>{i18n.t('The planning frequency should be greater or equal to the tracking period.')}
+            </p>
+        </div>
+    },
+    {
+        element: '#tracking-frequency-field-container',
+        title: i18n.t('Tracking frequency'),
+        intro: <div>
+            <p>{i18n.t('Tracking frequency is the frequency at which you expect to track your activities. It controls how frequent you are supposed to provide an activity status. While on tracking mode, this will control the type of periods in the tracking columns.')}</p>
+            <p>
+                <b>{i18n.t('Note')}:</b>{i18n.t('The tracking frequency should be less or equal to the planning period.')}
+            </p>
+        </div>
+    },
+    {
+        element: '#default-period-field-container',
+        title: i18n.t('Default period'),
+        intro:
+            <p>{i18n.t('Here you can set the default period. This will be the pre-selected period whenever the application starts')}</p>
+    },
+    {
+        element: 'div[data-test=\'default-period-year-selector\']',
+        title: i18n.t('Default period'),
+        intro:
+            <p>{i18n.t('You can change the year for the default period here.')}</p>
+    },
+
+]
+
+export const SaveChanges: Step[] = []
+
 export const GeneralSteps = [
     ...OrgUnitAccessSteps,
     ...OrgUnitPlanningSteps,
-    ...OrgUnitDefaultSteps
+    ...OrgUnitDefaultSteps,
+    ...PeriodSteps
 ]
