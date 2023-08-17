@@ -6,10 +6,11 @@ import classes from './DimensionFilterArea.module.css'
 import { useDimensions } from '../../../../shared/hooks'
 import { useBoolean } from 'usehooks-ts'
 import { compact, head } from 'lodash'
-import { OrgUnitSelectorModal, PeriodSelectorModal } from '@hisptz/dhis2-ui'
+import { OrgUnitSelectorModal } from '@hisptz/dhis2-ui'
 import { type OrgUnitSelection } from '@hisptz/dhis2-utils'
 import { ConfigureButton } from '../ConfigureButton'
 import { useOrgUnit } from '../../../../shared/hooks/orgUnit'
+import { CustomPeriodSelectorModal } from './components/CustomPeriodSelectorModal'
 
 export function DimensionFilterArea () {
     const {
@@ -29,7 +30,7 @@ export function DimensionFilterArea () {
         setFalse: showPeriod
     } = useBoolean(true)
 
-    const {loading, orgUnit: orgUnitWithData} = useOrgUnit(orgUnit?.id)
+    const { loading, orgUnit: orgUnitWithData } = useOrgUnit(orgUnit?.id)
 
     return (
         <div className={classes['selection-card']}>
@@ -68,21 +69,12 @@ export function DimensionFilterArea () {
                             selectedItems={compact([orgUnitWithData])}
                             title={i18n.t('Select organisation unit')}
                         />
-                        <PeriodSelectorModal
-                            singleSelection
-                            enablePeriodSelector
-                            position="middle"
-                            selectedPeriods={compact([period?.id])}
+                        <CustomPeriodSelectorModal
                             onClose={hidePeriod}
-                            hide={periodHidden} onUpdate={(periods) => {
-                            const value = head(periods)
-                            if (value) {
-                                if (typeof value === 'string') {
-                                    setPeriod(value)
-                                    hidePeriod()
-                                }
-                            }
-                        }}/>
+                            hide={periodHidden}
+                            onSelect={setPeriod}
+                            selected={period?.id}
+                        />
                         <DimensionSelection
                             onClick={showPeriod}
                             selectedItems={compact([period])}

@@ -3,17 +3,9 @@ import classes from '../../GetStarted.module.css'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Config } from '../../../../shared/schemas/config'
-import { Attribute } from '../../../../shared/types/dhis2'
 import { RHFDHIS2FormFieldProps } from '@hisptz/dhis2-ui'
 import { DataEngine } from '../../../../shared/types/engine'
 import { z } from 'zod'
-import valueType = Attribute.valueType
-
-export interface TemplateVariableConfig {
-    label: string;
-    type: valueType;
-    name: string;
-}
 
 export interface Template {
     id: string;
@@ -28,7 +20,6 @@ export interface Template {
 
 export interface TemplateCardProps {
     template: Template;
-
 }
 
 export default function TemplateCard ({ template }: TemplateCardProps) {

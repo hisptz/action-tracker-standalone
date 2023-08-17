@@ -2809,15 +2809,15 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hisptz/dhis2-ui@^1.0.51":
-  version "1.0.51"
-  resolved "https://registry.yarnpkg.com/@hisptz/dhis2-ui/-/dhis2-ui-1.0.51.tgz#45233d42e537951b39ec5f43983a482d0709bdf5"
-  integrity sha512-bgonZsFVVzZMw4uu1k4oI9zWIHTKvMyptTrBcNoWiZa4PUm+peXj4H/UhEGlsWlbQX1HMMc+dF7EOAtR10bm6A==
+"@hisptz/dhis2-ui@^1.0.52":
+  version "1.0.52"
+  resolved "https://registry.yarnpkg.com/@hisptz/dhis2-ui/-/dhis2-ui-1.0.52.tgz#05398a9b23c0245aaa652a338cb88c31b0e2a15c"
+  integrity sha512-mO9OLNEmLK//cReNaTXkYjiSID1gVMP4ugZGbW4YRVNiRUTdtz4b7bea6k1P5YcxkqjDTdEOy0Y0TW8JZ5zMkw==
   dependencies:
     "@dhis2/app-runtime" "^3.7.0"
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11.10.5"
-    "@hisptz/dhis2-utils" "^1.0.51"
+    "@hisptz/dhis2-utils" "^1.0.52"
     "@mui/material" "^5.11.8"
     "@react-buddy/ide-toolbox" "^2.3.1"
     classnames "^2.3.2"
@@ -2836,6 +2836,15 @@
   version "1.0.51"
   resolved "https://registry.yarnpkg.com/@hisptz/dhis2-utils/-/dhis2-utils-1.0.51.tgz#bc810e72ee1987506efe8bf228ad16606681bc5e"
   integrity sha512-AwwW3gASHFpIHA9OcXf3NrGyWVmUld7CTgD1gEiUpySucOXv9ZdeU72DkrMesRrDE7dG0elXZwvsaACo2vJmOA==
+  dependencies:
+    lodash "^4.17.21"
+    luxon "^3.0.1"
+    typescript "^4.6.3"
+
+"@hisptz/dhis2-utils@^1.0.52":
+  version "1.0.52"
+  resolved "https://registry.yarnpkg.com/@hisptz/dhis2-utils/-/dhis2-utils-1.0.52.tgz#ea11f3342001389d2ec1bd19821b49ab0f718554"
+  integrity sha512-dXSIjEuQQXn6MTnnsLdYbqHdEptNWj4dcKwVSuOhD6G5AAzzXa6wu2SXEk2E7om2BxXOcEx1OELJ35dI9HlRJw==
   dependencies:
     lodash "^4.17.21"
     luxon "^3.0.1"

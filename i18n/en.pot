@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-16T04:44:10.566Z\n"
-"PO-Revision-Date: 2023-08-16T04:44:10.566Z\n"
+"POT-Creation-Date: 2023-08-17T04:37:33.669Z\n"
+"PO-Revision-Date: 2023-08-17T04:37:33.669Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -231,6 +231,9 @@ msgstr "Select organisation unit"
 msgid "Select period"
 msgstr "Select period"
 
+msgid "Update"
+msgstr "Update"
+
 msgid "and {{number}} more"
 msgstr "and {{number}} more"
 
@@ -285,9 +288,6 @@ msgstr "{{action}} status"
 
 msgid "Updating"
 msgstr "Updating"
-
-msgid "Update"
-msgstr "Update"
 
 msgid "Saving"
 msgstr "Saving"
