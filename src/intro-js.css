@@ -1,0 +1,47 @@
+.custom-tooltip {
+    min-width: 500px;
+    max-width: 900px;
+}
+
+.custom-tooltip * {
+    font-family: "Roboto", sans-serif !important;
+}
+
+.introjs-tooltiptext > p * {
+    margin-bottom: 4px;
+}
+
+.introjs-tooltipReferenceLayer * {
+    font-family: "Roboto", sans-serif !important;
+}
+
+.introjs-button {
+    display: inline-flex;
+    position: relative;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.6, 1) 0s;
+    user-select: none;
+    color: rgb(33, 41, 52);
+    height: 36px;
+    padding: 0px 12px;
+    font-size: 14px;
+    line-height: 16px;
+    border: 1px solid rgb(160, 173, 186);
+    background-color: rgb(249, 250, 251);
+}
+
+.introjs-skipbutton {
+    font-size: 16px;
+}
+
+.introjs-tooltipbuttons {
+    border: none;
+}

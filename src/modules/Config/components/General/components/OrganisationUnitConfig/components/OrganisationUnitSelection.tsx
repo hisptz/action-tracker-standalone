@@ -16,7 +16,8 @@ export function OrganisationUnitSelection () {
     const selectedOrgUnitsCount = field?.value?.length ?? 0
 
     return (
-        <Field helpText={i18n.t('{{count}} organisation unit(s) selected', { count: selectedOrgUnitsCount })}
+        <Field id="org-unit-access-container" dataTest="org-unit-access"
+               helpText={i18n.t('{{count}} organisation unit(s) selected', { count: selectedOrgUnitsCount })}
                label={i18n.t('Allow planning and tracking for these organisation units')}>
             <div className="row gap-8 w-100">
                 <div className="flex-1">

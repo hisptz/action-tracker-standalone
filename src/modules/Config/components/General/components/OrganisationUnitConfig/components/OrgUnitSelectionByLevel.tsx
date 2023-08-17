@@ -76,7 +76,7 @@ export function OrgUnitSelectByGroup ({ field }: {
     }
 
     return (
-        <div className="row gap-8 align-end">
+        <div data-test="org-unit-group-access-selector" className="row gap-8 align-end">
         <MultiSelectField selected={selectedGroups ?? []}
     onChange={({ selected }: { selected: string[] }) => {
         setSelectedGroups(selected)

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-17T04:37:33.669Z\n"
-"PO-Revision-Date: 2023-08-17T04:37:33.669Z\n"
+"POT-Creation-Date: 2023-08-17T09:21:50.141Z\n"
+"PO-Revision-Date: 2023-08-17T09:21:50.141Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -120,14 +120,14 @@ msgstr "Access"
 msgid "Planning"
 msgstr "Planning"
 
-msgid "Default organisation unit"
-msgstr "Default organisation unit"
-
 msgid "Select all"
 msgstr "Select all"
 
 msgid "Deselect all"
 msgstr "Deselect all"
+
+msgid "Default organisation unit"
+msgstr "Default organisation unit"
 
 msgid "Limit planning of actions to specific organisation unit levels"
 msgstr "Limit planning of actions to specific organisation unit levels"
@@ -173,6 +173,44 @@ msgstr "Configure who can access this configuration and metadata associated"
 
 msgid "Configure sharing"
 msgstr "Configure sharing"
+
+msgid "Organisation unit access"
+msgstr "Organisation unit access"
+
+msgid ""
+"Here you can define the specific organisation units you want to allow "
+"planning and tracking."
+msgstr ""
+"Here you can define the specific organisation units you want to allow "
+"planning and tracking."
+
+msgid ""
+"To select an organisation click on the checkbox. You can also click on a "
+"checked box to un-select an organisation unit"
+msgstr ""
+"To select an organisation click on the checkbox. You can also click on a "
+"checked box to un-select an organisation unit"
+
+msgid ""
+"To select all organisation units in a level, choose the level from this "
+"selector and click select. To unselect all organisation units in the level "
+"click on deselect"
+msgstr ""
+"To select all organisation units in a level, choose the level from this "
+"selector and click select. To unselect all organisation units in the level "
+"click on deselect"
+
+msgid ""
+"To select all organisation units in a group, choose the group from this "
+"selector and click select. To unselect all organisation units in the group "
+"click on deselect"
+msgstr ""
+"To select all organisation units in a group, choose the group from this "
+"selector and click select. To unselect all organisation units in the group "
+"click on deselect"
+
+msgid "You can also search for a specific organisation unit here"
+msgstr "You can also search for a specific organisation unit here"
 
 msgid "Error saving changes"
 msgstr "Error saving changes"
@@ -225,14 +263,20 @@ msgstr "Please wait..."
 msgid "Configure"
 msgstr "Configure"
 
-msgid "Select organisation unit"
-msgstr "Select organisation unit"
-
 msgid "Select period"
 msgstr "Select period"
 
+msgid "Planning level"
+msgstr "Planning level"
+
 msgid "Update"
 msgstr "Update"
+
+msgid "Select organisation unit"
+msgstr "Select organisation unit"
+
+msgid "Planning period is"
+msgstr "Planning period is"
 
 msgid "and {{number}} more"
 msgstr "and {{number}} more"
