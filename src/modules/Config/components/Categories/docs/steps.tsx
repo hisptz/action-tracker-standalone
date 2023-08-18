@@ -71,3 +71,55 @@ export const ExistingMetadataSteps: Step[] = [
         </>
     }
 ]
+
+export const NewDataItemSteps: Step[] = [
+    {
+        intro: <>
+            <p>{i18n.t('This form allows you to create a new field. Fields marked with * are mandatory')}</p>
+        </>
+    },
+    {
+        element: '.display-name-config-container',
+        intro: <>
+            <p>{i18n.t('This is the name of the field in the form. It will also be the column name if the field is set to show in column')}</p>
+        </>
+    },
+    {
+        element: '.short-name-config-container',
+        intro: <>
+            <p>{i18n.t('This is a shorter version of the name. It should not exceed 50 characters.')}</p>
+        </>
+    },
+    {
+        element: '.type-config-container',
+        intro: <>
+            <p>{i18n.t('Here you can select the type of data this field should hold. Currently, supported field types include text, long text, number, and date. A file resource field is also supported for action status only.')}</p>
+        </>
+    },
+    {
+        element: '.mandatory-check-container',
+        intro: <>
+            {i18n.t('Checking this will make it mandatory in the data entry form for this category')}
+        </>
+    },
+    {
+        element: '.show-in-column-field',
+        intro: <>
+            <p>{i18n.t('Checking this will enable this field to appear as a card header for the first category and as a column in the planning table for the other categories. ')}</p>
+        </>
+    },
+    {
+        element: 'button[data-test=\'cancel-data-item-btn\']',
+
+        intro: <>
+            <p>{i18n.t('You can click cancel to ignore changes')}</p>
+        </>
+    },
+    {
+        element: 'button[data-test=\'add-data-item-btn\']',
+
+        intro: <>
+            <p>{i18n.t('When done you can click on add to add the field')}</p>
+        </>
+    }
+]
