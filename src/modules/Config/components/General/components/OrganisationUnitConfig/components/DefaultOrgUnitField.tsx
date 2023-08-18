@@ -14,14 +14,16 @@ export function DefaultOrgUnitField () {
     const { levels, loading } = useOrgUnitLevels(levelLimit?.levels)
 
     return (
-        <RHFDHIS2FormField
-            disabled={loading}
-            orgUnitProps={{
-                limitSelectionToLevels: levelLimit?.enabled ? compact(levels?.map(({ level }) => level)) : undefined
-            }}
-            label={i18n.t('Default organisation unit')}
-            valueType="ORGANISATION_UNIT"
-            name={name}
-        />
+        <div id="org-unit-default-config-field-container">
+            <RHFDHIS2FormField
+                disabled={loading}
+                orgUnitProps={{
+                    limitSelectionToLevels: levelLimit?.enabled ? compact(levels?.map(({ level }) => level)) : undefined
+                }}
+                label={i18n.t('Default organisation unit')}
+                valueType="ORGANISATION_UNIT"
+                name={name}
+            />
+        </div>
     )
 }

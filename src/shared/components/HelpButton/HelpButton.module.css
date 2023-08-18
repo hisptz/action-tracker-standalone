@@ -1,0 +1,16 @@
+.icon-button {
+    all: unset;
+    border-radius: 80%;
+    background: #E8EDF2;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+}
+
+.icon-button > svg {
+    padding: 4px;
+}
+
+.icon-button:hover {
+    background: #D5DDE5;
+}

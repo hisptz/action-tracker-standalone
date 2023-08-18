@@ -78,7 +78,7 @@ export function OrgUnitSelectByLevel ({ field }: {
     }
 
     return (
-        <div className="row gap-8 align-end">
+        <div data-test="org-unit-level-access-selector" className="row gap-8 align-end">
         <MultiSelectField selected={selectedLevels ?? []}
     onChange={({ selected }: { selected: string[] }) => {
         setSelectedLevels(selected)

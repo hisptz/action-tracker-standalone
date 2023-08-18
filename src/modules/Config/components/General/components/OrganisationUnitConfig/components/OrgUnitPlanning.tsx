@@ -35,7 +35,7 @@ export function OrgUnitPlanning () {
     }, [loading, data])
 
     return (
-        <>
+        <div data-test="org-unit-planning-config-container">
             <RHFCheckboxField label={i18n.t('Limit planning of actions to specific organisation unit levels')}
                               name={`${namespace}.enabled`}/>
             {
@@ -50,6 +50,6 @@ export function OrgUnitPlanning () {
                     />
                 )
             }
-        </>
+        </div>
     )
 }

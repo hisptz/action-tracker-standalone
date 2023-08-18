@@ -120,7 +120,7 @@ export function FieldTable ({
                                 <TableCell>{capitalize(field.type.replaceAll(/_/g, ' '))}</TableCell>
                                 <TableCell>{field.mandatory ? i18n.t('Yes') : i18n.t('No')}</TableCell>
                                 <TableCell>{type === 'attribute' && !actionTable ? field.header ? i18n.t('Yes') : i18n.t('No') : field.showAsColumn ? i18n.t('Yes') : i18n.t('No')}</TableCell>
-                                <TableCell>
+                                <TableCell dataTest="field-table-action">
                                     <ActionButton
                                         onEdit={() => {
                                             setUpdatingField(field)
@@ -145,6 +145,7 @@ export function FieldTable ({
                 </Table>
                 <div style={{ justifyContent: 'flex-end' }} className="row">
                     <DropdownButton
+                        dataTest="field-add-button"
                         open={menuOpen} onClick={toggleMenu}
                         component={
                             <FlyoutMenu>

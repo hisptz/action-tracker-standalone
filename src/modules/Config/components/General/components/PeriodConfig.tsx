@@ -7,31 +7,31 @@ import { useUpdateEffect } from 'usehooks-ts'
 import { type Config } from '../../../../../shared/schemas/config'
 import { InputField } from '@dhis2/ui'
 
-const namespace = `general.period`;
+const namespace = `general.period`
 
-export function TrackingConfig() {
-    const {setValue} = useFormContext()
+export function TrackingConfig () {
+    const { setValue } = useFormContext()
     const [planning, tracking] = useWatch({
         name: [`${namespace}.planning`, `${namespace}.tracking`]
-    });
+    })
 
     const trackingPeriods = useMemo(() => {
-        const periodUtility = new PeriodUtility().setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED);
-        const planningPeriodType = periodUtility.getPeriodType(planning);
+        const periodUtility = new PeriodUtility().setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED)
+        const planningPeriodType = periodUtility.getPeriodType(planning)
         if (!planningPeriodType) {
             return []
         }
-        return periodUtility.periodTypes.filter(({config}) => ((config.rank as number) < (planningPeriodType.config.rank as number) || config.rank === planningPeriodType.config.rank))?.map(({config}) => ({
+        return periodUtility.periodTypes.filter(({ config }) => ((config.rank as number) < (planningPeriodType.config.rank as number) || config.rank === planningPeriodType.config.rank))?.map(({ config }) => ({
             label: config.name,
             value: config.id
         }))
-    }, [planning]);
+    }, [planning])
 
     useUpdateEffect(() => {
         if (planning) {
-            const periodUtility = new PeriodUtility().setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED);
-            const planningPeriodType = periodUtility.getPeriodType(planning);
-            const trackingPeriodType = periodUtility.getPeriodType(tracking);
+            const periodUtility = new PeriodUtility().setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED)
+            const planningPeriodType = periodUtility.getPeriodType(planning)
+            const trackingPeriodType = periodUtility.getPeriodType(tracking)
             if (planningPeriodType && trackingPeriodType) {
                 if ((planningPeriodType?.config.rank as number) < (trackingPeriodType.config.rank as number)) {
                     setValue(`${namespace}.tracking`, undefined)
@@ -41,34 +41,36 @@ export function TrackingConfig() {
     }, [planning])
 
     return (
-        <RHFSingleSelectField
-            required
-            validations={{
-                required: {
-                    value: true,
-                    message: i18n.t("Tracking frequency is required")
-                }
-            }}
-            label={i18n.t("Tracking frequency")}
-            options={trackingPeriods}
-            name={`${namespace}.tracking`}
-        />
+        <div id="tracking-frequency-field-container">
+            <RHFSingleSelectField
+                required
+                validations={{
+                    required: {
+                        value: true,
+                        message: i18n.t('Tracking frequency is required')
+                    }
+                }}
+                label={i18n.t('Tracking frequency')}
+                options={trackingPeriods}
+                name={`${namespace}.tracking`}
+            />
+        </div>
     )
 }
 
-export function DefaultPeriod() {
+export function DefaultPeriod () {
     const [year, setYear] = useState(new Date().getFullYear())
-    const {setValue} = useFormContext<Config>()
+    const { setValue } = useFormContext<Config>()
 
     const [planning, defaultPeriod] = useWatch({
         name: [`${namespace}.planning`, `${namespace}.defaultPeriod`]
     })
 
     const periods = useMemo(() => {
-        if (!planning) return [];
-        const periodUtility = new PeriodUtility().setYear(year).setCategory(PeriodTypeCategory.FIXED);
-        const periodType = periodUtility.getPeriodType(planning);
-        return periodType?.periods.map(({name, id}) => ({
+        if (!planning) return []
+        const periodUtility = new PeriodUtility().setYear(year).setCategory(PeriodTypeCategory.FIXED)
+        const periodType = periodUtility.getPeriodType(planning)
+        return periodType?.periods.map(({ name, id }) => ({
             label: name,
             value: id
         })) ?? []
@@ -76,10 +78,10 @@ export function DefaultPeriod() {
 
     useUpdateEffect(() => {
         if (planning) {
-            const periodUtility = new PeriodUtility().setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED);
-            const periodType = periodUtility.getPeriodType(planning);
+            const periodUtility = new PeriodUtility().setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED)
+            const periodType = periodUtility.getPeriodType(planning)
             if (periodType) {
-                if (!periodType.periods.find(({id}) => id === defaultPeriod)) {
+                if (!periodType.periods.find(({ id }) => id === defaultPeriod)) {
                     setValue(`${namespace}.defaultPeriod`, undefined)
                 }
             }
@@ -88,45 +90,50 @@ export function DefaultPeriod() {
 
     return (
         <div className="row gap-16 space-between">
-            <div className="flex-1">
+            <div id="default-period-field-container" className="flex-1">
                 <RHFSingleSelectField
-                    label={i18n.t("Default period")}
+                    label={i18n.t('Default period')}
                     options={periods}
                     name={`${namespace}.defaultPeriod`}
                 />
             </div>
             <InputField
+                dataTest="default-period-year-selector"
                 name="year"
                 min={`2000`}
                 max={(new Date().getFullYear() + 1).toString()}
-                label={i18n.t("Year")}
+                label={i18n.t('Year')}
                 value={year.toString()}
-                onChange={({value}: { value: string }) => { setYear(parseInt(value)); }} type="number"
+                onChange={({ value }: { value: string }) => {
+                    setYear(parseInt(value))
+                }} type="number"
             />
         </div>
     )
 }
 
-export function PeriodConfig() {
+export function PeriodConfig () {
     const periodTypes = useMemo(() => {
-        const periodUtility = new PeriodUtility().setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED);
-        return periodUtility.periodTypes?.map(({config}) => ({label: config.name, value: config.id}))
-    }, []);
+        const periodUtility = new PeriodUtility().setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED)
+        return periodUtility.periodTypes?.map(({ config }) => ({ label: config.name, value: config.id }))
+    }, [])
 
     return (
         <div className="column gap-16">
-            <RHFSingleSelectField
-                required
-                validations={{
-                    required: {
-                        value: true,
-                        message: i18n.t("Planning frequency is required")
-                    }
-                }}
-                label={i18n.t("Planning frequency")}
-                options={periodTypes}
-                name={`${namespace}.planning`}
-            />
+            <div id="planning-frequency-field-container">
+                <RHFSingleSelectField
+                    required
+                    validations={{
+                        required: {
+                            value: true,
+                            message: i18n.t('Planning frequency is required')
+                        }
+                    }}
+                    label={i18n.t('Planning frequency')}
+                    options={periodTypes}
+                    name={`${namespace}.planning`}
+                />
+            </div>
             <TrackingConfig/>
             <DefaultPeriod/>
         </div>
