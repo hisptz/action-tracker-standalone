@@ -119,7 +119,7 @@ export function ActionStatusOptionsConfig () {
                                             <DHIS2Icon iconName={style.icon} size={24} color={'#000'}/>
                                         </Tooltip>
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell dataTest="action-status-options-cell">
                                         <ActionButton
                                             onEdit={() => {
                                                 setSelectedOption(option)
@@ -149,7 +149,7 @@ export function ActionStatusOptionsConfig () {
                 </TableBody>
             </Table>
             <div className="row end">
-                <Button onClick={onShow}>{i18n.t('Add option')}</Button>
+                <Button dataTest="action-status-option-add-btn" onClick={onShow}>{i18n.t('Add option')}</Button>
             </div>
         </div>
     )

@@ -6,7 +6,7 @@ const namespace = `action`
 
 export function ActionFields () {
     return (
-        <div className="column gap-8">
+        <div className="column action-field-table-container gap-8">
             <b>{i18n.t('Fields')}</b>
             <FieldTable excludeFieldTypes={['FILE_RESOURCE']} actionTable namespace={namespace} type={'attribute'}/>
         </div>
