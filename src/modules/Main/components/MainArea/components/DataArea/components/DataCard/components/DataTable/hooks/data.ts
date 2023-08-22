@@ -28,8 +28,10 @@ const trackedEntitiesQuery: any = {
             order: 'createdAt:asc',
             fields: [
                 'trackedEntity',
+                'trackedEntityType',
+                'orgUnit',
                 'attributes',
-                'enrollments[enrollment,orgUnit,program]'
+                'enrollments[enrollment,orgUnit,program,enrolledAt,occurredAt]'
             ],
         })
     }

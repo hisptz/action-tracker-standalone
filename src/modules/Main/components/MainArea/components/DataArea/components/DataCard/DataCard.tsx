@@ -71,15 +71,17 @@ function CardHeader ({
 
     return (
         <>
-            <Form
-                onSaveComplete={refetch}
-                defaultValue={data}
-                instanceName={instanceConfig.name}
-                id={instanceConfig.id}
-                type="program"
-                hide={hide}
-                onClose={onHide}
-            />
+            {
+                !hide && <Form
+                    onSaveComplete={refetch}
+                    defaultValue={data}
+                    instanceName={instanceConfig.name}
+                    id={instanceConfig.id}
+                    type="program"
+                    hide={hide}
+                    onClose={onHide}
+                />
+            }
             <div className="row space-between align-center p-16">
                 <h2 style={{ margin: 0 }}>{title}</h2>
                 <ButtonStrip>

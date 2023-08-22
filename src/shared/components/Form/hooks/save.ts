@@ -5,7 +5,7 @@ import { useFormMeta } from './metadata'
 import { useDimensions } from '../../../hooks'
 import i18n from '@dhis2/d2-i18n'
 import { ParentConfig } from '../../../schemas/config'
-import { fromPairs, get, isEmpty } from 'lodash'
+import { fromPairs, get, head, isEmpty } from 'lodash'
 import { useConfiguration } from '../../../hooks/config'
 import { DataElement, TrackedEntityAttribute } from '../../../types/dhis2'
 import { useUploadFile } from '../../../hooks/files'
@@ -78,15 +78,22 @@ function generateTei (data: Record<string, any>, {
 }
 
 function updateTei (data: Record<string, any>, tei: any, fields: TrackedEntityAttribute[]) {
-    const attributes = fields.map(({ id }) => {
+    const attributes = Object.keys(data).map((key) => {
         return {
-            attribute: id,
-            value: data[id]
+            attribute: key,
+            value: data[key]
         }
     })
     return {
         ...tei,
-        attributes
+        attributes,
+        enrollments: [
+            {
+                ...(head(tei.enrollments) ?? {}),
+                events: [],
+                attributes
+            }
+        ]
     }
 }
 
@@ -170,10 +177,10 @@ export function generateEvent (data: Record<string, any>, {
 }
 
 export function updateEvent (data: Record<string, any>, event: any, fields: DataElement[]) {
-    const dataValues = fields.map(({ id }) => {
+    const dataValues = Object.keys(data)?.map((key) => {
         return {
-            dataElement: id,
-            value: data[id]
+            dataElement: key,
+            value: data[key]
         }
     })
 
@@ -276,10 +283,9 @@ export function useFormActions ({
                 const enrollment = updateTei(data, defaultValue, instanceMeta?.programTrackedEntityAttributes.map(({ trackedEntityAttribute }: {
                     trackedEntityAttribute: TrackedEntityAttribute
                 }) => trackedEntityAttribute))
-                delete enrollment['events']
                 await uploadPayload({
                     data: {
-                        enrollments: [
+                        trackedEntities: [
                             enrollment
                         ]
                     }
@@ -327,7 +333,7 @@ export function useFormActions ({
                 }
                 let trackedEntity
                 let enrollment
-                
+
                 if (parentConfig?.type === 'program') {
                     //Parent instance is a tracked entity
                     trackedEntity = parent.instance.trackedEntity

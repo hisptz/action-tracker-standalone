@@ -27,8 +27,10 @@ const dataQuery: any = {
                 orgUnit,
                 fields: [
                     'trackedEntity',
+                    'trackedEntityType',
+                    'orgUnit',
                     'attributes[attribute,value]',
-                    'enrollments[enrollment]'
+                    'enrollments[enrollment,orgUnit,enrolledAt,occurredAt,program]'
                 ]
             }
         }
