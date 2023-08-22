@@ -6,31 +6,31 @@ import { useConfiguration } from '../../shared/hooks/config'
 import { useSearchParams } from 'react-router-dom'
 
 export function MainConfigLoader ({ children }: { children: React.ReactNode | React.ReactNode[] | null | undefined }) {
-    const [, setParams] = useSearchParams();
-    const { config } = useConfiguration();
+    const [, setParams] = useSearchParams()
+    const { config } = useConfiguration()
 
     useEffect(() => {
         if (config) {
-            const defaultPeriod = config.general.period.defaultPeriod;
-            const defaultOrgUnit = config.general.orgUnit.defaultOrgUnit;
+            const defaultPeriod = config.general.period.defaultPeriod
+            const defaultOrgUnit = config.general.orgUnit.defaultOrgUnit
             if (defaultOrgUnit !== undefined || defaultPeriod !== undefined) {
                 setParams((prev) => {
-                    const updatedParams = new URLSearchParams(prev);
+                    const updatedParams = new URLSearchParams(prev)
                     if (defaultPeriod) {
-                        updatedParams.set("pe", defaultPeriod);
+                        updatedParams.set('pe', defaultPeriod)
                     }
                     if (defaultOrgUnit) {
-                        updatedParams.set("ou", defaultOrgUnit);
+                        updatedParams.set('ou', defaultOrgUnit)
                     }
-                    return updatedParams;
-                });
+                    return updatedParams
+                })
             }
         }
-    }, [config]);
+    }, [config])
 
     return <>
         {children}
-    </>;
+    </>
 }
 
 export function Main () {
@@ -46,5 +46,5 @@ export function Main () {
                 </div>
             </div>
         </MainConfigLoader>
-    );
+    )
 }
