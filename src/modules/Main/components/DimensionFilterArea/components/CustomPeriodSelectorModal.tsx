@@ -39,7 +39,6 @@ export function CustomPeriodSelectorModal ({ hide, selected, onSelect, onClose }
                         enablePeriodSelector
                         excludeRelativePeriods
                         excludedPeriodTypes={excludedPeriodTypes}
-                        defaultInputType="period"
                         singleSelection
                         selectedPeriods={compact([selectedPeriods])}
                         onSelect={({ items }) => {

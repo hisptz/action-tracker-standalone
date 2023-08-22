@@ -3,6 +3,7 @@
 
 [![action-tracker-standalone](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/demzvf/develop&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/demzvf/runs)
 [![dhis2: tests](https://github.com/hisptz/action-tracker-standalone/actions/workflows/tests.yml/badge.svg?branch=develop)](https://github.com/hisptz/action-tracker-standalone/actions/workflows/tests.yml)
+[![wakatime](https://wakatime.com/badge/user/0c5fcd9b-1438-45c2-be4d-34c5dcd5eaa1/project/d8ced67b-4040-4240-8823-391da1d7be3b.svg)](https://wakatime.com/badge/user/0c5fcd9b-1438-45c2-be4d-34c5dcd5eaa1/project/d8ced67b-4040-4240-8823-391da1d7be3b)
 
 1.  [Introduction](#Introduction)
 
