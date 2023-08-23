@@ -64,6 +64,7 @@ export function DataItemSelect ({
             ...data,
             type: selectedValue.valueType as any,
             name: selectedValue.formName ?? selectedValue.shortName,
+            optionSet: selectedValue.optionSet
         }
         onAdd(sanitizedData)
         onCloseClick()

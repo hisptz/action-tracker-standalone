@@ -12,7 +12,8 @@ const dataElementQuery = {
                 'shorName',
                 'formName',
                 'displayName',
-                'valueType'
+                'valueType',
+                'optionSet[id]',
             ],
             filter: compact([
                 'domainType:eq:TRACKER',
@@ -32,7 +33,8 @@ const attributesQuery = {
                 'shorName',
                 'displayName',
                 'formName',
-                'valueType'
+                'valueType',
+                'optionSet[id]'
             ],
             filter: compact([
                 !isEmpty(excludeFieldTypes) ? `valueType:!in:[${excludeFieldTypes.join(',')}]` : undefined
@@ -54,7 +56,14 @@ export function useDataItems (type: 'dataElement' | 'attribute', {
         error: dEError
     } = useDataQuery<{
         items: {
-            dataElements: { id: string; shortName: string; formName: string; valueType: string; displayName: string }[],
+            dataElements: {
+                id: string;
+                shortName: string;
+                formName: string;
+                valueType: string;
+                displayName: string;
+                optionSet: { id: string }
+            }[],
         }
     }>(dataElementQuery, {
         lazy: type !== 'dataElement',
@@ -74,6 +83,7 @@ export function useDataItems (type: 'dataElement' | 'attribute', {
                 formName: string;
                 valueType: string;
                 displayName: string;
+                optionSet: { id: string }
             }[],
         }
     }>(attributesQuery, {
@@ -100,7 +110,7 @@ export function useDataItems (type: 'dataElement' | 'attribute', {
             label: formName || shortName || displayName,
             value: id
         }))
-    }, [values]);
+    }, [values])
 
     return {
         values,
