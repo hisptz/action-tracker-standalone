@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-18T07:35:31.054Z\n"
-"PO-Revision-Date: 2023-08-18T07:35:31.054Z\n"
+"POT-Creation-Date: 2023-08-23T04:10:11.214Z\n"
+"PO-Revision-Date: 2023-08-23T04:10:11.214Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -758,6 +758,12 @@ msgstr "Data item is required"
 
 msgid "Data item"
 msgstr "Data item"
+
+msgid "Something went wrong"
+msgstr "Something went wrong"
+
+msgid "Reload"
+msgstr "Reload"
 
 msgid "Required"
 msgstr "Required"

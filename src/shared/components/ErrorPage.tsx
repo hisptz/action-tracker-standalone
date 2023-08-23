@@ -3,8 +3,11 @@ import React, { useState } from 'react'
 import { useRouteError } from 'react-router-dom'
 import i18n from '@dhis2/d2-i18n'
 
-export default function ErrorPage () {
-    const error = useRouteError() as Error
+export default function ErrorPage ({
+                                       error: errorFromBoundary,
+                                       resetErrorBoundary
+                                   }: { error?: Error, resetErrorBoundary?: () => void }) {
+    const error = errorFromBoundary ?? useRouteError() as Error
     const [showStack, setShowStack] = useState(false)
     return (
         <div style={{ minHeight: 400 }} className="h-100 w-100 column center align-center">
@@ -32,7 +35,13 @@ export default function ErrorPage () {
                 )
             }
             <ButtonStrip>
-                <Button onClick={() => window.location.reload()}>{i18n.t('Reload')}</Button>
+                <Button onClick={() => {
+                    if (resetErrorBoundary) {
+                        resetErrorBoundary()
+                        return
+                    }
+                    window.location.reload()
+                }}>{i18n.t('Reload')}</Button>
                 <Button
                     onClick={() => setShowStack(prevState => !prevState)}>{showStack ? `Hide` : 'Show'} details</Button>
             </ButtonStrip>

@@ -6,15 +6,17 @@ import { AddButton } from './components/AddButton'
 import { ManageColumns } from './components/ManageColumns'
 import { Download } from './components/Download/Download'
 import { DataProvider } from './components/DataProvider'
+import { ErrorBoundary } from 'react-error-boundary'
+import ErrorPage from '../../../../shared/components/ErrorPage'
 
 export function MainArea () {
     const {
         orgUnit,
         period
-    } = useDimensions();
+    } = useDimensions()
 
     if ((orgUnit === undefined) || (period === undefined)) {
-        return <DimensionsNotSelected/>;
+        return <DimensionsNotSelected/>
     }
 
     return (
@@ -31,11 +33,13 @@ export function MainArea () {
                 </div>
                 <div style={{
                     flexGrow: 1,
-                    height: "100%"
+                    height: '100%'
                 }}>
-                    <DataArea/>
+                    <ErrorBoundary resetKeys={[orgUnit, period]} FallbackComponent={ErrorPage}>
+                        <DataArea/>
+                    </ErrorBoundary>
                 </div>
             </div>
         </DataProvider>
-    );
+    )
 }
