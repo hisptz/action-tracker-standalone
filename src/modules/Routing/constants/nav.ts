@@ -46,7 +46,7 @@ export const ROUTES: NavItem[] = [
             {
                 path: '',
                 element: Main,
-                id: 'main'
+                id: 'main',
             },
             {
                 path: 'planning',

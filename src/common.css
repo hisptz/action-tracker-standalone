@@ -150,3 +150,18 @@ label > span:nth-child(2) {
 .m-0 {
     margin: 0;
 }
+
+.size-32 > svg {
+    width: 32px;
+    height: 32px;
+}
+
+.size-64 > svg {
+    width: 64px;
+    height: 64px;
+}
+
+.size-48 > svg {
+    width: 48px;
+    height: 48px;
+}
