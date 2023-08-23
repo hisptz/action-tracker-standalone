@@ -42,19 +42,21 @@ export function CustomOrgUnitSelectorModal ({ hide, selected, onSelect, onClose 
                         !planningLimitEnabled ? <></> :
                             <span>{i18n.t('Planning level')}<b>{`: ${levelLoading ? '...' : levels?.map(({ displayName }) => displayName).join(', ') ?? ''}`}</b></span>
                     }
-                    <OrgUnitSelector
-                        limitSelectionToLevels={planningLimitEnabled ? compact(levels?.map(({ level }) => level)) : undefined}
-                        singleSelection
-                        value={{
-                            orgUnits: compact([
-                                selectedOrgUnits
-                            ])
-                        }}
-                        searchable
-                        onUpdate={(value) => {
-                            setSelectedOrgUnits(last(value.orgUnits))
-                        }}
-                    />
+                    {
+                        !hide && <OrgUnitSelector
+                            limitSelectionToLevels={planningLimitEnabled ? compact(levels?.map(({ level }) => level)) : undefined}
+                            singleSelection
+                            value={{
+                                orgUnits: compact([
+                                    selectedOrgUnits
+                                ])
+                            }}
+                            searchable
+                            onUpdate={(value) => {
+                                setSelectedOrgUnits(last(value.orgUnits))
+                            }}
+                        />
+                    }
                 </div>
             </ModalContent>
             <ModalActions>
