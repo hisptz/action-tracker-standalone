@@ -6,10 +6,12 @@ const dataElementQuery = {
     items: {
         resource: 'dataElements',
         params: ({ excludeFieldTypes }: any) => ({
+            pageSize: 200,
             fields: [
                 'id',
                 'shorName',
                 'formName',
+                'displayName',
                 'valueType'
             ],
             filter: compact([
@@ -24,9 +26,11 @@ const attributesQuery = {
     items: {
         resource: 'trackedEntityAttributes',
         params: ({ excludeFieldTypes }: any) => ({
+            pageSize: 200,
             fields: [
                 'id',
                 'shorName',
+                'displayName',
                 'formName',
                 'valueType'
             ],
@@ -50,7 +54,7 @@ export function useDataItems (type: 'dataElement' | 'attribute', {
         error: dEError
     } = useDataQuery<{
         items: {
-            dataElements: { id: string; shortName: string; formName: string; valueType: string; }[],
+            dataElements: { id: string; shortName: string; formName: string; valueType: string; displayName: string }[],
         }
     }>(dataElementQuery, {
         lazy: type !== 'dataElement',
@@ -64,7 +68,13 @@ export function useDataItems (type: 'dataElement' | 'attribute', {
         error: attrError
     } = useDataQuery<{
         items: {
-            trackedEntityAttributes: { id: string; shortName: string; formName: string; valueType: string; }[],
+            trackedEntityAttributes: {
+                id: string;
+                shortName: string;
+                formName: string;
+                valueType: string;
+                displayName: string;
+            }[],
         }
     }>(attributesQuery, {
         lazy: type !== 'attribute',
@@ -83,12 +93,16 @@ export function useDataItems (type: 'dataElement' | 'attribute', {
     const options = useMemo(() => {
         return values?.map(({
                                 formName,
+                                shortName,
+                                displayName,
                                 id
                             }) => ({
-            label: formName,
+            label: formName || shortName || displayName,
             value: id
         }))
-    }, [values])
+    }, [values]);
+
+    console.log({ options })
     return {
         values,
         options,
