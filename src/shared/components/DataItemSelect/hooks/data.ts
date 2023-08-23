@@ -102,7 +102,6 @@ export function useDataItems (type: 'dataElement' | 'attribute', {
         }))
     }, [values]);
 
-    console.log({ options })
     return {
         values,
         options,
