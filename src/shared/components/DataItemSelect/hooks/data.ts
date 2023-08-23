@@ -6,11 +6,14 @@ const dataElementQuery = {
     items: {
         resource: 'dataElements',
         params: ({ excludeFieldTypes }: any) => ({
+            pageSize: 200,
             fields: [
                 'id',
                 'shorName',
                 'formName',
-                'valueType'
+                'displayName',
+                'valueType',
+                'optionSet[id]',
             ],
             filter: compact([
                 'domainType:eq:TRACKER',
@@ -24,11 +27,14 @@ const attributesQuery = {
     items: {
         resource: 'trackedEntityAttributes',
         params: ({ excludeFieldTypes }: any) => ({
+            pageSize: 200,
             fields: [
                 'id',
                 'shorName',
+                'displayName',
                 'formName',
-                'valueType'
+                'valueType',
+                'optionSet[id]'
             ],
             filter: compact([
                 !isEmpty(excludeFieldTypes) ? `valueType:!in:[${excludeFieldTypes.join(',')}]` : undefined
@@ -50,7 +56,14 @@ export function useDataItems (type: 'dataElement' | 'attribute', {
         error: dEError
     } = useDataQuery<{
         items: {
-            dataElements: { id: string; shortName: string; formName: string; valueType: string; }[],
+            dataElements: {
+                id: string;
+                shortName: string;
+                formName: string;
+                valueType: string;
+                displayName: string;
+                optionSet: { id: string }
+            }[],
         }
     }>(dataElementQuery, {
         lazy: type !== 'dataElement',
@@ -64,7 +77,14 @@ export function useDataItems (type: 'dataElement' | 'attribute', {
         error: attrError
     } = useDataQuery<{
         items: {
-            trackedEntityAttributes: { id: string; shortName: string; formName: string; valueType: string; }[],
+            trackedEntityAttributes: {
+                id: string;
+                shortName: string;
+                formName: string;
+                valueType: string;
+                displayName: string;
+                optionSet: { id: string }
+            }[],
         }
     }>(attributesQuery, {
         lazy: type !== 'attribute',
@@ -83,12 +103,15 @@ export function useDataItems (type: 'dataElement' | 'attribute', {
     const options = useMemo(() => {
         return values?.map(({
                                 formName,
+                                shortName,
+                                displayName,
                                 id
                             }) => ({
-            label: formName,
+            label: formName || shortName || displayName,
             value: id
         }))
     }, [values])
+
     return {
         values,
         options,

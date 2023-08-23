@@ -41,7 +41,8 @@ export const ExistingMetadataSteps: Step[] = [
     {
         element: 'div[data-test=\'data-item-select-container\']',
         intro: <>
-            <p>{i18n.t('You can select an existing data item from this list. For the first category, these will be tracked entity attributes. For all following categories these will be data elements')}</p>
+            <p>{i18n.t('You can select an existing data item from this list. For the first category, these will be tracked entity attributes. For all following categories these will be data elements.')}</p>
+            <p>{i18n.t('When selected, this data item metadata will be modified to match other standalone action tracker metadata. This may affect how this data item is used in other programs. We recommend you create a new data item if you are not sure of the data item\'s usage. ')}</p>
         </>
     },
     {

@@ -13,7 +13,12 @@ export interface CustomPeriodSelectorModalProps {
     selected?: string
 }
 
-export function CustomPeriodSelectorModal ({ hide, selected, onSelect, onClose }: CustomPeriodSelectorModalProps) {
+export function CustomPeriodSelectorModal ({
+                                               hide,
+                                               selected,
+                                               onSelect,
+                                               onClose
+                                           }: CustomPeriodSelectorModalProps) {
     const [selectedPeriods, setSelectedPeriods] = useState<string | undefined>(selected)
     const { config } = useConfiguration()
     const planningPeriodType = config?.general.period.planning
@@ -35,19 +40,21 @@ export function CustomPeriodSelectorModal ({ hide, selected, onSelect, onClose }
             <ModalContent>
                 <div className="column gap-16">
                     <span>{i18n.t('Planning period is')}<b>{` ${planningPeriod.config.name}`}</b></span>
-                    <PeriodSelector
-                        enablePeriodSelector
-                        excludeRelativePeriods
-                        excludedPeriodTypes={excludedPeriodTypes}
-                        singleSelection
-                        selectedPeriods={compact([selectedPeriods])}
-                        onSelect={({ items }) => {
-                            const value = head(items)
-                            if (typeof value === 'string') {
-                                setSelectedPeriods(value)
-                            }
-                        }}
-                    />
+                    {
+                        !hide && <PeriodSelector
+                            enablePeriodSelector
+                            excludeRelativePeriods
+                            excludedPeriodTypes={excludedPeriodTypes}
+                            singleSelection
+                            selectedPeriods={compact([selectedPeriods])}
+                            onSelect={({ items }) => {
+                                const value = head(items)
+                                if (typeof value === 'string') {
+                                    setSelectedPeriods(value)
+                                }
+                            }}
+                        />
+                    }
                 </div>
             </ModalContent>
             <ModalActions>

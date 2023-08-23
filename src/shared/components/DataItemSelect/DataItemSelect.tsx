@@ -63,7 +63,8 @@ export function DataItemSelect ({
         const sanitizedData: DataField = {
             ...data,
             type: selectedValue.valueType as any,
-            name: selectedValue.formName ?? selectedValue.shortName,
+            name: selectedValue.formName || selectedValue.shortName || selectedValue.displayName,
+            optionSet: selectedValue.optionSet
         }
         onAdd(sanitizedData)
         onCloseClick()
