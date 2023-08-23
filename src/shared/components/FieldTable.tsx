@@ -88,7 +88,6 @@ export function FieldTable ({
 
     const fieldShowType = type === 'dataElement' || actionTable ? 'column' : 'header'
 
-
     return (
         <>
             {
@@ -98,10 +97,13 @@ export function FieldTable ({
                                         onClose={onCloseClick}
                                         onAdd={onFieldAdd}/>)
             }
-            <DataItemSelect excludeFieldTypes={excludeFieldTypes} onAdd={onFieldAdd} key={`${namespace}-select-field`}
-                            filtered={fieldIds} type={type}
-                            hide={hideSelect}
-                            onClose={onHideSelect}/>
+            {
+                !hideSelect && <DataItemSelect excludeFieldTypes={excludeFieldTypes} onAdd={onFieldAdd}
+                                               key={`${namespace}-select-field`}
+                                               filtered={fieldIds} type={type}
+                                               hide={hideSelect}
+                                               onClose={onHideSelect}/>
+            }
             <div className="column gap-16">
                 <Table>
                     <TableHead>
