@@ -34,7 +34,7 @@ export function DataArea () {
     if (isEmpty(categoryData)) {
         return (
             <div className="column w-100 h-100 align-center center gap-16">
-                <h1 style={{ color: colors.grey800 }}>{i18n.t('There are is no data for the the selected dimensions.')}</h1>
+                <h1 style={{ color: colors.grey800 }}>{i18n.t('There is no data for the the selected dimensions.')}</h1>
                 <AddButton primary/>
             </div>
         )

@@ -260,13 +260,20 @@ export function useFormActions ({
         const fileFields = fields.filter(({ valueType }) => valueType === 'FILE_RESOURCE')
         if (isEmpty(fileFields)) return data
         const fileData = fromPairs(await mapSeries(fileFields, asyncify(async (field: { name: string }) => {
-            const value = await uploadFile({
-                file: data[field.name]
-            })
-            return [
-                field.name,
-                value
-            ]
+            if (data[field.name]) {
+                const value = await uploadFile({
+                    file: data[field.name]
+                })
+                return [
+                    field.name,
+                    value
+                ]
+            } else {
+                return [
+                    field.name,
+                    data[field.name]
+                ]
+            }
         })) as Array<[string, string]>)
 
         return {

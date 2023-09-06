@@ -39,6 +39,10 @@ export function DataView ({
             return find(options, { code: value })?.name ?? null
         }
 
+        if (!value) {
+            return null
+        }
+
         switch (fieldMetadata?.valueType as any) {
 
             case 'TEXT':
