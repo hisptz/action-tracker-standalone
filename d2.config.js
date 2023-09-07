@@ -1,6 +1,6 @@
 const config = {
     type: 'app',
-    title: 'Standalone Action Tracker',
+    title: 'Real Time Supervision tool',
     entryPoints: {
         app: './src/App.tsx',
     },
