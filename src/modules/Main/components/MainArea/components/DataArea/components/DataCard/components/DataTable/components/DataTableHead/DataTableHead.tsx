@@ -8,16 +8,13 @@ export function DataTableHead () {
 
     return (
         <>
-            {
-                columns?.map((header, index) => (
-                    <col id={header.id} width={`${header.width}%`} key={`${header.id}-colgroup-table-head`}/>))
-            }
             <TableHead className={classes['header-container']}>
 
                 <TableRow className={classes['header-row']}>
                     {
                         columns?.map((header, index) => (
-                            <th className={classes['header-cell']}
+                            <th
+                                className={classes['header-cell']}
                                 key={`${header.id}-table-head`}>{header.name}</th>
                         ))
                     }

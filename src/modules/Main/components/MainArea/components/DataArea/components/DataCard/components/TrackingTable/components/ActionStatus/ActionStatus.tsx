@@ -1,4 +1,4 @@
-import { ActionTrackingColumnStateConfig } from '../../../../state/columns'
+import { ActionTrackingColumnStateConfig, ColumnStateConfig } from '../../../../state/columns'
 import React, { Fragment, useMemo } from 'react'
 import { useDimensions } from '../../../../../../../../../../../../shared/hooks'
 import { compact, find, get } from 'lodash'
@@ -25,7 +25,8 @@ export interface ActionStatusProps {
     instance: any,
     events: any[]
     columnConfig: ActionTrackingColumnStateConfig,
-    columnCount: number
+    columns: ColumnStateConfig[],
+    allColumns: ColumnStateConfig[]
 }
 
 export function ActionStatus ({
@@ -33,7 +34,8 @@ export function ActionStatus ({
                                   columnConfig,
                                   events,
                                   refetch,
-                                  columnCount
+                                  allColumns,
+                                  columns
                               }: ActionStatusProps) {
     const {
         value: hide,
@@ -121,7 +123,8 @@ export function ActionStatus ({
 
     if (!statusEvent) {
         return (
-            <td style={{ width: `${(100 / columnCount)}%` }} className={classes['tracking-value-cell']}>
+            <td style={{ width: 'auto' }}
+                className={classes['tracking-value-cell']}>
                 <ActionStatusForm onComplete={onActionManageComplete} columnConfig={columnConfig} onClose={onHide}
                                   hide={hide} instance={instance}/>
                 <div className="w-100 h-100 column center align-center">
@@ -139,7 +142,10 @@ export function ActionStatus ({
     const color = selectedOption?.style.color ?? '#FFFFFF'
 
     return (
-        <td style={{ background: hexToRgba(color, .4) ?? 'transparent', width: `${(100 / columnCount)}%` }}
+        <td style={{
+            background: hexToRgba(color, .4) ?? 'transparent',
+            width: 'auto'
+        }}
             className={classes['tracking-value-cell']}>
             <ActionStatusForm
                 defaultValue={statusEvent}

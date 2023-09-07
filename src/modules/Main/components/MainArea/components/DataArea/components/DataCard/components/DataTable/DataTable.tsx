@@ -84,6 +84,7 @@ export function DataTable ({
 
     const {
         columns,
+        allColumns,
         childTableColSpan
     } = useTableColumns(config)
 
@@ -164,13 +165,6 @@ export function DataTable ({
         )
     }
 
-    const calculateColumnWidth = (width: number) => {
-        /*
-        * I honestly wished you had seen the code I had written here. It was a masterpiece util it didn't work. But somehow a zero solves all problems. I wish someday I will know why
-        *  */
-        return 0
-    }
-
     return (
         <div className="column w-100">
             <div style={{
@@ -183,14 +177,9 @@ export function DataTable ({
                     margin: 0,
                     borderSpacing: 0,
                     borderCollapse: 'collapse',
+                    border: 'none',
                     width: '100%'
                 }}>
-                    {
-                        columns?.map((header,) => (
-                            <col id={header.id}
-                                 width={`${calculateColumnWidth(header.width)}%`}
-                                 key={`${header.id}-colgroup`}/>))
-                    }
                     {
                         !hide && (
                             <Form
@@ -213,10 +202,13 @@ export function DataTable ({
                                         columns.map((column, columnIndex) => (
                                             columnIndex === columns.length - 1 ?
                                                 <td
+                                                    style={{
+                                                        width: 'auto'
+                                                    }}
                                                     className={classes['value-cell']}
                                                     key={`${row.id}-${column.id}-${columnIndex}`}>
-                                                    <div className="w-100 h-100 row gap-8 space-between">
-                                                        <div className="flex-1 w-100 h-100 column center">
+                                                    <div className="h-100 row gap-8 space-between">
+                                                        <div className="flex-1 h-100 column center">
                                                             <DataView
                                                                 instance={row.instance}
                                                                 fieldId={column.id}
@@ -240,10 +232,14 @@ export function DataTable ({
                                                             />
                                                         </div>
                                                     </div>
-                                                </td> : <TableCell className={classes['value-cell']}
-                                                                   key={`${row.id}-${column.id}-${columnIndex}`}>
+                                                </td> : <td
+                                                    style={{
+                                                        width: 'auto'
+                                                    }}
+                                                    className={classes['value-cell']}
+                                                    key={`${row.id}-${column.id}-${columnIndex}`}>
                                                     {get(row, [column.id], '')}
-                                                </TableCell>
+                                                </td>
                                         ))
                                     }
                                     {
