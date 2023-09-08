@@ -19,6 +19,7 @@ import { DataView } from '../../../../../../../../../../shared/components/DataVi
 import { useMode } from '../../../../../../../../../../shared/hooks/mode'
 import { AccessProvider } from '../../../../../../../../../../shared/components/AccessProvider'
 import { useAccess } from '../../../../../../../../../../shared/components/AccessProvider/hooks/access'
+import { Event, TrackedEntity } from '../../../../../../../../../../shared/types/dhis2'
 
 export interface DataTableProps {
     parentConfig: ActionConfig | CategoryConfig;
@@ -99,7 +100,7 @@ export function DataTable ({
 
     const title = config?.name
 
-    const onDeleteClick = (instance: any) => {
+    const onDeleteClick = (instance: TrackedEntity | Event) => {
         confirm({
             title: i18n.t('Confirm Delete'),
             message: i18n.t('Are you sure you want to delete this {{title}} and all related data?', {
