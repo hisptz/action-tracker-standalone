@@ -401,8 +401,8 @@ export function useDeleteInstance (type: 'program' | 'programStage', { instanceN
     })
     const onDelete = useCallback(async (defaultValue: any) => {
         const payload = type === 'program' ? {
-            enrollments: [{
-                enrollment: defaultValue.enrollment
+            trackedEntities: [{
+                trackedEntity: defaultValue.trackedEntity
             }]
         } : {
             events: [{

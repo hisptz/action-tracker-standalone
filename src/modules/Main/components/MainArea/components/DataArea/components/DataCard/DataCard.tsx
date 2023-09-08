@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { Button, ButtonStrip, Card, IconChevronDown24, IconChevronUp24 } from '@dhis2/ui'
 import { getAttributeValueFromList } from '../../../../../../../../shared/utils/metadata'
-import { find, head } from 'lodash'
+import { find } from 'lodash'
 import { DataTable } from './components/DataTable'
 import { DataTableHead } from './components/DataTable/components/DataTableHead'
 import classes from './DataCard.module.css'
@@ -61,7 +61,7 @@ function CardHeader ({
                 title
             }),
             onConfirm: async () => {
-                await onDelete(head(data.enrollments))
+                await onDelete(data)
                 refetch()
             },
             onCancel: () => {
