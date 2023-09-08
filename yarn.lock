@@ -2832,19 +2832,19 @@
     use-context-selector "^1.4.1"
     usehooks-ts "^2.9.1"
 
-"@hisptz/dhis2-utils@^1.0.51":
-  version "1.0.51"
-  resolved "https://registry.yarnpkg.com/@hisptz/dhis2-utils/-/dhis2-utils-1.0.51.tgz#bc810e72ee1987506efe8bf228ad16606681bc5e"
-  integrity sha512-AwwW3gASHFpIHA9OcXf3NrGyWVmUld7CTgD1gEiUpySucOXv9ZdeU72DkrMesRrDE7dG0elXZwvsaACo2vJmOA==
+"@hisptz/dhis2-utils@^1.0.52":
+  version "1.0.52"
+  resolved "https://registry.yarnpkg.com/@hisptz/dhis2-utils/-/dhis2-utils-1.0.52.tgz#ea11f3342001389d2ec1bd19821b49ab0f718554"
+  integrity sha512-dXSIjEuQQXn6MTnnsLdYbqHdEptNWj4dcKwVSuOhD6G5AAzzXa6wu2SXEk2E7om2BxXOcEx1OELJ35dI9HlRJw==
   dependencies:
     lodash "^4.17.21"
     luxon "^3.0.1"
     typescript "^4.6.3"
 
-"@hisptz/dhis2-utils@^1.0.52":
-  version "1.0.52"
-  resolved "https://registry.yarnpkg.com/@hisptz/dhis2-utils/-/dhis2-utils-1.0.52.tgz#ea11f3342001389d2ec1bd19821b49ab0f718554"
-  integrity sha512-dXSIjEuQQXn6MTnnsLdYbqHdEptNWj4dcKwVSuOhD6G5AAzzXa6wu2SXEk2E7om2BxXOcEx1OELJ35dI9HlRJw==
+"@hisptz/dhis2-utils@^1.0.56":
+  version "1.0.56"
+  resolved "https://registry.yarnpkg.com/@hisptz/dhis2-utils/-/dhis2-utils-1.0.56.tgz#f0c373a3ac89683248717fbd6213f7e66f5e6f61"
+  integrity sha512-b+cg60373/td0+KYMzw/s3ILH0I19FYEGQ1CL4xSAmTLRLjpd76itIhSNvum6xuvAcyht6eAiv2tTpWwVXwUFA==
   dependencies:
     lodash "^4.17.21"
     luxon "^3.0.1"

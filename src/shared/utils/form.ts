@@ -42,7 +42,7 @@ export function getFieldSchema (field: DataField, { period }: { period: PeriodIn
 
     if (field.isEndDate) {
         return schema.refine((value) => {
-            return new Date(value) <= period.end.plus({ day: 1 }).toJSDate()
+            return new Date(value) <= period.endDate
         }, i18n.t('The start date should not be after the selected planned date'))
     }
 
