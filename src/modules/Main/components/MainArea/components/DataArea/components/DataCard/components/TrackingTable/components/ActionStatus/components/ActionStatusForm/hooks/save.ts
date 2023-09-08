@@ -1,7 +1,7 @@
 import { useAlert, useDataMutation } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { useCallback } from 'react'
-import { fromPairs, get, head, isEmpty } from 'lodash'
+import { compact, fromPairs, get, head, isEmpty } from 'lodash'
 import { uid } from '@hisptz/dhis2-utils'
 import { useConfiguration } from '../../../../../../../../../../../../../../../shared/hooks/config'
 import { Enrollment } from '../../../../../../../../../../../../../../../shared/types/dhis2'
@@ -39,8 +39,16 @@ export function generateEvent (data: Record<string, any>, {
 }) {
 
     const occurredAt = get(data, ['occurredAt'])
-
     delete data['occurredAt']
+
+    const dataValues = compact(Object.entries(data).map(([key, value]) => {
+        if (value) {
+            return {
+                dataElement: key,
+                value
+            }
+        }
+    }))
 
     return {
         event: uid(),
@@ -50,12 +58,7 @@ export function generateEvent (data: Record<string, any>, {
         trackedEntity,
         enrollment,
         status: 'ACTIVE',
-        dataValues: Object.entries(data).map(([key, value]) => {
-            return {
-                dataElement: key,
-                value
-            }
-        }),
+        dataValues,
         occurredAt
     }
 }
@@ -63,12 +66,14 @@ export function generateEvent (data: Record<string, any>, {
 export function updateEvent (data: Record<string, any>, event: any) {
     const occurredAt = get(data, ['occurredAt'])
     delete data['occurredAt']
-    const dataValues = Object.entries(data).map(([key, value]) => {
-        return {
-            dataElement: key,
-            value
+    const dataValues = compact(Object.entries(data).map(([key, value]) => {
+        if (value) {
+            return {
+                dataElement: key,
+                value
+            }
         }
-    })
+    }))
 
     return {
         ...event,
@@ -122,7 +127,7 @@ export function useManageActionStatus ({
                     value
                 ]
             } else {
-               
+
                 return [
                     field.name,
                     data[field.name]
