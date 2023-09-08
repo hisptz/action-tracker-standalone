@@ -1,6 +1,6 @@
 {
   "readme": "https://github.com/hisptz/action-tracker-standalone/blob/develop/README.md",
-  "name": "action-tracker-standalone",
+  "name": "real-time-supervision-tool",
   "version": "2.0.0-alpha.00",
   "description": "The action tracker is a management tool that helps improve effective coverage of priority interventions at district and community level, covering various interventions such as maternal, newborn, and child health (MNCH), HIV, and nutrition. ",
   "license": "BSD-3-Clause",
