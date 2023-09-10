@@ -21,10 +21,17 @@ export function useTrackingColumns () {
     const trackingPeriods = useMemo(() => {
         const { general } = config ?? {}
         const periodTypeId = general?.period.tracking
+        const planningPeriodTypeId = general?.period.planning
+
+        if (periodTypeId === planningPeriodTypeId) {
+            return compact([period])
+        }
+
         if (!periodTypeId) return []
 
         const periodType = new PeriodUtility().setCategory(PeriodTypeCategory.FIXED).setYear(period?.get()?.endDate.getFullYear() ?? new Date().getFullYear()).getPeriodType(periodTypeId)
-        return periodType?.periods.filter((pe) => period?.interval.engulfs(pe.interval) || pe.start.diffNow('days').days <= 0) ?? []
+
+        return compact(periodType?.periods.filter((pe) => period?.interval.engulfs(pe.interval) || pe.start.diffNow('days').days <= 0)) ?? []
     }, [])
 
     return useMemo(() => {

@@ -21,7 +21,7 @@ export function TrackingConfig () {
         if (!planningPeriodType) {
             return []
         }
-        return periodUtility.periodTypes.filter(({ config }) => ((config.rank as number) < (planningPeriodType.config.rank as number) || config.rank === planningPeriodType.config.rank))?.map(({ config }) => ({
+        return periodUtility.periodTypes.filter(({ config }) => ((config.rank as number) < (planningPeriodType.config.rank as number) || config.id === planningPeriodType.config.id))?.map(({ config }) => ({
             label: config.name,
             value: config.id
         }))
