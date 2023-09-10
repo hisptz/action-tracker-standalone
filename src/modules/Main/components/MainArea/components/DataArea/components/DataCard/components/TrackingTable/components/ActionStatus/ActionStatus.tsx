@@ -104,7 +104,7 @@ export function ActionStatus ({
     }, [statusEvent])
 
     //TODO: Discuss if this is how it should be...
-    if (!selectedPeriod?.interval.engulfs(period.interval)) {
+    if (period.start.diffNow('days').days > 0 && !selectedPeriod?.interval.engulfs(period.interval)) {
         return <TableCell className={classes['tracking-value-cell']}/>
     }
 
