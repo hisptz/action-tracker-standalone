@@ -24,7 +24,7 @@ export function useTrackingColumns () {
         if (!periodTypeId) return []
 
         const periodType = new PeriodUtility().setCategory(PeriodTypeCategory.FIXED).setYear(period?.get()?.endDate.getFullYear() ?? new Date().getFullYear()).getPeriodType(periodTypeId)
-        return periodType?.periods.filter((pe) => period?.interval.engulfs(pe.interval)) ?? []
+        return periodType?.periods.filter((pe) => period?.interval.engulfs(pe.interval) || pe.start.diffNow('days').days <= 0) ?? []
     }, [])
 
     return useMemo(() => {
