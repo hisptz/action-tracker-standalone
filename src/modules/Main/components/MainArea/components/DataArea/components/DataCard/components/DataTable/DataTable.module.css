@@ -2,7 +2,8 @@
     padding: 0 !important;
     margin: 0 !important;
     height: 100% !important;
-    border: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
     border-spacing: 0 !important;
     border-collapse: collapse !important;
 }

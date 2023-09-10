@@ -71,9 +71,9 @@ export function LatestStatus ({ events }: LatestStatusProps) {
 
     if (isEmpty(events)) {
         return (
-            <div className="w-100 h-100">
+            <td className="w-100 h-100">
                 {i18n.t('N/A')}
-            </div>
+            </td>
         )
     }
 
@@ -81,9 +81,9 @@ export function LatestStatus ({ events }: LatestStatusProps) {
 
     if (!latestStatusEvent) {
         return (
-            <div className="w-100 h-100">
+            <td className="w-100 h-100">
                 {i18n.t('N/A')}
-            </div>
+            </td>
         )
     }
 
