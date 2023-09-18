@@ -1,9 +1,7 @@
-import React from "react";
-import {Title} from "./components/Title";
-
+import React from 'react'
+import { Title } from './components/Title'
 
 export function Header() {
-
 
     return (
         <div className="column gap-16">

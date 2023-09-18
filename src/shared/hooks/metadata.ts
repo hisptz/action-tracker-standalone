@@ -30,10 +30,14 @@ export function useMetadata () {
 export const metadataMutation: any = {
     resource: 'metadata',
     type: 'create',
-    data: ({ metadata }: any) => metadata,
-    params: ({ mode }: any) => ({
-        importStrategy: 'CREATE_AND_UPDATE',
-        atomicMode: 'ALL',
+    data: ({ metadata, }: any) => metadata,
+    params: ({
+                 mode,
+                 importStrategy,
+                 atomicMode
+             }: any) => ({
+        importStrategy: importStrategy ?? 'CREATE_AND_UPDATE',
+        atomicMode: atomicMode ?? 'ALL',
         importMode: mode,
         reportMode: 'FULL'
     })
@@ -47,7 +51,7 @@ export function useUpdateMetadata () {
         duration: 3000
     }))
 
-    const send = async (options: { mode: string; metadata: any }) => {
+    const send = async (options: { mode: string; metadata: any, importStrategy?: string; atomicMode?: string }) => {
         return engine.mutate(metadataMutation, {
             variables: options
         })
@@ -70,6 +74,22 @@ export function useUpdateMetadata () {
         })
     }
 
+    const deleteMetadata = async (metadata: any) => {
+        //If there are any errors expect this to throw them
+        await sendMetadata({
+            metadata,
+            mode: 'VALIDATE',
+            importStrategy: 'DELETE',
+            atomicMode: 'NONE'
+        })
+        return sendMetadata({
+            metadata,
+            mode: 'COMMIT',
+            importStrategy: 'DELETE',
+            atomicMode: 'NONE'
+        })
+    }
+
     const updateMetadataFromConfig = async (config: Config) => {
         const metadata = { ...initialMetadata, ...generateMetadataFromConfig(config, { meta: initialMetadata }) }
         return uploadMetadata(metadata)
@@ -80,8 +100,29 @@ export function useUpdateMetadata () {
         return uploadMetadata(metadata)
     }
 
+    const deleteMetadataFromConfig = async (config: Config) => {
+        const metadata = { ...generateMetadataFromConfig(config, { meta: initialMetadata }) }
+        await deleteMetadata({
+            programs: metadata.programs,
+            programStages: metadata.programStages,
+        })
+        await deleteMetadata({
+            dataElements: metadata.dataElements,
+            trackedEntityAttributes: metadata.trackedEntityAttributes,
+        })
+
+        return deleteMetadata({
+            optionSets: [
+                {
+                    id: config.action.statusConfig.stateConfig.optionSetId
+                }
+            ]
+        })
+    }
+
     return {
         updateMetadataFromConfig,
+        deleteMetadataFromConfig,
         createMetadataFromConfig,
         uploadMetadata,
         uploadingMetadata,
