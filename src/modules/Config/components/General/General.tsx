@@ -5,6 +5,7 @@ import { OrganisationUnitConfig } from './components/OrganisationUnitConfig'
 import { PeriodConfig } from './components/PeriodConfig'
 import { GeneralSteps, PeriodSteps } from './docs/steps'
 import { HelpButton, HelpIcon } from '../../../../shared/components/HelpButton'
+import { DeleteConfig } from './components/DeleteConfig'
 
 export function General () {
 
@@ -26,6 +27,12 @@ export function General () {
                         <HelpIcon steps={PeriodSteps} key="period-config-steps"/>
                     </div>
                     <PeriodConfig/>
+                </div>
+                <div className="row gap-8 align-center">
+                    <h3 className="m-0">{i18n.t('Configuration Management')}</h3>
+                </div>
+                <div>
+                    <DeleteConfig/>
                 </div>
             </div>
         </div>

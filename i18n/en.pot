@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-09-06T08:44:56.112Z\n"
-"PO-Revision-Date: 2023-09-06T08:44:56.112Z\n"
+"POT-Creation-Date: 2023-09-18T09:22:02.558Z\n"
+"PO-Revision-Date: 2023-09-18T09:22:02.558Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -294,6 +294,31 @@ msgstr "Organisation Units"
 
 msgid "Period"
 msgstr "Period"
+
+msgid "Configuration Management"
+msgstr "Configuration Management"
+
+msgid "Configuration deleted successfully"
+msgstr "Configuration deleted successfully"
+
+msgid "Could not delete configuration"
+msgstr "Could not delete configuration"
+
+msgid "Delete configuration"
+msgstr "Delete configuration"
+
+msgid "Are you sure you want to delete this configuration?"
+msgstr "Are you sure you want to delete this configuration?"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid ""
+"Make sure there are no data associated with this configuration before "
+"deleting it."
+msgstr ""
+"Make sure there are no data associated with this configuration before "
+"deleting it."
 
 msgid "Access"
 msgstr "Access"
@@ -700,9 +725,6 @@ msgstr "View"
 
 msgid "Edit"
 msgstr "Edit"
-
-msgid "Delete"
-msgstr "Delete"
 
 msgid "Add Data Item"
 msgstr "Add Data Item"
