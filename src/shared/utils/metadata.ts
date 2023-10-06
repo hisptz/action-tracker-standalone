@@ -332,7 +332,6 @@ export function generateMetadataFromConfig (config: Config, { meta }: { meta: In
         trackedEntityAttributes,
         programs: cleanedProgram,
         programStages: cleanedProgramStages,
-        relationshipTypes
     }
 }
 
