@@ -9,15 +9,29 @@ import {
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { useWindowSize } from 'usehooks-ts'
 import { useDimensions, usePageType } from '../../../../../../../../../shared/hooks'
-import { PeriodTypeCategory, PeriodUtility } from '@hisptz/dhis2-utils'
+import { BasePeriod, PeriodTypeCategory, PeriodUtility } from '@hisptz/dhis2-utils'
 import i18n from '@dhis2/d2-i18n'
-import { clamp, compact } from 'lodash'
+import { clamp, compact, flatten, range, uniqBy } from 'lodash'
 
+/*
+* Generates tracking columns based on the selected period and configured tracking frequency
+*
+* How tracking periods are obtained:
+*  - For the selected period, figure out if the start and end date are on the same year
+*  - If on the same year then generate periods of the type configured as tracking
+*  - Then filter out periods that don't fall into the selected period
+*  - If the start and end date are not on the same year, get a list of years the period falls into
+*  - Then for each year generate the periods of the type configured as tracking
+*  - Flatten the list
+*  - Then filter out periods that don't fall into the selected period
+*
+*  */
 export function useTrackingColumns () {
     const { config } = useConfiguration()
     const type = usePageType()
 
     const { period } = useDimensions()
+
     const trackingPeriods = useMemo(() => {
         const { general } = config ?? {}
         const periodTypeId = general?.period.tracking
@@ -26,13 +40,19 @@ export function useTrackingColumns () {
         if (periodTypeId === planningPeriodTypeId) {
             return compact([period])
         }
+        if (!periodTypeId || !period) return []
 
-        if (!periodTypeId) return []
+        let periods: BasePeriod[] = []
 
-        const periodType = new PeriodUtility().setCategory(PeriodTypeCategory.FIXED).setYear(period?.get()?.endDate.getFullYear() ?? new Date().getFullYear()).getPeriodType(periodTypeId)
-
-        return compact(periodType?.periods.filter((pe) => period?.interval.engulfs(pe.interval) || pe.start.diffNow('days').days <= 0)) ?? []
-    }, [])
+        if (period.start.year === period.end.year) {
+            periods = new PeriodUtility().setYear(period.start.year as number).setCategory(PeriodTypeCategory.FIXED).getPeriodType(periodTypeId)?.periods ?? []
+        } else {
+            periods = compact(flatten(range(period.start.year, period.end.year + 1).map((year) => {
+                return new PeriodUtility().setYear(year).setCategory(PeriodTypeCategory.FIXED).getPeriodType(periodTypeId)?.periods
+            }) ?? [])) ?? []
+        }
+        return compact(uniqBy(periods, 'id').filter((pe) => period?.interval.contains(pe.start) && period?.interval.contains(pe.end))) ?? []
+    }, [period, config])
 
     return useMemo(() => {
         if (type === 'planning') {
@@ -132,3 +152,5 @@ export function useManageColumns () {
         manageColumns
     }
 }
+
+
