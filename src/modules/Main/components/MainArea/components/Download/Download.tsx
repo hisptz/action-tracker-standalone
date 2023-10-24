@@ -7,17 +7,21 @@ import { useReactToPrint } from 'react-to-print'
 
 export function Download () {
     const targetRef = useRef<HTMLDivElement | null>(null)
-    const handlePrint = useReactToPrint({
-        content: () => targetRef.current
-    })
+
     const [downloadedData, setDownloadedData] = useState<Array<Record<string, any>> | undefined>()
     const [downloadStateRef, setDownloadStateRef] = useState(false)
 
     const {
         download,
         downloading,
-        getDownloadData
+        getDownloadData,
+        filename
     } = useDownload()
+
+    const handlePrint = useReactToPrint({
+        content: () => targetRef.current,
+        documentTitle: filename
+    })
 
     const onDownloadClick = (type: 'xlsx' | 'csv' | 'json' | 'pdf') => async () => {
         setDownloadStateRef(false)

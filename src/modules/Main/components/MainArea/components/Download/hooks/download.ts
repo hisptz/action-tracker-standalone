@@ -1,7 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import { asyncify, mapSeries } from 'async'
 import { useAlert, useDataEngine, useDataQuery } from '@dhis2/app-runtime'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { BasePeriod, Pagination } from '@hisptz/dhis2-utils'
 import { useConfiguration } from '../../../../../../../shared/hooks/config'
 import { useDimensions } from '../../../../../../../shared/hooks'
@@ -13,6 +13,7 @@ import { downloadFile } from '../utils/download'
 import { useTrackingPeriods } from '../../DataArea/components/DataCard/hooks/columns'
 import { DateTime } from 'luxon'
 import { useMetadata } from '../../../../../../../shared/hooks/metadata'
+import { useOrgUnit } from '../../../../../../../shared/hooks/orgUnit'
 
 async function getPagination (
     refetch: any,
@@ -59,11 +60,13 @@ export function useDownloadData ({
                                      queryKey,
                                      resource,
                                      mapping,
+                                     filename
                                  }: {
     query: any;
     queryKey: string;
     resource: string;
     mapping: (data: any) => Promise<Array<Record<string, any>>>;
+    filename: string
 }) {
     const {
         show,
@@ -146,7 +149,7 @@ export function useDownloadData ({
     const download = useCallback(
         async (type: 'xlsx' | 'csv' | 'json', queryVariables: Record<string, any>) => {
             const data = await getDownloadData(queryVariables) ?? []
-            await downloadFile(type, data)
+            await downloadFile(type, data, { filename })
         },
         [hide, mapping, queryKey, refetch, resource, show]
     )
@@ -235,6 +238,7 @@ export function useDownload () {
         orgUnit,
         period
     } = useDimensions()
+    const { orgUnit: orgUnitWithData } = useOrgUnit(orgUnit?.id)
 
     const getInstanceData = ({
                                  instance,
@@ -360,6 +364,10 @@ export function useDownload () {
 
     }
 
+    const filename = useMemo(() => {
+        return `SAT - ${orgUnitWithData?.displayName} - ${period?.name}`
+    }, [orgUnit, period])
+
     const {
         download,
         downloading,
@@ -368,7 +376,8 @@ export function useDownload () {
         query,
         queryKey: 'data',
         resource: 'instances',
-        mapping: mapper as any
+        mapping: mapper as any,
+        filename
     })
 
     const onDownload = async (type: 'xlsx' | 'json' | 'csv') => {
@@ -387,6 +396,7 @@ export function useDownload () {
 
     return {
         download: onDownload,
+        filename,
         downloading,
         getDownloadData: onGetDownloadData
     }
