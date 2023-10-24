@@ -1,6 +1,6 @@
 import React from 'react'
 import { CustomDataTable } from '@hisptz/dhis2-ui'
-import { flattenDeep, head, times } from 'lodash'
+import { head } from 'lodash'
 import { uid } from '@hisptz/dhis2-utils'
 import i18n from '@dhis2/d2-i18n'
 import { useDimensions } from '../../../../../../../shared/hooks'
@@ -29,11 +29,10 @@ export const PDFArea = React.forwardRef<HTMLDivElement, {
         }
     })
 
-    const rows = flattenDeep(times(40, () => data.map((datum) => ({
+    const rows = data.map((datum) => ({
         ...datum,
         id: uid()
-    }))))
-
+    }))
     return (
         <div style={{ display: 'none' }}>
             <div style={{
