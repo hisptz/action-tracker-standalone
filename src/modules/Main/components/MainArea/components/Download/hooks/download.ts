@@ -10,6 +10,9 @@ import { ActionConfig, CategoryConfig, Config } from '../../../../../../../share
 import { compact, find, flattenDeep, fromPairs, get, head, isEmpty, omit, range } from 'lodash'
 import { getPeriodQuery } from '../../DataArea/components/DataCard/components/DataTable/hooks/data'
 import { downloadFile } from '../utils/download'
+import { useTrackingPeriods } from '../../DataArea/components/DataCard/hooks/columns'
+import { DateTime } from 'luxon'
+import { useMetadata } from '../../../../../../../shared/hooks/metadata'
 
 async function getPagination (
     refetch: any,
@@ -164,7 +167,7 @@ const actionQuery = {
                 fields: [
                     'trackedEntity',
                     'attributes[attribute,value]',
-                    'enrollments[enrollment,events[programStage,program,dataValues[dataElement,value]]]'
+                    'enrollments[enrollment,events[programStage,event,occurredAt,program,dataValues[dataElement,value]]]'
                 ]
             }
         }
@@ -219,6 +222,9 @@ function flattenData (node: {
 export function useDownload () {
     const engine = useDataEngine()
     const { config } = useConfiguration()
+    const trackingPeriods = useTrackingPeriods()
+    const { status: statusOptionSet } = useMetadata()
+
     const {
         orgUnit,
         period
@@ -255,6 +261,31 @@ export function useDownload () {
         }
 
     }
+
+    function getStatusData (instance: TrackedEntity) {
+        return fromPairs(trackingPeriods.map((column) => {
+            const event = head(instance.enrollments)?.events.find(event => column?.interval.contains(DateTime.fromISO(event.occurredAt as string)))
+            if (!event) {
+                return [column.name, '']
+            }
+            const formattedValue = config?.action.statusConfig.fields.reduce((value, field) => {
+                if (field.hidden) return value
+
+                let dataValue = event.dataValues.find(({ dataElement }) => dataElement === field.id)?.value
+
+                if (field.id === config?.action.statusConfig.stateConfig.dataElement) {
+                    dataValue = statusOptionSet?.options.find((option) => option.code === dataValue)?.name
+                }
+
+                return `${value} \n ${field.name}: ${dataValue ?? ''}`
+            }, '')
+            return [
+                column.name,
+                formattedValue
+            ]
+        }))
+    }
+
     const getChildren = async ({
                                    parent,
                                    events,
@@ -294,9 +325,12 @@ export function useDownload () {
                 program: config?.action.id
             }
         }) as { actions: { instances: TrackedEntity[] } }
-        return actions?.actions?.instances.map((instance) => getInstanceData({
-            instance,
-            config: config?.action as ActionConfig
+        return actions?.actions?.instances.map((instance) => ({
+            ...getInstanceData({
+                instance,
+                config: config?.action as ActionConfig
+            }),
+            ...getStatusData(instance)
         }))
     }
 

@@ -26,13 +26,11 @@ import { clamp, compact, flatten, range, uniqBy } from 'lodash'
 *  - Then filter out periods that don't fall into the selected period
 *
 *  */
-export function useTrackingColumns () {
+
+export function useTrackingPeriods () {
     const { config } = useConfiguration()
-    const type = usePageType()
-
     const { period } = useDimensions()
-
-    const trackingPeriods = useMemo(() => {
+    return useMemo(() => {
         const { general } = config ?? {}
         const periodTypeId = general?.period.tracking
         const planningPeriodTypeId = general?.period.planning
@@ -53,6 +51,15 @@ export function useTrackingColumns () {
         }
         return compact(uniqBy(periods, 'id').filter((pe) => period?.interval.contains(pe.start) && period?.interval.contains(pe.end))) ?? []
     }, [period, config])
+}
+
+export function useTrackingColumns () {
+    const { config } = useConfiguration()
+    const type = usePageType()
+
+    const { period } = useDimensions()
+
+    const trackingPeriods = useTrackingPeriods()
 
     return useMemo(() => {
         if (type === 'planning') {
