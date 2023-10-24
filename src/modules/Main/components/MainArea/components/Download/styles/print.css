@@ -1,0 +1,16 @@
+
+.print-container {
+    display: none;
+}
+
+@media print {
+    .print-container {
+        display: flex;
+    }
+
+    @page {
+        size: A4 landscape;
+        margin: 1cm 0.5cm;
+    }
+
+}

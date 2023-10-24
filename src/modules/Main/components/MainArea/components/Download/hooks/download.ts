@@ -94,54 +94,59 @@ export function useDownloadData ({
         }
     }, [progress, show, downloading, pageCount, hide])
 
+    const getDownloadData = async (queryVariables: Record<string, any>) => {
+        try {
+            setDownloading(true)
+            const pagination = await getPagination(refetch, {
+                queryVariables: queryVariables,
+                queryKey,
+            })
+            if (pagination) {
+                const pageCount = pagination.pageCount ?? Math.ceil((pagination.total ?? 1) / (pagination.pageSize ?? 1))
+                setPageCount(pageCount)
+                const dataFetch = async (page: number) => {
+                    return await getData(refetch, {
+                        options: queryVariables,
+                        queryKey,
+                        resource,
+                        mapping,
+                        page,
+                    }).then((data) => {
+                        setProgress(page)
+                        show({
+                            type: {
+                                info: true,
+                            },
+                            message: `${i18n.t('Downloading...')} ${progress}/${pageCount}`,
+                        })
+                        return data
+                    })
+                }
+                if (pageCount >= 1) {
+                    return flattenDeep<Record<string, any>>(
+                        await mapSeries(range(1, pageCount + 1), asyncify(dataFetch))
+                    )
+                }
+            }
+            return []
+        } catch (e: any) {
+            show({
+                message: e.message,
+                type: { critical: true }
+            })
+            setTimeout(() => hide(), 5000)
+        } finally {
+            setDownloading(false)
+            setProgress(0)
+            setPageCount(0)
+            hide()
+        }
+    }
+
     const download = useCallback(
         async (type: 'xlsx' | 'csv' | 'json', queryVariables: Record<string, any>) => {
-            try {
-                setDownloading(true)
-                const pagination = await getPagination(refetch, {
-                    queryVariables: queryVariables,
-                    queryKey,
-                })
-                if (pagination) {
-                    const pageCount = pagination.pageCount ?? Math.ceil((pagination.total ?? 1) / (pagination.pageSize ?? 1))
-                    setPageCount(pageCount)
-                    const dataFetch = async (page: number) => {
-                        return await getData(refetch, {
-                            options: queryVariables,
-                            queryKey,
-                            resource,
-                            mapping,
-                            page,
-                        }).then((data) => {
-                            setProgress(page)
-                            show({
-                                type: {
-                                    info: true,
-                                },
-                                message: `${i18n.t('Downloading...')} ${progress}/${pageCount}`,
-                            })
-                            return data
-                        })
-                    }
-                    if (pageCount >= 1) {
-                        const data = flattenDeep(
-                            await mapSeries(range(1, pageCount + 1), asyncify(dataFetch))
-                        )
-                        await downloadFile(type, data)
-                    }
-                }
-            } catch (e: any) {
-                show({
-                    message: e.message,
-                    type: { critical: true }
-                })
-                setTimeout(() => hide(), 5000)
-            } finally {
-                setDownloading(false)
-                setProgress(0)
-                setPageCount(0)
-                hide()
-            }
+            const data = await getDownloadData(queryVariables) ?? []
+            await downloadFile(type, data)
         },
         [hide, mapping, queryKey, refetch, resource, show]
     )
@@ -149,6 +154,7 @@ export function useDownloadData ({
     return {
         download,
         downloading,
+        getDownloadData
     }
 }
 
@@ -356,7 +362,8 @@ export function useDownload () {
 
     const {
         download,
-        downloading
+        downloading,
+        getDownloadData
     } = useDownloadData({
         query,
         queryKey: 'data',
@@ -371,8 +378,16 @@ export function useDownload () {
         })
     }
 
+    const onGetDownloadData = async () => {
+        return await getDownloadData({
+            program: head(config?.categories)?.id,
+            orgUnit: orgUnit.id,
+        })
+    }
+
     return {
         download: onDownload,
-        downloading
+        downloading,
+        getDownloadData: onGetDownloadData
     }
 }
