@@ -12,6 +12,7 @@ import { ConfirmDialogProvider } from '@hisptz/dhis2-ui'
 import { useDataEngine } from '@dhis2/app-runtime'
 import { DataEngineState } from './shared/state/engine'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import './locales'
 
 const reactQueryClient = new QueryClient()
 

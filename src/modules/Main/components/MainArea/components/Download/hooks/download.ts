@@ -7,7 +7,7 @@ import { useConfiguration } from '../../../../../../../shared/hooks/config'
 import { useDimensions } from '../../../../../../../shared/hooks'
 import { Event, TrackedEntity } from '../../../../../../../shared/types/dhis2'
 import { ActionConfig, CategoryConfig, Config } from '../../../../../../../shared/schemas/config'
-import { find, flattenDeep, get, head, isEmpty, range } from 'lodash'
+import { compact, find, flattenDeep, fromPairs, get, head, isEmpty, omit, range } from 'lodash'
 import { getPeriodQuery } from '../../DataArea/components/DataCard/components/DataTable/hooks/data'
 import { downloadFile } from '../utils/download'
 
@@ -76,7 +76,6 @@ export function useDownloadData ({
     const [downloading, setDownloading] = useState(false)
     const [pageCount, setPageCount] = useState(0)
     const [progress, setProgress] = useState(0)
-
     const { refetch } = useDataQuery(query, { lazy: true })
 
     useEffect(() => {
@@ -203,6 +202,20 @@ const query = {
     }
 }
 
+function flattenData (node: {
+    children?: Array<any>,
+    [p: string]: any
+}, parentData: Record<string, any>): Array<Record<string, any>> | Record<string, any> {
+    if (Array.isArray(node.children)) {
+        return node.children.map((childNode) => flattenData(childNode, { ...parentData, ...(omit(node, 'children')) }))
+    } else {
+        return {
+            ...parentData,
+            ...node
+        }
+    }
+}
+
 export function useDownload () {
     const engine = useDataEngine()
     const { config } = useConfiguration()
@@ -220,24 +233,25 @@ export function useDownload () {
     }) => {
         if (config.type === 'program') {
             return {
-                values: config.fields.map((field) => {
-                    return {
-                        name: field.name,
-                        id: field.id,
-                        value: (find((instance as TrackedEntity).attributes, { attribute: field.id }))?.value
+                ...(fromPairs(compact(config.fields.map((field) => {
+                    if (field.hidden) {
+                        return
                     }
-                })
+                    return [field.name, (find((instance as TrackedEntity).attributes, { attribute: field.id }))?.value]
+                }))))
             }
         }
 
         return {
-            values: config.fields.map((field) => {
-                return {
-                    name: field.name,
-                    id: field.id,
-                    value: (find((instance as Event)?.dataValues, { dataElement: field.id }))?.value
+            ...(fromPairs(compact(config.fields.map((field) => {
+                if (field.hidden) {
+                    return
                 }
-            })
+                return [
+                    field.name,
+                    (find((instance as Event)?.dataValues, { dataElement: field.id }))?.value
+                ]
+            }))))
         }
 
     }
@@ -249,7 +263,7 @@ export function useDownload () {
         parent: TrackedEntity | Event,
         events: Event[],
         parentConfig: CategoryConfig
-    }): Promise<Array<TrackedEntity | Event>> => {
+    }): Promise<Array<Record<string, any>>> => {
         if (parentConfig.child.type === 'programStage') {
             const childEvents = events?.filter(({
                                                     programStage,
@@ -270,6 +284,7 @@ export function useDownload () {
                 }
             })
         }
+
         const actions = await engine.query(actionQuery, {
             variables: {
                 filter: [
@@ -285,28 +300,24 @@ export function useDownload () {
         }))
     }
 
-    const sanitizeData = (instance: {
-        values: Record<string, any>[],
-        children?: Array<{ values: Record<string, any>[], children?: any[] }>
-    }) => {
-
-    }
-
     const mapper = async (data: TrackedEntity) => {
         const instanceConfig = head(config?.categories) as CategoryConfig
         const events = head(data.enrollments)?.events as unknown as Event[]
-        const payload = {
-            ...(getInstanceData({
+
+        const rawData = {
+            ...getInstanceData({
                 instance: data,
                 config: instanceConfig
-            })),
+            }),
             children: await getChildren({
                 parent: data,
                 events,
-                parentConfig: head(config?.categories) as CategoryConfig
+                parentConfig: instanceConfig
             })
         }
-        return payload
+
+        return flattenData(rawData, omit(rawData, 'children'))
+
     }
 
     const {

@@ -22,14 +22,14 @@ export function Download () {
             onClick={() => setDownloadStateRef((prevState) => !prevState)}
             component={<div className="w-100">
                 <FlyoutMenu>
-                    {/* <MenuItem */}
-                    {/*     label={i18n.t('Excel')} */}
-                    {/*     onClick={onDownloadClick('xlsx')} */}
-                    {/* /> */}
-                    {/* <MenuItem */}
-                    {/*     label={i18n.t('CSV')} */}
-                    {/*     onClick={onDownloadClick('csv')} */}
-                    {/* /> */}
+                    <MenuItem
+                        label={i18n.t('Excel')}
+                        onClick={onDownloadClick('xlsx')}
+                    />
+                    <MenuItem
+                        label={i18n.t('CSV')}
+                        onClick={onDownloadClick('csv')}
+                    />
                     <MenuItem
                         label={i18n.t('JSON')}
                         onClick={onDownloadClick('json')}
