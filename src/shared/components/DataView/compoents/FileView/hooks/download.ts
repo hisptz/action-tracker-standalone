@@ -61,11 +61,9 @@ export function downloadFile (data: any, filename: string) {
         window.URL.revokeObjectURL(blobURL)
     }, 200)
 }
-
 export function getFileExtension (file: Blob) {
     return last(file.type.split('/'))
 }
-
 export function useDownload (type: 'program' | 'programStage') {
     const {
         refetch,
