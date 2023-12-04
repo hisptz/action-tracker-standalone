@@ -248,7 +248,6 @@ export function OptionSetForm ({
         onClose()
     }
     const onSubmit = async (data: OptionSetData) => {
-        console.log({ data })
         const optionSetId = uid()
         const sanitizedOptionSetData = {
             id: optionSetId,
