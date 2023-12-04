@@ -17,7 +17,7 @@ import {
     TableRowHead
 } from '@dhis2/ui'
 import i18n from '@dhis2/d2-i18n'
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
+import { FormProvider, useFieldArray, useForm, useFormContext } from 'react-hook-form'
 import { RHFSingleSelectField, RHFTextInputField } from '@hisptz/dhis2-ui'
 import { useBoolean } from 'usehooks-ts'
 import { capitalize, isEmpty } from 'lodash'
@@ -105,6 +105,8 @@ function OptionsList ({ valueType }: { valueType: string }) {
         setTrue: onHide,
         setFalse: onShow
     } = useBoolean(true)
+
+    const { getFieldState } = useFormContext()
     const {
         fields,
         append,
@@ -112,6 +114,7 @@ function OptionsList ({ valueType }: { valueType: string }) {
     } = useFieldArray({
         name: 'options',
         rules: {
+            required: i18n.t('At least two options are required'),
             minLength: {
                 value: 2,
                 message: i18n.t('At least two options are required')
@@ -123,10 +126,13 @@ function OptionsList ({ valueType }: { valueType: string }) {
     }
     const codes = useMemo(() => fields.map(({ code }: any) => code as string), [fields])
 
+    const { error } = getFieldState('options')
+
     return (
         <>
             <OptionForm valueType={valueType} selected={codes} hide={hide} onClose={onHide} onAdd={onFieldAdd}/>
-            <Field label={i18n.t('Options')} name={`options`}>
+            <Field error={!!error?.root} validationText={error?.root?.message} label={i18n.t('Options')}
+                   name={`options`}>
                 <div className="column gap-16">
                     {
                         !isEmpty(fields) && (
@@ -238,10 +244,11 @@ export function OptionSetForm ({
         defaultValues: defaultValue ?? {}
     })
     const onCloseClick = () => {
-        form.reset()
+        form.reset({})
         onClose()
     }
     const onSubmit = async (data: OptionSetData) => {
+        console.log({ data })
         const optionSetId = uid()
         const sanitizedOptionSetData = {
             id: optionSetId,
