@@ -29,7 +29,7 @@ const dataQuery: any = {
                     'trackedEntity',
                     'trackedEntityType',
                     'orgUnit',
-                    'attributes[attribute,value]',
+                    'attributes[attribute,value,valueType]',
                     'enrollments[enrollment,orgUnit,enrolledAt,occurredAt,program]'
                 ]
             }

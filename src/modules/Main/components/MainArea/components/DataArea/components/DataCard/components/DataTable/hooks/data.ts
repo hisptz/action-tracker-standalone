@@ -6,6 +6,7 @@ import { useConfiguration } from '../../../../../../../../../../../shared/hooks/
 import { Event, TrackedEntity } from '../../../../../../../../../../../shared/types/dhis2'
 import { Config } from '../../../../../../../../../../../shared/schemas/config'
 import { BasePeriod } from '@hisptz/dhis2-utils'
+import { DateTime } from 'luxon'
 
 const trackedEntitiesQuery: any = {
     data: {
@@ -30,7 +31,7 @@ const trackedEntitiesQuery: any = {
                 'trackedEntity',
                 'trackedEntityType',
                 'orgUnit',
-                'attributes',
+                'attributes[attribute,valueType,value]',
                 'enrollments[enrollment,orgUnit,program,enrolledAt,occurredAt]'
             ],
         })
@@ -60,7 +61,7 @@ const eventsQuery: any = {
                 'occurredAt',
                 'orgUnit',
                 'program', 'programStage',
-                'dataValues[dataElement,value]',
+                'dataValues[dataElement,valueType,value]',
             ],
         })
     }
@@ -117,19 +118,24 @@ export function useTableData (type: 'program' | 'programStage', {
         return data?.data?.instances || []
     }, [data])
 
-    const instances = useMemo(() => {
-        return rawData
-    }, [rawData])
-
     const rows = useMemo(() => {
-        return instances?.map((instance) => {
+        return rawData?.map((instance) => {
             const data = type === 'program' ? (instance as TrackedEntity).attributes : (instance as Event).dataValues
+
             return {
-                ...fromPairs(data?.map((item: any) => [item.attribute ?? item.dataElement, item.value])),
+                ...fromPairs(data?.map((item: any) => {
+                    const valueType = item.valueType
+                    let value = item.value
+
+                    if (valueType === 'DATE') {
+                        value = DateTime.fromJSDate(new Date(value)).toLocaleString()
+                    }
+                    return [item.attribute ?? item.dataElement, value]
+                })),
                 instance
             } as Record<string, any>
         })
-    }, [instances])
+    }, [rawData])
 
     const noData = useMemo(() => isEmpty(rawData), [rawData])
 
