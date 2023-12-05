@@ -20,10 +20,12 @@ import { DataView } from '../../../../../../../../../../../../shared/components/
 import { AccessProvider } from '../../../../../../../../../../../../shared/components/AccessProvider'
 import { useAccess } from '../../../../../../../../../../../../shared/components/AccessProvider/hooks/access'
 import { formatDate } from '../../../../../../../../../../../../shared/utils/date'
+import { TrackedEntity } from '../../../../../../../../../../../../shared/types/dhis2'
+import { useShowActionTracking } from './hooks/date'
 
 export interface ActionStatusProps {
     refetch: () => void;
-    instance: any,
+    action: TrackedEntity,
     events: any[]
     columnConfig: ActionTrackingColumnStateConfig,
     columns: ColumnStateConfig[],
@@ -31,7 +33,7 @@ export interface ActionStatusProps {
 }
 
 export function ActionStatus ({
-                                  instance,
+                                  action,
                                   columnConfig,
                                   events,
                                   refetch,
@@ -56,12 +58,12 @@ export function ActionStatus ({
             const date = new Date(event.occurredAt)
             return period.interval.contains(DateTime.fromJSDate(date))
         }) as any ?? null
-    }, [instance, period, events])
+    }, [action, period, events])
     const onActionManageComplete = () => {
         refetch()
     }
     const { onDelete: onDeleteConfirm } = useManageActionStatus({
-        action: instance,
+        action: action,
         onComplete: onActionManageComplete,
         defaultValue: statusEvent,
         columnConfig
@@ -104,11 +106,19 @@ export function ActionStatus ({
 
     }, [statusEvent])
 
+    const showActionStatus = useShowActionTracking({
+        action,
+        period
+    })
+
+    if (!showActionStatus) {
+        return <TableCell className={classes['tracking-value-cell']}/>
+    }
+
     //TODO: Discuss if this is how it should be...
     if (period.start.diffNow('days').days > 0 && !selectedPeriod?.interval.engulfs(period.interval)) {
         return <TableCell className={classes['tracking-value-cell']}/>
     }
-
     const onDelete = () => {
         confirm({
             title: i18n.t('Confirm delete'),
@@ -131,7 +141,7 @@ export function ActionStatus ({
                     columnConfig={columnConfig}
                     onClose={onHide}
                     hide={hide}
-                    action={instance}
+                    action={action}
                 />
                 <div className="w-100 h-100 column center align-center">
                     <AccessProvider access="Standalone Action Tracker - Tracking">
@@ -154,7 +164,7 @@ export function ActionStatus ({
         }}
             className={classes['tracking-value-cell']}>
             <ActionStatusForm
-                action={instance}
+                action={action}
                 defaultValue={statusEvent}
                 onComplete={onActionManageComplete}
                 columnConfig={columnConfig}

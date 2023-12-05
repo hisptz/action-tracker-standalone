@@ -47,11 +47,6 @@ export function useFormMeta ({
         const startDate: string = getLaterDate([periodStartDate, actionStartDate]).toFormat('yyyy-MM-dd')
         const endDate: string = getEarlierDate([periodEndDate, actionEndDate]).toFormat('yyyy-MM-dd')
 
-        console.log({
-            startDate,
-            endDate,
-        })
-
         const eventDateField = {
             name: 'occurredAt',
             valueType: 'DATE',
