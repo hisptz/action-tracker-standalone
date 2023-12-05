@@ -6,7 +6,7 @@ import { useConfiguration } from '../../../../../../../../../../../shared/hooks/
 import { Event, TrackedEntity } from '../../../../../../../../../../../shared/types/dhis2'
 import { Config } from '../../../../../../../../../../../shared/schemas/config'
 import { BasePeriod } from '@hisptz/dhis2-utils'
-import { DateTime } from 'luxon'
+import { formatDate } from '../../../../../../../../../../../shared/utils/date'
 
 const trackedEntitiesQuery: any = {
     data: {
@@ -128,7 +128,7 @@ export function useTableData (type: 'program' | 'programStage', {
                     let value = item.value
 
                     if (valueType === 'DATE') {
-                        value = DateTime.fromJSDate(new Date(value)).toLocaleString()
+                        value = formatDate(value)
                     }
                     return [item.attribute ?? item.dataElement, value]
                 })),

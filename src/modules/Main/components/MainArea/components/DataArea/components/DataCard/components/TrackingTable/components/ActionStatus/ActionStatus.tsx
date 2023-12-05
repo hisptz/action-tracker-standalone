@@ -19,6 +19,7 @@ import { ActionStatusConfig } from '../../../../../../../../../../../../shared/s
 import { DataView } from '../../../../../../../../../../../../shared/components/DataView/DataView'
 import { AccessProvider } from '../../../../../../../../../../../../shared/components/AccessProvider'
 import { useAccess } from '../../../../../../../../../../../../shared/components/AccessProvider/hooks/access'
+import { formatDate } from '../../../../../../../../../../../../shared/utils/date'
 
 export interface ActionStatusProps {
     refetch: () => void;
@@ -96,7 +97,7 @@ export function ActionStatus ({
         return [
             {
                 name: i18n.t('Review Date'),
-                value: DateTime.fromISO(statusEvent.occurredAt).toFormat('dd-MM-yyyy')
+                value: formatDate(statusEvent.occurredAt),
             },
             ...data
         ]
