@@ -16,7 +16,7 @@ export function TrackingConfig () {
     })
 
     const trackingPeriods = useMemo(() => {
-        const periodUtility = new PeriodUtility().setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED)
+        const periodUtility = new PeriodUtility().setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED).setPreference({ allowFuturePeriods: true })
         const planningPeriodType = periodUtility.getPeriodType(planning)
         if (!planningPeriodType) {
             return []
@@ -68,9 +68,12 @@ export function DefaultPeriod () {
 
     const periods = useMemo(() => {
         if (!planning) return []
-        const periodUtility = new PeriodUtility().setYear(year).setCategory(PeriodTypeCategory.FIXED)
+        const periodUtility = new PeriodUtility().setPreference({ allowFuturePeriods: true }).setYear(year).setCategory(PeriodTypeCategory.FIXED)
         const periodType = periodUtility.getPeriodType(planning)
-        return periodType?.periods.map(({ name, id }) => ({
+        return periodType?.periods.map(({
+                                            name,
+                                            id
+                                        }) => ({
             label: name,
             value: id
         })) ?? []
@@ -78,7 +81,7 @@ export function DefaultPeriod () {
 
     useUpdateEffect(() => {
         if (planning) {
-            const periodUtility = new PeriodUtility().setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED)
+            const periodUtility = new PeriodUtility().setPreference({ allowFuturePeriods: true }).setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED)
             const periodType = periodUtility.getPeriodType(planning)
             if (periodType) {
                 if (!periodType.periods.find(({ id }) => id === defaultPeriod)) {
@@ -101,7 +104,6 @@ export function DefaultPeriod () {
                 dataTest="default-period-year-selector"
                 name="year"
                 min={`2000`}
-                max={(new Date().getFullYear() + 1).toString()}
                 label={i18n.t('Year')}
                 value={year.toString()}
                 onChange={({ value }: { value: string }) => {
@@ -114,8 +116,11 @@ export function DefaultPeriod () {
 
 export function PeriodConfig () {
     const periodTypes = useMemo(() => {
-        const periodUtility = new PeriodUtility().setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED)
-        return periodUtility.periodTypes?.map(({ config }) => ({ label: config.name, value: config.id }))
+        const periodUtility = new PeriodUtility().setPreference({ allowFuturePeriods: true }).setYear(new Date().getFullYear()).setCategory(PeriodTypeCategory.FIXED)
+        return periodUtility.periodTypes?.map(({ config }) => ({
+            label: config.name,
+            value: config.id
+        }))
     }, [])
 
     return (

@@ -32,12 +32,12 @@ export function SaveArea () {
     }))
     const form = useFormContext<Config>()
     const [update, { loading }] = useDataMutation(mutation as any, {
-        onError: (error) => {
+        onError: async (error) => {
             show({
                 message: `${i18n.t('Error saving changes') as string}: ${error.message}`,
                 type: { critical: true }
             })
-            new Promise((resolve) => setTimeout(resolve, 5000)).then(hide).catch(console.error)
+            await new Promise((resolve) => setTimeout(resolve, 5000)).then(hide).catch(console.error)
         }
     })
     const onSave = async (data: Config) => {

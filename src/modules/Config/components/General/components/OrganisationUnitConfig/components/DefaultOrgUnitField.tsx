@@ -11,7 +11,10 @@ export function DefaultOrgUnitField () {
     const levelLimit = useWatch({
         name: `${namespace}.planning`
     })
-    const { levels, loading } = useOrgUnitLevels(levelLimit?.levels)
+    const {
+        levels,
+        loading
+    } = useOrgUnitLevels(levelLimit?.levels)
 
     return (
         <div id="org-unit-default-config-field-container">
@@ -20,7 +23,7 @@ export function DefaultOrgUnitField () {
                 orgUnitProps={{
                     limitSelectionToLevels: levelLimit?.enabled ? compact(levels?.map(({ level }) => level)) : undefined
                 }}
-                label={i18n.t('Default organisation unit')}
+                label={i18n.t('Default planning organisation unit')}
                 valueType="ORGANISATION_UNIT"
                 name={name}
             />
