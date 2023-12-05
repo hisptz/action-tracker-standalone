@@ -9,6 +9,7 @@ import { ActionTrackingColumnStateConfig } from '../../../../../../state/columns
 import { useManageActionStatus } from './hooks/save'
 import { DateTime } from 'luxon'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { TrackedEntity } from '../../../../../../../../../../../../../../shared/types/dhis2'
 
 export interface ActionStatusFormProps {
     columnConfig: ActionTrackingColumnStateConfig;
@@ -16,16 +17,16 @@ export interface ActionStatusFormProps {
     onClose: () => void;
     onComplete: () => void;
     hide: boolean;
-    instance: any
+    action: TrackedEntity
 }
 
 export function ActionStatusForm ({
                                       onClose,
                                       onComplete,
                                       hide,
-                                      instance,
+                                      action,
                                       columnConfig,
-                                      defaultValue
+                                      defaultValue,
                                   }: ActionStatusFormProps) {
 
     const defaultValues = useMemo(() => {
@@ -44,10 +45,14 @@ export function ActionStatusForm ({
             ...dataValues
         }
     }, [defaultValue])
+
     const {
         fields,
         schema
-    } = useFormMeta({ columnConfig })
+    } = useFormMeta({
+        columnConfig,
+        action: action
+    })
 
     const form = useForm({
         defaultValues,
@@ -57,7 +62,7 @@ export function ActionStatusForm ({
         saving,
         onSave
     } = useManageActionStatus({
-        instance,
+        action,
         onComplete: () => {
             onComplete()
             onClose()

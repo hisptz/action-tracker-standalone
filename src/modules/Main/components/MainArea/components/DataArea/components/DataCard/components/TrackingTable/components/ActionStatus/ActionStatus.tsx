@@ -61,7 +61,7 @@ export function ActionStatus ({
         refetch()
     }
     const { onDelete: onDeleteConfirm } = useManageActionStatus({
-        instance,
+        action: instance,
         onComplete: onActionManageComplete,
         defaultValue: statusEvent,
         columnConfig
@@ -126,8 +126,13 @@ export function ActionStatus ({
         return (
             <td style={{ width: 'auto' }}
                 className={classes['tracking-value-cell']}>
-                <ActionStatusForm onComplete={onActionManageComplete} columnConfig={columnConfig} onClose={onHide}
-                                  hide={hide} instance={instance}/>
+                <ActionStatusForm
+                    onComplete={onActionManageComplete}
+                    columnConfig={columnConfig}
+                    onClose={onHide}
+                    hide={hide}
+                    action={instance}
+                />
                 <div className="w-100 h-100 column center align-center">
                     <AccessProvider access="Standalone Action Tracker - Tracking">
                         <Button onClick={onShow} icon={<IconAdd24/>}/>
@@ -149,11 +154,12 @@ export function ActionStatus ({
         }}
             className={classes['tracking-value-cell']}>
             <ActionStatusForm
+                action={instance}
                 defaultValue={statusEvent}
                 onComplete={onActionManageComplete}
                 columnConfig={columnConfig}
                 onClose={onHide}
-                hide={hide} instance={instance}
+                hide={hide}
             />
             <div className="w-100 h-100 row gap-8">
                 <div className="flex-1 column gap-8">

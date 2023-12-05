@@ -85,7 +85,6 @@ export function DataTable ({
 
     const {
         columns,
-        allColumns,
         childTableColSpan
     } = useTableColumns(config)
 
