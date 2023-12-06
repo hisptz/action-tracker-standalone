@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { compact, fromPairs, get, head, isEmpty } from 'lodash'
 import { uid } from '@hisptz/dhis2-utils'
 import { useConfiguration } from '../../../../../../../../../../../../../../../shared/hooks/config'
-import { Enrollment } from '../../../../../../../../../../../../../../../shared/types/dhis2'
+import { Enrollment, TrackedEntity } from '../../../../../../../../../../../../../../../shared/types/dhis2'
 import { asyncify, mapSeries } from 'async'
 import { useUploadFile } from '../../../../../../../../../../../../../../../shared/hooks/files'
 import { useFormMeta } from './metadata'
@@ -83,12 +83,12 @@ export function updateEvent (data: Record<string, any>, event: any) {
 }
 
 export function useManageActionStatus ({
-                                           instance,
+                                           action,
                                            onComplete,
                                            defaultValue,
                                            columnConfig
                                        }: {
-    instance: any, onComplete: () => void, defaultValue?: any,
+    action: TrackedEntity, onComplete: () => void, defaultValue?: any,
     columnConfig: ActionTrackingColumnStateConfig
 }) {
     const {
@@ -110,7 +110,10 @@ export function useManageActionStatus ({
             })
         }
     })
-    const { fields } = useFormMeta({ columnConfig })
+    const { fields } = useFormMeta({
+        columnConfig,
+        action
+    })
     const { config } = useConfiguration()
 
     const actionStatusProgramStage = config?.action?.statusConfig?.id as string
@@ -158,13 +161,13 @@ export function useManageActionStatus ({
 
         } else {
 
-            const enrollment = head(instance.enrollments) as Enrollment
+            const enrollment = head(action.enrollments as any[]) as Enrollment
             const event = generateEvent(data, {
                 orgUnit: enrollment.orgUnit,
                 program: enrollment.program,
                 programStage: actionStatusProgramStage,
                 enrollment: enrollment.enrollment,
-                trackedEntity: instance.trackedEntity
+                trackedEntity: action.trackedEntity
             })
             await uploadPayload({
                 data: {

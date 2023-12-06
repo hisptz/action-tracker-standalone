@@ -43,18 +43,17 @@ export function useTrackingPeriods () {
         let periods: BasePeriod[] = []
 
         if (period.start.year === period.end.year) {
-            periods = new PeriodUtility().setYear(period.start.year as number).setCategory(PeriodTypeCategory.FIXED).getPeriodType(periodTypeId)?.periods ?? []
+            periods = new PeriodUtility().setPreference({ allowFuturePeriods: true }).setYear(period.start.year as number).setCategory(PeriodTypeCategory.FIXED).getPeriodType(periodTypeId)?.periods ?? []
         } else {
             periods = compact(flatten(range(period.start.year, period.end.year + 1).map((year) => {
-                return new PeriodUtility().setYear(year).setCategory(PeriodTypeCategory.FIXED).getPeriodType(periodTypeId)?.periods
+                return new PeriodUtility().setPreference({ allowFuturePeriods: true }).setYear(year).setCategory(PeriodTypeCategory.FIXED).getPeriodType(periodTypeId)?.periods
             }) ?? [])) ?? []
         }
-        return compact(uniqBy(periods, 'id').filter((pe) => period?.interval.contains(pe.start) && period?.interval.contains(pe.end))) ?? []
+        return compact(uniqBy(periods, 'id').filter((pe) => period?.interval.contains(pe.start) && period?.interval.contains(pe.end.minus({ day: 1 })))) ?? []
     }, [period, config])
 }
 
 export function useTrackingColumns () {
-    const { config } = useConfiguration()
     const type = usePageType()
 
     const { period } = useDimensions()
@@ -72,6 +71,7 @@ export function useTrackingColumns () {
                 period
             }] as ActionTrackingColumnStateConfig[]
         } else {
+
             return compact(trackingPeriods.map((period) => {
                 const periodObject = period.get()
                 if (!periodObject) {

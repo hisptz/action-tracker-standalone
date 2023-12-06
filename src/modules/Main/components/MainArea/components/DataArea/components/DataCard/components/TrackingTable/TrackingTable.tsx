@@ -73,7 +73,7 @@ export function TrackingTable ({
                                             key={`${column.id}-${instance.trackedEntity}-action-status`}
                                             refetch={refetch}
                                             events={events}
-                                            instance={instance}
+                                            action={instance}
                                             columnConfig={column}
                                         />
                                 ))
