@@ -20,13 +20,16 @@ import { DataView } from '../../../../../../../../../../../../shared/components/
 import { AccessProvider } from '../../../../../../../../../../../../shared/components/AccessProvider'
 import { useAccess } from '../../../../../../../../../../../../shared/components/AccessProvider/hooks/access'
 import { formatDate } from '../../../../../../../../../../../../shared/utils/date'
-import { TrackedEntity } from '../../../../../../../../../../../../shared/types/dhis2'
+import {
+    TrackedEntity,
+    WebapiControllerTrackerView_Event
+} from '../../../../../../../../../../../../shared/types/dhis2'
 import { useShowActionTracking } from './hooks/date'
 
 export interface ActionStatusProps {
     refetch: () => void;
     action: TrackedEntity,
-    events: any[]
+    events: WebapiControllerTrackerView_Event[]
     columnConfig: ActionTrackingColumnStateConfig,
     columns: ColumnStateConfig[],
     allColumns: ColumnStateConfig[]
@@ -108,6 +111,7 @@ export function ActionStatus ({
 
     const showActionStatus = useShowActionTracking({
         action,
+        events,
         period
     })
 

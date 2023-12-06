@@ -211,7 +211,9 @@ export function generateBasicTemplate (levels: number) {
                     id: uid(),
                     stateConfig: {
                         dataElement: statusFieldId,
-                        optionSetId: statusOptionSetId
+                        optionSetId: statusOptionSetId,
+                        completeOptionCode: `${code} - Completed`,
+                        cancelOptionCode: `${code} - Cancelled`
                     },
                     dateConfig: {
                         name: i18n.t('Review Date')
@@ -443,7 +445,9 @@ export function generateLegacyTemplate ({
             statusConfig: {
                 stateConfig: {
                     dataElement: 'f8JYVWLC7rE',
-                    optionSetId: statusOptionSetId
+                    optionSetId: statusOptionSetId,
+                    completeOptionCode: `${code} - Completed`,
+                    cancelOptionCode: `${code} - Cancelled`
                 },
                 dateConfig: {
                     name: i18n.t('Review Date')

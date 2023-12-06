@@ -81,6 +81,8 @@ export const actionStatusConfigSchema = z.object({
     stateConfig: z.object({
         dataElement: z.string(),
         optionSetId: z.string(),
+        completeOptionCode: z.string(),
+        cancelOptionCode: z.string()
     }),
     dateConfig: z.object({
         name: z.string()

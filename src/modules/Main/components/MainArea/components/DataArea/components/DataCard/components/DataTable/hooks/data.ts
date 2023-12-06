@@ -32,7 +32,7 @@ const trackedEntitiesQuery: any = {
                 'trackedEntityType',
                 'orgUnit',
                 'attributes[attribute,valueType,value]',
-                'enrollments[enrollment,orgUnit,program,enrolledAt,occurredAt]'
+                'enrollments[enrollment,orgUnit,program,enrolledAt,occurredAt,events[dataValues,occurredAt]]'
             ],
         })
     }
