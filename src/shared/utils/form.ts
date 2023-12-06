@@ -25,9 +25,10 @@ export function getFieldProps ({
 }
 
 export function getFieldSchema (field: DataField, { period }: { period: PeriodInterface }) {
-    const schema = z.string({ required_error: i18n.t('This field is required') })
+    let schema: any = z.string({ required_error: i18n.t('This field is required') })
+
     if (!field.mandatory) {
-        schema.optional()
+        schema = schema.optional()
     }
 
     if (field.type === valueType.FILE_RESOURCE) {
@@ -35,13 +36,13 @@ export function getFieldSchema (field: DataField, { period }: { period: PeriodIn
     }
 
     if (field.isStartDate) {
-        return schema.refine((value) => {
+        return schema.refine((value: string) => {
             return new Date(value) >= period.startDate
         }, i18n.t('The start date should not be before the selected planned date'))
     }
 
     if (field.isEndDate) {
-        return schema.refine((value) => {
+        return schema.refine((value: string) => {
             return new Date(value) <= period.endDate
         }, i18n.t('The start date should not be after the selected planned date'))
     }
