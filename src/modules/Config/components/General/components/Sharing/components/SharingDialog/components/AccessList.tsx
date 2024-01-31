@@ -46,6 +46,7 @@ export function AccessList(): React.ReactElement {
 				/>
 				{userGroupAccess?.map((uGroup) => (
 					<ListItem
+						key={`${uGroup.id}`}
 						entity={uGroup}
 						target={SharedTarget.GROUP}
 						accessOptions={ACCESS_TYPES}

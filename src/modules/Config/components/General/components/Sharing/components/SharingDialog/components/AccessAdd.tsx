@@ -19,7 +19,7 @@ export function AccessAdd(): React.ReactElement {
 	});
 	const ref = useRef<HTMLFormElement>(null);
 	const [entity, setEntity] = useState<
-		| { id: string; type: string; name?: string; displayName?: string }
+		| { id: string; type?: string; name?: string; displayName?: string }
 		| undefined
 	>();
 	const [access, setAccess] = useState("");
@@ -31,7 +31,9 @@ export function AccessAdd(): React.ReactElement {
 					[
 						...userAccessField.value,
 						{
-							...entity,
+							id: entity.id,
+							name: entity.name,
+							displayName: entity.displayName,
 							access,
 						},
 					],
@@ -45,7 +47,9 @@ export function AccessAdd(): React.ReactElement {
 					[
 						...userGroupAccessField.value,
 						{
-							...entity,
+							id: entity.id,
+							name: entity.name,
+							displayName: entity.displayName,
 							access,
 						},
 					],

@@ -5,16 +5,11 @@ import { SharingDialog } from './components/SharingDialog/SharingDialog'
 import './sharing.css'
 
 export function Sharing() {
-	const { show } = useDilog();
-
-	const onShowClick = () => {
-		show({
-			title: i18n.t("'Configure sharing',
-			content: <SharingDialog />,
-			position: 'middle',
-			size: 'large',
-		})
-	}
+	const {
+		value: hide,
+		setTrue: onClose,
+		setFalse: onOpen,
+	} = useBooleantrue)
 
 	return (
 		<>
@@ -25,11 +20,12 @@ export function Sharing() {
 					)}
 				</span>
 				<div>
-					<Button onClick={onShowClick}>
+					<SharingDialog hide={hide} onClose={onClose}/>
+					<Button onClick={onOpen}>
 						{i18n.t('Configure sharing')}
 					</Button>
 				</div>
 			</div>
 		</>
-	)
+	);
 }
