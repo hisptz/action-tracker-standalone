@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-12-05T11:55:31.358Z\n"
-"PO-Revision-Date: 2023-12-05T11:55:31.358Z\n"
+"POT-Creation-Date: 2024-01-31T07:10:47.184Z\n"
+"PO-Revision-Date: 2024-01-31T07:10:47.184Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -295,6 +295,9 @@ msgstr "Organisation Units"
 msgid "Period"
 msgstr "Period"
 
+msgid "Access and Sharing"
+msgstr "Access and Sharing"
+
 msgid "Configuration Management"
 msgstr "Configuration Management"
 
@@ -374,11 +377,56 @@ msgstr "Planning frequency is required"
 msgid "Planning frequency"
 msgstr "Planning frequency"
 
+msgid "Configure sharing"
+msgstr "Configure sharing"
+
 msgid "Configure who can access this configuration and metadata associated"
 msgstr "Configure who can access this configuration and metadata associated"
 
-msgid "Configure sharing"
-msgstr "Configure sharing"
+msgid "Give Access to a user , group or role"
+msgstr "Give Access to a user , group or role"
+
+msgid "Access level"
+msgstr "Access level"
+
+msgid "Select a level"
+msgstr "Select a level"
+
+msgid "Give access"
+msgstr "Give access"
+
+msgid "Users and groups that currently have access"
+msgstr "Users and groups that currently have access"
+
+msgid "User / Group / Role"
+msgstr "User / Group / Role"
+
+msgid "All users"
+msgstr "All users"
+
+msgid "Not available offline"
+msgstr "Not available offline"
+
+msgid "User, group or role"
+msgstr "User, group or role"
+
+msgid "Search"
+msgstr "Search"
+
+msgid "Confirm action"
+msgstr "Confirm action"
+
+msgid "Are you sure you want to delete this access?"
+msgstr "Are you sure you want to delete this access?"
+
+msgid "No Access"
+msgstr "No Access"
+
+msgid "View Only"
+msgstr "View Only"
+
+msgid "View and Edit"
+msgstr "View and Edit"
 
 msgid ""
 "This page allows you to configure basic details of the application. "
