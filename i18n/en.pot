@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-01-31T11:39:43.542Z\n"
-"PO-Revision-Date: 2024-01-31T11:39:43.542Z\n"
+"POT-Creation-Date: 2024-01-31T12:53:24.453Z\n"
+"PO-Revision-Date: 2024-01-31T12:53:24.453Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -382,6 +382,12 @@ msgstr "Configure who can access this configuration and metadata associated"
 
 msgid "Configure sharing"
 msgstr "Configure sharing"
+
+msgid "Sharing configured successfully"
+msgstr "Sharing configured successfully"
+
+msgid "Sharing configuration failed"
+msgstr "Sharing configuration failed"
 
 msgid "Give Access to a user , group or role"
 msgstr "Give Access to a user , group or role"
