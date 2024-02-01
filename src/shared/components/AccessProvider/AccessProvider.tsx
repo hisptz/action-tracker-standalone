@@ -24,8 +24,6 @@ export function AccessProvider({
 }: AccessProviderProps) {
 	const allowed = useAccess(access);
 
-	console.log(allowed);
-
 	if ((!allowed || override) && shouldHide) {
 		if (fallback) {
 			return fallback;

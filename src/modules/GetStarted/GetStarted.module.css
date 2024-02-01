@@ -12,6 +12,14 @@
     cursor: pointer;
 }
 
+.button:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+.button:disabled:hover {
+    opacity: .4;
+}
+
 .button:active {
     opacity: 1;
     outline: 2px solid rgb(44, 102, 147)
