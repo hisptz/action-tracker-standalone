@@ -13,6 +13,8 @@ import { ACCESS_VIEW_AND_EDIT } from "./components/General/components/Sharing/co
 import { CustomError } from "../../shared/models/error";
 import i18n from "@dhis2/d2-i18n";
 import { IconBlock24 } from "@dhis2/ui";
+import { useAccess } from "../../shared/components/AccessProvider/hooks/access";
+import { AppAccessType } from "../../shared/components/AccessProvider";
 
 function ConfigForm() {
 	const { config } = useConfiguration();
@@ -42,6 +44,24 @@ export function ConfigPage() {
 	const { config } = useConfiguration();
 	const user = useRecoilValue(UserState);
 	const accessConfig = useRecoilValue(ConfigAccessState(config?.id));
+	const appAccess = useAccess(AppAccessType.CONFIGURE);
+
+	if (!appAccess) {
+		throw new CustomError({
+			message: i18n.t("You do not have configuration access"),
+			name: i18n.t("Access denied"),
+			icon: IconBlock24,
+			actions: [
+				{
+					label: i18n.t("Go home"),
+					primary: true,
+					action: ({ navigate }) => {
+						navigate("/");
+					},
+				},
+			],
+		});
+	}
 
 	if (
 		!userHasAccess({
@@ -51,9 +71,9 @@ export function ConfigPage() {
 		})
 	) {
 		throw new CustomError({
-			message: i18n.t(
-				"You do not have access to change this configuration",
-			),
+			message: `${i18n.t(
+				"You do not have access to change the configuration for",
+			)} ${config?.name}`,
 			name: i18n.t("Access denied"),
 			icon: IconBlock24,
 			actions: [
