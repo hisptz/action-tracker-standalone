@@ -1,51 +1,22 @@
 import React, { useEffect } from "react";
-import { DATASTORE_NAMESPACE } from "../../../../../../../../shared/constants/meta";
-import { useAlert, useDataMutation, useDataQuery } from "@dhis2/app-runtime";
+import { useAlert, useDataMutation } from "@dhis2/app-runtime";
 import { useConfiguration } from "../../../../../../../../shared/hooks/config";
 import {
 	Button,
 	ButtonStrip,
-	CircularLoader,
 	Modal,
 	ModalActions,
 	ModalContent,
 } from "@dhis2/ui";
-import { SharingObject, SharingPayload } from "../../types/data";
+import { SharingObject } from "../../types/data";
 import { FormProvider, useForm } from "react-hook-form";
 import { AccessAdd } from "./components/AccessAdd";
 import { AccessList } from "./components/AccessList";
 import i18n from "@dhis2/d2-i18n";
 import { getSharableItems } from "../../utils";
 import { some } from "lodash";
-
-const metaQuery: any = {
-	meta: {
-		resource: `dataStore/${DATASTORE_NAMESPACE}`,
-		id: ({ id }: { id: string }) => `${id}/metaData`,
-	},
-};
-
-interface MetaQueryResponse {
-	meta: {
-		id: string;
-		key: string;
-		namespace: string;
-	};
-}
-
-const sharingQuery: any = {
-	data: {
-		resource: "sharing",
-		params: ({ id }: { id: string }) => ({
-			type: "dataStore",
-			id,
-		}),
-	},
-};
-
-interface SharingQueryResponse {
-	data: SharingPayload;
-}
+import { useRecoilValue } from "recoil";
+import { ConfigAccessState } from "../../../../../../../../shared/state/config";
 
 const accessMutation: any = {
 	type: "update",
@@ -74,23 +45,18 @@ export function SharingDialog({ hide, onClose }: SharingDialogProps) {
 			duration: 3000,
 		}),
 	);
-	const { data: metaData, loading: metaLoading } =
-		useDataQuery<MetaQueryResponse>(metaQuery, {
-			variables: {
-				id: config?.id,
-			},
-		});
 
-	const {
-		data: defaultAccessData,
-		refetch,
-		loading: sharingLoading,
-	} = useDataQuery<SharingQueryResponse>(sharingQuery, {
-		lazy: true,
-	});
+	const defaultAccessData = useRecoilValue(ConfigAccessState(config?.id));
+
 	const form = useForm<SharingObject>({});
 
-	const [save, { loading: saving }] = useDataMutation(accessMutation);
+	useEffect(() => {
+		if (defaultAccessData) {
+			form.reset(defaultAccessData.object ?? {});
+		}
+	}, [defaultAccessData]);
+
+	const [save] = useDataMutation(accessMutation);
 
 	const onSaveChanges = async (data: SharingObject) => {
 		if (!config) return;
@@ -100,7 +66,7 @@ export function SharingDialog({ hide, onClose }: SharingDialogProps) {
 				...sharableItems.map((item) =>
 					save({
 						data: {
-							...defaultAccessData?.data,
+							...defaultAccessData,
 							object: data,
 						},
 						...item,
@@ -108,9 +74,9 @@ export function SharingDialog({ hide, onClose }: SharingDialogProps) {
 				),
 				save({
 					type: "dataStore",
-					id: metaData?.meta.id,
+					id: defaultAccessData?.object?.id,
 					data: {
-						...defaultAccessData?.data,
+						...defaultAccessData,
 						object: data,
 					},
 				}),
@@ -142,44 +108,17 @@ export function SharingDialog({ hide, onClose }: SharingDialogProps) {
 		}
 	};
 
-	useEffect(() => {
-		async function get() {
-			if (metaData) {
-				const response = (await refetch({
-					id: metaData.meta.id,
-				})) as unknown as SharingQueryResponse;
-
-				form.reset({
-					...response?.data.object,
-				});
-			}
-		}
-
-		get();
-	}, [metaData]);
-
-	const loading = metaLoading || sharingLoading;
-
 	const isSaving = form.formState.isSubmitting || form.formState.isValidating;
 
 	return (
 		<Modal position="middle" hide={hide} onClose={onClose}>
 			<ModalContent>
-				{loading ? (
-					<div
-						style={{ minHeight: 400 }}
-						className="w-100 h-100 column center align-center"
-					>
-						<CircularLoader small />
+				<FormProvider {...form}>
+					<div className="column  gap-8">
+						<AccessAdd />
+						<AccessList />
 					</div>
-				) : (
-					<FormProvider {...form}>
-						<div className="column  gap-8">
-							<AccessAdd />
-							<AccessList />
-						</div>
-					</FormProvider>
-				)}
+				</FormProvider>
 			</ModalContent>
 			<ModalActions>
 				<ButtonStrip>

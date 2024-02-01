@@ -3,21 +3,21 @@ import i18n from "@dhis2/d2-i18n";
 export const ACCESS_NONE = {
 	value: "--------",
 	label: i18n.t("No Access"),
-};
+} as const;
 export const ACCESS_VIEW_ONLY = {
 	value: "r-------",
 	label: i18n.t("View Only"),
-};
+} as const;
 export const ACCESS_VIEW_AND_EDIT = {
 	value: "rw------",
 	label: i18n.t("View and Edit"),
-};
+} as const;
 
 export const ACCESS_TYPES = [
 	ACCESS_NONE,
 	ACCESS_VIEW_ONLY,
 	ACCESS_VIEW_AND_EDIT,
-];
+] as const;
 
 export enum AccessEntityType {
 	USER = "userAccess",

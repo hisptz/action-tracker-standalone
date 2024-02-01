@@ -9,6 +9,7 @@ import { OptionSet } from "../types/dhis2";
 import { CustomError } from "../models/error";
 import i18n from "@dhis2/d2-i18n";
 import { IconBlock24 } from "@dhis2/ui";
+import { SharingPayload } from "../../modules/Config/components/General/components/Sharing/types/data";
 
 const query: any = {
 	config: {
@@ -63,6 +64,84 @@ export const ConfigState = selectorFamily<Config | null, string | undefined>({
 					variables: { id },
 				});
 				return config as Config;
+			} catch (e: any) {
+				if (e.details.httpStatusCode === 403) {
+					throw new CustomError({
+						message: i18n.t(
+							"You do not have access to view this configuration",
+						),
+						name: i18n.t("Access Denied"),
+						icon: IconBlock24,
+						actions: [
+							{
+								action: ({ navigate }) => {
+									navigate("/");
+								},
+								label: i18n.t("Go back home"),
+								primary: true,
+							},
+						],
+					});
+				}
+				return null;
+			}
+		},
+});
+
+const metaQuery: any = {
+	meta: {
+		resource: `dataStore/${DATASTORE_NAMESPACE}`,
+		id: ({ id }: { id: string }) => `${id}/metaData`,
+	},
+};
+
+interface MetaQueryResponse {
+	meta: {
+		id: string;
+		key: string;
+		namespace: string;
+	};
+}
+
+const sharingQuery: any = {
+	data: {
+		resource: "sharing",
+		params: ({ id }: { id: string }) => ({
+			type: "dataStore",
+			id,
+		}),
+	},
+};
+
+interface SharingQueryResponse {
+	data: SharingPayload;
+}
+
+export const ConfigAccessState = selectorFamily<
+	SharingPayload | null,
+	string | undefined
+>({
+	key: "config-state",
+	get:
+		(id?: string) =>
+		async ({ get }) => {
+			if (!id) {
+				return null;
+			}
+			const engine = get(DataEngineState);
+			try {
+				const metaData = (await engine.query(metaQuery, {
+					variables: {
+						id: id,
+					},
+				})) as unknown as MetaQueryResponse;
+
+				const sharingData = (await engine.query(sharingQuery, {
+					variables: {
+						id: metaData.meta.id,
+					},
+				})) as unknown as SharingQueryResponse;
+				return sharingData.data;
 			} catch (e: any) {
 				if (e.details.httpStatusCode === 403) {
 					throw new CustomError({

@@ -6,6 +6,7 @@ export interface AccessObject {
 }
 
 export interface SharingObject {
+	id: string;
 	publicAccess: string;
 	externalAccess: boolean;
 	user: {
