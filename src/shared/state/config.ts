@@ -4,6 +4,7 @@ import { DataEngineState } from "./engine";
 import { DATASTORE_NAMESPACE } from "../constants/meta";
 import { type Program } from "@hisptz/dhis2-utils";
 import { head } from "lodash";
+import { filter } from "async";
 import { OptionSet } from "../types/dhis2";
 import { CustomError } from "../models/error";
 import i18n from "@dhis2/d2-i18n";
@@ -29,9 +30,22 @@ export const ConfigIdsState = selector({
 	get: async ({ get }) => {
 		const engine = get(DataEngineState);
 		const { config } = await engine.query(configKeysQuery);
-		return (config as string[])?.filter(
+		const configKeys = (config as string[])?.filter(
 			(key) => !keysToExclude.includes(key),
 		);
+
+		/* The following logic should only be temporary until the access issue is resolved */
+		/* Basically, we filter out keys we don't have access to. */
+
+		return await filter(configKeys, async (key) => {
+			try {
+				return !!(await engine.query(query, {
+					variables: { id: key },
+				}));
+			} catch (e: any) {
+				return e.details.httpStatusCode !== 403;
+			}
+		});
 	},
 });
 

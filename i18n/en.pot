@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-01-31T12:53:24.453Z\n"
-"PO-Revision-Date: 2024-01-31T12:53:24.453Z\n"
+"POT-Creation-Date: 2024-02-01T11:37:24.046Z\n"
+"PO-Revision-Date: 2024-02-01T11:37:24.046Z\n"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -567,6 +567,18 @@ msgstr ""
 msgid "You can change the year for the default period here."
 msgstr "You can change the year for the default period here."
 
+msgid "Sharing and access configuration"
+msgstr "Sharing and access configuration"
+
+msgid ""
+"Here you can configure sharing and access settings for the application. You "
+"can define who can view and edit the data. Access can be granted to all "
+"users, specific users, or user groups"
+msgstr ""
+"Here you can configure sharing and access settings for the application. You "
+"can define who can view and edit the data. Access can be granted to all "
+"users, specific users, or user groups"
+
 msgid "Reset changes"
 msgstr "Reset changes"
 
@@ -1056,6 +1068,15 @@ msgstr "Use the BNA like categorization to track activities"
 
 msgid "Could not upload file {{ errorMessage }}"
 msgstr "Could not upload file {{ errorMessage }}"
+
+msgid "You do not have access to view this configuration"
+msgstr "You do not have access to view this configuration"
+
+msgid "Access Denied"
+msgstr "Access Denied"
+
+msgid "Go back home"
+msgstr "Go back home"
 
 msgid "This field is required"
 msgstr "This field is required"
