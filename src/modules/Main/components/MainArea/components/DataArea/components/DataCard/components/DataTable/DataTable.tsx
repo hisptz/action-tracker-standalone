@@ -28,7 +28,10 @@ import { useDialog } from "@hisptz/dhis2-ui";
 import { useViewModal } from "../../../../../../../../../../shared/components/ViewModal";
 import { DataView } from "../../../../../../../../../../shared/components/DataView/DataView";
 import { useMode } from "../../../../../../../../../../shared/hooks/mode";
-import { AccessProvider } from "../../../../../../../../../../shared/components/AccessProvider";
+import {
+	AccessProvider,
+	AppAccessType,
+} from "../../../../../../../../../../shared/components/AccessProvider";
 import { useAccess } from "../../../../../../../../../../shared/components/AccessProvider/hooks/access";
 import {
 	Event,
@@ -52,7 +55,7 @@ export function DataTable({
 	const { confirm } = useDialog();
 	const { show } = useViewModal();
 	const mode = useMode();
-	const allowed = useAccess("Standalone Action Tracker - Planning");
+	const allowed = useAccess(AppAccessType.PLAN);
 
 	const { config: allConfig } = useConfiguration();
 	const config = useMemo(() => {
@@ -178,7 +181,7 @@ export function DataTable({
 								<AccessProvider
 									shouldHide={mode === "tracking"}
 									override={mode === "tracking"}
-									access="Standalone Action Tracker - Planning"
+									access={AppAccessType.PLAN}
 								>
 									<Button
 										onClick={onShow}
@@ -341,7 +344,7 @@ export function DataTable({
 			<div style={{ padding: 8 }} className="row gap-16 space-between">
 				<div>
 					<AccessProvider
-						access="Standalone Action Tracker - Planning"
+						access={AppAccessType.PLAN}
 						override={mode === "tracking"}
 						shouldHide={mode === "tracking"}
 					>

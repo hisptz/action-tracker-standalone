@@ -20,7 +20,10 @@ import { useMetadata } from "../../../../../../../../../../../../shared/hooks/me
 import { useViewModal } from "../../../../../../../../../../../../shared/components/ViewModal";
 import { ActionStatusConfig } from "../../../../../../../../../../../../shared/schemas/config";
 import { DataView } from "../../../../../../../../../../../../shared/components/DataView/DataView";
-import { AccessProvider } from "../../../../../../../../../../../../shared/components/AccessProvider";
+import {
+	AccessProvider,
+	AppAccessType,
+} from "../../../../../../../../../../../../shared/components/AccessProvider";
 import { useAccess } from "../../../../../../../../../../../../shared/components/AccessProvider/hooks/access";
 import { formatDate } from "../../../../../../../../../../../../shared/utils/date";
 import {
@@ -48,7 +51,7 @@ export function ActionStatus({
 }: ActionStatusProps) {
 	const { value: hide, setTrue: onHide, setFalse: onShow } = useBoolean(true);
 	const { confirm } = useDialog();
-	const allowed = useAccess("Standalone Action Tracker - Tracking");
+	const allowed = useAccess(AppAccessType.TRACK);
 
 	const { show } = useViewModal();
 	const { period: selectedPeriod } = useDimensions();
@@ -163,7 +166,7 @@ export function ActionStatus({
 					action={action}
 				/>
 				<div className="w-100 h-100 column center align-center">
-					<AccessProvider access="Standalone Action Tracker - Tracking">
+					<AccessProvider access={AppAccessType.TRACK}>
 						<Button onClick={onShow} icon={<IconAdd24 />} />
 					</AccessProvider>
 				</div>

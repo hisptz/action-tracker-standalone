@@ -26,6 +26,7 @@ import {
 	DataField,
 } from "../../../../../../../../shared/schemas/config";
 import { TrackedEntity } from "../../../../../../../../shared/types/dhis2";
+import { AppAccessType } from "../../../../../../../../shared/components/AccessProvider";
 
 export interface DataCardProps {
 	index: number;
@@ -50,7 +51,7 @@ function CardHeader({
 	const { show } = useViewModal();
 
 	const { confirm } = useDialog();
-	const allowed = useAccess("Standalone Action Tracker - Planning");
+	const allowed = useAccess(AppAccessType.PLAN);
 	const title = useMemo(() => {
 		const headerId = (
 			find(

@@ -20,7 +20,7 @@ export function Sharing() {
 						"Configure who can access this configuration and metadata associated",
 					)}
 				</span>
-				<div>
+				<div id="sharing-area">
 					<SharingDialog hide={hide} onClose={onClose} />
 					<Button onClick={onOpen}>
 						{i18n.t("Configure sharing")}

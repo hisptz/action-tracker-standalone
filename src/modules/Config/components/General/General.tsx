@@ -3,7 +3,7 @@ import i18n from "@dhis2/d2-i18n";
 import { Divider } from "@dhis2/ui";
 import { OrganisationUnitConfig } from "./components/OrganisationUnitConfig";
 import { PeriodConfig } from "./components/PeriodConfig";
-import { GeneralSteps, PeriodSteps } from "./docs/steps";
+import { GeneralSteps, PeriodSteps, SharingSteps } from "./docs/steps";
 import { HelpButton, HelpIcon } from "../../../../shared/components/HelpButton";
 import { DeleteConfig } from "./components/DeleteConfig";
 import { Sharing } from "./components/Sharing/Sharing";
@@ -38,6 +38,10 @@ export function General() {
 					</div>
 					<div className="row gap-8 align-center">
 						<h3 className="m-0">{i18n.t("Access and Sharing")}</h3>
+						<HelpIcon
+							steps={SharingSteps}
+							key="period-config-steps"
+						/>
 					</div>
 					<div>
 						<Sharing />
