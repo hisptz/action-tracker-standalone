@@ -127,6 +127,7 @@ export function SharingDialog({ hide, onClose }: SharingDialogProps) {
 					message: i18n.t("Sharing configured successfully"),
 					type: { success: true },
 				});
+				onClose();
 			} else {
 				show({
 					message: i18n.t("Sharing configuration failed"),

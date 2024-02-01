@@ -1,10 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import React from "react";
-import {
-	ACCESS_TYPES,
-	AccessEntityType,
-	SharedTarget,
-} from "../../../constants";
+import { AccessEntityType, SharedTarget } from "../../../constants";
 import Title from "./Title";
 import { ListItem } from "./ListAccessItem";
 import useManageAccess from "../hooks";
@@ -36,20 +32,17 @@ export function AccessList(): React.ReactElement {
 					entity={{
 						name: i18n.t("All users"),
 						displayName: i18n.t("All users"),
-						id: "allUsers",
+						id: "publicAccess",
 						access: publicAccess,
 					}}
 					target={SharedTarget.PUBLIC}
-					accessOptions={ACCESS_TYPES}
 					onChange={onChangeAccess(AccessEntityType.PUBLIC)}
-					onRemove={onRemove(AccessEntityType.PUBLIC)}
 				/>
 				{userGroupAccess?.map((uGroup) => (
 					<ListItem
 						key={`${uGroup.id}`}
 						entity={uGroup}
 						target={SharedTarget.GROUP}
-						accessOptions={ACCESS_TYPES}
 						onChange={onChangeAccess(AccessEntityType.USER_GROUP)}
 						onRemove={onRemove(AccessEntityType.USER_GROUP)}
 					/>
@@ -59,7 +52,6 @@ export function AccessList(): React.ReactElement {
 						entity={entity}
 						key={entity.id}
 						target={SharedTarget.USER}
-						accessOptions={ACCESS_TYPES}
 						onChange={onChangeAccess(AccessEntityType.USER)}
 						onRemove={onRemove(AccessEntityType.USER)}
 					/>

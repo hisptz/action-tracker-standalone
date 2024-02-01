@@ -1,4 +1,3 @@
-import { useOnlineStatus } from "@dhis2/app-runtime";
 import {
 	Button,
 	Divider,
@@ -19,17 +18,15 @@ import { find } from "lodash";
 export function ListItem({
 	entity,
 	target,
-	accessOptions = [],
 	onChange,
 	onRemove,
 }: {
 	entity: AccessObject;
 	target: SharedTarget;
-	accessOptions: typeof ACCESS_TYPES;
 	onChange: (value: { id: string; access: string }) => void;
-	onRemove: (id: string) => void;
+	onRemove?: (id: string) => void;
 }) {
-	const { offline } = useOnlineStatus();
+	const accessOptions = ACCESS_TYPES;
 	const { name, access, id } = entity;
 
 	const accessLabel = find(ACCESS_TYPES, ["value", access])?.label;
@@ -76,13 +73,17 @@ export function ListItem({
 							))}
 						</SingleSelectField>
 					</div>
-					<Button
-						className={"access-lists-access-options-delete-action"}
-						onClick={() => onRemove(id)}
-						icon={<IconDelete24 />}
-					>
-						{i18n.t("Delete")}
-					</Button>
+					{onRemove && (
+						<Button
+							className={
+								"access-lists-access-options-delete-action"
+							}
+							onClick={() => onRemove(id)}
+							icon={<IconDelete24 />}
+						>
+							{i18n.t("Delete")}
+						</Button>
+					)}
 				</div>
 			</div>
 			<Divider />

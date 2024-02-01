@@ -13,7 +13,7 @@ export default function useManageAccess(): {
 	userAccess: SharingObject["userAccesses"];
 	onChangeAccess: (
 		type: string,
-	) => (access: string | { id: string; access: string }) => void;
+	) => (access: { id: string; access: string }) => void;
 	onRemove: (type: string) => (id: string) => void;
 } {
 	const { confirm } = useDialog();
@@ -42,13 +42,13 @@ export default function useManageAccess(): {
 	);
 
 	const onChangeAccess =
-		(type: string) => (access: string | { id: string; access: string }) => {
+		(type: string) => (access: { id: string; access: string }) => {
 			if (type === "publicAccess") {
-				publicAccessField.onChange(access);
+				publicAccessField.onChange(access.access);
 				return;
 			}
 			if (type === "userAccess") {
-				if (typeof access !== "string" && has(access, "id")) {
+				if (has(access, "id")) {
 					const newState = cloneDeep(userAccessField.value);
 					const updatedUserGroupIndex = findIndex(newState, [
 						"id",
@@ -66,7 +66,7 @@ export default function useManageAccess(): {
 				return;
 			}
 			if (type === "userGroupAccess") {
-				if (typeof access !== "string" && has(access, "id")) {
+				if (has(access, "id")) {
 					const newState = cloneDeep(userGroupAccessField.value);
 					const updatedUserGroupIndex = findIndex(newState, [
 						"id",
