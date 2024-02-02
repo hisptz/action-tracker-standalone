@@ -78,7 +78,10 @@ export function AccessAdd(): React.ReactElement {
 						onSelection={setEntity}
 					/>
 				</div>
-				<div className="select-wrapper access-config-add-user-select-wrapper">
+				<div
+					id="select-access-sharing-settings"
+					className="select-wrapper access-config-add-user-select-wrapper"
+				>
 					<SingleSelectField
 						label={i18n.t("Access level")}
 						placeholder={i18n.t("Select a level")}

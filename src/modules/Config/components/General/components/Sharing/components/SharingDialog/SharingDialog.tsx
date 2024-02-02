@@ -7,6 +7,7 @@ import {
 	Modal,
 	ModalActions,
 	ModalContent,
+	ModalTitle,
 } from "@dhis2/ui";
 import { SharingObject } from "../../types/data";
 import { FormProvider, useForm } from "react-hook-form";
@@ -17,6 +18,8 @@ import { getSharableItems } from "../../utils";
 import { some } from "lodash";
 import { useRecoilValue } from "recoil";
 import { ConfigAccessState } from "../../../../../../../../shared/state/config";
+import { HelpIcon } from "../../../../../../../../shared/components/HelpButton";
+import { SharingDialogSteps } from "../../../../docs/steps";
 
 const accessMutation: any = {
 	type: "update",
@@ -112,9 +115,19 @@ export function SharingDialog({ hide, onClose }: SharingDialogProps) {
 
 	return (
 		<Modal position="middle" hide={hide} onClose={onClose}>
+			<ModalTitle>
+				{/*@ts-ignore*/ ""}
+				<div className="row gap-8">
+					{i18n.t("Access and Sharing")}
+					<HelpIcon
+						steps={SharingDialogSteps}
+						key="new-data-item-steps"
+					/>
+				</div>
+			</ModalTitle>
 			<ModalContent>
 				<FormProvider {...form}>
-					<div className="column  gap-8">
+					<div id="sharing-form-area" className="column  gap-8">
 						<AccessAdd />
 						<AccessList />
 					</div>
@@ -122,8 +135,11 @@ export function SharingDialog({ hide, onClose }: SharingDialogProps) {
 			</ModalContent>
 			<ModalActions>
 				<ButtonStrip>
-					<Button onClick={onClose}>{i18n.t("Cancel")}</Button>
+					<Button className="cancel-access-button" onClick={onClose}>
+						{i18n.t("Cancel")}
+					</Button>
 					<Button
+						className="save-access-button"
 						loading={isSaving}
 						onClick={() => form.handleSubmit(onSaveChanges)()}
 						primary

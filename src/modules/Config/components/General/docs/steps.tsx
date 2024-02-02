@@ -189,6 +189,113 @@ export const SharingSteps: Step[] = [
 		),
 	},
 ];
+export const SharingDialogSteps: Step[] = [
+	{
+		element: "#sharing-form-area",
+		title: i18n.t("Sharing and access configuration"),
+		intro: (
+			<div>
+				<p>
+					{i18n.t(
+						"Here you can configure sharing and access settings for the application. You can define who can view and edit the data. Access can be granted to all users, specific users, or user groups",
+					)}
+				</p>
+			</div>
+		),
+	},
+	{
+		element: "#search-sharing-settings",
+		title: i18n.t("Sharing and access configuration"),
+		intro: (
+			<div>
+				<p>
+					{i18n.t(
+						"You can search for a user, user role, or user group here. When you type, a list of matching users, user roles or user groups will appear below the field. You can then click on the name to select",
+					)}
+				</p>
+			</div>
+		),
+	},
+	{
+		element: "#select-access-sharing-settings",
+		title: i18n.t("Sharing and access configuration"),
+		intro: (
+			<div>
+				<p>
+					{i18n.t(
+						"You can select the appropriate access you want to set for the selected entity",
+					)}
+				</p>
+			</div>
+		),
+	},
+	{
+		element: ".access-config-add-user-access-action",
+		title: i18n.t("Sharing and access configuration"),
+		intro: (
+			<div>
+				<p>
+					{i18n.t(
+						"You can then click on give access to add the selection.",
+					)}
+				</p>
+			</div>
+		),
+	},
+	{
+		element: ".access-list",
+		title: i18n.t("Sharing and access configuration"),
+		intro: (
+			<div>
+				<p>
+					{i18n.t("This is a list of already configured accesses.")}
+				</p>
+			</div>
+		),
+	},
+	{
+		element: ".access-list-item.select",
+		title: i18n.t("Sharing and access configuration"),
+		intro: (
+			<div>
+				<p>
+					{i18n.t("You can modify an existing access setting here.")}
+				</p>
+			</div>
+		),
+	},
+	{
+		element: ".access-lists-access-options-delete-action",
+		title: i18n.t("Sharing and access configuration"),
+		intro: (
+			<div>
+				<p>{i18n.t("You can also remove the access setting here")}</p>
+			</div>
+		),
+	},
+	{
+		element: ".save-access-button",
+		title: i18n.t("Sharing and access configuration"),
+		intro: (
+			<div>
+				<p>{i18n.t("Click on save to save the changes")}</p>
+			</div>
+		),
+	},
+	{
+		element: ".cancel-access-button",
+		title: i18n.t("Sharing and access configuration"),
+		intro: (
+			<div>
+				<p>
+					{i18n.t(
+						"To ignore changes and close the configuration click here",
+					)}
+				</p>
+			</div>
+		),
+	},
+];
 
 export const SaveChanges: Step[] = [
 	{

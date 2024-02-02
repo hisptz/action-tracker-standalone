@@ -5,8 +5,23 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-02-01T11:37:24.046Z\n"
-"PO-Revision-Date: 2024-02-01T11:37:24.046Z\n"
+"POT-Creation-Date: 2024-02-02T04:33:04.891Z\n"
+"PO-Revision-Date: 2024-02-02T04:33:04.891Z\n"
+
+msgid "You do not have configuration access"
+msgstr "You do not have configuration access"
+
+msgid "Access denied"
+msgstr "Access denied"
+
+msgid "Go home"
+msgstr "Go home"
+
+msgid "You do not have access to change the configuration for"
+msgstr "You do not have access to change the configuration for"
+
+msgid "Go back"
+msgstr "Go back"
 
 msgid "Action Configuration"
 msgstr "Action Configuration"
@@ -579,6 +594,25 @@ msgstr ""
 "can define who can view and edit the data. Access can be granted to all "
 "users, specific users, or user groups"
 
+msgid ""
+"You can search for a user, user role, or user group here. When you type, a "
+"list of matching users, user roles or user groups will appear below the "
+"field. You can then click on the name to select"
+msgstr ""
+"You can search for a user, user role, or user group here. When you type, a "
+"list of matching users, user roles or user groups will appear below the "
+"field. You can then click on the name to select"
+
+msgid ""
+"You can select the appropriate access you want to set for the selected "
+"entity"
+msgstr ""
+"You can select the appropriate access you want to set for the selected "
+"entity"
+
+msgid "You can then click on give access to add the selection."
+msgstr "You can then click on give access to add the selection."
+
 msgid "Reset changes"
 msgstr "Reset changes"
 
@@ -620,6 +654,24 @@ msgstr "app logo"
 msgid "Welcome to the Standalone Action Tracker"
 msgstr "Welcome to the Standalone Action Tracker"
 
+msgid ""
+"There are currently no configuration in this instance and you do not have "
+"configuration access. Please communicate with your administrator for the "
+"necessary access."
+msgstr ""
+"There are currently no configuration in this instance and you do not have "
+"configuration access. Please communicate with your administrator for the "
+"necessary access."
+
+msgid ""
+"If you are the administrator, make sure you have the necessary authority to "
+"configure the standalone action tracker. Configuration of the authorities "
+"is done in the users app."
+msgstr ""
+"If you are the administrator, make sure you have the necessary authority to "
+"configure the standalone action tracker. Configuration of the authorities "
+"is done in the users app."
+
 msgid "How would you like to use your action tracker?"
 msgstr "How would you like to use your action tracker?"
 
@@ -631,9 +683,6 @@ msgstr "Initial configuration setup complete."
 
 msgid "Invalid configuration selected"
 msgstr "Invalid configuration selected"
-
-msgid "Go back"
-msgstr "Go back"
 
 msgid "Setting up {{title }} configuration"
 msgstr "Setting up {{title }} configuration"

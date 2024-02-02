@@ -33,7 +33,7 @@ export function ListItem({
 	return (
 		<>
 			<div className="wrapper">
-				<div className="details">
+				<div className="details access-list-item">
 					<div className="details-logo">
 						<ListItemIcon
 							target={target}
@@ -52,7 +52,7 @@ export function ListItem({
 						<ListItemContext access={accessLabel} />
 					</div>
 				</div>
-				<div className="select">
+				<div className="select access-list-item">
 					<div className="flex-1 access-lists-access-options">
 						<SingleSelectField
 							selected={access}

@@ -30,7 +30,7 @@ export function AutoComplete({
 	const { offline } = useOnlineStatus();
 	return (
 		<>
-			<div ref={wrapper}>
+			<div id="search-sharing-settings" ref={wrapper}>
 				<InputField
 					label={label}
 					loading={loading}
