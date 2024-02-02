@@ -1,30 +1,36 @@
-import React from 'react'
-import { useAccess } from './hooks/access'
+import React from "react";
+import { useAccess } from "./hooks/access";
 
-export type AccessType =
-    'Standalone Action Tracker - Planning'
-    | 'Standalone Action Tracker - Tracking'
-    | 'Standalone Action Tracker - Configure'
-
-export interface AccessProviderProps {
-    children: React.ReactNode,
-    access: AccessType,
-    shouldHide?: boolean,
-    override?: boolean
+export enum AppAccessType {
+	PLAN = "Standalone Action Tracker - Planning",
+	TRACK = "Standalone Action Tracker - Tracking",
+	CONFIGURE = "Standalone Action Tracker - Configure",
 }
 
-export function AccessProvider ({
-                                    access,
-                                    children,
-                                    shouldHide,
-                                    override
-                                }: AccessProviderProps) {
-    const allowed = useAccess(access)
+export interface AccessProviderProps {
+	children: React.ReactNode;
+	access: AppAccessType;
+	shouldHide?: boolean;
+	override?: boolean;
+	fallback?: React.ReactElement;
+}
 
-    if ((!allowed || override) && shouldHide) {
-        return null
-    }
-    return React.cloneElement(children as React.ReactElement, {
-        disabled: override || !allowed || undefined,
-    })
+export function AccessProvider({
+	access,
+	children,
+	shouldHide,
+	override,
+	fallback,
+}: AccessProviderProps) {
+	const allowed = useAccess(access);
+
+	if ((!allowed || override) && shouldHide) {
+		if (fallback) {
+			return fallback;
+		}
+		return null;
+	}
+	return React.cloneElement(children as React.ReactElement, {
+		disabled: override || !allowed || undefined,
+	});
 }
