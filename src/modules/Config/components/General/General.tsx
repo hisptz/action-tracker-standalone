@@ -3,11 +3,16 @@ import i18n from "@dhis2/d2-i18n";
 import { Divider } from "@dhis2/ui";
 import { OrganisationUnitConfig } from "./components/OrganisationUnitConfig";
 import { PeriodConfig } from "./components/PeriodConfig";
-import { GeneralSteps, PeriodSteps, SharingSteps } from "./docs/steps";
+import {
+	DeleteSteps,
+	GeneralSteps,
+	PeriodSteps,
+	SharingSteps,
+} from "./docs/steps";
 import { HelpButton, HelpIcon } from "../../../../shared/components/HelpButton";
 import { DeleteConfig } from "./components/DeleteConfig";
 import { Sharing } from "./components/Sharing/Sharing";
-import { DialogProvider } from "@hisptz/dhis2-ui";
+import { DialogProvider } from "@hisptz/dhis2-ui"; //The dialog context wrapping this component is for accessing url params within the dialog
 
 //The dialog context wrapping this component is for accessing url params within the dialog
 export function General() {
@@ -50,8 +55,12 @@ export function General() {
 						<h3 className="m-0">
 							{i18n.t("Configuration Management")}
 						</h3>
+						<HelpIcon
+							steps={DeleteSteps}
+							key="period-config-steps"
+						/>
 					</div>
-					<div>
+					<div id="delete-config-area">
 						<DeleteConfig />
 					</div>
 				</div>

@@ -62,7 +62,7 @@ export function DeleteConfig() {
 	const { onDelete } = useDeleteConfig();
 
 	return (
-		<div className="column gap-8">
+		<div id="delete-config-area" className="column gap-8">
 			<div>
 				<Button
 					onClick={() => {

@@ -297,6 +297,27 @@ export const SharingDialogSteps: Step[] = [
 	},
 ];
 
+export const DeleteSteps: Step[] = [
+	{
+		element: "#delete-config-area",
+		title: i18n.t("Delete configuration"),
+		intro: (
+			<div>
+				<p>
+					{i18n.t(
+						"Click on Delete configuration if you want to delete this configuration and all the associated metadata.",
+					)}
+				</p>
+				<p>
+					{i18n.t(
+						"Before doing this, you must make sure there is no data associated with this configuration. This includes already deleted data. We suggest you perform maintenance of permanently delete all tracker data in the data administration app",
+					)}
+				</p>
+			</div>
+		),
+	},
+];
+
 export const SaveChanges: Step[] = [
 	{
 		element: "button[data-test='reset-config-button']",
@@ -328,5 +349,7 @@ export const GeneralSteps = [
 	...OrgUnitPlanningSteps,
 	...OrgUnitDefaultSteps,
 	...PeriodSteps,
+	...SharingSteps,
+	...DeleteSteps,
 	...SaveChanges,
 ];

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-02-02T04:33:04.891Z\n"
-"PO-Revision-Date: 2024-02-02T04:33:04.891Z\n"
+"POT-Creation-Date: 2024-02-02T07:02:32.997Z\n"
+"PO-Revision-Date: 2024-02-02T07:02:32.997Z\n"
 
 msgid "You do not have configuration access"
 msgstr "You do not have configuration access"
@@ -612,6 +612,21 @@ msgstr ""
 
 msgid "You can then click on give access to add the selection."
 msgstr "You can then click on give access to add the selection."
+
+msgid "This is a list of already configured accesses."
+msgstr "This is a list of already configured accesses."
+
+msgid "You can modify an existing access setting here."
+msgstr "You can modify an existing access setting here."
+
+msgid "You can also remove the access setting here"
+msgstr "You can also remove the access setting here"
+
+msgid "Click on save to save the changes"
+msgstr "Click on save to save the changes"
+
+msgid "To ignore changes and close the configuration click here"
+msgstr "To ignore changes and close the configuration click here"
 
 msgid "Reset changes"
 msgstr "Reset changes"
