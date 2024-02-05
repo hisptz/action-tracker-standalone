@@ -5,7 +5,6 @@ import {
 	type Config,
 	type DataField,
 	LinkageConfig,
-	type SharingConfig,
 } from "../schemas/config";
 import {
 	type DataElement,
@@ -23,7 +22,6 @@ import { EntityTypesIds, type InitialMetadata } from "../constants/defaults";
 export interface MetaMeta extends InitialMetadata {
 	code: string;
 	orgUnits: Array<{ id: string; path: string }>;
-	sharing: SharingConfig;
 	linkageConfig: LinkageConfig;
 }
 
@@ -80,7 +78,6 @@ function generateProgramFromConfig(
 		name: `[SAT] - ${meta.code ?? ""} - ${config.name}`,
 		shortName: config.name,
 		trackedEntityType,
-		sharing: meta.sharing as any,
 	};
 }
 
@@ -130,7 +127,6 @@ function generateProgramStageFromConfig(
 	}) as any;
 	return {
 		name: `[SAT] - ${meta.code ?? ""} - ${config.name}`,
-		sharing: meta.sharing as any,
 		id: config.id,
 		programStageDataElements,
 		sortOrder: index + 1,
@@ -248,7 +244,6 @@ function generateRelationshipTypes(config: Config, meta: MetaMeta) {
 	const categoriesWithParents = config.categories.filter(
 		({ parent }) => !parent,
 	);
-	const sharing = config.general.sharing;
 	const relationshipTypes = categoriesWithParents.map(
 		({ parent, name, id }) => {
 			if (parent == null) return;
@@ -266,7 +261,6 @@ function generateRelationshipTypes(config: Config, meta: MetaMeta) {
 					},
 				},
 				toFromName: `[SAT] Parent`,
-				sharing,
 				toConstraint: {
 					relationshipEntity: "PROGRAM_STAGE_INSTANCE",
 					programStage: {
@@ -291,14 +285,13 @@ function generateRelationshipTypes(config: Config, meta: MetaMeta) {
 				id: actionConfig.parent?.from,
 			},
 		},
-		toFromName: `[SAT] Parent`,
+		toFromName: `[SAT] - ${meta.code ?? ""} - Parent`,
 		toConstraint: {
 			relationshipEntity: "PROGRAM_INSTANCE",
 			program: {
 				id: actionConfig.id,
 			},
 		},
-		sharing,
 	};
 
 	return compact([...relationshipTypes, actionRelationType]);
@@ -358,8 +351,6 @@ function cleanProgramStagesDeps(programStages: ProgramStage[]) {
 			autoGenerateEvent: false,
 			displayGenerateEventBox: false,
 			notificationTemplates: [],
-			publicAccess: programStage.sharing?.public,
-			sharing: undefined,
 		};
 	});
 }
@@ -373,7 +364,6 @@ export function generateMetadataFromConfig(
 			linkageConfig: config.meta.linkageConfig,
 			...meta,
 			orgUnits: config.general.orgUnit.orgUnits ?? [],
-			sharing: config.general.sharing,
 			code: config.code,
 		}) ?? {};
 	const { program: actionProgram, programStages: actionProgramStages } =
@@ -381,7 +371,6 @@ export function generateMetadataFromConfig(
 			...meta,
 			linkageConfig: config.meta.linkageConfig,
 			orgUnits: config.general.orgUnit.orgUnits ?? [],
-			sharing: config.general.sharing,
 			code: config.code,
 		}) ?? {};
 
@@ -399,7 +388,6 @@ export function generateMetadataFromConfig(
 		...meta,
 		linkageConfig: config.meta.linkageConfig,
 		orgUnits: config.general.orgUnit.orgUnits ?? [],
-		sharing: config.general.sharing,
 		code: config.code,
 	});
 
@@ -408,6 +396,7 @@ export function generateMetadataFromConfig(
 		trackedEntityAttributes,
 		programs: cleanedProgram,
 		programStages: cleanedProgramStages,
+		relationshipTypes,
 	};
 }
 
