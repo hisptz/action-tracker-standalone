@@ -5,41 +5,56 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-18T08:31:57.437Z\n"
-"PO-Revision-Date: 2022-01-18T08:31:57.437Z\n"
+"POT-Creation-Date: 2024-02-02T09:30:00.708Z\n"
+"PO-Revision-Date: 2024-02-02T09:30:00.708Z\n"
 
-msgid "{{- displayName }}"
-msgstr "{{- displayName }}"
+msgid "You do not have configuration access"
+msgstr "You do not have configuration access"
 
-msgid "Are you sure you want to quit? All changes will be lost."
-msgstr "Are you sure you want to quit? All changes will be lost."
+msgid "Access denied"
+msgstr "Access denied"
 
-msgid "Bottleneck"
-msgstr "Bottleneck"
+msgid "Go home"
+msgstr "Go home"
 
-msgid "Org Unit"
-msgstr "Org Unit"
+msgid "You do not have access to change the configuration for"
+msgstr "You do not have access to change the configuration for"
 
-msgid "Possible Solutions"
-msgstr "Possible Solutions"
+msgid "Go back"
+msgstr "Go back"
 
-msgid "Action Items"
-msgstr "Action Items"
+msgid "Action Configuration"
+msgstr "Action Configuration"
 
-msgid "Responsible Person"
-msgstr "Responsible Person"
+msgid "Action Planning"
+msgstr "Action Planning"
 
-msgid "Start Date"
-msgstr "Start Date"
+msgid "Name is required"
+msgstr "Name is required"
 
-msgid "End Date"
-msgstr "End Date"
-
-msgid "Latest Status"
-msgstr "Latest Status"
+msgid "This will appear on headings and button labels"
+msgstr "This will appear on headings and button labels"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Action Tracking"
+msgstr "Action Tracking"
+
+msgid "Date label is required"
+msgstr "Date label is required"
+
+msgid "Date of review label"
+msgstr "Date of review label"
+
+msgid "Action status options"
+msgstr "Action status options"
+
+msgid "Fields"
+msgstr "Fields"
+
+msgid "Error obtaining action status options"
+msgstr "Error obtaining action status options"
 
 msgid "Code"
 msgstr "Code"
@@ -50,374 +65,1106 @@ msgstr "Color"
 msgid "Icon"
 msgstr "Icon"
 
-msgid "Last Updated"
-msgstr "Last Updated"
-
-msgid "{{ column }}"
-msgstr "{{ column }}"
-
 msgid "Actions"
 msgstr "Actions"
 
-msgid "{{ displayName }}"
-msgstr "{{ displayName }}"
+msgid "Confirm option deletion"
+msgstr "Confirm option deletion"
+
+msgid "Are you sure you want to delete the option "
+msgstr "Are you sure you want to delete the option "
 
 msgid ""
-"Are you sure you want to delete this action status option? This action "
-"cannot be undone."
+"Deleting this option may cause some issues if it was used in tracking "
+"actions."
 msgstr ""
-"Are you sure you want to delete this action status option? This action "
-"cannot be undone."
+"Deleting this option may cause some issues if it was used in tracking "
+"actions."
 
-msgid "Action status option deleted Successfully"
-msgstr "Action status option deleted Successfully"
+msgid "Add option"
+msgstr "Add option"
 
-msgid ""
-"Cannot delete this action status option. It has been assigned to one or "
-"more action status."
-msgstr ""
-"Cannot delete this action status option. It has been assigned to one or "
-"more action status."
+msgid "Name should not exceed 50 characters"
+msgstr "Name should not exceed 50 characters"
 
-msgid "Action Status Settings"
-msgstr "Action Status Settings"
+msgid "Code should not exceed 50 characters"
+msgstr "Code should not exceed 50 characters"
 
-msgid "Are you sure you want to delete this method? This action cannot be undone."
-msgstr "Are you sure you want to delete this method? This action cannot be undone."
+msgid "Color should be in hex"
+msgstr "Color should be in hex"
 
-msgid "Method Deleted Successfully"
-msgstr "Method Deleted Successfully"
-
-msgid ""
-"Cannot delete this method. It has been assigned to one or more "
-"interventions."
-msgstr ""
-"Cannot delete this method. It has been assigned to one or more "
-"interventions."
-
-msgid "Challenge Settings"
-msgstr "Challenge Settings"
-
-msgid " {{ field }} should not exceed 50 characters`"
-msgstr " {{ field }} should not exceed 50 characters`"
-
-msgid "Option with name {{value}} already exists"
-msgstr "Option with name {{value}} already exists"
-
-msgid "{{message}}"
-msgstr "{{message}}"
-
-msgid "Action status option saved successfully"
-msgstr "Action status option saved successfully"
-
-msgid "Edit"
-msgstr "Edit"
-
-msgid "Add"
-msgstr "Add"
-
-msgid "{{ message }}"
-msgstr "{{ message }}"
-
-msgid "Saving..."
-msgstr "Saving..."
-
-msgid "Save Action Status"
-msgstr "Save Action Status"
-
-msgid "Method saved successfully"
-msgstr "Method saved successfully"
-
-msgid "Save Method"
-msgstr "Save Method"
-
-msgid "{{ orgUnitLevel }}"
-msgstr "{{ orgUnitLevel }}"
-
-msgid "{{label}}"
-msgstr "{{label}}"
-
-msgid "Planning organisation unit changed successfully"
-msgstr "Planning organisation unit changed successfully"
-
-msgid "Planning Organisation Unit"
-msgstr "Planning Organisation Unit"
-
-msgid "Planning period changed successfully"
-msgstr "Planning period changed successfully"
-
-msgid "Tracking period changed successfully"
-msgstr "Tracking period changed successfully"
-
-msgid "Planning Period"
-msgstr "Planning Period"
-
-msgid "Tracking Period"
-msgstr "Tracking Period"
-
-msgid "General Settings"
-msgstr "General Settings"
-
-msgid "{{- label }}"
-msgstr "{{- label }}"
-
-msgid "Challenge Identification Methods"
-msgstr "Challenge Identification Methods"
-
-msgid "Back to action planning"
-msgstr "Back to action planning"
-
-msgid "View Indicator Progress"
-msgstr "View Indicator Progress"
-
-msgid ""
-"Are you sure you want to delete this intervention and all related solutions "
-"and actions?"
-msgstr ""
-"Are you sure you want to delete this intervention and all related solutions "
-"and actions?"
-
-msgid "Intervention Deleted Successfully"
-msgstr "Intervention Deleted Successfully"
-
-msgid "Preparing a Excel file"
-msgstr "Preparing a Excel file"
-
-msgid "Preparing a PDF file"
-msgstr "Preparing a PDF file"
-
-msgid ""
-"There are no interventions documented for selected organisation unit and "
-"period."
-msgstr ""
-"There are no interventions documented for selected organisation unit and "
-"period."
-
-msgid "Add Intervention"
-msgstr "Add Intervention"
-
-msgid "Settings"
-msgstr "Settings"
-
-msgid "The selected period has no quarters"
-msgstr "The selected period has no quarters"
-
-msgid "Planning"
-msgstr "Planning"
-
-msgid "Tracking"
-msgstr "Tracking"
-
-msgid "Action {{ activePage }}"
-msgstr "Action {{ activePage }}"
-
-msgid "Clear"
-msgstr "Clear"
-
-msgid "Filter by status"
-msgstr "Filter by status"
-
-msgid "{{name}}"
-msgstr "{{name}}"
-
-msgid "Manage Columns"
-msgstr "Manage Columns"
-
-msgid "Download"
-msgstr "Download"
-
-msgid "Configurations not found."
-msgstr "Configurations not found."
-
-msgid "Configure the app to continue."
-msgstr "Configure the app to continue."
-
-msgid "Contact the administrator."
-msgstr "Contact the administrator."
-
-msgid "If you are the admin, configure the appropriate in app authorities in "
-msgstr "If you are the admin, configure the appropriate in app authorities in "
-
-msgid "user settings"
-msgstr "user settings"
-
-msgid "Select organisation unit and period to start"
-msgstr "Select organisation unit and period to start"
-
-msgid "Delete"
-msgstr "Delete"
-
-msgid "Add Action Item"
-msgstr "Add Action Item"
-
-msgid "Are you sure you want to delete this actions and all related actions status?"
-msgstr "Are you sure you want to delete this actions and all related actions status?"
-
-msgid "Are you sure you want to delete this action status?"
-msgstr "Are you sure you want to delete this action status?"
-
-msgid "Action Deleted Successfully"
-msgstr "Action Deleted Successfully"
-
-msgid "{{- column }}"
-msgstr "{{- column }}"
-
-msgid "Status"
-msgstr "Status"
-
-msgid "Remarks"
-msgstr "Remarks"
-
-msgid "Review Date"
-msgstr "Review Date"
-
-msgid "Add Bottleneck"
-msgstr "Add Bottleneck"
-
-msgid ""
-"Are you sure you want to delete this bottleneck and all related solutions "
-"and actions?"
-msgstr ""
-"Are you sure you want to delete this bottleneck and all related solutions "
-"and actions?"
-
-msgid "Bottleneck Deleted Successfully"
-msgstr "Bottleneck Deleted Successfully"
-
-msgid "Add Solution"
-msgstr "Add Solution"
-
-msgid "Are you sure you want to delete this solution and all related actions?"
-msgstr "Are you sure you want to delete this solution and all related actions?"
-
-msgid "Solution Deleted Successfully"
-msgstr "Solution Deleted Successfully"
-
-msgid "Action Tracker Data"
-msgstr "Action Tracker Data"
-
-msgid "No option available"
-msgstr "No option available"
-
-msgid "Entity deleted successfully"
-msgstr "Entity deleted successfully"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you sure you want to delete this entity?"
-msgstr "Are you sure you want to delete this entity?"
+msgid "Update option"
+msgstr "Update option"
 
 msgid "Cancel"
 msgstr "Cancel"
 
-msgid "Deleting..."
-msgstr "Deleting..."
+msgid "Saving..."
+msgstr "Saving..."
 
-msgid "Are you sure you want to delete this entity? This action cannot be undone"
-msgstr "Are you sure you want to delete this entity? This action cannot be undone"
+msgid "Save"
+msgstr "Save"
 
-msgid "This option cannot be deleted. It is already used in documented entities."
-msgstr "This option cannot be deleted. It is already used in documented entities."
+msgid "Could not update option"
+msgstr "Could not update option"
 
-msgid "Selected organisation unit"
-msgstr "Selected organisation unit"
+msgid "Option updated successfully"
+msgstr "Option updated successfully"
 
-msgid "Selected period"
-msgstr "Selected period"
+msgid "Option added successfully"
+msgstr "Option added successfully"
 
-msgid "The end date should be after start date"
-msgstr "The end date should be after start date"
+msgid "Option deleted successfully"
+msgstr "Option deleted successfully"
 
-msgid "Action saved successfully"
-msgstr "Action saved successfully"
+msgid "This section allows configuration of action planning data."
+msgstr "This section allows configuration of action planning data."
 
-msgid "Action Item"
-msgstr "Action Item"
+msgid ""
+"Here you can modify how your actions are defined in the app. This "
+"information will be used in button labels and headings in the app when "
+"referring to action."
+msgstr ""
+"Here you can modify how your actions are defined in the app. This "
+"information will be used in button labels and headings in the app when "
+"referring to action."
 
-msgid "Hide"
-msgstr "Hide"
+msgid ""
+"Here you can define what information to collect for action planning. Each "
+"of the field defined here will appear in the data entry form of action. "
+"Currently supported field types include text, long text, number, and date"
+msgstr ""
+"Here you can define what information to collect for action planning. Each "
+"of the field defined here will appear in the data entry form of action. "
+"Currently supported field types include text, long text, number, and date"
 
-msgid "Save Action"
-msgstr "Save Action"
+msgid "You can edit and delete fields here."
+msgstr "You can edit and delete fields here."
 
-msgid "Action status saved successfully"
-msgstr "Action status saved successfully"
+msgid ""
+"You can add a new field by clicking here. There are 2 ways to add a field. "
+"You can select an existing field (from DHIS2 metadata) or you can add a "
+"completely new field."
+msgstr ""
+"You can add a new field by clicking here. There are 2 ways to add a field. "
+"You can select an existing field (from DHIS2 metadata) or you can add a "
+"completely new field."
 
-msgid "Action Status"
-msgstr "Action Status"
+msgid "This section allows configuration of tracking data. "
+msgstr "This section allows configuration of tracking data. "
 
-msgid "Intervention saved successfully"
-msgstr "Intervention saved successfully"
+msgid ""
+"Each action tracking update must have a date. This field allows you to "
+"configure the label for the date field for the form and display in the "
+"tracking table."
+msgstr ""
+"Each action tracking update must have a date. This field allows you to "
+"configure the label for the date field for the form and display in the "
+"tracking table."
 
-msgid "Intervention"
-msgstr "Intervention"
+msgid ""
+"Here you can define what information to collect for actions in tracking. "
+"Each of the field defined here will appear in the data entry form of action "
+"tracking update. Currently supported field types include text, long text, "
+"number, and date"
+msgstr ""
+"Here you can define what information to collect for actions in tracking. "
+"Each of the field defined here will appear in the data entry form of action "
+"tracking update. Currently supported field types include text, long text, "
+"number, and date"
 
-msgid "Save Intervention"
-msgstr "Save Intervention"
+msgid ""
+"Each action tracking entry must have a status. The status field is an "
+"option set field whose options can be configured in this section. Here you "
+"can add, remove or update the options"
+msgstr ""
+"Each action tracking entry must have a status. The status field is an "
+"option set field whose options can be configured in this section. Here you "
+"can add, remove or update the options"
 
-msgid "Choose columns to be displayed on the table"
-msgstr "Choose columns to be displayed on the table"
+msgid "You can edit or delete an option by clicking here"
+msgstr "You can edit or delete an option by clicking here"
 
-msgid "Check all"
-msgstr "Check all"
+msgid "You can add a new option by clicking here"
+msgstr "You can add a new option by clicking here"
 
-msgid "Uncheck all"
-msgstr "Uncheck all"
+msgid "Action planning and tracking configuration"
+msgstr "Action planning and tracking configuration"
 
-msgid "Columns changed successfully"
-msgstr "Columns changed successfully"
+msgid ""
+"In this page you can configure what information to record when adding "
+"actions/activities. You can also define what information to collect when "
+"adding tracking information for an action."
+msgstr ""
+"In this page you can configure what information to record when adding "
+"actions/activities. You can also define what information to collect when "
+"adding tracking information for an action."
 
-msgid "Update"
-msgstr "Update"
+msgid "Categories"
+msgstr "Categories"
 
-msgid "Bottleneck saved successfully"
-msgstr "Bottleneck saved successfully"
+msgid ""
+"Categories are a way to group activities/actions. The action tracker allows "
+"you to group or categorize activities in up to 3 levels."
+msgstr ""
+"Categories are a way to group activities/actions. The action tracker allows "
+"you to group or categorize activities in up to 3 levels."
 
-msgid "Save Bottleneck"
-msgstr "Save Bottleneck"
+msgid ""
+"With each category level you can define what data to be collected by "
+"managing the fields for the category."
+msgstr ""
+"With each category level you can define what data to be collected by "
+"managing the fields for the category."
+
+msgid ""
+"You can modify the category name by editing this field. This name will "
+"appear on the button to add values for this specific categories"
+msgstr ""
+"You can modify the category name by editing this field. This name will "
+"appear on the button to add values for this specific categories"
+
+msgid ""
+"Here you can define what information to collect for this category. Each of "
+"the field defined here will appear in the data entry form of this category. "
+"Currently supported field types include text, long text, number, and date"
+msgstr ""
+"Here you can define what information to collect for this category. Each of "
+"the field defined here will appear in the data entry form of this category. "
+"Currently supported field types include text, long text, number, and date"
+
+msgid ""
+"You can select an existing data item from this list. For the first "
+"category, these will be tracked entity attributes. For all following "
+"categories these will be data elements."
+msgstr ""
+"You can select an existing data item from this list. For the first "
+"category, these will be tracked entity attributes. For all following "
+"categories these will be data elements."
+
+msgid ""
+"When selected, this data item metadata will be modified to match other "
+"standalone action tracker metadata. This may affect how this data item is "
+"used in other programs. We recommend you create a new data item if you are "
+"not sure of the data item's usage. "
+msgstr ""
+"When selected, this data item metadata will be modified to match other "
+"standalone action tracker metadata. This may affect how this data item is "
+"used in other programs. We recommend you create a new data item if you are "
+"not sure of the data item's usage. "
+
+msgid ""
+"Checking this will make it mandatory in the data entry form for this "
+"category"
+msgstr ""
+"Checking this will make it mandatory in the data entry form for this "
+"category"
+
+msgid ""
+"Checking this will enable this field to appear as a card header for the "
+"first category and as a column in the planning table for the other "
+"categories. "
+msgstr ""
+"Checking this will enable this field to appear as a card header for the "
+"first category and as a column in the planning table for the other "
+"categories. "
+
+msgid "You can click cancel to ignore changes"
+msgstr "You can click cancel to ignore changes"
+
+msgid "When done you can click on add to add the field"
+msgstr "When done you can click on add to add the field"
+
+msgid ""
+"This form allows you to create a new field. Fields marked with * are "
+"mandatory"
+msgstr ""
+"This form allows you to create a new field. Fields marked with * are "
+"mandatory"
+
+msgid ""
+"This is the name of the field in the form. It will also be the column name "
+"if the field is set to show in column"
+msgstr ""
+"This is the name of the field in the form. It will also be the column name "
+"if the field is set to show in column"
+
+msgid "This is a shorter version of the name. It should not exceed 50 characters."
+msgstr "This is a shorter version of the name. It should not exceed 50 characters."
+
+msgid ""
+"Here you can select the type of data this field should hold. Currently, "
+"supported field types include text, long text, number, and date. A file "
+"resource field is also supported for action status only."
+msgstr ""
+"Here you can select the type of data this field should hold. Currently, "
+"supported field types include text, long text, number, and date. A file "
+"resource field is also supported for action status only."
+
+msgid "General configuration"
+msgstr "General configuration"
 
 msgid "Organisation Units"
 msgstr "Organisation Units"
 
-msgid "Planning Organisation Unit Level"
-msgstr "Planning Organisation Unit Level"
+msgid "Period"
+msgstr "Period"
 
-msgid "Please select an organisation unit"
-msgstr "Please select an organisation unit"
+msgid "Access and Sharing"
+msgstr "Access and Sharing"
 
-msgid "Relative Periods"
-msgstr "Relative Periods"
+msgid "Configuration Management"
+msgstr "Configuration Management"
 
-msgid "Fixed Periods"
-msgstr "Fixed Periods"
+msgid "Configuration deleted successfully"
+msgstr "Configuration deleted successfully"
 
-msgid "Period Type"
-msgstr "Period Type"
+msgid "Could not delete configuration"
+msgstr "Could not delete configuration"
+
+msgid "Delete configuration"
+msgstr "Delete configuration"
+
+msgid "Are you sure you want to delete this configuration?"
+msgstr "Are you sure you want to delete this configuration?"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid ""
+"Make sure there are no data associated with this configuration before "
+"deleting it."
+msgstr ""
+"Make sure there are no data associated with this configuration before "
+"deleting it."
+
+msgid "Access"
+msgstr "Access"
+
+msgid "Planning"
+msgstr "Planning"
+
+msgid "Select all"
+msgstr "Select all"
+
+msgid "Deselect all"
+msgstr "Deselect all"
+
+msgid "Default planning organisation unit"
+msgstr "Default planning organisation unit"
+
+msgid "Limit planning of actions to specific organisation unit levels"
+msgstr "Limit planning of actions to specific organisation unit levels"
+
+msgid "Planning organisation unit level"
+msgstr "Planning organisation unit level"
+
+msgid "Organisation unit level"
+msgstr "Organisation unit level"
+
+msgid "Select"
+msgstr "Select"
+
+msgid "Deselect"
+msgstr "Deselect"
+
+msgid "Organisation unit group"
+msgstr "Organisation unit group"
+
+msgid "Allow planning and tracking for these organisation units"
+msgstr "Allow planning and tracking for these organisation units"
+
+msgid "Tracking frequency is required"
+msgstr "Tracking frequency is required"
+
+msgid "Tracking frequency"
+msgstr "Tracking frequency"
+
+msgid "Default period"
+msgstr "Default period"
 
 msgid "Year"
 msgstr "Year"
 
-msgid "Invalid Period. Please select period of type  {{ planningPeriod }}."
-msgstr "Invalid Period. Please select period of type  {{ planningPeriod }}."
+msgid "Planning frequency is required"
+msgstr "Planning frequency is required"
 
-msgid "Please select a period."
-msgstr "Please select a period."
+msgid "Planning frequency"
+msgstr "Planning frequency"
 
-msgid "Period"
-msgstr "Period"
+msgid "Configure who can access this configuration and metadata associated"
+msgstr "Configure who can access this configuration and metadata associated"
 
-msgid "{{ planningPeriod }} "
-msgstr "{{ planningPeriod }} "
+msgid "Configure sharing"
+msgstr "Configure sharing"
 
-msgid "{{ error }}"
-msgstr "{{ error }}"
+msgid "Sharing configured successfully"
+msgstr "Sharing configured successfully"
 
-msgid "Solution saved successfully"
-msgstr "Solution saved successfully"
+msgid "Sharing configuration failed"
+msgstr "Sharing configuration failed"
 
-msgid "Possible Solution"
-msgstr "Possible Solution"
+msgid "Give Access to a user , group or role"
+msgstr "Give Access to a user , group or role"
 
-msgid "Save Solution"
-msgstr "Save Solution"
+msgid "Access level"
+msgstr "Access level"
+
+msgid "Select a level"
+msgstr "Select a level"
+
+msgid "Give access"
+msgstr "Give access"
+
+msgid "Users and groups that currently have access"
+msgstr "Users and groups that currently have access"
+
+msgid "User / Group / Role"
+msgstr "User / Group / Role"
+
+msgid "All users"
+msgstr "All users"
+
+msgid "Not available offline"
+msgstr "Not available offline"
+
+msgid "User, group or role"
+msgstr "User, group or role"
+
+msgid "Search"
+msgstr "Search"
+
+msgid "Confirm action"
+msgstr "Confirm action"
+
+msgid "Are you sure you want to delete this access?"
+msgstr "Are you sure you want to delete this access?"
+
+msgid "No Access"
+msgstr "No Access"
+
+msgid "View Only"
+msgstr "View Only"
+
+msgid "View and Edit"
+msgstr "View and Edit"
+
+msgid ""
+"This page allows you to configure basic details of the application. "
+"Settings like default dimensions, planning and tracking configuration, and "
+"access can be configured here."
+msgstr ""
+"This page allows you to configure basic details of the application. "
+"Settings like default dimensions, planning and tracking configuration, and "
+"access can be configured here."
+
+msgid "Organisation unit access"
+msgstr "Organisation unit access"
+
+msgid ""
+"Here you can define the specific organisation units you want to allow "
+"planning and tracking."
+msgstr ""
+"Here you can define the specific organisation units you want to allow "
+"planning and tracking."
+
+msgid ""
+"To select an organisation click on the checkbox. You can also click on a "
+"checked box to un-select an organisation unit"
+msgstr ""
+"To select an organisation click on the checkbox. You can also click on a "
+"checked box to un-select an organisation unit"
+
+msgid "Organisation unit selection by level"
+msgstr "Organisation unit selection by level"
+
+msgid ""
+"To select all organisation units in a level, choose the level from this "
+"selector and click select. To unselect all organisation units in the level "
+"click on deselect"
+msgstr ""
+"To select all organisation units in a level, choose the level from this "
+"selector and click select. To unselect all organisation units in the level "
+"click on deselect"
+
+msgid "Organisation unit selection by group"
+msgstr "Organisation unit selection by group"
+
+msgid ""
+"To select all organisation units in a group, choose the group from this "
+"selector and click select. To unselect all organisation units in the group "
+"click on deselect"
+msgstr ""
+"To select all organisation units in a group, choose the group from this "
+"selector and click select. To unselect all organisation units in the group "
+"click on deselect"
+
+msgid "Searching organisation unit"
+msgstr "Searching organisation unit"
+
+msgid "You can also search for a specific organisation unit here"
+msgstr "You can also search for a specific organisation unit here"
+
+msgid "Planning organisation unit level configuration"
+msgstr "Planning organisation unit level configuration"
+
+msgid ""
+"Here you can configure planning and tracking to be limited to only some of "
+"the organisation unit levels. This means the organisation unit selectors "
+"will be limited to only organisation units in this level"
+msgstr ""
+"Here you can configure planning and tracking to be limited to only some of "
+"the organisation unit levels. This means the organisation unit selectors "
+"will be limited to only organisation units in this level"
+
+msgid ""
+"To enable, click on the checkbox and then select an organisation unit level "
+"in the select field"
+msgstr ""
+"To enable, click on the checkbox and then select an organisation unit level "
+"in the select field"
+
+msgid ""
+"To disable this feature. uncheck the checkbox. With the checkbox unchecked, "
+"organisation unit selectors will allow selection for all organisation units"
+msgstr ""
+"To disable this feature. uncheck the checkbox. With the checkbox unchecked, "
+"organisation unit selectors will allow selection for all organisation units"
+
+msgid "Default organisation unit"
+msgstr "Default organisation unit"
+
+msgid ""
+"Here you can set the default organisation unit. This will be the "
+"pre-selected organisation unit whenever the application starts"
+msgstr ""
+"Here you can set the default organisation unit. This will be the "
+"pre-selected organisation unit whenever the application starts"
+
+msgid ""
+"Planning frequency is the frequency at which you expect to plan your "
+"activities. When selected period selection will only be limited to periods "
+"of the frequency. When creating actions/activities, their start and end "
+"dates should be within the selected planning period."
+msgstr ""
+"Planning frequency is the frequency at which you expect to plan your "
+"activities. When selected period selection will only be limited to periods "
+"of the frequency. When creating actions/activities, their start and end "
+"dates should be within the selected planning period."
+
+msgid "Note"
+msgstr "Note"
+
+msgid "The planning frequency should be greater or equal to the tracking period."
+msgstr "The planning frequency should be greater or equal to the tracking period."
+
+msgid ""
+"Tracking frequency is the frequency at which you expect to track your "
+"activities. It controls how frequent you are supposed to provide an "
+"activity status. While on tracking mode, this will control the type of "
+"periods in the tracking columns."
+msgstr ""
+"Tracking frequency is the frequency at which you expect to track your "
+"activities. It controls how frequent you are supposed to provide an "
+"activity status. While on tracking mode, this will control the type of "
+"periods in the tracking columns."
+
+msgid "The tracking frequency should be less or equal to the planning period."
+msgstr "The tracking frequency should be less or equal to the planning period."
+
+msgid ""
+"Here you can set the default period. This will be the pre-selected period "
+"whenever the application starts"
+msgstr ""
+"Here you can set the default period. This will be the pre-selected period "
+"whenever the application starts"
+
+msgid "You can change the year for the default period here."
+msgstr "You can change the year for the default period here."
+
+msgid "Sharing and access configuration"
+msgstr "Sharing and access configuration"
+
+msgid ""
+"Here you can configure sharing and access settings for the application. You "
+"can define who can view and edit the data. Access can be granted to all "
+"users, specific users, or user groups"
+msgstr ""
+"Here you can configure sharing and access settings for the application. You "
+"can define who can view and edit the data. Access can be granted to all "
+"users, specific users, or user groups"
+
+msgid ""
+"You can search for a user, user role, or user group here. When you type, a "
+"list of matching users, user roles or user groups will appear below the "
+"field. You can then click on the name to select"
+msgstr ""
+"You can search for a user, user role, or user group here. When you type, a "
+"list of matching users, user roles or user groups will appear below the "
+"field. You can then click on the name to select"
+
+msgid ""
+"You can select the appropriate access you want to set for the selected "
+"entity"
+msgstr ""
+"You can select the appropriate access you want to set for the selected "
+"entity"
+
+msgid "You can then click on give access to add the selection."
+msgstr "You can then click on give access to add the selection."
+
+msgid "This is a list of already configured accesses."
+msgstr "This is a list of already configured accesses."
+
+msgid "You can modify an existing access setting here."
+msgstr "You can modify an existing access setting here."
+
+msgid "You can also remove the access setting here"
+msgstr "You can also remove the access setting here"
+
+msgid "Click on save to save the changes"
+msgstr "Click on save to save the changes"
+
+msgid "To ignore changes and close the configuration click here"
+msgstr "To ignore changes and close the configuration click here"
+
+msgid ""
+"Click on Delete configuration if you want to delete this configuration and "
+"all the associated metadata."
+msgstr ""
+"Click on Delete configuration if you want to delete this configuration and "
+"all the associated metadata."
+
+msgid ""
+"Before doing this, you must make sure there is no data associated with this "
+"configuration. This includes already deleted data. We suggest you perform "
+"maintenance of permanently delete all tracker data in the data "
+"administration app"
+msgstr ""
+"Before doing this, you must make sure there is no data associated with this "
+"configuration. This includes already deleted data. We suggest you perform "
+"maintenance of permanently delete all tracker data in the data "
+"administration app"
+
+msgid "Reset changes"
+msgstr "Reset changes"
+
+msgid ""
+"Click here if you want to redo all changes on all configuration. This will "
+"be disabled when there are no changes to redo."
+msgstr ""
+"Click here if you want to redo all changes on all configuration. This will "
+"be disabled when there are no changes to redo."
+
+msgid "Save changes"
+msgstr "Save changes"
+
+msgid ""
+"Click here to save all changes done. This will be disabled when there are "
+"no changes to save"
+msgstr ""
+"Click here to save all changes done. This will be disabled when there are "
+"no changes to save"
+
+msgid "Error saving changes"
+msgstr "Error saving changes"
+
+msgid "Changes saved successfully"
+msgstr "Changes saved successfully"
+
+msgid "Reset"
+msgstr "Reset"
+
+msgid "Updating metadata..."
+msgstr "Updating metadata..."
+
+msgid "Back"
+msgstr "Back"
+
+msgid "app logo"
+msgstr "app logo"
+
+msgid "Welcome to the Standalone Action Tracker"
+msgstr "Welcome to the Standalone Action Tracker"
+
+msgid ""
+"There are currently no configuration in this instance and you do not have "
+"configuration access. Please communicate with your administrator for the "
+"necessary access."
+msgstr ""
+"There are currently no configuration in this instance and you do not have "
+"configuration access. Please communicate with your administrator for the "
+"necessary access."
+
+msgid ""
+"If you are the administrator, make sure you have the necessary authority to "
+"configure the standalone action tracker. Configuration of the authorities "
+"is done in the users app."
+msgstr ""
+"If you are the administrator, make sure you have the necessary authority to "
+"configure the standalone action tracker. Configuration of the authorities "
+"is done in the users app."
+
+msgid "How would you like to use your action tracker?"
+msgstr "How would you like to use your action tracker?"
+
+msgid "Error setting up selected configuration"
+msgstr "Error setting up selected configuration"
+
+msgid "Initial configuration setup complete."
+msgstr "Initial configuration setup complete."
+
+msgid "Invalid configuration selected"
+msgstr "Invalid configuration selected"
+
+msgid "Setting up {{title }} configuration"
+msgstr "Setting up {{title }} configuration"
+
+msgid "Error setting up configuration"
+msgstr "Error setting up configuration"
+
+msgid "Please wait..."
+msgstr "Please wait..."
+
+msgid "Configure"
+msgstr "Configure"
+
+msgid "Select period"
+msgstr "Select period"
+
+msgid "Planning level"
+msgstr "Planning level"
+
+msgid "Update"
+msgstr "Update"
+
+msgid "Select organisation unit"
+msgstr "Select organisation unit"
+
+msgid "Planning period is"
+msgstr "Planning period is"
+
+msgid "and {{number}} more"
+msgstr "and {{number}} more"
+
+msgid "Action {{type}}"
+msgstr "Action {{type}}"
+
+msgid "Tracking"
+msgstr "Tracking"
+
+msgid "Add"
+msgstr "Add"
+
+msgid "There was an error loading the data."
+msgstr "There was an error loading the data."
+
+msgid "There is no data for the the selected dimensions."
+msgstr "There is no data for the the selected dimensions."
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you sure you want to delete {{title}} and all related data?"
+msgstr "Are you sure you want to delete {{title}} and all related data?"
+
+msgid "Are you sure you want to delete this {{title}} and all related data?"
+msgstr "Are you sure you want to delete this {{title}} and all related data?"
+
+msgid ""
+"There are no recorded {{ instanceType }}. Click on the button below to "
+"create one"
+msgstr ""
+"There are no recorded {{ instanceType }}. Click on the button below to "
+"create one"
+
+msgid "Add {{ instanceType }}"
+msgstr "Add {{ instanceType }}"
+
+msgid "Add {{instanceType}}"
+msgstr "Add {{instanceType}}"
+
+msgid "Review Date"
+msgstr "Review Date"
+
+msgid "Confirm delete"
+msgstr "Confirm delete"
+
+msgid "Are you sure you want to delete this status?"
+msgstr "Are you sure you want to delete this status?"
+
+msgid "{{action}} status"
+msgstr "{{action}} status"
+
+msgid "Updating"
+msgstr "Updating"
+
+msgid "Saving"
+msgstr "Saving"
+
+msgid "Failed to create status"
+msgstr "Failed to create status"
+
+msgid "Successfully updated status"
+msgstr "Successfully updated status"
+
+msgid "Successfully created status"
+msgstr "Successfully created status"
+
+msgid "Successfully deleted status"
+msgstr "Successfully deleted status"
+
+msgid "N/A"
+msgstr "N/A"
+
+msgid "Latest status"
+msgstr "Latest status"
+
+msgid "Select organisation unit and period to start"
+msgstr "Select organisation unit and period to start"
+
+msgid "Excel"
+msgstr "Excel"
+
+msgid "CSV"
+msgstr "CSV"
+
+msgid "JSON"
+msgstr "JSON"
+
+msgid "PDF"
+msgstr "PDF"
+
+msgid "Downloading..."
+msgstr "Downloading..."
+
+msgid "Download"
+msgstr "Download"
+
+msgid "Organisation unit"
+msgstr "Organisation unit"
+
+msgid "Generated at"
+msgstr "Generated at"
+
+msgid "Manage columns"
+msgstr "Manage columns"
+
+msgid "General"
+msgstr "General"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "There were issues with setting up configuration."
+msgstr "There were issues with setting up configuration."
+
+msgid "Retry"
+msgstr "Retry"
+
+msgid "Setting up configuration. Please wait..."
+msgstr "Setting up configuration. Please wait..."
+
+msgid ""
+"Previous version configuration have been detected in your system. You can "
+"decide to ignore them and start a new configuration or you can continue "
+"with the previous configuration."
+msgstr ""
+"Previous version configuration have been detected in your system. You can "
+"decide to ignore them and start a new configuration or you can continue "
+"with the previous configuration."
+
+msgid "Use  previous configuration"
+msgstr "Use  previous configuration"
+
+msgid "Setup new configuration"
+msgstr "Setup new configuration"
+
+msgid "View"
+msgstr "View"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Add Data Item"
+msgstr "Add Data Item"
+
+msgid "Display name"
+msgstr "Display name"
+
+msgid "Short name is required"
+msgstr "Short name is required"
+
+msgid "Short name"
+msgstr "Short name"
+
+msgid "Type is required"
+msgstr "Type is required"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Option set"
+msgstr "Option set"
+
+msgid "Field should be mandatory"
+msgstr "Field should be mandatory"
+
+msgid "Show field as header"
+msgstr "Show field as header"
+
+msgid "Show field as column"
+msgstr "Show field as column"
+
+msgid "Add new"
+msgstr "Add new"
+
+msgid "Code is required"
+msgstr "Code is required"
+
+msgid "This code already exists"
+msgstr "This code already exists"
+
+msgid "At least two options are required"
+msgstr "At least two options are required"
+
+msgid "Options"
+msgstr "Options"
+
+msgid "Add option set"
+msgstr "Add option set"
+
+msgid "Option set saved successfully"
+msgstr "Option set saved successfully"
+
+msgid "Error saving option set"
+msgstr "Error saving option set"
+
+msgid "Could not add the new data item. Please refresh the page and try again"
+msgstr "Could not add the new data item. Please refresh the page and try again"
+
+msgid "Select Data Item"
+msgstr "Select Data Item"
+
+msgid "Data item is required"
+msgstr "Data item is required"
+
+msgid "Data item"
+msgstr "Data item"
+
+msgid "Something went wrong"
+msgstr "Something went wrong"
+
+msgid "Reload"
+msgstr "Reload"
+
+msgid "Required"
+msgstr "Required"
+
+msgid "Show as {{ type }}"
+msgstr "Show as {{ type }}"
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "No"
+msgstr "No"
+
+msgid "Delete field"
+msgstr "Delete field"
+
+msgid ""
+"Are you sure you want to delete this field?. This may cause some data "
+"inconsistencies if there are already records using this field."
+msgstr ""
+"Are you sure you want to delete this field?. This may cause some data "
+"inconsistencies if there are already records using this field."
+
+msgid "Add field from existing metadata"
+msgstr "Add field from existing metadata"
+
+msgid "Add new field"
+msgstr "Add new field"
+
+msgid "Add field"
+msgstr "Add field"
+
+msgid "Updating..."
+msgstr "Updating..."
+
+msgid "Creating..."
+msgstr "Creating..."
+
+msgid "Successfully updated {{name}}"
+msgstr "Successfully updated {{name}}"
+
+msgid "Successfully created {{name}}"
+msgstr "Successfully created {{name}}"
+
+msgid "Failed to {{action}} {{name}}"
+msgstr "Failed to {{action}} {{name}}"
+
+msgid "update"
+msgstr "update"
+
+msgid "create"
+msgstr "create"
+
+msgid "Successfully deleted {{instanceName}}"
+msgstr "Successfully deleted {{instanceName}}"
+
+msgid "Failed to delete"
+msgstr "Failed to delete"
+
+msgid "Exit"
+msgstr "Exit"
+
+msgid "Help"
+msgstr "Help"
+
+msgid "View help"
+msgstr "View help"
+
+msgid "Select Icon"
+msgstr "Select Icon"
+
+msgid "Search icons"
+msgstr "Search icons"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Close"
+msgstr "Close"
+
+msgid "Category"
+msgstr "Category"
+
+msgid "Category level {{level}}"
+msgstr "Category level {{level}}"
+
+msgid "Activity"
+msgstr "Activity"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Start Date"
+msgstr "Start Date"
+
+msgid "End Date"
+msgstr "End Date"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Comments"
+msgstr "Comments"
+
+msgid "Bottleneck"
+msgstr "Bottleneck"
+
+msgid "Intervention"
+msgstr "Intervention"
+
+msgid "Coverage Indicator"
+msgstr "Coverage Indicator"
+
+msgid "Indicator"
+msgstr "Indicator"
+
+msgid "Gap"
+msgstr "Gap"
+
+msgid "Method"
+msgstr "Method"
+
+msgid "Possible Solutions"
+msgstr "Possible Solutions"
+
+msgid "Solution"
+msgstr "Solution"
+
+msgid "Title"
+msgstr "Title"
+
+msgid "Responsible Person"
+msgstr "Responsible Person"
+
+msgid "Designation"
+msgstr "Designation"
+
+msgid "Action Status"
+msgstr "Action Status"
+
+msgid "Remarks / Comment"
+msgstr "Remarks / Comment"
+
+msgid "Not started"
+msgstr "Not started"
+
+msgid "In progress"
+msgstr "In progress"
+
+msgid "Completed"
+msgstr "Completed"
+
+msgid "Cancelled"
+msgstr "Cancelled"
+
+msgid "Should be at most 10 characters"
+msgstr "Should be at most 10 characters"
+
+msgid "A configuration with this name already exists"
+msgstr "A configuration with this name already exists"
+
+msgid "Code should not exceed 10 characters"
+msgstr "Code should not exceed 10 characters"
+
+msgid "A configuration with this code already exists"
+msgstr "A configuration with this code already exists"
+
+msgid "Basic activity tracking"
+msgstr "Basic activity tracking"
+
+msgid "Activity tracking model with one level of categorization"
+msgstr "Activity tracking model with one level of categorization"
+
+msgid "Secondary activity tracking"
+msgstr "Secondary activity tracking"
+
+msgid "Activity tracking model with two levels of categorization"
+msgstr "Activity tracking model with two levels of categorization"
+
+msgid "Tertiary activity tracking"
+msgstr "Tertiary activity tracking"
+
+msgid "Activity tracking model with three levels of categorization"
+msgstr "Activity tracking model with three levels of categorization"
+
+msgid "BNA linked action tracking"
+msgstr "BNA linked action tracking"
+
+msgid "Use the BNA like categorization to track activities"
+msgstr "Use the BNA like categorization to track activities"
+
+msgid "Could not upload file {{ errorMessage }}"
+msgstr "Could not upload file {{ errorMessage }}"
+
+msgid "You do not have access to view this configuration"
+msgstr "You do not have access to view this configuration"
+
+msgid "Access Denied"
+msgstr "Access Denied"
+
+msgid "Go back home"
+msgstr "Go back home"
+
+msgid "This field is required"
+msgstr "This field is required"
+
+msgid "The start date should not be before the selected planned date"
+msgstr "The start date should not be before the selected planned date"
+
+msgid "The start date should not be after the selected planned date"
+msgstr "The start date should not be after the selected planned date"

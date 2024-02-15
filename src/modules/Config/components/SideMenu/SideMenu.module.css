@@ -1,0 +1,14 @@
+.menu-area {
+    width: 30vw;
+    max-width: 300px;
+    height: 100% !important;
+    background: #E8EDF2 !important;
+}
+
+.menu-item {
+    background: #E8EDF2 !important;
+}
+
+.selected {
+    background: #D5DDE5 !important;
+}
