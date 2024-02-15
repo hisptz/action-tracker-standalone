@@ -121,7 +121,7 @@ export function Welcome() {
 						</span>
 						<ButtonStrip>
 							<Button onClick={config}>
-								{i18n.t("Use  previous configuration")}
+								{i18n.t("Use previous configuration")}
 							</Button>
 							<Button
 								onClick={() => {
