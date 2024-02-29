@@ -409,11 +409,20 @@ export function generateMetadataFromConfig(
 }
 
 export function getAttributeValueFromList(
-	attributeId: string,
+	attributeMeta: TrackedEntityAttribute,
 	attributes: Array<{
 		attribute: string;
 		value: string;
 	}>,
 ): string {
-	return find(attributes, ["attribute", attributeId])?.value ?? "";
+	const value =
+		find(attributes, ["attribute", attributeMeta.id])?.value ?? "";
+
+	if (attributeMeta.optionSet) {
+		const option = attributeMeta.optionSet.options?.find(
+			(option) => option.code === value,
+		);
+		return option?.name ?? value;
+	}
+	return value;
 }

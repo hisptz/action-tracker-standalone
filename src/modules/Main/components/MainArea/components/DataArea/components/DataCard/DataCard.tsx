@@ -27,6 +27,7 @@ import {
 } from "../../../../../../../../shared/schemas/config";
 import { TrackedEntity } from "../../../../../../../../shared/types/dhis2";
 import { AppAccessType } from "../../../../../../../../shared/components/AccessProvider";
+import { useMetadata } from "../../../../../../../../shared/hooks/metadata";
 
 export interface DataCardProps {
 	index: number;
@@ -52,6 +53,10 @@ function CardHeader({
 
 	const { confirm } = useDialog();
 	const allowed = useAccess(AppAccessType.PLAN);
+	const { programs } = useMetadata();
+	const instanceMeta = useMemo(() => {
+		return programs?.find(({ id }) => instanceConfig.id == id);
+	}, [programs, instanceConfig]);
 	const title = useMemo(() => {
 		const headerId = (
 			find(
@@ -59,7 +64,12 @@ function CardHeader({
 				(field: DataField) => field.header,
 			) as DataField
 		)?.id;
-		return getAttributeValueFromList(headerId, data.attributes);
+
+		const headerMeta = instanceMeta?.programTrackedEntityAttributes?.find(
+			({ trackedEntityAttribute }) =>
+				trackedEntityAttribute.id === headerId,
+		)?.trackedEntityAttribute ?? { id: headerId };
+		return getAttributeValueFromList(headerMeta, data.attributes);
 	}, [data]);
 	const { onDelete } = useDeleteInstance("program", {
 		instanceName: instanceConfig.name,
