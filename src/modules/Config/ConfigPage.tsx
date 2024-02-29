@@ -15,6 +15,7 @@ import i18n from "@dhis2/d2-i18n";
 import { IconBlock24 } from "@dhis2/ui";
 import { useAccess } from "../../shared/components/AccessProvider/hooks/access";
 import { AppAccessType } from "../../shared/components/AccessProvider";
+import { DevTool } from "@hookform/devtools";
 
 function ConfigForm() {
 	const { config } = useConfiguration();
@@ -29,6 +30,7 @@ function ConfigForm() {
 	return (
 		<div className="column gap-16 h-100">
 			<FormProvider {...form}>
+				<DevTool control={form.control} />
 				<div className="flex-1">
 					<Outlet />
 				</div>
