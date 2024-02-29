@@ -5,6 +5,7 @@ import {
 	type Config,
 	type DataField,
 	LinkageConfig,
+	SharingConfig,
 } from "../schemas/config";
 import {
 	type DataElement,
@@ -23,6 +24,7 @@ export interface MetaMeta extends InitialMetadata {
 	code: string;
 	orgUnits: Array<{ id: string; path: string }>;
 	linkageConfig: LinkageConfig;
+	sharing: SharingConfig;
 }
 
 function generateDataItemsFromConfig(
@@ -78,6 +80,7 @@ function generateProgramFromConfig(
 		name: `[SAT] - ${meta.code ?? ""} - ${config.name}`,
 		shortName: config.name,
 		trackedEntityType,
+		sharing: meta.sharing as any,
 	};
 }
 
@@ -136,6 +139,7 @@ function generateProgramStageFromConfig(
 		},
 		programStageSections: [],
 		...(options ?? {}),
+		sharing: meta.sharing as any,
 	};
 }
 
@@ -267,6 +271,7 @@ function generateRelationshipTypes(config: Config, meta: MetaMeta) {
 						id,
 					},
 				},
+				sharing: meta.sharing,
 			};
 		},
 	);
@@ -292,6 +297,7 @@ function generateRelationshipTypes(config: Config, meta: MetaMeta) {
 				id: actionConfig.id,
 			},
 		},
+		sharing: meta.sharing,
 	};
 
 	return compact([...relationshipTypes, actionRelationType]);
@@ -365,6 +371,7 @@ export function generateMetadataFromConfig(
 			...meta,
 			orgUnits: config.general.orgUnit.orgUnits ?? [],
 			code: config.code,
+			sharing: config.general.sharing,
 		}) ?? {};
 	const { program: actionProgram, programStages: actionProgramStages } =
 		generateActionsMetadata(config.action, {
@@ -372,6 +379,7 @@ export function generateMetadataFromConfig(
 			linkageConfig: config.meta.linkageConfig,
 			orgUnits: config.general.orgUnit.orgUnits ?? [],
 			code: config.code,
+			sharing: config.general.sharing,
 		}) ?? {};
 
 	const programs = [categoryProgram, actionProgram];
@@ -383,12 +391,12 @@ export function generateMetadataFromConfig(
 
 	const cleanedProgram = cleanProgramDeps(programs, programStages);
 	const cleanedProgramStages = cleanProgramStagesDeps(programStages);
-
 	const relationshipTypes = generateRelationshipTypes(config, {
 		...meta,
 		linkageConfig: config.meta.linkageConfig,
 		orgUnits: config.general.orgUnit.orgUnits ?? [],
 		code: config.code,
+		sharing: config.general.sharing,
 	});
 
 	return {

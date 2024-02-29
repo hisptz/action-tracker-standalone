@@ -10,16 +10,16 @@ import {
 	ModalTitle,
 } from "@dhis2/ui";
 import { SharingObject } from "../../types/data";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useController, useForm } from "react-hook-form";
 import { AccessAdd } from "./components/AccessAdd";
 import { AccessList } from "./components/AccessList";
 import i18n from "@dhis2/d2-i18n";
-import { getSharableItems } from "../../utils";
-import { some } from "lodash";
+import { fromPairs } from "lodash";
 import { useRecoilValue } from "recoil";
 import { ConfigAccessState } from "../../../../../../../../shared/state/config";
 import { HelpIcon } from "../../../../../../../../shared/components/HelpButton";
 import { SharingDialogSteps } from "../../../../docs/steps";
+import { Sharing } from "../../../../../../../../shared/types/dhis2";
 
 const accessMutation: any = {
 	type: "update",
@@ -39,7 +39,50 @@ interface SharingDialogProps {
 	onClose(): void;
 }
 
+/**
+ * Basically we're looking to have something from this 'rw------'  to 'rwrw----' This is to get
+ *  */
+function getSanitizedAccess(access: string) {
+	if (access.length < 8) {
+		throw new Error("Invalid access string");
+	}
+	const [read, write] = access.split("");
+
+	return [read, write, read, write].join("").padEnd(8, "-");
+}
+
+function getSharingFromSharingObject(data: SharingObject): Partial<Sharing> {
+	return {
+		external: false,
+		owner: data.user.id,
+		public: getSanitizedAccess(data.publicAccess),
+		userGroups: fromPairs(
+			data.userGroupAccesses.map(({ access, id, displayName }) => [
+				id,
+				{
+					access: getSanitizedAccess(access),
+					id,
+					displayName,
+				},
+			]),
+		),
+		users: fromPairs(
+			data.userAccesses.map(({ access, id, displayName }) => [
+				id,
+				{
+					access: getSanitizedAccess(access),
+					id,
+					displayName,
+				},
+			]),
+		),
+	};
+}
+
 export function SharingDialog({ hide, onClose }: SharingDialogProps) {
+	const { field } = useController({
+		name: "general.sharing",
+	});
 	const { config } = useConfiguration();
 	const { show } = useAlert(
 		({ message }) => message,
@@ -64,45 +107,19 @@ export function SharingDialog({ hide, onClose }: SharingDialogProps) {
 	const onSaveChanges = async (data: SharingObject) => {
 		if (!config) return;
 		try {
-			const sharableItems = getSharableItems(config);
-			const accessResponse = await Promise.all([
-				...sharableItems.map((item) =>
-					save({
-						data: {
-							...defaultAccessData,
-							object: data,
-						},
-						...item,
-					}),
-				),
-				save({
-					type: "dataStore",
-					id: defaultAccessData?.object?.id,
-					data: {
-						...defaultAccessData,
-						object: data,
-					},
-				}),
-			]);
-
-			if (
-				!some(
-					accessResponse,
-					(res: { httpStatusCode: number }) =>
-						res.httpStatusCode != 200,
-				)
-			) {
-				show({
-					message: i18n.t("Sharing configured successfully"),
-					type: { success: true },
-				});
-				onClose();
-			} else {
-				show({
-					message: i18n.t("Sharing configuration failed"),
-					type: { critical: true },
-				});
-			}
+			const accessResponse: any = await save({
+				type: "dataStore",
+				id: defaultAccessData?.object?.id,
+				data: {
+					...defaultAccessData,
+					object: data,
+				},
+			});
+			show({
+				message: i18n.t("Sharing configured successfully"),
+				type: { success: true },
+			});
+			onClose();
 		} catch (e: any) {
 			show({
 				message: `${i18n.t("Sharing configuration failed")}: ${e.message}`,
