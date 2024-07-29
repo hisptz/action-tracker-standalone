@@ -8,8 +8,8 @@ import {
 	TrackedEntity,
 } from "../../../../../../../../../../../shared/types/dhis2";
 import { Config } from "../../../../../../../../../../../shared/schemas/config";
-import { BasePeriod } from "@hisptz/dhis2-utils";
 import { formatDate } from "../../../../../../../../../../../shared/utils/date";
+import { FixedPeriod } from "@dhis2/multi-calendar-dates/build/types/period-calculation/types";
 
 const trackedEntitiesQuery: any = {
 	data: {
@@ -57,7 +57,10 @@ const eventsQuery: any = {
 	},
 };
 
-export function getPeriodQuery(config: Config, period: BasePeriod) {
+export function getPeriodQuery(config: Config, period?: FixedPeriod) {
+	if (!period) {
+		return [];
+	}
 	const startDateId = config.action.fields.find(
 		({ isStartDate }) => isStartDate,
 	)?.id;
@@ -65,11 +68,8 @@ export function getPeriodQuery(config: Config, period: BasePeriod) {
 		({ isEndDate }) => isEndDate,
 	)?.id;
 
-	const { start, end } = period;
-	return [
-		`${startDateId}:GE:${start.toFormat("yyyy-MM-dd")}`,
-		`${endDateId}:LE:${end.toFormat("yyyy-MM-dd")}`,
-	];
+	const { startDate, endDate } = period;
+	return [`${startDateId}:GE:${startDate}`, `${endDateId}:LE:${endDate}`];
 }
 
 export function useTableData(
@@ -102,7 +102,7 @@ export function useTableData(
 			filter: [
 				`${type === "program" ? config?.meta.linkageConfig.trackedEntityAttribute : config?.meta.linkageConfig.dataElement}:eq:${parentType === "program" ? parentInstance?.trackedEntity : parentInstance?.event}`,
 				...(type === "program"
-					? getPeriodQuery(config as Config, period as BasePeriod)
+					? getPeriodQuery(config as Config, period)
 					: []),
 			],
 		},
@@ -171,7 +171,7 @@ export function useTableData(
 				filter: [
 					`${type === "program" ? config?.meta.linkageConfig.trackedEntityAttribute : config?.meta.linkageConfig.dataElement}:eq:${parentType === "program" ? parentInstance?.trackedEntity : parentInstance?.event}`,
 					...(type === "program"
-						? getPeriodQuery(config as Config, period as BasePeriod)
+						? getPeriodQuery(config as Config, period)
 						: []),
 				],
 			});

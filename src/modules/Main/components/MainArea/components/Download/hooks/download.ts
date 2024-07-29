@@ -7,7 +7,7 @@ import {
 	useDataQuery,
 } from "@dhis2/app-runtime";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { BasePeriod, Pagination } from "@hisptz/dhis2-utils";
+import { Pagination } from "@hisptz/dhis2-utils";
 import { useConfiguration } from "../../../../../../../shared/hooks/config";
 import { useDimensions } from "../../../../../../../shared/hooks";
 import { Event, TrackedEntity } from "../../../../../../../shared/types/dhis2";
@@ -407,7 +407,7 @@ export function useDownload() {
 			variables: {
 				filter: [
 					`${config?.meta.linkageConfig.trackedEntityAttribute}:eq:${(parent as Event)?.event ?? (parent as TrackedEntity)?.trackedEntity}`,
-					`${getPeriodQuery(config as Config, period as BasePeriod)}`,
+					`${getPeriodQuery(config as Config, period)}`,
 				],
 				program: config?.action.id,
 			},
@@ -417,13 +417,15 @@ export function useDownload() {
 				trackedEntities: TrackedEntity[];
 			};
 		};
-		return actions?.actions?.[resource]?.map((instance) => ({
-			...getInstanceData({
-				instance,
-				config: config?.action as ActionConfig,
-			}),
-			...getStatusData(instance),
-		}));
+		return (
+			actions?.actions?.[resource]?.map((instance) => ({
+				...getInstanceData({
+					instance,
+					config: config?.action as ActionConfig,
+				}),
+				...getStatusData(instance),
+			})) ?? []
+		);
 	};
 
 	const mapper = async (data: TrackedEntity) => {
