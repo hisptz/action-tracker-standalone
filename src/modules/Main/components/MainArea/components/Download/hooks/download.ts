@@ -427,7 +427,6 @@ export function useDownload() {
 	};
 
 	const mapper = async (data: TrackedEntity) => {
-		console.log({ trackedEntity: data });
 		const instanceConfig = head(config?.categories) as CategoryConfig;
 		const events = head(data.enrollments)?.events as unknown as Event[];
 		const rawData = {
@@ -441,10 +440,6 @@ export function useDownload() {
 				parentConfig: instanceConfig,
 			}),
 		};
-		console.log({
-			rawData,
-		});
-
 		return flattenData(rawData, omit(rawData, "children"));
 	};
 
