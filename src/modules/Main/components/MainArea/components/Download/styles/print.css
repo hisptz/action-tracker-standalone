@@ -8,6 +8,10 @@
         display: flex;
     }
 
+    body{
+        background: white !important;
+    }
+
     @page {
         size: A4 landscape;
         margin: 1cm 0.5cm;
