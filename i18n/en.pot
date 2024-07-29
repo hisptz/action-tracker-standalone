@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-07-29T09:08:33.031Z\n"
-"PO-Revision-Date: 2024-07-29T09:08:33.031Z\n"
+"POT-Creation-Date: 2024-07-29T09:32:04.282Z\n"
+"PO-Revision-Date: 2024-07-29T09:32:04.282Z\n"
 
 msgid "You do not have configuration access"
 msgstr "You do not have configuration access"
@@ -370,11 +370,6 @@ msgstr "Deselect"
 
 msgid "Organisation unit group"
 msgstr "Organisation unit group"
-
-msgid "{{count}} organisation unit(s) selected"
-msgid_plural "{{count}} organisation unit(s) selected"
-msgstr[0] "{{count}} organisation unit(s) selected"
-msgstr[1] "{{count}} organisation unit(s) selected"
 
 msgid "Allow planning and tracking for these organisation units"
 msgstr "Allow planning and tracking for these organisation units"

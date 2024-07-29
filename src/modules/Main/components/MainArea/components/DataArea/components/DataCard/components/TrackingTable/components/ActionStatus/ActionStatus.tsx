@@ -62,7 +62,9 @@ export function ActionStatus({
 		return (
 			(find(events, (event) => {
 				const date = new Date(event.occurredAt);
-				return period.interval.contains(DateTime.fromJSDate(date));
+				return period.interval.contains(
+					DateTime.fromJSDate(date).startOf("day"),
+				);
 			}) as any) ?? null
 		);
 	}, [action, period, events]);

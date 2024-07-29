@@ -5,7 +5,6 @@ import { getFieldProps, getFieldSchema } from "../../../utils/form";
 import { useConfiguration } from "../../../hooks/config";
 import { fromPairs } from "lodash";
 import { useDimensions } from "../../../hooks";
-import { PeriodInterface } from "@hisptz/dhis2-utils";
 import { z } from "zod";
 import { ActionConfig, CategoryConfig } from "../../../schemas/config";
 
@@ -70,7 +69,7 @@ export function useFormMeta({
 					?.map((field) => [
 						field.id,
 						getFieldSchema(field, {
-							period: period?.get() as PeriodInterface,
+							period,
 						}),
 					]),
 			),
