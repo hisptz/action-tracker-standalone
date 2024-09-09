@@ -1,11 +1,11 @@
 import React, { useCallback } from "react";
 import {
-	Button,
-	ButtonStrip,
-	Modal,
-	ModalActions,
-	ModalContent,
-	ModalTitle,
+    Button,
+    ButtonStrip,
+    Modal,
+    ModalActions,
+    ModalContent,
+    ModalTitle,
 } from "@dhis2/ui";
 import i18n from "@dhis2/d2-i18n";
 import { useFormMeta } from "./hooks/metadata";
@@ -35,105 +35,106 @@ export interface FormProps {
 }
 
 function getDefaultValues(defaultValue: any, type: "program" | "programStage") {
-	if (!defaultValue) return;
+    if (!defaultValue) return;
 
-	if (type === "program") {
-		return defaultValue?.attributes.reduce((acc: any, curr: any) => {
-			acc[curr.attribute] = curr.value;
-			return acc;
-		}, {});
-	} else {
-		return defaultValue?.dataValues.reduce((acc: any, curr: any) => {
-			acc[curr.dataElement] = curr.value;
-			return acc;
-		}, {});
-	}
+    if (type === "program") {
+        return defaultValue?.attributes.reduce((acc: any, curr: any) => {
+            acc[curr.attribute] = curr.value;
+            return acc;
+        }, {});
+    } else {
+        return defaultValue?.dataValues.reduce((acc: any, curr: any) => {
+            acc[curr.dataElement] = curr.value;
+            return acc;
+        }, {});
+    }
 }
 
 export function Form({
-	id,
-	type,
-	parent,
-	parentConfig,
-	instanceName,
-	hide,
-	onClose,
-	defaultValue,
-	onSaveComplete,
+    id,
+    type,
+    parent,
+    parentConfig,
+    instanceName,
+    hide,
+    onClose,
+    defaultValue,
+    onSaveComplete,
 }: FormProps) {
-	const { fields, schema } = useFormMeta({
-		id,
-		type,
-	});
+    const { fields, schema } = useFormMeta({
+        id,
+        type,
+    });
 
 	type FormType = z.infer<typeof schema>;
 	const defaultValues = getDefaultValues(defaultValue, type);
 	const form = useForm<FormType>({
-		defaultValues,
-		resolver: zodResolver(schema),
+	    defaultValues,
+	    shouldFocusError: false,
+	    resolver: zodResolver(schema),
 	});
 
 	const onComplete = useCallback(() => {
-		form.reset({});
-		if (onSaveComplete) {
-			onSaveComplete();
-		}
-		onClose();
+	    form.reset({});
+	    if (onSaveComplete) {
+	        onSaveComplete();
+	    }
+	    onClose();
 	}, [onSaveComplete]);
 
 	const onCloseClick = () => {
-		form.reset();
-		onClose();
+	    form.reset();
+	    onClose();
 	};
 
 	const { onSave, saving } = useFormActions({
-		defaultValue,
-		instanceMetaId: id,
-		type,
-		parent,
-		parentConfig,
-		onComplete,
-		instanceName,
+	    defaultValue,
+	    instanceMetaId: id,
+	    type,
+	    parent,
+	    parentConfig,
+	    onComplete,
+	    instanceName,
 	});
 
 	return (
-		<Modal position="middle" hide={hide} onClose={onCloseClick}>
-			<ModalTitle>
-				{/* @ts-ignore */}
-				{defaultValue ? i18n.t("Update") : i18n.t("Add")} {instanceName}
-			</ModalTitle>
-			<ModalContent>
-				{!isEmpty(fields) && (
-					<FormProvider {...form}>
-						<div className="column gap-16">
-							{fields.map((field) => (
-								<RHFDHIS2FormField
-									key={`${field.name}-field`}
-									{...field}
-								/>
-							))}
-						</div>
-					</FormProvider>
-				)}
-			</ModalContent>
-			<ModalActions>
-				<ButtonStrip>
-					<Button onClick={onCloseClick}>{i18n.t("Cancel")}</Button>
-					<Button
-						loading={saving}
-						onClick={() => form.handleSubmit(onSave)()}
-						primary
-					>
-						{defaultValue
-							? saving
-								? i18n.t("Updating...")
-								: i18n.t("Update")
-							: saving
-								? i18n.t("Creating...")
-								: i18n.t("Save")}
-					</Button>
-				</ButtonStrip>
-			</ModalActions>
-		</Modal>
+	    <Modal position="middle" hide={hide} onClose={onCloseClick}>
+	        <ModalTitle>
+	            {/* @ts-ignore */}
+	            {defaultValue ? i18n.t("Update") : i18n.t("Add")} {instanceName}
+	        </ModalTitle>
+	        <ModalContent>
+	            {!isEmpty(fields) && (
+	                <FormProvider {...form}>
+	                    <div className="column gap-16">
+	                        {fields.map((field) => (
+	                            <RHFDHIS2FormField
+	                                key={`${field.name}-field`}
+	                                {...field}
+	                            />
+	                        ))}
+	                    </div>
+	                </FormProvider>
+	            )}
+	        </ModalContent>
+	        <ModalActions>
+	            <ButtonStrip>
+	                <Button onClick={onCloseClick}>{i18n.t("Cancel")}</Button>
+	                <Button
+	                    loading={saving}
+	                    onClick={() => form.handleSubmit(onSave)()}
+	                    primary
+	                >
+	                    {defaultValue
+	                        ? saving
+	                            ? i18n.t("Updating...")
+	                            : i18n.t("Update")
+	                        : saving
+	                            ? i18n.t("Creating...")
+	                            : i18n.t("Save")}
+	                </Button>
+	            </ButtonStrip>
+	        </ModalActions>
+	    </Modal>
 	);
 }
