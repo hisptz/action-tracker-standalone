@@ -183,10 +183,12 @@ function getAction (programs: Program[]): ActionConfig {
         dateConfig: {
             name: i18n.t('Review Date')
         },
-
         stateConfig: {
             dataElement: ACTION_STATUS_DATA_ELEMENT,
-            optionSetId: STATUS_OPTION_SET
+            optionSetId: STATUS_OPTION_SET,
+            cancelOptionCode: 'Cancelled',
+            completeOptionCode: 'Completed',
+
         }
     }
 

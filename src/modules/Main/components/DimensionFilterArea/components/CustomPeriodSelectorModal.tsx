@@ -5,6 +5,9 @@ import { useConfiguration } from '../../../../../shared/hooks/config'
 import { PeriodSelector } from '@hisptz/dhis2-ui'
 import { compact, head } from 'lodash'
 import { FixedPeriodType, PeriodTypeCategory, PeriodUtility } from '@hisptz/dhis2-utils'
+import { DimensionSelection } from './DimensionSelection'
+import { useDimensions } from '../../../../../shared/hooks'
+import { useBoolean } from 'usehooks-ts'
 
 export interface CustomPeriodSelectorModalProps {
     hide: boolean;
@@ -25,6 +28,7 @@ export function CustomPeriodSelectorModal ({
     const fixedPeriodTypes = new PeriodUtility().setCategory(PeriodTypeCategory.FIXED).periodTypes
     const planningPeriod = fixedPeriodTypes.find(({ id }) => planningPeriodType === id) as FixedPeriodType
     const excludedPeriodTypes = fixedPeriodTypes.filter((type) => type.id !== planningPeriodType)?.map(({ id }) => id)
+
     const onUpdate = () => {
         if (selectedPeriods) {
             onSelect(selectedPeriods)
@@ -40,21 +44,19 @@ export function CustomPeriodSelectorModal ({
             <ModalContent>
                 <div className="column gap-16">
                     <span>{i18n.t('Planning period is')}<b>{` ${planningPeriod.config.name}`}</b></span>
-                    {
-                        !hide && <PeriodSelector
-                            enablePeriodSelector
-                            excludeRelativePeriods
-                            excludedPeriodTypes={excludedPeriodTypes}
-                            singleSelection
-                            selectedPeriods={compact([selectedPeriods])}
-                            onSelect={({ items }) => {
-                                const value = head(items)
-                                if (typeof value === 'string') {
-                                    setSelectedPeriods(value)
-                                }
-                            }}
-                        />
-                    }
+                    <PeriodSelector
+                        enablePeriodSelector
+                        excludeRelativePeriods
+                        excludedPeriodTypes={excludedPeriodTypes}
+                        singleSelection
+                        selectedPeriods={compact([selectedPeriods])}
+                        onSelect={({ items }) => {
+                            const value = head(items)
+                            if (typeof value === 'string') {
+                                setSelectedPeriods(value)
+                            }
+                        }}
+                    />
                 </div>
             </ModalContent>
             <ModalActions>
@@ -68,5 +70,34 @@ export function CustomPeriodSelectorModal ({
                 </ButtonStrip>
             </ModalActions>
         </Modal>
+    )
+}
+
+export function PeriodDimensionSelection () {
+    const {
+        period,
+        setPeriod
+    } = useDimensions()
+    const {
+        value: periodHidden,
+        setTrue: hidePeriod,
+        setFalse: showPeriod
+    } = useBoolean(true)
+    return (
+        <>
+            {
+                !periodHidden && (<CustomPeriodSelectorModal
+                    onClose={hidePeriod}
+                    hide={periodHidden}
+                    onSelect={setPeriod}
+                    selected={period?.id}
+                />)
+            }
+            <DimensionSelection
+                onClick={showPeriod}
+                selectedItems={compact([period])}
+                title={i18n.t('Select period')}
+            />
+        </>
     )
 }

@@ -1,0 +1,10 @@
+.root {
+    position: fixed;
+}
+
+.search-menu {
+    width: 400px;
+    padding: 2px;
+    max-height: 400px;
+    overflow-y: auto;
+}

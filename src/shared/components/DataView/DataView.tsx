@@ -4,6 +4,7 @@ import React, { useMemo } from 'react'
 import { compact, find } from 'lodash'
 import { FileView } from './compoents/FileView/FileView'
 import { Event, TrackedEntity } from '../../types/dhis2'
+import { formatDate } from '../../utils/date'
 
 export interface DataViewProps {
     instance: TrackedEntity | Event
@@ -44,10 +45,11 @@ export function DataView ({
         }
 
         switch (fieldMetadata?.valueType as any) {
-
             case 'TEXT':
             case 'LONG_TEXT':
                 return value
+            case 'DATE':
+                return formatDate(value)
             case 'FILE_RESOURCE':
                 return <FileView small={small}
                                  type={(instanceConfig as CategoryConfig | ActionConfig).type ?? 'programStage'}
