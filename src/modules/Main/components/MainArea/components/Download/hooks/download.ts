@@ -1,5 +1,5 @@
 import i18n from "@dhis2/d2-i18n";
-import { asyncify, mapSeries } from "async";
+import { asyncify, mapSeries } from "async-es";
 import {
 	useAlert,
 	useConfig,
@@ -198,9 +198,9 @@ const actionQuery = {
 		resource: "tracker/trackedEntities",
 		params: ({ program, filter }: any) => {
 			return {
-				ouMode: "ALL",
+				ouMode: "ACCESSIBLE",
 				program,
-				filter,
+				filter: [filter],
 				paging: false,
 				fields: [
 					"trackedEntity",
@@ -408,7 +408,7 @@ export function useDownload() {
 				filter: [
 					`${config?.meta.linkageConfig.trackedEntityAttribute}:eq:${(parent as Event)?.event ?? (parent as TrackedEntity)?.trackedEntity}`,
 					`${getPeriodQuery(config as Config, period)}`,
-				],
+				].join(","),
 				program: config?.action.id,
 			},
 		})) as {

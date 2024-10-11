@@ -342,7 +342,14 @@ export function useFormActions({
 						if (parent && tei && config) {
 							const relationship = generateRelationship({
 								parent: {
-									id: parent.instance?.enrollment as string,
+									id:
+										parent.instance?.enrollment ??
+										(head(
+											parent.instance
+												.enrollments as Array<{
+												enrollment: string;
+											}>,
+										)?.enrollment as string),
 								},
 								instance: head(tei.enrollments)
 									?.enrollment as string,
