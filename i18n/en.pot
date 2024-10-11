@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-07-29T09:32:04.282Z\n"
-"PO-Revision-Date: 2024-07-29T09:32:04.282Z\n"
+"POT-Creation-Date: 2024-10-11T09:04:56.851Z\n"
+"PO-Revision-Date: 2024-10-11T09:04:56.851Z\n"
 
 msgid "You do not have configuration access"
 msgstr "You do not have configuration access"
@@ -822,6 +822,9 @@ msgstr "Latest status"
 
 msgid "Select organisation unit and period to start"
 msgstr "Select organisation unit and period to start"
+
+msgid "There is no data to download"
+msgstr "There is no data to download"
 
 msgid "Excel"
 msgstr "Excel"
