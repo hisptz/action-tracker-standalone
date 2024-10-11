@@ -10,7 +10,7 @@ import {
 	ModalTitle,
 } from "@dhis2/ui";
 import { SharingObject } from "../../types/data";
-import { FormProvider, useController, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { AccessAdd } from "./components/AccessAdd";
 import { AccessList } from "./components/AccessList";
 import i18n from "@dhis2/d2-i18n";
@@ -80,9 +80,6 @@ function getSharingFromSharingObject(data: SharingObject): Partial<Sharing> {
 }
 
 export function SharingDialog({ hide, onClose }: SharingDialogProps) {
-	const { field } = useController({
-		name: "general.sharing",
-	});
 	const { config } = useConfiguration();
 	const { show } = useAlert(
 		({ message }) => message,

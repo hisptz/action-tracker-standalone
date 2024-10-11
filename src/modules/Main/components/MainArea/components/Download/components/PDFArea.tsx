@@ -1,6 +1,6 @@
 import React from "react";
 import { SimpleDataTable } from "@hisptz/dhis2-ui";
-import { head } from "lodash";
+import { head, isEmpty } from "lodash";
 import { uid } from "@hisptz/dhis2-utils";
 import i18n from "@dhis2/d2-i18n";
 import { useDimensions } from "../../../../../../../shared/hooks";
@@ -19,6 +19,10 @@ export const PDFArea = React.forwardRef<
 	const { orgUnit: orgUnitWithData } = useOrgUnit(orgUnit?.id);
 
 	if (!data) {
+		return null;
+	}
+
+	if (isEmpty(data)) {
 		return null;
 	}
 

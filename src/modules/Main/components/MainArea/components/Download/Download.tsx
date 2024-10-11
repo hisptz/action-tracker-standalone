@@ -9,9 +9,19 @@ import React, { useRef, useState } from "react";
 import { useDownload } from "./hooks/download";
 import { PDFArea } from "./components/PDFArea";
 import { useReactToPrint } from "react-to-print";
+import { isEmpty } from "lodash";
+import { useAlert } from "@dhis2/app-runtime";
 
 export function Download() {
 	const targetRef = useRef<HTMLDivElement | null>(null);
+
+	const { show } = useAlert(
+		({ message }) => message,
+		({ type }) => ({
+			...type,
+			duration: 3000,
+		}),
+	);
 
 	const [downloadedData, setDownloadedData] = useState<
 		Array<Record<string, any>> | undefined
@@ -30,6 +40,13 @@ export function Download() {
 			setDownloadStateRef(false);
 			if (type === "pdf") {
 				const data = await getDownloadData();
+				if (isEmpty(data)) {
+					show({
+						message: i18n.t("There is no data to download"),
+						type: { info: true },
+					});
+					return;
+				}
 				setDownloadedData(data ?? []);
 				handlePrint();
 				setTimeout(() => setDownloadedData(undefined), 1000);

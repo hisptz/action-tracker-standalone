@@ -4888,10 +4888,10 @@ astral-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-2.0.0.tgz#483143c567aeed4785759c0865786dc77d7d2e31"
   integrity sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==
 
-async-es@^3.2.4:
-  version "3.2.5"
-  resolved "https://registry.yarnpkg.com/async-es/-/async-es-3.2.5.tgz#d5855ba36ed87c528e3fad6c3567831ad628ba99"
-  integrity sha512-oXGVkIf1wSg34CtmK7js8brsxUZWwMGjNa63YJFY+fDHb6RQQd7N0d7N2yP53VaqvXh5DTPuOl0hH+vDFKPHuQ==
+async-es@^3.2.6:
+  version "3.2.6"
+  resolved "https://registry.yarnpkg.com/async-es/-/async-es-3.2.6.tgz#72073232e38049262bd93445ec2c45c80a9c7e71"
+  integrity sha512-9C2+oOPd7/EzIeneF4k24o75oY7OcHU/Isl7xIot12EBRwXonyuqKsmxwLuAbFWL6B/FucTQip09xTbiu1CA8A==
 
 async@^2.6.3:
   version "2.6.4"
@@ -6171,9 +6171,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001578, caniuse-lite@^1.0.30001580:
-  version "1.0.30001581"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001581.tgz#0dfd4db9e94edbdca67d57348ebc070dece279f4"
-  integrity sha512-whlTkwhqV2tUmP3oYhtNfaWGYHDdS3JYFQBKXxcUR9qqPWsRhFHhoISO2Xnl/g0xyKzht9mI1LZpiNWfMzHixQ==
+  version "1.0.30001663"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001663.tgz"
+  integrity sha512-o9C3X27GLKbLeTYZ6HBOLU1tsAcBZsLis28wrVzddShCS16RujjHp9GDHKZqrB3meE0YjhawvMFsGb/igqiPzA==
 
 capital-case@^1.0.4:
   version "1.0.4"

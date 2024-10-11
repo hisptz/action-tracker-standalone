@@ -367,7 +367,7 @@ export function generateMetadataFromConfig(
 ) {
 	const { program: categoryProgram, programStages: categoriesProgramStage } =
 		generateCategoriesMetadata(config.categories, {
-			linkageConfig: config.meta.linkageConfig,
+			linkageConfig: config.meta?.linkageConfig,
 			...meta,
 			orgUnits: config.general.orgUnit.orgUnits ?? [],
 			code: config.code,
