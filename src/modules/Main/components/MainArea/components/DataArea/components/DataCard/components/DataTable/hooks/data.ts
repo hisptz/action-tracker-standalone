@@ -1,14 +1,11 @@
 import { useDataQuery } from "@dhis2/app-runtime";
-import { useDimensions } from "../../../../../../../../../../../shared/hooks";
+import { useDimensions } from "@/shared/hooks";
 import { useEffect, useMemo } from "react";
 import { fromPairs, isEmpty } from "lodash";
-import { useConfiguration } from "../../../../../../../../../../../shared/hooks/config";
-import {
-	Event,
-	TrackedEntity,
-} from "../../../../../../../../../../../shared/types/dhis2";
-import { Config } from "../../../../../../../../../../../shared/schemas/config";
-import { formatDate } from "../../../../../../../../../../../shared/utils/date";
+import { useConfiguration } from "@/shared/hooks/config";
+import { Event, TrackedEntity } from "@/shared/types/dhis2";
+import { Config } from "@/shared/schemas/config";
+import { formatDate } from "@/shared/utils/date";
 import { FixedPeriod } from "@dhis2/multi-calendar-dates/build/types/period-calculation/types";
 
 const trackedEntitiesQuery: any = {
@@ -57,6 +54,23 @@ const eventsQuery: any = {
 	},
 };
 
+interface Response {
+	data: {
+		instances: Array<Event> | Array<TrackedEntity>;
+		trackedEntities?: Array<TrackedEntity>;
+		events?: Array<Event>;
+		pager?: {
+			page: number;
+			pageSize: number;
+			total: number;
+			pageCount: number;
+		};
+		page?: number;
+		pageSize?: number;
+		total?: number;
+	};
+}
+
 export function getPeriodQuery(config: Config, period?: FixedPeriod) {
 	if (!period) {
 		return [];
@@ -84,29 +98,23 @@ export function useTableData(
 ) {
 	const { config } = useConfiguration();
 	const { orgUnit, period } = useDimensions();
-	const { data, refetch, loading, error } = useDataQuery<{
-		data: {
-			instances: Array<Event> | Array<TrackedEntity>;
-			trackedEntities?: Array<TrackedEntity>;
-			events?: Array<Event>;
-			page: number;
-			pageSize: number;
-			total: number;
-		};
-	}>(type === "program" ? trackedEntitiesQuery : eventsQuery, {
-		variables: {
-			program: type === "program" ? config?.action.id : undefined,
-			ou: orgUnit?.id,
-			page: 1,
-			pageSize: 10,
-			filter: [
-				`${type === "program" ? config?.meta.linkageConfig.trackedEntityAttribute : config?.meta.linkageConfig.dataElement}:eq:${parentType === "program" ? parentInstance?.trackedEntity : parentInstance?.event}`,
-				...(type === "program"
-					? getPeriodQuery(config as Config, period)
-					: []),
-			],
+	const { data, refetch, loading, error } = useDataQuery<Response>(
+		type === "program" ? trackedEntitiesQuery : eventsQuery,
+		{
+			variables: {
+				program: type === "program" ? config?.action.id : undefined,
+				ou: orgUnit?.id,
+				page: 1,
+				pageSize: 10,
+				filter: [
+					`${type === "program" ? config?.meta.linkageConfig.trackedEntityAttribute : config?.meta.linkageConfig.dataElement}:eq:${parentType === "program" ? parentInstance?.trackedEntity : parentInstance?.event}`,
+					...(type === "program"
+						? getPeriodQuery(config as Config, period)
+						: []),
+				],
+			},
 		},
-	});
+	);
 
 	const rawData = useMemo(() => {
 		return (
@@ -144,13 +152,18 @@ export function useTableData(
 	const noData = useMemo(() => isEmpty(rawData), [rawData]);
 
 	const pagination = useMemo(() => {
+		const pageSize =
+			data?.data?.pageSize ?? data?.data.pager?.pageSize ?? 10;
+		const total = data?.data?.total ?? data?.data.pager?.total ?? 1;
+		const page = data?.data?.page ?? data?.data.pager?.page ?? 1;
+		const pageCount =
+			data?.data?.pager?.pageCount ??
+			Math.ceil((total ?? 1) / (pageSize ?? 1));
 		return {
-			page: data?.data?.page ?? 1,
-			pageSize: data?.data?.pageSize ?? 10,
-			total: data?.data?.total ?? 1,
-			pageCount: Math.ceil(
-				(data?.data?.total ?? 1) / (data?.data?.pageSize ?? 1),
-			),
+			page,
+			pageSize,
+			total,
+			pageCount,
 			onPageChange: (page: number) => {
 				refetch({
 					page,

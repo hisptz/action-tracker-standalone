@@ -5,12 +5,12 @@ import { Navigate, useNavigate } from "react-router-dom";
 import appLogo from "../../shared/assets/images/app-logo.png";
 import { Button, ButtonStrip, CircularLoader, LinearLoader } from "@dhis2/ui";
 import { useRecoilRefresher_UNSTABLE } from "recoil";
-import { ConfigIdsState } from "../../shared/state/config";
+import { ConfigIdsState } from "@/shared/state/config";
 import { isEmpty } from "lodash";
 import {
 	AccessProvider,
 	AppAccessType,
-} from "../../shared/components/AccessProvider";
+} from "@/shared/components/AccessProvider";
 
 export function Welcome() {
 	const [error, setError] = useState<any>(null);

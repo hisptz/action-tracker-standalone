@@ -1,10 +1,10 @@
-import { Template } from "../../modules/GetStarted/components/TemplateCard";
+import { Template } from "@/modules/GetStarted/components/TemplateCard";
 import i18n from "@dhis2/d2-i18n";
 import React from "react";
-import { ReactComponent as BasicTracking } from "../../shared/assets/images/basic.svg";
-import { ReactComponent as SecondaryTracking } from "../../shared/assets/images/secondary.svg";
-import { ReactComponent as TertiaryTracking } from "../../shared/assets/images/basic-tracking.svg";
-import { ReactComponent as BNAIcon } from "../../shared/assets/images/bna.svg";
+import BasicTracking from "@/shared/assets/images/basic.svg";
+import SecondaryTracking from "@/shared/assets/images/secondary.svg";
+import TertiaryTracking from "@/shared/assets/images/basic-tracking.svg";
+import BNAIcon from "@/shared/assets/images/bna.svg";
 import { generateBasicTemplate, generateLegacyTemplate } from "./defaults";
 import { Attribute } from "../types/dhis2";
 import { DataEngine } from "../types/engine";
@@ -91,7 +91,13 @@ export const configTemplates: Template[] = [
 		description: i18n.t(
 			"Activity tracking model with one level of categorization",
 		),
-		icon: <BasicTracking />,
+		icon: (
+			<img
+				style={{ height: 60, width: 60 }}
+				alt="basic-activity-tracking"
+				src={BasicTracking}
+			/>
+		),
 		defaultVariables: {
 			name: i18n.t("Basic activity tracking"),
 			code: "BAT",
@@ -106,7 +112,13 @@ export const configTemplates: Template[] = [
 		description: i18n.t(
 			"Activity tracking model with two levels of categorization",
 		),
-		icon: <SecondaryTracking />,
+		icon: (
+			<img
+				style={{ height: 60, width: 60 }}
+				src={SecondaryTracking}
+				alt="secondary-activity-tracking"
+			/>
+		),
 		defaultVariables: {
 			name: i18n.t("Secondary activity tracking"),
 			code: "SAT",
@@ -121,7 +133,13 @@ export const configTemplates: Template[] = [
 		description: i18n.t(
 			"Activity tracking model with three levels of categorization",
 		),
-		icon: <TertiaryTracking />,
+		icon: (
+			<img
+				style={{ height: 60, width: 60 }}
+				src={TertiaryTracking}
+				alt="tertiary-activity-tracking"
+			/>
+		),
 		defaultVariables: {
 			name: i18n.t("Tertiary activity tracking"),
 			code: "TAT",
@@ -136,7 +154,13 @@ export const configTemplates: Template[] = [
 		description: i18n.t(
 			"Use the BNA like categorization to track activities",
 		),
-		icon: <BNAIcon />,
+		icon: (
+			<img
+				style={{ height: 60, width: 60 }}
+				src={BNAIcon}
+				alt="bna-action-tracking"
+			/>
+		),
 		disabled: true,
 		variables: [...commonVariables],
 		defaultVariables: {

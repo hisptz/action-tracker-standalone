@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
 	AccessProvider,
 	AppAccessType,
-} from "../../../shared/components/AccessProvider";
+} from "@/shared/components/AccessProvider";
 
 export function ConfigureButton() {
 	const navigate = useNavigate();

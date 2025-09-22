@@ -1,20 +1,37 @@
 {
   "compilerOptions": {
-    "target": "es2021",
-    /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-    "module": "esnext",
-    "moduleResolution": "Node",
-    /* Specify what module code is generated. */
-    "esModuleInterop": true,
-    /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
-    "forceConsistentCasingInFileNames": true,
-    /* Ensure that casing is correct in imports. */
-    "strict": true,
-    /* Enable all strict type-checking options. */
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
     "skipLibCheck": true,
-    /* Skip type checking all .d.ts files. */
-    "jsx": "react",
-    "downlevelIteration": true
-    /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
-  }
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    }
+  },
+  "include": [
+    "types",
+    "src",
+    "type.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.test.tsx"
+  ]
 }
