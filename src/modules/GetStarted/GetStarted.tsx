@@ -2,11 +2,11 @@ import React from "react";
 import i18n from "@dhis2/d2-i18n";
 import appLogo from "../../shared/assets/images/app-logo.png";
 import TemplateCard from "./components/TemplateCard/TemplateCard";
-import { configTemplates } from "../../shared/constants/templates";
+import { configTemplates } from "@/shared/constants/templates";
 import {
 	AccessProvider,
 	AppAccessType,
-} from "../../shared/components/AccessProvider";
+} from "@/shared/components/AccessProvider";
 
 export function GetStarted() {
 	return (

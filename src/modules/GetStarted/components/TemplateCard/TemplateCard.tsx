@@ -2,9 +2,9 @@ import { Card, colors } from "@dhis2/ui";
 import classes from "../../GetStarted.module.css";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Config } from "../../../../shared/schemas/config";
+import { Config } from "@/shared/schemas/config";
 import { RHFDHIS2FormFieldProps } from "@hisptz/dhis2-ui";
-import { DataEngine } from "../../../../shared/types/engine";
+import { DataEngine } from "@/shared/types/engine";
 import { z } from "zod";
 
 export interface Template {

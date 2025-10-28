@@ -1,9 +1,10 @@
-import { useDimensions } from "../../../../../../../shared/hooks";
-import { useConfiguration } from "../../../../../../../shared/hooks/config";
-import { useMetadata } from "../../../../../../../shared/hooks/metadata";
+import { useDimensions } from "@/shared/hooks";
+import { useConfiguration } from "@/shared/hooks/config";
+import { useMetadata } from "@/shared/hooks/metadata";
 import { useCallback, useEffect, useMemo } from "react";
 import { find, head } from "lodash";
 import { useAlert, useDataQuery } from "@dhis2/app-runtime";
+import { TrackedEntity } from "@/shared/types/dhis2";
 
 const dataQuery: any = {
 	data: {
@@ -37,6 +38,22 @@ const dataQuery: any = {
 	},
 };
 
+interface Response {
+	data: {
+		instances?: TrackedEntity[];
+		trackedEntities?: TrackedEntity[];
+		page: number;
+		pageSize: number;
+		total: number;
+		pager?: {
+			page: number;
+			pageSize: number;
+			total: number;
+			pageCount: number;
+		};
+	};
+}
+
 export function useCategoryData() {
 	const { show } = useAlert(
 		({ message }) => message,
@@ -55,38 +72,40 @@ export function useCategoryData() {
 		}
 	}, [config]);
 
-	const { data, refetch, loading, error } = useDataQuery<{
-		data: {
-			instances: any[];
-			trackedEntities?: any[];
-			page: number;
-			pageSize: number;
-			total: number;
-		};
-	}>(dataQuery, {
-		variables: {
-			program: initialCategory?.id,
-			trackedEntityType: find(programs, ["id", initialCategory?.id])
-				?.trackedEntityType?.id,
-			orgUnit: orgUnit?.id,
-			page: 1,
-			pageSize: 5,
+	const { data, refetch, loading, error } = useDataQuery<Response>(
+		dataQuery,
+		{
+			variables: {
+				program: initialCategory?.id,
+				trackedEntityType: find(programs, ["id", initialCategory?.id])
+					?.trackedEntityType?.id,
+				orgUnit: orgUnit?.id,
+				page: 1,
+				pageSize: 5,
+			},
+			lazy: true,
+			onError: (error) => {
+				show({
+					message: error.message,
+					type: { critical: true },
+				});
+			},
 		},
-		lazy: true,
-		onError: (error) => {
-			show({
-				message: error.message,
-				type: { critical: true },
-			});
-		},
-	});
+	);
 
 	const pagination = useMemo(() => {
 		if (data != null) {
+			const page = data.data.page ?? data.data.pager?.page;
+			const pageSize = data.data.pageSize ?? data.data.pager?.pageSize;
+			const total = data.data.total ?? data.data.pager?.total;
+			const pageCount =
+				data.data.pager?.pageCount ?? Math.ceil(total / pageSize);
+
 			return {
-				page: data.data.page,
-				pageSize: data.data.pageSize,
-				total: data.data.total,
+				page,
+				pageSize,
+				total,
+				pageCount,
 			};
 		} else {
 			return {

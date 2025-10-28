@@ -3,10 +3,10 @@ import { SimpleDataTable } from "@hisptz/dhis2-ui";
 import { head, isEmpty } from "lodash";
 import { uid } from "@hisptz/dhis2-utils";
 import i18n from "@dhis2/d2-i18n";
-import { useDimensions } from "../../../../../../../shared/hooks";
+import { useDimensions } from "@/shared/hooks";
 import { DateTime } from "luxon";
-import { useOrgUnit } from "../../../../../../../shared/hooks/orgUnit";
-import styles from "../styles/print.css";
+import { useOrgUnit } from "@/shared/hooks/orgUnit";
+import "../styles/print.css";
 import classNames from "classnames";
 
 export const PDFArea = React.forwardRef<
@@ -49,7 +49,7 @@ export const PDFArea = React.forwardRef<
 				}}
 				className={classNames(
 					"column gap-8 space-between",
-					styles["print-container"],
+					"print-container",
 				)}
 				ref={ref}
 			>
