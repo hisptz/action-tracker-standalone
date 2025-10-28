@@ -63,6 +63,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.33.0",
     "prettier": "^3.2.4",
+    "semantic-release": "^25.0.1",
     "start-server-and-test": "^2.0.0",
     "typescript": "5.1.6",
     "vite": "^7.1.7",
