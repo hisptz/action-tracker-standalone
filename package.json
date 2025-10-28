@@ -22,7 +22,9 @@
 		"_cy:stub": "dotenv -- cross-var pnpm cypress run --env networkMode=stub --record --key %CYPRESS_RECORD_KEY%",
 		"test:stub": "pnpm cy:prepare 'pnpm _cy:stub'",
 		"clean": "rm -rf .d2 build node_modules",
-		"ybd": "pnpm build && dotenv -- cross-var pnpm run deploy --username %D2_USERNAME% %DHIS2_PROXY%"
+		"ybd": "pnpm build && dotenv -- cross-var pnpm run deploy --username %D2_USERNAME% %DHIS2_PROXY%",
+		"release": "semantic-release",
+		"apphub:publish": "d2-app-scripts publish"
 	},
 	"author": {
 		"email": "dev@hisptanzania.org",
